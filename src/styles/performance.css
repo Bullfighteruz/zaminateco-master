@@ -1,0 +1,101 @@
+/* Performance Optimizations */
+
+/* Animation Performance - will-change for animated elements */
+[data-animate],
+.motion-div,
+.motion-button {
+  will-change: transform, opacity;
+}
+
+/* Optimize framer-motion animations */
+[data-framer-component] {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce repaints for hover effects */
+.hover-effect,
+.transition-all {
+  will-change: transform, opacity;
+}
+
+/* Optimize images */
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* GPU acceleration for cards */
+.card-animated,
+.eco-card-hover {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimize scrolling */
+.scroll-container {
+  will-change: scroll-position;
+  contain: layout style paint;
+}
+
+/* Reduce layout shifts */
+.skeleton,
+.loading-placeholder {
+  content-visibility: auto;
+}
+
+/* Optimize text rendering */
+.text-optimized {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1;
+}
+
+/* Reduce animation complexity on mobile */
+@media (max-width: 768px) {
+  [data-animate],
+  .motion-div {
+    will-change: auto;
+  }
+  
+  /* Disable complex animations on low-end devices */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Optimize for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Container queries for better performance */
+@container (max-width: 640px) {
+  .card-responsive {
+    padding: 0.75rem;
+  }
+}
+
+/* Optimize font loading */
+@font-face {
+  font-display: swap;
+}
+
+/* Content visibility for off-screen elements */
+.off-screen {
+  content-visibility: auto;
+  contain-intrinsic-size: 200px;
+}
+

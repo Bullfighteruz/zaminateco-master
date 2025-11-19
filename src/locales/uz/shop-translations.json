@@ -1,0 +1,135 @@
+{
+  "title": "ZAMINAT Eko-mahsulotlar do'koni",
+  "subtitle": "Har bir xarid jamiyat loyihalarini qo'llab-quvvatlaydi va chiqindilarni qimmatli infratuzilmaga aylantiradi.",
+  "stats": {
+    "kgRecycled": "kg qayta ishlangan",
+    "productsSold": "sotilgan mahsulotlar",
+    "projectsFunded": "moliyalashtirilgan loyihalar"
+  },
+  "sections": {
+    "ecoProducts": "Eko mahsulotlar",
+    "popularCategories": "Mashhur kategoriyalar",
+    "howItWorks": "Qanday ishlaydi"
+  },
+  "products": {
+    "epdmFreeTiles": {
+      "name": "EPDM-siz plitka",
+      "description": "Sport inshootlari, suv bo'yidagi hududlar, ishlab chiqarish-texnik xonalar",
+      "info": "1 kv. m, qalinligi 30 mm",
+      "category": "Qurilish"
+    },
+    "epdmRubberEcotiles": {
+      "name": "EPDM rezina eko-plitkalari",
+      "description": "O'yin maydonchalarining maksimal xavfsizligi, yugurish va yurish yo'llari",
+      "info": "1 kv. m, qalinligi 30 mm",
+      "category": "Dam olish"
+    },
+    "ecoBrick": {
+      "name": "Eko-g'isht",
+      "description": "Qayta ishlangan plastik va rezinadan yasalgan mustahkam qurilish bloklari",
+      "category": "Qurilish"
+    },
+    "wasteBin": {
+      "name": "Axlat qutisi",
+      "description": "Ko'proq chiqindi yig'ishga yordam beradigan qayta ishlash qutilari",
+      "category": "Kommunal"
+    },
+    "gardenPlanter": {
+      "name": "Bog' saksisi",
+      "description": "Rezina chiqindilaridan yasalgan bog'ingiz uchun mustahkam saksiler",
+      "category": "Bog'"
+    },
+    "ecoBench": {
+      "name": "Eko skameyka",
+      "description": "Plastik chiqindilardan yasalgan qulay ochiq havo skameyasi",
+      "category": "Mebel"
+    },
+    "ecobikeRack": {
+      "name": "EKOVELOSIPED STOYAKI",
+      "description": "Qayta ishlangan materiallardan velosiped to'xtash joyi yechimi",
+      "category": "Infratuzilma"
+    },
+    "ecobusStop": {
+      "name": "EKOAVTOBUS BEKATI",
+      "description": "Qayta ishlangan plastik va rezinadan to'liq avtobus bekati infratuzilmasi",
+      "category": "Infratuzilma"
+    },
+    "playgroundBlock": {
+      "name": "O'yin maydoni bloki (San'at plitkalari)",
+      "description": "Qayta ishlangan materiallardan xavfsiz o'yin jihozlari",
+      "category": "Dam olish"
+    },
+    "ecostreetFurniture": {
+      "name": "Eko ko'cha mebelları",
+      "description": "Qayta ishlangan materiallardan maxsus ko'cha mebeli yechimlari",
+      "category": "Infratuzilma"
+    }
+  },
+  "pricing": {
+    "perSqM": "kv. m uchun",
+    "perPiece": "dona uchun",
+    "callForPrice": "Narx uchun qo'ng'iroq qiling"
+  },
+  "buttons": {
+    "addToCart": "Savatga qo'shish",
+    "contactUs": "Biz bilan bog'lanish",
+    "startShopping": "Xarid qilishni boshlash",
+    "contactForBulkOrders": "Ulgurji buyurtmalar uchun bog'lanish"
+  },
+  "categories": {
+    "construction": {
+      "name": "Qurilish",
+      "description": "Plitka, bloklar, bordyurlar"
+    },
+    "recreation": {
+      "name": "Dam olish",
+      "description": "O'yin jihozlari, xavfsizlik plitkalari"
+    },
+    "furniture": {
+      "name": "Mebel",
+      "description": "Skameyalar, stollar, saksiler"
+    },
+    "infrastructure": {
+      "name": "Infratuzilma",
+      "description": "Avtobus bekatlari, velosiped stoyaklari, ko'cha mebellari"
+    },
+    "utility": {
+      "name": "Kommunal",
+      "description": "Axlat qutilari, saqlash yechimlari"
+    },
+    "garden": {
+      "name": "Bog'",
+      "description": "Saksiler, bog' mebellari"
+    }
+  },
+  "howItWorksPoints": {
+    "recycledMaterials": {
+      "title": "Qayta ishlangan materiallar:",
+      "description": "Barcha mahsulotlar yig'ilgan plastik va rezina chiqindilaridan yasalgan"
+    },
+    "qualityGuaranteed": {
+      "title": "Sifat kafolati:",
+      "description": "Mustahkam va xavfsizlik uchun sinovdan o'tgan"
+    },
+    "localProduction": {
+      "title": "Mahalliy ishlab chiqarish:",
+      "description": "O'zbekistonning yashil iqtisodiyotini qo'llab-quvvatlash"
+    },
+    "communityImpact": {
+      "title": "Jamiyat ta'siri:",
+      "description": "Foyda ekologik loyihalar va infratuzilmani moliyalashtiradi"
+    }
+  },
+  "bottomSection": {
+    "title": "Do'kon",
+    "description": "Har bir xarid chiqindilarni foydali mahsulotlarga aylantirishga yordam beradi va O'zbekistondagi ekologik loyihalarni qo'llab-quvvatlaydi."
+  },
+  "partnerDescriptions": {
+    "taxiRides": "Toshkent bo'ylab qulay va iqtisodiy variantlar bilan taksi sayohatlari",
+    "coffeeShop": "Shahar markazida qahva, choy, nonushta va yengil taomlar",
+    "restaurant": "An'anaviy osh, shashlik, lag'mon va o'zbek oshxonasi",
+    "grocery": "Onlayn oziq-ovqat yetkazib berish: non, go'sht, sabzavotlar, uy-ro'zg'or buyumlari",
+    "groceryStore": "Yangi mevalar, sabzavotlar, sut mahsulotlari va tozalash vositalari",
+    "airline": "Toshkent aeroportidan ichki va xalqaro reyslar"
+  }
+}

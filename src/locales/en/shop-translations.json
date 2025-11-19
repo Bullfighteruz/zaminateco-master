@@ -1,0 +1,135 @@
+{
+  "title": "ZAMINAT Eco-Products Shop",
+  "subtitle": "Every purchase supports community projects and transforms waste into valuable infrastructure.",
+  "stats": {
+    "kgRecycled": "kg Recycled",
+    "productsSold": "Products Sold",
+    "projectsFunded": "Projects Funded"
+  },
+  "sections": {
+    "ecoProducts": "Eco Products",
+    "popularCategories": "Popular Categories",
+    "howItWorks": "How It Works"
+  },
+  "products": {
+    "epdmFreeTiles": {
+      "name": "EPDM-free Tiles",
+      "description": "Sports facilities, waterfront areas, production - technical rooms",
+      "info": "1 sq. m, 30 mm thick",
+      "category": "Construction"
+    },
+    "epdmRubberEcotiles": {
+      "name": "EPDM Rubber Ecotiles",
+      "description": "Maximum playground safety, jogging and walking paths",
+      "info": "1 sq. m, 30 mm thick",
+      "category": "Recreation"
+    },
+    "ecoBrick": {
+      "name": "EcoBrick",
+      "description": "Durable building blocks made from recycled plastic and rubber",
+      "category": "Construction"
+    },
+    "wasteBin": {
+      "name": "Waste Bin",
+      "description": "Recycling bins to help collect more waste",
+      "category": "Utility"
+    },
+    "gardenPlanter": {
+      "name": "Garden Planter",
+      "description": "Durable planters for your garden made from rubber waste",
+      "category": "Garden"
+    },
+    "ecoBench": {
+      "name": "Eco Bench",
+      "description": "Comfortable outdoor bench made from plastic waste",
+      "category": "Furniture"
+    },
+    "ecobikeRack": {
+      "name": "ECOBIKE RACK",
+      "description": "Bicycle parking solution from recycled materials",
+      "category": "Infrastructure"
+    },
+    "ecobusStop": {
+      "name": "ECOBUSSTOP",
+      "description": "Complete bus stop infrastructure from recycled plastic and rubber",
+      "category": "Infrastructure"
+    },
+    "playgroundBlock": {
+      "name": "Playground Block (Art Tiles)",
+      "description": "Safe playground equipment from recycled materials",
+      "category": "Recreation"
+    },
+    "ecostreetFurniture": {
+      "name": "Ecostreet Furniture",
+      "description": "Custom street furniture solutions from recycled materials",
+      "category": "Infrastructure"
+    }
+  },
+  "pricing": {
+    "perSqM": "per sq. m",
+    "perPiece": "per piece",
+    "callForPrice": "Call for Price"
+  },
+  "buttons": {
+    "addToCart": "Add to Cart",
+    "contactUs": "Contact Us",
+    "startShopping": "Start Shopping",
+    "contactForBulkOrders": "Contact for Bulk Orders"
+  },
+  "categories": {
+    "construction": {
+      "name": "Construction",
+      "description": "Tiles, blocks, curbs"
+    },
+    "recreation": {
+      "name": "Recreation",
+      "description": "Playground equipment, safety tiles"
+    },
+    "furniture": {
+      "name": "Furniture",
+      "description": "Benches, tables, planters"
+    },
+    "infrastructure": {
+      "name": "Infrastructure",
+      "description": "Bus stops, bike racks, street furniture"
+    },
+    "utility": {
+      "name": "Utility",
+      "description": "Waste bins, storage solutions"
+    },
+    "garden": {
+      "name": "Garden",
+      "description": "Planters, garden furniture"
+    }
+  },
+  "howItWorksPoints": {
+    "recycledMaterials": {
+      "title": "Recycled Materials:",
+      "description": "All products made from collected plastic and rubber waste"
+    },
+    "qualityGuaranteed": {
+      "title": "Quality Guaranteed:",
+      "description": "Durable and tested for safety"
+    },
+    "localProduction": {
+      "title": "Local Production:",
+      "description": "Supporting Uzbekistan's green economy"
+    },
+    "communityImpact": {
+      "title": "Community Impact:",
+      "description": "Profits fund environmental projects and infrastructure"
+    }
+  },
+  "bottomSection": {
+    "title": "Shop",
+    "description": "Every purchase helps transform waste into useful products while supporting environmental projects in Uzbekistan."
+  },
+  "partnerDescriptions": {
+    "taxiRides": "Taxi rides across Tashkent with comfort and economy options",
+    "coffeeShop": "Coffee, tea, pastries and light meals in city center",
+    "restaurant": "Traditional plov, shashlik, lagman and Uzbek cuisine",
+    "grocery": "Online grocery delivery: bread, meat, vegetables, household items",
+    "groceryStore": "Fresh fruits, vegetables, dairy products and cleaning supplies",
+    "airline": "Domestic and international flights from Tashkent airport"
+  }
+}

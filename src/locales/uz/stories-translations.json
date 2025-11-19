@@ -1,0 +1,113 @@
+{
+  "title": "EkoHub",
+  "subtitle": "Jamiyat hikoyalari, ta'lim kontenti va O'zbekistonda plastik va rezina qayta ishlash haqidagi so'nggi yangiliklar.",
+  "filters": {
+    "allContent": "Barcha kontent",
+    "communityStories": "Jamiyat hikoyalari",
+    "education": "Ta'lim: Jamoalarni plastik va rezina qayta ishlash haqida o'rgatish",
+    "newsUpdates": "Yangiliklar va yangilanishlar"
+  },
+  "sections": {
+    "featuredContent": "Tavsiya etilgan kontent"
+  },
+  "readTime": {
+    "minRead": "daq o'qish"
+  },
+  "badges": {
+    "update": "yangilanish",
+    "successStory": "muvaffaqiyat hikoyasi",
+    "education": "ta'lim",
+    "communityStory": "Jamiyat hikoyasi",
+    "level": "Daraja"
+  },
+  "buttons": {
+    "readMore": "Batafsil o'qish",
+    "shareYourStory": "Hikoyangizni ulashing",
+    "readMoreStories": "Ko'proq hikoyalar o'qish",
+    "learnAboutZaminat": "ZAMINAT haqida o'rganing"
+  },
+  "stories": {
+    "pilotProgram": {
+      "title": "ZAMINAT.eco Toshkentda pilot dasturni ishga tushiradi",
+      "description": "Ekologik harakat plastik va rezina qayta ishlash tashabbuslari bilan o'z yo'lini boshlaydi",
+      "author": "ZAMINAT.eco jamoasi",
+      "date": "18.01.2026",
+      "readTime": "3"
+    },
+    "futureRecycling": {
+      "title": "O'zbekistonda plastik va rezina qayta ishlashning kelajagi",
+      "description": "ZAMINAT.eco butun mamlakat bo'ylab chiqindi boshqaruvini qanday o'zgartirmoqchi",
+      "author": "Suxrobjon Rixsiboev",
+      "date": "16.01.2026",
+      "readTime": "5"
+    },
+    "educationalPrograms": {
+      "title": "Ta'lim dasturlari: Keyingi avlodni o'rgatish",
+      "description": "Bolalarni plastik va rezina qayta ishlashning ahamiyati haqida qanday o'rgatayotganimiz",
+      "author": "Ta'lim jamoasi",
+      "date": "14.01.2026",
+      "readTime": "7"
+    },
+    "mahallTransformation": {
+      "title": "Chiqindilardan o'yin maydonchagacha: Mahallimizning o'zgarishi",
+      "description": "Olti oy oldin bizning mahallada dahshatli chiqindi muammosi bor edi. Bugun ZAMINAT.eco tufayli bizda qayta ishlangan plastik va rezina materiallaridan yasalgan chiroyli o'yin maydonchasi bor. Buni qanday qilganimiz......",
+      "author": "Bobur Rahimov",
+      "date": "15.01.2026",
+      "location": "Sergeli tumani",
+      "environmentalImpact": "Atrof-muhit ta'siri:",
+      "impactDescription": "1250kg plastik va rezina chiqindilari yig'ildi",
+      "likes": "234",
+      "comments": "45",
+      "hashtags": ["#o'zgarish", "#o'yinmaydoni"]
+    },
+    "teachingKids": {
+      "title": "Bolalarni plastik va rezina qayta ishlashga o'rgatish",
+      "description": "O'qituvchi sifatida men ZAMINAT.eco dasturi o'quvchilarimni qanday o'zgartirgani ko'rdim. Endi ular maktabga eng ko'p qayta ishlanadigan materiallarni kim olib kelishini raqobatlashadilar va plastik va rezina chiqindilari o'rtasidagi farqni tushunadilar!...",
+      "author": "Malika Tursunova",
+      "date": "12.01.2026",
+      "location": "Mirabad tumani",
+      "likes": "189",
+      "comments": "32",
+      "hashtags": ["#ta'lim", "#bolalar"]
+    }
+  },
+  "educationalResources": {
+    "title": "Ta'lim resurslari",
+    "plasticGuide": {
+      "title": "Plastik qayta ishlash qo'llanmasi",
+      "items": [
+        "Qayta ishlanadigan plastik turlari",
+        "To'g'ri tozalash va saralash",
+        "Yig'ish punktlari joylashuvi",
+        "Atrof-muhit ta'siri faktlari"
+      ]
+    },
+    "rubberGuide": {
+      "title": "Rezina qayta ishlash qo'llanmasi",
+      "items": [
+        "Shinalar qayta ishlash jarayoni",
+        "Rezina mahsulotlarini aniqlash",
+        "Xavfsizlik qoidalari",
+        "Jamiyat uchun foyda"
+      ]
+    }
+  },
+  "shareStory": {
+    "title": "Hikoyangizni ulashing",
+    "description": "Ekologik sayohatingizni baham ko'rib, boshqalarni ilhomlantirishga yordam bering:",
+    "guidelines": [
+      "Chiqindi yig'ish faoliyatingizni hujjatlang",
+      "Tozalash loyihalarining oldin/keyin fotosuratlarini ulashing",
+      "Jamiyat o'zgarishi hikoyalari haqida yozing",
+      "Iloji bo'lsa, atrof-muhit ta'siri ma'lumotlarini kiriting",
+      "Tegishli hashtaglardan foydalaning: #ZaminatEco #PlastikQaytaIshlash #RezinaQaytaIshlash"
+    ]
+  },
+  "joinConversation": {
+    "title": "Suhbatga qo'shiling",
+    "description": "Ekologik sayohatingizni baham ko'ring va ZAMINAT jamiyatidan o'rganing. Birgalikda biz plastik va rezina qayta ishlash orqali barqaror kelajak quramiz."
+  },
+  "common": {
+    "by": "tomonidan"
+  }
+}

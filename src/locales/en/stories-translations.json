@@ -1,0 +1,113 @@
+{
+  "title": "EcoHub",
+  "subtitle": "Community stories, educational content, and latest news about plastic and rubber recycling in Uzbekistan.",
+  "filters": {
+    "allContent": "All Content",
+    "communityStories": "Community Stories",
+    "education": "Education: Teach communities about plastic and rubber recycling",
+    "newsUpdates": "News & Updates"
+  },
+  "sections": {
+    "featuredContent": "Featured Content"
+  },
+  "readTime": {
+    "minRead": "min read"
+  },
+  "badges": {
+    "update": "update",
+    "successStory": "success-story",
+    "education": "education",
+    "communityStory": "Community Story",
+    "level": "Level"
+  },
+  "buttons": {
+    "readMore": "Read More",
+    "shareYourStory": "Share Your Story",
+    "readMoreStories": "Read More Stories",
+    "learnAboutZaminat": "Learn About ZAMINAT"
+  },
+  "stories": {
+    "pilotProgram": {
+      "title": "ZAMINAT.eco Launches Pilot Program in Tashkent",
+      "description": "The ecological movement begins its journey with plastic and rubber recycling initiatives",
+      "author": "ZAMINAT.eco Team",
+      "date": "18.01.2026",
+      "readTime": "3"
+    },
+    "futureRecycling": {
+      "title": "The Future of Plastic and Rubber Recycling in Uzbekistan",
+      "description": "How ZAMINAT.eco plans to transform waste management across the country",
+      "author": "Sukhrobjon Rikhsiboev",
+      "date": "16.01.2026",
+      "readTime": "5"
+    },
+    "educationalPrograms": {
+      "title": "Educational Programs: Teaching the Next Generation",
+      "description": "How we're educating children about the importance of plastic and rubber recycling",
+      "author": "Education Team",
+      "date": "14.01.2026",
+      "readTime": "7"
+    },
+    "mahallTransformation": {
+      "title": "From Landfill to Playground: Our Mahalla's Transformation",
+      "description": "Six months ago, our mahalla had a terrible waste problem. Today, thanks to ZAMINAT.eco, we have a beautiful playground made from recycled plastic and rubber materials. Here's how we did it......",
+      "author": "Bobur Rahimov",
+      "date": "15.01.2026",
+      "location": "Sergeli District",
+      "environmentalImpact": "Environmental Impact:",
+      "impactDescription": "1250kg of plastic and rubber waste collected",
+      "likes": "234",
+      "comments": "45",
+      "hashtags": ["#transformation", "#playground"]
+    },
+    "teachingKids": {
+      "title": "Teaching Kids About Plastic and Rubber Recycling",
+      "description": "As a teacher, I've seen how the ZAMINAT.eco program has changed my students. They now compete to bring the most recyclables to school and understand the difference between plastic and rubber waste!...",
+      "author": "Malika Tursunova",
+      "date": "12.01.2026",
+      "location": "Mirabad District",
+      "likes": "189",
+      "comments": "32",
+      "hashtags": ["#education", "#children"]
+    }
+  },
+  "educationalResources": {
+    "title": "Educational Resources",
+    "plasticGuide": {
+      "title": "Plastic Recycling Guide",
+      "items": [
+        "Types of recyclable plastics",
+        "Proper cleaning and sorting",
+        "Collection point locations",
+        "Environmental impact facts"
+      ]
+    },
+    "rubberGuide": {
+      "title": "Rubber Recycling Guide",
+      "items": [
+        "Tire recycling process",
+        "Rubber product identification",
+        "Safety guidelines",
+        "Community benefits"
+      ]
+    }
+  },
+  "shareStory": {
+    "title": "Share Your Story",
+    "description": "Help inspire others by sharing your environmental journey:",
+    "guidelines": [
+      "Document your waste collection activities",
+      "Share before/after photos of cleanup projects",
+      "Write about community transformation stories",
+      "Include environmental impact data when possible",
+      "Use relevant hashtags: #ZaminatEco #PlasticRecycling #RubberRecycling"
+    ]
+  },
+  "joinConversation": {
+    "title": "Join the Conversation",
+    "description": "Share your environmental journey and learn from the ZAMINAT community. Together, we're building a sustainable future through plastic and rubber recycling."
+  },
+  "common": {
+    "by": "by"
+  }
+}

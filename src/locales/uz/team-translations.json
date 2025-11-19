@@ -1,0 +1,108 @@
+{
+  "team": {
+    "title": "Bizning jamoa bilan tanishing",
+    "subtitle": "ZAMINAT.eco ortidagi ishtiyoqli shaxslar, innovatsiya va jamiyat ishtirokchiligi orqali O'zbekiston uchun barqaror kelajak yaratish uchun birgalikda ishlaydilar.",
+    "stats": {
+      "members": {
+        "value": "4",
+        "label": "Jamoa a'zolari"
+      },
+      "founded": {
+        "value": "2025",
+        "label": "Tashkil etilgan"
+      },
+      "mission": {
+        "value": "1",
+        "label": "Missiya"
+      },
+      "impact": {
+        "value": "∞",
+        "label": "Ta'sir"
+      }
+    },
+    "members": {
+      "sukhrobjon": {
+        "name": "Suxrobjon Rixsiboev",
+        "position": "Bosh direktor va asoschisi",
+        "role": "Strategik rahbarlik va ko'rish",
+        "description": "ZAMINAT.eco missiyasini chiqindi boshqaruvini butun O'zbekiston bo'ylab barqaror ijtimoiy harakatga aylantirish yo'lida olib boruvchi uzoqni ko'ruvchi rahbar.",
+        "email": "sukhrobjonrikhsiboev@gmail.com",
+        "phone": "+998951881888",
+        "linkedin": "https://www.linkedin.com/in/sukhrobjon-rikhsiboev-5b9878386/",
+        "skills": [
+          "Strategik rejalashtirish",
+          "Ekologik rahbarlik",
+          "Jamiyat qurish",
+          "Barqaror innovatsiya"
+        ],
+        "achievements": [
+          "ZAMINAT.eco barqarorlik platformasini asos soldi",
+          "Plastik va rezina qayta ishlash tashabbusini boshqaradi",
+          "Jamiyat ishtirokchiligi ekotizimini quradi"
+        ]
+      },
+      "azamat": {
+        "name": "Azamat Elchibekov",
+        "position": "Operatsion direktor",
+        "role": "Operatsiyalarni boshqarish va ijro etish",
+        "description": "Barqarorlik dasturlari va jamiyat ishtirokchiligi tashabbuslarining samarali bajarilishini ta'minlaydigan operatsiya mutaxassisi.",
+        "skills": [
+          "Operatsiyalarni boshqarish",
+          "Jarayonlarni optimallashtirish",
+          "Jamoa koordinatsiyasi",
+          "Sifat nazorati"
+        ],
+        "achievements": [
+          "Qayta ishlash operatsiyalari ish oqimini soddalashtirdi",
+          "Jamiyat tadbirlari va dasturlarini boshqaradi",
+          "Yig'ish va qayta ishlash samaradorligini optimallashtiradi"
+        ]
+      },
+      "khondamir": {
+        "name": "Xondamir Alibekov",
+        "position": "Buxgalteriya menejeri",
+        "role": "Moliyaviy boshqaruv va hisobot",
+        "description": "Barcha barqarorlik loyihalari uchun byudjetlarni boshqarish, hisobot berish va shaffof moliyaviy operatsiyalarni ta'minlaydigan moliya mutaxassisi.",
+        "skills": [
+          "Moliyaviy boshqaruv",
+          "Byudjet rejalashtirish",
+          "Xarajatlar tahlili",
+          "Muvofiqlik"
+        ],
+        "achievements": [
+          "Shaffof moliyaviy hisobotni joriy etish",
+          "Loyiha byudjetlari va resurslarini boshqarish",
+          "Moliyaviy muvofiqlik va javobgarlikni ta'minlash"
+        ]
+      },
+      "islombek": {
+        "name": "Islombek Raxmanov",
+        "position": "IT mutaxassisi",
+        "role": "Dasturiy ta'minot ishlab chiqish va IT qo'llab-quvvatlash",
+        "description": "ZAMINAT.eco platformasini ishlab chiqish va qo'llab-quvvatlash, foydalanuvchi tajribasining uzluksizligi va tizim ishonchliligini ta'minlaydigan texnologiya mutaxassisi.",
+        "skills": [
+          "To'liq funksional ishlab chiqish",
+          "Mobil ilovalar",
+          "Tizim arxitekturasi",
+          "Ma'lumotlar tahlili"
+        ],
+        "achievements": [
+          "ZAMINAT.eco platformasini ishlab chiqish",
+          "Foydalanuvchi ishtirokchiligi xususiyatlarini joriy etish",
+          "Tizim ishonchliligi va unumdorligini saqlash"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Bizning missiyamizga qo'shiling",
+      "description": "Biz doimo barqaror kelajak yaratish vizyonimizni baham ko'radigan ishtiyoqli shaxslarni qidirmoqdamiz. Bizning jamoamizga qo'shiling va haqiqiy ta'sir ko'rsating.",
+      "button": "Bizning jamoaga qo'shiling"
+    },
+    "labels": {
+      "coreSkills": "Asosiy ko'nikmalar",
+      "keyAchievements": "Asosiy yutuqlar",
+      "contactButton": "{{name}} bilan bog'lanish",
+      "linkedinProfile": "LinkedIn profili"
+    }
+  }
+}

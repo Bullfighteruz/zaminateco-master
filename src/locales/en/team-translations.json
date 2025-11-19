@@ -1,0 +1,108 @@
+{
+  "team": {
+    "title": "Meet Our Team",
+    "subtitle": "The passionate individuals behind ZAMINAT.eco, working together to create a sustainable future for Uzbekistan through innovation and community engagement.",
+    "stats": {
+      "members": {
+        "value": "4",
+        "label": "Team Members"
+      },
+      "founded": {
+        "value": "2025",
+        "label": "Founded"
+      },
+      "mission": {
+        "value": "1",
+        "label": "Mission"
+      },
+      "impact": {
+        "value": "∞",
+        "label": "Impact"
+      }
+    },
+    "members": {
+      "sukhrobjon": {
+        "name": "Sukhrobjon Rikhsiboev",
+        "position": "CEO & Founder",
+        "role": "Strategic Leadership & Vision",
+        "description": "Visionary leader driving ZAMINAT.eco's mission to transform waste management into a sustainable social movement across Uzbekistan.",
+        "email": "sukhrobjonrikhsiboev@gmail.com",
+        "phone": "+998951881888",
+        "linkedin": "https://www.linkedin.com/in/sukhrobjon-rikhsiboev-5b9878386/",
+        "skills": [
+          "Strategic Planning",
+          "Environmental Leadership",
+          "Community Building",
+          "Sustainable Innovation"
+        ],
+        "achievements": [
+          "Founded ZAMINAT.eco sustainability platform",
+          "Leading plastic and rubber recycling initiative",
+          "Building community engagement ecosystem"
+        ]
+      },
+      "azamat": {
+        "name": "Azamat Elchibekov",
+        "position": "COO",
+        "role": "Operations Management & Execution",
+        "description": "Operations expert ensuring efficient execution of sustainability programs and community engagement initiatives.",
+        "skills": [
+          "Operations Management",
+          "Process Optimization",
+          "Team Coordination",
+          "Quality Control"
+        ],
+        "achievements": [
+          "Streamlined recycling operations workflow",
+          "Managing community events and programs",
+          "Optimizing collection and processing efficiency"
+        ]
+      },
+      "khondamir": {
+        "name": "Khondamir Alibekov",
+        "position": "Accounting Manager",
+        "role": "Financial Management & Reporting",
+        "description": "Financial expert managing budgets, reporting, and ensuring transparent financial operations for all sustainability projects.",
+        "skills": [
+          "Financial Management",
+          "Budget Planning",
+          "Cost Analysis",
+          "Compliance"
+        ],
+        "achievements": [
+          "Implementing transparent financial reporting",
+          "Managing project budgets and resources",
+          "Ensuring financial compliance and accountability"
+        ]
+      },
+      "islombek": {
+        "name": "Islombek Rakhimov",
+        "position": "IT Specialist",
+        "role": "Software Development & IT Support",
+        "description": "Technology specialist developing and maintaining the ZAMINAT.eco platform, ensuring seamless user experience and system reliability.",
+        "skills": [
+          "Full-Stack Development",
+          "Mobile Apps",
+          "System Architecture",
+          "Data Analytics"
+        ],
+        "achievements": [
+          "Developing ZAMINAT.eco platform",
+          "Implementing user engagement features",
+          "Maintaining system reliability and performance"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Join Our Mission",
+      "description": "We're always looking for passionate individuals who share our vision of creating a sustainable future. Join our team and make a real impact.",
+      "button": "Join Our Team"
+    },
+    "labels": {
+      "coreSkills": "Core Skills",
+      "keyAchievements": "Key Achievements",
+      "contactButton": "Contact {{name}}",
+      "linkedinProfile": "LinkedIn Profile"
+    }
+  }
+}

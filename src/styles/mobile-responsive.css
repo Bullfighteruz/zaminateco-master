@@ -1,0 +1,530 @@
+/* Mobile-first responsive design for ZAMINAT.eco */
+
+/* Base mobile styles */
+@media (max-width: 640px) {
+  /* Ensure minimum touch target sizes */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Avatar system mobile optimizations */
+  .avatar-card {
+    min-height: 140px;
+    touch-action: manipulation;
+  }
+  
+  /* Fix double-tap issue on mobile - remove 300ms delay */
+  .cursor-pointer,
+  button,
+  [role="button"],
+  [onclick],
+  [onClick] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Avatar clickable elements - immediate touch response */
+  .relative.group,
+  .cursor-pointer {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Modal optimizations */
+  .modal-mobile {
+    margin: 8px;
+    max-height: 95vh;
+  }
+  
+  /* Grid responsive adjustments */
+  .avatar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  /* Text scaling for mobile */
+  .mobile-text-scale {
+    font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+  }
+  
+  /* Button optimizations */
+  .mobile-button {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+  
+  /* Tab navigation mobile */
+  .tab-mobile {
+    min-width: 60px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  /* FIXED: Daily participation streak mobile optimizations */
+  .daily-streak-container {
+    padding: 12px;
+  }
+  
+  .daily-streak-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    max-width: 100%;
+  }
+  
+  .daily-streak-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+  }
+  
+  .daily-streak-text {
+    font-size: 10px;
+    line-height: 1.2;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+  
+  .daily-streak-actions {
+    font-size: 9px;
+    font-weight: 600;
+    color: #ea580c;
+    margin-top: 2px;
+  }
+  
+  .daily-streak-day {
+    font-size: 9px;
+    color: #6b7280;
+    margin-top: 1px;
+  }
+  
+  .daily-streak-bar {
+    width: 20px;
+    height: 48px;
+    margin: 2px 0;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 375px) {
+  .avatar-grid {
+    gap: 8px;
+  }
+  
+  .modal-mobile {
+    margin: 4px;
+  }
+  
+  .mobile-text-scale {
+    font-size: 0.75rem;
+  }
+
+  /* Extra small screen optimizations for streak */
+  .daily-streak-grid {
+    gap: 2px;
+  }
+  
+  .daily-streak-bar {
+    width: 18px;
+    height: 44px;
+  }
+  
+  .daily-streak-text {
+    font-size: 9px;
+  }
+  
+  .daily-streak-actions {
+    font-size: 8px;
+  }
+  
+  .daily-streak-day {
+    font-size: 8px;
+  }
+}
+
+/* Tablet and larger mobile */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .avatar-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+  .modal-mobile {
+    max-height: 90vh;
+  }
+  
+  .modal-content {
+    max-height: calc(90vh - 120px);
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .avatar-emoji {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .avatar-card {
+    transition: none;
+  }
+  
+  .modal-animation {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Dark mode support for mobile */
+@media (prefers-color-scheme: dark) {
+  .modal-mobile {
+    background-color: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .avatar-card {
+    border-color: #374151;
+    background: linear-gradient(135deg, #374151, #4b5563);
+  }
+}
+
+/* Safe area handling for notched devices */
+@supports (padding: max(0px)) {
+  .modal-mobile {
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Line clamping utility */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Custom breakpoint for extra small screens */
+@media (min-width: 475px) {
+  .xs\:inline {
+    display: inline;
+  }
+}
+
+/* Improved touch feedback */
+.touch-feedback {
+  -webkit-tap-highlight-color: rgba(59, 130, 246, 0.1);
+  tap-highlight-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Smooth scrolling for mobile */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for keyboard navigation */
+.focus-visible\:ring-mobile:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Modal backdrop blur optimization for mobile */
+.backdrop-blur-mobile {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Grid auto-fit for responsive avatars */
+.avatar-grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .avatar-grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* Optimized animations for mobile */
+@media (max-width: 640px) {
+  .mobile-animation {
+    animation-duration: 0.2s;
+    transition-duration: 0.2s;
+  }
+}
+
+/* Prevent zoom on input focus (iOS Safari) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  input[type="text"],
+  input[type="email"], 
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Spline 3D iframe optimizations - Complete transparency overlay with performance enhancements */
+.spline-iframe-container {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: transparent !important;
+  background-color: transparent !important;
+  overflow: hidden;
+  /* GPU acceleration */
+  contain: layout style paint;
+  /* Optimize rendering */
+  isolation: isolate;
+  /* Reduce repaints */
+  content-visibility: auto;
+}
+
+.spline-iframe-container iframe {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  background: transparent !important;
+  background-color: transparent !important;
+  mix-blend-mode: normal;
+  /* Force complete transparency */
+  opacity: 1;
+  /* Performance optimizations */
+  contain: strict;
+  /* Reduce layout shifts */
+  content-visibility: auto;
+  /* Optimize for smooth animations */
+  transform-style: preserve-3d;
+}
+
+/* Force transparency on iframe body/content */
+.spline-iframe-container iframe[src*="spline"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Hide Spline "Built with Spline" badge */
+.spline-iframe-container iframe[src*="spline"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  height: 40px;
+  background: transparent;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Additional overlay effect to ensure website background shows through */
+.spline-iframe-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: transparent;
+}
+
+/* Hide Spline badge using clip-path (alternative method) */
+.spline-iframe-container {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Cover bottom right corner where badge appears */
+.spline-iframe-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 160px;
+  height: 50px;
+  background: transparent;
+  z-index: 25;
+  pointer-events: none;
+}
+
+/* Ensure text overlay covers badge completely */
+.spline-iframe-container > div[class*="absolute bottom-0 right-0"] {
+  z-index: 100 !important;
+}
+
+/* Performance optimizations for mobile devices */
+@media (max-width: 768px) {
+  .spline-iframe-container iframe {
+    /* Reduce quality on mobile for better performance */
+    image-rendering: auto;
+  }
+}
+
+/* Disable on very low-end devices or when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .spline-iframe-container {
+    display: none;
+  }
+}
+
+/* Optimize for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .spline-iframe-container iframe {
+    /* Ensure touch events work properly */
+    touch-action: pan-x pan-y;
+  }
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Enhanced Modal Responsive Sizing */
+@media (max-width: 640px) {
+  /* Use dynamic viewport height for mobile browsers */
+  .modal-responsive {
+    max-height: min(90dvh, calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem));
+    width: min(calc(100vw - 1rem), 420px);
+    margin-left: max(0.5rem, env(safe-area-inset-left));
+    margin-right: max(0.5rem, env(safe-area-inset-right));
+  }
+}
+
+/* Small mobile devices (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  .modal-responsive {
+    width: calc(100vw - 0.75rem);
+    max-height: min(92dvh, calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1.5rem));
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 896px) and (orientation: landscape) {
+  .modal-responsive {
+    max-height: min(85dvh, calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1rem));
+    width: min(calc(100vw - 1rem), 600px);
+  }
+}
+
+/* Tablet sizes */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .modal-responsive {
+    max-width: min(90vw, 600px);
+    max-height: min(90vh, calc(100vh - 2rem));
+  }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+  .modal-responsive {
+    max-width: min(90vw, 1200px);
+    max-height: min(90vh, calc(100vh - 2rem));
+  }
+}
+
+/* Theme Animation Styles for Profile Badge */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes aurora {
+  0%, 100% {
+    transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-50%) rotate(180deg) scale(1.2);
+    opacity: 0.4;
+  }
+}
+
+@keyframes flow {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.1);
+  }
+}
+
+/* Iridescent effect for themes */
+.theme-shimmer {
+  animation: shimmer 3s linear infinite;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  background-size: 200% 100%;
+}
+
+.theme-aurora {
+  animation: aurora 8s ease-in-out infinite;
+}
+
+.theme-flow {
+  animation: flow 5s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+.theme-pulse {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
