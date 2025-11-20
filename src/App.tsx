@@ -24,6 +24,7 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Partners = lazy(() => import('./pages/Partners'));
 const Team = lazy(() => import('./pages/Team'));
 const Contacts = lazy(() => import('./pages/Contacts'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading fallback component
@@ -64,6 +65,7 @@ const App = () => (
                   <Route path="/partners" element={<Partners />} />
                   <Route path="/team" element={<Team />} />
                   <Route path="/contacts" element={<Contacts />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

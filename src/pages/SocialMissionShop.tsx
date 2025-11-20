@@ -48,7 +48,7 @@ const productData: ProductItem[] = [
   {
     id: 2,
     emoji: '🛝',
-    image: '/images/Eco Bench.png',
+    image: '/images/EPDM-Tiles.png', // Primary image
     nameKey: 'products.epdmRubberEcotiles.name',
     englishName: 'EPDM Rubber Ecotiles', // Original English name for icon matching
     descriptionKey: 'products.epdmRubberEcotiles.description',
@@ -309,7 +309,20 @@ export default function SocialMissionShop() {
               isMobile ? "gap-2" : "md:grid-cols-2 gap-3 sm:gap-4"
             )}>
               {productsWithIcons.map((product) => (
-                <Card key={product.id} className="eco-card-hover">
+                <Card 
+                  key={product.id} 
+                  className="eco-card-hover cursor-pointer transition-all hover:shadow-lg"
+                  onClick={() => navigate(`/product/${product.englishName || product.id}`)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View details for ${product.productName}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate(`/product/${product.englishName || product.id}`);
+                    }
+                  }}
+                >
                   <CardContent className={cn(
                     "flex flex-col",
                     isMobile ? "p-2" : "p-3 sm:p-4"
@@ -411,9 +424,10 @@ export default function SocialMissionShop() {
                         )}
                         variant={product.isCallForPrice ? "outline" : "default"}
                         onClick={(e) => {
+                          // Prevent navigation to detail page when clicking button
+                          e.stopPropagation();
                           // Prevent double-clicks and event bubbling
                           e.preventDefault();
-                          e.stopPropagation();
                           
                           // Check if this product is already being processed (prevents React StrictMode double-calls)
                           if (processingRef.current.has(product.id)) {

@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => ({
         '**/.next/**',
         '**/.nuxt/**',
         '**/.cache/**',
-        '**/public/images/**', // Ignore image files to reduce watch overhead
+        // Note: Don't ignore public/images/** - Vite needs to serve these files
         '**/*.log',
         '**/.DS_Store',
         '**/Thumbs.db',
