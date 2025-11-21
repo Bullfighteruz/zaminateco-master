@@ -127,32 +127,7 @@ export default function Index() {
           role="banner"
           aria-labelledby="hero-title"
         >
-          {/* Header with Logo - Mobile Optimized - Fixed at top */}
-          <header className="flex items-center justify-between p-4 relative z-30 header-mobile" style={{ pointerEvents: 'auto', position: 'relative', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)' }}>
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <img 
-                src="/logo.png" 
-                alt="ZAMINAT.eco Logo" 
-                className="h-8 w-8 sm:h-12 sm:w-12 header-logo-mobile"
-                loading="eager"
-              />
-              <div>
-                <h1 className="text-sm sm:text-xl font-bold header-title-mobile text-gray-900">{t('appName')}</h1>
-                <p className="text-xs sm:text-sm opacity-90 header-tagline-mobile text-gray-700">{t('tagline')}</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-1 sm:space-x-2">
-              <LanguageSwitcher />
-              <Button 
-                size="sm" 
-                variant="secondary" 
-                className="bg-gray-200/80 border-gray-300 text-gray-900 hover:bg-gray-300/80 h-8 w-8 p-0 sm:h-10 sm:w-auto sm:px-4"
-                aria-label={t('notifications')}
-              >
-                <Bell className="h-3 w-3 sm:h-4 sm:w-4" />
-              </Button>
-            </div>
-          </header>
+          {/* Header removed - Now using Layout's sticky header */}
 
           {/* Hero Content Layout - Mobile Optimized */}
           {isMobile ? (

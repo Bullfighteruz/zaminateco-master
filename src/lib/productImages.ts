@@ -84,9 +84,8 @@ export const PRODUCT_IMAGES: Record<string, string[]> = {
   ],
 
   'epdm-tiles-page': [
-    '/images/epdm-tiles-page/EPDM%20Rubber%20Ecotiles.jpeg',
-    '/images/epdm-tiles-page/EPDM-Tiles.jpg',
     '/images/epdm-tiles-page/epdm-tile-4.jpg',
+    '/images/epdm-tiles-page/EPDM-Tiles.jpg',
     '/images/epdm-tiles-page/epdm-tile-environment-2.jpeg',
     '/images/epdm-tiles-page/epdm-tile-environment-3.jpg',
     '/images/epdm-tiles-page/epdm-tile-environment-4.jpg',

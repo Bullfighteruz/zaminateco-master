@@ -7,7 +7,8 @@
     "build": "npm run generate:images && vite build",
     "lint": "eslint --quiet ./src",
     "preview": "vite preview",
-    "generate:images": "node scripts/generate-product-images.js"
+    "generate:images": "node scripts/generate-product-images.js",
+    "optimize:video": "node scripts/optimize-video.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

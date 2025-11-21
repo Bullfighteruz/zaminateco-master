@@ -68,7 +68,19 @@
   "pricing": {
     "perSqM": "kv. m uchun",
     "perPiece": "dona uchun",
-    "callForPrice": "Narx uchun qo'ng'iroq qiling"
+    "callForPrice": "Narx uchun qo'ng'iroq qiling",
+    "sustainable": "Barqaror"
+  },
+  "productSpecifications": "Mahsulot xususiyatlari",
+  "keySpecifications": "Asosiy xususiyatlar",
+  "viewAllSpecs": "Barcha xususiyatlarni ko'rish →",
+  "viewAllSustainability": "Barcha barqarorlik ko'rsatkichlarini ko'rish →",
+  "sustainability": "Barqarorlik",
+  "tabs": {
+    "overview": "Umumiy ko'rinish",
+    "specifications": "Xususiyatlar",
+    "sustainability": "Barqarorlik",
+    "applications": "Qo'llanmalar"
   },
   "buttons": {
     "addToCart": "Savatga qo'shish",
@@ -81,9 +93,9 @@
       "name": "Qurilish",
       "description": "Plitka, bloklar, bordyurlar"
     },
-    "recreation": {
-      "name": "Dam olish",
-      "description": "O'yin jihozlari, xavfsizlik plitkalari"
+    "art": {
+      "name": "San'at",
+      "description": "San'at plitkalari va dekorativ mahsulotlar"
     },
     "furniture": {
       "name": "Mebel",
@@ -102,6 +114,30 @@
       "description": "Saksiler, bog' mebellari"
     }
   },
+  "howItsMade": "Qanday yasaladi",
+  "technicalSpecifications": "Texnik xususiyatlar",
+  "materialComposition": "Material tarkibi",
+  "manufacturing": {
+    "collection": "Chiqindi yig'ish",
+    "collectionDesc": "Iste'molchi shinalaridan qayta ishlangan rezina va HDPE/PP chiqindilaridan plastik yig'iladi va saralanadi.",
+    "processing": "Qayta ishlash va aralash",
+    "processingDesc": "Materiallar maydalashadi, tozalashadi va optimal samaradorlik uchun aniq nisbatlarda PU bog'lovchi bilan aralashtiriladi.",
+    "shaping": "Shakllantirish va presslash",
+    "shapingDesc": "Issiq presslash zich, bir xil plitkalarni ajoyib zarbani yumshatish xususiyatlari bilan yaratadi.",
+    "finishing": "Tugallash va sifat nazorati",
+    "finishingDesc": "EPDM yuqori qatlami qo'llanadi va quritiladi. Har bir plitka qattiqlik, zarbani yumshatish va barqarorlik uchun sinovdan o'tkaziladi."
+  },
+  "downloads": {
+    "title": "Yuklab olish va resurslar",
+    "technicalDataSheet": "Texnik ma'lumotlar varaqasi",
+    "certifications": "Sertifikatlar",
+    "brochure": "Mahsulot broshurasi",
+    "installationGuide": "O'rnatish qo'llanmasi",
+    "comingSoon": "Tez orada",
+    "downloadPdf": "PDF yuklab olish",
+    "viewCertificates": "Sertifikatlarni ko'rish"
+  },
+  "features": "Xususiyatlar",
   "howItWorksPoints": {
     "recycledMaterials": {
       "title": "Qayta ishlangan materiallar:",
@@ -131,5 +167,404 @@
     "grocery": "Onlayn oziq-ovqat yetkazib berish: non, go'sht, sabzavotlar, uy-ro'zg'or buyumlari",
     "groceryStore": "Yangi mevalar, sabzavotlar, sut mahsulotlari va tozalash vositalari",
     "airline": "Toshkent aeroportidan ichki va xalqaro reyslar"
+  },
+  "productDetails": {
+    "common": {
+      "productGallery": "Mahsulot galereyasi",
+      "technicalSpecifications": "Texnik xususiyatlar",
+      "specProperty": "Xususiyat",
+      "specValue": "Qiymat",
+      "sustainabilityMetrics": "Barqarorlik ko'rsatkichlari",
+      "materialComposition": "Material tarkibi",
+      "recycledRubber": "Qayta ishlangan rezina",
+      "recycledPlastic": "Qayta ishlangan plastik",
+      "otherMaterials": "Boshqa materiallar",
+      "useCases": "Qo'llanish sohalari",
+      "features": "Xususiyatlar",
+      "backToShop": "Do'konga qaytish",
+      "productNotFound": "Mahsulot topilmadi",
+      "inquiryAboutProduct": "Men bu mahsulot bilan qiziqaman:",
+      "openingEmail": "Email dasturini ochish...",
+      "emailError": "Email klientini ochishda xatolik. Iltimos, biz bilan to'g'ridan-to'g'ri bog'laning.",
+      "addedToCart": "Savatga qo'shildi!",
+      "cartError": "Mahsulotni savatga qo'shishda xatolik. Iltimos, qayta urinib ko'ring.",
+      "fromWasteTires": "Iste'molchi shinalaridan",
+      "hdpPpWaste": "HDPE/PP chiqindilari",
+      "vsVirginMaterials": "yangi materiallar bilan solishtirganda",
+      "fromLandfill": "Polygondan",
+      "vsTraditionalBricks": "an'anaviy g'ishtlar bilan solishtirganda",
+      "vsVirginHdpe": "yangi HDPE bilan solishtirganda",
+      "fromScrapMetal": "Metall chiqindilaridan",
+      "years": "yil",
+      "kgPerSqm": "kg/m²",
+      "kgPerPiece": "kg/dona",
+      "kgPerUnit": "kg/birlik",
+      "kg": "kg",
+      "mm": "mm",
+      "m": "m",
+      "liters": "litr",
+      "persons": "kishi",
+      "bicyclesPerUnit": "velosiped/birlik"
+    },
+    "epdmFreeTiles": {
+      "badges": {
+        "recycledMaterial": "90% Qayta ishlangan material",
+        "heatResistant": "Issiqqa chidamli +70°C",
+        "frostResistant": "Sovuqqa chidamli -30°C",
+        "uvStabilized": "UV-barqaror",
+        "nonToxic": "Zaharsiz / Past VOC"
+      },
+      "overview": {
+        "title": "UZ Rubber S1 — Ikki qatlamli zarbani yumshatuvchi rezina plitka",
+        "description": "Qayta ishlangan materiallardan yasalgan yuqori samaradorlikdagi rezina plitkalar, sport inshootlari, suv bo'yi hududlari va texnik xonalar uchun mukammal. Ajoyib zarbani yumshatish va barqarorlik xususiyatlariga ega.",
+        "specs": [
+          "O'lcham: 500×500 mm",
+          "Qalinlik: 20–40 mm",
+          "Asos: SBR kroshe 1–3 mm (65–70%) + PU bog'lovchi",
+          "Yuqori qatlam: EPDM-siz kompozit 0,5–1,5 mm",
+          "Standartlar: EN 1177 ga mos, HIC xavfsiz",
+          "Iqlim: +70°C issiq, −30°C sovuq"
+        ]
+      },
+      "technicalSpecs": {
+        "size": "O'lcham",
+        "thickness": "Qalinlik",
+        "weight": "Og'irlik",
+        "density": "Zichlik",
+        "baseMaterial": "Asosiy material",
+        "topLayer": "Yuqori qatlam",
+        "compressiveStrength": "Siqilishga chidamlilik",
+        "shoreHardness": "Shor qattiqligi",
+        "waterAbsorption": "Suvni yutilish",
+        "uvRating": "UV reytingi",
+        "temperatureRange": "Harorat diapazoni",
+        "lifespan": "Xizmat muddati",
+        "manufacturing": "Ishlab chiqarish",
+        "standards": "Standartlar"
+      },
+      "sustainability": {
+        "recycledRubber": "Qayta ishlangan rezina",
+        "recycledPlastic": "Qayta ishlangan plastik",
+        "co2Reduction": "CO2 kamaytirish",
+        "wasteDiverted": "Chiqindi aylanmasi",
+        "socialImpact": "Ijtimoiy ta'sir",
+        "fromWasteTires": "Iste'molchi shinalaridan",
+        "hdpPpWaste": "HDPE/PP chiqindilari",
+        "vsVirginMaterials": "yangi materiallar bilan solishtirganda",
+        "fromLandfill": "Polygondan",
+        "communityMahalla": "Mahalla loyihalari qo'llab-quvvatlanadi"
+      },
+      "useCases": {
+        "sportsFacilities": {
+          "title": "Sport inshootlari",
+          "description": "Yopiq va ochiq sport maydonlari, sport zallari"
+        },
+        "waterfrontAreas": {
+          "title": "Suv bo'yi hududlari",
+          "description": "Havuz dekasi, spa zonalari, nam zonalar"
+        },
+        "productionRooms": {
+          "title": "Ishlab chiqarish xonalari",
+          "description": "Texnik xonalar, ustaxonalar"
+        },
+        "playgrounds": {
+          "title": "O'yin maydonchalari",
+          "description": "Bolalar o'yin maydonchalari uchun xavfsiz sath"
+        }
+      },
+      "features": {
+        "shockAbsorption": {
+          "title": "Zarbani yumshatish",
+          "description": "Xavfsizlik uchun ajoyib zarbaga chidamlilik"
+        },
+        "antiSlip": {
+          "title": "Sirpanmas",
+          "description": "Yuqori ishqalanish sathi baxtsiz hodisalarni oldini oladi"
+        },
+        "uvStable": {
+          "title": "UV-barqaror",
+          "description": "Quyosh nurida rangini yo'qotmaydi va buzilmaydi"
+        },
+        "chemicalResistant": {
+          "title": "Kimyoviy chidamli",
+          "description": "Tozalash vositalari va kimyoviy moddalarga chidamli"
+        },
+        "nonToxic": {
+          "title": "Zaharsiz",
+          "description": "Past VOC, yopiq inshootlar uchun xavfsiz"
+        },
+        "durable": {
+          "title": "Barqaror",
+          "description": "Xizmat ko'rsatmasdan 15–20 yil xizmat qiladi"
+        }
+      }
+    },
+    "epdmRubberEcotiles": {
+      "badges": {
+        "recycledMaterial": "95% Qayta ishlangan material",
+        "heatResistant": "Issiqqa chidamli +90°C",
+        "frostResistant": "Sovuqqa chidamli -30°C",
+        "uvStabilized": "UV-barqaror",
+        "en1177Certified": "EN 1177 sertifikatlangan"
+      },
+      "overview": {
+        "title": "EPDM rezina eko-plitkalari — Premium o'yin maydonchasi xavfsizlik plitkalari",
+        "description": "Yuqori zarbani yumshatish bilan maksimal xavfsizlik o'yin maydonchasi plitkalari. Yugurish yo'llari, piyoda yo'llari va yuqori trafik dam olish zonalari uchun ideal.",
+        "specs": [
+          "O'lcham: 500×500 mm, 1000×1000 mm",
+          "Qalinlik: 30–50 mm",
+          "Asos: SBR kroshe 1–3 mm (70–75%) + PU bog'lovchi",
+          "Yuqori qatlam: EPDM 2–4 mm + alifatik PU",
+          "Standartlar: EN 1177, HIC <1000, Kritik tushish balandligi 3m gacha",
+          "Iqlim: +90°C issiq, −30°C sovuq"
+        ]
+      },
+      "technicalSpecs": {
+        "size": "O'lcham",
+        "thickness": "Qalinlik",
+        "weight": "Og'irlik",
+        "density": "Zichlik",
+        "baseMaterial": "Asosiy material",
+        "topLayer": "Yuqori qatlam",
+        "shoreHardness": "Shor qattiqligi",
+        "hicValue": "HIC qiymati",
+        "criticalFallHeight": "Kritik tushish balandligi",
+        "waterAbsorption": "Suvni yutilish",
+        "uvRating": "UV reytingi",
+        "temperatureRange": "Harorat diapazoni",
+        "lifespan": "Xizmat muddati",
+        "standards": "Standartlar",
+        "headInjuryCriterion": "Bosh jarohati kriteriyasi"
+      },
+      "sustainability": {
+        "recycledRubber": "Qayta ishlangan rezina",
+        "recycledPlastic": "Qayta ishlangan plastik",
+        "co2Reduction": "CO2 kamaytirish",
+        "wasteDiverted": "Chiqindi aylanmasi",
+        "socialImpact": "Ijtimoiy ta'sir",
+        "fromWasteTires": "Iste'molchi shinalaridan",
+        "hdpPpWaste": "HDPE/PP chiqindilari",
+        "vsVirginMaterials": "yangi materiallar bilan solishtirganda",
+        "fromLandfill": "Polygondan",
+        "ecokidsProjects": "EcoKids o'yin maydonchasi loyihalari qo'llab-quvvatlanadi"
+      },
+      "useCases": {
+        "playgrounds": {
+          "title": "O'yin maydonchalari",
+          "description": "Bolalar o'yin maydonchalari uchun maksimal xavfsizlik"
+        },
+        "joggingPaths": {
+          "title": "Yugurish yo'llari",
+          "description": "Yugurish yo'llari uchun yumshoq sath"
+        },
+        "walkingTrails": {
+          "title": "Piyoda yo'llari",
+          "description": "Park va bog'lardagi qulay yo'llar"
+        },
+        "sportsZones": {
+          "title": "Sport zonalari",
+          "description": "Ochiq fitnes va faollik zonalari"
+        }
+      },
+      "features": {
+        "maximumShockAbsorption": {
+          "title": "Maksimal zarbani yumshatish",
+          "description": "EN 1177 sertifikatlangan xavfsizlik standartlari"
+        },
+        "antiSlip": {
+          "title": "Sirpanmas",
+          "description": "Har qanday ob-havoda yuqori tutqich sathi"
+        },
+        "uvStable": {
+          "title": "UV-barqaror",
+          "description": "20+ yil rangini saqlaydi"
+        },
+        "weatherproof": {
+          "title": "Ob-havoga chidamli",
+          "description": "Ekstremal haroratlarga chidamli"
+        },
+        "nonToxic": {
+          "title": "Zaharsiz",
+          "description": "Bolalar uchun xavfsiz, past VOC"
+        },
+        "maintenanceFree": {
+          "title": "Xizmat ko'rsatish talab qilmaydi",
+          "description": "Maxsus yordam talab qilinmaydi"
+        }
+      }
+    },
+    "gardenPlanter": {
+      "badges": {
+        "recycledMaterial": "100% Qayta ishlangan material",
+        "weatherproof": "Ob-havoga chidamli",
+        "drainageSystem": "Drenaj tizimi",
+        "lightweight": "Yengil"
+      },
+      "overview": {
+        "title": "Bog' saksisi — Qayta ishlangan rezina va plastikdan yasalgan saksiler",
+        "description": "Rezina chiqindilaridan yasalgan bog'ingiz uchun chiroyli va mustahkam saksiler. O'rnatilgan drenaj tizimi bilan gullar, o'tlar va kichik daraxtlar uchun mukammal.",
+        "specs": [
+          "O'lchamlar: 30L, 50L, 100L sig'im",
+          "Material: Qayta ishlangan rezina + HDPE",
+          "Og'irlik: 3–8 kg (o'lchamga qarab)",
+          "Drenaj: O'rnatilgan drenaj teshiklari",
+          "Rang: Tabiiy rezina rangi yoki sozlanishi mumkin",
+          "Shakl: Yumaloq, kvadrat, to'rtburchak variantlar"
+        ]
+      },
+      "technicalSpecs": {
+        "capacity": "Sig'im",
+        "weight": "Og'irlik",
+        "material": "Material",
+        "wallThickness": "Devor qalinligi",
+        "uvRating": "UV reytingi",
+        "temperatureRange": "Harorat diapazoni",
+        "drainage": "Drenaj",
+        "lifespan": "Xizmat muddati"
+      },
+      "sustainability": {
+        "recycledRubber": "Qayta ishlangan rezina",
+        "recycledPlastic": "Qayta ishlangan plastik",
+        "co2Reduction": "CO2 kamaytirish",
+        "wasteDiverted": "Chiqindi aylanmasi",
+        "fromWasteTires": "Iste'molchi shinalaridan",
+        "hdpWaste": "HDPE chiqindilari",
+        "vsVirginMaterials": "yangi materiallar bilan solishtirganda",
+        "fromLandfill": "Polygondan"
+      },
+      "useCases": {
+        "homeGardens": {
+          "title": "Uy bog'lari",
+          "description": "Uyda foydalanish uchun chiroyli saksiler"
+        },
+        "balconies": {
+          "title": "Balkonlar",
+          "description": "Balkonlar uchun yengil variantlar"
+        },
+        "publicSpaces": {
+          "title": "Jamoat joylar",
+          "description": "Parklar va jamiyat bog'lari"
+        },
+        "restaurants": {
+          "title": "Restoranlar",
+          "description": "Ochiq ovqatlanish joylarini bezash"
+        }
+      },
+      "features": {
+        "weatherproof": {
+          "title": "Ob-havoga chidamli",
+          "description": "Har qanday ob-havo sharoitlariga chidamli"
+        },
+        "drainageSystem": {
+          "title": "Drenaj tizimi",
+          "description": "To'g'ri drenaj uchun o'rnatilgan teshiklar"
+        },
+        "lightweight": {
+          "title": "Yengil",
+          "description": "Ko'chirish va qayta joylashtirish oson"
+        },
+        "durable": {
+          "title": "Barqaror",
+          "description": "Ochiq havo sharoitida uzoq muddatli"
+        },
+        "ecoFriendly": {
+          "title": "Ekologik",
+          "description": "100% qayta ishlangan materiallar"
+        },
+        "naturalLook": {
+          "title": "Tabiiy ko'rinish",
+          "description": "Chiroyli tabiiy rezina qoplamasi"
+        }
+      }
+    },
+    "playgroundBlock": {
+      "badges": {
+        "recycledMaterial": "90% Qayta ishlangan material",
+        "creativeDesigns": "Ijodiy dizaynlar",
+        "safeForKids": "Bolalar uchun xavfsiz",
+        "uvStable": "UV-barqaror"
+      },
+      "overview": {
+        "title": "O'yin maydoni bloki (San'at plitkalari) — Ijodiy o'yin jihozlari",
+        "description": "Qayta ishlangan materiallardan yasalgan xavfsiz va rang-barang o'yin maydoni bloklari san'at dizaynlar bilan. Bolalar uchun qiziqarli va ta'limiy o'yin maydonlarini yaratish uchun mukammal.",
+        "specs": [
+          "O'lcham: Turli xil (300×300 dan 1000×1000 mm gacha)",
+          "Qalinlik: 30–50 mm",
+          "Material: SBR + EPDM kompozit",
+          "Dizaynlar: Sozlanishi mumkin bo'lgan naqshlar va ranglar",
+          "Xavfsiz tushish balandligi: 2,5 m gacha",
+          "Standartlar: EN 1177 ga mos"
+        ]
+      },
+      "technicalSpecs": {
+        "size": "O'lcham",
+        "thickness": "Qalinlik",
+        "material": "Material",
+        "weight": "Og'irlik",
+        "shoreHardness": "Shor qattiqligi",
+        "hicValue": "HIC qiymati",
+        "criticalFallHeight": "Kritik tushish balandligi",
+        "uvRating": "UV reytingi",
+        "temperatureRange": "Harorat diapazoni",
+        "lifespan": "Xizmat muddati",
+        "standards": "Standartlar"
+      },
+      "sustainability": {
+        "recycledRubber": "Qayta ishlangan rezina",
+        "recycledPlastic": "Qayta ishlangan plastik",
+        "co2Reduction": "CO2 kamaytirish",
+        "wasteDiverted": "Chiqindi aylanmasi",
+        "socialImpact": "Ijtimoiy ta'sir",
+        "fromWasteTires": "Iste'molchi shinalaridan",
+        "hdpPpWaste": "HDPE/PP chiqindilari",
+        "vsVirginMaterials": "yangi materiallar bilan solishtirganda",
+        "fromLandfill": "Polygondan",
+        "ecokidsEducationalPlayProjects": "EcoKids ta'limiy o'yin loyihalari"
+      },
+      "useCases": {
+        "playgrounds": {
+          "title": "O'yin maydonchalari",
+          "description": "Bolalar uchun ijodiy o'yin zonalari"
+        },
+        "schools": {
+          "title": "Maktablar",
+          "description": "Ta'limiy o'yin o'rnatishlari"
+        },
+        "kindergartens": {
+          "title": "Bolalar bog'lari",
+          "description": "Kichik bolalar uchun xavfsiz o'yin sathlari"
+        },
+        "parks": {
+          "title": "Parklar",
+          "description": "Jamoat o'yin maydonlari"
+        }
+      },
+      "features": {
+        "creativeDesigns": {
+          "title": "Ijodiy dizaynlar",
+          "description": "Sozlanishi mumkin bo'lgan naqshlar va ranglar"
+        },
+        "safeForKids": {
+          "title": "Bolalar uchun xavfsiz",
+          "description": "EN 1177 sertifikatlangan xavfsizlik standartlari"
+        },
+        "educational": {
+          "title": "Ta'limiy",
+          "description": "O'yin orqali qiziqarli o'rganish"
+        },
+        "uvStable": {
+          "title": "UV-barqaror",
+          "description": "Ko'p yillar davomida rangini saqlaydi"
+        },
+        "shockAbsorbing": {
+          "title": "Zarbani yumshatish",
+          "description": "Bolalarni tushishdan himoya qiladi"
+        },
+        "easyInstallation": {
+          "title": "Oson o'rnatish",
+          "description": "Tez sozlash uchun modul dizayn"
+        }
+      }
+    }
   }
 }

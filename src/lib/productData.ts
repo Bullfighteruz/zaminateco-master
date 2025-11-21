@@ -19,6 +19,7 @@ export interface SustainabilityMetric {
   label: string;
   value: string;
   description?: string;
+  unit?: string;
 }
 
 export interface UseCase {

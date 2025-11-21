@@ -255,7 +255,7 @@ export default function SocialMissionShop() {
   return (
     <Layout title={t('shop', { ns: 'translation' })}>
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white">
-        <div className={cn("w-full", isMobile ? "p-2 space-y-3" : "p-4 space-y-6")}>
+        <div className={cn("w-full", isMobile ? "p-1.5 space-y-2" : "p-4 space-y-6")}>
           {/* Header */}
           <div className={cn("text-center", isMobile ? "space-y-1" : "space-y-2")}>
             <h2 className={cn(
@@ -306,7 +306,7 @@ export default function SocialMissionShop() {
             </h3>
             <div className={cn(
               "grid grid-cols-1",
-              isMobile ? "gap-2" : "md:grid-cols-2 gap-3 sm:gap-4"
+              isMobile ? "gap-1.5" : "md:grid-cols-2 gap-3 sm:gap-4"
             )}>
               {productsWithIcons.map((product) => (
                 <Card 
@@ -333,25 +333,25 @@ export default function SocialMissionShop() {
                           <div className={cn(
                             "flex items-center",
                             isMobile ? "space-x-1.5 mb-1" : "space-x-2 mb-1 sm:mb-2"
-                          )}>
-                            <img 
+                            )}>
+                              <img 
                               src={product.iconPath || product.image || product.emoji} 
-                              alt={product.productName} 
-                              className={cn(
+                                alt={product.productName}
+                                className={cn(
                                 "object-contain flex-shrink-0",
-                                isMobile ? "w-10 h-10" : "w-12 h-12 sm:w-14 sm:h-14"
-                              )}
-                              style={{ 
-                                minWidth: isMobile ? '40px' : '48px', 
-                                minHeight: isMobile ? '40px' : '48px',
+                                  isMobile ? "w-10 h-10" : "w-12 h-12 sm:w-14 sm:h-14"
+                                )}
+                                style={{ 
+                                  minWidth: isMobile ? '40px' : '48px', 
+                                  minHeight: isMobile ? '40px' : '48px',
                                 maxWidth: 'none',
                                 maxHeight: 'none'
-                              }}
-                              loading="lazy"
+                                }}
+                                loading="lazy"
                               onError={(e) => {
                                 // Fallback to emoji if image fails to load
                                 const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
+                                  target.style.display = 'none';
                                 const parent = target.parentElement;
                                 if (parent && !parent.querySelector('.emoji-fallback')) {
                                   const emojiSpan = document.createElement('span');
@@ -360,7 +360,7 @@ export default function SocialMissionShop() {
                                   parent.appendChild(emojiSpan);
                                 }
                               }}
-                            />
+                              />
                             <div>
                               <h4 className={cn(
                                 "font-medium",
@@ -556,7 +556,7 @@ export default function SocialMissionShop() {
             </h3>
             <div className={cn(
               "grid grid-cols-2",
-              isMobile ? "gap-1.5" : "gap-2 sm:gap-3"
+              isMobile ? "gap-1" : "gap-2 sm:gap-3"
             )}>
               {categoriesWithIcons.map((category, index) => (
                 <Card key={index} className="eco-card-hover cursor-pointer">
@@ -585,7 +585,7 @@ export default function SocialMissionShop() {
                         onError={(e) => {
                           // Fallback to emoji if image fails to load
                           const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
+                            target.style.display = 'none';
                           const parent = target.parentElement;
                           if (parent && !parent.querySelector('.emoji-fallback')) {
                             const emojiSpan = document.createElement('span');

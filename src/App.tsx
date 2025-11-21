@@ -18,6 +18,7 @@ const Index = lazy(() => import('./pages/Index'));
 const About = lazy(() => import('./pages/About'));
 const EcoVote = lazy(() => import('./pages/EcoVote'));
 const EcoActions = lazy(() => import('./pages/EcoActions'));
+const Shop = lazy(() => import('./pages/Shop'));
 const SocialMissionShop = lazy(() => import('./pages/SocialMissionShop'));
 const EcoStories = lazy(() => import('./pages/EcoStories'));
 const Profile = lazy(() => import('./pages/Profile'));
@@ -59,7 +60,8 @@ const App = () => (
                   <Route path="/about" element={<About />} />
                   <Route path="/vote" element={<EcoVote />} />
                   <Route path="/actions" element={<EcoActions />} />
-                  <Route path="/shop" element={<SocialMissionShop />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/shop-legacy" element={<SocialMissionShop />} />
                   <Route path="/stories" element={<EcoStories />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/partners" element={<Partners />} />

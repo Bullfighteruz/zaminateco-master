@@ -339,7 +339,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
             ...(isMobile ? {
               paddingTop: 'max(1rem, env(safe-area-inset-top))',
               paddingRight: 'max(0.5rem, env(safe-area-inset-right))',
-              paddingBottom: 'max(80px, env(safe-area-inset-bottom) + 60px)',
+              paddingBottom: 'max(100px, env(safe-area-inset-bottom) + 80px)',
               paddingLeft: 'max(0.5rem, env(safe-area-inset-left))',
             } : {}),
             // Allow touch events to pass through to children for scrolling
@@ -370,32 +370,33 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
               // Allow vertical scrolling within modal
               touchAction: 'pan-y',
               maxHeight: isMobile && viewportSize.height > 0
-                ? `${Math.min(viewportSize.height * 0.92, viewportSize.height - 32)}px`
+                ? `${Math.min(viewportSize.height * 0.88, viewportSize.height - 48)}px`
                 : isMobile
-                ? 'calc(92dvh - 0.5rem)'
+                ? 'calc(88dvh - 1.5rem)'
                 : 'min(92vh, calc(100vh - 1.5rem))',
               height: isMobile && viewportSize.height > 0
-                ? `${Math.min(viewportSize.height * 0.92, viewportSize.height - 32)}px`
+                ? `${Math.min(viewportSize.height * 0.88, viewportSize.height - 48)}px`
                 : 'auto',
               maxWidth: isMobile && viewportSize.width > 0
                 ? `${Math.min(viewportSize.width - 24, 520)}px`
                 : undefined,
               marginBottom: isMobile ? '16px' : undefined,
+              position: 'relative',
             }}
           >
             {/* Header - Ultra Compact on Mobile */}
             <div className={cn(
               "relative border-b border-gray-200 bg-gradient-to-r from-green-50 via-blue-50 to-purple-50 flex-shrink-0",
-              isMobile ? "p-3" : "p-4 sm:p-5"
+              isMobile ? "p-2.5" : "p-4 sm:p-5"
             )}>
               {/* Title and Close - Single Row */}
               <div className={cn(
                 "flex items-center justify-between",
-                isMobile ? "mb-2" : "mb-3"
+                isMobile ? "mb-1.5" : "mb-3"
               )}>
                   <h2 className={cn(
                   "font-bold text-gray-900 truncate flex-1 min-w-0",
-                  isMobile ? "text-sm" : "text-xl sm:text-2xl"
+                  isMobile ? "text-xs" : "text-xl sm:text-2xl"
                   )}>
                   🎭 {isMobile ? t('avatars') : t('avatarAchievementSystem')}
                   </h2>
@@ -405,10 +406,10 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                   onClick={onClose}
                   className={cn(
                     "flex-shrink-0",
-                    isMobile ? "h-6 w-6 p-0 ml-1.5" : "h-8 w-8 p-0"
+                    isMobile ? "h-7 w-7 p-0 ml-1.5" : "h-8 w-8 p-0"
                   )}
                 >
-                  <X className={isMobile ? "h-3 w-3" : "h-4 w-4"} />
+                  <X className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} />
                 </Button>
               </div>
 
@@ -416,7 +417,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
               <div 
                 className={cn(
                   "flex space-x-1 bg-white/50 backdrop-blur-sm rounded-md overflow-x-auto",
-                  isMobile ? "p-1" : "p-1.5"
+                  isMobile ? "p-0.5" : "p-1.5"
                 )}
                 style={{
                   WebkitOverflowScrolling: 'touch',
@@ -430,7 +431,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                   onClick={() => setActiveTab('avatars')}
                   className={cn(
                     "whitespace-nowrap flex-shrink-0",
-                    isMobile ? "text-xs px-2 py-1 h-8" : "text-xs sm:text-sm px-2 sm:px-3"
+                    isMobile ? "text-[10px] px-1.5 py-0.5 h-7" : "text-xs sm:text-sm px-2 sm:px-3"
                   )}
                 >
                   <span>🎭 {t('avatars')}</span>
@@ -441,7 +442,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                   onClick={() => setActiveTab('quests')}
                   className={cn(
                     "whitespace-nowrap flex-shrink-0",
-                    isMobile ? "text-xs px-2 py-1 h-8" : "text-xs sm:text-sm px-2 sm:px-3"
+                    isMobile ? "text-[10px] px-1.5 py-0.5 h-7" : "text-xs sm:text-sm px-2 sm:px-3"
                   )}
                 >
                   <span>⚔️ {t('quests')}</span>
@@ -452,7 +453,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                   onClick={() => setActiveTab('frames')}
                   className={cn(
                     "whitespace-nowrap flex-shrink-0",
-                    isMobile ? "text-xs px-2 py-1 h-8" : "text-xs sm:text-sm px-2 sm:px-3"
+                    isMobile ? "text-[10px] px-1.5 py-0.5 h-7" : "text-xs sm:text-sm px-2 sm:px-3"
                   )}
                 >
                   <span>🖼️ {t('frames')}</span>
@@ -463,7 +464,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                   onClick={() => setActiveTab('themes')}
                   className={cn(
                     "whitespace-nowrap flex-shrink-0",
-                    isMobile ? "text-xs px-2 py-1 h-8" : "text-xs sm:text-sm px-2 sm:px-3"
+                    isMobile ? "text-[10px] px-1.5 py-0.5 h-7" : "text-xs sm:text-sm px-2 sm:px-3"
                   )}
                 >
                   <span>🎨 {t('themes')}</span>
@@ -502,7 +503,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
               className={cn(
                 "overflow-y-auto flex-1",
               isMobile 
-                  ? "p-3" 
+                  ? "p-3 pb-20" 
                   : "p-4 sm:p-5 lg:p-6"
               )}
               style={{
@@ -511,11 +512,12 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                 // Critical: Allow vertical panning for scrolling
                 touchAction: 'pan-y',
                 maxHeight: isMobile && viewportSize.height > 0
-                  ? `${Math.max(380, Math.min(viewportSize.height * 0.92 - 140, viewportSize.height - 180))}px`
+                  ? `${Math.max(250, Math.min(viewportSize.height * 0.80 - 180, viewportSize.height - 200))}px`
                   : isMobile
-                  ? 'calc(92dvh - 140px)'
+                  ? 'calc(80dvh - 180px)'
                   : 'calc(92vh - 200px)',
-                minHeight: isMobile ? '320px' : '400px',
+                minHeight: isMobile ? '200px' : '400px',
+                paddingBottom: isMobile ? 'calc(90px + env(safe-area-inset-bottom))' : undefined,
               }}
               // Remove touch handlers that block scrolling - let native scrolling work
             >
@@ -1154,19 +1156,38 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
               )}
             </div>
 
-            {/* Mobile Sticky Bottom Action Bar */}
-            {isMobile && (activeTab === 'themes' ? selectedTheme : currentSelection) && (
-              <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-20 flex-shrink-0">
-                <div className="p-2 flex gap-2">
+            {/* Mobile Sticky Bottom Action Bar - Always visible when selection is made */}
+            {isMobile && (
+              <div 
+                className={cn(
+                  "absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-30 flex-shrink-0",
+                  (activeTab === 'themes' ? selectedTheme : currentSelection) ? "opacity-100" : "opacity-0 pointer-events-none"
+                )}
+                style={{
+                  paddingBottom: 'max(12px, env(safe-area-inset-bottom))',
+                  paddingTop: '12px',
+                  paddingLeft: '12px',
+                  paddingRight: '12px',
+                  transform: 'translateZ(0)', // Force hardware acceleration
+                  willChange: 'transform',
+                }}
+              >
+                <div className="flex gap-2">
                   <Button 
                     variant="outline" 
                     onClick={onClose}
-                    className="flex-1 h-10 text-sm font-medium border-2"
+                    className={cn(
+                      "flex-1 font-medium border-2",
+                      isMobile ? "h-11 text-sm" : "h-10 text-sm"
+                    )}
                   >
                     {t('cancel')}
                   </Button>
                   <Button 
-                    className="flex-1 h-10 text-sm font-semibold bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 shadow-lg"
+                    className={cn(
+                      "flex-1 font-semibold bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 shadow-lg",
+                      isMobile ? "h-11 text-sm" : "h-10 text-sm"
+                    )}
                     onClick={handleConfirm}
                     disabled={activeTab === 'themes' ? !selectedTheme : !currentSelection}
                   >

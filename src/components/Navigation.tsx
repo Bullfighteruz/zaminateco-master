@@ -84,32 +84,34 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Main Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-1 py-1 z-50 shadow-lg mobile-nav">
-        <div className="flex justify-around items-center max-w-screen-xl mx-auto gap-0.5">
-          {navigationItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={cn(
-                  "flex flex-col items-center justify-center p-1 rounded-lg transition-colors min-w-0 flex-1 max-w-[90px] smooth-transition hover-effect touch-feedback",
-                  "relative",
-                  isActive
-                    ? "text-green-600 bg-green-50"
-                    : "text-gray-600 hover:text-green-600 hover:bg-green-50"
-                )}
-              >
-                <Icon className="h-4 w-4 mb-0.5 flex-shrink-0" />
-                <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight break-words hyphens-auto px-0.5" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                  {getTranslation(item.labelKey, true)}
-                </span>
-              </Link>
-            );
-          })}
+      {/* Main Bottom Navigation - Pinned to bottom, centered, not full-width */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-0 mobile-nav">
+        <div className="bg-white border-t border-gray-200 shadow-lg rounded-t-2xl px-3 sm:px-4 py-2.5">
+          <div className="flex justify-around items-center gap-0.5 sm:gap-1">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    "flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-lg transition-colors min-w-0 smooth-transition hover-effect touch-feedback",
+                    "relative",
+                    isActive
+                      ? "text-green-600 bg-green-50"
+                      : "text-gray-600 hover:text-green-600 hover:bg-green-50"
+                  )}
+                >
+                  <Icon className="h-5 w-5 mb-0.5 sm:mb-1 flex-shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
+                    {getTranslation(item.labelKey, true)}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </nav>
 
