@@ -1,0 +1,808 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+  ORGANIZATION
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  APPLE
+  PHONE
+}
+
+enum Language {
+  UZ
+  RU
+  EN
+}
+
+enum AgeGroup {
+  CHILD
+  TEEN
+  ADULT
+}
+
+enum ProjectStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum EventRegistrationStatus {
+  REGISTERED
+  CANCELED
+  ATTENDED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  PAYME
+  CLICK
+  STRIPE
+  ECO_COINS
+}
+
+enum CollectionPointStatus {
+  ACTIVE
+  INACTIVE
+  MAINTENANCE
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PostType {
+  STORY
+  NEWS
+  EDUCATION
+}
+
+enum NotificationType {
+  VOTE_RESULT
+  EVENT_REMINDER
+  NEW_STORY
+  ACHIEVEMENT_UNLOCKED
+  POINTS_EARNED
+  ORDER_UPDATE
+  PROJECT_UPDATE
+}
+
+enum CommunityType {
+  SCHOOL
+  MAHALLA
+  ORGANIZATION
+  PARTNER
+}
+
+// ============================================
+// USER & SECURITY TABLES
+// ============================================
+
+model User {
+  id            String        @id @default(uuid())
+  email         String?       @unique
+  passwordHash  String?
+  firstName     String
+  lastName      String
+  nickname      String?
+  avatar        String?
+  phone         String?       @unique
+  role          UserRole      @default(USER)
+  authProvider  AuthProvider  @default(EMAIL)
+  language      Language      @default(UZ)
+  emailVerified Boolean       @default(false)
+  phoneVerified Boolean       @default(false)
+  isActive      Boolean       @default(true)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relationships
+  profile       UserProfile?
+  sessions      Session[]
+  passwordResets PasswordReset[]
+  referralsGiven Referral[] @relation("Referrer")
+  referralsReceived Referral[] @relation("Referred")
+  votes         Vote[]
+  donations     Donation[]
+  collections   Collection[]
+  events        EventParticipant[]
+  orders        Order[]
+  posts         Post[]
+  achievements  UserAchievement[]
+  redemptions   Redemption[]
+  notifications Notification[]
+  settings      UserSettings?
+  auditLogs     AuditLog[]
+  
+  @@index([email])
+  @@index([phone])
+  @@index([role])
+}
+
+model UserProfile {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ageGroup        AgeGroup?
+  communityId     String?
+  community       Community? @relation(fields: [communityId], references: [id])
+  ecoPoints       Int       @default(0)
+  ecoCoins        Int       @default(0)
+  level           Int       @default(1)
+  badges          Json?     // Array of badge IDs
+  referralCode    String    @unique
+  preferredContact String?  // email/phone
+  lastActiveAt    DateTime?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([userId])
+  @@index([communityId])
+  @@index([ecoPoints])
+  @@index([referralCode])
+}
+
+model PasswordReset {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token        String   @unique
+  refreshToken String?  @unique
+  expiresAt    DateTime
+  deviceInfo   String?
+  ipAddress    String?
+  createdAt    DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+model Referral {
+  id              String   @id @default(uuid())
+  referrerId      String
+  referrer        User     @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  referredUserId  String
+  referredUser    User     @relation("Referred", fields: [referredUserId], references: [id], onDelete: Cascade)
+  code            String
+  createdAt       DateTime @default(now())
+  
+  @@unique([referrerId, referredUserId])
+  @@index([referrerId])
+  @@index([referredUserId])
+  @@index([code])
+}
+
+// ============================================
+// MAP & COLLECTION DATA
+// ============================================
+
+model CollectionPoint {
+  id          String                @id @default(uuid())
+  name        String
+  nameEn      String?
+  nameRu      String?
+  nameUz      String?
+  address     String
+  district    String
+  latitude    Float
+  longitude   Float
+  materialTypes Json                // Array of material types
+  status      CollectionPointStatus @default(ACTIVE)
+  capacityKg  Float?
+  contactInfo Json?                 // {phone, email, hours}
+  createdById String?
+  createdBy   User?                  @relation(fields: [createdById], references: [id])
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  
+  // Relationships
+  collections Collection[]
+  stats       CollectionPointStats?
+  
+  @@index([status])
+  @@index([district])
+  @@index([latitude, longitude])
+}
+
+model Collection {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collectionPointId String
+  collectionPoint CollectionPoint @relation(fields: [collectionPointId], references: [id], onDelete: Cascade)
+  materialType    String
+  weightKg        Float
+  photoUrl        String?
+  submittedAt     DateTime @default(now())
+  approved        Boolean  @default(false)
+  verifiedById    String?
+  verifiedBy      User?   @relation(fields: [verifiedById], references: [id])
+  verifiedAt      DateTime?
+  
+  @@index([userId])
+  @@index([collectionPointId])
+  @@index([approved])
+  @@index([submittedAt])
+}
+
+model CollectionPointStats {
+  id              String   @id @default(uuid())
+  collectionPointId String @unique
+  collectionPoint CollectionPoint @relation(fields: [collectionPointId], references: [id], onDelete: Cascade)
+  totalKg         Float    @default(0)
+  totalCollections Int    @default(0)
+  lastUpdated     DateTime @default(now())
+  
+  @@index([collectionPointId])
+}
+
+// ============================================
+// VOTING & PROJECTS
+// ============================================
+
+model Project {
+  id                String        @id @default(uuid())
+  title             String
+  titleEn           String?
+  titleRu           String?
+  titleUz           String?
+  description       String        @db.Text
+  descriptionEn     String?       @db.Text
+  descriptionRu     String?       @db.Text
+  descriptionUz     String?       @db.Text
+  district          String
+  category          String        // school, park, etc.
+  imageUrl          String?
+  materialsRequiredKg Float?
+  budgetRequired    Decimal?      @db.Decimal(15, 2)
+  startDate         DateTime?
+  endDate           DateTime?
+  status            ProjectStatus @default(DRAFT)
+  creatorId         String?
+  creator           User?         @relation(fields: [creatorId], references: [id])
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  // Relationships
+  votes             Vote[]
+  donations         Donation[]
+  updates           ProjectUpdate[]
+  
+  @@index([status])
+  @@index([district])
+  @@index([category])
+  @@index([creatorId])
+}
+
+enum ImpactArea {
+  SCHOOL
+  PARK
+  MAHALLA
+  KINDERGARTEN
+  HOSPITAL
+  STREET
+  OTHER
+}
+
+model Vote {
+  id         String     @id @default(uuid())
+  projectId  String
+  project    Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voteCount  Int        @default(1)
+  voteDate   DateTime   @default(now())
+  location   String?    @db.Text
+  impactArea ImpactArea?
+  createdAt  DateTime   @default(now())
+  
+  @@unique([userId, projectId])
+  @@index([projectId])
+  @@index([userId])
+  @@index([impactArea])
+}
+
+model Donation {
+  id              String        @id @default(uuid())
+  projectId       String
+  project         Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount          Decimal       @db.Decimal(15, 2)
+  currency        String
+  paymentProvider PaymentProvider?
+  transactionId   String?
+  status          PaymentStatus @default(PENDING)
+  createdAt       DateTime      @default(now())
+  
+  @@index([projectId])
+  @@index([userId])
+  @@index([status])
+  @@index([transactionId])
+}
+
+model ProjectUpdate {
+  id        String   @id @default(uuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title     String
+  content   String   @db.Text
+  mediaUrl  String?
+  createdAt DateTime @default(now())
+  
+  @@index([projectId])
+  @@index([createdAt])
+}
+
+// ============================================
+// EVENTS & ACTIONS
+// ============================================
+
+model Event {
+  id            String      @id @default(uuid())
+  title         String
+  titleEn       String?
+  titleRu       String?
+  titleUz       String?
+  description   String      @db.Text
+  type          String      // cleanup, tree_planting, etc.
+  locationLat   Float
+  locationLng   Float
+  address       String
+  startTime     DateTime
+  endTime       DateTime?
+  organizerId   String?
+  organizer     User?       @relation(fields: [organizerId], references: [id])
+  capacity      Int?
+  status        EventStatus @default(UPCOMING)
+  coverImageUrl String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relationships
+  registrations EventParticipant[]
+  category      EventCategory? @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+  
+  @@index([status])
+  @@index([type])
+  @@index([startTime])
+  @@index([organizerId])
+}
+
+model EventCategory {
+  id          String   @id @default(uuid())
+  name        String
+  nameEn      String?
+  nameRu      String?
+  nameUz      String?
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  
+  events      Event[]
+  
+  @@index([name])
+}
+
+model EventParticipant {
+  id        String                  @id @default(uuid())
+  eventId   String
+  event     Event                   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    EventRegistrationStatus @default(REGISTERED)
+  checkedInAt DateTime?
+  createdAt DateTime                @default(now())
+  
+  @@unique([userId, eventId])
+  @@index([eventId])
+  @@index([userId])
+  @@index([status])
+}
+
+// ============================================
+// SHOP & MARKETPLACE
+// ============================================
+
+model ProductCategory {
+  id          String   @id @default(uuid())
+  name        String
+  nameEn      String?
+  nameRu      String?
+  nameUz      String?
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  products    Product[]
+  
+  @@index([name])
+}
+
+model Product {
+  id              String   @id @default(uuid())
+  categoryId      String
+  category        ProductCategory @relation(fields: [categoryId], references: [id])
+  name            String
+  nameEn          String?
+  nameRu          String?
+  nameUz          String?
+  description     String   @db.Text
+  price           Decimal  @db.Decimal(15, 2)
+  currency        String   @default("UZS")
+  stock           Int      @default(0)
+  imageUrl        String?
+  images          String[] // Array of image URLs
+  isCharity       Boolean  @default(false)
+  charityPercentage Decimal? @db.Decimal(5, 2)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relationships
+  orderItems      OrderItem[]
+  
+  @@index([categoryId])
+  @@index([isActive])
+  @@index([isCharity])
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalAmount   Decimal     @db.Decimal(15, 2)
+  currency      String
+  status        OrderStatus @default(PENDING)
+  paymentId     String?
+  payment       Payment?    @relation(fields: [paymentId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relationships
+  items         OrderItem[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([paymentId])
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(15, 2)
+  createdAt DateTime @default(now())
+  
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Payment {
+  id              String          @id @default(uuid())
+  orderId         String?        @unique
+  order           Order?          @relation
+  userId          String?
+  amount          Decimal         @db.Decimal(15, 2)
+  currency        String
+  provider        PaymentProvider
+  transactionId   String?        @unique
+  status          PaymentStatus   @default(PENDING)
+  metadata        Json?          // Additional payment data
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+  @@index([transactionId])
+  @@index([provider])
+}
+
+// ============================================
+// STORIES, NEWS & EDUCATION
+// ============================================
+
+model PostCategory {
+  id          String   @id @default(uuid())
+  name        String
+  nameEn      String?
+  nameRu      String?
+  nameUz      String?
+  slug        String   @unique
+  type        PostType
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  posts       Post[]
+  
+  @@index([slug])
+  @@index([type])
+}
+
+model Post {
+  id            String     @id @default(uuid())
+  categoryId    String
+  category      PostCategory @relation(fields: [categoryId], references: [id])
+  userId        String?
+  user          User?      @relation(fields: [userId], references: [id])
+  title         String
+  titleEn       String?
+  titleRu       String?
+  titleUz       String?
+  content       String     @db.Text
+  contentEn     String?    @db.Text
+  contentRu     String?    @db.Text
+  contentUz     String?    @db.Text
+  slug          String     @unique
+  language      Language   @default(UZ)
+  status        PostStatus @default(DRAFT)
+  coverImageUrl String?
+  views         Int        @default(0)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  publishedAt   DateTime?
+  
+  // Relationships
+  reactions     PostReaction[]
+  comments      PostComment[]
+  
+  @@index([categoryId])
+  @@index([userId])
+  @@index([status])
+  @@index([slug])
+  @@index([publishedAt])
+  @@index([language])
+}
+
+model PostReaction {
+  id          String   @id @default(uuid())
+  postId      String
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reactionType String  // like, heart, etc.
+  createdAt   DateTime @default(now())
+  
+  @@unique([userId, postId])
+  @@index([postId])
+  @@index([userId])
+}
+
+model PostComment {
+  id        String     @id @default(uuid())
+  postId    String
+  post      Post       @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String     @db.Text
+  status    String     @default("approved") // approved, pending, rejected
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  @@index([postId])
+  @@index([userId])
+  @@index([status])
+}
+
+// ============================================
+// REWARDS & GAMIFICATION
+// ============================================
+
+model Achievement {
+  id          String   @id @default(uuid())
+  name        String
+  nameEn      String?
+  nameRu      String?
+  nameUz      String?
+  description String   @db.Text
+  iconUrl     String
+  criteria    Json     // {totalKgs: 50, eventsAttended: 5, etc.}
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  
+  // Relationships
+  userAchievements UserAchievement[]
+  
+  @@index([isActive])
+}
+
+model UserAchievement {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  awardedAt     DateTime @default(now())
+  
+  @@unique([userId, achievementId])
+  @@index([userId])
+  @@index([achievementId])
+}
+
+model Reward {
+  id          String   @id @default(uuid())
+  name        String
+  nameEn      String?
+  nameRu      String?
+  nameUz      String?
+  description String   @db.Text
+  pointsCost  Int
+  stock       Int      @default(0)
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relationships
+  redemptions Redemption[]
+  
+  @@index([isActive])
+  @@index([pointsCost])
+}
+
+model Redemption {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rewardId String
+  reward    Reward   @relation(fields: [rewardId], references: [id])
+  pointsSpent Int
+  status    String   @default("pending") // pending, completed, canceled
+  redeemedAt DateTime?
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([rewardId])
+  @@index([status])
+}
+
+// ============================================
+// NOTIFICATIONS & SETTINGS
+// ============================================
+
+model Notification {
+  id        String          @id @default(uuid())
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  message   String          @db.Text
+  link      String?
+  isRead    Boolean         @default(false)
+  createdAt DateTime        @default(now())
+  
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model UserSettings {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailNotifications Boolean  @default(true)
+  pushNotifications Boolean  @default(true)
+  languagePref      Language  @default(UZ)
+  timeZone          String?  @default("Asia/Tashkent")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+// ============================================
+// ADMINISTRATIVE & MISC
+// ============================================
+
+model Community {
+  id        String        @id @default(uuid())
+  name      String
+  nameEn    String?
+  nameRu   String?
+  nameUz   String?
+  type      CommunityType
+  contact   Json?         // {phone, email, address}
+  address   String?
+  isActive  Boolean       @default(true)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  
+  // Relationships
+  profiles  UserProfile[]
+  
+  @@index([type])
+  @@index([isActive])
+}
+
+model File {
+  id          String   @id @default(uuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int       // bytes
+  url          String    // S3/Firebase Storage URL
+  uploadedById String?
+  uploadedBy   User?     @relation(fields: [uploadedById], references: [id])
+  createdAt    DateTime  @default(now())
+  
+  @@index([uploadedById])
+  @@index([mimeType])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String   // create, update, delete, etc.
+  entity    String   // User, Project, etc.
+  entityId String?
+  changes   Json?    // Before/after data
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([entity])
+  @@index([createdAt])
+}

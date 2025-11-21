@@ -1,0 +1,178 @@
+// Simplified Schema matching user requirements
+// This is a streamlined version focused on core features
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  ORG
+}
+
+enum ImpactArea {
+  SCHOOL
+  PARK
+  MAHALLA
+  KINDERGARTEN
+  HOSPITAL
+  STREET
+  OTHER
+}
+
+enum WasteCategory {
+  PLASTIC
+  PAPER
+  GLASS
+  METAL
+  ORGANIC
+  ELECTRONIC
+  OTHER
+}
+
+enum WasteLogStatus {
+  SUBMITTED
+  VERIFIED
+  REJECTED
+}
+
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum Level {
+  ECO_WALKER
+  ECO_EXPLORER
+  ECO_GUARDIAN
+  ECO_CHAMPION
+  ECO_HERO
+}
+
+// Users Table - matches auth system
+model User {
+  id        String   @id @default(uuid())
+  uid       String?  @unique // Firebase/Supabase auth ID
+  email     String   @unique
+  name      String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  profile   Profile?
+  votes     Vote[]
+  wasteLogs WasteLog[]
+  donations Donation[]
+  
+  @@index([email])
+  @@index([uid])
+}
+
+// Profile Table
+model Profile {
+  id       String  @id @default(uuid())
+  userId   String  @unique
+  avatar   String?
+  bio      String? @db.Text
+  location String?
+  points   Int     @default(0)
+  level    Level   @default(ECO_WALKER)
+  
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([points])
+}
+
+// Votes Table
+model Vote {
+  id         String     @id @default(uuid())
+  userId     String
+  projectId String
+  voteDate   DateTime   @default(now())
+  location   String?    @db.Text
+  impactArea ImpactArea
+  
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime   @default(now())
+  
+  @@unique([userId, projectId]) // One vote per user per project
+  @@index([userId])
+  @@index([projectId])
+  @@index([impactArea])
+}
+
+// WasteLog Table
+model WasteLog {
+  id         String         @id @default(uuid())
+  userId     String
+  weightKg   Float
+  category   WasteCategory
+  location   String?       @db.Text
+  date       DateTime      @default(now())
+  photoURL   String?
+  status     WasteLogStatus @default(SUBMITTED)
+  
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  verifiedAt DateTime?
+  verifiedBy String?
+  
+  @@index([userId])
+  @@index([status])
+  @@index([category])
+  @@index([date])
+}
+
+// News & Content Table
+model NewsContent {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  date      DateTime @default(now())
+  mediaURL  String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([slug])
+  @@index([date])
+}
+
+// Donations Table
+model Donation {
+  id         String        @id @default(uuid())
+  userId     String
+  amount     Float
+  currency   String        @default("UZS") // UZS, USD, etc.
+  targetFund String?       // Project ID or general fund
+  status     DonationStatus @default(PENDING)
+  timestamp  DateTime      @default(now())
+  
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+  @@index([targetFund])
+  @@index([timestamp])
+}
+

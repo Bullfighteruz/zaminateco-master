@@ -1,0 +1,1117 @@
+{
+  "title": "ZAMINAT Eco-Products Shop",
+  "subtitle": "Every purchase supports community projects and transforms waste into valuable infrastructure.",
+  "stats": {
+    "kgRecycled": "kg Recycled",
+    "productsSold": "Products Sold",
+    "projectsFunded": "Projects Funded"
+  },
+  "sections": {
+    "ecoProducts": "Eco Products",
+    "popularCategories": "Popular Categories",
+    "howItWorks": "How It Works"
+  },
+  "products": {
+    "epdmFreeTiles": {
+      "name": "EPDM-free Tiles",
+      "description": "Sports facilities, waterfront areas, production - technical rooms",
+      "info": "1 sq. m, 30 mm thick",
+      "category": "Construction"
+    },
+    "epdmRubberEcotiles": {
+      "name": "EPDM Rubber Ecotiles",
+      "description": "Maximum playground safety, jogging and walking paths",
+      "info": "1 sq. m, 30 mm thick",
+      "category": "Construction"
+    },
+    "ecoBrick": {
+      "name": "EcoBrick",
+      "description": "Durable building blocks made from recycled plastic and rubber",
+      "category": "Construction"
+    },
+    "wasteBin": {
+      "name": "Waste Bin",
+      "description": "Recycling bins to help collect more waste",
+      "category": "Utility"
+    },
+    "gardenPlanter": {
+      "name": "Garden Planter",
+      "description": "Durable planters for your garden made from rubber waste",
+      "category": "Garden"
+    },
+    "ecoBench": {
+      "name": "Eco Bench",
+      "description": "Comfortable outdoor bench made from plastic waste",
+      "category": "Furniture"
+    },
+    "ecobikeRack": {
+      "name": "ECOBIKE RACK",
+      "description": "Bicycle parking solution from recycled materials",
+      "category": "Infrastructure"
+    },
+    "ecobusStop": {
+      "name": "ECOBUSSTOP",
+      "description": "Complete bus stop infrastructure from recycled plastic and rubber",
+      "category": "Infrastructure"
+    },
+    "playgroundBlock": {
+      "name": "Playground Block (Art Tiles)",
+      "description": "Safe playground equipment from recycled materials",
+      "category": "Recreation"
+    },
+    "ecostreetFurniture": {
+      "name": "Ecostreet Furniture",
+      "description": "Custom street furniture solutions from recycled materials",
+      "category": "Infrastructure"
+    }
+  },
+  "pricing": {
+    "perSqM": "per sq. m",
+    "perPiece": "per piece",
+    "callForPrice": "Call for Price",
+    "sustainable": "Sustainable"
+  },
+  "productSpecifications": "Product Specifications",
+  "keySpecifications": "Key Specifications",
+  "viewAllSpecs": "View all specifications →",
+  "viewAllSustainability": "View all sustainability metrics →",
+  "sustainability": "Sustainability",
+  "tabs": {
+    "overview": "Overview",
+    "specifications": "Specs",
+    "sustainability": "Sustainability",
+    "applications": "Applications"
+  },
+  "buttons": {
+    "addToCart": "Add to Cart",
+    "contactUs": "Contact Us",
+    "startShopping": "Start Shopping",
+    "contactForBulkOrders": "Contact for Bulk Orders",
+    "learnAboutRecycling": "Learn About Recycling",
+    "exploreProducts": "Explore Products"
+  },
+  "hero": {
+    "title": "Where waste ends — life begins.",
+    "categoriesDescription": "Explore our eco-friendly product categories"
+  },
+  "ariaLabels": {
+    "backToShop": "Back to shop",
+    "sortProducts": "Sort products",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "clearSearch": "Clear search",
+    "openShoppingCart": "Open shopping cart",
+    "skipToMainContent": "Skip to main content",
+    "imageLightbox": "Image lightbox",
+    "closeLightbox": "Close lightbox",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "viewImage": "View image {{current}} of {{total}}",
+    "browseCategory": "Browse {{category}} category",
+    "scrollLeft": "Scroll thumbnails left",
+    "scrollRight": "Scroll thumbnails right",
+    "viewFullscreen": "View fullscreen image",
+    "imageThumbnails": "Product image thumbnails"
+  },
+  "searchPlaceholder": "Search products...",
+  "productsFound": "products found",
+  "noProductsFound": "No products found. Try adjusting your filters.",
+  "viewDetails": "View Details",
+  "sort": {
+    "newest": "Newest",
+    "popular": "Most Popular",
+    "priceLow": "Price: Low to High",
+    "priceHigh": "Price: High to Low",
+    "name": "Name: A-Z"
+  },
+  "howItsMade": "How It's Made",
+  "technicalSpecifications": "Technical Specifications",
+  "materialComposition": "Material Composition",
+  "downloads": {
+    "title": "Downloads & Resources",
+    "technicalDataSheet": "Technical Data Sheet",
+    "certifications": "Certifications",
+    "brochure": "Product Brochure",
+    "installationGuide": "Installation Guide",
+    "comingSoon": "Coming soon",
+    "downloadPdf": "Download PDF",
+    "viewCertificates": "View Certificates"
+  },
+  "certifications": "Certifications & Standards",
+  "filters": {
+    "title": "Filters",
+    "category": "Category",
+    "material": "Material",
+    "searchPlaceholder": "Search products...",
+    "priceRange": "Price Range (UZS)",
+    "min": "Min",
+    "max": "Max",
+    "clearAll": "Clear All Filters"
+  },
+  "productCount": {
+    "one": "product",
+    "other": "products"
+  },
+  "manufacturing": {
+    "collection": "Waste Collection",
+    "collectionDesc": "Recycled rubber from waste tires and plastic from HDPE/PP waste are collected and sorted.",
+    "processing": "Processing & Mixing",
+    "processingDesc": "Materials are shredded, cleaned, and mixed with PU binder in precise ratios for optimal performance.",
+    "shaping": "Shaping & Molding",
+    "shapingDesc": "Hot-press molding creates dense, uniform tiles with excellent shock absorption properties.",
+    "finishing": "Finishing & Quality Control",
+    "finishingDesc": "EPDM top layer is applied and cured. Each tile is tested for hardness, shock absorption, and durability."
+  },
+  "manufacturingProcess": "Manufacturing Process Details",
+  "relatedProducts": "Related Products",
+  "categories": {
+    "construction": {
+      "name": "Construction",
+      "description": "Tiles, blocks, curbs"
+    },
+    "art": {
+      "name": "Art",
+      "description": "Art tiles and decorative products"
+    },
+    "furniture": {
+      "name": "Furniture",
+      "description": "Benches, tables, planters"
+    },
+    "infrastructure": {
+      "name": "Infrastructure",
+      "description": "Bus stops, bike racks, street furniture"
+    },
+    "utility": {
+      "name": "Utility",
+      "description": "Waste bins, storage solutions"
+    },
+    "garden": {
+      "name": "Garden",
+      "description": "Planters, garden furniture"
+    }
+  },
+  "howItWorksPoints": {
+    "recycledMaterials": {
+      "title": "Recycled Materials:",
+      "description": "All products made from collected plastic and rubber waste"
+    },
+    "qualityGuaranteed": {
+      "title": "Quality Guaranteed:",
+      "description": "Durable and tested for safety"
+    },
+    "localProduction": {
+      "title": "Local Production:",
+      "description": "Supporting Uzbekistan's green economy"
+    },
+    "communityImpact": {
+      "title": "Community Impact:",
+      "description": "Profits fund environmental projects and infrastructure"
+    }
+  },
+  "bottomSection": {
+    "title": "Shop",
+    "description": "Every purchase helps transform waste into useful products while supporting environmental projects in Uzbekistan."
+  },
+  "partnerDescriptions": {
+    "taxiRides": "Taxi rides across Tashkent with comfort and economy options",
+    "coffeeShop": "Coffee, tea, pastries and light meals in city center",
+    "restaurant": "Traditional plov, shashlik, lagman and Uzbek cuisine",
+    "grocery": "Online grocery delivery: bread, meat, vegetables, household items",
+    "groceryStore": "Fresh fruits, vegetables, dairy products and cleaning supplies",
+    "airline": "Domestic and international flights from Tashkent airport"
+  },
+  "productDetails": {
+    "common": {
+      "productGallery": "Product Gallery",
+      "technicalSpecifications": "Technical Specifications",
+      "specProperty": "Property",
+      "specValue": "Value",
+      "sustainabilityMetrics": "Sustainability Metrics",
+      "materialComposition": "Material Composition",
+      "recycledRubber": "Recycled Rubber",
+      "recycledPlastic": "Recycled Plastic",
+      "otherMaterials": "Other Materials",
+      "useCases": "Use Cases",
+      "features": "Features",
+      "backToShop": "Back to Shop",
+      "productNotFound": "Product Not Found",
+      "productNotFoundDescription": "The product you're looking for doesn't exist.",
+      "inquiryAboutProduct": "I am interested in this product:",
+      "openingEmail": "Opening email client...",
+      "emailError": "Error opening email client. Please contact us directly.",
+      "addedToCart": "Added to cart!",
+      "cartError": "Error adding product to cart. Please try again."
+    },
+    "epdmFreeTiles": {
+      "badges": {
+        "recycledMaterial": "90% Recycled Material",
+        "heatResistant": "Heat Resistant +70°C",
+        "frostResistant": "Frost Resistant -30°C",
+        "uvStabilized": "UV-Stabilized",
+        "nonToxic": "Non-toxic / Low VOC"
+      },
+      "overview": {
+        "title": "UZ Rubber S1 — Two-Layer Shock-Absorbing Rubber Tile",
+        "description": "High-performance rubber tiles made from recycled materials, perfect for sports facilities, waterfront areas, and technical rooms. Features excellent shock absorption and durability.",
+        "specs": [
+          "Size: 500×500 mm",
+          "Thickness: 20–40 mm",
+          "Base: SBR crumb 1–3 mm (65–70%) + PU binder",
+          "Top layer: EPDM-free composite 0.5–1.5 mm",
+          "Standards: EN 1177 compliant, HIC safe",
+          "Climate: +70°C heat, −30°C cold"
+        ]
+      },
+      "technicalSpecs": {
+        "size": "Size",
+        "thickness": "Thickness",
+        "weight": "Weight",
+        "density": "Density",
+        "baseMaterial": "Base Material",
+        "topLayer": "Top Layer",
+        "compressiveStrength": "Compressive Strength",
+        "shoreHardness": "Shore Hardness",
+        "waterAbsorption": "Water Absorption",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing",
+        "standards": "Standards"
+      },
+      "sustainability": {
+        "recycledRubber": "Recycled Rubber",
+        "recycledPlastic": "Recycled Plastic",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "socialImpact": "Social Impact",
+        "fromWasteTires": "From waste tires",
+        "hdpPpWaste": "HDPE/PP waste",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill",
+        "communityMahalla": "Community mahalla projects supported"
+      },
+      "useCases": {
+        "sportsFacilities": {
+          "title": "Sports Facilities",
+          "description": "Indoor and outdoor sports courts, gyms"
+        },
+        "waterfrontAreas": {
+          "title": "Waterfront Areas",
+          "description": "Pool decks, spa areas, wet zones"
+        },
+        "productionRooms": {
+          "title": "Production Rooms",
+          "description": "Technical rooms, workshops"
+        },
+        "playgrounds": {
+          "title": "Playgrounds",
+          "description": "Safe surface for children play areas"
+        }
+      },
+      "features": {
+        "shockAbsorption": {
+          "title": "Shock Absorption",
+          "description": "Excellent impact resistance for safety"
+        },
+        "antiSlip": {
+          "title": "Anti-slip",
+          "description": "High friction surface prevents accidents"
+        },
+        "uvStable": {
+          "title": "UV-Stable",
+          "description": "Does not fade or degrade in sunlight"
+        },
+        "chemicalResistant": {
+          "title": "Chemical Resistant",
+          "description": "Withstands cleaning agents and chemicals"
+        },
+        "nonToxic": {
+          "title": "Non-toxic",
+          "description": "Low VOC, safe for indoor use"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "15–20 years lifespan without maintenance"
+        }
+      }
+    },
+    "epdmRubberEcotiles": {
+      "badges": {
+        "recycledMaterial": "95% Recycled Material",
+        "heatResistant": "Heat Resistant +90°C",
+        "frostResistant": "Frost Resistant -30°C",
+        "uvStabilized": "UV-Stabilized",
+        "en1177Certified": "EN 1177 Certified"
+      },
+      "overview": {
+        "title": "EPDM Rubber Ecotiles — Premium Playground Safety Tiles",
+        "description": "Maximum safety playground tiles with superior shock absorption. Ideal for jogging paths, walking trails, and high-traffic recreational areas.",
+        "specs": [
+          "Size: 500×500 mm, 1000×1000 mm",
+          "Thickness: 30–50 mm",
+          "Base: SBR crumb 1–3 mm (70–75%) + PU binder",
+          "Top layer: EPDM 2–4 mm + aliphatic PU",
+          "Standards: EN 1177, HIC <1000, Critical fall height up to 3m",
+          "Climate: +90°C heat, −30°C cold"
+        ]
+      },
+      "technicalSpecs": {
+        "size": "Size",
+        "thickness": "Thickness",
+        "weight": "Weight",
+        "density": "Density",
+        "baseMaterial": "Base Material",
+        "topLayer": "Top Layer",
+        "shoreHardness": "Shore Hardness",
+        "hicValue": "HIC Value",
+        "criticalFallHeight": "Critical Fall Height",
+        "waterAbsorption": "Water Absorption",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "standards": "Standards",
+        "headInjuryCriterion": "Head Injury Criterion"
+      },
+      "sustainability": {
+        "recycledRubber": "Recycled Rubber",
+        "recycledPlastic": "Recycled Plastic",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "socialImpact": "Social Impact",
+        "fromWasteTires": "From waste tires",
+        "hdpPpWaste": "HDPE/PP waste",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill",
+        "ecokidsProjects": "EcoKids playground projects supported"
+      },
+      "useCases": {
+        "playgrounds": {
+          "title": "Playgrounds",
+          "description": "Maximum safety for children play areas"
+        },
+        "joggingPaths": {
+          "title": "Jogging Paths",
+          "description": "Soft surface for running tracks"
+        },
+        "walkingTrails": {
+          "title": "Walking Trails",
+          "description": "Comfortable paths in parks and gardens"
+        },
+        "sportsZones": {
+          "title": "Sports Zones",
+          "description": "Outdoor fitness and activity areas"
+        }
+      },
+      "features": {
+        "maximumShockAbsorption": {
+          "title": "Maximum Shock Absorption",
+          "description": "EN 1177 certified safety standards"
+        },
+        "antiSlip": {
+          "title": "Anti-slip",
+          "description": "High grip surface in all weather"
+        },
+        "uvStable": {
+          "title": "UV-Stable",
+          "description": "Colorfast for 20+ years"
+        },
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Withstands extreme temperatures"
+        },
+        "nonToxic": {
+          "title": "Non-toxic",
+          "description": "Safe for children, low VOC"
+        },
+        "maintenanceFree": {
+          "title": "Maintenance Free",
+          "description": "No special care required"
+        }
+      }
+    },
+    "ecoBrick": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "weatherproof": "Weatherproof",
+        "lightweight": "Lightweight",
+        "modularDesign": "Modular Design"
+      },
+      "overview": {
+        "title": "EcoBrick — Building Blocks from Recycled Plastic and Rubber",
+        "description": "Durable modular building blocks made entirely from recycled materials. Perfect for construction projects, garden walls, and creative installations.",
+        "specs": [
+          "Size: 200×100×100 mm (standard)",
+          "Material: Recycled HDPE/PP (70%) + Rubber (30%)",
+          "Weight: 0.8–1.2 kg per brick",
+          "Density: 850–1000 kg/m³",
+          "Compressive strength: >5 MPa",
+          "Temperature range: -40°C to +80°C"
+        ]
+      },
+      "technicalSpecs": {
+        "standardSize": "Standard Size",
+        "weight": "Weight",
+        "density": "Density",
+        "material": "Material",
+        "compressiveStrength": "Compressive Strength",
+        "waterAbsorption": "Water Absorption",
+        "temperatureRange": "Temperature Range",
+        "uvRating": "UV Rating",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing"
+      },
+      "sustainability": {
+        "recycledPlastic": "Recycled Plastic",
+        "recycledRubber": "Recycled Rubber",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "hdpPpWaste": "HDPE/PP waste",
+        "fromWasteTires": "From waste tires",
+        "vsTraditionalBricks": "vs traditional bricks",
+        "fromLandfill": "From landfill"
+      },
+      "useCases": {
+        "gardenWalls": {
+          "title": "Garden Walls",
+          "description": "Decorative and functional garden structures"
+        },
+        "construction": {
+          "title": "Construction",
+          "description": "Modular building blocks for small structures"
+        },
+        "creativeInstallations": {
+          "title": "Creative Installations",
+          "description": "Art installations and design elements"
+        },
+        "retainingWalls": {
+          "title": "Retaining Walls",
+          "description": "Lightweight retaining wall solutions"
+        }
+      },
+      "features": {
+        "recycled": {
+          "title": "100% Recycled",
+          "description": "Made entirely from waste materials"
+        },
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Resistant to weather and moisture"
+        },
+        "lightweight": {
+          "title": "Lightweight",
+          "description": "Easy to transport and install"
+        },
+        "modular": {
+          "title": "Modular",
+          "description": "Interlocking design for easy assembly"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "30+ years lifespan"
+        },
+        "nonPorous": {
+          "title": "Non-porous",
+          "description": "Does not absorb water or rot"
+        }
+      }
+    },
+    "wasteBin": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "weatherproof": "Weatherproof",
+        "uvResistant": "UV-Resistant",
+        "easyToClean": "Easy to Clean"
+      },
+      "overview": {
+        "title": "Waste Bin — Recycling Bins from Recycled Plastic",
+        "description": "Durable waste collection bins made from recycled HDPE. Perfect for public spaces, parks, streets, and communities to help collect more recyclable waste.",
+        "specs": [
+          "Capacity: 60–120 liters",
+          "Material: Recycled HDPE",
+          "Weight: 8–15 kg",
+          "Lid: Hinged or removable",
+          "Lock: Optional lockable version",
+          "Color: Customizable (green, blue, gray)"
+        ]
+      },
+      "technicalSpecs": {
+        "capacity": "Capacity",
+        "weight": "Weight",
+        "material": "Material",
+        "wallThickness": "Wall Thickness",
+        "dimensions": "Dimensions",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing"
+      },
+      "sustainability": {
+        "recycledPlastic": "Recycled Plastic",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "recyclable": "Recyclable",
+        "hdpFromWaste": "HDPE from waste",
+        "vsVirginHdpe": "vs virgin HDPE",
+        "fromLandfill": "From landfill",
+        "canBeRecycledAgain": "Can be recycled again"
+      },
+      "useCases": {
+        "publicSpaces": {
+          "title": "Public Spaces",
+          "description": "Parks, squares, streets"
+        },
+        "communities": {
+          "title": "Communities",
+          "description": "Mahalla collection points"
+        },
+        "schools": {
+          "title": "Schools",
+          "description": "Educational institutions"
+        },
+        "events": {
+          "title": "Events",
+          "description": "Temporary waste collection"
+        }
+      },
+      "features": {
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Resistant to all weather conditions"
+        },
+        "uvResistant": {
+          "title": "UV-Resistant",
+          "description": "Does not fade or degrade"
+        },
+        "easyToClean": {
+          "title": "Easy to Clean",
+          "description": "Smooth surface, easy maintenance"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "Long-lasting in public spaces"
+        },
+        "lightweight": {
+          "title": "Lightweight",
+          "description": "Easy to move and install"
+        },
+        "customizable": {
+          "title": "Customizable",
+          "description": "Various sizes and colors available"
+        }
+      }
+    },
+    "gardenPlanter": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "weatherproof": "Weatherproof",
+        "drainageSystem": "Drainage System",
+        "lightweight": "Lightweight"
+      },
+      "overview": {
+        "title": "Garden Planter — Planters from Recycled Rubber and Plastic",
+        "description": "Beautiful and durable planters for your garden made from rubber waste. Perfect for flowers, herbs, and small trees with built-in drainage system.",
+        "specs": [
+          "Sizes: 30L, 50L, 100L capacity",
+          "Material: Recycled rubber + HDPE",
+          "Weight: 3–8 kg (depending on size)",
+          "Drainage: Built-in drainage holes",
+          "Color: Natural rubber color or customizable",
+          "Shape: Round, square, rectangular options"
+        ]
+      },
+      "technicalSpecs": {
+        "capacity": "Capacity",
+        "weight": "Weight",
+        "material": "Material",
+        "wallThickness": "Wall Thickness",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "drainage": "Drainage",
+        "lifespan": "Lifespan"
+      },
+      "sustainability": {
+        "recycledRubber": "Recycled Rubber",
+        "recycledPlastic": "Recycled Plastic",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "fromWasteTires": "From waste tires",
+        "hdpWaste": "HDPE waste",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill"
+      },
+      "useCases": {
+        "homeGardens": {
+          "title": "Home Gardens",
+          "description": "Beautiful planters for home use"
+        },
+        "balconies": {
+          "title": "Balconies",
+          "description": "Lightweight options for balconies"
+        },
+        "publicSpaces": {
+          "title": "Public Spaces",
+          "description": "Parks and community gardens"
+        },
+        "restaurants": {
+          "title": "Restaurants",
+          "description": "Outdoor dining area decoration"
+        }
+      },
+      "features": {
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Resistant to weather and moisture"
+        },
+        "drainageSystem": {
+          "title": "Drainage System",
+          "description": "Built-in holes for proper drainage"
+        },
+        "lightweight": {
+          "title": "Lightweight",
+          "description": "Easy to move and rearrange"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "Long-lasting in outdoor conditions"
+        },
+        "ecoFriendly": {
+          "title": "Eco-friendly",
+          "description": "100% recycled materials"
+        },
+        "naturalLook": {
+          "title": "Natural Look",
+          "description": "Beautiful natural rubber finish"
+        }
+      }
+    },
+    "ecoBench": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "weatherproof": "Weatherproof",
+        "uvResistant": "UV-Resistant",
+        "maintenanceFree": "Maintenance Free"
+      },
+      "overview": {
+        "title": "Eco Bench — Comfortable Outdoor Bench from Plastic Waste",
+        "description": "Durable and comfortable outdoor bench made entirely from recycled plastic waste. Perfect for parks, bus stops, gardens, and public spaces.",
+        "specs": [
+          "Length: 1200–1800 mm",
+          "Material: Recycled HDPE (100%)",
+          "Weight: 25–35 kg",
+          "Seats: 2–3 person capacity",
+          "Color: Natural HDPE color or customizable",
+          "Installation: Ground-mounted or free-standing"
+        ]
+      },
+      "technicalSpecs": {
+        "length": "Length",
+        "width": "Width",
+        "height": "Height",
+        "weight": "Weight",
+        "material": "Material",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "loadCapacity": "Load Capacity",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing"
+      },
+      "sustainability": {
+        "recycledPlastic": "Recycled Plastic",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "recyclable": "Recyclable",
+        "hdpFromWaste": "HDPE from waste",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill",
+        "canBeRecycledAgain": "Can be recycled again"
+      },
+      "useCases": {
+        "parks": {
+          "title": "Parks",
+          "description": "Comfortable seating in public parks"
+        },
+        "busStops": {
+          "title": "Bus Stops",
+          "description": "Durable seating at transit points"
+        },
+        "gardens": {
+          "title": "Gardens",
+          "description": "Garden and landscape seating"
+        },
+        "schoolyards": {
+          "title": "Schoolyards",
+          "description": "Safe seating for educational institutions"
+        }
+      },
+      "features": {
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Resistant to all weather conditions"
+        },
+        "maintenanceFree": {
+          "title": "Maintenance Free",
+          "description": "No painting or special care needed"
+        },
+        "comfortable": {
+          "title": "Comfortable",
+          "description": "Ergonomic design for comfort"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "20+ years lifespan"
+        },
+        "uvResistant": {
+          "title": "UV-Resistant",
+          "description": "Does not fade or crack"
+        },
+        "easyInstallation": {
+          "title": "Easy Installation",
+          "description": "Quick ground mounting or free-standing"
+        }
+      }
+    },
+    "ecobikeRack": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "weatherproof": "Weatherproof",
+        "secureDesign": "Secure Design",
+        "modular": "Modular"
+      },
+      "overview": {
+        "title": "ECOBIKE RACK — Bicycle Parking Solution from Recycled Materials",
+        "description": "Secure and durable bicycle parking rack made from recycled HDPE and steel. Perfect for public spaces, schools, offices, and residential areas.",
+        "specs": [
+          "Capacity: 6–12 bicycles per unit",
+          "Material: Recycled HDPE + Steel frame",
+          "Weight: 45–65 kg",
+          "Installation: Ground-mounted",
+          "Lock: Integrated lock support",
+          "Design: Wave or grid pattern"
+        ]
+      },
+      "technicalSpecs": {
+        "capacity": "Capacity",
+        "weight": "Weight",
+        "material": "Material",
+        "dimensions": "Dimensions",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing"
+      },
+      "sustainability": {
+        "recycledPlastic": "Recycled Plastic",
+        "recycledSteel": "Recycled Steel",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "hdpFromWaste": "HDPE from waste",
+        "fromScrapMetal": "From scrap metal",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill"
+      },
+      "useCases": {
+        "publicSpaces": {
+          "title": "Public Spaces",
+          "description": "Parks, squares, transit hubs"
+        },
+        "schools": {
+          "title": "Schools",
+          "description": "Student bicycle parking"
+        },
+        "offices": {
+          "title": "Offices",
+          "description": "Employee bicycle storage"
+        },
+        "residential": {
+          "title": "Residential",
+          "description": "Apartment building bike storage"
+        }
+      },
+      "features": {
+        "secureDesign": {
+          "title": "Secure Design",
+          "description": "Integrated lock support for safety"
+        },
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Resistant to all weather conditions"
+        },
+        "modular": {
+          "title": "Modular",
+          "description": "Expandable and customizable"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "25+ years lifespan"
+        },
+        "easyInstallation": {
+          "title": "Easy Installation",
+          "description": "Quick ground mounting"
+        },
+        "maintenanceFree": {
+          "title": "Maintenance Free",
+          "description": "No painting or special care"
+        }
+      }
+    },
+    "ecobusStop": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "completeInfrastructure": "Complete Infrastructure",
+        "weatherproof": "Weatherproof",
+        "customizable": "Customizable"
+      },
+      "overview": {
+        "title": "ECOBUSSTOP — Complete Bus Stop Infrastructure from Recycled Materials",
+        "description": "Complete bus stop solution including shelter, seating, and signage made from recycled plastic and rubber. Perfect for urban transit systems.",
+        "specs": [
+          "Components: Shelter, bench, signage, waste bin",
+          "Material: Recycled HDPE + Rubber",
+          "Weight: 200–300 kg",
+          "Capacity: 8–12 person seating",
+          "Roof: UV-protected HDPE panels",
+          "Installation: Foundation-mounted"
+        ]
+      },
+      "technicalSpecs": {
+        "length": "Length",
+        "width": "Width",
+        "height": "Height",
+        "weight": "Weight",
+        "material": "Material",
+        "seatingCapacity": "Seating Capacity",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing"
+      },
+      "sustainability": {
+        "recycledPlastic": "Recycled Plastic",
+        "recycledRubber": "Recycled Rubber",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "socialImpact": "Social Impact",
+        "hdpFromWaste": "HDPE from waste",
+        "fromWasteTires": "From waste tires",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill",
+        "communityTransitInfrastructure": "Community transit infrastructure"
+      },
+      "useCases": {
+        "urbanTransit": {
+          "title": "Urban Transit",
+          "description": "City bus stop infrastructure"
+        },
+        "suburbanRoutes": {
+          "title": "Suburban Routes",
+          "description": "Suburban bus stop solutions"
+        },
+        "schoolRoutes": {
+          "title": "School Routes",
+          "description": "Student bus stop facilities"
+        },
+        "ruralAreas": {
+          "title": "Rural Areas",
+          "description": "Rural transit point infrastructure"
+        }
+      },
+      "features": {
+        "completeSolution": {
+          "title": "Complete Solution",
+          "description": "All-in-one bus stop infrastructure"
+        },
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Shelter from sun, rain, and wind"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "25+ years lifespan"
+        },
+        "customizable": {
+          "title": "Customizable",
+          "description": "Various sizes and configurations"
+        },
+        "lowMaintenance": {
+          "title": "Low Maintenance",
+          "description": "Minimal care required"
+        },
+        "ecoFriendly": {
+          "title": "Eco-friendly",
+          "description": "100% recycled materials"
+        }
+      }
+    },
+    "playgroundBlock": {
+      "badges": {
+        "recycledMaterial": "90% Recycled Material",
+        "creativeDesigns": "Creative Designs",
+        "safeForKids": "Safe for Kids",
+        "uvStable": "UV-Stable"
+      },
+      "overview": {
+        "title": "Playground Block (Art Tiles) — Creative Playground Equipment",
+        "description": "Safe and colorful playground blocks with artistic designs made from recycled materials. Perfect for creating engaging and educational play spaces for children.",
+        "specs": [
+          "Size: Various (300×300 to 1000×1000 mm)",
+          "Thickness: 30–50 mm",
+          "Material: SBR + EPDM composite",
+          "Designs: Customizable patterns and colors",
+          "Safe fall height: Up to 2.5m",
+          "Standards: EN 1177 compliant"
+        ]
+      },
+      "technicalSpecs": {
+        "size": "Size",
+        "thickness": "Thickness",
+        "material": "Material",
+        "weight": "Weight",
+        "shoreHardness": "Shore Hardness",
+        "hicValue": "HIC Value",
+        "criticalFallHeight": "Critical Fall Height",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "standards": "Standards"
+      },
+      "sustainability": {
+        "recycledRubber": "Recycled Rubber",
+        "recycledPlastic": "Recycled Plastic",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "socialImpact": "Social Impact",
+        "fromWasteTires": "From waste tires",
+        "hdpPpWaste": "HDPE/PP waste",
+        "vsVirginMaterials": "vs virgin materials",
+        "fromLandfill": "From landfill",
+        "ecokidsEducationalPlayProjects": "EcoKids educational play projects"
+      },
+      "useCases": {
+        "playgrounds": {
+          "title": "Playgrounds",
+          "description": "Creative play areas for children"
+        },
+        "schools": {
+          "title": "Schools",
+          "description": "Educational play installations"
+        },
+        "kindergartens": {
+          "title": "Kindergartens",
+          "description": "Safe play surfaces for toddlers"
+        },
+        "parks": {
+          "title": "Parks",
+          "description": "Public play spaces"
+        }
+      },
+      "features": {
+        "creativeDesigns": {
+          "title": "Creative Designs",
+          "description": "Customizable patterns and colors"
+        },
+        "safeForKids": {
+          "title": "Safe for Kids",
+          "description": "EN 1177 certified safety standards"
+        },
+        "educational": {
+          "title": "Educational",
+          "description": "Engaging learning through play"
+        },
+        "uvStable": {
+          "title": "UV-Stable",
+          "description": "Colorfast for many years"
+        },
+        "shockAbsorbing": {
+          "title": "Shock Absorbing",
+          "description": "Protects children from falls"
+        },
+        "easyInstallation": {
+          "title": "Easy Installation",
+          "description": "Modular design for quick setup"
+        }
+      }
+    },
+    "ecostreetFurniture": {
+      "badges": {
+        "recycledMaterial": "100% Recycled Material",
+        "customizable": "Customizable",
+        "weatherproof": "Weatherproof",
+        "modularDesign": "Modular Design"
+      },
+      "overview": {
+        "title": "Ecostreet Furniture — Custom Street Furniture Solutions",
+        "description": "Customizable street furniture solutions including tables, chairs, planters, and more from recycled materials. Perfect for urban spaces, plazas, and public areas.",
+        "specs": [
+          "Components: Tables, chairs, planters, barriers",
+          "Material: Recycled HDPE + Rubber",
+          "Customizable sizes and designs",
+          "Color options available",
+          "Modular system for flexible layouts",
+          "Installation: Various mounting options"
+        ]
+      },
+      "technicalSpecs": {
+        "material": "Material",
+        "uvRating": "UV Rating",
+        "temperatureRange": "Temperature Range",
+        "lifespan": "Lifespan",
+        "manufacturing": "Manufacturing",
+        "customization": "Customization"
+      },
+      "sustainability": {
+        "recycledPlastic": "Recycled Plastic",
+        "recycledRubber": "Recycled Rubber",
+        "co2Reduction": "CO2 Reduction",
+        "wasteDiverted": "Waste Diverted",
+        "hdpFromWaste": "HDPE from waste",
+        "fromWasteTires": "From waste tires",
+        "vsVirginMaterials": "vs virgin materials",
+        "dependsOnProduct": "Depends on product"
+      },
+      "useCases": {
+        "urbanSpaces": {
+          "title": "Urban Spaces",
+          "description": "Plazas, squares, pedestrian zones"
+        },
+        "parks": {
+          "title": "Parks",
+          "description": "Recreational furniture for parks"
+        },
+        "outdoorDining": {
+          "title": "Outdoor Dining",
+          "description": "Restaurant and cafe outdoor areas"
+        },
+        "events": {
+          "title": "Events",
+          "description": "Temporary furniture for events"
+        }
+      },
+      "features": {
+        "customizable": {
+          "title": "Customizable",
+          "description": "Tailored to specific needs"
+        },
+        "modular": {
+          "title": "Modular",
+          "description": "Flexible system for various layouts"
+        },
+        "weatherproof": {
+          "title": "Weatherproof",
+          "description": "Durable in all conditions"
+        },
+        "maintenanceFree": {
+          "title": "Maintenance Free",
+          "description": "No special care required"
+        },
+        "ecoFriendly": {
+          "title": "Eco-friendly",
+          "description": "100% recycled materials"
+        },
+        "durable": {
+          "title": "Durable",
+          "description": "20+ years lifespan"
+        }
+      }
+    }
+  }
+}

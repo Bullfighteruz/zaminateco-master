@@ -1,0 +1,432 @@
+/* Enhanced Mobile-First Responsive Design for ZAMINAT.eco */
+
+/* Base Mobile Styles (320px+) */
+@media screen and (min-width: 320px) {
+  /* Touch-optimized button sizes */
+  .btn-touch {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Improved tap targets */
+  button, .clickable {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Enhanced text readability on small screens */
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Mobile-first navigation */
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(34, 197, 94, 0.2);
+    z-index: 50;
+    padding: 8px 0;
+  }
+
+  /* Perfect centering for navigation items */
+  .mobile-nav > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    gap: 0.125rem;
+  }
+
+  .mobile-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 0;
+    flex: 1 1 0;
+    max-width: 90px;
+    padding: 4px 2px;
+  }
+
+  .mobile-nav a > span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.1;
+    max-height: 2.2em;
+    overflow: hidden;
+  }
+
+  /* Swipe gesture support */
+  .swipeable {
+    touch-action: pan-x pan-y;
+    user-select: none;
+  }
+
+  /* Loading animations optimized for mobile */
+  .mobile-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
+
+  /* Card layouts for mobile */
+  .mobile-card {
+    margin: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mobile-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Improved form inputs for mobile */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    transition: border-color 0.2s ease;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: #22c55e;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  }
+
+  /* Mobile-optimized voting panels */
+  .voting-panel {
+    padding: 16px;
+    margin: 12px 0;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .voting-option {
+    padding: 16px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .voting-option:active {
+    transform: scale(0.98);
+    border-color: #22c55e;
+    background-color: #f0fdf4;
+  }
+
+  /* Progress displays */
+  .progress-container {
+    padding: 20px 16px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border-radius: 16px;
+    margin: 16px 0;
+  }
+
+  .progress-bar {
+    height: 12px;
+    border-radius: 6px;
+    background: #e5e7eb;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: 6px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* QR Code containers */
+  .qr-container {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Enhanced animations */
+  .fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .bounce-in {
+    animation: bounceIn 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(30px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes bounceIn {
+    0% { 
+      opacity: 0; 
+      transform: scale(0.3); 
+    }
+    50% { 
+      opacity: 1; 
+      transform: scale(1.05); 
+    }
+    70% { 
+      transform: scale(0.9); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+  }
+
+  /* Smooth transitions */
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Hover effects for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .hover-effect:active {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+  }
+}
+
+/* Small Mobile Landscape (480px+) */
+@media screen and (min-width: 480px) {
+  .mobile-card {
+    margin: 12px;
+  }
+
+  .voting-panel {
+    padding: 20px;
+  }
+
+  /* Two-column layouts for landscape */
+  .mobile-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+/* Tablet Portrait (768px+) */
+@media screen and (min-width: 768px) {
+  /* Adjust for larger touch targets on tablets */
+  .btn-touch {
+    min-height: 48px;
+    padding: 14px 20px;
+  }
+
+  .mobile-card {
+    margin: 16px;
+  }
+
+  .voting-panel {
+    padding: 24px;
+  }
+
+  /* Three-column layouts */
+  .mobile-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Enhanced progress displays */
+  .progress-container {
+    padding: 24px 20px;
+  }
+
+  .progress-bar {
+    height: 16px;
+    border-radius: 8px;
+  }
+}
+
+/* Tablet Landscape / Small Desktop (1024px+) */
+@media screen and (min-width: 1024px) {
+  /* Transition to desktop-like experience */
+  .mobile-nav {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    border-top: none;
+    padding: 0;
+  }
+
+  /* Hover effects for mouse users */
+  @media (hover: hover) and (pointer: fine) {
+    .hover-effect:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .voting-option:hover {
+      border-color: #22c55e;
+      background-color: #f0fdf4;
+      transform: translateY(-1px);
+    }
+  }
+
+  /* Four-column layouts */
+  .mobile-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Large Desktop (1440px+) */
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .mobile-card {
+    margin: 20px;
+  }
+
+  .voting-panel {
+    padding: 32px;
+  }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Optimize for high-resolution displays */
+  .progress-bar {
+    background-image: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.1) 75%);
+    background-size: 20px 20px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .mobile-card {
+    background: #1f2937;
+    border: 1px solid #374151;
+  }
+
+  .voting-panel {
+    background: #1f2937;
+    border: 1px solid #374151;
+  }
+
+  .voting-option {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .voting-option:active {
+    background-color: #064e3b;
+    border-color: #22c55e;
+  }
+
+  .progress-container {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .mobile-nav,
+  .voting-panel,
+  .qr-container {
+    display: none;
+  }
+
+  .mobile-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+  }
+}
+
+/* Focus Management for Accessibility */
+.focus-visible {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Touch Feedback */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-feedback::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.touch-feedback:active::after {
+  width: 200px;
+  height: 200px;
+}
