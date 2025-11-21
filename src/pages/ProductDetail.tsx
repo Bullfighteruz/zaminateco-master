@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, startTransition } from 'react';
+import { motion } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingBag, ZoomIn, X, ChevronLeft, ChevronRight, Check, Leaf, Recycle, Download, FileText, Award, Info } from 'lucide-react';
 import Layout from '../components/Layout';
@@ -66,6 +67,7 @@ interface RelatedProductCarouselProps {
 }
 
 const RelatedProductCarousel = React.memo(({ product, productName, productPrice, images, onNavigate, isMobile }: RelatedProductCarouselProps) => {
+  const { t } = useTranslation('shop');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const hoverIntervalRef = useRef<number | null>(null);
@@ -107,8 +109,11 @@ const RelatedProductCarousel = React.memo(({ product, productName, productPrice,
   }, [images.length]);
   
   return (
-    <div
-      className="cursor-pointer group"
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="cursor-pointer group relative"
       onClick={onNavigate}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -122,11 +127,13 @@ const RelatedProductCarousel = React.memo(({ product, productName, productPrice,
         }
       }}
     >
-      <div 
-        ref={imageContainerRef}
-        className="relative bg-gray-50 rounded-md overflow-hidden mb-2 group-hover:opacity-90 transition-opacity"
-        style={{ aspectRatio: '1 / 1', width: '100%' }}
-      >
+      {/* Card Container with Enhanced Styling */}
+      <div className="relative bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl hover:border-green-300 transition-all duration-300 group-hover:-translate-y-1">
+        <div 
+          ref={imageContainerRef}
+          className="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"
+          style={{ aspectRatio: '1 / 1', width: '100%' }}
+        >
         {/* Image Container with Smooth Transitions - 1:1 Aspect Ratio */}
         {images.length > 0 ? (
           <div className="relative w-full h-full flex items-center justify-center" style={{ aspectRatio: '1 / 1' }}>
@@ -221,21 +228,63 @@ const RelatedProductCarousel = React.memo(({ product, productName, productPrice,
             )}
           </>
         )}
+        
+        {/* Hover Overlay with Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+        
+        {/* Quick View Badge */}
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-30">
+          <div className={cn(
+            "bg-white/95 backdrop-blur-sm rounded-full px-2 py-1 shadow-lg",
+            isMobile ? "text-[9px]" : "text-[10px]"
+          )}>
+            <span className="font-medium text-gray-800 flex items-center gap-1">
+              <ShoppingBag className={cn("inline", isMobile ? "h-2.5 w-2.5" : "h-3 w-3")} />
+              <span>View Details</span>
+            </span>
+          </div>
+        </div>
       </div>
       
-      <h3 className={cn(
-        "font-medium text-gray-900 mb-0.5 group-hover:text-green-600 transition-colors line-clamp-1",
-        isMobile ? "text-xs" : "text-sm"
-      )}>
-        {productName}
-      </h3>
-      <div className={cn(
-        "font-semibold text-gray-900",
-        isMobile ? "text-xs" : "text-sm"
-      )}>
-        {productPrice}
+      {/* Product Info Section */}
+      <div className="p-3 bg-white border-t border-gray-100">
+        <h3 className={cn(
+          "font-semibold text-gray-900 mb-1.5 group-hover:text-green-600 transition-colors duration-200 line-clamp-2",
+          isMobile ? "text-xs leading-tight" : "text-sm leading-snug"
+        )}>
+          {productName}
+        </h3>
+        
+        {/* Price with Enhanced Styling */}
+        <div className="flex items-center justify-between gap-2 mt-2">
+          <div className="flex-1">
+            <div className={cn(
+              "font-bold text-green-600",
+              isMobile ? "text-sm" : "text-base"
+            )}>
+              {productPrice}
+            </div>
+            {productPrice !== t('pricing.callForPrice', { ns: 'shop', defaultValue: 'Call for price' }) && (
+              <span className={cn(
+                "text-gray-500",
+                isMobile ? "text-[9px]" : "text-[10px]"
+              )}>
+                {t('pricing.perSqM', { ns: 'shop', defaultValue: 'per sq.m' })}
+              </span>
+            )}
+          </div>
+          
+          {/* Arrow Icon */}
+          <div className={cn(
+            "bg-green-50 rounded-full p-1.5 group-hover:bg-green-100 transition-colors duration-200",
+            isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          )}>
+            <ChevronRight className={cn("text-green-600", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+          </div>
+        </div>
       </div>
     </div>
+    </motion.div>
   );
 });
 
@@ -2316,19 +2365,24 @@ export default function ProductDetail() {
               "mt-4 border-t border-gray-200 pt-4",
               isMobile ? "" : ""
             )} aria-labelledby="related-products-heading">
-              <h2 
-                id="related-products-heading"
-                className={cn(
-                  "font-medium text-gray-900 mb-3",
-                  isMobile ? "text-sm" : "text-base"
-                )}
-              >
-                {t('relatedProducts', { defaultValue: 'Related Products', ns: 'shop' })}
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 
+                  id="related-products-heading"
+                  className={cn(
+                    "font-bold text-gray-900 relative",
+                    isMobile ? "text-base" : "text-lg"
+                  )}
+                >
+                  <span className="relative z-10">
+                    {t('relatedProducts', { defaultValue: 'Related Products', ns: 'shop' })}
+                  </span>
+                  <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-green-500 to-green-600 rounded-full" />
+                </h2>
+              </div>
               
               <div className={cn(
-                "grid gap-3",
-                isMobile ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"
+                "grid gap-4",
+                isMobile ? "grid-cols-2 gap-3" : "grid-cols-2 md:grid-cols-4 gap-4"
               )}>
                 {relatedProducts.map((relatedProduct) => {
                     const relatedName = t(relatedProduct.nameKey, { ns: 'shop' });
