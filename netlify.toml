@@ -23,6 +23,18 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Cache videos aggressively (optimized videos are immutable)
+[[headers]]
+  for = "/videos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # Don't cache HTML
 [[headers]]
   for = "/*.html"

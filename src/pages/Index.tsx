@@ -23,6 +23,8 @@ import { useEffect, useMemo, lazy, Suspense } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SplineRobot } from '@/components/SplineRobot';
 import { cn } from '@/lib/utils';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 import '../styles/mobile-responsive.css';
 
 // Progress animation variants
@@ -41,6 +43,18 @@ export default function Index() {
   const { t } = useTranslation();
   const [userProgress, setUserProgress] = useState<UserProgress>(() => loadUserProgress());
   const isMobile = useIsMobile();
+
+  // SEO Management
+  useSEO({
+    title: t('heroTitle', { defaultValue: 'ZAMINAT.eco - Ecological Movement' }),
+    description: t('heroDescription', { defaultValue: 'Transform plastic and rubber waste recycling into social movement in Uzbekistan. Join EcoApp gamification platform for eco-products, volunteer campaigns, sustainable future.' }),
+    image: '/logo.png',
+    type: 'website',
+    keywords: 'plastic recycling, rubber recycling, eco-tiles, waste management Uzbekistan, volunteer eco-campaigns, EcoApp, EcoKids, environmental movement, sustainability',
+  });
+
+  // Hreflang tags for multilingual SEO
+  useHreflang();
 
   // Listen for storage changes to update when profile changes
   useEffect(() => {

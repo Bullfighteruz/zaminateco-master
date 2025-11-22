@@ -708,14 +708,42 @@ export const PRODUCT_DETAIL_DATA: Record<string, ProductDetailData> = {
 };
 
 /**
- * Get product detail data by product ID or English name
+ * Get product detail data by product ID, English name, or slug
  */
 export function getProductDetailData(idOrName: number | string): ProductDetailData | null {
   if (typeof idOrName === 'number') {
     const product = Object.values(PRODUCT_DETAIL_DATA).find(p => p.id === idOrName);
     return product || null;
   }
-  return PRODUCT_DETAIL_DATA[idOrName] || null;
+  
+  // Try direct lookup first (for backward compatibility)
+  if (PRODUCT_DETAIL_DATA[idOrName]) {
+    return PRODUCT_DETAIL_DATA[idOrName];
+  }
+  
+  // Try slug lookup
+  const productNames = Object.keys(PRODUCT_DETAIL_DATA);
+  const lowerSlug = idOrName.toLowerCase();
+  
+  // Try to find a product name that matches the slug
+  for (const name of productNames) {
+    // Create slug from product name
+    const nameSlug = name
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/_/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+    
+    if (nameSlug === lowerSlug) {
+      return PRODUCT_DETAIL_DATA[name];
+    }
+  }
+  
+  return null;
 }
 
 /**

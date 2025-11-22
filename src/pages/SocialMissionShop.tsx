@@ -312,14 +312,18 @@ export default function SocialMissionShop() {
                 <Card 
                   key={product.id} 
                   className="eco-card-hover cursor-pointer transition-all hover:shadow-lg"
-                  onClick={() => navigate(`/product/${product.englishName || product.id}`)}
+                  onClick={() => {
+                    const slug = product.englishName ? productNameToSlug(product.englishName) : String(product.id);
+                    navigate(`/product/${slug}`);
+                  }}
                   role="button"
                   tabIndex={0}
                   aria-label={`View details for ${product.productName}`}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
-                      navigate(`/product/${product.englishName || product.id}`);
+                      const slug = product.englishName ? productNameToSlug(product.englishName) : String(product.id);
+                      navigate(`/product/${slug}`);
                     }
                   }}
                 >

@@ -4,7 +4,7 @@
  * Optimized for performance and accessibility - Mobile 2-column grid optimized
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Recycle, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
@@ -12,8 +12,10 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { productNameToSlug } from '@/utils/slug';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+// Using native img for better control over spacing
 
 export interface ProductCardProps {
   id: number;
@@ -32,7 +34,7 @@ export interface ProductCardProps {
   index?: number;
 }
 
-export default function ProductCard({
+function ProductCard({
   id,
   name,
   englishName,
@@ -51,24 +53,15 @@ export default function ProductCard({
   const navigate = useNavigate();
   const { t } = useTranslation('shop');
   const isMobile = useIsMobile();
-  const [imageError, setImageError] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  const handleImageLoad = useCallback(() => {
-    setImageLoaded(true);
-  }, []);
-
-  const handleImageError = useCallback(() => {
-    setImageError(true);
-    setImageLoaded(true);
-  }, []);
 
   const handleCardClick = useCallback(() => {
     // Save scroll position before navigating
     const scrollPosition = window.scrollY || document.documentElement.scrollTop;
     sessionStorage.setItem('shopScrollPosition', scrollPosition.toString());
     
-    navigate(`/product/${englishName || id}`);
+    // Use slug for clean URLs
+    const slug = englishName ? productNameToSlug(englishName) : String(id);
+    navigate(`/product/${slug}`);
     onViewDetails?.({ id, name, englishName, description, image, price, pricingUnit, recycledPercent, category, isCallForPrice });
   }, [navigate, englishName, id, onViewDetails, id, name, englishName, description, image, price, pricingUnit, recycledPercent, category, isCallForPrice]);
 
@@ -103,28 +96,19 @@ export default function ProductCard({
           }
         }}
       >
-        {/* Image Container */}
+        {/* Image Container - Old Banner Style */}
         <div className="relative bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden aspect-square">
-          {!imageError ? (
-            <>
-              <img
-                src={image}
-                alt={name}
-                className={cn(
-                  "w-full h-full object-contain transition-transform duration-500",
-                  "group-hover:scale-110",
-                  !imageLoaded && "opacity-0"
-                )}
-                loading={index < 6 ? "eager" : "lazy"}
-                onLoad={handleImageLoad}
-                onError={handleImageError}
-              />
-              {!imageLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                  <div className={cn("border-4 border-green-600 border-t-transparent rounded-full animate-spin", isMobile ? "w-6 h-6" : "w-12 h-12")} />
-                </div>
-              )}
-            </>
+          {image ? (
+            <img
+              src={image}
+              alt={name}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading={index < 6 ? "eager" : "lazy"}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/images/art-tiles.png";
+              }}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-100">
               <Recycle className={cn(isMobile ? "w-8 h-8" : "w-16 h-16", "text-gray-400")} />
@@ -215,3 +199,16 @@ export default function ProductCard({
     </motion.article>
   );
 }
+
+// Memoize ProductCard to prevent unnecessary re-renders
+// Only re-render if product data or index changes
+export default memo(ProductCard, (prevProps, nextProps) => {
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.name === nextProps.name &&
+    prevProps.price === nextProps.price &&
+    prevProps.image === nextProps.image &&
+    prevProps.index === nextProps.index &&
+    prevProps.recycledPercent === nextProps.recycledPercent
+  );
+});

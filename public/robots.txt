@@ -1,2 +1,17 @@
+# ZAMINAT.eco Robots.txt
+# Updated: 2024
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /*.json$
+Disallow: /*?*filter*
+Disallow: /*?*sort*
+
+# Crawl delay (adjust based on server capacity)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://zaminat.eco/sitemap.xml

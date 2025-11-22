@@ -32,6 +32,13 @@ import { PRODUCT_DETAIL_DATA } from '../lib/productData';
 import HeroVideo from '../components/shop/HeroVideo';
 import ProductCard, { ProductCardProps } from '../components/shop/ProductCard';
 import Filters, { FilterState } from '../components/shop/Filters';
+import VirtualProductGrid from '../components/shop/VirtualProductGrid';
+// Image preloading is handled inline to avoid unused preload warnings
+import { useDebounce } from '../hooks/useDebounce';
+import { useURLState } from '../hooks/useURLState';
+import { useSEO } from '../hooks/useSEO';
+import { useHreflang } from '../hooks/useHreflang';
+import { ProductCardSkeleton } from '../components/ui/loading-skeleton';
 
 // Product item type
 type ProductItem = {
@@ -260,8 +267,9 @@ export default function Shop() {
   const { addToCart } = useCart();
   const { animationState, triggerAnimation, completeAnimation } = useAddToCartAnimation();
   const processingRef = useRef<Set<number>>(new Set());
+  const { updateURL, getURLArray, getURLValue } = useURLState();
 
-  // State management
+  // State management with URL sync
   const [filterState, setFilterState] = useState<FilterState>({
     category: [],
     material: [],
@@ -270,18 +278,50 @@ export default function Shop() {
   });
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [isFiltering, setIsFiltering] = useState(false);
+  
+  // Debounced search for better performance
+  const [searchInput, setSearchInput] = useState('');
+  const debouncedSearch = useDebounce(searchInput, 300);
 
-  // Get URL params
+  // Initialize from URL on mount
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const category = params.get('category');
-    if (category) {
-      setFilterState(prev => ({
-        ...prev,
-        category: [category]
-      }));
-    }
-  }, [location.search]);
+    const category = getURLArray('category');
+    const material = getURLArray('material');
+    const search = getURLValue('search') || '';
+    const minPrice = parseInt(getURLValue('minPrice') || '0');
+    const maxPrice = parseInt(getURLValue('maxPrice') || '10000000');
+    const sort = (getURLValue('sort') || 'newest') as SortOption;
+    
+    setFilterState({
+      category,
+      material,
+      priceRange: [minPrice, maxPrice],
+      search
+    });
+    setSearchInput(search);
+    setSortBy(sort);
+  }, []); // Only on mount
+
+  // Sync debounced search to filter state
+  useEffect(() => {
+    setFilterState(prev => ({
+      ...prev,
+      search: debouncedSearch
+    }));
+  }, [debouncedSearch]);
+
+  // Sync filter state to URL (for shareable links)
+  useEffect(() => {
+    updateURL({
+      category: filterState.category.length > 0 ? filterState.category : null,
+      material: filterState.material.length > 0 ? filterState.material : null,
+      search: filterState.search || null,
+      minPrice: filterState.priceRange[0] !== 0 ? filterState.priceRange[0] : null,
+      maxPrice: filterState.priceRange[1] !== 10000000 ? filterState.priceRange[1] : null,
+      sort: sortBy !== 'newest' ? sortBy : null,
+    });
+  }, [filterState, sortBy, updateURL]);
 
   // Restore scroll position when returning from product page
   useEffect(() => {
@@ -332,6 +372,24 @@ export default function Shop() {
       };
     });
   }, [t]);
+
+  // Preload critical images (first 6 products) for faster initial load
+  // Using Image() objects instead of link preload to avoid "preloaded but not used" warnings
+  useEffect(() => {
+    const criticalImages = productsWithIcons
+      .slice(0, 6)
+      .map(p => p.iconPath || p.image)
+      .filter(Boolean) as string[];
+    
+    if (criticalImages.length > 0) {
+      // Use Image() objects for preloading - more reliable and avoids preload warnings
+      criticalImages.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+        img.loading = 'eager';
+      });
+    }
+  }, [productsWithIcons]);
 
   // Filter and search products
   const filteredProducts = useMemo(() => {
@@ -436,6 +494,13 @@ export default function Shop() {
     return filtered;
   }, [productsWithIcons, filterState, sortBy, t]);
 
+  // Show loading state during filter transitions
+  useEffect(() => {
+    setIsFiltering(true);
+    const timer = setTimeout(() => setIsFiltering(false), 150);
+    return () => clearTimeout(timer);
+  }, [filterState, sortBy]);
+
   // Handle add to cart
   const handleAddToCart = useCallback((product: ProductCardProps) => {
     if (processingRef.current.has(product.id)) {
@@ -529,36 +594,25 @@ export default function Shop() {
     };
   }, [filteredProducts, t]);
 
-  // Meta tags for SEO
-  useEffect(() => {
-    document.title = `${t('title', { ns: 'shop', defaultValue: 'Shop' })} | ZAMINAT.eco`;
-    
-    // Update meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', t('subtitle', { ns: 'shop' }));
+  // SEO Management - Dynamic meta tags, OG tags, canonical URL
+  useSEO({
+    title: t('title', { ns: 'shop', defaultValue: 'Shop' }),
+    description: t('subtitle', { ns: 'shop' }),
+    image: '/images/shop-preview.jpg', // Update with actual shop preview image
+    type: 'website',
+    keywords: 'eco products, recycled tiles, eco-friendly furniture, sustainable products, Uzbekistan',
+  });
 
-    // OG tags
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) {
-      ogTitle = document.createElement('meta');
-      ogTitle.setAttribute('property', 'og:title');
-      document.head.appendChild(ogTitle);
-    }
-    ogTitle.setAttribute('content', `${t('title', { ns: 'shop' })} | ZAMINAT.eco`);
+  // Hreflang tags for multilingual SEO
+  useHreflang();
 
-    let ogDescription = document.querySelector('meta[property="og:description"]');
-    if (!ogDescription) {
-      ogDescription = document.createElement('meta');
-      ogDescription.setAttribute('property', 'og:description');
-      document.head.appendChild(ogDescription);
-    }
-    ogDescription.setAttribute('content', t('subtitle', { ns: 'shop' }));
-  }, [t]);
+  // Video preloading is handled by HeroVideo component internally
+  // The component uses intelligent preloading based on:
+  // - Network quality (slow/medium/fast)
+  // - Device type (mobile/desktop)
+  // - Reduced motion preferences
+  // - Intersection Observer for lazy loading
+  // This is more sophisticated than manual preload links and avoids browser compatibility issues
 
   const categories = useMemo(() => getCategoryData(t, productData), [t]);
 
@@ -643,6 +697,8 @@ export default function Shop() {
                 { id: 'composite', label: 'Composite' }
               ]}
               priceRange={[0, 10000000]}
+              searchValue={searchInput}
+              onSearchChange={setSearchInput}
               onFilterChange={setFilterState}
             />
 
@@ -696,9 +752,27 @@ export default function Shop() {
               </div>
             </div>
 
-            {/* Products Grid */}
+            {/* Products Grid - Virtual Scrolling for Large Lists */}
             <AnimatePresence mode="wait">
-              {filteredProducts.length === 0 ? (
+              {isFiltering ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={cn(
+                    viewMode === 'grid'
+                      ? isMobile
+                        ? "grid grid-cols-2 gap-1.5"
+                        : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                      : isMobile ? "space-y-2" : "space-y-4"
+                  )}
+                >
+                  {Array.from({ length: isMobile ? 4 : 8 }).map((_, i) => (
+                    <ProductCardSkeleton key={i} isMobile={isMobile} />
+                  ))}
+                </motion.div>
+              ) : filteredProducts.length === 0 ? (
                 <motion.div
                   key="empty"
                   initial={{ opacity: 0 }}
@@ -710,19 +784,22 @@ export default function Shop() {
                     {t('noProductsFound', { defaultValue: 'No products found. Try adjusting your filters.', ns: 'shop' })}
                   </p>
                 </motion.div>
+              ) : viewMode === 'grid' ? (
+                // Use VirtualProductGrid for grid view (handles virtual scrolling automatically)
+                <VirtualProductGrid
+                  products={filteredProducts}
+                  onAddToCart={handleAddToCart}
+                  isLoading={isFiltering}
+                  t={t}
+                />
               ) : (
+                // List view - render normally (virtual scrolling not needed for list)
                 <motion.div
-                  key="products"
+                  key="products-list"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className={cn(
-                    viewMode === 'grid'
-                      ? isMobile
-                        ? "grid grid-cols-2 gap-1.5"
-                        : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                      : isMobile ? "space-y-2" : "space-y-4"
-                  )}
+                  className={isMobile ? "space-y-2" : "space-y-4"}
                 >
                   {filteredProducts.map((product, index) => (
                     <ProductCard

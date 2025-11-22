@@ -12,7 +12,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '..
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../hooks/use-mobile';
 import { useCart } from '../contexts/CartContext';
-import { PRODUCT_DETAIL_DATA } from '../lib/productData';
+import { PRODUCT_DETAIL_DATA, getProductDetailData } from '../lib/productData';
 import { getProductImages } from '../lib/productImages';
 import { getIconForProductOrCategory } from '../lib/iconMatcher';
 import { cn } from '@/lib/utils';
@@ -21,6 +21,9 @@ import { useAddToCartAnimation } from '../hooks/useAddToCartAnimation';
 import AddToCartAnimation from '../components/AddToCartAnimation';
 import { getImageUrlVariations } from '../utils/imageHelper';
 import { getProductTranslationKey } from '../lib/productTranslationMapper';
+import { productNameToSlug } from '../utils/slug';
+import { useSEO } from '../hooks/useSEO';
+import { useHreflang } from '../hooks/useHreflang';
 import CartSidebar from '../components/CartSidebar';
 import FloatingCartIcon from '../components/FloatingCartIcon';
 
@@ -327,14 +330,12 @@ export default function ProductDetail() {
   
   const productDetail = useMemo(() => {
     if (!id) return null;
-    let product = PRODUCT_DETAIL_DATA[id];
-    if (!product) {
+    // Use getProductDetailData which handles slugs, IDs, and names
       const numericId = parseInt(id);
       if (!isNaN(numericId)) {
-        product = Object.values(PRODUCT_DETAIL_DATA).find(p => p.id === numericId) || null;
+      return getProductDetailData(numericId);
       }
-    }
-    return product;
+    return getProductDetailData(id);
   }, [id]);
   
   useEffect(() => {
@@ -1215,6 +1216,18 @@ export default function ProductDetail() {
       };
     });
   }, [productDetail.features, detailBasePath, t]);
+  
+  // SEO Management - Dynamic meta tags, OG tags, canonical URL
+  useSEO({
+    title: productName,
+    description: productDescription,
+    image: validProductImages.length > 0 ? validProductImages[0] : heroImage,
+    type: 'product',
+    keywords: `${productName}, ${productCategory}, eco-friendly, recycled, ZAMINAT.eco`,
+  });
+
+  // Hreflang tags for multilingual SEO
+  useHreflang();
   
   // Enhanced SEO Schema Markup
   useEffect(() => {
@@ -2405,7 +2418,7 @@ export default function ProductDetail() {
                         productName={relatedName}
                         productPrice={relatedPrice}
                         images={relatedProductImages}
-                        onNavigate={() => navigate(`/product/${relatedProduct.englishName}`)}
+                        onNavigate={() => navigate(`/product/${productNameToSlug(relatedProduct.englishName)}`)}
                         isMobile={isMobile}
                       />
                     );

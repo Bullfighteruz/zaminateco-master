@@ -4,7 +4,7 @@
  * Real-time search with fuzzy matching
  */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Filter, SlidersHorizontal } from 'lucide-react';
 import { Input } from '../ui/input';
@@ -31,6 +31,8 @@ interface FiltersProps {
   categories?: FilterOption[];
   materials?: FilterOption[];
   priceRange?: [number, number];
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
   onFilterChange?: (filters: FilterState) => void;
   className?: string;
 }
@@ -39,17 +41,24 @@ export default function Filters({
   categories = [],
   materials = [],
   priceRange = [0, 10000000],
+  searchValue = '',
+  onSearchChange,
   onFilterChange,
   className
 }: FiltersProps) {
   const { t } = useTranslation('shop');
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchValue);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [priceMin, setPriceMin] = useState(priceRange[0]);
   const [priceMax, setPriceMax] = useState(priceRange[1]);
+  
+  // Sync external search value
+  useEffect(() => {
+    setSearchQuery(searchValue);
+  }, [searchValue]);
 
   const activeFilterCount = useMemo(() => {
     return selectedCategories.length + selectedMaterials.length + 
@@ -59,13 +68,16 @@ export default function Filters({
 
   const handleSearchChange = useCallback((value: string) => {
     setSearchQuery(value);
+    // Update parent component (debouncing handled there)
+    onSearchChange?.(value);
+    // Also update filter state immediately for UI feedback
     onFilterChange?.({
       category: selectedCategories,
       material: selectedMaterials,
       priceRange: [priceMin, priceMax],
       search: value
     });
-  }, [selectedCategories, selectedMaterials, priceMin, priceMax, onFilterChange]);
+  }, [selectedCategories, selectedMaterials, priceMin, priceMax, onFilterChange, onSearchChange]);
 
   const toggleCategory = useCallback((categoryId: string) => {
     setSelectedCategories(prev => {

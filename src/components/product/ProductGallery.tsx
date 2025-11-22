@@ -10,6 +10,7 @@ import { ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+import ProfessionalImage from '../ui/ProfessionalImage';
 
 interface ProductGalleryProps {
   images: string[];
@@ -26,9 +27,8 @@ export default function ProductGallery({
   const isMobile = useIsMobile();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
-  const validImages = images.filter(img => !failedImages.has(img));
+  const validImages = images; // ProfessionalImage handles errors internally
 
   const nextImage = useCallback(() => {
     setSelectedIndex((prev) => (prev + 1) % validImages.length);
@@ -91,12 +91,15 @@ export default function ProductGallery({
                   }
                 }}
               >
-                <img
+                <ProfessionalImage
                   src={img}
                   alt={`${productName} - Image ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  loading={index < 4 ? "eager" : "lazy"}
-                  onError={() => setFailedImages(prev => new Set(prev).add(img))}
+                  className="transition-transform duration-300 group-hover:scale-110"
+                  priority={index < 4}
+                  aspectRatio="square"
+                  objectFit="cover"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  blurPlaceholder={true}
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                   <ZoomIn className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -122,13 +125,15 @@ export default function ProductGallery({
                   tabIndex={0}
                   aria-label={t('ariaLabels.viewImage', { defaultValue: `View image ${index + 1} of ${validImages.length}`, current: index + 1, total: validImages.length })}
                 >
-                  <img
+                  <ProfessionalImage
                     src={img}
                     alt={`${productName} - Image ${index + 1}`}
-                    className="w-full h-auto max-w-full rounded-lg"
-                    style={{ maxHeight: '70vh', objectFit: 'contain' }}
-                    loading={index < 2 ? "eager" : "lazy"}
-                    onError={() => setFailedImages(prev => new Set(prev).add(img))}
+                    className="max-w-full rounded-lg"
+                    priority={index < 2}
+                    aspectRatio="auto"
+                    objectFit="contain"
+                    sizes="85vw"
+                    blurPlaceholder={true}
                   />
                 </div>
               ))}
@@ -193,10 +198,15 @@ export default function ProductGallery({
               className="max-w-7xl max-h-full flex items-center justify-center"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
+              <ProfessionalImage
                 src={validImages[selectedIndex]}
                 alt={`${productName} - Image ${selectedIndex + 1}`}
-                className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
+                className="max-w-full max-h-[90vh] w-auto h-auto"
+                priority={true}
+                aspectRatio="auto"
+                objectFit="contain"
+                sizes="90vw"
+                blurPlaceholder={true}
               />
             </motion.div>
 
