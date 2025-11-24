@@ -146,7 +146,12 @@
     "priceRange": "Price Range (UZS)",
     "min": "Min",
     "max": "Max",
-    "clearAll": "Clear All Filters"
+    "clearAll": "Clear All Filters",
+    "materials": {
+      "rubber": "Rubber",
+      "plastic": "Plastic",
+      "composite": "Composite"
+    }
   },
   "productCount": {
     "one": "product",

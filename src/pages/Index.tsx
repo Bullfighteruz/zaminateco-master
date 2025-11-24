@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { useSEO } from '@/hooks/useSEO';
 import { useHreflang } from '@/hooks/useHreflang';
 import '../styles/mobile-responsive.css';
+import { contactHelpers } from '@/utils/mailto';
 
 // Progress animation variants
 const progressVariants = {
@@ -40,7 +41,7 @@ const progressVariants = {
 };
 
 export default function Index() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [userProgress, setUserProgress] = useState<UserProgress>(() => loadUserProgress());
   const isMobile = useIsMobile();
 

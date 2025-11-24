@@ -28,6 +28,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { contactHelpers } from '@/utils/mailto';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import '../styles/mobile-responsive.css';
@@ -136,10 +137,16 @@ const ContactCard = ({ contact }: { contact: { icon: typeof Mail, title: string,
           {contact.link ? (
             <a 
               href={contact.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
+              onClick={(e) => {
+                // For mailto links, ensure they work properly on all devices
+                if (contact.link?.startsWith('mailto:')) {
+                  e.preventDefault();
+                  window.location.href = contact.link;
+                }
+                // tel: links work fine with default behavior
+              }}
               className={cn(
-                `text-${contact.color}-600 hover:text-${contact.color}-700 hover:underline transition-colors break-all block`,
+                `text-${contact.color}-600 hover:text-${contact.color}-700 hover:underline transition-colors break-all block cursor-pointer`,
                 isMobile ? "text-[10px]" : "text-xs sm:text-sm"
               )}
               style={{ touchAction: 'manipulation' }}
@@ -256,7 +263,7 @@ const SocialCard = ({ social }: { social: { icon: typeof Send, platform: string,
 
 export default function Contacts() {
   const isMobile = useIsMobile();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -273,7 +280,7 @@ export default function Contacts() {
       icon: Mail,
       title: t('ceoEmail'),
       value: "sukhrobjonrikhsiboev@gmail.com",
-      link: "mailto:sukhrobjonrikhsiboev@gmail.com",
+      link: "mailto:sukhrobjonrikhsiboev@gmail.com?subject=Contact%20Us%20-%20ZAMINAT.eco&body=",
       color: "blue"
     },
     {
@@ -287,7 +294,7 @@ export default function Contacts() {
       icon: Mail,
       title: t('officialEmail'),
       value: "zaminateco@gmail.com",
-      link: "mailto:zaminateco@gmail.com",
+      link: "mailto:zaminateco@gmail.com?subject=Contact%20Us%20-%20ZAMINAT.eco&body=",
       color: "purple"
     },
     {
@@ -715,7 +722,10 @@ export default function Contacts() {
                           "bg-white text-orange-600 hover:bg-gray-100 font-semibold rounded-lg shadow-lg",
                           isMobile ? "h-9 text-xs py-2 px-3" : "px-4 py-2"
                         )}
-                        onClick={() => window.open('mailto:sukhrobjonrikhsiboev@gmail.com?subject=Urgent Inquiry', '_blank')}
+                        onClick={() => {
+                          const currentLanguage = i18n.language || 'en';
+                          contactHelpers.urgentInquiry(currentLanguage);
+                        }}
                         style={{ touchAction: 'manipulation' }}
                       >
                         <Mail className={cn("mr-2", isMobile ? "h-3 w-3" : "h-4 w-4")} />

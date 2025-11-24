@@ -10,6 +10,7 @@ import { ShoppingBag, Car, Coffee, Utensils, Package, Plane, ExternalLink, Coins
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import '../styles/mobile-responsive.css';
+import { contactHelpers } from '@/utils/mailto';
 
 type Partner = {
   id: number;
@@ -29,7 +30,7 @@ type Partner = {
 // Partner Card Component
 const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolean }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const IconComponent = partner.icon;
 
   return (
@@ -162,7 +163,8 @@ const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolea
           style={{ touchAction: 'manipulation' }}
           onClick={() => {
             // Navigate to shop or open partner offer
-            window.open(`mailto:sukhrobjonrikhsiboev@gmail.com?subject=${encodeURIComponent(t('partnerOfferInquiry', { defaultValue: 'Partner Offer Inquiry' }))} - ${partner.name}&body=${encodeURIComponent(t('interestedInOffer', { defaultValue: 'I am interested in this partner offer:' }))} ${partner.name}`, '_blank');
+            const currentLanguage = i18n.language || 'en';
+            contactHelpers.partnerInquiry(partner.name, currentLanguage);
             toast.info(t('openingEmail', { defaultValue: 'Opening email client...', ns: 'common' }));
           }}
         >
@@ -175,7 +177,7 @@ const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolea
 };
 
 const Partners = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 

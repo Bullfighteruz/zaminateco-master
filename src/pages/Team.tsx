@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import '../styles/mobile-responsive.css';
+import { contactHelpers } from '@/utils/mailto';
 
 // Animation variants
 const containerVariants = {
@@ -64,13 +65,14 @@ interface MemberData {
 
 // Team member card component
 const TeamMemberCard = ({ member }: { member: TeamMember }) => {
-  const { t } = useTranslation('team');
+  const { t, i18n } = useTranslation('team');
   const isMobile = useIsMobile();
   const RoleIcon = member.roleIcon;
   
   const handleContactClick = () => {
     if (member.email) {
-      window.open(`mailto:${member.email}`, '_blank');
+      const currentLanguage = i18n.language || 'en';
+      contactHelpers.teamMemberContact(member.email, member.name, currentLanguage);
     }
   };
 
@@ -253,7 +255,7 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
 };
 
 export default function Team() {
-  const { t } = useTranslation('team');
+  const { t, i18n } = useTranslation('team');
   const isMobile = useIsMobile();
 
   // Get team members from translations with proper structure
@@ -388,7 +390,10 @@ export default function Team() {
                       "bg-white text-blue-600 hover:bg-gray-100 font-semibold",
                       isMobile ? "h-9 text-xs py-2 px-4" : ""
                     )}
-                    onClick={() => window.open('mailto:sukhrobjonrikhsiboev@gmail.com?subject=Join ZAMINAT.eco Team', '_blank')}
+                    onClick={() => {
+                      const currentLanguage = i18n.language || 'en';
+                      contactHelpers.joinTeam(currentLanguage);
+                    }}
                     style={{ touchAction: 'manipulation' }}
                   >
                     <Users className={cn(isMobile ? "h-3 w-3 mr-1.5" : "h-5 w-5 mr-2")} />

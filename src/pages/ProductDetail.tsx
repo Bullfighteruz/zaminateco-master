@@ -26,6 +26,7 @@ import { useSEO } from '../hooks/useSEO';
 import { useHreflang } from '../hooks/useHreflang';
 import CartSidebar from '../components/CartSidebar';
 import FloatingCartIcon from '../components/FloatingCartIcon';
+import { contactHelpers } from '@/utils/mailto';
 
 const BRAND_GREEN = '#009E60';
 const BRAND_GOLD = '#E8C468';
@@ -296,7 +297,7 @@ RelatedProductCarousel.displayName = 'RelatedProductCarousel';
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation(['shop', 'translation']);
+  const { t, i18n } = useTranslation(['shop', 'translation']);
   const isMobile = useIsMobile();
   const { addToCart } = useCart();
   const { animationState, triggerAnimation, completeAnimation } = useAddToCartAnimation();
@@ -521,10 +522,10 @@ export default function ProductDetail() {
     const priceValue = PRODUCT_PRICE_MAP[productDetail.englishName] || CALL_FOR_PRICE_MARKER;
     if (priceValue === CALL_FOR_PRICE_MARKER) {
       try {
-        const subject = encodeURIComponent(`${t('buttons.contactUs', { ns: 'shop' })} - ${t(productDetail.nameKey, { ns: 'shop' })}`);
-        const body = encodeURIComponent(`${t('inquiryAboutProduct', { defaultValue: 'I am interested in this product:', ns: 'shop' })} ${t(productDetail.nameKey, { ns: 'shop' })}`);
-        window.open(`mailto:sukhrobjonrikhsiboev@gmail.com?subject=${subject}&body=${body}`, '_blank');
-      toast.info(t('openingEmail', { defaultValue: 'Opening email client...', ns: 'shop' }));
+        const productName = t(productDetail.nameKey, { ns: 'shop' });
+        const currentLanguage = i18n.language || 'en';
+        contactHelpers.productInquiry(productName, currentLanguage);
+        toast.info(t('openingEmail', { defaultValue: 'Opening email client...', ns: 'shop' }));
       } catch (error) {
         console.error('Error opening email client:', error);
         toast.error(t('emailError', { ns: 'shop', defaultValue: 'Error opening email client. Please contact us directly.' }));

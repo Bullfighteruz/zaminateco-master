@@ -39,6 +39,7 @@ import { useURLState } from '../hooks/useURLState';
 import { useSEO } from '../hooks/useSEO';
 import { useHreflang } from '../hooks/useHreflang';
 import { ProductCardSkeleton } from '../components/ui/loading-skeleton';
+import { contactHelpers } from '@/utils/mailto';
 
 // Product item type
 type ProductItem = {
@@ -260,7 +261,7 @@ const getCategoryData = (t: any, products: ProductItem[]): Category[] => {
 };
 
 export default function Shop() {
-  const { t } = useTranslation(['shop', 'translation']);
+  const { t, i18n } = useTranslation(['shop', 'translation']);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const location = useLocation();
@@ -510,7 +511,8 @@ export default function Shop() {
     processingRef.current.add(product.id);
 
     if (product.isCallForPrice) {
-      window.open(`mailto:sukhrobjonrikhsiboev@gmail.com?subject=${encodeURIComponent(t('buttons.contactUs', { ns: 'shop' }))} - ${product.name}&body=${encodeURIComponent(t('inquiryAboutProduct', { defaultValue: 'I am interested in this product:', ns: 'shop' }))} ${product.name}`, '_blank');
+      const currentLanguage = i18n.language || 'en';
+      contactHelpers.productInquiry(product.name, currentLanguage);
       toast.info(t('openingEmail', { defaultValue: 'Opening email client...', ns: 'shop' }));
       setTimeout(() => processingRef.current.delete(product.id), 1000);
       return;
@@ -692,9 +694,9 @@ export default function Shop() {
             <Filters
               categories={categories.map(c => ({ id: c.id, label: c.name, count: c.productCount }))}
               materials={[
-                { id: 'rubber', label: 'Rubber' },
-                { id: 'plastic', label: 'Plastic' },
-                { id: 'composite', label: 'Composite' }
+                { id: 'rubber', label: t('filters.materials.rubber', { defaultValue: 'Rubber', ns: 'shop' }) },
+                { id: 'plastic', label: t('filters.materials.plastic', { defaultValue: 'Plastic', ns: 'shop' }) },
+                { id: 'composite', label: t('filters.materials.composite', { defaultValue: 'Composite', ns: 'shop' }) }
               ]}
               priceRange={[0, 10000000]}
               searchValue={searchInput}

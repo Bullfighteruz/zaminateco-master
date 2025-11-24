@@ -87,7 +87,9 @@
     "contactUs": "Biz bilan bog'lanish",
     "startShopping": "Xarid qilishni boshlash",
     "contactForBulkOrders": "Ulgurji buyurtmalar uchun bog'lanish",
-    "learnAboutRecycling": "Qayta ishlash haqida o'rganish"
+    "learnAboutRecycling": "Qayta ishlash haqida o'rganish",
+    "cartShort": "Savat",
+    "contactShort": "Bog'lanish"
   },
   "categories": {
     "construction": {
@@ -566,6 +568,32 @@
           "description": "Tez sozlash uchun modul dizayn"
         }
       }
+    }
+  },
+  "searchPlaceholder": "Mahsulotlarni qidirish...",
+  "productsFound": "mahsulot topildi",
+  "noProductsFound": "Mahsulotlar topilmadi. Filtrlarni o'zgartirib ko'ring.",
+  "viewDetails": "Tafsilotlarni ko'rish",
+  "sort": {
+    "newest": "Yangi",
+    "popular": "Mashhur",
+    "priceLow": "Narx: pastdan yuqoriga",
+    "priceHigh": "Narx: yuqoridan pastga",
+    "name": "Nomi: A-Z"
+  },
+  "filters": {
+    "title": "Filtrlar",
+    "category": "Kategoriya",
+    "material": "Material",
+    "searchPlaceholder": "Mahsulotlarni qidirish...",
+    "priceRange": "Narx diapazoni (UZS)",
+    "min": "Min",
+    "max": "Max",
+    "clearAll": "Barcha filtrlarni tozalash",
+    "materials": {
+      "rubber": "Rezina",
+      "plastic": "Plastik",
+      "composite": "Kompozit"
     }
   }
 }

@@ -15,6 +15,7 @@ import CartSidebar from '../components/CartSidebar';
 import FloatingCartIcon from '../components/FloatingCartIcon';
 import AddToCartAnimation from '../components/AddToCartAnimation';
 import { useAddToCartAnimation } from '../hooks/useAddToCartAnimation';
+import { contactHelpers } from '@/utils/mailto';
 
 // Sample product data with translation keys
 // IMPORTANT: englishName is used for icon matching to ensure consistency across languages
@@ -199,7 +200,7 @@ const categoryData: CategoryItem[] = [
 ];
 
 export default function SocialMissionShop() {
-  const { t } = useTranslation(['shop', 'translation']);
+  const { t, i18n } = useTranslation(['shop', 'translation']);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { addToCart, cartCount } = useCart();
@@ -459,7 +460,8 @@ export default function SocialMissionShop() {
                           
                           if (product.isCallForPrice) {
                             // Open contact form or email
-                            window.open(`mailto:sukhrobjonrikhsiboev@gmail.com?subject=${encodeURIComponent(t('buttons.contactUs', { ns: 'shop' }))} - ${product.productName}&body=${encodeURIComponent(t('inquiryAboutProduct', { defaultValue: 'I am interested in this product:', ns: 'shop' }))} ${product.productName}`, '_blank');
+                            const currentLanguage = i18n.language || 'en';
+                            contactHelpers.productInquiry(product.productName, currentLanguage);
                             toast.info(t('openingEmail', { defaultValue: 'Opening email client...', ns: 'shop' }));
                           } else {
                             // Trigger animation using the button element from the event
