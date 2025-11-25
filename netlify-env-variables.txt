@@ -1,0 +1,14 @@
+# Netlify Environment Variables
+# Import this file into Netlify: Site settings → Environment variables → Import from .env file
+#
+# IMPORTANT: Replace the placeholder URL below with your actual backend API URL
+# Example: If your backend is deployed on Railway, it might look like:
+# VITE_API_URL=https://your-app-name.up.railway.app/api/v1
+#
+# If you haven't deployed your backend yet, you can leave this as localhost for now
+# (but the backend won't work until you deploy it and update this URL)
+
+# Backend API URL (required for authentication and data sync)
+# Replace with your actual backend URL after deployment
+VITE_API_URL=http://localhost:3000/api/v1
+
