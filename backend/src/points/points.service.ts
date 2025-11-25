@@ -1,4 +1,5 @@
-import { Injectable, Optional } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+// Bull queue disabled until @nestjs/bull is installed
 // import { InjectQueue } from '@nestjs/bull';
 // import { Queue } from 'bull';
 import { PrismaService } from '../prisma/prisma.service';
@@ -34,7 +35,8 @@ export class PointsService {
   };
 
   constructor(
-    // @InjectQueue('points') @Optional() private pointsQueue?: Queue,
+    // Bull queue disabled - process points synchronously
+    // @InjectQueue('points') private pointsQueue: Queue,
     private prisma: PrismaService,
     private usersService: UsersService,
   ) {}
