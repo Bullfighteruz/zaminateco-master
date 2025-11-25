@@ -14,10 +14,11 @@ async function bootstrap() {
   app.use(helmet());
   app.use(compression());
 
-  // CORS
-  const corsOrigins = configService.get<string>('CORS_ORIGIN', 'http://localhost:5173').split(',');
+  // CORS - Allow multiple origins
+  const corsOrigin = configService.get<string>('CORS_ORIGIN', 'http://localhost:5173');
+  const corsOrigins = corsOrigin.split(',').map(origin => origin.trim()).filter(Boolean);
   app.enableCors({
-    origin: corsOrigins,
+    origin: corsOrigins.length > 0 ? corsOrigins : ['http://localhost:5173'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

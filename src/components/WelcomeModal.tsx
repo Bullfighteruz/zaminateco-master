@@ -151,10 +151,16 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0 text-white hover:bg-white/20 rounded-full"
+                          className="h-10 px-3 text-white hover:bg-white/30 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 shadow-lg transition-all hover:scale-105 flex items-center gap-2"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <Globe className="h-4 w-4" />
+                          <Globe className="h-5 w-5" />
+                          <img
+                            src={currentLanguage.flag}
+                            alt={currentLanguage.name}
+                            className="h-4 w-5 object-cover rounded-sm border border-white/50"
+                          />
+                          <span className="text-sm font-medium hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent 
