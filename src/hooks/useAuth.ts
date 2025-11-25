@@ -34,22 +34,33 @@ export function useAuth() {
         return;
       }
 
+      // Try to verify token with backend, but don't block if backend is unavailable
+      // Use a timeout to prevent long waits
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout')), 3000)
+      );
+
       try {
-        const userData = await apiClient.getCurrentUser();
+        const userData = await Promise.race([
+          apiClient.getCurrentUser(),
+          timeoutPromise
+        ]) as any;
+        
         if (userData) {
           setUser(userData as User);
           setIsAuthenticated(true);
         }
       } catch (error) {
-        // If API call fails (backend not available), clear tokens
-        console.warn('Auth check failed (backend may not be available):', error);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        // Backend not available or timeout - this is OK, app works without backend
+        // Only clear tokens if we're sure backend exists but rejected us
+        // For now, keep tokens in case backend comes back online
+        // App will work fine with localStorage-only features
         setUser(null);
         setIsAuthenticated(false);
+        // Don't clear tokens - user might have valid session, just backend is down
       }
     } catch (error) {
-      console.error('Auth check error:', error);
+      // Any other error - app still works without backend
       setUser(null);
       setIsAuthenticated(false);
     } finally {

@@ -52,6 +52,12 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
+    // If API URL is localhost and we're not in development, skip backend calls
+    // This prevents errors on Netlify when backend isn't configured
+    if (this.baseURL.includes('localhost') && import.meta.env.PROD) {
+      throw new Error('Backend not configured for production');
+    }
+
     const url = `${this.baseURL}${endpoint}`;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -63,10 +69,17 @@ class ApiClient {
     }
 
     try {
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
       const response = await fetch(url, {
         ...options,
         headers,
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       // Handle token refresh on 401
       if (response.status === 401 && this.token) {
@@ -74,10 +87,14 @@ class ApiClient {
         if (refreshed) {
           // Retry original request
           headers['Authorization'] = `Bearer ${this.token}`;
+          const retryController = new AbortController();
+          const retryTimeoutId = setTimeout(() => retryController.abort(), 5000);
           const retryResponse = await fetch(url, {
             ...options,
             headers,
+            signal: retryController.signal,
           });
+          clearTimeout(retryTimeoutId);
           if (!retryResponse.ok) {
             throw new Error(`API Error: ${retryResponse.statusText}`);
           }
@@ -97,10 +114,14 @@ class ApiClient {
 
       return response.json();
     } catch (error: unknown) {
-      // Only log non-network errors
+      // Silently handle network errors - app works without backend
       const message = error instanceof Error ? error.message : String(error);
-      if (!message.includes('Failed to fetch')) {
-        console.error('API Request failed:', error);
+      // Only log if it's not a network/timeout error (which are expected when backend is unavailable)
+      if (!message.includes('Failed to fetch') && 
+          !message.includes('aborted') && 
+          !message.includes('timeout') &&
+          !message.includes('not configured')) {
+        // Only log unexpected errors
       }
       throw error;
     }

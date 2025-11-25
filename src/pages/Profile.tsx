@@ -258,35 +258,38 @@ const Profile: React.FC = () => {
   const touchHandledRef = useRef(false);
   const [loading, setLoading] = useState(true);
 
-  // Load user data from backend if authenticated
+  // Load user data from localStorage only (just like avatars/backgrounds)
+  // Backend sync is completely optional and non-blocking
   useEffect(() => {
-    const loadUserData = async () => {
-      if (isAuthenticated && user) {
-        try {
-          const userData = await apiClient.getUserProfile();
-          // Merge backend data with local progress
+    // Always use localStorage first (works offline, no backend needed)
+    const savedProgress = loadUserProgress();
+    setUserProgress(savedProgress);
+    setLoading(false);
+
+    // Optional: Try to sync with backend in background (non-blocking)
+    // This only runs if user is authenticated AND backend is available
+    // If backend fails, we just use localStorage (which already works)
+    if (isAuthenticated && user) {
+      // Run in background, don't wait for it
+      apiClient.getUserProfile()
+        .then((userData) => {
+          // Only update if backend data is available
           if (userData?.profile) {
             setUserProgress(prev => ({
               ...prev,
-              name: `${userData.firstName} ${userData.lastName}`,
-              ecoPoints: userData.profile.ecoPoints || prev.ecoPoints,
-              ecoCoins: userData.profile.ecoCoins || prev.ecoCoins,
-              level: userData.profile.level || prev.level,
-              avatar: userData.avatar || prev.activeAvatar,
+              // Keep localStorage name (user's choice), only sync points/coins if available
+              ecoPoints: userData.profile.ecoPoints ?? prev.ecoPoints,
+              ecoCoins: userData.profile.ecoCoins ?? prev.ecoCoins,
+              level: userData.profile.level ?? prev.level,
             }));
           }
-        } catch (error) {
-          console.error('Failed to load user data:', error);
-          // Fall back to localStorage data
-        }
-      }
-      setLoading(false);
-    };
-
-    if (!authLoading) {
-      loadUserData();
+        })
+        .catch(() => {
+          // Silently fail - localStorage data is already loaded and working
+          // No error needed, app works fine without backend
+        });
     }
-  }, [isAuthenticated, user, authLoading]);
+  }, [isAuthenticated, user]);
 
   // Calculate level progress
   const { progress: levelProgress, pointsToNext } = calcLevelProgress(userProgress.ecoPoints, userProgress.level);
