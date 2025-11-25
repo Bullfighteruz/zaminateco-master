@@ -144,7 +144,8 @@ model User {
   referralsReceived Referral[] @relation("Referred")
   votes         Vote[]
   donations     Donation[]
-  collections   Collection[]
+  collections   Collection[] @relation("UserCollections")
+  verifiedCollections Collection[] @relation("VerifiedCollections")
   events        EventParticipant[]
   orders        Order[]
   posts         Post[]
@@ -263,7 +264,7 @@ model CollectionPoint {
 model Collection {
   id              String   @id @default(uuid())
   userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User     @relation("UserCollections", fields: [userId], references: [id], onDelete: Cascade)
   collectionPointId String
   collectionPoint CollectionPoint @relation(fields: [collectionPointId], references: [id], onDelete: Cascade)
   materialType    String
@@ -272,7 +273,7 @@ model Collection {
   submittedAt     DateTime @default(now())
   approved        Boolean  @default(false)
   verifiedById    String?
-  verifiedBy      User?   @relation(fields: [verifiedById], references: [id])
+  verifiedBy      User?   @relation("VerifiedCollections", fields: [verifiedById], references: [id])
   verifiedAt      DateTime?
   
   @@index([userId])
