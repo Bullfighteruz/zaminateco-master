@@ -75,48 +75,7 @@ export default defineConfig(({ mode }) => ({
     // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // CRITICAL: Keep ALL React-related code together in one chunk
-          // This ensures React.createContext and all React APIs are available
-          // Must include react/jsx-runtime to prevent createContext errors
-          if (id.includes('node_modules/react') || 
-              id.includes('node_modules/react-dom') ||
-              id.includes('node_modules/react-router') ||
-              id.includes('node_modules/react/jsx-runtime') ||
-              id.includes('node_modules/react/jsx-dev-runtime') ||
-              id.includes('node_modules/scheduler')) {
-            return 'react-vendor';
-          }
-          // i18n
-          if (id.includes('node_modules/react-i18next') || id.includes('node_modules/i18next')) {
-            return 'i18n-vendor';
-          }
-          // UI libraries
-          if (id.includes('node_modules/@radix-ui') || id.includes('node_modules/lucide-react')) {
-            return 'ui-vendor';
-          }
-          // Animation library
-          if (id.includes('node_modules/framer-motion')) {
-            return 'animation-vendor';
-          }
-          // Maps and heavy libraries
-          if (id.includes('node_modules/leaflet') || id.includes('node_modules/react-leaflet')) {
-            return 'maps-vendor';
-          }
-          // Charts
-          if (id.includes('node_modules/recharts')) {
-            return 'charts-vendor';
-          }
-          // Spline 3D
-          if (id.includes('node_modules/@splinetool')) {
-            return 'spline-vendor';
-          }
-          // Other vendor code
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-        },
-        // Optimize chunk file names for better caching
+        // Let Vite decide chunking to avoid missing React runtime in production
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
