@@ -146,14 +146,20 @@ model User {
   donations     Donation[]
   collections   Collection[] @relation("UserCollections")
   verifiedCollections Collection[] @relation("VerifiedCollections")
+  createdCollectionPoints CollectionPoint[]
+  createdProjects Project[]
+  organizedEvents Event[]
   events        EventParticipant[]
   orders        Order[]
   posts         Post[]
+  postReactions PostReaction[]
+  postComments  PostComment[]
   achievements  UserAchievement[]
   redemptions   Redemption[]
   notifications Notification[]
   settings      UserSettings?
   auditLogs     AuditLog[]
+  uploadedFiles File[]
   
   @@index([email])
   @@index([phone])
@@ -511,7 +517,7 @@ model Order {
   totalAmount   Decimal     @db.Decimal(15, 2)
   currency      String
   status        OrderStatus @default(PENDING)
-  paymentId     String?
+  paymentId     String?     @unique
   payment       Payment?    @relation(fields: [paymentId], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
