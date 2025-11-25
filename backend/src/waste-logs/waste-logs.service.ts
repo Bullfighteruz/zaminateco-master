@@ -26,7 +26,8 @@ export class WasteLogsService {
         user: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
           },
         },
@@ -70,7 +71,8 @@ export class WasteLogsService {
           user: {
             select: {
               id: true,
-              name: true,
+              firstName: true,
+              lastName: true,
               email: true,
             },
           },
@@ -97,7 +99,8 @@ export class WasteLogsService {
         user: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
           },
         },
@@ -140,13 +143,14 @@ export class WasteLogsService {
       data: {
         status: updateDto.status,
         verifiedAt: updateDto.status === 'VERIFIED' ? new Date() : null,
-        verifiedBy: updateDto.status === 'VERIFIED' ? verifiedBy : null,
+        verifiedById: updateDto.status === 'VERIFIED' && verifiedBy ? verifiedBy : null,
       },
       include: {
         user: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
           },
         },
