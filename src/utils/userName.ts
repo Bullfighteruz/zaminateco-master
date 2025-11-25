@@ -15,8 +15,14 @@ export interface UserNameData {
 
 /**
  * Get the user's name from localStorage or return default
+ * SSR-safe: checks for window before accessing localStorage
  */
 export function getUserName(): string {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return DEFAULT_NAME;
+  }
+  
   try {
     const stored = localStorage.getItem(USER_NAME_KEY);
     if (stored) {
@@ -31,8 +37,18 @@ export function getUserName(): string {
 
 /**
  * Get the user's name data (firstName, lastName, fullName)
+ * SSR-safe: checks for window before accessing localStorage
  */
 export function getUserNameData(): UserNameData {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return {
+      firstName: 'Suxrobjon',
+      lastName: 'Rixsiboyev',
+      fullName: DEFAULT_NAME
+    };
+  }
+  
   try {
     const stored = localStorage.getItem(USER_NAME_KEY);
     if (stored) {
@@ -52,8 +68,14 @@ export function getUserNameData(): UserNameData {
  * Save the user's name to localStorage
  * Only includes last name if it's provided
  * If only first name is provided, fullName will be just the first name
+ * SSR-safe: checks for window before accessing localStorage
  */
 export function saveUserName(firstName: string, lastName: string): void {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return;
+  }
+  
   try {
     const trimmedFirstName = firstName.trim();
     const trimmedLastName = lastName.trim();
@@ -92,8 +114,14 @@ export function saveUserName(firstName: string, lastName: string): void {
 
 /**
  * Check if this is the user's first visit
+ * SSR-safe: checks for window before accessing localStorage
  */
 export function isFirstVisit(): boolean {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return false; // Don't show modal during SSR/build
+  }
+  
   try {
     const visited = localStorage.getItem(FIRST_VISIT_KEY);
     return !visited;
@@ -105,8 +133,14 @@ export function isFirstVisit(): boolean {
 /**
  * Mark that the user has visited (welcome modal shown)
  * This prevents the modal from showing again on refresh
+ * SSR-safe: checks for window before accessing localStorage
  */
 export function markAsVisited(): void {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return;
+  }
+  
   try {
     localStorage.setItem(FIRST_VISIT_KEY, 'true');
     // Also dispatch event to notify components
@@ -118,8 +152,14 @@ export function markAsVisited(): void {
 
 /**
  * Reset user name to default (for testing/debugging)
+ * SSR-safe: checks for window before accessing localStorage
  */
 export function resetUserName(): void {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return;
+  }
+  
   try {
     localStorage.removeItem(USER_NAME_KEY);
     window.dispatchEvent(new CustomEvent('userNameUpdated', { 

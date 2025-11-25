@@ -593,6 +593,11 @@ export const calculateLevelProgress = (points: number, level: number) => {
 
 // Save/Load functions (localStorage for now, can be replaced with API calls)
 export const saveUserProgress = (progress: UserProgress): void => {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    return;
+  }
+  
   // Always use the current name from storage
   const currentName = getUserName();
   const updatedProgress = { ...progress, name: currentName };
@@ -602,6 +607,12 @@ export const saveUserProgress = (progress: UserProgress): void => {
 };
 
 export const loadUserProgress = (): UserProgress => {
+  // Check if we're in a browser environment (not SSR/build)
+  if (typeof window === 'undefined') {
+    // Return default progress during SSR/build
+    return { ...AZIZA_PROGRESS };
+  }
+  
   // Get current user name from storage
   const currentName = getUserName();
   const saved = localStorage.getItem('aziza_progress');
