@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../hooks/use-mobile';
 import { useCart } from '../contexts/CartContext';
 import { PRODUCT_DETAIL_DATA, getProductDetailData } from '../lib/productData';
+import type { ProductDetailData } from '../lib/productData';
 import { getProductImages } from '../lib/productImages';
 import { getIconForProductOrCategory } from '../lib/iconMatcher';
 import { cn } from '@/lib/utils';
@@ -62,7 +63,7 @@ const PRODUCT_PRICE_MAP: Record<string, string> = {
 
 // Related Product Carousel Component
 interface RelatedProductCarouselProps {
-  product: any;
+  product: ProductDetailData;
   productName: string;
   productPrice: string;
   images: string[];
@@ -338,6 +339,27 @@ export default function ProductDetail() {
       }
     return getProductDetailData(id);
   }, [id]);
+  
+  const productKey = productDetail ? getProductTranslationKey(productDetail.englishName) : '';
+  const detailBasePath = productDetail ? `productDetails.${productKey}` : '';
+  const productName = productDetail
+    ? t(productDetail.nameKey, { ns: 'shop' })
+    : t('productDetails.common.productNotFound', { defaultValue: 'Product Not Found', ns: 'shop' });
+  const productDescription = productDetail
+    ? t(productDetail.descriptionKey, { ns: 'shop' })
+    : t('productDetails.common.productNotFoundDescription', { defaultValue: 'The product you are looking for does not exist.', ns: 'shop' });
+  const productCategory = productDetail
+    ? t(productDetail.categoryKey, { ns: 'shop' })
+    : t('productDetails.common.categoryFallback', { ns: 'shop', defaultValue: 'Eco Product' });
+  const priceValue = productDetail ? PRODUCT_PRICE_MAP[productDetail.englishName] || CALL_FOR_PRICE_MARKER : CALL_FOR_PRICE_MARKER;
+  const price = priceValue === CALL_FOR_PRICE_MARKER
+    ? t('pricing.callForPrice', { ns: 'shop', defaultValue: 'Call for price' })
+    : priceValue;
+  
+  const getTranslated = useCallback((path: string, fallback: string) => {
+    if (!productDetail || !detailBasePath) return fallback;
+    return t(`${detailBasePath}.${path}`, { ns: 'shop', defaultValue: fallback });
+  }, [productDetail, detailBasePath, t]);
   
   useEffect(() => {
     if (productDetail?.folderName) {
@@ -967,142 +989,144 @@ export default function ProductDetail() {
       }
     }, [displayImageIndex, validProductImages.length, scrollToThumbnail]);
   
-  if (!productDetail) {
-    return (
-      <Layout title={t('productNotFound', { defaultValue: 'Product Not Found', ns: 'translation' })}>
-        <div className="min-h-screen flex items-center justify-center p-4">
-          <Card className="max-w-md w-full">
-            <CardContent className="p-6 text-center space-y-4">
-              <h1 className="text-2xl font-bold">{t('productDetails.common.productNotFound', { defaultValue: 'Product Not Found', ns: 'shop' })}</h1>
-              <p className="text-gray-600">{t('productDetails.common.productNotFoundDescription', { defaultValue: "The product you're looking for doesn't exist.", ns: 'shop' })}</p>
-              <Button onClick={() => {
-                // Navigate back to shop - scroll position will be restored by Shop component
-                navigate('/shop');
-              }}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('backToShop', { defaultValue: 'Back to Shop', ns: 'shop' })}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </Layout>
-    );
-  }
-  
-  const productName = t(productDetail.nameKey, { ns: 'shop' });
-  const productDescription = t(productDetail.descriptionKey, { ns: 'shop' });
-  const productCategory = t(productDetail.categoryKey, { ns: 'shop' });
-  const priceValue = PRODUCT_PRICE_MAP[productDetail.englishName] || CALL_FOR_PRICE_MARKER;
-  const price = priceValue === CALL_FOR_PRICE_MARKER ? t('pricing.callForPrice', { ns: 'shop', defaultValue: 'Call for price' }) : priceValue;
-  
-  // Get product translation key
-  const productKey = getProductTranslationKey(productDetail.englishName);
-  const detailBasePath = `productDetails.${productKey}`;
-  
-  // Helper to get translated text with fallback
-  const getTranslated = (path: string, fallback: string) => {
-    return t(`${detailBasePath}.${path}`, { ns: 'shop', defaultValue: fallback });
-  };
+  const renderProductNotFound = () => (
+    <Layout title={t('productNotFound', { defaultValue: 'Product Not Found', ns: 'translation' })}>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="p-6 text-center space-y-4">
+            <h1 className="text-2xl font-bold">{t('productDetails.common.productNotFound', { defaultValue: 'Product Not Found', ns: 'shop' })}</h1>
+            <p className="text-gray-600">{t('productDetails.common.productNotFoundDescription', { defaultValue: "The product you're looking for doesn't exist.", ns: 'shop' })}</p>
+            <Button onClick={() => {
+              // Navigate back to shop - scroll position will be restored by Shop component
+              navigate('/shop');
+            }}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              {t('backToShop', { defaultValue: 'Back to Shop', ns: 'shop' })}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </Layout>
+  );
   
   // Memoize expensive translations for better performance
-  const translatedOverview = useMemo(() => ({
-    title: getTranslated('overview.title', productDetail.overview.title),
-    description: getTranslated('overview.description', productDetail.overview.description),
-    specifications: productDetail.overview.specifications.map((spec, index) => 
-      getTranslated(`overview.specs.${index}`, spec)
-    ),
-  }), [productDetail.overview, detailBasePath, t]);
+  const translatedOverview = useMemo(() => {
+    if (!productDetail) {
+      return {
+        title: '',
+        description: '',
+        specifications: [],
+      };
+    }
+    return {
+      title: getTranslated('overview.title', productDetail.overview.title),
+      description: getTranslated('overview.description', productDetail.overview.description),
+      specifications: productDetail.overview.specifications.map((spec, index) => 
+        getTranslated(`overview.specs.${index}`, spec)
+      ),
+    };
+  }, [productDetail, getTranslated]);
   
   // Get translated badges - memoized
-  const translatedBadges = useMemo(() => productDetail.badges.map((badge, index) => {
-    const badgeKeys = ['recycledMaterial', 'heatResistant', 'frostResistant', 'uvStabilized', 'nonToxic', 
-                      'en1177Certified', 'weatherproof', 'lightweight', 'modularDesign', 'drainageSystem',
-                      'uvResistant', 'easyToClean', 'maintenanceFree', 'secureDesign', 'modular',
-                      'completeInfrastructure', 'customizable', 'creativeDesigns', 'safeForKids'];
-    const key = badgeKeys[index] || index.toString();
-    return {
-      ...badge,
-      text: getTranslated(`badges.${key}`, badge.text),
-    };
-  }), [productDetail.badges, detailBasePath, t]);
+  const translatedBadges = useMemo(() => {
+    if (!productDetail) return [];
+    return productDetail.badges.map((badge, index) => {
+      const badgeKeys = ['recycledMaterial', 'heatResistant', 'frostResistant', 'uvStabilized', 'nonToxic', 
+                        'en1177Certified', 'weatherproof', 'lightweight', 'modularDesign', 'drainageSystem',
+                        'uvResistant', 'easyToClean', 'maintenanceFree', 'secureDesign', 'modular',
+                        'completeInfrastructure', 'customizable', 'creativeDesigns', 'safeForKids'];
+      const key = badgeKeys[index] || index.toString();
+      return {
+        ...badge,
+        text: getTranslated(`badges.${key}`, badge.text),
+      };
+    });
+  }, [productDetail, getTranslated]);
   
   // Get translated technical specs - memoized
-  const translatedTechnicalSpecs = useMemo(() => productDetail.technicalSpecs.map((spec) => {
-    const labelMap: Record<string, string> = {
-      'Size': 'technicalSpecs.size',
-      'Thickness': 'technicalSpecs.thickness',
-      'Weight': 'technicalSpecs.weight',
-      'Density': 'technicalSpecs.density',
-      'Base Material': 'technicalSpecs.baseMaterial',
-      'Top Layer': 'technicalSpecs.topLayer',
-      'Compressive Strength': 'technicalSpecs.compressiveStrength',
-      'Shore Hardness': 'technicalSpecs.shoreHardness',
-      'Water Absorption': 'technicalSpecs.waterAbsorption',
-      'UV Rating': 'technicalSpecs.uvRating',
-      'Temperature Range': 'technicalSpecs.temperatureRange',
-      'Lifespan': 'technicalSpecs.lifespan',
-      'Manufacturing': 'technicalSpecs.manufacturing',
-      'Standards': 'technicalSpecs.standards',
-      'Standard Size': 'technicalSpecs.standardSize',
-      'Material': 'technicalSpecs.material',
-      'Capacity': 'technicalSpecs.capacity',
-      'Wall Thickness': 'technicalSpecs.wallThickness',
-      'Dimensions': 'technicalSpecs.dimensions',
-      'Length': 'technicalSpecs.length',
-      'Width': 'technicalSpecs.width',
-      'Height': 'technicalSpecs.height',
-      'Load Capacity': 'technicalSpecs.loadCapacity',
-      'HIC Value': 'technicalSpecs.hicValue',
-      'Critical Fall Height': 'technicalSpecs.criticalFallHeight',
-      'Seating Capacity': 'technicalSpecs.seatingCapacity',
-      'Customization': 'technicalSpecs.customization',
-    };
-    const labelKey = labelMap[spec.label] || `technicalSpecs.${spec.label.toLowerCase().replace(/\s+/g, '')}`;
-    return {
-      ...spec,
-      label: getTranslated(labelKey, spec.label),
-    };
-  }), [productDetail.technicalSpecs, detailBasePath, t]);
+  const translatedTechnicalSpecs = useMemo(() => {
+    if (!productDetail) return [];
+    return productDetail.technicalSpecs.map((spec) => {
+      const labelMap: Record<string, string> = {
+        'Size': 'technicalSpecs.size',
+        'Thickness': 'technicalSpecs.thickness',
+        'Weight': 'technicalSpecs.weight',
+        'Density': 'technicalSpecs.density',
+        'Base Material': 'technicalSpecs.baseMaterial',
+        'Top Layer': 'technicalSpecs.topLayer',
+        'Compressive Strength': 'technicalSpecs.compressiveStrength',
+        'Shore Hardness': 'technicalSpecs.shoreHardness',
+        'Water Absorption': 'technicalSpecs.waterAbsorption',
+        'UV Rating': 'technicalSpecs.uvRating',
+        'Temperature Range': 'technicalSpecs.temperatureRange',
+        'Lifespan': 'technicalSpecs.lifespan',
+        'Manufacturing': 'technicalSpecs.manufacturing',
+        'Standards': 'technicalSpecs.standards',
+        'Standard Size': 'technicalSpecs.standardSize',
+        'Material': 'technicalSpecs.material',
+        'Capacity': 'technicalSpecs.capacity',
+        'Wall Thickness': 'technicalSpecs.wallThickness',
+        'Dimensions': 'technicalSpecs.dimensions',
+        'Length': 'technicalSpecs.length',
+        'Width': 'technicalSpecs.width',
+        'Height': 'technicalSpecs.height',
+        'Load Capacity': 'technicalSpecs.loadCapacity',
+        'HIC Value': 'technicalSpecs.hicValue',
+        'Critical Fall Height': 'technicalSpecs.criticalFallHeight',
+        'Seating Capacity': 'technicalSpecs.seatingCapacity',
+        'Customization': 'technicalSpecs.customization',
+      };
+      const labelKey = labelMap[spec.label] || `technicalSpecs.${spec.label.toLowerCase().replace(/\s+/g, '')}`;
+      return {
+        ...spec,
+        label: getTranslated(labelKey, spec.label),
+      };
+    });
+  }, [productDetail, getTranslated]);
   
   // Get translated sustainability metrics - memoized
-  const translatedSustainability = useMemo(() => productDetail.sustainability.map((metric) => {
-    const labelMap: Record<string, string> = {
-      'Recycled Rubber': 'sustainability.recycledRubber',
-      'Recycled Plastic': 'sustainability.recycledPlastic',
-      'CO2 Reduction': 'sustainability.co2Reduction',
-      'Waste Diverted': 'sustainability.wasteDiverted',
-      'Social Impact': 'sustainability.socialImpact',
-      'Recyclable': 'sustainability.recyclable',
-      'Recycled Steel': 'sustainability.recycledSteel',
-    };
-    const labelKey = labelMap[metric.label] || `sustainability.${metric.label.toLowerCase().replace(/\s+/g, '')}`;
-    const descMap: Record<string, string> = {
-      'From waste tires': 'sustainability.fromWasteTires',
-      'HDPE/PP waste': 'sustainability.hdpPpWaste',
-      'vs virgin materials': 'sustainability.vsVirginMaterials',
-      'From landfill': 'sustainability.fromLandfill',
-      'Community mahalla projects supported': 'sustainability.communityMahalla',
-      'EcoKids playground projects supported': 'sustainability.ecokidsProjects',
-      'vs traditional bricks': 'sustainability.vsTraditionalBricks',
-      'vs virgin HDPE': 'sustainability.vsVirginHdpe',
-      'Can be recycled again': 'sustainability.canBeRecycledAgain',
-      'From scrap metal': 'sustainability.fromScrapMetal',
-      'Community transit infrastructure': 'sustainability.communityTransitInfrastructure',
-      'EcoKids educational play projects': 'sustainability.ecokidsEducationalPlayProjects',
-      'HDPE from waste': 'sustainability.hdpFromWaste',
-      'Depends on product': 'sustainability.dependsOnProduct',
-    };
-    const descKey = metric.description ? (descMap[metric.description] || `sustainability.${metric.description.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')}`) : '';
-    return {
-      ...metric,
-      label: getTranslated(labelKey, metric.label),
-      description: metric.description ? (descKey ? getTranslated(descKey, metric.description) : metric.description) : undefined,
-      unit: metric.unit,
-    };
-  }), [productDetail.sustainability, detailBasePath, t]);
+  const translatedSustainability = useMemo(() => {
+    if (!productDetail) return [];
+    return productDetail.sustainability.map((metric) => {
+      const labelMap: Record<string, string> = {
+        'Recycled Rubber': 'sustainability.recycledRubber',
+        'Recycled Plastic': 'sustainability.recycledPlastic',
+        'CO2 Reduction': 'sustainability.co2Reduction',
+        'Waste Diverted': 'sustainability.wasteDiverted',
+        'Social Impact': 'sustainability.socialImpact',
+        'Recyclable': 'sustainability.recyclable',
+        'Recycled Steel': 'sustainability.recycledSteel',
+      };
+      const labelKey = labelMap[metric.label] || `sustainability.${metric.label.toLowerCase().replace(/\s+/g, '')}`;
+      const descMap: Record<string, string> = {
+        'From waste tires': 'sustainability.fromWasteTires',
+        'HDPE/PP waste': 'sustainability.hdpPpWaste',
+        'vs virgin materials': 'sustainability.vsVirginMaterials',
+        'From landfill': 'sustainability.fromLandfill',
+        'Community mahalla projects supported': 'sustainability.communityMahalla',
+        'EcoKids playground projects supported': 'sustainability.ecokidsProjects',
+        'vs traditional bricks': 'sustainability.vsTraditionalBricks',
+        'vs virgin HDPE': 'sustainability.vsVirginHdpe',
+        'Can be recycled again': 'sustainability.canBeRecycledAgain',
+        'From scrap metal': 'sustainability.fromScrapMetal',
+        'Community transit infrastructure': 'sustainability.communityTransitInfrastructure',
+        'EcoKids educational play projects': 'sustainability.ecokidsEducationalPlayProjects',
+        'HDPE from waste': 'sustainability.hdpFromWaste',
+        'Depends on product': 'sustainability.dependsOnProduct',
+      };
+      const descKey = metric.description ? (descMap[metric.description] || `sustainability.${metric.description.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')}`) : '';
+      return {
+        ...metric,
+        label: getTranslated(labelKey, metric.label),
+        description: metric.description ? (descKey ? getTranslated(descKey, metric.description) : metric.description) : undefined,
+        unit: metric.unit,
+      };
+    });
+  }, [productDetail, getTranslated]);
   
   // Get translated use cases - ensure we always return strings, not objects - memoized
   const translatedUseCases = useMemo(() => {
+    if (!productDetail) return [];
     // Map use case titles to their translation key names
     const useCaseKeyMap: Record<string, string> = {
       'Playgrounds': 'playgrounds',
@@ -1159,10 +1183,11 @@ export default function ProductDetail() {
         description: translatedDescription,
       };
     });
-  }, [productDetail.useCases, detailBasePath, t]);
+  }, [productDetail, detailBasePath, t]);
   
   // Get translated features - ensure we always return strings, not objects - memoized
   const translatedFeatures = useMemo(() => {
+    if (!productDetail) return [];
     // Map feature titles to their translation key names
     const featureKeyMap: Record<string, string> = {
       'Creative Designs': 'creativeDesigns',
@@ -1216,7 +1241,7 @@ export default function ProductDetail() {
         description: translatedDescription,
       };
     });
-  }, [productDetail.features, detailBasePath, t]);
+  }, [productDetail, detailBasePath, t]);
   
   // SEO Management - Dynamic meta tags, OG tags, canonical URL
   useSEO({
@@ -1341,6 +1366,10 @@ export default function ProductDetail() {
     
     return related;
   }, [productDetail, t]);
+
+  if (!productDetail) {
+    return renderProductNotFound();
+  }
   
   return (
     <Layout title={productName}>

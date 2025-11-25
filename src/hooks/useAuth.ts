@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, IS_BACKEND_AVAILABLE } from '@/lib/api-client';
 
 interface User {
   id: string;
@@ -23,10 +23,18 @@ export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    if (!IS_BACKEND_AVAILABLE) {
+      setLoading(false);
+      return;
+    }
     checkAuth();
   }, []);
 
   const checkAuth = async () => {
+    if (!IS_BACKEND_AVAILABLE) {
+      setLoading(false);
+      return;
+    }
     try {
       const token = localStorage.getItem('accessToken');
       if (!token) {
@@ -36,18 +44,18 @@ export function useAuth() {
 
       // Try to verify token with backend, but don't block if backend is unavailable
       // Use a timeout to prevent long waits
-      const timeoutPromise = new Promise((_, reject) => 
+      const timeoutPromise: Promise<User | null> = new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Timeout')), 3000)
       );
 
       try {
-        const userData = await Promise.race([
-          apiClient.getCurrentUser(),
+        const userData = await Promise.race<User | null>([
+          apiClient.getCurrentUser() as Promise<User | null>,
           timeoutPromise
-        ]) as any;
+        ]);
         
         if (userData) {
-          setUser(userData as User);
+          setUser(userData);
           setIsAuthenticated(true);
         }
       } catch (error) {
@@ -69,6 +77,9 @@ export function useAuth() {
   };
 
   const login = async (credentials: { email?: string; phone?: string; password?: string; otp?: string }) => {
+    if (!IS_BACKEND_AVAILABLE) {
+      return { success: false, error: 'Backend unavailable' };
+    }
     try {
       const response = await apiClient.login(credentials);
       if (response.user) {
@@ -90,6 +101,9 @@ export function useAuth() {
     firstName: string;
     lastName: string;
   }) => {
+    if (!IS_BACKEND_AVAILABLE) {
+      return { success: false, error: 'Backend unavailable' };
+    }
     try {
       const response = await apiClient.register(data);
       if (response.user) {

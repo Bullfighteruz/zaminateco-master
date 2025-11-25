@@ -195,8 +195,7 @@ export default function Index() {
                     border: '2px solid rgba(34, 197, 94, 0.4)',
                     boxShadow: '0 8px 32px rgba(34, 197, 94, 0.2)',
                   }}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
                 >
                   {/* Animated leaf pattern - Top Left */}
                   <motion.div

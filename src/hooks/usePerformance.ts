@@ -9,7 +9,7 @@ import { useCallback, useRef, useEffect } from 'react';
  * Hook to debounce function calls
  * Useful for search, resize, scroll handlers
  */
-export function useDebounceCallback<T extends (...args: any[]) => any>(
+export function useDebounceCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
@@ -42,7 +42,7 @@ export function useDebounceCallback<T extends (...args: any[]) => any>(
  * Hook to throttle function calls
  * Useful for scroll, resize, mousemove handlers
  */
-export function useThrottleCallback<T extends (...args: any[]) => any>(
+export function useThrottleCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   delay: number
 ): T {
@@ -84,7 +84,7 @@ export function useThrottleCallback<T extends (...args: any[]) => any>(
  * Hook to check if component should update based on props
  * Useful for React.memo comparison functions
  */
-export function usePropsComparison<T extends Record<string, any>>(
+export function usePropsComparison<T extends Record<string, unknown>>(
   props: T,
   keysToCompare: (keyof T)[]
 ): boolean {

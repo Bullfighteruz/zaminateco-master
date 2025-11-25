@@ -5,7 +5,43 @@
  * All requests are authenticated using JWT tokens stored in localStorage.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
+const DEFAULT_API_URL = import.meta.env.DEV ? 'http://localhost:3000/api/v1' : '';
+const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_URL);
+
+function isLocalHost(host?: string) {
+  if (!host) return false;
+  const normalized = host.toLowerCase();
+  return normalized === 'localhost' || normalized === '127.0.0.1';
+}
+
+function determineBackendAvailability(baseURL: string): boolean {
+  if (!baseURL) return false;
+
+  try {
+    const parsed = new URL(
+      baseURL,
+      typeof window !== 'undefined' ? window.location.href : 'http://localhost'
+    );
+    const targetHost = parsed.hostname;
+    const runningOnLocalhost =
+      typeof window !== 'undefined' && isLocalHost(window.location.hostname);
+
+    if (!runningOnLocalhost && isLocalHost(targetHost)) {
+      return false;
+    }
+
+    if (import.meta.env.PROD && isLocalHost(targetHost)) {
+      return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const BACKEND_ENABLED = determineBackendAvailability(API_BASE_URL);
+export const IS_BACKEND_AVAILABLE = BACKEND_ENABLED;
 
 interface ApiResponse<T> {
   data?: T;
@@ -52,10 +88,8 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    // If API URL is localhost and we're not in development, skip backend calls
-    // This prevents errors on Netlify when backend isn't configured
-    if (this.baseURL.includes('localhost') && import.meta.env.PROD) {
-      throw new Error('Backend not configured for production');
+    if (!BACKEND_ENABLED) {
+      throw new Error('BACKEND_DISABLED');
     }
 
     const url = `${this.baseURL}${endpoint}`;
@@ -116,18 +150,26 @@ class ApiClient {
     } catch (error: unknown) {
       // Silently handle network errors - app works without backend
       const message = error instanceof Error ? error.message : String(error);
+      if (message === 'BACKEND_DISABLED') {
+        throw error;
+      }
       // Only log if it's not a network/timeout error (which are expected when backend is unavailable)
-      if (!message.includes('Failed to fetch') && 
-          !message.includes('aborted') && 
-          !message.includes('timeout') &&
-          !message.includes('not configured')) {
-        // Only log unexpected errors
+      if (
+        !message.includes('Failed to fetch') &&
+        !message.includes('aborted') &&
+        !message.includes('timeout') &&
+        !message.includes('not configured')
+      ) {
+        console.error('API request failed:', message);
       }
       throw error;
     }
   }
 
   private async refreshToken(): Promise<boolean> {
+    if (!BACKEND_ENABLED) {
+      return false;
+    }
     const refreshToken = typeof window !== 'undefined' 
       ? localStorage.getItem('refreshToken') 
       : null;
@@ -485,6 +527,9 @@ class ApiClient {
 
   // Upload
   async uploadImage(file: File) {
+    if (!BACKEND_ENABLED) {
+      throw new Error('BACKEND_DISABLED');
+    }
     const formData = new FormData();
     formData.append('file', file);
 

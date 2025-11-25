@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Vote, 
@@ -36,7 +36,7 @@ import { getIconForProductOrCategory } from '../lib/iconMatcher';
 import { useMemo, useEffect } from 'react';
 import { toast } from 'sonner';
 import DonationDialog from '../components/DonationDialog';
-import { apiClient } from '../lib/api-client';
+import { apiClient, IS_BACKEND_AVAILABLE } from '../lib/api-client';
 
 // Types for completed projects
 interface TimelineItem {
@@ -168,9 +168,24 @@ function EcoVote() {
   const [selectedProjectForDonation, setSelectedProjectForDonation] = useState<VotingProject | null>(null);
   const [projects, setProjects] = useState<VotingProject[]>(votingProjects);
   const [loading, setLoading] = useState(true);
+  const backendNoticeShownRef = useRef(false);
 
   // Fetch projects from backend
   useEffect(() => {
+    if (!IS_BACKEND_AVAILABLE) {
+      if (!backendNoticeShownRef.current) {
+        toast.info(
+          t('backendUnavailable', {
+            defaultValue: 'Backend is offline, showing sample projects.',
+          })
+        );
+        backendNoticeShownRef.current = true;
+      }
+      setProjects(votingProjects);
+      setLoading(false);
+      return;
+    }
+
     const fetchProjects = async () => {
       try {
         setLoading(true);
@@ -198,7 +213,18 @@ function EcoVote() {
         }
       } catch (error) {
         // Fallback to mock data if backend is unavailable
-        // Failed to fetch projects from backend, using mock data
+        if (
+          error instanceof Error &&
+          error.message === 'BACKEND_DISABLED' &&
+          !backendNoticeShownRef.current
+        ) {
+          toast.info(
+            t('backendUnavailable', {
+              defaultValue: 'Backend is offline, showing sample projects.',
+            })
+          );
+          backendNoticeShownRef.current = true;
+        }
         setProjects(votingProjects);
       } finally {
         setLoading(false);
@@ -839,6 +865,10 @@ function EcoVote() {
                             <Button 
                               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
                               onClick={async () => {
+                                if (!IS_BACKEND_AVAILABLE) {
+                                  toast.info(t('backendUnavailable', { defaultValue: 'Backend is offline, showing demo data.' }));
+                                  return;
+                                }
                                 try {
                                   await apiClient.voteForProject(project.id);
                                   toast.success(t('voteRecorded', { defaultValue: 'Your vote has been recorded!' }));

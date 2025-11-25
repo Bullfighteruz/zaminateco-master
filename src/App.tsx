@@ -3,7 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ScrollToTop from './components/ScrollToTop';
+import ScrollManager from './components/ScrollManager';
 import ErrorBoundary from './components/ErrorBoundary';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -52,8 +52,8 @@ const App = () => (
               v7_relativeSplatPath: true,
             }}
           >
-            <RouterErrorBoundary>
-              <ScrollToTop />
+              <RouterErrorBoundary>
+              <ScrollManager />
               <WelcomeModal />
               <Suspense fallback={<LightweightLoader />}>
                 <Routes>

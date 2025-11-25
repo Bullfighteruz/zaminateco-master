@@ -5,7 +5,7 @@
 import { useCallback } from 'react';
 
 // Map of routes to their lazy-loaded components
-const routeMap: Record<string, () => Promise<any>> = {
+const routeMap: Record<string, () => Promise<unknown>> = {
   '/': () => import('../pages/Index'),
   '/about': () => import('../pages/About'),
   '/vote': () => import('../pages/EcoVote'),

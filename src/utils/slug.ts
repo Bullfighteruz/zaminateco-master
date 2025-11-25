@@ -23,9 +23,9 @@ export function createSlug(text: string): string {
     .replace(/\s+/g, '-')
     .replace(/_/g, '-')
     // Remove special characters except hyphens
-    .replace(/[^\w\-]+/g, '')
+    .replace(/[^\w-]+/g, '')
     // Replace multiple hyphens with single hyphen
-    .replace(/\-\-+/g, '-')
+    .replace(/--+/g, '-')
     // Remove leading/trailing hyphens
     .replace(/^-+/, '')
     .replace(/-+$/, '');

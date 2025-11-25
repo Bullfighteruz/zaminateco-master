@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/hooks/useAuth';
-import { apiClient } from '@/lib/api-client';
+import { apiClient, IS_BACKEND_AVAILABLE } from '@/lib/api-client';
 import { cn } from '@/lib/utils';
 import { 
   Settings, 
@@ -173,7 +174,7 @@ const benefitItemVariants = {
 };
 
 // Name Change Section Component
-const NameChangeSection: React.FC<{ onNameUpdated: () => void; t: any }> = ({ onNameUpdated, t }) => {
+const NameChangeSection: React.FC<{ onNameUpdated: () => void; t: TFunction }> = ({ onNameUpdated, t }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -269,7 +270,7 @@ const Profile: React.FC = () => {
     // Optional: Try to sync with backend in background (non-blocking)
     // This only runs if user is authenticated AND backend is available
     // If backend fails, we just use localStorage (which already works)
-    if (isAuthenticated && user) {
+    if (IS_BACKEND_AVAILABLE && isAuthenticated && user) {
       // Run in background, don't wait for it
       apiClient.getUserProfile()
         .then((userData) => {
@@ -1908,7 +1909,8 @@ const Profile: React.FC = () => {
                                   className={`text-center p-3 rounded-lg`}
                                   style={{
                                     backgroundColor: `var(--${stat.color}-50)`,
-                                    color: `var(--${stat.color}-600)`
+                                    color: `var(--${stat.color}-600)`,
+                                    willChange: 'transform, opacity'
                                   }}
                                   whileHover={{ scale: 1.05, y: -2 }}
                                   initial={{ opacity: 0, y: 6 }}
@@ -1919,7 +1921,6 @@ const Profile: React.FC = () => {
                                     type: "tween",
                                     ease: "easeOut"
                                   }}
-                                  style={{ willChange: 'transform, opacity' }}
                                 >
                                   <div className="text-lg font-bold">{stat.value}</div>
                                   <div className="text-xs">{stat.label}</div>

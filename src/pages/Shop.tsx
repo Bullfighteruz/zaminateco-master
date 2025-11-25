@@ -18,6 +18,7 @@ import Layout from '../components/Layout';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { useIsMobile } from '../hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { getIconForProductOrCategory } from '../lib/iconMatcher';
@@ -200,7 +201,7 @@ const productData: ProductItem[] = [
 ];
 
 // Category mapping for filtering - maps product categories to filter category IDs
-const getCategoryFromProduct = (product: ProductItem, t: any): string => {
+const getCategoryFromProduct = (product: ProductItem, t: TFunction): string => {
   // Map product.category to filter category IDs
   const categoryMap: Record<string, string> = {
     'Tiles': 'tiles',           // EPDM-free Tiles, EPDM Rubber Ecotiles -> Construction (tiles)
@@ -215,7 +216,7 @@ const getCategoryFromProduct = (product: ProductItem, t: any): string => {
 };
 
 // Categories for category grid - productCount will be calculated dynamically
-const getCategoryData = (t: any, products: ProductItem[]): Category[] => {
+const getCategoryData = (t: TFunction, products: ProductItem[]): Category[] => {
   // Calculate product counts dynamically based on actual products
   const getProductCountForCategory = (categoryId: string): number => {
     return products.filter(product => {
@@ -476,14 +477,16 @@ export default function Shop() {
       switch (sortBy) {
         case 'name':
           return a.productName.localeCompare(b.productName);
-        case 'price-low':
+        case 'price-low': {
           const priceA = a.price ? parseFloat(a.price.replace(/\s/g, '')) : Infinity;
           const priceB = b.price ? parseFloat(b.price.replace(/\s/g, '')) : Infinity;
           return priceA - priceB;
-        case 'price-high':
+        }
+        case 'price-high': {
           const priceHighA = a.price ? parseFloat(a.price.replace(/\s/g, '')) : 0;
           const priceHighB = b.price ? parseFloat(b.price.replace(/\s/g, '')) : 0;
           return priceHighB - priceHighA;
+        }
         case 'popular':
           return b.recycledPercent! - a.recycledPercent!;
         case 'newest':

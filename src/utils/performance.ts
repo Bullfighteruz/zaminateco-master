@@ -3,6 +3,13 @@
  * Helps with performance monitoring and optimization
  */
 
+type NavigatorWithConnection = Navigator & {
+  connection?: {
+    effectiveType?: 'slow-2g' | '2g' | '3g' | '4g';
+    downlink?: number;
+  };
+};
+
 /**
  * Measure performance of a function
  */
@@ -96,7 +103,7 @@ export function isSlowConnection(): boolean {
     return false;
   }
 
-  const connection = (navigator as any).connection;
+  const connection = (navigator as NavigatorWithConnection).connection;
   if (!connection) return false;
 
   // Check effective type

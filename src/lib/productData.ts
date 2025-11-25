@@ -733,8 +733,8 @@ export function getProductDetailData(idOrName: number | string): ProductDetailDa
       .trim()
       .replace(/\s+/g, '-')
       .replace(/_/g, '-')
-      .replace(/[^\w\-]+/g, '')
-      .replace(/\-\-+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/--+/g, '-')
       .replace(/^-+/, '')
       .replace(/-+$/, '');
     

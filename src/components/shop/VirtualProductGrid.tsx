@@ -8,6 +8,7 @@
 
 import React, { useRef, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import type { TFunction } from 'i18next';
 import { useVirtualScroll } from '@/hooks/useVirtualScroll';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
@@ -30,7 +31,7 @@ interface VirtualProductGridProps {
   }>;
   onAddToCart: (product: ProductCardProps) => void;
   isLoading?: boolean;
-  t: (key: string, options?: any) => string;
+  t: TFunction;
 }
 
 export default function VirtualProductGrid({

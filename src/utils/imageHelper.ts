@@ -102,7 +102,9 @@ export function getImageUrlVariations(src: string): string[] {
       if (decoded.includes(' ')) {
         addVariation(encodeURIComponent(decoded));
       }
-    } catch {}
+    } catch {
+      // Ignore decoding errors
+    }
     
     // 2. Try encoded version (if it has spaces)
     if (fileName.includes(' ') && !fileName.includes('%')) {
@@ -128,7 +130,9 @@ export function getImageUrlVariations(src: string): string[] {
       const decoded = decodeURIComponent(fileName);
       const properlyEncoded = encodeURIComponent(decoded);
       addVariation(properlyEncoded);
-    } catch {}
+    } catch {
+      // Ignore encoding errors
+    }
     
     // 6. Try hyphen variations (sometimes files are renamed)
     if (fileName.includes('%20')) {
