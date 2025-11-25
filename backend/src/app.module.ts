@@ -12,10 +12,10 @@ import { StoriesModule } from './stories/stories.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { UploadModule } from './upload/upload.module';
 import { WasteLogsModule } from './waste-logs/waste-logs.module';
-import { NewsModule } from './news/news.module';
-import { GeoModule } from './geo/geo.module';
-import { ModerationModule } from './moderation/moderation.module';
-import { NotificationsModule } from './notifications/notifications.module';
+// import { NewsModule } from './news/news.module';
+// import { GeoModule } from './geo/geo.module';
+// import { ModerationModule } from './moderation/moderation.module';
+// import { NotificationsModule } from './notifications/notifications.module';
 import { LocalizationModule } from './localization/localization.module';
 
 @Module({
@@ -41,10 +41,10 @@ import { LocalizationModule } from './localization/localization.module';
     LeaderboardModule,
     UploadModule,
     WasteLogsModule,
-    NewsModule,
-    GeoModule,
-    ModerationModule,
-    NotificationsModule,
+    // NewsModule, // Temporarily disabled - missing NewsContent model
+    // GeoModule, // Temporarily disabled - missing @nestjs/axios
+    // ModerationModule, // Temporarily disabled - missing @nestjs/axios
+    // NotificationsModule, // Temporarily disabled - missing @nestjs/axios
     LocalizationModule,
   ],
 })

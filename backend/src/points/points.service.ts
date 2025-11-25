@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bull';
+import { Injectable, Optional } from '@nestjs/common';
+// import { InjectQueue } from '@nestjs/bull';
+// import { Queue } from 'bull';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 
@@ -34,7 +34,7 @@ export class PointsService {
   };
 
   constructor(
-    @InjectQueue('points') private pointsQueue: Queue,
+    // @InjectQueue('points') @Optional() private pointsQueue?: Queue,
     private prisma: PrismaService,
     private usersService: UsersService,
   ) {}
