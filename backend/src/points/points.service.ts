@@ -42,7 +42,7 @@ export class PointsService {
   ) {}
 
   /**
-   * Award points asynchronously via queue
+   * Award points (synchronously - queue disabled until Bull is installed)
    */
   async awardPoints(award: PointsAward) {
     const basePoints = this.multipliers[award.action] || 0;
@@ -55,15 +55,10 @@ export class PointsService {
       finalPoints = Math.floor(Number(award.metadata.amount) * basePoints);
     }
 
-    // Add to queue for async processing
-    await this.pointsQueue.add('award', {
-      userId: award.userId,
-      action: award.action,
-      points: finalPoints,
-      metadata: award.metadata,
-    });
+    // Process points directly (queue disabled until Bull is installed)
+    await this.processPointsAward(award.userId, finalPoints, award.action);
 
-    return { queued: true, points: finalPoints };
+    return { queued: false, points: finalPoints };
   }
 
   /**
