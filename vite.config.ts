@@ -15,6 +15,8 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // Ensure proper module resolution
+    dedupe: ['react', 'react-dom'],
   },
   server: {
     host: '0.0.0.0', // Allow access from network (mobile devices)
@@ -66,12 +68,20 @@ export default defineConfig(({ mode }) => ({
   build: {
     // Increase chunk size warning limit
     chunkSizeWarningLimit: 1000,
+    // Ensure proper module format
+    target: 'es2020',
+    // Use esbuild for faster builds
+    minify: mode === 'production' ? 'esbuild' : false,
     // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React and core dependencies
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
+          // CRITICAL: Keep ALL React-related code together in one chunk
+          // This ensures React.createContext and all React APIs are available
+          if (id.includes('node_modules/react') || 
+              id.includes('node_modules/react-dom') ||
+              id.includes('node_modules/react-router') ||
+              id.includes('node_modules/scheduler')) {
             return 'react-vendor';
           }
           // i18n
@@ -111,20 +121,6 @@ export default defineConfig(({ mode }) => ({
     },
     // Enable source maps only in development
     sourcemap: mode === 'development',
-    // Minify for production
-    minify: mode === 'production' ? 'terser' : false,
-    // Optimize terser options
-    terserOptions: mode === 'production' ? {
-      compress: {
-        drop_console: true, // Remove console.log in production
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
-        passes: 2, // Multiple passes for better compression
-      },
-      format: {
-        comments: false, // Remove comments
-      },
-    } : undefined,
     // CSS code splitting
     cssCodeSplit: true,
     // Optimize asset inlining threshold
@@ -134,7 +130,10 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: [
       'react',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
       'react-dom',
+      'react-dom/client',
       'react-router-dom',
       'react-i18next',
       'i18next',
@@ -144,5 +143,9 @@ export default defineConfig(({ mode }) => ({
     ],
     // Exclude large dependencies from pre-bundling if needed
     exclude: ['@splinetool/react-spline'], // Load Spline on demand
+    // Force React to be pre-bundled together
+    esbuildOptions: {
+      target: 'es2020',
+    },
   },
 }));
