@@ -113,6 +113,22 @@ enum CommunityType {
   PARTNER
 }
 
+enum WasteCategory {
+  PLASTIC
+  PAPER
+  GLASS
+  METAL
+  ORGANIC
+  ELECTRONIC
+  OTHER
+}
+
+enum WasteLogStatus {
+  SUBMITTED
+  VERIFIED
+  REJECTED
+}
+
 // ============================================
 // USER & SECURITY TABLES
 // ============================================
@@ -160,6 +176,8 @@ model User {
   settings      UserSettings?
   auditLogs     AuditLog[]
   uploadedFiles File[]
+  wasteLogs     WasteLog[]
+  verifiedWasteLogs WasteLog[] @relation("VerifiedWasteLogs")
   
   @@index([email])
   @@index([phone])
@@ -363,6 +381,28 @@ model Vote {
   @@index([projectId])
   @@index([userId])
   @@index([impactArea])
+}
+
+model WasteLog {
+  id         String         @id @default(uuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weightKg   Float
+  category   WasteCategory
+  location   String?        @db.Text
+  date       DateTime       @default(now())
+  photoURL   String?
+  status     WasteLogStatus @default(SUBMITTED)
+  verifiedAt DateTime?
+  verifiedById String?
+  verifiedBy User?          @relation("VerifiedWasteLogs", fields: [verifiedById], references: [id])
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+  @@index([category])
+  @@index([date])
 }
 
 model Donation {

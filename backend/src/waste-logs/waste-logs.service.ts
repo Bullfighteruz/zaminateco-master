@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { PointsService } from '../points/points.service';
+import { PointsService, PointsAction } from '../points/points.service';
 import { CreateWasteLogDto, UpdateWasteLogStatusDto } from './dto/waste-log.dto';
 
 @Injectable()
@@ -34,11 +34,13 @@ export class WasteLogsService {
     });
 
     // Award points for submission (will be adjusted when verified)
-    await this.pointsService.addPoints(userId, {
-      amount: Math.floor(createDto.weightKg * 10), // 10 points per kg
-      reason: 'waste_submission',
+    await this.pointsService.awardPoints({
+      userId,
+      action: PointsAction.WASTE_DROP_OFF,
+      points: Math.floor(createDto.weightKg * 10), // 10 points per kg
       metadata: {
         wasteLogId: wasteLog.id,
+        weightKg: createDto.weightKg,
         category: createDto.category,
       },
     });
@@ -121,11 +123,13 @@ export class WasteLogsService {
     // If verifying, award full points
     if (updateDto.status === 'VERIFIED' && wasteLog.status === 'SUBMITTED') {
       const pointsToAward = Math.floor(wasteLog.weightKg * 10);
-      await this.pointsService.addPoints(wasteLog.userId, {
-        amount: pointsToAward,
-        reason: 'waste_verified',
+      await this.pointsService.awardPoints({
+        userId: wasteLog.userId,
+        action: PointsAction.WASTE_DROP_OFF,
+        points: pointsToAward,
         metadata: {
           wasteLogId: wasteLog.id,
+          weightKg: wasteLog.weightKg,
           category: wasteLog.category,
         },
       });
