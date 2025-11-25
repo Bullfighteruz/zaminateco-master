@@ -8,6 +8,7 @@ import { EnhancedAvatar } from './enhanced-avatar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { PROFILE_BACKGROUNDS, ThemeBackground, loadUserProgress, saveUserProgress, UserProgress } from '@/lib/userProgress';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getUserName } from '@/utils/userName';
 
 interface EnhancedAvatarSystemProps {
   isOpen: boolean;
@@ -838,7 +839,7 @@ export const EnhancedAvatarSystem: React.FC<EnhancedAvatarSystemProps> = ({
                                 noBackground={true}
                               />
                               <p className="text-white text-xs font-semibold mt-2 drop-shadow-lg">
-                                {userProgress?.name || 'Aziza Karimova'}
+                                {userProgress?.name || getUserName()}
                               </p>
                             </div>
                           </div>

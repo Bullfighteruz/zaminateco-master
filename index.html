@@ -73,12 +73,19 @@
   <meta name="theme-color" content="#22c55e" />
   <meta name="color-scheme" content="light dark" />
   
-  <!-- Performance -->
+  <!-- Performance - Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://my.spline.design">
+  <link rel="dns-prefetch" href="https://api.qrserver.com">
+  <link rel="dns-prefetch" href="https://www.google.com">
   
-  <!-- Spline 3D Viewer - Preconnect for faster loading (only in production) -->
-  <!-- Note: Spline script is loaded dynamically in development to avoid blocking -->
+  <!-- Font Optimization -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
+  
+  <!-- Spline 3D Viewer - Preconnect for faster loading -->
+  <link rel="preconnect" href="https://my.spline.design">
   
   <!-- Security -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />

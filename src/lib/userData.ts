@@ -31,8 +31,10 @@ export const calculateTotalWaste = (): number => {
   return COLLECTION_POINTS.reduce((total, point) => total + point.amount, 0);
 };
 
+import { getUserName } from '@/utils/userName';
+
 export const USER_DATA = {
-  name: 'Aziza Karimova',
+  name: getUserName(),
   ecoCoins: 250,
   ecoPoints: 14400,
   wasteCollected: 85.5, // UPDATED: User's personal waste collection in kg (changed from 47.3 to 85.5)

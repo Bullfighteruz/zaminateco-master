@@ -1,9 +1,11 @@
 import { User, CollectionPoint, VotingProject, EcoAction, Product, EcoStory, NewsItem, LeaderboardEntry } from '@/types';
 import { BADGE_TYPES } from './gameSystem';
 
+import { getUserName } from '@/utils/userName';
+
 export const currentUser: User = {
   id: '1',
-  name: 'Aziza Karimova',
+  name: getUserName(),
   avatar: '👩‍🌾',
   level: 12,
   ecoPoints: 14400,
@@ -284,7 +286,7 @@ export const newsItems: NewsItem[] = [
 
 export const leaderboard: LeaderboardEntry[] = [
   { rank: 1, user: { ...currentUser, name: 'Sardor Umarov', ecoPoints: 25600, wasteCollected: 198.5 }, score: 25600, change: 2 },
-  { rank: 2, user: { ...currentUser, name: 'Aziza Karimova', ecoPoints: 14400, wasteCollected: 85.5 }, score: 14400, change: 0 },
+  { rank: 2, user: { ...currentUser, name: getUserName(), ecoPoints: 14400, wasteCollected: 85.5 }, score: 14400, change: 0 },
   { rank: 3, user: { ...currentUser, name: 'Bobur Rahimov', ecoPoints: 12800, wasteCollected: 76.2 }, score: 12800, change: -1 },
   { rank: 4, user: { ...currentUser, name: 'Malika Tursunova', ecoPoints: 11200, wasteCollected: 67.8 }, score: 11200, change: 1 },
   { rank: 5, user: { ...currentUser, name: 'Jasur Karimov', ecoPoints: 9600, wasteCollected: 58.4 }, score: 9600, change: -2 }

@@ -1,19 +1,19 @@
 import { Home, Vote, Calendar, ShoppingBag, BookOpen, User, Leaf, Globe } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from './LanguageSwitcher';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useState } from 'react';
+import { useState, useMemo, memo } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
 import { useTranslation as useI18nTranslation } from 'react-i18next';
+import PrefetchLink from './PrefetchLink';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -85,45 +85,48 @@ const MobileLanguageSwitcher = () => {
   );
 };
 
-export default function Layout({ children, title }: LayoutProps) {
+const Layout = memo(function Layout({ children, title }: LayoutProps) {
   const location = useLocation();
   const { t } = useTranslation('common'); // Specify the common namespace
   const isHomePage = location.pathname === '/';
   const isMobile = useIsMobile();
 
-  // Helper to get mobile-friendly labels
-  const getMobileLabel = (key: string): string => {
-    const shortKeyMap: Record<string, string> = {
-      'ecoActions': 'ecoActionsShort',
-      'home': 'homeShort'
-    };
-    
-    if (shortKeyMap[key]) {
-      const shortKey = shortKeyMap[key];
-      const shortLabel = t(shortKey, { ns: 'common' });
-      // If translation exists and is not the key itself, use it
-      if (shortLabel && shortLabel !== shortKey) {
-        return shortLabel;
+  // Helper to get mobile-friendly labels - Memoized
+  const getMobileLabel = useMemo(() => {
+    return (key: string): string => {
+      const shortKeyMap: Record<string, string> = {
+        'ecoActions': 'ecoActionsShort',
+        'home': 'homeShort'
+      };
+      
+      if (shortKeyMap[key]) {
+        const shortKey = shortKeyMap[key];
+        const shortLabel = t(shortKey, { ns: 'common' });
+        // If translation exists and is not the key itself, use it
+        if (shortLabel && shortLabel !== shortKey) {
+          return shortLabel;
+        }
       }
-    }
-    return t(key, { ns: 'common' });
-  };
+      return t(key, { ns: 'common' });
+    };
+  }, [t]);
 
-  const navItems = [
+  // Memoize nav items to prevent unnecessary recalculations
+  const navItems = useMemo(() => [
     { path: '/', icon: Home, label: getMobileLabel('home') },
     { path: '/vote', icon: Vote, label: t('ecoVote') },
     { path: '/actions', icon: Calendar, label: getMobileLabel('ecoActions') },
     { path: '/shop', icon: ShoppingBag, label: t('shop') },
     { path: '/stories', icon: BookOpen, label: t('stories') },
     { path: '/profile', icon: User, label: t('profile') }
-  ];
+  ], [t, getMobileLabel]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Sticky Logo with "ZAMINAT.eco" - Top left with "roots of change" style background - Hidden on mobile and profile page */}
       {location.pathname !== '/profile' && (
       <div className="hidden md:block fixed top-4 left-4 z-50">
-        <Link to="/" className="block">
+        <PrefetchLink to="/" className="block">
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -233,7 +236,7 @@ export default function Layout({ children, title }: LayoutProps) {
               />
             </div>
           </motion.div>
-        </Link>
+        </PrefetchLink>
       </div>
       )}
 
@@ -256,7 +259,7 @@ export default function Layout({ children, title }: LayoutProps) {
               const isActive = location.pathname === item.path;
               
               return (
-                <Link
+                <PrefetchLink
                   key={item.path}
                   to={item.path}
                   className={cn(
@@ -271,7 +274,7 @@ export default function Layout({ children, title }: LayoutProps) {
                   <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
                     {item.label}
                   </span>
-                </Link>
+                </PrefetchLink>
               );
             })}
             
@@ -284,4 +287,6 @@ export default function Layout({ children, title }: LayoutProps) {
       </nav>
     </div>
   );
-}
+});
+
+export default Layout;

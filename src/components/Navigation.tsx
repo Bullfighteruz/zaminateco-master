@@ -1,7 +1,8 @@
 import { Vote, Calendar, ShoppingBag, BookOpen, User, Home, Users, Handshake, Mail } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
+import PrefetchLink from './PrefetchLink';
 
 const navigationItems = [
   { path: '/', icon: Home, labelKey: 'home' as const },
@@ -93,7 +94,7 @@ export default function Navigation() {
               const isActive = location.pathname === item.path;
               
               return (
-                <Link
+                <PrefetchLink
                   key={item.path}
                   to={item.path}
                   className={cn(
@@ -108,7 +109,7 @@ export default function Navigation() {
                   <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
                     {getTranslation(item.labelKey, true)}
                   </span>
-                </Link>
+                </PrefetchLink>
               );
             })}
           </div>
@@ -124,7 +125,7 @@ export default function Navigation() {
               const isActive = location.pathname === item.path;
               
               return (
-                <Link
+                <PrefetchLink
                   key={item.path}
                   to={item.path}
                   className={cn(
@@ -136,7 +137,7 @@ export default function Navigation() {
                 >
                   <Icon className="h-4 w-4" />
                   <span className="font-medium">{t(item.labelKey, { ns: 'common' })}</span>
-                </Link>
+                </PrefetchLink>
               );
             })}
           </div>
@@ -152,7 +153,7 @@ export default function Navigation() {
               const isActive = location.pathname === item.path;
               
               return (
-                <Link
+                <PrefetchLink
                   key={item.path}
                   to={item.path}
                   className={cn(
@@ -164,7 +165,7 @@ export default function Navigation() {
                   title={t(item.labelKey, { ns: 'common' })}
                 >
                   <Icon className="h-4 w-4" />
-                </Link>
+                </PrefetchLink>
               );
             })}
           </div>

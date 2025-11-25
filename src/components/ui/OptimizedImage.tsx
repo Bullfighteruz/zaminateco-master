@@ -106,7 +106,6 @@ export default function OptimizedImage({
   }, [priority]);
 
   const handleLoad = useCallback(() => {
-    console.log('Image loaded:', src);
     setIsLoaded(true);
     setHasError(false);
     onLoad?.();

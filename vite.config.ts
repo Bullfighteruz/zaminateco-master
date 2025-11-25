@@ -66,17 +66,69 @@ export default defineConfig(({ mode }) => ({
   build: {
     // Increase chunk size warning limit
     chunkSizeWarningLimit: 1000,
-    // Optimize chunk splitting
+    // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'i18n-vendor': ['react-i18next', 'i18next'],
+        manualChunks: (id) => {
+          // React and core dependencies
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
+            return 'react-vendor';
+          }
+          // i18n
+          if (id.includes('node_modules/react-i18next') || id.includes('node_modules/i18next')) {
+            return 'i18n-vendor';
+          }
+          // UI libraries
+          if (id.includes('node_modules/@radix-ui') || id.includes('node_modules/lucide-react')) {
+            return 'ui-vendor';
+          }
+          // Animation library
+          if (id.includes('node_modules/framer-motion')) {
+            return 'animation-vendor';
+          }
+          // Maps and heavy libraries
+          if (id.includes('node_modules/leaflet') || id.includes('node_modules/react-leaflet')) {
+            return 'maps-vendor';
+          }
+          // Charts
+          if (id.includes('node_modules/recharts')) {
+            return 'charts-vendor';
+          }
+          // Spline 3D
+          if (id.includes('node_modules/@splinetool')) {
+            return 'spline-vendor';
+          }
+          // Other vendor code
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         },
+        // Optimize chunk file names for better caching
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
     // Enable source maps only in development
     sourcemap: mode === 'development',
+    // Minify for production
+    minify: mode === 'production' ? 'terser' : false,
+    // Optimize terser options
+    terserOptions: mode === 'production' ? {
+      compress: {
+        drop_console: true, // Remove console.log in production
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        passes: 2, // Multiple passes for better compression
+      },
+      format: {
+        comments: false, // Remove comments
+      },
+    } : undefined,
+    // CSS code splitting
+    cssCodeSplit: true,
+    // Optimize asset inlining threshold
+    assetsInlineLimit: 4096, // 4KB - inline smaller assets
   },
   // Optimize dependencies
   optimizeDeps: {
@@ -88,8 +140,9 @@ export default defineConfig(({ mode }) => ({
       'i18next',
       'framer-motion',
       'lucide-react',
+      '@tanstack/react-query',
     ],
     // Exclude large dependencies from pre-bundling if needed
-    exclude: [],
+    exclude: ['@splinetool/react-spline'], // Load Spline on demand
   },
 }));

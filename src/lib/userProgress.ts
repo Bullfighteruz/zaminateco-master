@@ -61,10 +61,12 @@ export interface Task {
   };
 }
 
-// Aziza Karimova's Current Progress (realistic data)
+import { getUserName } from '@/utils/userName';
+
+// User's Current Progress (realistic data)
 export const AZIZA_PROGRESS: UserProgress = {
-  id: 'aziza_karimova_001',
-  name: 'Aziza Karimova',
+  id: 'user_001',
+  name: getUserName(),
   level: 15,
   ecoCoins: 250,
   ecoPoints: 14400,
@@ -591,14 +593,22 @@ export const calculateLevelProgress = (points: number, level: number) => {
 
 // Save/Load functions (localStorage for now, can be replaced with API calls)
 export const saveUserProgress = (progress: UserProgress): void => {
-  localStorage.setItem('aziza_progress', JSON.stringify(progress));
+  // Always use the current name from storage
+  const currentName = getUserName();
+  const updatedProgress = { ...progress, name: currentName };
+  localStorage.setItem('aziza_progress', JSON.stringify(updatedProgress));
   // Dispatch custom event to notify other components of the update
   window.dispatchEvent(new Event('userProgressUpdated'));
 };
 
 export const loadUserProgress = (): UserProgress => {
+  // Get current user name from storage
+  const currentName = getUserName();
   const saved = localStorage.getItem('aziza_progress');
-  return saved ? JSON.parse(saved) : AZIZA_PROGRESS;
+  const progress = saved ? JSON.parse(saved) : { ...AZIZA_PROGRESS };
+  // Always use the current name from storage
+  progress.name = currentName;
+  return progress;
 };
 
 export const completeTask = (taskId: string, userProgress: UserProgress): UserProgress => {

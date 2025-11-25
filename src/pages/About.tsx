@@ -56,25 +56,25 @@ export default function About() {
       year: '2025', 
       event: t('pilotLaunch'), 
       description: t('pilotLaunchDesc'),
-      icon: <Zap className="h-5 w-5" />
+      icon: Zap
     },
     { 
       year: '2026', 
       event: t('regionalExpansion'), 
       description: t('regionalExpansionDesc'),
-      icon: <TrendingUp className="h-5 w-5" />
+      icon: TrendingUp
     },
     { 
       year: '2027', 
       event: t('industrialScale'), 
       description: t('industrialScaleDesc'),
-      icon: <Globe className="h-5 w-5" />
+      icon: Globe
     },
     { 
       year: '2028-2029', 
       event: t('nationalImpact'), 
       description: t('nationalImpactDesc'),
-      icon: <Award className="h-5 w-5" />
+      icon: Award
     },
   ];
 
@@ -114,31 +114,19 @@ export default function About() {
   ];
 
   // Calculate progress percentages
-  const wasteProgress = (globalStats.totalWasteCollected / (goals2026.wasteTarget / 1000)) * 100;
+  // wasteTarget is in kg (1,000,000 kg = 1,000 tons), so no conversion needed
+  const wasteProgress = (globalStats.totalWasteCollected / goals2026.wasteTarget) * 100;
   const userProgress = (globalStats.totalUsers / goals2026.usersTarget) * 100;
   const projectProgress = (globalStats.totalProjects / goals2026.projectsTarget) * 100;
   const treeProgress = (globalStats.treesPlanted / goals2026.treesTarget) * 100;
 
-  // Brand images for scroll carousel - High quality images
+  // Brand images for carousel - Only images starting with "zaminat" that exist in folder
   const brandImages = [
     '/images/Zaminat-brand-1.jpeg',
-    '/images/Zaminat-brand-2.jpeg',
     '/images/Zaminat-brand-3.png',
     '/images/Zaminat-brand-4.jpeg',
     '/images/Zaminat-brand-5.jpeg',
     '/images/Zaminat-brand-6.jpeg',
-    '/images/Zaminat-brand-7.jpeg',
-  ];
-
-  // Section identifiers for scroll-based image transitions
-  const sectionIds = [
-    'hero',
-    'mission',
-    'values',
-    'roadmap',
-    'progress',
-    'technology',
-    'contact'
   ];
 
   return (
@@ -171,18 +159,18 @@ export default function About() {
         
       `}</style>
 
-      <div className={cn("w-full max-w-7xl mx-auto", isMobile ? "px-3 py-4 space-y-4" : "px-4 py-6 space-y-8")}>
-        {/* Enhanced Hero Section */}
+      <div className={cn("w-full max-w-7xl mx-auto", isMobile ? "px-2 py-3 space-y-3" : "px-4 py-6 space-y-8")}>
+        {/* Enhanced Hero Section - Mobile Optimized */}
         <motion.section
           id="hero"
           initial="hidden"
           animate="visible"
           variants={shouldReduceMotion ? {} : containerVariants}
           className={cn(
-            "relative overflow-hidden rounded-2xl text-white",
+            "relative overflow-hidden rounded-xl text-white",
             "bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700",
             "shadow-2xl",
-            isMobile ? "p-4" : "p-8"
+            isMobile ? "p-3" : "p-8"
           )}
         >
           {/* Gradient Overlay */}
@@ -192,34 +180,34 @@ export default function About() {
             variants={shouldReduceMotion ? {} : itemVariants}
             className="relative z-10"
           >
-            <div className={cn("flex items-center gap-2 mb-3", isMobile ? "mb-2" : "mb-4")}>
-              <Sparkles className={cn("text-yellow-300 icon-glow", isMobile ? "h-4 w-4" : "h-6 w-6")} />
+            <div className={cn("flex items-center gap-1.5", isMobile ? "mb-1.5" : "mb-4")}>
+              <Sparkles className={cn("text-yellow-300 icon-glow", isMobile ? "h-3.5 w-3.5" : "h-6 w-6")} />
               <Badge className={cn(
                 "bg-white/20 backdrop-blur-sm text-white border-white/30",
                 "transition-all duration-200",
-                isMobile ? "text-[9px] px-2 py-0.5" : "text-xs px-3 py-1"
+                isMobile ? "text-[8px] px-1.5 py-0.5" : "text-xs px-3 py-1"
               )}>
                 {t('aboutProject')}
               </Badge>
             </div>
 
             <h1 className={cn(
-              "font-bold mb-3 leading-tight",
-              isMobile ? "text-2xl" : "text-4xl md:text-5xl"
+              "font-bold leading-tight",
+              isMobile ? "text-xl mb-2" : "text-4xl md:text-5xl mb-3"
             )}>
               {t('aboutZaminatEco')}
             </h1>
             
             <p className={cn(
-              "opacity-95 leading-relaxed mb-4",
-              isMobile ? "text-sm" : "text-lg md:text-xl"
+              "opacity-95 leading-relaxed",
+              isMobile ? "text-xs mb-2.5" : "text-lg md:text-xl mb-4"
             )}>
               <strong className="text-yellow-200">ZAMINAT.eco</strong> {t('aboutZaminatDesc')}
             </p>
 
             <div className={cn(
-              "flex flex-wrap gap-2",
-              isMobile ? "gap-1.5" : "gap-2"
+              "flex flex-wrap",
+              isMobile ? "gap-1" : "gap-2"
             )}>
               {[
                 t('plasticRubberRecyclingBadge'),
@@ -235,7 +223,7 @@ export default function About() {
                   <Badge className={cn(
                     "bg-white/20 backdrop-blur-sm text-white border-white/30",
                     "transition-all duration-200 hover:bg-white/30",
-                    isMobile ? "text-[9px] px-2 py-0.5" : "text-xs px-3 py-1"
+                    isMobile ? "text-[8px] px-1.5 py-0.5" : "text-xs px-3 py-1"
                   )}>
                     {badge}
                   </Badge>
@@ -246,90 +234,182 @@ export default function About() {
 
           <UzbekPattern className={cn(
             "w-full text-white opacity-30 relative z-10",
-            isMobile ? "h-2 mt-3" : "h-3 mt-6"
+            isMobile ? "h-1.5 mt-2" : "h-3 mt-6"
           )} />
         </motion.section>
 
-        {/* Enhanced Mission Statement - Linear/Apple Style */}
+        {/* Enhanced Mission Statement - Professional & User-Friendly */}
         <motion.section
           id="mission"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={shouldReduceMotion ? {} : fadeInUp}
-          className="mb-20"
+          className={cn(isMobile ? "mb-8" : "mb-20")}
         >
           {!isMobile ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
-              {/* Mission Content - Minimal Design */}
-              <div className="space-y-8">
-                {/* Mission Header */}
-                <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-stretch">
+              {/* Mission Content - Enhanced Design */}
+              <div className="space-y-8 flex flex-col h-full">
+                {/* Mission Header - Enhanced with Gradient Background */}
+                <motion.div 
+                  className="space-y-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-green-600 text-white shadow-sm">
+                    <motion.div 
+                      className="p-2.5 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 text-white shadow-lg"
+                      whileHover={{ scale: 1.05, rotate: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
                       <Target className="h-5 w-5" />
-                    </div>
-                    <h2 className="font-bold text-gray-900 text-3xl">
+                    </motion.div>
+                    <h2 className="font-bold text-gray-900 text-3xl bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                       {t('ourMission')}
                     </h2>
                   </div>
                   
-                  <p className="text-gray-700 leading-relaxed text-lg">
-                    <strong className="text-gray-900">{t('missionStatement')}</strong>
-                  </p>
-                </div>
+                  {/* Mission Statement - Enhanced Card Design */}
+                  <motion.div
+                    className="relative bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-2xl p-6 border-2 border-green-100 shadow-md"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    whileHover={{ 
+                      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                      borderColor: 'rgb(34, 197, 94)'
+                    }}
+                  >
+                    {/* Decorative elements */}
+                    <div className="absolute top-3 right-3 w-16 h-16 bg-green-200/30 rounded-full blur-xl" />
+                    <div className="absolute bottom-3 left-3 w-12 h-12 bg-emerald-200/30 rounded-full blur-lg" />
+                    
+                    <p className="text-gray-700 leading-relaxed text-lg relative z-10">
+                      <strong className="text-gray-900 font-semibold">{t('missionStatement')}</strong>
+                    </p>
+                  </motion.div>
+                </motion.div>
                 
-                {/* What We Do & Impact Goals - Clean Cards */}
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div className="bg-white rounded-2xl shadow-sm p-6 card-hover-lift">
-                    <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 text-base">
-                      <CheckCircle2 className="text-green-600 h-5 w-5" />
-                      {t('whatWeDo')}
-                    </h3>
-                    <ul className="text-gray-700 space-y-2.5 text-sm">
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-green-600 mt-1.5 font-bold">•</span>
-                        <span><strong className="text-gray-900">{t('plastic')}</strong> {t('plasticRecyclingIntoTiles')}</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-green-600 mt-1.5 font-bold">•</span>
-                        <span><strong className="text-gray-900">{t('tires')}</strong> {t('rubberRecyclingIntoPlayground')}</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-green-600 mt-1.5 font-bold">•</span>
-                        <span>{t('communityInfrastructureProjects')}</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-green-600 mt-1.5 font-bold">•</span>
-                        <span>{t('educationalProgramsAndVolunteers')}</span>
-                      </li>
+                {/* What We Do & Impact Goals - Enhanced Cards with Better Visual Hierarchy */}
+                <div className="grid gap-6 md:grid-cols-2 flex-1">
+                  {/* What We Do Card - Enhanced */}
+                  <motion.div 
+                    className="bg-white rounded-2xl shadow-md p-6 card-hover-lift border-2 border-transparent hover:border-green-200 transition-all duration-300 relative overflow-hidden group"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    {/* Subtle gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-50/0 to-green-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Header with enhanced icon */}
+                    <div className="relative z-10 mb-4">
+                      <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 text-base">
+                        <motion.div
+                          className="p-1.5 rounded-lg bg-green-100"
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <CheckCircle2 className="text-green-600 h-5 w-5" />
+                        </motion.div>
+                        <span className="bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
+                          {t('whatWeDo')}
+                        </span>
+                      </h3>
+                    </div>
+                    
+                    <ul className="text-gray-700 space-y-3 text-sm relative z-10">
+                      {[
+                        { key: 'plastic', text: t('plasticRecyclingIntoTiles'), icon: Recycle },
+                        { key: 'tires', text: t('rubberRecyclingIntoPlayground'), icon: Recycle },
+                        { key: 'infrastructure', text: t('communityInfrastructureProjects'), icon: Users },
+                        { key: 'education', text: t('educationalProgramsAndVolunteers'), icon: Award }
+                      ].map((item, idx) => (
+                        <motion.li 
+                          key={idx}
+                          className="flex items-start gap-3 group/item"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: 0.3 + idx * 0.1 }}
+                        >
+                          <motion.div
+                            className="mt-0.5 flex-shrink-0"
+                            whileHover={{ scale: 1.2 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                          >
+                            <item.icon className="text-green-600 h-4 w-4" />
+                          </motion.div>
+                          <span className="flex-1 leading-relaxed">
+                            {item.key === 'plastic' && <strong className="text-gray-900">{t('plastic')}</strong>}
+                            {item.key === 'tires' && <strong className="text-gray-900">{t('tires')}</strong>}
+                            {item.key !== 'plastic' && item.key !== 'tires' && ''}
+                            {item.text}
+                          </span>
+                        </motion.li>
+                      ))}
                     </ul>
-                  </div>
+                  </motion.div>
                   
-                  <div className="bg-white rounded-2xl shadow-sm p-6 card-hover-lift">
-                    <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 text-base">
-                      <Target className="text-blue-600 h-5 w-5" />
-                      {t('ourImpactGoals')}
-                    </h3>
-                    <ul className="text-gray-700 space-y-2.5 text-sm">
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-blue-600 mt-1.5 font-bold">•</span>
-                        <span>{t('schoolsAndPlaygrounds')}</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-blue-600 mt-1.5 font-bold">•</span>
-                        <span>{t('parksAndPublicSpaces')}</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-blue-600 mt-1.5 font-bold">•</span>
-                        <span>{t('transparentWasteTracking')}</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <span className="text-blue-600 mt-1.5 font-bold">•</span>
-                        <span>{t('gamifiedEnvironmentalEngagement')}</span>
-                      </li>
+                  {/* Our Impact Goals Card - Enhanced */}
+                  <motion.div 
+                    className="bg-white rounded-2xl shadow-md p-6 card-hover-lift border-2 border-transparent hover:border-blue-200 transition-all duration-300 relative overflow-hidden group"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    {/* Subtle gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Header with enhanced icon */}
+                    <div className="relative z-10 mb-4">
+                      <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 text-base">
+                        <motion.div
+                          className="p-1.5 rounded-lg bg-blue-100"
+                          whileHover={{ scale: 1.1, rotate: -5 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Target className="text-blue-600 h-5 w-5" />
+                        </motion.div>
+                        <span className="bg-gradient-to-r from-blue-700 to-cyan-700 bg-clip-text text-transparent">
+                          {t('ourImpactGoals')}
+                        </span>
+                      </h3>
+                    </div>
+                    
+                    <ul className="text-gray-700 space-y-3 text-sm relative z-10">
+                      {[
+                        { text: t('schoolsAndPlaygrounds'), icon: Award },
+                        { text: t('parksAndPublicSpaces'), icon: Leaf },
+                        { text: t('transparentWasteTracking'), icon: Globe },
+                        { text: t('gamifiedEnvironmentalEngagement'), icon: Sparkles }
+                      ].map((item, idx) => (
+                        <motion.li 
+                          key={idx}
+                          className="flex items-start gap-3 group/item"
+                          initial={{ opacity: 0, x: 10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: 0.3 + idx * 0.1 }}
+                        >
+                          <motion.div
+                            className="mt-0.5 flex-shrink-0"
+                            whileHover={{ scale: 1.2 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                          >
+                            <item.icon className="text-blue-600 h-4 w-4" />
+                          </motion.div>
+                          <span className="flex-1 leading-relaxed">{item.text}</span>
+                        </motion.li>
+                      ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
               
@@ -339,86 +419,170 @@ export default function About() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="sticky top-24"
+                className="sticky top-24 h-full"
               >
                 <ScrollImageCarousel
                   images={brandImages}
-                  sections={sectionIds}
                   variant="inline"
-                  className="w-full"
+                  className="w-full h-full"
                   transitionDuration={800}
                 />
               </motion.div>
             </div>
           ) : (
-            /* Mobile: Stack Layout */
+            /* Mobile: Stack Layout - Enhanced & Optimized */
             <>
-              <div className="space-y-6 mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-green-600 text-white">
-                    <Target className="h-4 w-4" />
-                  </div>
-                  <h2 className="font-bold text-gray-900 text-xl">
+              <motion.div 
+                className={cn("mb-4", isMobile ? "space-y-3" : "space-y-6 mb-6")}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Mission Header - Enhanced */}
+                <div className={cn("flex items-center", isMobile ? "gap-2" : "gap-3")}>
+                  <motion.div 
+                    className={cn(
+                      "rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 text-white shadow-lg",
+                      isMobile ? "p-1.5" : "p-2 rounded-xl"
+                    )}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <Target className={cn(isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
+                  </motion.div>
+                  <h2 className={cn(
+                    "font-bold text-gray-900",
+                    isMobile ? "text-base" : "text-xl"
+                  )}>
                     {t('ourMission')}
                   </h2>
                 </div>
                 
-                <p className="text-gray-700 leading-relaxed text-sm">
-                  <strong className="text-gray-900">{t('missionStatement')}</strong>
-                </p>
+                {/* Mission Statement - Enhanced Card */}
+                <motion.div
+                  className={cn(
+                    "relative bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-xl border-2 border-green-100 shadow-md",
+                    isMobile ? "p-2.5" : "p-4 rounded-2xl"
+                  )}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <div className={cn(
+                    "absolute bg-green-200/30 rounded-full blur-lg",
+                    isMobile ? "top-1.5 right-1.5 w-8 h-8" : "top-2 right-2 w-12 h-12"
+                  )} />
+                  <p className={cn(
+                    "text-gray-700 leading-relaxed relative z-10",
+                    isMobile ? "text-xs" : "text-sm"
+                  )}>
+                    <strong className="text-gray-900 font-semibold">{t('missionStatement')}</strong>
+                  </p>
+                </motion.div>
                 
-                <div className="grid gap-4 grid-cols-1">
-                  <div className="bg-white rounded-2xl shadow-sm p-4">
-                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 text-sm">
-                      <CheckCircle2 className="text-green-600 h-4 w-4" />
-                      {t('whatWeDo')}
-                    </h3>
-                    <ul className="text-gray-700 space-y-2 text-xs">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-600 mt-1">•</span>
-                        <span><strong>{t('plastic')}</strong> {t('plasticRecyclingIntoTiles')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-600 mt-1">•</span>
-                        <span><strong>{t('tires')}</strong> {t('rubberRecyclingIntoPlayground')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-600 mt-1">•</span>
-                        <span>{t('communityInfrastructureProjects')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-600 mt-1">•</span>
-                        <span>{t('educationalProgramsAndVolunteers')}</span>
-                      </li>
-                    </ul>
-                  </div>
+                <div className={cn("grid grid-cols-1", isMobile ? "gap-2.5" : "gap-4")}>
+                  {/* What We Do Card - Enhanced */}
+                  <motion.div 
+                    className={cn(
+                      "bg-white rounded-xl shadow-md border-2 border-transparent hover:border-green-200 transition-all duration-300 relative overflow-hidden group",
+                      isMobile ? "p-2.5" : "p-4 rounded-2xl"
+                    )}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-50/0 to-green-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <div className="relative z-10">
+                      <h3 className={cn(
+                        "font-semibold text-gray-900 flex items-center gap-1.5",
+                        isMobile ? "mb-2 text-xs" : "mb-3 text-sm gap-2"
+                      )}>
+                        <div className={cn("rounded-lg bg-green-100", isMobile ? "p-0.5" : "p-1")}>
+                          <CheckCircle2 className={cn("text-green-600", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                        </div>
+                        <span className="bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
+                          {t('whatWeDo')}
+                        </span>
+                      </h3>
+                      <ul className={cn(
+                        "text-gray-700",
+                        isMobile ? "space-y-1.5 text-[10px]" : "space-y-2.5 text-xs"
+                      )}>
+                        {[
+                          { key: 'plastic', text: t('plasticRecyclingIntoTiles'), icon: Recycle },
+                          { key: 'tires', text: t('rubberRecyclingIntoPlayground'), icon: Recycle },
+                          { key: 'infrastructure', text: t('communityInfrastructureProjects'), icon: Users },
+                          { key: 'education', text: t('educationalProgramsAndVolunteers'), icon: Award }
+                        ].map((item, idx) => (
+                          <li key={idx} className={cn("flex items-start", isMobile ? "gap-1.5" : "gap-2.5")}>
+                            <item.icon className={cn(
+                              "text-green-600 mt-0.5 flex-shrink-0",
+                              isMobile ? "h-3 w-3" : "h-3.5 w-3.5"
+                            )} />
+                            <span className="flex-1 leading-relaxed">
+                              {item.key === 'plastic' && <strong>{t('plastic')}</strong>}
+                              {item.key === 'tires' && <strong>{t('tires')}</strong>}
+                              {item.key !== 'plastic' && item.key !== 'tires' && ''}
+                              {item.text}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
                   
-                  <div className="bg-white rounded-2xl shadow-sm p-4">
-                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2 text-sm">
-                      <Target className="text-blue-600 h-4 w-4" />
-                      {t('ourImpactGoals')}
-                    </h3>
-                    <ul className="text-gray-700 space-y-2 text-xs">
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600 mt-1">•</span>
-                        <span>{t('schoolsAndPlaygrounds')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600 mt-1">•</span>
-                        <span>{t('parksAndPublicSpaces')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600 mt-1">•</span>
-                        <span>{t('transparentWasteTracking')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-blue-600 mt-1">•</span>
-                        <span>{t('gamifiedEnvironmentalEngagement')}</span>
-                      </li>
-                    </ul>
-                  </div>
+                  {/* Our Impact Goals Card - Enhanced */}
+                  <motion.div 
+                    className={cn(
+                      "bg-white rounded-xl shadow-md border-2 border-transparent hover:border-blue-200 transition-all duration-300 relative overflow-hidden group",
+                      isMobile ? "p-2.5" : "p-4 rounded-2xl"
+                    )}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <div className="relative z-10">
+                      <h3 className={cn(
+                        "font-semibold text-gray-900 flex items-center gap-1.5",
+                        isMobile ? "mb-2 text-xs" : "mb-3 text-sm gap-2"
+                      )}>
+                        <div className={cn("rounded-lg bg-blue-100", isMobile ? "p-0.5" : "p-1")}>
+                          <Target className={cn("text-blue-600", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                        </div>
+                        <span className="bg-gradient-to-r from-blue-700 to-cyan-700 bg-clip-text text-transparent">
+                          {t('ourImpactGoals')}
+                        </span>
+                      </h3>
+                      <ul className={cn(
+                        "text-gray-700",
+                        isMobile ? "space-y-1.5 text-[10px]" : "space-y-2.5 text-xs"
+                      )}>
+                        {[
+                          { text: t('schoolsAndPlaygrounds'), icon: Award },
+                          { text: t('parksAndPublicSpaces'), icon: Leaf },
+                          { text: t('transparentWasteTracking'), icon: Globe },
+                          { text: t('gamifiedEnvironmentalEngagement'), icon: Sparkles }
+                        ].map((item, idx) => (
+                          <li key={idx} className={cn("flex items-start", isMobile ? "gap-1.5" : "gap-2.5")}>
+                            <item.icon className={cn(
+                              "text-blue-600 mt-0.5 flex-shrink-0",
+                              isMobile ? "h-3 w-3" : "h-3.5 w-3.5"
+                            )} />
+                            <span className="flex-1 leading-relaxed">{item.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
               
               {/* Mobile Image Carousel */}
               <motion.div
@@ -426,11 +590,10 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="mb-6"
+                className={cn(isMobile ? "mb-4" : "mb-6")}
               >
                 <ScrollImageCarousel
                   images={brandImages}
-                  sections={sectionIds}
                   variant="inline"
                   className="w-full"
                   transitionDuration={800}
@@ -440,7 +603,7 @@ export default function About() {
           )}
         </motion.section>
 
-        {/* Enhanced Core Values */}
+        {/* Enhanced Core Values - Mobile Optimized */}
         <motion.section
           id="values"
           initial="hidden"
@@ -448,24 +611,24 @@ export default function About() {
           viewport={{ once: true, margin: "-100px" }}
           variants={shouldReduceMotion ? {} : containerVariants}
         >
-          <div className="flex items-center gap-3 mb-4">
+          <div className={cn("flex items-center", isMobile ? "gap-2 mb-2.5" : "gap-3 mb-4")}>
             <div className={cn(
-              "p-2 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500",
-              isMobile ? "p-1.5" : "p-2"
+              "rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500",
+              isMobile ? "p-1" : "p-2"
             )}>
-              <Award className={cn("text-white", isMobile ? "h-5 w-5" : "h-6 w-6")} />
+              <Award className={cn("text-white", isMobile ? "h-4 w-4" : "h-6 w-6")} />
             </div>
             <h2 className={cn(
               "font-bold",
-              isMobile ? "text-lg" : "text-2xl md:text-3xl"
+              isMobile ? "text-base" : "text-2xl md:text-3xl"
             )}>
               {t('ourValues')}
             </h2>
           </div>
           
           <div className={cn(
-            "grid gap-4",
-            isMobile ? "grid-cols-1" : "md:grid-cols-2"
+            "grid",
+            isMobile ? "grid-cols-1 gap-2.5" : "md:grid-cols-2 gap-4"
           )}>
             {values.map((value, index) => (
               <motion.div
@@ -478,25 +641,25 @@ export default function About() {
                   "hover:border-green-300",
                   value.bgColor
                 )}>
-                  <CardContent className={cn(isMobile ? "p-4" : "p-5")}>
-                    <div className="flex items-start gap-4">
+                  <CardContent className={cn(isMobile ? "p-2.5" : "p-5")}>
+                    <div className={cn("flex items-start", isMobile ? "gap-2" : "gap-4")}>
                       <div className={cn(
-                        "p-3 rounded-xl bg-gradient-to-br",
+                        "rounded-lg bg-gradient-to-br",
                         value.color,
                         "text-white shadow-lg transition-transform duration-300 group-hover:scale-105",
-                        isMobile ? "p-2" : "p-3"
+                        isMobile ? "p-1.5" : "p-3 rounded-xl"
                       )}>
                         {isMobile ? (
-                          React.cloneElement(value.icon, { className: "h-5 w-5" })
+                          React.cloneElement(value.icon, { className: "h-4 w-4" })
                         ) : (
                           value.icon
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className={cn(
-                          "font-bold mb-2",
+                          "font-bold",
                           value.textColor,
-                          isMobile ? "text-sm" : "text-lg"
+                          isMobile ? "text-xs mb-1" : "text-lg mb-2"
                         )}>
                           {value.title}
                         </h3>
@@ -504,7 +667,7 @@ export default function About() {
                           "leading-relaxed",
                           value.textColor,
                           "opacity-80",
-                          isMobile ? "text-xs" : "text-sm"
+                          isMobile ? "text-[10px]" : "text-sm"
                         )}>
                           {value.description}
                         </p>
@@ -517,7 +680,7 @@ export default function About() {
           </div>
         </motion.section>
 
-        {/* Enhanced Roadmap with Timeline */}
+        {/* Enhanced Roadmap with Timeline - Mobile Optimized */}
         <motion.section
           id="roadmap"
           initial="hidden"
@@ -525,22 +688,22 @@ export default function About() {
           viewport={{ once: true, margin: "-100px" }}
           variants={shouldReduceMotion ? {} : containerVariants}
         >
-          <div className="flex items-center gap-3 mb-4">
+          <div className={cn("flex items-center", isMobile ? "gap-2 mb-2.5" : "gap-3 mb-4")}>
             <div className={cn(
-              "p-2 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600",
-              isMobile ? "p-1.5" : "p-2"
+              "rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600",
+              isMobile ? "p-1" : "p-2"
             )}>
-              <TrendingUp className={cn("text-white", isMobile ? "h-5 w-5" : "h-6 w-6")} />
+              <TrendingUp className={cn("text-white", isMobile ? "h-4 w-4" : "h-6 w-6")} />
             </div>
             <h2 className={cn(
               "font-bold",
-              isMobile ? "text-lg" : "text-2xl md:text-3xl"
+              isMobile ? "text-base" : "text-2xl md:text-3xl"
             )}>
               {t('ourRoadmap')}
             </h2>
           </div>
 
-          <div className={cn("relative", isMobile ? "space-y-3" : "space-y-4")}>
+          <div className={cn("relative", isMobile ? "space-y-2" : "space-y-4")}>
             {/* Timeline Line */}
             {!isMobile && (
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-400 via-blue-400 to-purple-400 opacity-30" />
@@ -557,8 +720,8 @@ export default function About() {
                   "hover:border-green-300",
                   isMobile ? "ml-0" : "ml-16"
                 )}>
-                  <CardContent className={cn(isMobile ? "p-4" : "p-5")}>
-                    <div className="flex items-start gap-4">
+                  <CardContent className={cn(isMobile ? "p-2.5" : "p-5")}>
+                    <div className={cn("flex items-start", isMobile ? "gap-2" : "gap-4")}>
                       {/* Timeline Dot */}
                       {!isMobile && (
                         <div className={cn(
@@ -567,28 +730,28 @@ export default function About() {
                           "flex items-center justify-center text-white shadow-lg",
                           "border-4 border-white transition-transform duration-300 hover:scale-110"
                         )}>
-                          {milestone.icon}
+                          <milestone.icon className="h-5 w-5" />
                         </div>
                       )}
                       
                       <div className={cn(
-                        "bg-gradient-to-br from-green-100 to-blue-100 rounded-lg px-3 py-1.5",
+                        "bg-gradient-to-br from-green-100 to-blue-100 rounded-md px-2 py-1",
                         "font-bold text-green-800 flex-shrink-0",
-                        isMobile ? "text-xs" : "text-sm"
+                        isMobile ? "text-[10px]" : "text-sm rounded-lg px-3 py-1.5"
                       )}>
                         {milestone.year}
                       </div>
                       
                       <div className="flex-1 min-w-0">
                         <h3 className={cn(
-                          "font-bold mb-2 text-gray-900",
-                          isMobile ? "text-sm" : "text-lg"
+                          "font-bold text-gray-900",
+                          isMobile ? "text-xs mb-1" : "text-lg mb-2"
                         )}>
                           {milestone.event}
                         </h3>
                         <p className={cn(
                           "text-gray-600 leading-relaxed",
-                          isMobile ? "text-xs" : "text-sm"
+                          isMobile ? "text-[10px]" : "text-sm"
                         )}>
                           {milestone.description}
                         </p>
@@ -601,72 +764,75 @@ export default function About() {
           </div>
         </motion.section>
 
-        {/* Enhanced Progress & Goals with Animated Progress Bars */}
+        {/* Enhanced Progress & Goals with Animated Progress Bars - Mobile Optimized */}
         <motion.section
           id="progress"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={shouldReduceMotion ? {} : fadeInUp}
-          className="mb-16"
+          className={cn(isMobile ? "mb-8" : "mb-16")}
         >
-          <Card className="shadow-sm border-0 overflow-hidden bg-white rounded-3xl">
+          <Card className={cn(
+            "shadow-sm border-0 overflow-hidden bg-white",
+            isMobile ? "rounded-xl" : "rounded-3xl"
+          )}>
             <CardHeader className={cn(
               "bg-transparent",
-              isMobile ? "p-4 pb-3" : "p-6 pb-4"
+              isMobile ? "p-2.5 pb-2" : "p-6 pb-4"
             )}>
               <CardTitle className={cn(
-                "flex items-center gap-2",
-                isMobile ? "text-base" : "text-xl"
+                "flex items-center",
+                isMobile ? "gap-1.5 text-xs" : "gap-2 text-xl"
               )}>
                 <div className={cn(
-                  "p-2 rounded-lg bg-blue-600 text-white",
-                  isMobile ? "p-1.5" : "p-2"
+                  "rounded-lg bg-blue-600 text-white",
+                  isMobile ? "p-1" : "p-2"
                 )}>
-                  <Globe className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                  <Globe className={cn(isMobile ? "h-3 w-3" : "h-5 w-5")} />
                 </div>
                 {t('currentProgressAnd2026Goals')}
               </CardTitle>
             </CardHeader>
-            <CardContent className={cn(isMobile ? "space-y-4 p-4" : "space-y-6 p-6")}>
+            <CardContent className={cn(isMobile ? "space-y-3 p-2.5" : "space-y-6 p-6")}>
               <p className={cn(
                 "text-gray-700 leading-relaxed",
-                isMobile ? "text-sm" : "text-base"
+                isMobile ? "text-xs" : "text-base"
               )}>
                 <strong className="text-blue-700">ZAMINAT.eco</strong> {t('currentProgressDesc')}
               </p>
               
               <div className={cn(
-                "grid gap-4",
-                isMobile ? "grid-cols-1" : "md:grid-cols-2"
+                "grid",
+                isMobile ? "grid-cols-1 gap-2.5" : "md:grid-cols-2 gap-4"
               )}>
                 {/* Current Status */}
                 <div className={cn(
-                  "bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl border border-gray-200",
-                  "p-5 shadow-md"
+                  "bg-gradient-to-br from-gray-50 to-slate-50 rounded-lg border border-gray-200 shadow-md",
+                  isMobile ? "p-2.5" : "p-5 rounded-xl"
                 )}>
                   <h3 className={cn(
-                    "font-bold text-gray-800 mb-4 flex items-center gap-2",
-                    isMobile ? "text-sm" : "text-base"
+                    "font-bold text-gray-800 flex items-center gap-1.5",
+                    isMobile ? "text-xs mb-2" : "text-base mb-4 gap-2"
                   )}>
-                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    <div className={cn("rounded-full bg-green-500", isMobile ? "w-1.5 h-1.5" : "w-2 h-2")} />
                     {t('currentStatus2025')}
                   </h3>
-                  <div className={cn("space-y-3", isMobile ? "space-y-2.5" : "space-y-3")}>
+                  <div className={cn(isMobile ? "space-y-1.5" : "space-y-3")}>
                     {[
                       { label: t('plasticRubberRecycledLabel'), value: `${globalStats.totalWasteCollected} ${t('kg')}` },
                       { label: t('activeUsersLabel'), value: globalStats.totalUsers },
                       { label: t('pilotProjectsLabel'), value: globalStats.totalProjects },
                       { label: t('treesPlantedLabel'), value: globalStats.treesPlanted }
                     ].map((stat, idx) => (
-                      <div key={idx} className="space-y-1">
+                      <div key={idx} className="space-y-0.5">
                         <div className="flex justify-between items-center">
-                          <span className={cn("text-gray-700", isMobile ? "text-xs" : "text-sm")}>
+                          <span className={cn("text-gray-700", isMobile ? "text-[10px]" : "text-sm")}>
                             {stat.label}
                           </span>
                           <span className={cn(
                             "font-bold text-gray-900",
-                            isMobile ? "text-xs" : "text-sm"
+                            isMobile ? "text-[10px]" : "text-sm"
                           )}>
                             {stat.value}
                           </span>
@@ -678,17 +844,17 @@ export default function About() {
                 
                 {/* 2026 Goals with Progress Bars */}
                 <div className={cn(
-                  "bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-200",
-                  "p-5 shadow-md"
+                  "bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200 shadow-md",
+                  isMobile ? "p-2.5" : "p-5 rounded-xl"
                 )}>
                   <h3 className={cn(
-                    "font-bold text-green-800 mb-4 flex items-center gap-2",
-                    isMobile ? "text-sm" : "text-base"
+                    "font-bold text-green-800 flex items-center gap-1.5",
+                    isMobile ? "text-xs mb-2" : "text-base mb-4 gap-2"
                   )}>
-                    <Target className={cn("text-green-600", isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                    <Target className={cn("text-green-600", isMobile ? "h-3 w-3" : "h-5 w-5")} />
                     {t('2026Goals')}
                   </h3>
-                  <div className={cn("space-y-3", isMobile ? "space-y-2.5" : "space-y-3")}>
+                  <div className={cn(isMobile ? "space-y-1.5" : "space-y-3")}>
                     {[
                       { 
                         label: t('wasteTargetLabel'), 
@@ -719,19 +885,22 @@ export default function About() {
                         progress: Math.min(treeProgress, 100)
                       }
                     ].map((goal, idx) => (
-                      <div key={idx} className="space-y-1.5">
+                      <div key={idx} className={cn(isMobile ? "space-y-1" : "space-y-1.5")}>
                         <div className="flex justify-between items-center">
-                          <span className={cn("text-green-700", isMobile ? "text-xs" : "text-sm")}>
+                          <span className={cn("text-green-700", isMobile ? "text-[10px]" : "text-sm")}>
                             {goal.label}
                           </span>
                           <span className={cn(
                             "font-bold text-green-800",
-                            isMobile ? "text-xs" : "text-sm"
+                            isMobile ? "text-[10px]" : "text-sm"
                           )}>
                             {goal.target.toLocaleString()}{goal.unit && ` ${goal.unit}`}
                           </span>
                         </div>
-                        <div className="w-full bg-green-200 rounded-full h-2 overflow-hidden">
+                        <div className={cn(
+                          "w-full bg-green-200 rounded-full overflow-hidden",
+                          isMobile ? "h-1.5" : "h-2"
+                        )}>
                           <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: `${goal.progress}%` }}
@@ -745,7 +914,10 @@ export default function About() {
                             style={{ willChange: 'width' }}
                           />
                         </div>
-                        <div className="text-xs text-green-600 opacity-75">
+                        <div className={cn(
+                          "text-green-600 opacity-75",
+                          isMobile ? "text-[9px]" : "text-xs"
+                        )}>
                           {goal.progress.toFixed(1)}% {t('completed', { defaultValue: 'complete' })}
                         </div>
                       </div>
@@ -757,61 +929,65 @@ export default function About() {
           </Card>
         </motion.section>
 
-        {/* Enhanced Technology & Innovation */}
+        {/* Enhanced Technology & Innovation - Mobile Optimized */}
         <motion.section
           id="technology"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={shouldReduceMotion ? {} : fadeInUp}
-          className="mb-16"
+          className={cn(isMobile ? "mb-8" : "mb-16")}
         >
-          <Card className="shadow-sm border-0 overflow-hidden bg-white rounded-3xl">
+          <Card className={cn(
+            "shadow-sm border-0 overflow-hidden bg-white",
+            isMobile ? "rounded-xl" : "rounded-3xl"
+          )}>
             <CardHeader className={cn(
               "bg-transparent",
-              isMobile ? "p-4 pb-3" : "p-6 pb-4"
+              isMobile ? "p-2.5 pb-2" : "p-6 pb-4"
             )}>
               <CardTitle className={cn(
-                "flex items-center gap-2",
-                isMobile ? "text-base" : "text-xl"
+                "flex items-center",
+                isMobile ? "gap-1.5 text-xs" : "gap-2 text-xl"
               )}>
                 <div className={cn(
-                  "p-2 rounded-lg bg-purple-600 text-white",
-                  isMobile ? "p-1.5" : "p-2"
+                  "rounded-lg bg-purple-600 text-white",
+                  isMobile ? "p-1" : "p-2"
                 )}>
-                  <Zap className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                  <Zap className={cn(isMobile ? "h-3 w-3" : "h-5 w-5")} />
                 </div>
                 {t('technologyAndInnovation')}
               </CardTitle>
             </CardHeader>
-            <CardContent className={cn(isMobile ? "space-y-4 p-4" : "space-y-6 p-6")}>
+            <CardContent className={cn(isMobile ? "space-y-3 p-2.5" : "space-y-6 p-6")}>
               <p className={cn(
                 "text-gray-700 leading-relaxed",
-                isMobile ? "text-sm" : "text-base"
+                isMobile ? "text-xs" : "text-base"
               )}>
                 <strong className="text-purple-700">ZAMINAT.eco</strong> {t('technologyDesc')}
               </p>
               
               <div className={cn(
-                "grid gap-4",
-                isMobile ? "grid-cols-1" : "md:grid-cols-2"
+                "grid",
+                isMobile ? "grid-cols-1 gap-2.5" : "md:grid-cols-2 gap-4"
               )}>
                 <div
                   className={cn(
-                    "bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200",
-                    "card-hover-lift shadow-md p-5"
+                    "bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border border-blue-200",
+                    "card-hover-lift shadow-md",
+                    isMobile ? "p-2.5" : "p-5 rounded-xl"
                   )}
                 >
                   <h3 className={cn(
-                    "font-bold mb-3 text-blue-800 flex items-center gap-2",
-                    isMobile ? "text-sm" : "text-base"
+                    "font-bold text-blue-800 flex items-center gap-1.5",
+                    isMobile ? "text-xs mb-2" : "text-base mb-3 gap-2"
                   )}>
-                    <Sparkles className={cn("text-blue-600 icon-glow", isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                    <Sparkles className={cn("text-blue-600 icon-glow", isMobile ? "h-3 w-3" : "h-5 w-5")} />
                     {t('ecoAppPlatform')}
                   </h3>
                   <ul className={cn(
-                    "text-blue-700 space-y-2",
-                    isMobile ? "text-xs" : "text-sm"
+                    "text-blue-700",
+                    isMobile ? "space-y-1 text-[10px]" : "space-y-2 text-sm"
                   )}>
                     {[
                       t('gamificationWith50Levels'),
@@ -819,8 +995,11 @@ export default function About() {
                       t('realTimeWasteTracking'),
                       t('socialMissionMarketplace')
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className={cn("text-blue-600 flex-shrink-0 mt-0.5", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                      <li key={idx} className={cn("flex items-start", isMobile ? "gap-1" : "gap-2")}>
+                        <CheckCircle2 className={cn(
+                          "text-blue-600 flex-shrink-0 mt-0.5",
+                          isMobile ? "h-2.5 w-2.5" : "h-4 w-4"
+                        )} />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -829,20 +1008,21 @@ export default function About() {
                 
                 <div
                   className={cn(
-                    "bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border border-purple-200",
-                    "card-hover-lift shadow-md p-5"
+                    "bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border border-purple-200",
+                    "card-hover-lift shadow-md",
+                    isMobile ? "p-2.5" : "p-5 rounded-xl"
                   )}
                 >
                   <h3 className={cn(
-                    "font-bold mb-3 text-purple-800 flex items-center gap-2",
-                    isMobile ? "text-sm" : "text-base"
+                    "font-bold text-purple-800 flex items-center gap-1.5",
+                    isMobile ? "text-xs mb-2" : "text-base mb-3 gap-2"
                   )}>
-                    <TrendingUp className={cn("text-purple-600 icon-glow", isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                    <TrendingUp className={cn("text-purple-600 icon-glow", isMobile ? "h-3 w-3" : "h-5 w-5")} />
                     {t('plannedFeatures')}
                   </h3>
                   <ul className={cn(
-                    "text-purple-700 space-y-2",
-                    isMobile ? "text-xs" : "text-sm"
+                    "text-purple-700",
+                    isMobile ? "space-y-1 text-[10px]" : "space-y-2 text-sm"
                   )}>
                     {[
                       t('blockchainTransparency2027'),
@@ -850,8 +1030,11 @@ export default function About() {
                       t('communityImpactDashboards'),
                       t('integrationWithEcoKids')
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className={cn("text-purple-600 flex-shrink-0 mt-0.5", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                      <li key={idx} className={cn("flex items-start", isMobile ? "gap-1" : "gap-2")}>
+                        <CheckCircle2 className={cn(
+                          "text-purple-600 flex-shrink-0 mt-0.5",
+                          isMobile ? "h-2.5 w-2.5" : "h-4 w-4"
+                        )} />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -862,7 +1045,7 @@ export default function About() {
           </Card>
         </motion.section>
 
-        {/* Enhanced Contact Section */}
+        {/* Enhanced Contact Section - Mobile Optimized */}
         <motion.section
           id="contact"
           initial="hidden"
@@ -872,47 +1055,48 @@ export default function About() {
         >
           <Card className={cn(
             "bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50",
-            "border-2 border-green-200 shadow-xl overflow-hidden"
+            "border-2 border-green-200 shadow-xl overflow-hidden",
+            isMobile ? "rounded-xl" : ""
           )}>
-            <CardHeader className={cn(isMobile ? "p-4 pb-3" : "p-6")}>
+            <CardHeader className={cn(isMobile ? "p-2.5 pb-2" : "p-6")}>
               <CardTitle className={cn(
-                "flex items-center gap-2",
-                isMobile ? "text-base" : "text-xl"
+                "flex items-center",
+                isMobile ? "gap-1.5 text-xs" : "gap-2 text-xl"
               )}>
                 <div className={cn(
-                  "p-2 rounded-lg bg-green-600 text-white",
-                  isMobile ? "p-1.5" : "p-2"
+                  "rounded-lg bg-green-600 text-white",
+                  isMobile ? "p-1" : "p-2"
                 )}>
-                  <Mail className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                  <Mail className={cn(isMobile ? "h-3 w-3" : "h-5 w-5")} />
                 </div>
                 {t('getInTouch')}
               </CardTitle>
             </CardHeader>
-            <CardContent className={cn(isMobile ? "space-y-4 p-4" : "space-y-5 p-6")}>
+            <CardContent className={cn(isMobile ? "space-y-2.5 p-2.5" : "space-y-5 p-6")}>
               <p className={cn(
                 "text-gray-700 leading-relaxed",
-                isMobile ? "text-sm" : "text-base"
+                isMobile ? "text-xs" : "text-base"
               )}>
                 {t('joinZaminatMovement')}
               </p>
               
               <div className={cn(
-                "flex gap-3",
-                isMobile ? "flex-col" : "flex-col sm:flex-row"
+                "flex",
+                isMobile ? "flex-col gap-2" : "flex-col sm:flex-row gap-3"
               )}>
                 <Button 
                   className={cn(
                     "bg-green-600 hover:bg-green-700 text-white shadow-lg",
                     "w-full transition-all duration-200 hover:shadow-xl",
-                    "flex items-center justify-center gap-2",
-                    isMobile ? "h-11 text-sm" : "h-12"
+                    "flex items-center justify-center gap-1.5",
+                    isMobile ? "h-10 text-xs py-2" : "h-12 gap-2"
                   )}
                   style={{ touchAction: 'manipulation' }}
                   onClick={() => {
                     contactHelpers.generalInquiry();
                   }}
                 >
-                  <Mail className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                  <Mail className={cn(isMobile ? "h-3.5 w-3.5" : "h-5 w-5")} />
                   {t('contactUs')}
                 </Button>
                 <Button 
@@ -920,8 +1104,8 @@ export default function About() {
                   className={cn(
                     "border-green-600 text-green-700 hover:bg-green-50",
                     "w-full transition-all duration-200 hover:shadow-lg",
-                    "flex items-center justify-center gap-2",
-                    isMobile ? "h-11 text-sm" : "h-12"
+                    "flex items-center justify-center gap-1.5",
+                    isMobile ? "h-10 text-xs py-2" : "h-12 gap-2"
                   )}
                   style={{ touchAction: 'manipulation' }}
                   onClick={(e) => {
@@ -936,7 +1120,7 @@ export default function About() {
           </Card>
         </motion.section>
 
-        {/* Enhanced Call to Action */}
+        {/* Enhanced Call to Action - Mobile Optimized */}
         <motion.section
           initial="hidden"
           whileInView="visible"
@@ -944,18 +1128,18 @@ export default function About() {
           variants={shouldReduceMotion ? {} : fadeInUp}
           className={cn(
             "text-center",
-            isMobile ? "py-6" : "py-10"
+            isMobile ? "py-4" : "py-10"
           )}
         >
           <h2 className={cn(
-            "font-bold text-gray-900 mb-3",
-            isMobile ? "text-xl" : "text-3xl md:text-4xl"
+            "font-bold text-gray-900",
+            isMobile ? "text-base mb-2" : "text-3xl md:text-4xl mb-3"
           )}>
             {t('joinTheZaminatMovement')}
           </h2>
           <p className={cn(
             "text-gray-600 leading-relaxed max-w-2xl mx-auto",
-            isMobile ? "text-sm px-4" : "text-base md:text-lg"
+            isMobile ? "text-xs px-3" : "text-base md:text-lg px-4"
           )}>
             {t('bePartOfTransformation')}
           </p>

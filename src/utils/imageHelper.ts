@@ -23,7 +23,7 @@ export async function getImageDimensions(src: string): Promise<{ width: number; 
     const img = await preloadImage(src);
     return { width: img.width, height: img.height };
   } catch (error) {
-    console.error('Error getting image dimensions:', error);
+    // Silently fail - dimensions are optional
     return { width: 0, height: 0 };
   }
 }
@@ -151,7 +151,7 @@ export function getImageUrlVariations(src: string): string[] {
     }
     
   } catch (error) {
-    console.warn('Error generating URL variations:', error);
+    // Silently fail - will use original URL
   }
   
   // Return as array, remove duplicates
@@ -168,7 +168,7 @@ export async function preloadImages(srcs: string[]): Promise<Map<string, HTMLIma
       const img = await preloadImage(src);
       imageMap.set(src, img);
     } catch (error) {
-      console.warn(`Failed to preload image: ${src}`, error);
+      // Silently fail - preloading is optional
     }
   });
   

@@ -1,7 +1,7 @@
 /**
- * ScrollImageCarousel Component
- * A sophisticated scroll-based image carousel that changes images as user scrolls
- * Images fade in/out based on scroll position and section visibility
+ * ImageCarousel Component
+ * A simple, optimized image carousel with manual navigation
+ * Images maintain their natural aspect ratios
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -13,7 +13,7 @@ import { Button } from './ui/button';
 
 interface ScrollImageCarouselProps {
   images: string[];
-  sections: string[]; // Section IDs to track
+  sections?: string[]; // Optional, kept for backward compatibility but not used
   className?: string;
   variant?: 'inline' | 'sticky' | 'floating';
   transitionDuration?: number;
@@ -27,82 +27,22 @@ export default function ScrollImageCarousel({
   transitionDuration = 800
 }: ScrollImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const [imageError, setImageError] = useState<Set<number>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const imageRefs = useRef<Map<number, HTMLImageElement>>(new Map());
   const isMobile = useIsMobile();
   const shouldReduceMotion = useReducedMotion();
-
-  // Calculate which image to show based on scroll position
-  const updateImageIndex = useCallback(() => {
-    if (!sections.length || !images.length) return;
-
-    const scrollPosition = window.scrollY + window.innerHeight / 2;
-    const documentHeight = document.documentElement.scrollHeight;
-    const scrollProgress = Math.min(Math.max(scrollPosition / documentHeight, 0), 1);
-    
-    // Map scroll progress to image index
-    const newIndex = Math.floor(scrollProgress * images.length);
-    const clampedIndex = Math.min(newIndex, images.length - 1);
-    
-    if (clampedIndex !== currentIndex) {
-      setCurrentIndex(clampedIndex);
-    }
-  }, [sections, images, currentIndex]);
-
-  // Track section visibility for more precise image switching
-  useEffect(() => {
-    if (!sections.length || !images.length) return;
-
-    const sectionElements = sections.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    
-    if (sectionElements.length === 0) {
-      // Fallback to scroll-based calculation
-      const handleScroll = () => {
-        requestAnimationFrame(updateImageIndex);
-      };
-      
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      handleScroll(); // Initial call
-      
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
-
-    // Use Intersection Observer for section-based switching
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-            const sectionIndex = sectionElements.indexOf(entry.target as HTMLElement);
-            if (sectionIndex !== -1) {
-              // Map section index to image index
-              const imageIndex = Math.floor((sectionIndex / sectionElements.length) * images.length);
-              const clampedIndex = Math.min(imageIndex, images.length - 1);
-              setCurrentIndex(clampedIndex);
-            }
-          }
-        });
-      },
-      {
-        threshold: [0, 0.3, 0.5, 0.7, 1],
-        rootMargin: '-20% 0px -20% 0px'
-      }
-    );
-
-    sectionElements.forEach(section => {
-      observerRef.current?.observe(section);
-    });
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
-  }, [sections, images]);
+  
+  // Touch/swipe state for mobile
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const touchEndY = useRef<number | null>(null);
+  
+  // Minimum swipe distance (in pixels) to trigger navigation
+  const minSwipeDistance = 50;
 
   // Manual navigation
   const goToPrevious = useCallback(() => {
@@ -112,6 +52,67 @@ export default function ScrollImageCarousel({
   const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
   }, [images.length]);
+
+  // Touch event handlers for mobile swipe
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.targetTouches[0];
+    touchEndX.current = null;
+    touchEndY.current = null;
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!touchStartX.current || !touchStartY.current) return;
+    
+    const touch = e.targetTouches[0];
+    touchEndX.current = touch.clientX;
+    touchEndY.current = touch.clientY;
+    
+    const distanceX = Math.abs(touchStartX.current - touch.clientX);
+    const distanceY = Math.abs(touchStartY.current - touch.clientY);
+    
+    // If horizontal movement is significantly greater than vertical, prevent default to allow swipe
+    // This prevents page scrolling when user is trying to swipe the carousel
+    if (distanceX > distanceY * 1.2 && distanceX > 15) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchStartX.current === null || touchEndX.current === null || touchStartY.current === null || touchEndY.current === null) {
+      // Reset if incomplete
+      touchStartX.current = null;
+      touchStartY.current = null;
+      touchEndX.current = null;
+      touchEndY.current = null;
+      return;
+    }
+    
+    const distanceX = touchStartX.current - touchEndX.current;
+    const distanceY = touchStartY.current - touchEndY.current;
+    const absDistanceX = Math.abs(distanceX);
+    const absDistanceY = Math.abs(distanceY);
+    
+    // Check if it's a horizontal swipe (not vertical scroll)
+    // Require horizontal movement to be at least 1.5x the vertical movement
+    if (absDistanceX > absDistanceY * 1.5 && absDistanceX > minSwipeDistance) {
+      if (distanceX > 0) {
+        // Swipe left - go to next
+        goToNext();
+      } else {
+        // Swipe right - go to previous
+        goToPrevious();
+      }
+    }
+    
+    // Reset touch positions
+    touchStartX.current = null;
+    touchStartY.current = null;
+    touchEndX.current = null;
+    touchEndY.current = null;
+  }, [goToNext, goToPrevious]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -176,20 +177,6 @@ export default function ScrollImageCarousel({
     preloadAdjacent();
   }, [currentIndex, images, loadedImages, imageError]);
 
-  // Visibility tracking
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   if (!images.length) return null;
 
@@ -210,21 +197,24 @@ export default function ScrollImageCarousel({
       onMouseLeave={() => setIsHovered(false)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ 
-        opacity: isVisible ? 1 : 0.7,
+        opacity: 1,
         y: 0,
         scale: isHovered && !isMobile ? 1.02 : 1
       }}
       transition={{ duration: 0.5 }}
     >
-      {/* Image Container with Enhanced Quality - Seamless Design */}
+      {/* Image Container with Natural Aspect Ratio - Professional Design */}
       <div 
-        className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl"
+        className="relative w-full flex items-center justify-center overflow-hidden rounded-2xl bg-transparent"
         style={{
-          imageRendering: 'high-quality',
-          WebkitImageRendering: 'high-quality',
           boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
-          backgroundColor: 'transparent',
+          minHeight: isMobile ? '250px' : '400px',
+          maxHeight: isMobile ? '500px' : '800px',
+          touchAction: isMobile ? 'pan-y pinch-zoom' : 'auto', // Allow vertical scrolling and pinch zoom, handle horizontal swipes
         }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {/* Loading Spinner - Subtle */}
         {!loadedImages.has(currentIndex) && !imageError.has(currentIndex) && (
@@ -243,7 +233,7 @@ export default function ScrollImageCarousel({
               src={images[currentIndex]}
               alt={`ZAMINAT.eco brand image ${currentIndex + 1}`}
               className={cn(
-                "absolute inset-0 w-full h-full",
+                "max-w-full max-h-full w-auto h-auto",
                 "object-contain",
                 "bg-transparent",
                 !loadedImages.has(currentIndex) && "opacity-0"
@@ -271,13 +261,14 @@ export default function ScrollImageCarousel({
                 imageRendering: 'high-quality',
                 WebkitImageRendering: 'high-quality',
                 backgroundColor: 'transparent',
+                display: 'block',
               }}
             />
           )}
           
           {/* Error Fallback */}
           {imageError.has(currentIndex) && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-transparent p-8">
+            <div className="flex flex-col items-center justify-center bg-transparent p-8 min-h-[250px]">
               <div className="text-gray-400 mb-2">
                 <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -341,8 +332,11 @@ export default function ScrollImageCarousel({
           </>
         )}
 
-        {/* Progress Indicator Dots - Minimal Design */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 items-center">
+        {/* Progress Indicator Dots - Minimal Design - Touch Friendly on Mobile */}
+        <div className={cn(
+          "absolute left-1/2 -translate-x-1/2 flex gap-2 items-center",
+          isMobile ? "bottom-3" : "bottom-6"
+        )}>
           {images.map((_, index) => (
             <button
               key={index}
@@ -350,11 +344,13 @@ export default function ScrollImageCarousel({
               className={cn(
                 "transition-all duration-300 rounded-full",
                 "focus:outline-none focus:ring-2 focus:ring-white/50",
+                "touch-manipulation", // Optimize for touch
                 index === currentIndex
-                  ? "w-8 h-1.5 bg-white shadow-md"
-                  : "w-1.5 h-1.5 bg-white/40 hover:bg-white/60"
+                  ? isMobile ? "w-6 h-1.5 bg-white shadow-md" : "w-8 h-1.5 bg-white shadow-md"
+                  : isMobile ? "w-1.5 h-1.5 bg-white/40 active:bg-white/60" : "w-1.5 h-1.5 bg-white/40 hover:bg-white/60"
               )}
               aria-label={`Go to image ${index + 1}`}
+              style={{ touchAction: 'manipulation' }}
             />
           ))}
         </div>

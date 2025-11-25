@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, startTransition } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -8,37 +8,37 @@ import ErrorBoundary from './components/ErrorBoundary';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import { CartProvider } from './contexts/CartContext';
-import { Skeleton } from './components/ui/loading-skeleton';
+import LightweightLoader from './components/LightweightLoader';
+import WelcomeModal from './components/WelcomeModal';
 import './styles/enhanced-mobile.css';
 
-const queryClient = new QueryClient();
+// Optimized QueryClient with better defaults for performance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      cacheTime: 10 * 60 * 1000, // 10 minutes
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    },
+  },
+});
 
-// Lazy load pages for code splitting
-const Index = lazy(() => import('./pages/Index'));
-const About = lazy(() => import('./pages/About'));
-const EcoVote = lazy(() => import('./pages/EcoVote'));
-const EcoActions = lazy(() => import('./pages/EcoActions'));
-const Shop = lazy(() => import('./pages/Shop'));
-const SocialMissionShop = lazy(() => import('./pages/SocialMissionShop'));
-const EcoStories = lazy(() => import('./pages/EcoStories'));
-const Profile = lazy(() => import('./pages/Profile'));
-const Partners = lazy(() => import('./pages/Partners'));
-const Team = lazy(() => import('./pages/Team'));
-const Contacts = lazy(() => import('./pages/Contacts'));
-const ProductDetail = lazy(() => import('./pages/ProductDetail'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-
-// Loading fallback component
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center p-4">
-    <div className="space-y-4 w-full max-w-md">
-      <Skeleton variant="rectangular" height={200} className="rounded-lg" />
-      <Skeleton variant="text" width="60%" />
-      <Skeleton variant="text" width="80%" />
-      <Skeleton variant="text" width="40%" />
-    </div>
-  </div>
-);
+// Lazy load pages with optimized chunking
+// Using webpack magic comments for better chunk names and prefetching hints
+const Index = lazy(() => import(/* webpackChunkName: "index" */ './pages/Index'));
+const About = lazy(() => import(/* webpackChunkName: "about" */ './pages/About'));
+const EcoVote = lazy(() => import(/* webpackChunkName: "vote" */ './pages/EcoVote'));
+const EcoActions = lazy(() => import(/* webpackChunkName: "actions" */ './pages/EcoActions'));
+const Shop = lazy(() => import(/* webpackChunkName: "shop" */ './pages/Shop'));
+const SocialMissionShop = lazy(() => import(/* webpackChunkName: "shop-legacy" */ './pages/SocialMissionShop'));
+const EcoStories = lazy(() => import(/* webpackChunkName: "stories" */ './pages/EcoStories'));
+const Profile = lazy(() => import(/* webpackChunkName: "profile" */ './pages/Profile'));
+const Partners = lazy(() => import(/* webpackChunkName: "partners" */ './pages/Partners'));
+const Team = lazy(() => import(/* webpackChunkName: "team" */ './pages/Team'));
+const Contacts = lazy(() => import(/* webpackChunkName: "contacts" */ './pages/Contacts'));
+const ProductDetail = lazy(() => import(/* webpackChunkName: "product" */ './pages/ProductDetail'));
+const NotFound = lazy(() => import(/* webpackChunkName: "notfound" */ './pages/NotFound'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -54,7 +54,8 @@ const App = () => (
           >
             <RouterErrorBoundary>
               <ScrollToTop />
-              <Suspense fallback={<PageLoader />}>
+              <WelcomeModal />
+              <Suspense fallback={<LightweightLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/about" element={<About />} />

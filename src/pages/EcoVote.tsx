@@ -198,7 +198,7 @@ function EcoVote() {
         }
       } catch (error) {
         // Fallback to mock data if backend is unavailable
-        console.warn('Failed to fetch projects from backend, using mock data:', error);
+        // Failed to fetch projects from backend, using mock data
         setProjects(votingProjects);
       } finally {
         setLoading(false);

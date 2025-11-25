@@ -234,7 +234,7 @@
   "eventsButton": "Tadbirlar",
   "shopButton": "Do'kon",
   "aboutZaminatProject": "ZAMINAT loyihasi haqida",
-  "aboutZaminatDescription": "ZAMINAT.eco plastik va rezina qayta ishlashni ommaviy ijtimoiy harakatga aylantiradi. Biz fuqarolar, maktablar, mahallalar, ko'ngillilar, investorlar va davlat tuzilmalarini chiqindilarni jamiyatlarimiz uchun ko'rinadigan hissaga aylantiradigan bitta ekotizimga birlashtiramiz.",
+  "aboutZaminatDescription": "plastik va rezina qayta ishlashni ommaviy ijtimoiy harakatga aylantiradi. Biz fuqarolar, maktablar, mahallalar, ko'ngillilar, investorlar va davlat tuzilmalarini chiqindilarni jamiyatlarimiz uchun ko'rinadigan hissaga aylantiradigan bitta ekotizimga birlashtiramiz.",
   "ourGoalsFor2026": "2026 yil uchun maqsadlarimiz",
   "recycle1000Tons": "1000+ tonna plastik va rezina chiqindini qayta ishlash",
   "engage50000Users": "50,000+ faol jamiyat ishtirokchilarini jalb qilish",
@@ -656,5 +656,24 @@
   "categoryOcean": "okean",
   "categorySunset": "quyosh botishi",
   "categoryNeon": "neon",
-  "categoryPastel": "pastel"
+  "categoryPastel": "pastel",
+  "welcome": {
+    "title": "ZAMINAT.eco'ga xush kelibsiz!",
+    "description": "Ekologik harakatimizga qo'shiling va birgalikda farq qiling!",
+    "firstName": "Ism",
+    "lastName": "Familiya",
+    "optional": "ixtiyoriy",
+    "firstNamePlaceholder": "Ismingizni kiriting",
+    "lastNamePlaceholder": "Familiyangizni kiriting",
+    "note": "Ushbu bosqichni o'tkazib yuborishingiz va standart nomdan foydalanishingiz yoki keyinroq profilida o'zgartirishingiz mumkin.",
+    "skip": "O'tkazib yuborish",
+    "continue": "Davom etish",
+    "footer": "🌱 Birgalikda biz farq qilishimiz mumkin!"
+  },
+  "settings": "Sozlamalar",
+  "settingsDescription": "Hisob sozlamalari va afzalliklarni boshqaring",
+  "changeName": "Ismingizni o'zgartiring",
+  "saveName": "Ismni saqlash",
+  "nameUpdated": "Ism muvaffaqiyatli yangilandi!",
+  "nameRequired": "Iltimos, kamida ism kiriting"
 }

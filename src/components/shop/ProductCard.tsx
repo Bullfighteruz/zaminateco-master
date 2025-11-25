@@ -99,11 +99,11 @@ function ProductCard({
         {/* Image Container - Old Banner Style */}
         <div className="relative bg-gradient-to-br from-green-50 to-blue-50 overflow-hidden aspect-square">
           {image ? (
-            <img
-              src={image}
-              alt={name}
+              <img
+                src={image}
+                alt={name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              loading={index < 6 ? "eager" : "lazy"}
+                loading={index < 6 ? "eager" : "lazy"}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = "/images/art-tiles.png";

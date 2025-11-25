@@ -639,7 +639,6 @@ export default function Shop() {
           }}
           onVideoReady={() => {
             // Video loaded successfully
-            console.log('Hero video loaded and ready');
           }}
         />
 

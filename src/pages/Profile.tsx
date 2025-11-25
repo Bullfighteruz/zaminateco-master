@@ -64,10 +64,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import Layout from '@/components/Layout';
 import { toast } from 'sonner';
 import { USER_DATA, calculateLevel, calculateLevelProgress, formatWasteAmount } from '@/lib/userData';
+import { getUserNameData, saveUserName } from '@/utils/userName';
 import { EnhancedAvatar } from '@/components/ui/enhanced-avatar';
 import { EnhancedAvatarSystem } from '@/components/ui/enhanced-avatar-system';
 import { 
@@ -168,6 +170,76 @@ const benefitItemVariants = {
       ease: "easeOut"
     }
   }
+};
+
+// Name Change Section Component
+const NameChangeSection: React.FC<{ onNameUpdated: () => void; t: any }> = ({ onNameUpdated, t }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    const nameData = getUserNameData();
+    setFirstName(nameData.firstName);
+    setLastName(nameData.lastName);
+  }, []);
+
+  return (
+    <div className="space-y-4 pb-4 border-b">
+      <h3 className="text-sm font-semibold">
+        {t('changeName', { ns: 'profile', defaultValue: 'Change Your Name' })}
+      </h3>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="profile-firstName" className="text-sm font-medium">
+            {t('welcome.firstName', { defaultValue: 'First Name' })} 
+            <span className="text-gray-400 text-xs ml-1">({t('welcome.optional', { defaultValue: 'optional' })})</span>
+          </Label>
+          <Input
+            id="profile-firstName"
+            type="text"
+            placeholder={t('welcome.firstNamePlaceholder', { defaultValue: 'Enter your first name' })}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="h-11"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="profile-lastName" className="text-sm font-medium">
+            {t('welcome.lastName', { defaultValue: 'Last Name' })} 
+            <span className="text-gray-400 text-xs ml-1">({t('welcome.optional', { defaultValue: 'optional' })})</span>
+          </Label>
+          <Input
+            id="profile-lastName"
+            type="text"
+            placeholder={t('welcome.lastNamePlaceholder', { defaultValue: 'Enter your last name' })}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="h-11"
+          />
+        </div>
+
+        <Button
+          onClick={() => {
+            if (!firstName.trim() && !lastName.trim()) {
+              toast.error(t('nameRequired', { ns: 'profile', defaultValue: 'Please enter at least a first name' }));
+              return;
+            }
+
+            // Save exactly what user entered - no defaults
+            // If only first name is provided, lastName will be empty string (no default last name added)
+            saveUserName(firstName.trim() || '', lastName.trim() || '');
+            onNameUpdated();
+            
+            toast.success(t('nameUpdated', { ns: 'profile', defaultValue: 'Name updated successfully!' }));
+          }}
+          className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white"
+        >
+          {t('saveName', { ns: 'profile', defaultValue: 'Save Name' })}
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 const Profile: React.FC = () => {
@@ -2157,6 +2229,15 @@ const Profile: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6 py-4">
+            {/* Name Change Section */}
+            <NameChangeSection 
+              onNameUpdated={() => {
+                const savedProgress = loadUserProgress();
+                setUserProgress(savedProgress);
+              }}
+              t={t}
+            />
+
             {/* Notifications */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
