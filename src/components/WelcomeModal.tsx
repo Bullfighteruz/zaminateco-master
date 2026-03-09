@@ -78,14 +78,18 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
     setLangMenuOpen(false);
   };
 
-  // Prevent closing modal by clicking outside or pressing ESC until user interacts
+  // Handle dialog open/close, including X button, ESC key, and overlay click
   const handleOpenChange = (open: boolean) => {
-    // Only allow closing if user has interacted (clicked skip or submitted)
-    // This prevents accidental closing on first visit
+    // When closing on first visit without interaction, treat as "Skip":
+    // close the modal and mark it as visited so it won't show again.
     if (!open && !hasInteracted && isFirstVisit()) {
-      // If trying to close on first visit without interaction, prevent it
+      setHasInteracted(true);
+      markAsVisited();
+      setIsOpen(false);
+      onComplete?.();
       return;
     }
+
     setIsOpen(open);
   };
 
