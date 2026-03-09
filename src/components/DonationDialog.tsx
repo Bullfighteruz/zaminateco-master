@@ -84,8 +84,8 @@ const DonationDialog: React.FC<DonationDialogProps> = ({
           animate={{ opacity: 1, y: 0 }}
           className="relative bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 p-4 sm:p-6 text-white overflow-hidden"
         >
-          {/* Animated Background Pattern */}
-          <div className="absolute inset-0 opacity-20">
+          {/* Animated Background Pattern - non-interactive so it won't block clicks on the close (X) button */}
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}

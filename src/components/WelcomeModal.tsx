@@ -143,67 +143,64 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
               </motion.div>
 
               <DialogHeader className="relative z-10">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex-1"></div>
-                  <DialogTitle className="text-2xl sm:text-3xl font-bold text-white text-center flex-1">
-                    {t('welcome.title', { defaultValue: 'Welcome to ZAMINAT.eco!' })}
-                  </DialogTitle>
-                  <div className="flex-1 flex justify-end">
-                    {/* Language Switcher */}
-                    <DropdownMenu open={langMenuOpen} onOpenChange={setLangMenuOpen} modal={false}>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-10 px-3 text-white hover:bg-white/30 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 shadow-lg transition-all hover:scale-105 flex items-center gap-2"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Globe className="h-5 w-5" />
-                          <img
-                            src={currentLanguage.flag}
-                            alt={currentLanguage.name}
-                            className="h-4 w-5 object-cover rounded-sm border border-white/50"
-                          />
-                          <span className="text-sm font-medium hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent 
-                        align="end"
-                        side="bottom"
-                        sideOffset={8}
-                        className="w-[180px] p-2 bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl rounded-xl"
-                      >
-                        {languages.map((language) => {
-                          const isSelected = currentLanguage.code === language.code;
-                          return (
-                            <DropdownMenuItem
-                              key={language.code}
-                              onClick={() => handleLanguageChange(language.code)}
-                              className={cn(
-                                "flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all",
-                                isSelected
-                                  ? "bg-green-50 text-green-800 font-semibold"
-                                  : "hover:bg-gray-50"
-                              )}
-                            >
-                              <img
-                                src={language.flag}
-                                alt={language.name}
-                                className="h-5 w-7 object-cover rounded-sm border border-gray-200"
-                              />
-                              <span className="text-sm font-medium">{language.name}</span>
-                            </DropdownMenuItem>
-                          );
-                        })}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
+                <DialogTitle className="text-2xl sm:text-3xl font-bold text-white text-center mb-2">
+                  {t('welcome.title', { defaultValue: 'Welcome to ZAMINAT.eco!' })}
+                </DialogTitle>
                 <DialogDescription className="text-white/90 text-center text-sm sm:text-base">
                   {t('welcome.description', { 
                     defaultValue: 'Join our ecological movement and make a difference together!' 
                   })}
                 </DialogDescription>
+                <div className="mt-4 flex justify-center sm:justify-end">
+                  {/* Language Switcher - moved below title/description to avoid overlapping the close (X) button */}
+                  <DropdownMenu open={langMenuOpen} onOpenChange={setLangMenuOpen} modal={false}>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-10 px-3 text-white hover:bg-white/30 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 shadow-lg transition-all hover:scale-105 flex items-center gap-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Globe className="h-5 w-5" />
+                        <img
+                          src={currentLanguage.flag}
+                          alt={currentLanguage.name}
+                          className="h-4 w-5 object-cover rounded-sm border border-white/50"
+                        />
+                        <span className="text-sm font-medium hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                      align="end"
+                      side="bottom"
+                      sideOffset={8}
+                      className="w-[180px] p-2 bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl rounded-xl"
+                    >
+                      {languages.map((language) => {
+                        const isSelected = currentLanguage.code === language.code;
+                        return (
+                          <DropdownMenuItem
+                            key={language.code}
+                            onClick={() => handleLanguageChange(language.code)}
+                            className={cn(
+                              "flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all",
+                              isSelected
+                                ? "bg-green-50 text-green-800 font-semibold"
+                                : "hover:bg-gray-50"
+                            )}
+                          >
+                            <img
+                              src={language.flag}
+                              alt={language.name}
+                              className="h-5 w-7 object-cover rounded-sm border border-gray-200"
+                            />
+                            <span className="text-sm font-medium">{language.name}</span>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </DialogHeader>
             </div>
 
