@@ -10,6 +10,9 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import '../styles/mobile-responsive.css';
 import { contactHelpers } from '@/utils/mailto';
+import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.JPG';
+import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
+import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.jpg';
 
 // Animation variants
 const containerVariants = {
@@ -37,6 +40,7 @@ const itemVariants = {
 interface TeamMember {
   id: number;
   name: string;
+  photo: string;
   role: string;
   emoji: string;
   color: string;
@@ -116,7 +120,7 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
             {/* Member info */}
             <div className={cn("text-center", isMobile ? "mb-2" : "mb-4")}>
               <img 
-                src="/images/meet-the-team_15916616.png" 
+                src={member.photo}
                 alt={member.name} 
                 className={cn(
                   "mx-auto object-contain",
@@ -264,6 +268,11 @@ export default function Team() {
     const icons = [Crown, Settings, Calculator, Code];
     const colors = ['blue', 'green', 'purple', 'orange'];
     const emojis = ['👨‍💼', '👨‍⚙️', '👨‍💻', '👨‍💻'];
+    const photosByMember: Record<string, string> = {
+      sukhrobjon: sukhrobjonPhoto,
+      azamat: azamatPhoto,
+      islombek: jahongirPhoto,
+    };
 
     return members.map((memberKey, index) => {
       const memberData = t(`team.members.${memberKey}`, { returnObjects: true }) as MemberData;
@@ -271,6 +280,7 @@ export default function Team() {
       return {
         id: index + 1,
         name: memberData?.name || `Member ${index + 1}`,
+        photo: photosByMember[memberKey] || '/images/meet-the-team_15916616.png',
         role: memberData?.position || 'Team Member',
         emoji: emojis[index],
         color: colors[index],
