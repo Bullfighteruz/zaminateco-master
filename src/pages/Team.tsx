@@ -123,8 +123,8 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
                 src={member.photo}
                 alt={member.name} 
                 className={cn(
-                  "mx-auto object-contain",
-                  isMobile ? "w-12 h-12 mb-2" : "w-16 h-16 sm:w-20 sm:h-20 mb-3"
+                  "mx-auto rounded-full object-cover border-4 border-white shadow-lg ring-2 ring-gray-100",
+                  isMobile ? "w-20 h-20 mb-3" : "w-24 h-24 sm:w-28 sm:h-28 mb-4"
                 )} 
                 loading="lazy" 
               />
