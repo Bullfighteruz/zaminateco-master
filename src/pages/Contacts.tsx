@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { 
-  MessageSquare, 
   Send, 
   Mail, 
   Phone, 
@@ -11,22 +10,13 @@ import {
   Instagram,
   Linkedin,
   Sparkles,
-  Heart,
   Star,
-  Leaf,
-  Recycle,
-  TreePine,
   Zap,
-  Globe,
-  CheckCircle2,
-  ArrowRight
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { contactHelpers } from '@/utils/mailto';
 import { cn } from '@/lib/utils';
@@ -264,15 +254,6 @@ const SocialCard = ({ social }: { social: { icon: typeof Send, platform: string,
 export default function Contacts() {
   const isMobile = useIsMobile();
   const { t, i18n } = useTranslation('common');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   // Contact information - using translations
   const contactInfo = [
@@ -351,26 +332,6 @@ export default function Contacts() {
     }
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      setTimeout(() => setShowSuccess(false), 4000);
-    }, 1500);
-  };
-
   return (
     <Layout title="Contact Us">
       <div className="min-h-screen relative overflow-hidden">
@@ -418,217 +379,10 @@ export default function Contacts() {
                 {t('getInTouchDescription')}
               </p>
 
-              {/* Mobile-optimized stats */}
-              <div className={cn(
-                "grid grid-cols-2 max-w-lg sm:max-w-2xl mx-auto",
-                isMobile ? "gap-1.5 mt-3" : "sm:grid-cols-4 gap-2 sm:gap-3 mt-4 sm:mt-6"
-              )}>
-                {[
-                  { icon: Heart, label: t('clients'), value: "500+" },
-                  { icon: Globe, label: t('cities'), value: "12+" },
-                  { icon: Recycle, label: t('recycled'), value: "50T+" },
-                  { icon: TreePine, label: t('trees'), value: "1K+" }
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    variants={itemVariants}
-                    className={cn(
-                      "text-center bg-white/60 backdrop-blur-sm rounded-lg shadow-sm",
-                      isMobile ? "p-1.5" : "p-2 sm:p-3"
-                    )}
-                  >
-                    <stat.icon className={cn(
-                      "mx-auto mb-1 text-green-600",
-                      isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5"
-                    )} />
-                    <div className={cn(
-                      "font-bold text-gray-900",
-                      isMobile ? "text-sm" : "text-lg sm:text-xl"
-                    )}>
-                      {stat.value}
-                    </div>
-                    <div className={cn(
-                      "text-gray-600",
-                      isMobile ? "text-[10px]" : "text-xs"
-                    )}>
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
             </motion.div>
 
             {/* Mobile-first content layout */}
             <div className={cn(isMobile ? "space-y-4" : "space-y-6 md:space-y-8")}>
-              
-              {/* Contact Form - Full width on mobile */}
-              <motion.div variants={itemVariants}>
-                <Card className="border bg-white/90 backdrop-blur-sm shadow-lg">
-                  <CardHeader className={cn(isMobile ? "pb-2 p-3" : "pb-4")}>
-                    <CardTitle className={cn(
-                      "flex items-center font-bold",
-                      isMobile ? "text-sm" : "text-lg sm:text-xl"
-                    )}>
-                      <div className={cn(
-                        "bg-gradient-to-r from-green-500 to-blue-500 rounded-lg shadow-md",
-                        isMobile ? "p-1.5 mr-2" : "p-2 mr-3"
-                      )}>
-                        <MessageSquare className={cn("text-white", isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5")} />
-                      </div>
-                      {t('sendUsAMessage')}
-                    </CardTitle>
-                  </CardHeader>
-                  
-                  <CardContent className={cn(isMobile ? "p-3" : "")}>
-                    <AnimatePresence mode="wait">
-                      {showSuccess ? (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.9 }}
-                          className={cn("text-center", isMobile ? "py-4" : "py-8")}
-                        >
-                          <div className={cn(
-                            "inline-flex items-center justify-center bg-green-100 rounded-full mb-4",
-                            isMobile ? "w-12 h-12" : "w-16 h-16"
-                          )}>
-                            <CheckCircle2 className={cn("text-green-600", isMobile ? "h-6 w-6" : "h-8 w-8")} />
-                          </div>
-                          <h3 className={cn(
-                            "font-bold text-green-600 mb-2",
-                            isMobile ? "text-base" : "text-xl"
-                          )}>
-                            {t('messageSent')}
-                          </h3>
-                          <p className={cn(
-                            "text-gray-600",
-                            isMobile ? "text-xs" : ""
-                          )}>
-                            {t('messageSentDescription')}
-                          </p>
-                        </motion.div>
-                      ) : (
-                        <form onSubmit={handleSubmit} className={cn(isMobile ? "space-y-3" : "space-y-4")}>
-                          <div className={cn(
-                            "grid",
-                            isMobile ? "grid-cols-1 gap-3" : "sm:grid-cols-2 gap-4"
-                          )}>
-                            <div>
-                              <label className={cn(
-                                "block font-medium text-gray-700 mb-2",
-                                isMobile ? "text-xs" : "text-sm"
-                              )}>
-                                {t('fullName')} *
-                              </label>
-                              <Input
-                                name="name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                placeholder={t('yourFullName')}
-                                required
-                                className={cn(
-                                  "border-2 border-gray-200 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all duration-300",
-                                  isMobile ? "h-9 text-xs" : "h-10 sm:h-11"
-                                )}
-                              />
-                            </div>
-                            <div>
-                              <label className={cn(
-                                "block font-medium text-gray-700 mb-2",
-                                isMobile ? "text-xs" : "text-sm"
-                              )}>
-                                {t('emailAddress')} *
-                              </label>
-                              <Input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                placeholder={t('emailPlaceholder')}
-                                required
-                                className={cn(
-                                  "border-2 border-gray-200 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all duration-300",
-                                  isMobile ? "h-9 text-xs" : "h-10 sm:h-11"
-                                )}
-                              />
-                            </div>
-                          </div>
-                          
-                          <div>
-                            <label className={cn(
-                              "block font-medium text-gray-700 mb-2",
-                              isMobile ? "text-xs" : "text-sm"
-                            )}>
-                              {t('subject')} *
-                            </label>
-                            <Input
-                              name="subject"
-                              value={formData.subject}
-                              onChange={handleInputChange}
-                              placeholder={t('whatsThisAbout')}
-                              required
-                              className={cn(
-                                "border-2 border-gray-200 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all duration-300",
-                                isMobile ? "h-9 text-xs" : "h-10 sm:h-11"
-                              )}
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className={cn(
-                              "block font-medium text-gray-700 mb-2",
-                              isMobile ? "text-xs" : "text-sm"
-                            )}>
-                              {t('message')} *
-                            </label>
-                            <Textarea
-                              name="message"
-                              value={formData.message}
-                              onChange={handleInputChange}
-                              placeholder={t('messagePlaceholder')}
-                              rows={isMobile ? 3 : 4}
-                              required
-                              className={cn(
-                                "border-2 border-gray-200 focus:border-green-500 focus:ring-green-500 rounded-lg transition-all duration-300 resize-none",
-                                isMobile ? "text-xs" : ""
-                              )}
-                            />
-                          </div>
-                          
-                          <Button
-                            type="submit"
-                            size={isMobile ? "default" : "lg"}
-                            disabled={isSubmitting}
-                            className={cn(
-                              "w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 rounded-lg border-0",
-                              isMobile ? "h-9 text-xs py-2" : "h-11 sm:h-12"
-                            )}
-                            style={{ touchAction: 'manipulation' }}
-                          >
-                            {isSubmitting ? (
-                              <>
-                                <motion.div
-                                  animate={{ rotate: 360 }}
-                                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                  className={cn("mr-2", isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5")}
-                                >
-                                  <Sparkles className={cn(isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5")} />
-                                </motion.div>
-                                {t('sending')}
-                              </>
-                            ) : (
-                              <>
-                                <Send className={cn("mr-2", isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5")} />
-                                {t('sendMessage')}
-                              </>
-                            )}
-                          </Button>
-                        </form>
-                      )}
-                    </AnimatePresence>
-                  </CardContent>
-                </Card>
-              </motion.div>
 
               {/* Contact Information - Mobile grid */}
               <motion.div variants={itemVariants}>
