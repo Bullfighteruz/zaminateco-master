@@ -106,7 +106,8 @@ const videos = [
     category: 'education',
     likes: '1.2K',
     views: '12.5K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'RU'
   },
   {
     id: '92y0oClestY',
@@ -117,7 +118,8 @@ const videos = [
     category: 'news',
     likes: '948',
     views: '8.2K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'EN'
   },
   {
     id: 'MgSB_vJjKGg',
@@ -128,7 +130,8 @@ const videos = [
     category: 'education',
     likes: '3.4K',
     views: '24.8K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'RU'
   },
   {
     id: 'zhaxX4Pl3ME',
@@ -139,7 +142,8 @@ const videos = [
     category: 'education',
     likes: '2.9K',
     views: '19.5K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'UZ'
   },
   {
     id: '8UGAjoiKmio',
@@ -150,7 +154,8 @@ const videos = [
     category: 'community',
     likes: '1.8K',
     views: '12.2K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'RU'
   },
   {
     id: 'a2e8CqGXMJE',
@@ -161,7 +166,8 @@ const videos = [
     category: 'community',
     likes: '2.2K',
     views: '14.5K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'UZ'
   },
   {
     id: '8q3chEM1GNQ',
@@ -172,7 +178,8 @@ const videos = [
     category: 'news',
     likes: '4.1K',
     views: '28.3K',
-    viewsKey: 'views'
+    viewsKey: 'views',
+    lang: 'RU'
   }
 ];
 
@@ -358,8 +365,17 @@ export default function EcoStories() {
 
                   {/* Details Overlay (Bottom) */}
                   <div className="absolute bottom-0 inset-x-0 p-3 flex flex-col justify-end space-y-1">
-                    <h3 className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 text-left drop-shadow-lg group-hover:text-emerald-300 transition-colors">
-                      {t(`videos.${video.id}.title`, { ns: 'translation' })}
+                    <h3 className="text-white font-semibold text-xs sm:text-sm leading-snug line-clamp-2 text-left drop-shadow-lg group-hover:text-emerald-300 transition-colors flex items-center gap-1.5 flex-wrap">
+                      <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase shrink-0 leading-none ${
+                        video.lang === 'RU' 
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' 
+                          : video.lang === 'UZ' 
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' 
+                          : 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                      }`}>
+                        {video.lang}
+                      </span>
+                      <span>{t(`videos.${video.id}.title`, { ns: 'translation' })}</span>
                     </h3>
                     <div className="flex items-center justify-between text-[10px] text-slate-300 font-medium">
                       <span className="flex items-center gap-0.5">
@@ -640,7 +656,16 @@ export default function EcoStories() {
                     ) : (
                       <Instagram className="h-5 w-5 text-pink-500" />
                     )}
-                    {t(`videos.${selectedVideo.id}.title`, { ns: 'translation' })}
+                    <span className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded uppercase shrink-0 ${
+                      selectedVideo.lang === 'RU' 
+                        ? 'bg-blue-500/25 text-blue-400 border border-blue-500/30' 
+                        : selectedVideo.lang === 'UZ' 
+                        ? 'bg-emerald-500/25 text-emerald-400 border border-emerald-500/30' 
+                        : 'bg-indigo-500/25 text-indigo-400 border border-indigo-500/30'
+                    }`}>
+                      {selectedVideo.lang}
+                    </span>
+                    <span>{t(`videos.${selectedVideo.id}.title`, { ns: 'translation' })}</span>
                   </DialogTitle>
                 </div>
               </DialogHeader>
