@@ -188,51 +188,16 @@ export default function Index() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-4 md:p-5"
+                  className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 md:p-5"
                   style={{ 
-                    background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(59, 130, 246, 0.3) 50%, rgba(147, 51, 234, 0.2) 100%)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
-                    border: '2px solid rgba(34, 197, 94, 0.4)',
-                    boxShadow: '0 8px 32px rgba(34, 197, 94, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.45)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.4)',
+                    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
                   }}
-                  whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+                  whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
                 >
-                  {/* Animated leaf pattern - Top Left */}
-                  <motion.div
-                    animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.1, 1] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-3 left-3 opacity-30"
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <Leaf className="w-6 h-6 text-green-500" />
-                  </motion.div>
-                  
-                  {/* Animated leaf pattern - Bottom Right */}
-                  <motion.div
-                    animate={{ rotate: [0, -6, 6, 0], scale: [1, 0.9, 1] }}
-                    transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
-                    className="absolute bottom-3 right-3 opacity-25"
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    <Leaf className="w-5 h-5 text-green-500" />
-                  </motion.div>
-                  
-                  {/* Decorative dots */}
-                  <motion.div
-                    animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.3, 1] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute top-4 right-6 w-2 h-2 rounded-full bg-green-400"
-                    style={{ pointerEvents: 'none' }}
-                  />
-                  
-                  <motion.div
-                    animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.2, 1] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute bottom-4 left-6 w-1.5 h-1.5 rounded-full bg-emerald-400"
-                    style={{ pointerEvents: 'none' }}
-                  />
-                  
                   {/* Combined Text Content */}
                   <div className="relative z-10 space-y-2 sm:space-y-3">
                     {/* Subtitle */}
@@ -246,7 +211,7 @@ export default function Index() {
                     </motion.p>
                     
                     {/* Divider */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-green-400/50 to-transparent" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                     
                     {/* Description */}
                     <motion.p 
@@ -258,25 +223,6 @@ export default function Index() {
                       {t('heroDescription')}
                     </motion.p>
                   </div>
-                  
-                  {/* Enhanced Shine effect */}
-                  <motion.div
-                    animate={{ x: ['-100%', '200%'] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                    style={{ transform: 'skewX(-20deg)', pointerEvents: 'none' }}
-                  />
-                  
-                  {/* Pulsing glow effect */}
-                  <motion.div
-                    animate={{ opacity: [0.1, 0.3, 0.1] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute inset-0"
-                    style={{ 
-                      background: 'radial-gradient(circle at center, rgba(34, 197, 94, 0.2) 0%, transparent 70%)',
-                      pointerEvents: 'none' 
-                    }}
-                  />
                 </motion.div>
                 
                 {/* Compact Action Buttons - Horizontal, Space Efficient */}
@@ -339,120 +285,24 @@ export default function Index() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="max-w-2xl mx-auto px-4 mb-4 sm:mb-6"
                   style={{ pointerEvents: 'auto' }}
+                  whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
                 >
                   <div 
-                    className="relative overflow-hidden rounded-2xl shadow-2xl p-4 sm:p-6"
+                    className="relative overflow-hidden rounded-2xl shadow-xl p-4 sm:p-6"
                     style={{ 
-                      background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)',
-                      backdropFilter: 'blur(12px)',
-                      border: '1px solid rgba(34, 197, 94, 0.2)',
+                      background: 'rgba(255, 255, 255, 0.45)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.4)',
+                      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
                     }}
                   >
-                    {/* Animated leaf pattern background */}
-                    <motion.div
-                      animate={{ 
-                        rotate: [0, 8, -8, 0],
-                        scale: [1, 1.1, 1],
-                        x: [0, 5, -5, 0]
-                      }}
-                      transition={{ 
-                        duration: 5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      className="absolute top-2 left-3 opacity-20"
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      <Leaf className="w-12 h-12 sm:w-16 sm:w-16 text-green-500" />
-                    </motion.div>
-                    
-                    <motion.div
-                      animate={{ 
-                        rotate: [0, -6, 6, 0],
-                        scale: [1, 0.9, 1],
-                        x: [0, -4, 4, 0]
-                      }}
-                      transition={{ 
-                        duration: 4.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.7
-                      }}
-                      className="absolute bottom-3 right-4 opacity-15"
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      <Leaf className="w-10 h-10 sm:w-14 sm:h-14 text-emerald-500" />
-                    </motion.div>
-                    
-                    {/* Additional decorative leaf */}
-                    <motion.div
-                      animate={{ 
-                        rotate: [0, 10, -10, 0],
-                        opacity: [0.1, 0.2, 0.1]
-                      }}
-                      transition={{ 
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1.2
-                      }}
-                      className="absolute top-1/2 left-1/4 opacity-10"
-                      style={{ pointerEvents: 'none', transform: 'translate(-50%, -50%)' }}
-                    >
-                      <Leaf className="w-8 h-8 text-green-400" />
-                    </motion.div>
-                    
-                    {/* Decorative dots */}
-                    <motion.div
-                      animate={{ 
-                        opacity: [0.3, 0.6, 0.3],
-                        scale: [1, 1.3, 1]
-                      }}
-                      transition={{ 
-                        duration: 2.5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      className="absolute top-4 right-6 w-2 h-2 rounded-full bg-green-400"
-                      style={{ pointerEvents: 'none' }}
-                    />
-                    
-                    <motion.div
-                      animate={{ 
-                        opacity: [0.2, 0.5, 0.2],
-                        scale: [1, 1.2, 1]
-                      }}
-                      transition={{ 
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1
-                      }}
-                      className="absolute bottom-4 left-6 w-1.5 h-1.5 rounded-full bg-emerald-400"
-                      style={{ pointerEvents: 'none' }}
-                    />
-                    
                     {/* Main description text */}
                     <div className="relative z-10">
                       <p className="text-sm sm:text-base md:text-lg leading-relaxed hero-description-mobile text-gray-800 font-medium">
                   {t('heroDescription')}
                 </p>
               </div>
-              
-                    {/* Shine effect overlay */}
-                    <motion.div
-                      animate={{ 
-                        x: ['-100%', '200%']
-                      }}
-                      transition={{ 
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "linear",
-                        repeatDelay: 3
-                      }}
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
-                      style={{ transform: 'skewX(-20deg)', pointerEvents: 'none' }}
-                    />
                   </div>
                 </motion.div>
                 
