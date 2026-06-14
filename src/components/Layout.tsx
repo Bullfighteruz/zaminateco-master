@@ -1,4 +1,4 @@
-import { Home, Vote, Calendar, ShoppingBag, BookOpen, User, Leaf, Globe } from 'lucide-react';
+import { Home, Vote, Calendar, ShoppingBag, BookOpen, User, Globe } from 'lucide-react';
 import { useLocation, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -130,122 +130,7 @@ const Layout = memo(function Layout({ children, title }: LayoutProps) {
       <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30 pointer-events-none" />
       <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40 opacity-35 pointer-events-none" />
       <div className="bg-glow-orb bg-glow-emerald w-[450px] h-[450px] bottom-10 -left-20 opacity-25 pointer-events-none" />
-      {/* Sticky Logo with "ZAMINAT.eco" - Top left with "roots of change" style background - Hidden on mobile and profile page */}
-      {location.pathname !== '/profile' && (
-      <div className="hidden md:block fixed top-4 left-4 z-50">
-        <PrefetchLink to="/" className="block">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6, type: 'spring', stiffness: 200 }}
-            className="relative"
-          >
-            <div
-              className="relative overflow-hidden rounded-xl shadow-2xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.4) 0%, rgba(59, 130, 246, 0.4) 100%)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '2px solid rgba(34, 197, 94, 0.5)',
-                padding: isMobile ? '6px 10px' : '8px 12px',
-                boxShadow: '0 4px 20px rgba(34, 197, 94, 0.3)',
-              }}
-            >
-              {/* Decorative leaf icons */}
-              <motion.div
-                animate={{
-                  rotate: [0, 5, -5, 0],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="absolute top-1 left-2 opacity-30"
-                style={{ pointerEvents: 'none' }}
-              >
-                <Leaf className="w-4 h-4 text-white" />
-              </motion.div>
 
-              <motion.div
-                animate={{
-                  rotate: [0, -5, 5, 0],
-                  scale: [1, 0.95, 1],
-                }}
-                transition={{
-                  duration: 3.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.5,
-                }}
-                className="absolute bottom-1 right-2 opacity-25"
-                style={{ pointerEvents: 'none' }}
-              >
-                <Leaf className="w-3 h-3 text-white" />
-              </motion.div>
-
-              {/* Logo and text content */}
-              <div className="relative flex items-center gap-2 sm:gap-3">
-                <img 
-                  src="/logo.webp" 
-                  alt="ZAMINAT.eco Logo" 
-                  className={cn(
-                    "flex-shrink-0 self-center",
-                    isMobile ? "h-8 w-8" : "h-10 w-10"
-                  )}
-                  loading="eager"
-                />
-                <div className="flex flex-col justify-center items-start" style={{ marginTop: '5px' }}>
-                  <h1 className={cn(
-                    "font-bold text-white leading-tight",
-                    isMobile ? "text-sm" : "text-base"
-                  )} style={{
-                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-                  }}>
-                    ZAMINAT.eco
-                  </h1>
-                  <p className={cn(
-                    "text-white/90 leading-tight",
-                    isMobile ? "text-[10px]" : "text-xs"
-                  )} style={{
-                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
-                  }}>
-                    {t('tagline')}
-                  </p>
-                </div>
-              </div>
-
-              {/* Shine effect */}
-              <motion.div
-                animate={{
-                  x: ['-100%', '200%'],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'linear',
-                  repeatDelay: 2,
-                }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                style={{ transform: 'skewX(-20deg)', pointerEvents: 'none' }}
-              />
-
-              {/* Pulsing glow effect */}
-              <motion.div
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0"
-                style={{ 
-                  background: 'radial-gradient(circle at center, rgba(34, 197, 94, 0.2) 0%, transparent 70%)',
-                  pointerEvents: 'none' 
-                }}
-              />
-            </div>
-          </motion.div>
-        </PrefetchLink>
-      </div>
-      )}
 
       {/* Sticky Language Switcher Button - Pinned to top right - Hidden on mobile */}
       <div className="hidden md:block fixed top-4 right-4 z-50">
