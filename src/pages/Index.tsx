@@ -190,11 +190,11 @@ export default function Index() {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 md:p-5"
                   style={{ 
-                    background: 'rgba(255, 255, 255, 0.45)',
+                    background: 'rgba(255, 255, 255, 0.18)',
                     backdropFilter: 'blur(20px)',
                     WebkitBackdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.4)',
-                    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.05)',
                   }}
                   whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
                 >
@@ -284,17 +284,17 @@ export default function Index() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="max-w-2xl mx-auto px-4 mb-4 sm:mb-6"
-                  style={{ pointerEvents: 'auto' }}
+                  style={{ pointerEvents: 'none' }}
                   whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
                 >
                   <div 
                     className="relative overflow-hidden rounded-2xl shadow-xl p-4 sm:p-6"
                     style={{ 
-                      background: 'rgba(255, 255, 255, 0.45)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255, 255, 255, 0.4)',
-                      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
+                      background: 'rgba(255, 255, 255, 0.18)',
+                      backdropFilter: 'blur(24px)',
+                      WebkitBackdropFilter: 'blur(24px)',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.04)',
                     }}
                   >
                     {/* Main description text */}
