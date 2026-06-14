@@ -199,10 +199,10 @@ const videos = [
     lang: 'RU'
   },
   {
-    id: 'iLqWCGGoL-0',
+    id: 'JdAvQThA26Y',
     platform: 'youtube',
-    url: 'https://www.youtube.com/watch?v=iLqWCGGoL-0',
-    thumbnail: 'https://img.youtube.com/vi/iLqWCGGoL-0/hqdefault.jpg',
+    url: 'https://youtu.be/JdAvQThA26Y',
+    thumbnail: 'https://img.youtube.com/vi/JdAvQThA26Y/hqdefault.jpg',
     duration: '3:14',
     category: 'education',
     likes: '4.8K',
