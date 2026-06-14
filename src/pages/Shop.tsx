@@ -630,7 +630,7 @@ export default function Shop() {
 
         {/* Hero Video Section */}
         <HeroVideo
-          videoSrc="/images/intro.mp4"
+          videoSrc="https://youtube.com/shorts/nksjfne7mg4?feature=share"
           posterSrc="/images/green-city_5994274.webp"
           title={t('hero.title', { ns: 'shop', defaultValue: 'Where waste ends — life begins.' })}
           subtitle={t('subtitle', { ns: 'shop' })}
