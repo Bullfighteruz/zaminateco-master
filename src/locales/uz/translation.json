@@ -694,5 +694,42 @@
   "changeName": "Ismingizni o'zgartiring",
   "saveName": "Ismni saqlash",
   "nameUpdated": "Ism muvaffaqiyatli yangilandi!",
-  "nameRequired": "Iltimos, kamida ism kiriting"
+  "nameRequired": "Iltimos, kamida ism kiriting",
+  "videos": {
+    "sectionTitle": "Eko Video Hub",
+    "sectionSubtitle": "Bizning so'nggi yangiliklarimiz, qo'llanmalarimiz va jamoat tashabbuslarimizni vertikal videolar formatida tomosha qiling",
+    "watchShorts": "YouTube Shorts",
+    "watchReels": "Instagram Reels",
+    "views": "ko'rishlar",
+    "plays": "ko'rishlar",
+    "openInInstagram": "Instagram-da ko'rish",
+    "openInYoutube": "YouTube-da ko'rish",
+    "f6U_rK1-jWM": {
+      "title": "Zaminat.eco: Qayta ishlash jarayoni"
+    },
+    "92y0oClestY": {
+      "title": "Shinalardan eko-o'rindiqlar yasash"
+    },
+    "DY6X1D7trG2": {
+      "title": "Eko-ilova geymifikatsiya taqdimoti"
+    },
+    "DY63syINDkM": {
+      "title": "45-maktabda qayta ishlash bo'yicha mahorat darsi"
+    },
+    "DVV0CsWDW1-": {
+      "title": "Chirchiq daryosi bo'ylarini tozalash eko-aksiyasi"
+    },
+    "DS671KvDYbe": {
+      "title": "Toshkent markaziy bog'idagi eko-aksiya"
+    },
+    "DS0KcTHDSER": {
+      "title": "Plastik plitka mustahkamligi sinovi"
+    },
+    "DSeoprIDW50": {
+      "title": "Jamoat eko-bog'ining ochilishi"
+    },
+    "DSIDS24gsBI": {
+      "title": "Aylanma iqtisodiyot kampaniyasi"
+    }
+  }
 }

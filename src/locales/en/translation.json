@@ -694,5 +694,42 @@
   "categoryOcean": "ocean",
   "categorySunset": "sunset",
   "categoryNeon": "neon",
-  "categoryPastel": "pastel"
+  "categoryPastel": "pastel",
+  "videos": {
+    "sectionTitle": "Eco Video Hub",
+    "sectionSubtitle": "Watch our latest updates, guides, and community initiatives in vertical shorts format",
+    "watchShorts": "Watch YouTube Shorts",
+    "watchReels": "Watch Instagram Reels",
+    "views": "views",
+    "plays": "plays",
+    "openInInstagram": "Watch on Instagram",
+    "openInYoutube": "Watch on YouTube",
+    "f6U_rK1-jWM": {
+      "title": "Zaminat.eco: Recycling Process"
+    },
+    "92y0oClestY": {
+      "title": "Making Eco-Benches from Tires"
+    },
+    "DY6X1D7trG2": {
+      "title": "Eco-App Gamification Showcase"
+    },
+    "DY63syINDkM": {
+      "title": "School 45 Recycling Workshop"
+    },
+    "DVV0CsWDW1-": {
+      "title": "Chirchiq River Cleanup Drive"
+    },
+    "DS671KvDYbe": {
+      "title": "Tashkent Central Park Action"
+    },
+    "DS0KcTHDSER": {
+      "title": "Plastic Tiles Load Strength Test"
+    },
+    "DSeoprIDW50": {
+      "title": "Community Eco-Garden Reveal"
+    },
+    "DSIDS24gsBI": {
+      "title": "Circular Economy Campaign"
+    }
+  }
 }
