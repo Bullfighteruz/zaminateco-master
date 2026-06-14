@@ -22,45 +22,33 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const iframeRef = useRef<HTMLElement>(null);
   const preloadLinkRef = useRef<HTMLLinkElement | null>(null);
   const isMobile = useIsMobile();
 
-  // Preload Spline iframe in the background (low priority)
+  // Preload Spline scene file in the background (low priority)
   useEffect(() => {
     // Create preload link for DNS prefetch and preconnect
     const preconnect = document.createElement('link');
     preconnect.rel = 'preconnect';
-    preconnect.href = 'https://my.spline.design';
+    preconnect.href = 'https://prod.spline.design';
     document.head.appendChild(preconnect);
 
     const dnsPrefetch = document.createElement('link');
     dnsPrefetch.rel = 'dns-prefetch';
-    dnsPrefetch.href = 'https://my.spline.design';
+    dnsPrefetch.href = 'https://prod.spline.design';
     document.head.appendChild(dnsPrefetch);
 
-    // Preload iframe source after a short delay (non-blocking)
+    // Preload scene asset after a short delay (non-blocking)
     const preloadTimer = setTimeout(() => {
       if (!shouldLoad && !isLoaded) {
-        // Create hidden iframe for preloading
-        const preloadIframe = document.createElement('iframe');
-        preloadIframe.src = 'https://my.spline.design/YnRWMili7tld67PU/';
-        preloadIframe.style.display = 'none';
-        preloadIframe.style.width = '1px';
-        preloadIframe.style.height = '1px';
-        preloadIframe.style.opacity = '0';
-        preloadIframe.style.pointerEvents = 'none';
-        preloadIframe.loading = 'lazy';
-        document.body.appendChild(preloadIframe);
-
-        preloadIframe.onload = () => {
-          // Once preloaded, remove the hidden iframe
-          setTimeout(() => {
-            if (preloadIframe.parentNode) {
-              preloadIframe.parentNode.removeChild(preloadIframe);
-            }
-          }, 1000);
-        };
+        const preloadLink = document.createElement('link');
+        preloadLink.rel = 'preload';
+        preloadLink.href = 'https://prod.spline.design/YnRWMili7tld67PU/scene.splinecode';
+        preloadLink.as = 'fetch';
+        preloadLink.crossOrigin = 'anonymous';
+        document.head.appendChild(preloadLink);
+        preloadLinkRef.current = preloadLink;
       }
     }, 2000); // Wait 2 seconds before preloading
 
@@ -68,6 +56,9 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
       clearTimeout(preloadTimer);
       if (preconnect.parentNode) preconnect.parentNode.removeChild(preconnect);
       if (dnsPrefetch.parentNode) dnsPrefetch.parentNode.removeChild(dnsPrefetch);
+      if (preloadLinkRef.current && preloadLinkRef.current.parentNode) {
+        preloadLinkRef.current.parentNode.removeChild(preloadLinkRef.current);
+      }
     };
   }, [shouldLoad, isLoaded]);
 
@@ -114,20 +105,29 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     }
   }, [shouldLoad, isLoaded]);
 
-  // Handle iframe load
-  const handleIframeLoad = useCallback(() => {
-    setIsLoaded(true);
-    // Add smooth fade-in animation
-    if (iframeRef.current) {
-      iframeRef.current.style.opacity = '0';
-      iframeRef.current.style.transition = 'opacity 0.5s ease-in';
-      requestAnimationFrame(() => {
-        if (iframeRef.current) {
-          iframeRef.current.style.opacity = '1';
-        }
-      });
-    }
-  }, []);
+  // Listen for spline-viewer load-complete event
+  useEffect(() => {
+    const viewer = iframeRef.current;
+    if (!viewer) return;
+
+    const handleLoadComplete = () => {
+      setIsLoaded(true);
+    };
+
+    viewer.addEventListener('load-complete', handleLoadComplete);
+
+    // Fallback load trigger after 4 seconds (in case event isn't supported or fails)
+    const fallbackTimer = setTimeout(() => {
+      if (!isLoaded) {
+        setIsLoaded(true);
+      }
+    }, 4000);
+
+    return () => {
+      viewer.removeEventListener('load-complete', handleLoadComplete);
+      clearTimeout(fallbackTimer);
+    };
+  }, [shouldLoad, isLoaded]);
 
   // Optimize for low-end devices
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -204,40 +204,29 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         )}
       </AnimatePresence>
 
-      {/* Spline iframe - Only render when shouldLoad is true */}
+      {/* Spline 3D Viewer - Only render when shouldLoad is true */}
       {shouldLoad && (
-        <motion.iframe
-          ref={iframeRef}
-          src="https://my.spline.design/YnRWMili7tld67PU/"
-          frameBorder="0"
-          width="100%"
-          height="100%"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoaded ? 1 : 0 }}
+          transition={{ duration: 0.5 }}
           className="absolute inset-0 w-full h-full"
           style={{
             pointerEvents: 'auto',
-            border: 'none',
-            display: 'block',
-            background: 'transparent',
-            backgroundColor: 'transparent',
-            mixBlendMode: 'normal',
-            opacity: isLoaded ? 1 : 0,
             willChange: 'opacity',
-            width: '100%',
-            height: '100%',
-            minWidth: '100%',
-            minHeight: '100%',
-            left: '0',
-            right: '0',
-            top: '0',
-            bottom: '0',
           }}
-          title="Spline 3D Interactive Robot"
-          loading="lazy"
-          allow="autoplay; fullscreen; accelerometer; gyroscope"
-          onLoad={handleIframeLoad}
-          // Performance optimizations
-          importance="low"
-        />
+        >
+          <spline-viewer
+            ref={iframeRef as any}
+            url="https://prod.spline.design/YnRWMili7tld67PU/scene.splinecode"
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              background: 'transparent',
+            }}
+          />
+        </motion.div>
       )}
 
       {/* Creative "roots of change" overlay - Improved to fully cover Spline button */}
