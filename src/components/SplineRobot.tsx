@@ -44,7 +44,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
       if (!shouldLoad && !isLoaded) {
         // Create hidden iframe for preloading
         const preloadIframe = document.createElement('iframe');
-        preloadIframe.src = 'https://my.spline.design/r4xbot-2nktQYWyjsecuJLGCyScQOuM/';
+        preloadIframe.src = 'https://my.spline.design/YnRWMili7tld67PU/';
         preloadIframe.style.display = 'none';
         preloadIframe.style.width = '1px';
         preloadIframe.style.height = '1px';
@@ -208,7 +208,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
       {shouldLoad && (
         <motion.iframe
           ref={iframeRef}
-          src="https://my.spline.design/r4xbot-2nktQYWyjsecuJLGCyScQOuM/"
+          src="https://my.spline.design/YnRWMili7tld67PU/"
           frameBorder="0"
           width="100%"
           height="100%"
