@@ -479,9 +479,9 @@ export default function EcoStories() {
                           </span>
                           <span>{t(`videos.${video.id}.title`, { ns: 'translation' })}</span>
                         </h3>
-                        <div className="flex items-center justify-between text-[10px] text-slate-350 border-t border-white/10 pt-2.5 pointer-events-none">
+                        <div className="flex items-center justify-between text-[10px] text-white border-t border-white/10 pt-2.5 pointer-events-none">
                           <span className="flex items-center gap-1">
-                            <Eye className="h-3.5 w-3.5 text-slate-400" />
+                            <Eye className="h-3.5 w-3.5 text-white" />
                             {video.views} {t(`videos.${video.viewsKey}`, { ns: 'translation' })}
                           </span>
                           <span className="flex items-center gap-1">
@@ -879,9 +879,9 @@ export default function EcoStories() {
 
               {/* Modal Actions */}
               <div className="p-4 border-t border-white/5 flex justify-between items-center gap-3 bg-slate-900/60 backdrop-blur-md">
-                <div className="text-xs text-slate-405 font-semibold">
+                <div className="text-xs text-slate-200 font-semibold">
                   <span className="block text-white font-bold">{selectedVideo.likes} Likes</span>
-                  <span className="block text-[10px] text-slate-500 mt-0.5">{selectedVideo.views} Views</span>
+                  <span className="block text-[10px] text-slate-400 mt-0.5">{selectedVideo.views} Views</span>
                 </div>
                 {selectedVideo.platform === 'youtube' && (
                   <Button
@@ -890,7 +890,7 @@ export default function EcoStories() {
                       setSelectedVideo(null);
                     }}
                     variant="outline"
-                    className="border-white/10 text-slate-350 hover:text-white bg-white/5 hover:bg-white/10 text-xs font-semibold py-2 px-5 h-9 rounded-full flex items-center gap-2 transition-colors"
+                    className="border-white/10 text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 text-xs font-semibold py-2 px-5 h-9 rounded-full flex items-center gap-2 transition-colors"
                   >
                     <ExternalLink className="h-4 w-4" />
                     {t('videos.openInYoutube', { ns: 'translation', defaultValue: 'Watch on YouTube' })}
