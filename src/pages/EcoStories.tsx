@@ -180,6 +180,30 @@ const videos = [
     views: '28.3K',
     viewsKey: 'views',
     lang: 'RU'
+  },
+  {
+    id: 'iLqWCGGoL-0',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/watch?v=iLqWCGGoL-0',
+    thumbnail: 'https://img.youtube.com/vi/iLqWCGGoL-0/hqdefault.jpg',
+    duration: '3:14',
+    category: 'education',
+    likes: '4.8K',
+    views: '35.2K',
+    viewsKey: 'views',
+    lang: 'RU'
+  },
+  {
+    id: 'NmNCxsrOFhU',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/watch?v=NmNCxsrOFhU',
+    thumbnail: 'https://img.youtube.com/vi/NmNCxsrOFhU/hqdefault.jpg',
+    duration: '3:14',
+    category: 'education',
+    likes: '4.2K',
+    views: '28.9K',
+    viewsKey: 'views',
+    lang: 'UZ'
   }
 ];
 
