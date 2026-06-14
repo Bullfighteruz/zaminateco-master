@@ -56,14 +56,6 @@ export default function HeroVideo({
   const isPageVisible = usePageVisibility();
   const reducedMotion = useReducedMotion();
 
-  const isYouTube = videoSrc.includes('youtube.com') || videoSrc.includes('youtu.be');
-  const ytId = useMemo(() => {
-    if (!isYouTube) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\/shorts\/)([^#\&\?]*).*/;
-    const match = videoSrc.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
-  }, [videoSrc, isYouTube]);
-
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -80,7 +72,6 @@ export default function HeroVideo({
 
   // Smart video source selection - adaptive based on network quality
   const videoSource = useMemo(() => {
-    if (isYouTube) return [];
     const basePath = videoSrc.replace('/images/', '/videos/').replace('.mp4', '');
     
     // If reduced motion is preferred, return empty array (will use poster image)
@@ -112,12 +103,12 @@ export default function HeroVideo({
       { src: `${basePath}-optimized.mp4`, type: 'video/mp4' },
       { src: videoSrc, type: 'video/mp4' },
     ];
-  }, [videoSrc, isMobile, networkQuality, prefersReducedMotion, reducedMotion, isYouTube]);
+  }, [videoSrc, isMobile, networkQuality, prefersReducedMotion, reducedMotion]);
 
   // Handle video loading with retry logic
   const loadVideo = useCallback(() => {
     const video = videoRef.current;
-    if (!video || videoSource.length === 0 || isYouTube) {
+    if (!video || videoSource.length === 0) {
       setIsLoading(false);
       return;
     }
@@ -134,7 +125,7 @@ export default function HeroVideo({
   // Intersection Observer for lazy loading (professional standard)
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || videoSource.length === 0 || prefersReducedMotion || isYouTube) {
+    if (!video || videoSource.length === 0 || prefersReducedMotion) {
       return;
     }
 
@@ -171,7 +162,7 @@ export default function HeroVideo({
   // Video event handlers - professional error handling
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || videoSource.length === 0 || isYouTube) return;
+    if (!video || videoSource.length === 0) return;
 
     const handleCanPlay = () => {
       setIsLoading(false);
@@ -277,7 +268,7 @@ export default function HeroVideo({
   // Page visibility handling (pause when tab is hidden - saves resources)
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || videoSource.length === 0 || isYouTube) return;
+    if (!video || videoSource.length === 0) return;
 
     if (!isPageVisible && isPlaying) {
       video.pause();
@@ -292,7 +283,7 @@ export default function HeroVideo({
   // Toggle play/pause
   const togglePlay = useCallback(() => {
     const video = videoRef.current;
-    if (!video || isYouTube) return;
+    if (!video) return;
 
     if (isPlaying) {
       video.pause();
@@ -313,14 +304,14 @@ export default function HeroVideo({
   // Toggle mute
   const toggleMute = useCallback(() => {
     const video = videoRef.current;
-    if (!video || isYouTube) return;
+    if (!video) return;
 
     video.muted = !isMuted;
     setIsMuted(!isMuted);
   }, [isMuted]);
 
   // Show poster image if reduced motion or no video sources
-  const showPosterOnly = (prefersReducedMotion || reducedMotion || videoSource.length === 0) && !isYouTube;
+  const showPosterOnly = prefersReducedMotion || reducedMotion || videoSource.length === 0;
 
   return (
     <section
@@ -332,18 +323,7 @@ export default function HeroVideo({
     >
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
-        {isYouTube && ytId ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full min-w-full min-h-full object-cover scale-[1.35] pointer-events-none border-none transition-opacity duration-700"
-            allow="autoplay; encrypted-media"
-            title={title}
-            onLoad={() => {
-              setVideoLoaded(true);
-              setIsLoading(false);
-            }}
-          />
-        ) : !videoError && !showPosterOnly ? (
+        {!videoError && !showPosterOnly ? (
           <>
             <video
               ref={videoRef}
@@ -416,7 +396,7 @@ export default function HeroVideo({
       </div>
 
       {/* Video Controls - Professional UI */}
-      {videoLoaded && !videoError && !showPosterOnly && !isMobile && !isYouTube && (
+      {videoLoaded && !videoError && !showPosterOnly && !isMobile && (
         <div className="absolute top-4 right-4 z-20 flex gap-2">
           <Button
             variant="ghost"
