@@ -120,81 +120,59 @@ const videos = [
     viewsKey: 'views'
   },
   {
-    id: 'DY6X1D7trG2',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DY6X1D7trG2/',
-    thumbnail: '/images/gaming.webp',
-    duration: '0:30',
-    category: 'community',
-    likes: '2.5K',
-    views: '15.4K',
-    viewsKey: 'plays'
-  },
-  {
-    id: 'DY63syINDkM',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DY63syINDkM/',
+    id: 'MgSB_vJjKGg',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/shorts/MgSB_vJjKGg',
     thumbnail: '/images/school.webp',
-    duration: '0:42',
+    duration: '0:58',
     category: 'education',
+    likes: '3.4K',
+    views: '24.8K',
+    viewsKey: 'views'
+  },
+  {
+    id: 'zhaxX4Pl3ME',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/shorts/zhaxX4Pl3ME',
+    thumbnail: '/images/gaming.webp',
+    duration: '0:58',
+    category: 'education',
+    likes: '2.9K',
+    views: '19.5K',
+    viewsKey: 'views'
+  },
+  {
+    id: '8UGAjoiKmio',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/shorts/8UGAjoiKmio',
+    thumbnail: '/images/community_16119903.webp',
+    duration: '0:45',
+    category: 'community',
     likes: '1.8K',
-    views: '9.8K',
-    viewsKey: 'plays'
+    views: '12.2K',
+    viewsKey: 'views'
   },
   {
-    id: 'DVV0CsWDW1-',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DVV0CsWDW1-/',
-    thumbnail: '/images/River Cleanup.webp',
-    duration: '0:55',
-    category: 'community',
-    likes: '3.1K',
-    views: '18.2K',
-    viewsKey: 'plays'
-  },
-  {
-    id: 'DS671KvDYbe',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DS671KvDYbe/',
+    id: 'a2e8CqGXMJE',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/shorts/a2e8CqGXMJE',
     thumbnail: '/images/park.webp',
-    duration: '0:38',
+    duration: '0:45',
     category: 'community',
-    likes: '1.4K',
-    views: '11.1K',
-    viewsKey: 'plays'
+    likes: '2.2K',
+    views: '14.5K',
+    viewsKey: 'views'
   },
   {
-    id: 'DS0KcTHDSER',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DS0KcTHDSER/',
+    id: '8q3chEM1GNQ',
+    platform: 'youtube',
+    url: 'https://www.youtube.com/shorts/8q3chEM1GNQ',
     thumbnail: '/images/EPDM-free Tiles.webp',
-    duration: '0:25',
+    duration: '0:30',
     category: 'news',
-    likes: '4.2K',
-    views: '24.5K',
-    viewsKey: 'plays'
-  },
-  {
-    id: 'DSeoprIDW50',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DSeoprIDW50/',
-    thumbnail: '/images/community-garden-benches.webp',
-    duration: '1:00',
-    category: 'community',
-    likes: '2.1K',
-    views: '14.2K',
-    viewsKey: 'plays'
-  },
-  {
-    id: 'DSIDS24gsBI',
-    platform: 'instagram',
-    url: 'https://www.instagram.com/reel/DSIDS24gsBI/',
-    thumbnail: '/images/green-city_5994274.webp',
-    duration: '0:47',
-    category: 'education',
-    likes: '1.6K',
-    views: '13.6K',
-    viewsKey: 'plays'
+    likes: '4.1K',
+    views: '28.3K',
+    viewsKey: 'views'
   }
 ];
 
