@@ -96,18 +96,18 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'cleanup': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'planting': return 'bg-green-100 text-green-800 border-green-200';
-      case 'education': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'recycling': return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'awareness': return 'bg-pink-100 text-pink-800 border-pink-200';
+      case 'cleanup': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'planting': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'education': return 'bg-teal-100 text-teal-800 border-teal-200';
+      case 'recycling': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      case 'awareness': return 'bg-teal-100 text-teal-800 border-teal-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return 'bg-green-100 text-green-800 border-green-200';
+      case 'easy': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'hard': return 'bg-red-100 text-red-800 border-red-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
@@ -134,7 +134,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
       className="h-full"
     >
       <Card 
-        className="h-full bg-gradient-to-br from-white via-green-50/30 to-blue-50/30 border-2 border-gray-100 hover:border-green-300 hover:shadow-2xl transition-all duration-500 group overflow-hidden relative"
+        className="h-full glass-card glass-card-hover border border-white/40 shadow-lg group overflow-hidden relative"
         role="article"
         aria-label={t(event.titleKey, { ns: 'actions' })}
       >
@@ -150,7 +150,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
             variants={floatingVariants}
             animate="animate"
             transition={{ delay: 1 }}
-            className="absolute bottom-8 left-4 w-6 h-6 bg-blue-200 rounded-full opacity-20"
+            className="absolute bottom-8 left-4 w-6 h-6 bg-emerald-200 rounded-full opacity-20"
             style={{ willChange: 'transform' }}
           />
         </div>
@@ -158,7 +158,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
         <CardHeader className={cn("relative z-10", isMobile ? "pb-2 p-3" : "pb-4 p-6")}>
           {/* Background decoration */}
           <div className={cn(
-            "absolute top-0 right-0 bg-gradient-to-br from-green-100 to-blue-100 rounded-full opacity-30 group-hover:opacity-50 transition-opacity",
+            "absolute top-0 right-0 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full opacity-30 group-hover:opacity-50 transition-opacity",
             isMobile ? "w-16 h-16 -translate-y-8 translate-x-8" : "w-24 h-24 -translate-y-12 translate-x-12"
           )} aria-hidden="true" />
           
@@ -221,7 +221,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
             {/* Title and description */}
             <CardTitle className={cn(
-              "font-bold text-gray-900 group-hover:text-green-700 transition-colors mb-2 line-clamp-2",
+              "font-bold text-gray-900 group-hover:text-emerald-700 transition-colors mb-2 line-clamp-2",
               isMobile ? "text-sm" : "text-lg"
             )}>
               {t(event.titleKey, { ns: 'actions' })}
@@ -237,47 +237,47 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
             <div className={cn("space-y-2 text-gray-600", isMobile ? "space-y-1.5" : "space-y-2")}>
               <motion.div 
                 className={cn(
-                  "flex items-center bg-white/50 rounded-lg",
+                  "flex items-center bg-white/30 backdrop-blur-sm border border-white/20 rounded-lg",
                   isMobile ? "p-1.5 text-xs" : "p-2 text-xs"
                 )}
                 whileHover={{ scale: isMobile ? 1 : 1.02 }}
                 style={{ willChange: 'transform' }}
               >
-                <Calendar className={cn("text-green-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
+                <Calendar className={cn("text-emerald-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
                 <span className="font-medium truncate">{event.date} at {event.time}</span>
               </motion.div>
               <motion.div 
                 className={cn(
-                  "flex items-center bg-white/50 rounded-lg",
+                  "flex items-center bg-white/30 backdrop-blur-sm border border-white/20 rounded-lg",
                   isMobile ? "p-1.5 text-xs" : "p-2 text-xs"
                 )}
                 whileHover={{ scale: isMobile ? 1 : 1.02 }}
                 style={{ willChange: 'transform' }}
               >
-                <MapPin className={cn("text-blue-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
+                <MapPin className={cn("text-emerald-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
                 <span className="line-clamp-1 font-medium">{t(event.locationKey, { ns: 'actions' })}</span>
               </motion.div>
               <div className={cn("grid grid-cols-2", isMobile ? "gap-1.5" : "gap-2")}>
                 <motion.div 
                   className={cn(
-                    "flex items-center bg-white/50 rounded-lg",
+                    "flex items-center bg-white/30 backdrop-blur-sm border border-white/20 rounded-lg",
                     isMobile ? "p-1.5 text-xs" : "p-2 text-xs"
                   )}
                   whileHover={{ scale: isMobile ? 1 : 1.02 }}
                   style={{ willChange: 'transform' }}
                 >
-                  <Clock className={cn("text-purple-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
+                  <Clock className={cn("text-teal-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
                   <span className="font-medium truncate">{event.duration}</span>
                 </motion.div>
                 <motion.div 
                   className={cn(
-                    "flex items-center bg-white/50 rounded-lg",
+                    "flex items-center bg-white/30 backdrop-blur-sm border border-white/20 rounded-lg",
                     isMobile ? "p-1.5 text-xs" : "p-2 text-xs"
                   )}
                   whileHover={{ scale: isMobile ? 1 : 1.02 }}
                   style={{ willChange: 'transform' }}
                 >
-                  <Users className={cn("text-orange-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
+                  <Users className={cn("text-emerald-600", isMobile ? "h-2.5 w-2.5 mr-1.5" : "h-3 w-3 mr-2")} aria-hidden="true" />
                   <span className="font-medium truncate">{participants}/{event.maxParticipants}</span>
                 </motion.div>
               </div>
@@ -290,27 +290,27 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <div className={cn("grid grid-cols-2", isMobile ? "gap-2" : "gap-4")}>
             <motion.div 
               className={cn(
-                "text-center bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200",
+                "text-center bg-emerald-500/10 backdrop-blur-sm rounded-lg border border-emerald-500/20",
                 isMobile ? "p-2" : "p-3"
               )}
               whileHover={{ scale: isMobile ? 1 : 1.05 }}
               style={{ willChange: 'transform' }}
             >
               <div className="flex items-center justify-center mb-1">
-                <Zap className={cn("text-green-600", isMobile ? "h-3 w-3 mr-1" : "h-4 w-4 mr-1")} aria-hidden="true" />
-                <div className={cn("font-bold text-green-600", isMobile ? "text-sm" : "text-lg")}>{event.ecoPoints}</div>
+                <Zap className={cn("text-emerald-600", isMobile ? "h-3 w-3 mr-1" : "h-4 w-4 mr-1")} aria-hidden="true" />
+                <div className={cn("font-bold text-emerald-600", isMobile ? "text-sm" : "text-lg")}>{event.ecoPoints}</div>
               </div>
               <div className={cn("text-gray-600 font-medium", isMobile ? "text-[10px]" : "text-xs")}>{t('ecoPoints', { ns: 'actions' })}</div>
             </motion.div>
             <motion.div 
               className={cn(
-                "text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200",
+                "text-center bg-teal-500/10 backdrop-blur-sm rounded-lg border border-teal-200/20",
                 isMobile ? "p-2" : "p-3"
               )}
               whileHover={{ scale: isMobile ? 1 : 1.05 }}
               style={{ willChange: 'transform' }}
             >
-              <div className={cn("font-semibold text-blue-600 line-clamp-2 mb-1", isMobile ? "text-[10px]" : "text-xs")}>{t(event.organizerKey, { ns: 'actions' })}</div>
+              <div className={cn("font-semibold text-teal-600 line-clamp-2 mb-1", isMobile ? "text-[10px]" : "text-xs")}>{t(event.organizerKey, { ns: 'actions' })}</div>
               <div className={cn("text-gray-600 font-medium", isMobile ? "text-[10px]" : "text-xs")}>{t('organizer', { ns: 'actions' })}</div>
             </motion.div>
           </div>
@@ -318,14 +318,14 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
           {/* Impact statement */}
           <motion.div 
             className={cn(
-              "bg-gradient-to-r from-green-50 via-blue-50 to-purple-50 rounded-lg border border-green-200",
+              "bg-gradient-to-r from-emerald-500/5 via-teal-500/5 to-emerald-500/5 backdrop-blur-sm rounded-lg border border-emerald-500/15",
               isMobile ? "p-2" : "p-3"
             )}
             whileHover={{ scale: isMobile ? 1 : 1.02 }}
             style={{ willChange: 'transform' }}
           >
             <div className={cn("flex items-center", isMobile ? "mb-1" : "mb-2")}>
-              <TrendingUp className={cn("text-green-600", isMobile ? "h-3 w-3 mr-1.5" : "h-4 w-4 mr-2")} aria-hidden="true" />
+              <TrendingUp className={cn("text-emerald-600", isMobile ? "h-3 w-3 mr-1.5" : "h-4 w-4 mr-2")} aria-hidden="true" />
               <span className={cn("font-semibold text-gray-700", isMobile ? "text-[10px]" : "text-xs")}>{t('impact', { ns: 'actions' })}</span>
             </div>
             <p className={cn("text-gray-600 line-clamp-2 leading-relaxed", isMobile ? "text-[10px]" : "text-xs")}>{t(event.impactKey, { ns: 'actions' })}</p>
@@ -340,7 +340,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
             <div className={cn(isMobile ? "space-y-2 pt-1" : "space-y-3 pt-2")}>
               {/* Requirements */}
               <div className={cn(
-                "bg-gray-50 rounded-lg border border-gray-200",
+                "bg-white/10 backdrop-blur-sm rounded-lg border border-white/20",
                 isMobile ? "p-2" : "p-3"
               )}>
                 <div className={cn("flex items-center", isMobile ? "mb-0.5" : "mb-1")}>
@@ -352,11 +352,11 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
               {/* What to bring */}
               <div className={cn(
-                "bg-orange-50 rounded-lg border border-orange-200",
+                "bg-amber-500/5 backdrop-blur-sm rounded-lg border border-amber-500/15",
                 isMobile ? "p-2" : "p-3"
               )}>
                 <div className={cn("flex items-center", isMobile ? "mb-0.5" : "mb-1")}>
-                  <Info className={cn("text-orange-600", isMobile ? "h-2.5 w-2.5 mr-1" : "h-3 w-3 mr-1")} aria-hidden="true" />
+                  <Info className={cn("text-amber-600", isMobile ? "h-2.5 w-2.5 mr-1" : "h-3 w-3 mr-1")} aria-hidden="true" />
                   <span className={cn("font-semibold text-gray-700", isMobile ? "text-[10px]" : "text-xs")}>{t('whatToBring', { ns: 'actions' })}</span>
                 </div>
                 <p className={cn("text-gray-600 leading-relaxed", isMobile ? "text-[10px]" : "text-xs")}>{t(event.whatToBringKey, { ns: 'actions' })}</p>
@@ -364,11 +364,11 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
               {/* Benefits */}
               <div className={cn(
-                "bg-purple-50 rounded-lg border border-purple-200",
+                "bg-teal-500/5 backdrop-blur-sm rounded-lg border border-teal-500/15",
                 isMobile ? "p-2" : "p-3"
               )}>
                 <div className={cn("flex items-center", isMobile ? "mb-0.5" : "mb-1")}>
-                  <Heart className={cn("text-purple-600", isMobile ? "h-2.5 w-2.5 mr-1" : "h-3 w-3 mr-1")} aria-hidden="true" />
+                  <Heart className={cn("text-teal-600", isMobile ? "h-2.5 w-2.5 mr-1" : "h-3 w-3 mr-1")} aria-hidden="true" />
                   <span className={cn("font-semibold text-gray-700", isMobile ? "text-[10px]" : "text-xs")}>{t('benefits', { ns: 'actions' })}</span>
                 </div>
                 <p className={cn("text-gray-600 leading-relaxed", isMobile ? "text-[10px]" : "text-xs")}>{t(event.benefitsKey, { ns: 'actions' })}</p>
@@ -407,7 +407,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 isMobile ? "h-11 text-sm py-2.5 min-h-[44px]" : "h-auto text-sm py-3",
                 isJoined 
                   ? 'bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white' 
-                  : 'bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 hover:from-green-600 hover:via-blue-600 hover:to-purple-600 text-white'
+                  : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white'
               )}
               style={{ touchAction: 'manipulation' }}
               aria-label={isJoined ? t('eventJoined', { ns: 'actions' }) : t('joinEvent', { ns: 'actions' })}

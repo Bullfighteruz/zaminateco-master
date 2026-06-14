@@ -70,7 +70,7 @@ const productData: ProductItem[] = [
   {
     id: 1,
     emoji: '🏗️',
-    image: '/images/art-tiles.png',
+    image: '/images/EPDM-free Tiles.webp',
     nameKey: 'products.epdmFreeTiles.name',
     englishName: 'EPDM-free Tiles',
     descriptionKey: 'products.epdmFreeTiles.description',
@@ -84,7 +84,7 @@ const productData: ProductItem[] = [
   {
     id: 2,
     emoji: '🛝',
-    image: '/images/EPDM-Tiles.png',
+    image: '/images/EPDM Tiles.webp',
     nameKey: 'products.epdmRubberEcotiles.name',
     englishName: 'EPDM Rubber Ecotiles',
     descriptionKey: 'products.epdmRubberEcotiles.description',
@@ -98,7 +98,7 @@ const productData: ProductItem[] = [
   {
     id: 3,
     emoji: '🧱',
-    image: '/images/EcoBrick.png',
+    image: '/images/EcoBrick.webp',
     nameKey: 'products.ecoBrick.name',
     englishName: 'EcoBrick',
     descriptionKey: 'products.ecoBrick.description',
@@ -111,7 +111,7 @@ const productData: ProductItem[] = [
   {
     id: 4,
     emoji: '🗑️',
-    image: '/images/Waste Bin.png',
+    image: '/images/Waste Bin.webp',
     nameKey: 'products.wasteBin.name',
     englishName: 'Waste Bin',
     descriptionKey: 'products.wasteBin.description',
@@ -124,7 +124,7 @@ const productData: ProductItem[] = [
   {
     id: 5,
     emoji: '🪴',
-    image: '/images/Garden Planter.png',
+    image: '/images/Garden Planter.webp',
     nameKey: 'products.gardenPlanter.name',
     englishName: 'Garden Planter',
     descriptionKey: 'products.gardenPlanter.description',
@@ -137,7 +137,7 @@ const productData: ProductItem[] = [
   {
     id: 6,
     emoji: '🪑',
-    image: '/images/Eco Bench.png',
+    image: '/images/Eco Bench.webp',
     nameKey: 'products.ecoBench.name',
     englishName: 'Eco Bench',
     descriptionKey: 'products.ecoBench.description',
@@ -150,7 +150,7 @@ const productData: ProductItem[] = [
   {
     id: 7,
     emoji: '🚲',
-    image: '/images/ECOBIKE RACK.png',
+    image: '/images/ECOBIKE RACK.webp',
     nameKey: 'products.ecobikeRack.name',
     englishName: 'ECOBIKE RACK',
     descriptionKey: 'products.ecobikeRack.description',
@@ -163,7 +163,7 @@ const productData: ProductItem[] = [
   {
     id: 8,
     emoji: '🚌',
-    image: '/images/ECOBUSSTOP.png',
+    image: '/images/ECOBUSSTOP.webp',
     nameKey: 'products.ecobusStop.name',
     englishName: 'ECOBUSSTOP',
     descriptionKey: 'products.ecobusStop.description',
@@ -176,7 +176,7 @@ const productData: ProductItem[] = [
   {
     id: 9,
     emoji: '🎨',
-    image: '/images/art-tiles.png',
+    image: '/images/art-tiles.webp',
     nameKey: 'products.playgroundBlock.name',
     englishName: 'Playground Block (Art Tiles)',
     descriptionKey: 'products.playgroundBlock.description',
@@ -189,7 +189,7 @@ const productData: ProductItem[] = [
   {
     id: 10,
     emoji: '🏙️',
-    image: '/images/green-city_5994274.png',
+    image: '/images/green-city_5994274.webp',
     nameKey: 'products.ecostreetFurniture.name',
     englishName: 'Ecostreet Furniture',
     descriptionKey: 'products.ecostreetFurniture.description',
@@ -230,7 +230,7 @@ const getCategoryData = (t: TFunction, products: ProductItem[]): Category[] => {
     id: 'tiles',
     name: t('categories.construction.name', { ns: 'shop', defaultValue: 'Construction' }),
     description: t('categories.construction.description', { ns: 'shop' }),
-    image: '/images/construction.png',
+    image: '/images/construction.webp',
     icon: '🏗️',
       productCount: getProductCountForCategory('tiles')
   },
@@ -238,7 +238,7 @@ const getCategoryData = (t: TFunction, products: ProductItem[]): Category[] => {
       id: 'art',
       name: t('categories.art.name', { ns: 'shop', defaultValue: 'Art' }),
       description: t('categories.art.description', { ns: 'shop', defaultValue: 'Art tiles and decorative products' }),
-      image: '/images/art-tiles.png',
+      image: '/images/art-tiles.webp',
       icon: '🎨',
       productCount: getProductCountForCategory('art')
   },
@@ -246,7 +246,7 @@ const getCategoryData = (t: TFunction, products: ProductItem[]): Category[] => {
     id: 'furniture',
     name: t('categories.furniture.name', { ns: 'shop', defaultValue: 'Furniture' }),
     description: t('categories.furniture.description', { ns: 'shop' }),
-    image: '/images/Furniture.png',
+    image: '/images/Furniture.webp',
     icon: '🪑',
       productCount: getProductCountForCategory('furniture')
   },
@@ -254,7 +254,7 @@ const getCategoryData = (t: TFunction, products: ProductItem[]): Category[] => {
     id: 'infrastructure',
     name: t('categories.infrastructure.name', { ns: 'shop', defaultValue: 'Infrastructure' }),
     description: t('categories.infrastructure.description', { ns: 'shop' }),
-    image: '/images/Infrastructure.png',
+    image: '/images/Infrastructure.webp',
     icon: '🏙️',
       productCount: getProductCountForCategory('infrastructure')
   }
@@ -623,11 +623,15 @@ export default function Shop() {
 
   return (
     <Layout title={t('title', { ns: 'shop', defaultValue: 'Shop' })}>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white">
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 via-white to-teal-50/20 relative overflow-hidden">
+        {/* Decorative background glow orbs */}
+        <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] top-1/4 -left-40" />
+        <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-2/3 -right-40" />
+
         {/* Hero Video Section */}
         <HeroVideo
           videoSrc="/images/intro.mp4"
-          posterSrc="/images/green-city_5994274.png"
+          posterSrc="/images/green-city_5994274.webp"
           title={t('hero.title', { ns: 'shop', defaultValue: 'Where waste ends — life begins.' })}
           subtitle={t('subtitle', { ns: 'shop' })}
           primaryCTA={{
@@ -650,9 +654,9 @@ export default function Shop() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-30"
+          className="glass-island border-y border-white/40 shadow-lg sticky top-0 z-30 relative"
         >
-          <div className={cn("container mx-auto", isMobile ? "px-2 py-3" : "px-4 py-6")}>
+          <div className={cn("container mx-auto relative z-10", isMobile ? "px-2 py-3" : "px-4 py-6")}>
             <div className={cn(
               "grid text-center",
               isMobile ? "grid-cols-3 gap-2" : "grid-cols-3 gap-8"
@@ -666,7 +670,7 @@ export default function Shop() {
                 </div>
               </div>
               <div>
-                <div className={cn("font-bold text-blue-600", isMobile ? "text-base" : "text-2xl md:text-3xl")}>
+                <div className={cn("font-bold text-emerald-600", isMobile ? "text-base" : "text-2xl md:text-3xl")}>
                   156
                 </div>
                 <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
@@ -674,7 +678,7 @@ export default function Shop() {
                 </div>
               </div>
               <div>
-                <div className={cn("font-bold text-purple-600", isMobile ? "text-base" : "text-2xl md:text-3xl")}>
+                <div className={cn("font-bold text-teal-600", isMobile ? "text-base" : "text-2xl md:text-3xl")}>
                   12
                 </div>
                 <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
@@ -735,7 +739,7 @@ export default function Shop() {
                     className={cn(
                       "transition-colors",
                       isMobile ? "p-1.5" : "p-2",
-                      viewMode === 'grid' ? "bg-green-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+                      viewMode === 'grid' ? "bg-emerald-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
                     )}
                      aria-label={t('ariaLabels.gridView', { ns: 'shop', defaultValue: 'Grid view' })}
                   >
@@ -746,7 +750,7 @@ export default function Shop() {
                     className={cn(
                       "transition-colors",
                       isMobile ? "p-1.5" : "p-2",
-                      viewMode === 'list' ? "bg-green-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
+                      viewMode === 'list' ? "bg-emerald-600 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
                     )}
                      aria-label={t('ariaLabels.listView', { ns: 'shop', defaultValue: 'List view' })}
                   >

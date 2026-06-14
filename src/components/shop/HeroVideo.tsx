@@ -380,7 +380,7 @@ export default function HeroVideo({
           // Fallback: Poster image (for reduced motion, errors, or slow network)
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${posterSrc || '/images/green-city_5994274.png'})` }}
+            style={{ backgroundImage: `url(${posterSrc || '/images/green-city_5994274.webp'})` }}
             aria-hidden="true"
           />
         )}

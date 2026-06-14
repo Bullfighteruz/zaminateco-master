@@ -61,7 +61,7 @@ export default function CategoryGrid({
             whileHover={{ scale: 1.02, y: -4 }}
           >
             <Card
-              className="cursor-pointer overflow-hidden h-full transition-all duration-300 hover:shadow-xl border border-gray-200 group"
+              className="cursor-pointer overflow-hidden h-full glass-card glass-card-hover border border-white/40 group"
               onClick={() => handleClick(category)}
               role="button"
               tabIndex={0}

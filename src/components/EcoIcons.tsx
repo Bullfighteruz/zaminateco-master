@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 
-// Hand-drawn style eco icons using SVG
+// Clean, high-fidelity modern SVG eco icons (replacing hand-drawn sketchy styles)
 export const TrashBinIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path 
@@ -9,17 +9,7 @@ export const TrashBinIcon = ({ className = "h-6 w-6" }: { className?: string }) 
       strokeWidth="2" 
       strokeLinecap="round" 
       strokeLinejoin="round"
-      style={{ 
-        strokeDasharray: '1,2',
-        filter: 'url(#roughPaper)'
-      }}
     />
-    <defs>
-      <filter id="roughPaper">
-        <feTurbulence baseFrequency="0.04" numOctaves="3" result="noise" seed="1"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1"/>
-      </filter>
-    </defs>
   </svg>
 );
 
@@ -31,18 +21,8 @@ export const RecyclingIcon = ({ className = "h-6 w-6" }: { className?: string })
       strokeWidth="2.5" 
       strokeLinecap="round" 
       strokeLinejoin="round"
-      style={{ 
-        strokeDasharray: '2,1',
-        filter: 'url(#handDrawn)'
-      }}
     />
     <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.3"/>
-    <defs>
-      <filter id="handDrawn">
-        <feTurbulence baseFrequency="0.02" numOctaves="2" result="noise" seed="2"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.5"/>
-      </filter>
-    </defs>
   </svg>
 );
 
@@ -59,17 +39,8 @@ export const TreeIcon = ({ className = "h-6 w-6", animated = false }: { classNam
       strokeWidth="2.5" 
       strokeLinecap="round" 
       strokeLinejoin="round"
-      style={{ 
-        filter: 'url(#organic)'
-      }}
     />
     <circle cx="12" cy="8" r="3" fill="currentColor" opacity="0.6"/>
-    <defs>
-      <filter id="organic">
-        <feTurbulence baseFrequency="0.03" numOctaves="1" result="noise" seed="3"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.8"/>
-      </filter>
-    </defs>
   </svg>
 );
 
@@ -95,17 +66,7 @@ export const HandIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
       strokeWidth="2" 
       strokeLinecap="round" 
       strokeLinejoin="round"
-      style={{ 
-        strokeDasharray: '3,1',
-        filter: 'url(#friendly)'
-      }}
     />
-    <defs>
-      <filter id="friendly">
-        <feTurbulence baseFrequency="0.01" numOctaves="1" result="noise" seed="4"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.3"/>
-      </filter>
-    </defs>
   </svg>
 );
 
@@ -118,18 +79,8 @@ export const CoinIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
       stroke="currentColor" 
       strokeWidth="2.5" 
       fill="none"
-      style={{ 
-        strokeDasharray: '2,1',
-        filter: 'url(#coin)'
-      }}
     />
     <path d="M12 6v12M8 9l8-2M8 15l8 2" stroke="currentColor" strokeWidth="1.5"/>
-    <defs>
-      <filter id="coin">
-        <feTurbulence baseFrequency="0.02" numOctaves="2" result="noise" seed="5"/>
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.4"/>
-      </filter>
-    </defs>
   </svg>
 );
 

@@ -1,5 +1,6 @@
-import { Bell, Leaf, Award, Users, ArrowRight, Settings, Coins, Star, Trophy, Crown, MapPin, School, ExternalLink, UserCheck, Phone, Mail, Sparkles, Recycle, TreePine, Target, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Bell, Leaf, Award, Users, ArrowRight, Settings, Coins, Star, Trophy, Crown, MapPin, School, ExternalLink, UserCheck, Phone, Mail, Sparkles, Recycle, TreePine, Target, TrendingUp, CheckCircle2, Vote, Calendar, ShoppingBag, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PrefetchLink from '@/components/PrefetchLink';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Layout from '@/components/Layout';
@@ -67,7 +68,7 @@ export default function Index() {
   useSEO({
     title: t('heroTitle', { defaultValue: 'ZAMINAT.eco - Ecological Movement' }),
     description: t('heroDescription', { defaultValue: 'Transform plastic and rubber waste recycling into social movement in Uzbekistan. Join EcoApp gamification platform for eco-products, volunteer campaigns, sustainable future.' }),
-    image: '/logo.png',
+    image: '/logo.webp',
     type: 'website',
     keywords: 'plastic recycling, rubber recycling, eco-tiles, waste management Uzbekistan, volunteer eco-campaigns, EcoApp, EcoKids, environmental movement, sustainability',
   });
@@ -162,7 +163,7 @@ export default function Index() {
 
   return (
     <Layout title={t('home')}>
-      <div className="min-h-screen bg-background uzbek-pattern">
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/15 uzbek-pattern">
         {/* Hero Section - Mobile Optimized with Space Management */}
         <section 
           className="relative overflow-hidden hero-mobile min-h-[500px] sm:min-h-[600px] md:min-h-[700px]"
@@ -228,7 +229,7 @@ export default function Index() {
                   <motion.div
                     animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.2, 1] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    className="absolute bottom-4 left-6 w-1.5 h-1.5 rounded-full bg-blue-400"
+                    className="absolute bottom-4 left-6 w-1.5 h-1.5 rounded-full bg-emerald-400"
                     style={{ pointerEvents: 'none' }}
                   />
                   
@@ -283,12 +284,12 @@ export default function Index() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className={cn("flex flex-row gap-2", isMobile ? "gap-1.5" : "gap-2")}
+                  className={cn("flex flex-row gap-2.5", isMobile ? "gap-2" : "gap-3")}
                 >
                   <Button 
                     onClick={scrollToAbout}
                     className={cn(
-                      "flex-1 bg-green-600 text-white hover:bg-green-700 font-semibold shadow-md transition-all",
+                      "flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/10 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-xl",
                       isMobile ? "text-[11px] py-2 px-2.5 min-h-[38px]" : "text-xs py-2 px-3 min-h-[40px]"
                     )}
                   >
@@ -298,7 +299,7 @@ export default function Index() {
                     <Button 
                       variant="outline"
                       className={cn(
-                        "w-full border-2 border-green-600 bg-white/90 backdrop-blur-sm text-green-700 hover:bg-green-50 font-semibold shadow-md transition-all",
+                        "w-full border border-emerald-600/30 bg-white/90 backdrop-blur-sm text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 rounded-xl",
                         isMobile ? "text-[11px] py-2 px-2.5 min-h-[38px]" : "text-xs py-2 px-3 min-h-[40px]"
                       )}
                     >
@@ -380,7 +381,7 @@ export default function Index() {
                       className="absolute bottom-3 right-4 opacity-15"
                       style={{ pointerEvents: 'none' }}
                     >
-                      <Leaf className="w-10 h-10 sm:w-14 sm:h-14 text-blue-500" />
+                      <Leaf className="w-10 h-10 sm:w-14 sm:h-14 text-emerald-500" />
                     </motion.div>
                     
                     {/* Additional decorative leaf */}
@@ -427,7 +428,7 @@ export default function Index() {
                         ease: "easeInOut",
                         delay: 1
                       }}
-                      className="absolute bottom-4 left-6 w-1.5 h-1.5 rounded-full bg-blue-400"
+                      className="absolute bottom-4 left-6 w-1.5 h-1.5 rounded-full bg-emerald-400"
                       style={{ pointerEvents: 'none' }}
                     />
                     
@@ -460,27 +461,31 @@ export default function Index() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md mx-auto px-4"
+                  className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto px-4"
                   style={{ pointerEvents: 'auto' }}
                 >
-                <Button 
-                  onClick={scrollToAbout}
-                    size="lg"
-                    className="bg-green-600 text-white hover:bg-green-700 font-semibold text-sm sm:text-base py-3 sm:py-4 px-6 sm:px-8 shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-                    style={{ pointerEvents: 'auto' }}
-                >
-                  {t('learnAboutProject')}
-                </Button>
-                  <Link to="/actions" style={{ pointerEvents: 'auto' }}>
                   <Button 
-                      size="lg"
-                    variant="outline"
-                      className="border-2 border-green-600 bg-white/90 backdrop-blur-sm text-green-700 hover:bg-green-50 w-full sm:w-auto font-semibold text-sm sm:text-base py-3 sm:py-4 px-6 sm:px-8 shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-                      style={{ pointerEvents: 'auto' }}
+                    onClick={scrollToAbout}
+                    size="lg"
+                    className={cn(
+                      "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-sm sm:text-base py-3.5 px-8 shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-2xl"
+                    )}
+                    style={{ pointerEvents: 'auto' }}
                   >
-                    {t('findCollectionPoints')}
+                    {t('learnAboutProject')}
                   </Button>
-                </Link>
+                  <Link to="/actions" style={{ pointerEvents: 'auto' }}>
+                    <Button 
+                      size="lg"
+                      variant="outline"
+                      className={cn(
+                        "w-full sm:w-auto border border-emerald-600/30 bg-white/85 backdrop-blur-sm text-emerald-700 hover:bg-emerald-50/50 hover:text-emerald-800 font-extrabold text-sm sm:text-base py-3.5 px-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 rounded-2xl"
+                      )}
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      {t('findCollectionPoints')}
+                    </Button>
+                  </Link>
                 </motion.div>
               </div>
             </div>
@@ -572,41 +577,35 @@ export default function Index() {
                 {/* Eco Coins Card - Golden Theme */}
                 <motion.div 
                   className={cn(
-                    "relative overflow-hidden rounded-lg sm:rounded-xl border shadow-lg backdrop-blur-md",
-                    "bg-gradient-to-br from-yellow-500/30 via-yellow-400/25 to-amber-500/20",
-                    "border-yellow-400/50",
-                    isMobile ? "p-1.5" : "p-3 sm:p-4"
+                    "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
+                    "bg-white/10 border-white/25 hover:bg-white/15 hover:border-yellow-400/40",
+                    isMobile ? "p-2.5" : "p-3.5 sm:p-5"
                   )}
                   whileHover={{ scale: 1.03, y: -2 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   {/* Decorative glow effect */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-400/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
                   
-                  <div className="relative z-10">
-                    {/* Icon - Large and Prominent */}
-                    <div className={cn("flex items-center justify-center", isMobile ? "mb-1" : "mb-2")}>
-                      <Coins className={cn("text-yellow-200 drop-shadow-lg", isMobile ? "h-6 w-6" : "h-10 w-10 sm:h-12 sm:w-12")} />
-                    </div>
-                    
-                    {/* Label */}
-                    <div className={cn("text-center", isMobile ? "mb-0.5" : "mb-1")}>
+                  <div className="relative z-10 flex items-center justify-between gap-3">
+                    <div className="flex-1 min-w-0 text-left">
                       <span className={cn(
-                        "font-semibold text-white/95 drop-shadow-sm",
-                        isMobile ? "text-[10px]" : "text-xs sm:text-sm"
+                        "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
+                        isMobile ? "text-[8px]" : "text-[10px]"
                       )}>
                         {t('ecoCoinsLabel')}
                       </span>
+                      <div className={cn(
+                        "font-extrabold bg-gradient-to-r from-yellow-100 via-yellow-200 to-amber-200 bg-clip-text text-transparent drop-shadow-sm",
+                        isMobile ? "text-sm" : "text-lg sm:text-2xl"
+                      )}>
+                        {displayEcoCoins}
+                      </div>
                     </div>
                     
-                    {/* Value - Bold and Prominent */}
-                    <div className={cn(
-                      "text-center font-bold",
-                      "bg-gradient-to-r from-yellow-200 via-yellow-300 to-amber-300 bg-clip-text text-transparent",
-                      "drop-shadow-lg",
-                      isMobile ? "text-base" : "text-xl sm:text-2xl"
-                    )}>
-                      {displayEcoCoins}
+                    {/* Icon Container */}
+                    <div className="p-2 rounded-xl bg-yellow-400/10 text-yellow-300 border border-yellow-400/20 shadow-sm flex-shrink-0">
+                      <Coins className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
                     </div>
                   </div>
                 </motion.div>
@@ -614,41 +613,35 @@ export default function Index() {
                 {/* Eco Points Card - Blue/Cyan Theme */}
                 <motion.div 
                   className={cn(
-                    "relative overflow-hidden rounded-lg sm:rounded-xl border shadow-lg backdrop-blur-md",
-                    "bg-gradient-to-br from-blue-500/30 via-cyan-400/25 to-blue-600/20",
-                    "border-blue-400/50",
-                    isMobile ? "p-1.5" : "p-3 sm:p-4"
+                    "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
+                    "bg-white/10 border-white/25 hover:bg-white/15 hover:border-emerald-400/40",
+                    isMobile ? "p-2.5" : "p-3.5 sm:p-5"
                   )}
                   whileHover={{ scale: 1.03, y: -2 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   {/* Decorative glow effect */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-400/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
                   
-                  <div className="relative z-10">
-                    {/* Icon - Large and Prominent */}
-                    <div className={cn("flex items-center justify-center", isMobile ? "mb-1" : "mb-2")}>
-                      <Star className={cn("text-blue-200 drop-shadow-lg fill-blue-200", isMobile ? "h-6 w-6" : "h-10 w-10 sm:h-12 sm:w-12")} />
-                    </div>
-                    
-                    {/* Label */}
-                    <div className={cn("text-center", isMobile ? "mb-0.5" : "mb-1")}>
+                  <div className="relative z-10 flex items-center justify-between gap-3">
+                    <div className="flex-1 min-w-0 text-left">
                       <span className={cn(
-                        "font-semibold text-white/95 drop-shadow-sm",
-                        isMobile ? "text-[10px]" : "text-xs sm:text-sm"
+                        "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
+                        isMobile ? "text-[8px]" : "text-[10px]"
                       )}>
                         {t('ecoPointsLabel')}
                       </span>
+                      <div className={cn(
+                        "font-extrabold bg-gradient-to-r from-emerald-100 via-emerald-200 to-teal-200 bg-clip-text text-transparent drop-shadow-sm",
+                        isMobile ? "text-sm" : "text-lg sm:text-2xl"
+                      )}>
+                        {displayEcoPoints.toLocaleString()}
+                      </div>
                     </div>
                     
-                    {/* Value - Bold and Prominent */}
-                    <div className={cn(
-                      "text-center font-bold",
-                      "bg-gradient-to-r from-blue-200 via-cyan-300 to-blue-400 bg-clip-text text-transparent",
-                      "drop-shadow-lg",
-                      isMobile ? "text-sm" : "text-xl sm:text-2xl"
-                    )}>
-                      {displayEcoPoints.toLocaleString()}
+                    {/* Icon Container */}
+                    <div className="p-2 rounded-xl bg-emerald-400/10 text-emerald-200 border border-emerald-400/20 shadow-sm flex-shrink-0">
+                      <Star className={cn("text-emerald-200 fill-emerald-200/20", isMobile ? "h-5 w-5" : "h-7 w-7")} />
                     </div>
                   </div>
                 </motion.div>
@@ -812,88 +805,6 @@ export default function Index() {
                           />
                         </motion.div>
                       </div>
-                      
-                      {/* Floating Progress Indicator */}
-                      <motion.div
-                        className="absolute top-1/2 -translate-y-1/2"
-                        style={{ 
-                          left: `${levelProgress}%`,
-                          transform: 'translate(-50%, -50%)',
-                        }}
-                        initial={{ left: 0 }}
-                        animate={{ 
-                          left: `${levelProgress}%`,
-                        }}
-                        transition={{ 
-                          left: { duration: 1.5, ease: "easeOut" },
-                        }}
-                      >
-                        {/* Outer Glow Halo */}
-                        <motion.div
-                          className="absolute inset-0 rounded-full"
-                          style={{
-                            width: isMobile ? '14px' : '18px',
-                            height: isMobile ? '14px' : '18px',
-                            background: 'radial-gradient(circle, rgba(250, 204, 21, 0.4), transparent 70%)',
-                            transform: 'translate(-50%, -50%)',
-                          }}
-                          animate={{
-                            scale: [1, 1.4, 1],
-                            opacity: [0.5, 0.8, 0.5],
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
-                        
-                        {/* Main Indicator */}
-                        <motion.div
-                          className="absolute inset-0 rounded-full"
-                          style={{
-                            width: isMobile ? '10px' : '12px',
-                            height: isMobile ? '10px' : '12px',
-                            background: 'radial-gradient(circle, #facc15, #fb923c)',
-                            transform: 'translate(-50%, -50%)',
-                            boxShadow: `
-                              0 0 ${4 + (levelProgress / 100) * 6}px rgba(250, 204, 21, 0.8),
-                              0 0 ${2 + (levelProgress / 100) * 4}px rgba(251, 146, 60, 0.6),
-                              inset 0 1px 2px rgba(255, 255, 255, 0.4)
-                            `,
-                            border: '1.5px solid rgba(255, 255, 255, 0.5)',
-                          }}
-                          animate={{
-                            y: [0, -2, 0],
-                            scale: [1, 1.1, 1],
-                          }}
-                          transition={{
-                            duration: 2.5,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
-                        
-                        {/* Inner Highlight */}
-                        <motion.div
-                          className="absolute inset-0 rounded-full"
-                          style={{
-                            width: isMobile ? '4px' : '5px',
-                            height: isMobile ? '4px' : '5px',
-                            background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent)',
-                            transform: 'translate(-50%, -50%)',
-                            top: '30%',
-                          }}
-                          animate={{
-                            opacity: [0.6, 1, 0.6],
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
-                      </motion.div>
                     </div>
                     
                     <motion.p 
@@ -921,8 +832,8 @@ export default function Index() {
                 <strong>{t('ourImpact')}</strong>
               </h2>
             </div>
-            <div className={cn("grid grid-cols-2 gap-mobile", isMobile ? "gap-1.5" : "gap-2 sm:gap-3")}>
-              <div className="rounded-lg border bg-card text-card-foreground shadow-sm eco-card-hover h-full impact-card-mobile">
+            <div className={cn("grid grid-cols-2 lg:grid-cols-4 gap-mobile", isMobile ? "gap-1.5" : "gap-3 sm:gap-4")}>
+              <div className="glass-card glass-card-hover rounded-2xl h-full impact-card-mobile">
                 <div className="p-2 sm:p-3 h-full flex flex-col">
                   <div className="flex items-start justify-between mb-1 sm:mb-2">
                     <div className="p-1 sm:p-1.5 rounded-lg text-green-600 bg-green-50">
@@ -950,10 +861,10 @@ export default function Index() {
                 </div>
               </div>
 
-              <div className="rounded-lg border bg-card text-card-foreground shadow-sm eco-card-hover h-full impact-card-mobile">
+              <div className="glass-card glass-card-hover rounded-2xl h-full impact-card-mobile">
                 <div className={cn("h-full flex flex-col", isMobile ? "p-1.5" : "p-2 sm:p-3")}>
                   <div className={cn("flex items-start justify-between", isMobile ? "mb-1" : "mb-1 sm:mb-2")}>
-                    <div className={cn("rounded-lg text-blue-600 bg-blue-50", isMobile ? "p-0.5" : "p-1 sm:p-1.5")}>
+                    <div className={cn("rounded-lg text-teal-600 bg-teal-50", isMobile ? "p-0.5" : "p-1 sm:p-1.5")}>
                       <Users className={cn("icon-sm-mobile", isMobile ? "h-2.5 w-2.5" : "h-3 w-3 sm:h-5 sm:w-5")} />
                     </div>
                     <div className={cn("flex items-center text-green-600", isMobile ? "text-[9px]" : "text-xs")}>
@@ -971,10 +882,10 @@ export default function Index() {
                 </div>
               </div>
 
-              <div className="rounded-lg border bg-card text-card-foreground shadow-sm eco-card-hover h-full impact-card-mobile">
+              <div className="glass-card glass-card-hover rounded-2xl h-full impact-card-mobile">
                 <div className={cn("h-full flex flex-col", isMobile ? "p-1.5" : "p-2 sm:p-3")}>
                   <div className={cn("flex items-start justify-between", isMobile ? "mb-1" : "mb-1 sm:mb-2")}>
-                    <div className={cn("rounded-lg text-purple-600 bg-purple-50", isMobile ? "p-0.5" : "p-1 sm:p-1.5")}>
+                    <div className={cn("rounded-lg text-teal-600 bg-teal-50", isMobile ? "p-0.5" : "p-1 sm:p-1.5")}>
                       <Leaf className={cn("icon-sm-mobile", isMobile ? "h-2.5 w-2.5" : "h-3 w-3 sm:h-5 sm:w-5")} />
                     </div>
                     <div className={cn("flex items-center text-green-600", isMobile ? "text-[9px]" : "text-xs")}>
@@ -992,7 +903,7 @@ export default function Index() {
                 </div>
               </div>
 
-              <div className="rounded-lg border bg-card text-card-foreground shadow-sm eco-card-hover h-full impact-card-mobile">
+              <div className="glass-card glass-card-hover rounded-2xl h-full impact-card-mobile">
                 <div className={cn("h-full flex flex-col", isMobile ? "p-1.5" : "p-2 sm:p-3")}>
                   <div className={cn("flex items-start justify-between", isMobile ? "mb-1" : "mb-1 sm:mb-2")}>
                     <div className={cn("rounded-lg text-green-600 bg-green-50", isMobile ? "p-0.5" : "p-1 sm:p-1.5")}>
@@ -1020,46 +931,85 @@ export default function Index() {
 
           {/* Quick Actions - Mobile Optimized */}
           <section aria-labelledby="actions-title">
-            <Card className="card-mobile">
-              <CardHeader className="card-header-mobile">
+            <Card className="card-mobile border border-gray-200/50 shadow-xl bg-white/70 backdrop-blur-md overflow-hidden rounded-3xl">
+              <CardHeader className="card-header-mobile border-b border-gray-200/50 bg-gray-50/50">
                 <CardTitle id="actions-title" className={cn("flex items-center justify-center section-title-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
-                  <Users className={cn("mr-2 text-blue-600 icon-md-mobile", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
-                  <strong>{t('takeAction')}</strong>
+                  <Users className={cn("mr-2 text-green-600 icon-md-mobile", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
+                  <strong className="text-gray-900 tracking-wide font-bold">{t('takeAction')}</strong>
                 </CardTitle>
               </CardHeader>
-              <CardContent className={cn("grid grid-cols-2 card-content-mobile gap-mobile", isMobile ? "gap-1.5" : "gap-2 sm:gap-3")}>
-                <Link to="/actions">
-                  <Button className={cn("h-auto w-full flex-col bg-green-600 hover:bg-green-700 eco-card-hover action-button-mobile", isMobile ? "min-h-[2.5rem] p-1.5" : "min-h-[3rem] sm:min-h-[5rem] p-2 sm:p-3")}>
-                    <img src="/images/location_5174778.png" alt="" className={cn("object-contain", isMobile ? "w-5 h-5 mb-0.5" : "w-6 h-6 sm:w-8 sm:h-8 mb-1 sm:mb-2")} aria-hidden="true" loading="lazy" />
-                    <span className={cn("font-medium text-center text-white leading-tight break-words hyphens-auto px-1 action-text-mobile", isMobile ? "text-[10px]" : "text-xs")}>
+              <CardContent className={cn("grid grid-cols-2 lg:grid-cols-4 card-content-mobile gap-mobile", isMobile ? "gap-2.5 p-3" : "gap-4 sm:gap-6 p-4 sm:p-6")}>
+                {/* 1. Collection Points */}
+                <PrefetchLink to="/actions" className="block">
+                  <div className={cn(
+                    "glass-card p-3 sm:p-5 flex flex-col items-center justify-center text-center rounded-2xl cursor-pointer select-none",
+                    "border border-gray-200/60 shadow-sm take-action-card",
+                    "hover:shadow-lg hover:border-green-400/50 hover:bg-white/95 hover:-translate-y-1 group",
+                    "gradient-hover-shimmer"
+                  )}>
+                    <div className="p-2 sm:p-3 rounded-xl bg-green-500/10 text-green-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
+                      <MapPin className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
+                    </div>
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-green-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
                       {t('findCollectionPoints')}
+                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-green-600" />}
                     </span>
-                  </Button>
-                </Link>
-                <Link to="/vote">
-                  <Button className={cn("h-auto w-full flex-col bg-blue-600 hover:bg-blue-700 eco-card-hover action-button-mobile", isMobile ? "min-h-[2.5rem] p-1.5" : "min-h-[3rem] sm:min-h-[5rem] p-2 sm:p-3")}>
-                    <img src="/images/vote_15269306.png" alt="" className={cn("object-contain", isMobile ? "w-5 h-5 mb-0.5" : "w-6 h-6 sm:w-8 sm:h-8 mb-1 sm:mb-2")} aria-hidden="true" loading="lazy" />
-                    <span className={cn("font-medium text-center text-white leading-tight break-words hyphens-auto px-1 action-text-mobile", isMobile ? "text-[10px]" : "text-xs")}>
+                  </div>
+                </PrefetchLink>
+
+                {/* 2. Vote */}
+                <PrefetchLink to="/vote" className="block">
+                  <div className={cn(
+                    "glass-card p-3 sm:p-5 flex flex-col items-center justify-center text-center rounded-2xl cursor-pointer select-none",
+                    "border border-gray-200/60 shadow-sm take-action-card",
+                    "hover:shadow-lg hover:border-emerald-400/50 hover:bg-white/95 hover:-translate-y-1 group",
+                    "gradient-hover-shimmer"
+                  )}>
+                    <div className="p-2 sm:p-3 rounded-xl bg-teal-500/10 text-teal-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
+                      <Vote className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
+                    </div>
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
                       {t('voteOnProjects')}
+                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-teal-600" />}
                     </span>
-                  </Button>
-                </Link>
-                <Link to="/actions">
-                  <Button className={cn("h-auto w-full flex-col bg-purple-600 hover:bg-purple-700 eco-card-hover action-button-mobile", isMobile ? "min-h-[2.5rem] p-1.5" : "min-h-[3rem] sm:min-h-[5rem] p-2 sm:p-3")}>
-                    <img src="/images/event.png" alt="" className={cn("object-contain", isMobile ? "w-5 h-5 mb-0.5" : "w-6 h-6 sm:w-8 sm:h-8 mb-1 sm:mb-2")} aria-hidden="true" loading="lazy" />
-                    <span className={cn("font-medium text-center text-white leading-tight break-words hyphens-auto px-1 action-text-mobile", isMobile ? "text-[10px]" : "text-xs")}>
+                  </div>
+                </PrefetchLink>
+
+                {/* 3. Events */}
+                <PrefetchLink to="/actions" className="block">
+                  <div className={cn(
+                    "glass-card p-3 sm:p-5 flex flex-col items-center justify-center text-center rounded-2xl cursor-pointer select-none",
+                    "border border-gray-200/60 shadow-sm take-action-card",
+                    "hover:shadow-lg hover:border-teal-400/50 hover:bg-white/95 hover:-translate-y-1 group",
+                    "gradient-hover-shimmer"
+                  )}>
+                    <div className="p-2 sm:p-3 rounded-xl bg-teal-500/10 text-teal-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
+                      <Calendar className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
+                    </div>
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-teal-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
                       {t('eventsButton')}
+                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-teal-600" />}
                     </span>
-                  </Button>
-                </Link>
-                <Link to="/shop">
-                  <Button className={cn("h-auto w-full flex-col bg-orange-600 hover:bg-orange-700 eco-card-hover action-button-mobile", isMobile ? "min-h-[2.5rem] p-1.5" : "min-h-[3rem] sm:min-h-[5rem] p-2 sm:p-3")}>
-                    <img src="/images/eco-bag_10158203.png" alt="" className={cn("object-contain", isMobile ? "w-5 h-5 mb-0.5" : "w-6 h-6 sm:w-8 sm:h-8 mb-1 sm:mb-2")} aria-hidden="true" loading="lazy" />
-                    <span className={cn("font-medium text-center text-white leading-tight break-words hyphens-auto px-1 action-text-mobile", isMobile ? "text-[10px]" : "text-xs")}>
+                  </div>
+                </PrefetchLink>
+
+                {/* 4. Shop */}
+                <PrefetchLink to="/shop" className="block">
+                  <div className={cn(
+                    "glass-card p-3 sm:p-5 flex flex-col items-center justify-center text-center rounded-2xl cursor-pointer select-none",
+                    "border border-gray-200/60 shadow-sm take-action-card",
+                    "hover:shadow-lg hover:border-emerald-400/50 hover:bg-white/95 hover:-translate-y-1 group",
+                    "gradient-hover-shimmer"
+                  )}>
+                    <div className="p-2 sm:p-3 rounded-xl bg-emerald-500/10 text-emerald-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
+                      <ShoppingBag className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
+                    </div>
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
                       {t('shopButton')}
+                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-emerald-600" />}
                     </span>
-                  </Button>
-                </Link>
+                  </div>
+                </PrefetchLink>
               </CardContent>
             </Card>
           </section>
@@ -1072,8 +1022,8 @@ export default function Index() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6 }}
             >
-              <Card className="bg-gradient-to-br from-green-50 via-emerald-50 to-blue-50 card-mobile shadow-lg border-2 border-green-100/50 overflow-hidden">
-                <CardHeader className={cn("card-header-mobile bg-gradient-to-r from-green-600 to-emerald-600 text-white relative overflow-hidden", isMobile ? "p-3" : "p-4 sm:p-6")}>
+              <Card className="bg-white/80 backdrop-blur-md border border-white/60 card-mobile shadow-xl shadow-green-900/5 overflow-hidden">
+                <CardHeader className={cn("card-header-mobile bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative overflow-hidden", isMobile ? "p-3" : "p-4 sm:p-6")}>
                   <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
                   <CardTitle className={cn("flex items-center justify-center section-title-mobile relative z-10", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
                     <motion.div
@@ -1095,7 +1045,7 @@ export default function Index() {
                     className="max-w-3xl mx-auto"
                   >
                     <p className={cn("text-gray-700 leading-relaxed text-center break-words hyphens-auto about-description-mobile font-medium", isMobile ? "text-xs" : "text-sm sm:text-base md:text-lg")}>
-                      <strong className="text-green-700">ZAMINAT.eco</strong> {t('aboutZaminatDescription')}
+                      <strong className="text-emerald-700">ZAMINAT.eco</strong> {t('aboutZaminatDescription')}
                     </p>
                   </motion.div>
                   
@@ -1108,21 +1058,21 @@ export default function Index() {
                       transition={{ delay: 0.3, duration: 0.5 }}
                       className="group"
                     >
-                      <div className={cn("bg-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-green-200 hover:border-green-400 about-goals-mobile h-full", isMobile ? "p-3" : "p-4 sm:p-6")}>
+                      <div className={cn("bg-white/60 backdrop-blur-sm border border-white/80 rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:border-emerald-300/80 about-goals-mobile h-full", isMobile ? "p-3.5" : "p-5 sm:p-6")}>
                         <div className={cn("flex items-center justify-center", isMobile ? "gap-1.5 mb-3" : "gap-2 mb-4")}>
-                          <div className={cn("bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300", isMobile ? "p-1.5" : "p-2")}>
+                          <div className={cn("bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300", isMobile ? "p-1.5" : "p-2")}>
                             <Target className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
                           </div>
-                          <h3 className={cn("font-bold text-green-800 about-goals-title-mobile", isMobile ? "text-xs" : "text-base sm:text-lg")}>
+                          <h3 className={cn("font-bold text-emerald-800 about-goals-title-mobile", isMobile ? "text-xs" : "text-base sm:text-lg")}>
                             {t('ourGoalsFor2026')}
                           </h3>
                         </div>
-                        <ul className={cn("text-gray-700 text-left about-goals-list-mobile", isMobile ? "text-[10px] space-y-1.5" : "text-xs sm:text-sm space-y-2.5 sm:space-y-3")}>
+                        <ul className={cn("text-gray-700 text-left about-goals-list-mobile space-y-2 sm:space-y-3")}>
                           {[
-                            { icon: Recycle, text: t('recycle1000Tons'), color: 'text-green-600' },
-                            { icon: Users, text: t('engage50000Users'), color: 'text-green-600' },
-                            { icon: Award, text: t('complete100Projects'), color: 'text-green-600' },
-                            { icon: TreePine, text: t('plant10000Trees'), color: 'text-green-600' }
+                            { icon: Recycle, text: t('recycle1000Tons'), color: 'text-emerald-600', bgColor: 'bg-emerald-500/10' },
+                            { icon: Users, text: t('engage50000Users'), color: 'text-emerald-600', bgColor: 'bg-emerald-500/10' },
+                            { icon: Award, text: t('complete100Projects'), color: 'text-emerald-600', bgColor: 'bg-emerald-500/10' },
+                            { icon: TreePine, text: t('plant10000Trees'), color: 'text-emerald-600', bgColor: 'bg-emerald-500/10' }
                           ].map((item, idx) => (
                             <motion.li
                               key={idx}
@@ -1130,10 +1080,12 @@ export default function Index() {
                               whileInView={{ opacity: 1, x: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: 0.4 + idx * 0.1 }}
-                              className={cn("flex items-start break-words group/item", isMobile ? "gap-1.5" : "gap-2.5 sm:gap-3")}
+                              className={cn("flex items-center break-words p-2 rounded-xl bg-emerald-500/5 border border-emerald-500/10 gap-3 group/item hover:bg-emerald-500/10 transition-all duration-200")}
                             >
-                              <item.icon className={cn("mt-0.5 flex-shrink-0", item.color, "group-hover/item:scale-110 transition-transform", isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5")} />
-                              <span className="flex-1">{item.text}</span>
+                              <div className={cn("p-1.5 rounded-lg flex-shrink-0 text-emerald-600 bg-emerald-500/10 group-hover/item:scale-110 transition-transform")}>
+                                <item.icon className={cn(isMobile ? "h-3.5 w-3.5" : "h-4.5 w-4.5 sm:h-5 sm:w-5")} />
+                              </div>
+                              <span className={cn("font-medium text-gray-700", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{item.text}</span>
                             </motion.li>
                           ))}
                         </ul>
@@ -1148,26 +1100,26 @@ export default function Index() {
                       transition={{ delay: 0.3, duration: 0.5 }}
                       className="group"
                     >
-                      <div className={cn("bg-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-400 about-goals-mobile h-full", isMobile ? "p-3" : "p-4 sm:p-6")}>
+                      <div className={cn("bg-white/60 backdrop-blur-sm border border-white/80 rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:border-emerald-300/80 about-goals-mobile h-full", isMobile ? "p-3.5" : "p-5 sm:p-6")}>
                         <div className={cn("flex items-center justify-center", isMobile ? "gap-1.5 mb-3" : "gap-2 mb-4")}>
-                          <div className={cn("bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300", isMobile ? "p-1.5" : "p-2")}>
+                          <div className={cn("bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300", isMobile ? "p-1.5" : "p-2")}>
                             <TrendingUp className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
                           </div>
-                          <h3 className={cn("font-bold text-blue-800 about-goals-title-mobile", isMobile ? "text-xs" : "text-base sm:text-lg")}>
+                          <h3 className={cn("font-bold text-emerald-800 about-goals-title-mobile", isMobile ? "text-xs" : "text-base sm:text-lg")}>
                             {t('currentProgressStatus')}
                           </h3>
                         </div>
-                        <div className={cn("text-left about-goals-list-mobile", isMobile ? "space-y-2" : "space-y-3 sm:space-y-4")}>
+                        <div className={cn("text-left about-goals-list-mobile space-y-2 sm:space-y-3.5")}>
                           {[
                             { 
                               icon: Recycle, 
                               label: t('recycled2500kg'), 
                               value: globalStats.totalWasteCollected, 
                               suffix: ' kg',
-                              // wasteTarget is in kg (1,000,000 kg = 1,000 tons), so no conversion needed
                               progress: (globalStats.totalWasteCollected / goals2026.wasteTarget) * 100,
-                              color: 'text-blue-600',
-                              bgColor: 'bg-blue-100'
+                              color: 'text-emerald-600',
+                              bgColor: 'bg-emerald-500/10',
+                              fillColor: 'from-emerald-500 via-teal-500 to-teal-400'
                             },
                             { 
                               icon: Users, 
@@ -1175,8 +1127,9 @@ export default function Index() {
                               value: globalStats.totalUsers, 
                               suffix: '+',
                               progress: (globalStats.totalUsers / goals2026.usersTarget) * 100,
-                              color: 'text-blue-600',
-                              bgColor: 'bg-blue-100'
+                              color: 'text-emerald-600',
+                              bgColor: 'bg-sky-500/10',
+                              fillColor: 'from-emerald-500 via-teal-500 to-teal-400'
                             },
                             { 
                               icon: Award, 
@@ -1184,8 +1137,9 @@ export default function Index() {
                               value: globalStats.totalProjects, 
                               suffix: '',
                               progress: (globalStats.totalProjects / goals2026.projectsTarget) * 100,
-                              color: 'text-blue-600',
-                              bgColor: 'bg-blue-100'
+                              color: 'text-emerald-600',
+                              bgColor: 'bg-sky-500/10',
+                              fillColor: 'from-emerald-500 via-teal-500 to-teal-400'
                             },
                             { 
                               icon: TreePine, 
@@ -1193,8 +1147,9 @@ export default function Index() {
                               value: globalStats.treesPlanted, 
                               suffix: '',
                               progress: (globalStats.treesPlanted / goals2026.treesTarget) * 100,
-                              color: 'text-blue-600',
-                              bgColor: 'bg-blue-100'
+                              color: 'text-emerald-600',
+                              bgColor: 'bg-sky-500/10',
+                              fillColor: 'from-emerald-500 via-teal-500 to-teal-400'
                             }
                           ].map((stat, idx) => (
                             <motion.div
@@ -1203,14 +1158,16 @@ export default function Index() {
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: 0.4 + idx * 0.1 }}
-                              className="space-y-1.5 group/stat"
+                              className="space-y-2 group/stat p-2.5 rounded-xl bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 transition-all duration-200"
                             >
                               <div className={cn("flex items-center justify-between", isMobile ? "gap-1.5" : "gap-2")}>
-                                <div className={cn("flex items-center flex-1 min-w-0", isMobile ? "gap-1.5" : "gap-2")}>
-                                  <stat.icon className={cn("flex-shrink-0", stat.color, "group-hover/stat:scale-110 transition-transform", isMobile ? "h-3 w-3" : "h-4 w-4 sm:h-5 sm:w-5")} />
-                                  <span className={cn("text-gray-700 break-words flex-1", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{stat.label}</span>
+                                <div className={cn("flex items-center flex-1 min-w-0 gap-2")}>
+                                  <div className={cn("p-1.5 rounded-lg flex-shrink-0 bg-emerald-500/10 text-emerald-600 group-hover/stat:scale-110 transition-transform")}>
+                                    <stat.icon className={cn(isMobile ? "h-3.5 w-3.5" : "h-4.5 w-4.5 sm:h-5 sm:w-5")} />
+                                  </div>
+                                  <span className={cn("text-gray-700 font-medium break-words flex-1", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{stat.label}</span>
                                 </div>
-                                <div className={cn("rounded-md font-bold", stat.bgColor, stat.color, isMobile ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-xs sm:text-sm")}>
+                                <div className={cn("rounded-lg font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 px-2 py-0.5 text-xs sm:text-sm flex-shrink-0")}>
                                   <AnimatedCounter 
                                     end={stat.value} 
                                     suffix={stat.suffix}
@@ -1218,21 +1175,23 @@ export default function Index() {
                                   />
                                 </div>
                               </div>
-                              <div className={cn("w-full bg-gray-200 rounded-full overflow-hidden", isMobile ? "h-1" : "h-1.5 sm:h-2")}>
-                                <motion.div
-                                  initial={{ width: 0 }}
-                                  whileInView={{ width: `${Math.min(stat.progress, 100)}%` }}
-                                  viewport={{ once: true }}
-                                  transition={{ 
-                                    duration: 1, 
-                                    delay: 0.5 + idx * 0.1,
-                                    ease: "easeOut"
-                                  }}
-                                  className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"
-                                />
-                              </div>
-                              <div className={cn("text-gray-500", isMobile ? "text-[9px]" : "text-[10px] sm:text-xs")}>
-                                {stat.progress.toFixed(1)}% {t('completed', { defaultValue: 'complete' })}
+                              <div className="space-y-1">
+                                <div className={cn("w-full bg-slate-100 border border-slate-200/50 rounded-full overflow-hidden shadow-inner", isMobile ? "h-1.5" : "h-2 sm:h-2.5")}>
+                                  <motion.div
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: `${Math.min(stat.progress, 100)}%` }}
+                                    viewport={{ once: true }}
+                                    transition={{ 
+                                      duration: 1, 
+                                      delay: 0.5 + idx * 0.1,
+                                      ease: "easeOut"
+                                    }}
+                                    className={cn("h-full rounded-full bg-gradient-to-r", stat.fillColor)}
+                                  />
+                                </div>
+                                <div className={cn("text-right text-emerald-700 font-semibold", isMobile ? "text-[9px]" : "text-[10px] sm:text-xs")}>
+                                  {stat.progress.toFixed(1)}% {t('completed', { defaultValue: 'complete' })}
+                                </div>
                               </div>
                             </motion.div>
                           ))}
@@ -1250,7 +1209,7 @@ export default function Index() {
                   >
                     <Link to="/about">
                       <Button className={cn(
-                        "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto",
+                        "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 mx-auto rounded-xl",
                         isMobile ? "text-xs py-2 px-4" : "text-sm sm:text-base py-2.5 sm:py-3 px-6 sm:px-8"
                       )}>
                         <span>{t('readFullStoryButton')}</span>
@@ -1274,7 +1233,7 @@ export default function Index() {
                   </h3>
                   {isMobile ? (
                     /* Mobile: Single Row Horizontal Scroll - Optimized */
-                    <div className="flex flex-row gap-3 overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
+                    <div className="flex flex-row gap-3 overflow-x-auto pb-3 -mx-2 px-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
                       {/* Partners Link */}
                       <motion.div
                         whileTap={{ scale: 0.98 }}
@@ -1282,18 +1241,22 @@ export default function Index() {
                         style={{ width: 'calc(100vw - 2rem)', maxWidth: '280px', minWidth: '260px' }}
                       >
                         <Link to="/partners">
-                          <Card className="h-full hover:shadow-lg transition-all duration-300 group border-2 hover:border-green-200 bg-gradient-to-br from-green-50 to-white">
-                            <CardContent className="p-3 sm:p-4 text-center flex flex-col h-full min-h-[200px]">
-                              <img src="/images/partners_7967044.png" alt="" className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 object-contain" loading="lazy" />
-                              <h4 className="font-semibold text-green-800 mb-1.5 text-sm sm:text-base">{t('ourPartnersLink')}</h4>
-                              <p className="text-xs sm:text-sm text-gray-600 mb-3 flex-1 leading-relaxed">
-                                {t('discoverExclusiveDiscounts')}
-                              </p>
+                          <Card className="glass-card glass-card-hover h-full group">
+                            <CardContent className="p-4 text-center flex flex-col h-full min-h-[220px] justify-between">
+                              <div>
+                                <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                  <img src="/images/partners_7967044.webp" alt="" className="w-9 h-9 object-contain" loading="lazy" />
+                                </div>
+                                <h4 className="font-bold text-emerald-800 mb-1.5 text-sm sm:text-base">{t('ourPartnersLink')}</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed px-1">
+                                  {t('discoverExclusiveDiscounts')}
+                                </p>
+                              </div>
                               <Button 
                                 size="sm" 
-                                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold text-xs sm:text-sm py-2 h-auto"
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs py-2.5 h-auto rounded-xl shadow-md hover:shadow-lg transition-all"
                               >
-                                <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5" />
+                                <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
                                 {t('viewPartners')}
                               </Button>
                             </CardContent>
@@ -1308,18 +1271,22 @@ export default function Index() {
                         style={{ width: 'calc(100vw - 2rem)', maxWidth: '280px', minWidth: '260px' }}
                       >
                         <Link to="/team">
-                          <Card className="h-full hover:shadow-lg transition-all duration-300 group border-2 hover:border-blue-200 bg-gradient-to-br from-blue-50 to-white">
-                            <CardContent className="p-3 sm:p-4 text-center flex flex-col h-full min-h-[200px]">
-                              <img src="/images/meet-the-team_15916616.png" alt="" className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 object-contain" loading="lazy" />
-                              <h4 className="font-semibold text-blue-800 mb-1.5 text-sm sm:text-base">{t('meetOurTeam')}</h4>
-                              <p className="text-xs sm:text-sm text-gray-600 mb-3 flex-1 leading-relaxed">
-                                {t('passionatePeopleBehind')}
-                              </p>
+                          <Card className="glass-card glass-card-hover h-full group">
+                            <CardContent className="p-4 text-center flex flex-col h-full min-h-[220px] justify-between">
+                              <div>
+                                <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                  <img src="/images/meet-the-team_15916616.webp" alt="" className="w-9 h-9 object-contain" loading="lazy" />
+                                </div>
+                                <h4 className="font-bold text-teal-800 mb-1.5 text-sm sm:text-base">{t('meetOurTeam')}</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed px-1">
+                                  {t('passionatePeopleBehind')}
+                                </p>
+                              </div>
                               <Button 
                                 size="sm" 
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm py-2 h-auto"
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs py-2.5 h-auto rounded-xl shadow-md transition-all"
                               >
-                                <UserCheck className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5" />
+                                <UserCheck className="h-3.5 w-3.5 mr-1.5" />
                                 {t('meetTeam')}
                               </Button>
                             </CardContent>
@@ -1334,18 +1301,22 @@ export default function Index() {
                         style={{ width: 'calc(100vw - 2rem)', maxWidth: '280px', minWidth: '260px' }}
                       >
                         <Link to="/contacts">
-                          <Card className="h-full hover:shadow-lg transition-all duration-300 group border-2 hover:border-purple-200 bg-gradient-to-br from-purple-50 to-white">
-                            <CardContent className="p-3 sm:p-4 text-center flex flex-col h-full min-h-[200px]">
-                              <img src="/images/contact-us.png" alt="" className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 object-contain" loading="lazy" />
-                              <h4 className="font-semibold text-purple-800 mb-1.5 text-sm sm:text-base">{t('contactUsButton')}</h4>
-                              <p className="text-xs sm:text-sm text-gray-600 mb-3 flex-1 leading-relaxed">
-                                {t('getInTouchPartnerships')}
-                              </p>
+                          <Card className="glass-card glass-card-hover h-full group">
+                            <CardContent className="p-4 text-center flex flex-col h-full min-h-[220px] justify-between">
+                              <div>
+                                <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                  <img src="/images/contact-us.webp" alt="" className="w-9 h-9 object-contain" loading="lazy" />
+                                </div>
+                                <h4 className="font-bold text-emerald-800 mb-1.5 text-sm sm:text-base">{t('contactUsButton')}</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed px-1">
+                                  {t('getInTouchPartnerships')}
+                                </p>
+                              </div>
                               <Button 
                                 size="sm" 
-                                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs sm:text-sm py-2 h-auto"
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs py-2.5 h-auto rounded-xl shadow-md transition-all"
                               >
-                                <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5" />
+                                <Mail className="h-3.5 w-3.5 mr-1.5" />
                                 {t('contactUsButton')}
                               </Button>
                             </CardContent>
@@ -1355,126 +1326,148 @@ export default function Index() {
                     </div>
                   ) : (
                     /* Desktop: Grid Layout */
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {/* Partners Link */}
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Link to="/partners">
-                        <Card className="h-full hover:shadow-lg transition-all duration-300 group border-2 hover:border-green-200 bg-gradient-to-br from-green-50 to-white">
-                          <CardContent className="p-4 text-center">
-                              <img src="/images/partners_7967044.png" alt="" className="w-12 h-12 mx-auto mb-3 object-contain" loading="lazy" />
-                            <h4 className="font-semibold text-green-800 mb-2">{t('ourPartnersLink')}</h4>
-                            <p className="text-xs text-gray-600 mb-3">
-                              {t('discoverExclusiveDiscounts')}
-                            </p>
-                            <Button 
-                              size="sm" 
-                              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold"
-                            >
-                              <ExternalLink className="h-4 w-4 mr-2" />
-                              {t('viewPartners')}
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                      {/* Partners Link */}
+                      <motion.div
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Link to="/partners">
+                          <Card className="glass-card glass-card-hover h-full group">
+                            <CardContent className="p-5 text-center flex flex-col h-full justify-between min-h-[250px]">
+                              <div>
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                  <img src="/images/partners_7967044.webp" alt="" className="w-10 h-10 object-contain" loading="lazy" />
+                                </div>
+                                <h4 className="font-bold text-emerald-800 mb-2 text-base sm:text-lg">{t('ourPartnersLink')}</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">
+                                  {t('discoverExclusiveDiscounts')}
+                                </p>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-2.5 h-auto rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                              >
+                                <ExternalLink className="h-4 w-4 mr-2" />
+                                {t('viewPartners')}
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      </motion.div>
 
-                    {/* Team Link */}
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Link to="/team">
-                        <Card className="h-full hover:shadow-lg transition-all duration-300 group border-2 hover:border-blue-200 bg-gradient-to-br from-blue-50 to-white">
-                          <CardContent className="p-4 text-center">
-                              <img src="/images/meet-the-team_15916616.png" alt="" className="w-12 h-12 mx-auto mb-3 object-contain" loading="lazy" />
-                            <h4 className="font-semibold text-blue-800 mb-2">{t('meetOurTeam')}</h4>
-                            <p className="text-xs text-gray-600 mb-3">
-                              {t('passionatePeopleBehind')}
-                            </p>
-                            <Button 
-                              size="sm" 
-                              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
-                            >
-                              <UserCheck className="h-4 w-4 mr-2" />
-                              {t('meetTeam')}
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </motion.div>
+                      {/* Team Link */}
+                      <motion.div
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Link to="/team">
+                          <Card className="glass-card glass-card-hover h-full group">
+                            <CardContent className="p-5 text-center flex flex-col h-full justify-between min-h-[250px]">
+                              <div>
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                  <img src="/images/meet-the-team_15916616.webp" alt="" className="w-10 h-10 object-contain" loading="lazy" />
+                                </div>
+                                <h4 className="font-bold text-teal-800 mb-2 text-base sm:text-lg">{t('meetOurTeam')}</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">
+                                  {t('passionatePeopleBehind')}
+                                </p>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-2.5 h-auto rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                              >
+                                <UserCheck className="h-4 w-4 mr-2" />
+                                {t('meetTeam')}
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      </motion.div>
 
-                    {/* Contact Link */}
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Link to="/contacts">
-                        <Card className="h-full hover:shadow-lg transition-all duration-300 group border-2 hover:border-purple-200 bg-gradient-to-br from-purple-50 to-white">
-                          <CardContent className="p-4 text-center">
-                              <img src="/images/contact-us.png" alt="" className="w-12 h-12 mx-auto mb-3 object-contain" loading="lazy" />
-                            <h4 className="font-semibold text-purple-800 mb-2">{t('contactUsButton')}</h4>
-                            <p className="text-xs text-gray-600 mb-3">
-                              {t('getInTouchPartnerships')}
-                            </p>
-                            <Button 
-                              size="sm" 
-                              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold"
-                            >
-                              <Mail className="h-4 w-4 mr-2" />
-                              {t('contactUsButton')}
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </motion.div>
-                  </div>
+                      {/* Contact Link */}
+                      <motion.div
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Link to="/contacts">
+                          <Card className="glass-card glass-card-hover h-full group">
+                            <CardContent className="p-5 text-center flex flex-col h-full justify-between min-h-[250px]">
+                              <div>
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                                  <img src="/images/contact-us.webp" alt="" className="w-10 h-10 object-contain" loading="lazy" />
+                                </div>
+                                <h4 className="font-semibold text-emerald-800 mb-2 text-base sm:text-lg">{t('contactUsButton')}</h4>
+                                <p className="text-xs text-gray-500 leading-relaxed mb-4">
+                                  {t('getInTouchPartnerships')}
+                                </p>
+                              </div>
+                              <Button 
+                                size="sm" 
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-2.5 h-auto rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                              >
+                                <Mail className="h-4 w-4 mr-2" />
+                                {t('contactUsButton')}
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      </motion.div>
+                    </div>
                   )}
                 </motion.div>
           </section>
 
           {/* Latest News & Education - Mobile Optimized */}
           <section aria-labelledby="news-title">
-            <Card className="card-mobile">
-              <CardHeader className={cn("card-header-mobile", isMobile ? "p-3" : "p-4 sm:p-6")}>
-                <div className="flex items-center justify-between">
-                  <CardTitle id="news-title" className={cn("mx-auto section-title-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
-                    <strong>{t('latestNewsEducation')}</strong>
-                  </CardTitle>
-                </div>
+            <Card className="bg-white/80 backdrop-blur-md border border-white/60 card-mobile shadow-xl shadow-green-900/5 overflow-hidden">
+              <CardHeader className={cn("card-header-mobile bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative overflow-hidden", isMobile ? "p-3" : "p-4 sm:p-5")}>
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
+                <CardTitle id="news-title" className={cn("mx-auto section-title-mobile relative z-10", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
+                  <strong>{t('latestNewsEducation')}</strong>
+                </CardTitle>
               </CardHeader>
-              <CardContent className={cn("card-content-mobile", isMobile ? "p-3 space-y-2" : "space-y-3 sm:space-y-4")}>
-                {newsItems.slice(0, 3).map((news) => (
-                  <article key={news.id} className={cn("border-l-4 border-green-500 eco-card-hover news-item-mobile", isMobile ? "pl-2 py-1.5" : "pl-3 sm:pl-4 py-1 sm:py-2")}>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 min-w-0">
-                        <h3 className={cn("font-medium text-gray-900 break-words news-title-mobile", isMobile ? "text-xs mb-0.5" : "text-sm sm:text-base mb-1")}>
-                          <strong>{news.title}</strong>
-                        </h3>
-                        <p className={cn("text-gray-600 leading-relaxed break-words hyphens-auto news-summary-mobile", isMobile ? "text-[10px] mb-1" : "text-xs sm:text-sm mb-2")}>
-                          {news.summary}
-                        </p>
-                        <div className={cn("flex items-center flex-wrap", isMobile ? "space-x-1.5" : "space-x-2")}>
-                          <Badge variant="outline" className={cn("news-meta-mobile", isMobile ? "text-[9px] px-1 py-0" : "text-xs")}>
+              <CardContent className={cn("card-content-mobile", isMobile ? "p-3.5 space-y-3" : "p-5 sm:p-6 space-y-4")}>
+                <div className="grid grid-cols-1 gap-4">
+                  {newsItems.slice(0, 3).map((news) => (
+                    <article key={news.id} className="group/news p-4 rounded-xl border border-gray-100 bg-white/60 hover:bg-white/90 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 flex gap-4 items-start">
+                      {/* Styled circular emoji container */}
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 text-emerald-600 flex items-center justify-center flex-shrink-0 shadow-sm border border-emerald-500/10 group-hover/news:scale-110 group-hover/news:rotate-6 transition-all duration-300">
+                        <span className="text-xl" aria-hidden="true">{news.image}</span>
+                      </div>
+                      
+                      <div className="flex-1 min-w-0 space-y-1.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold border-emerald-100/50 text-[10px] px-2 py-0.5">
                             {news.category}
                           </Badge>
-                          <span className={cn("text-gray-500 news-meta-mobile", isMobile ? "text-[9px]" : "text-xs")}>
-                            <strong>{news.readTime} {t('minReadTime')}</strong>
+                          <span className="text-[10px] text-gray-400 font-medium flex items-center gap-1">
+                            <Clock className="h-3.5 w-3.5" />
+                            {news.readTime} {t('minReadTime')}
                           </span>
-                          <span className={cn("text-gray-500 break-words news-meta-mobile", isMobile ? "text-[9px]" : "text-xs")}>
-                            {t('byAuthor')} {news.author}
+                        </div>
+                        
+                        <h3 className="font-bold text-gray-900 group-hover/news:text-emerald-700 transition-colors text-xs sm:text-base leading-snug break-words">
+                          {news.title}
+                        </h3>
+                        
+                        <p className="text-[11px] sm:text-sm text-gray-500 leading-relaxed break-words line-clamp-2">
+                          {news.summary}
+                        </p>
+                        
+                        <div className="flex items-center justify-between pt-2 text-[10px] text-gray-400 border-t border-gray-100">
+                          <span>{t('byAuthor')} <strong className="text-gray-600">{news.author}</strong></span>
+                          <span className="group-hover/news:text-emerald-600 group-hover/news:translate-x-1 transition-all flex items-center gap-1 font-semibold">
+                            Read Full <ArrowRight className="h-3 w-3" />
                           </span>
                         </div>
                       </div>
-                      <span className={cn("flex-shrink-0", isMobile ? "text-base ml-1.5" : "text-lg sm:text-2xl ml-2 sm:ml-3")} aria-hidden="true">{news.image}</span>
-                    </div>
-                  </article>
-                ))}
+                    </article>
+                  ))}
+                </div>
                 <div className={cn("text-center", isMobile ? "mt-2" : "mt-3 sm:mt-4")}>
                   <Link to="/stories">
-                    <Button variant="outline" className={cn(isMobile ? "text-xs py-1.5 px-3" : "text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6")}>
+                    <Button variant="outline" className={cn("rounded-xl border border-emerald-600/30 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 font-bold hover:-translate-y-0.5 hover:shadow-md transition-all duration-300", isMobile ? "text-xs py-1.5 px-3" : "text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6")}>
                       {t('viewAllNews')} <ArrowRight className={cn("ml-1", isMobile ? "h-2.5 w-2.5" : "h-3 w-3")} />
                     </Button>
                   </Link>
@@ -1483,43 +1476,73 @@ export default function Index() {
             </Card>
           </section>
 
-          {/* Personal Progress - Mobile Optimized */}
-          <section aria-labelledby="progress-title">
-            <Card className="card-mobile">
-              <CardHeader className={cn("card-header-mobile", isMobile ? "p-3" : "p-4 sm:p-6")}>
-                <CardTitle id="progress-title" className={cn("text-center section-title-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
-                  <strong>{t('yourEnvironmentalImpact')}</strong>
+          {/* Personal Progress - Space Optimized & Visual Polish */}
+          <section aria-labelledby="progress-title" className="max-w-4xl mx-auto w-full my-6 sm:my-8">
+            <Card className="card-mobile border border-gray-200/50 shadow-xl bg-white/70 backdrop-blur-md overflow-hidden rounded-3xl">
+              <CardHeader className={cn("card-header-mobile border-b border-gray-200/50 bg-gray-50/50", isMobile ? "p-3" : "p-4 sm:p-5")}>
+                <CardTitle id="progress-title" className={cn("text-center section-title-mobile flex items-center justify-center gap-2", isMobile ? "text-sm" : "text-lg sm:text-xl")}>
+                  <Sparkles className="h-5 w-5 text-amber-500 animate-pulse" />
+                  <strong className="text-gray-900 tracking-wide font-bold">{t('yourEnvironmentalImpact')}</strong>
                 </CardTitle>
               </CardHeader>
-              <CardContent className={cn("card-content-mobile", isMobile ? "p-2" : "p-4 sm:p-6")}>
-                <div className={cn("grid grid-cols-3 text-center progress-grid-mobile", isMobile ? "gap-1.5" : "gap-2 sm:gap-4")}>
-                  <div className={cn("bg-green-50 rounded-lg progress-item-mobile", isMobile ? "p-1.5" : "p-2 sm:p-3")}>
-                    <p className={cn("font-bold text-green-600 progress-value-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
+              <CardContent className={cn("card-content-mobile", isMobile ? "p-3" : "p-6")}>
+                <div className={cn("grid grid-cols-3 text-center progress-grid-mobile", isMobile ? "gap-2" : "gap-4 sm:gap-6")}>
+                  {/* Stat 1 */}
+                  <div className={cn(
+                    "rounded-2xl border border-green-100/70 p-3 sm:p-5 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300",
+                    "bg-gradient-to-br from-green-50/80 via-white to-emerald-50/20"
+                  )}>
+                    <div className="p-2 rounded-xl bg-green-500/10 text-green-600 mb-2 shadow-sm">
+                      <Recycle className="h-5 w-5 sm:h-6 sm:w-6" />
+                    </div>
+                    <p className={cn("font-extrabold text-green-600 progress-value-mobile leading-none", isMobile ? "text-sm" : "text-2xl sm:text-3xl")}>
                       85.5kg
                     </p>
-                    <p className={cn("text-gray-600 break-words hyphens-auto progress-label-mobile", isMobile ? "text-[9px]" : "text-xs")}>
+                    <p className={cn("text-gray-500 font-medium progress-label-mobile mt-2", isMobile ? "text-[9px]" : "text-xs sm:text-sm")}>
                       <strong>{t('wasteCollectedLabel')}</strong>
                     </p>
                   </div>
-                  <div className={cn("bg-blue-50 rounded-lg progress-item-mobile", isMobile ? "p-1.5" : "p-2 sm:p-3")}>
-                    <p className={cn("font-bold text-blue-600 progress-value-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
+
+                  {/* Stat 2 */}
+                  <div className={cn(
+                    "rounded-2xl border border-teal-100/70 p-3 sm:p-5 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300",
+                    "bg-gradient-to-br from-teal-50/80 via-white to-emerald-50/20"
+                  )}>
+                    <div className="p-2 rounded-xl bg-teal-500/10 text-teal-600 mb-2 shadow-sm">
+                      <Trophy className="h-5 w-5 sm:h-6 sm:w-6" />
+                    </div>
+                    <p className={cn("font-extrabold text-teal-600 progress-value-mobile leading-none", isMobile ? "text-sm" : "text-2xl sm:text-3xl")}>
                       3
                     </p>
-                    <p className={cn("text-gray-600 break-words hyphens-auto progress-label-mobile", isMobile ? "text-[9px]" : "text-xs")}>
+                    <p className={cn("text-gray-500 font-medium progress-label-mobile mt-2", isMobile ? "text-[9px]" : "text-xs sm:text-sm")}>
                       <strong>{t('badgesEarnedLabel')}</strong>
                     </p>
                   </div>
-                  <div className={cn("bg-purple-50 rounded-lg progress-item-mobile", isMobile ? "p-1.5" : "p-2 sm:p-3")}>
-                    <p className={cn("font-bold text-purple-600 progress-value-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
+
+                  {/* Stat 3 */}
+                  <div className={cn(
+                    "rounded-2xl border border-teal-100/70 p-3 sm:p-5 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300",
+                    "bg-gradient-to-br from-teal-50/80 via-white to-emerald-50/20"
+                  )}>
+                    <div className="p-2 rounded-xl bg-teal-500/10 text-teal-600 mb-2 shadow-sm">
+                      <Coins className="h-5 w-5 sm:h-6 sm:w-6" />
+                    </div>
+                    <p className={cn("font-extrabold text-teal-600 progress-value-mobile leading-none", isMobile ? "text-sm" : "text-2xl sm:text-3xl")}>
                       250
                     </p>
-                    <p className={cn("text-gray-600 break-words hyphens-auto progress-label-mobile", isMobile ? "text-[9px]" : "text-xs")}>
+                    <p className={cn("text-gray-500 font-medium progress-label-mobile mt-2", isMobile ? "text-[9px]" : "text-xs sm:text-sm")}>
                       <strong>{t('ecoCoinsProgress')}</strong>
                     </p>
                   </div>
                 </div>
-                <div className={cn("bg-yellow-50 rounded-lg text-center", isMobile ? "mt-2 p-2" : "mt-3 sm:mt-4 p-2 sm:p-3")}>
-                  <p className={cn("text-gray-700 text-center break-words hyphens-auto", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>
+
+                {/* Banner Message */}
+                <div className={cn(
+                  "flex items-center justify-center gap-2 bg-amber-50/60 border border-amber-200/50 rounded-xl p-2.5 text-amber-800 text-center max-w-2xl mx-auto",
+                  isMobile ? "mt-3" : "mt-5"
+                )}>
+                  <Sparkles className="h-4 w-4 text-amber-500 flex-shrink-0 animate-pulse" />
+                  <p className={cn("font-medium leading-relaxed break-words hyphens-auto", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>
                     {t('keepItUpMessage')}
                   </p>
                 </div>
@@ -1527,32 +1550,50 @@ export default function Index() {
             </Card>
           </section>
 
-          {/* Bottom Action Buttons - Mobile Optimized */}
-          <section className="text-center py-4 sm:py-8 space-y-4 sm:space-y-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl bottom-section-mobile">
-            <div className="space-y-3 sm:space-y-4">
-              <img src="/images/compost_13285420.png" alt="" className="h-12 w-12 sm:h-16 sm:w-16 mx-auto object-contain" loading="lazy" />
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 bottom-title-mobile">
-                {t('readyForBiggerImpact')}
-              </h2>
-              <div className="max-w-none mx-auto">
-                <p className="text-gray-600 leading-relaxed text-center break-words hyphens-auto text-sm sm:text-base bottom-description-mobile">
-                  {t('joinVolunteerCampaigns')}
-                </p>
+          {/* Bottom Action Card - High Converting & Space Optimized */}
+          <section className="max-w-4xl mx-auto w-full my-6 sm:my-10 px-0">
+            <div className={cn(
+              "relative overflow-hidden rounded-3xl border border-emerald-100 shadow-xl",
+              "bg-gradient-to-br from-emerald-500/5 via-teal-500/5 to-teal-500/5 backdrop-blur-md",
+              "p-5 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+            )}>
+              {/* Decorative Background Elements */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="flex items-center gap-4 text-left w-full md:w-auto">
+                <div className="p-3 sm:p-4 rounded-2xl bg-emerald-500/10 text-emerald-600 flex-shrink-0 shadow-inner">
+                  <Recycle className="h-6 w-6 sm:h-8 sm:w-8" />
+                </div>
+                <div className="space-y-1">
+                  <h2 className="text-lg sm:text-xl font-extrabold text-gray-900 tracking-tight">
+                    {t('readyForBiggerImpact')}
+                  </h2>
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed max-w-xl">
+                    {t('joinVolunteerCampaigns')}
+                  </p>
+                </div>
               </div>
-            </div>
-            
-            {/* Bottom Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-lg mx-auto">
-              <Link to="/actions" className="flex-1">
-                <Button className="w-full bg-green-600 hover:bg-green-700 py-3 sm:py-4 text-sm sm:text-lg font-semibold shadow-lg bottom-button-mobile">
-                  {t('joinNextCleanupEvent')}
-                </Button>
-              </Link>
-              <Link to="/about" className="flex-1">
-                <Button variant="outline" className="w-full py-3 sm:py-4 text-sm sm:text-lg font-semibold border-2 border-green-600 text-green-600 hover:bg-green-50 shadow-lg bottom-button-mobile">
-                  {t('learnAboutZaminatProject')}
-                </Button>
-              </Link>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-shrink-0 md:max-w-md">
+                <Link to="/actions" className="w-full sm:w-auto flex-1">
+                  <Button className={cn(
+                    "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold",
+                    "py-2.5 sm:py-3 px-5 text-sm rounded-xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5"
+                  )}>
+                    {t('joinNextCleanupEvent')}
+                  </Button>
+                </Link>
+                <Link to="/about" className="w-full sm:w-auto flex-1">
+                  <Button variant="outline" className={cn(
+                    "w-full border border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-bold",
+                    "py-2.5 sm:py-3 px-5 text-sm rounded-xl transition-all hover:-translate-y-0.5"
+                  )}>
+                    {t('learnAboutZaminatProject')}
+                  </Button>
+                </Link>
+              </div>
             </div>
           </section>
         </div>

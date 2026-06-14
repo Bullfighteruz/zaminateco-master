@@ -87,14 +87,14 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
       className="h-full"
     >
       <Card className={cn(
-        "h-full transition-all duration-500 group border-2 bg-gradient-to-br from-white to-gray-50 overflow-hidden",
+        "h-full overflow-hidden glass-card glass-card-hover border border-white/40 relative group",
         isMobile ? "" : `hover:shadow-2xl hover:border-${member.color}-200`
       )}>
         <CardHeader className={cn("relative", isMobile ? "pb-2 p-3" : "pb-4")}>
           {/* Background decoration */}
           <div className={cn(
-            `absolute top-0 right-0 bg-gradient-to-br from-${member.color}-100 to-${member.color}-50 rounded-full opacity-50`,
-            isMobile ? "w-16 h-16 -translate-y-8 translate-x-8" : "w-32 h-32 -translate-y-16 translate-x-16"
+            `absolute top-0 right-0 bg-gradient-to-br from-${member.color}-300/20 to-${member.color}-400/20 rounded-full blur-xl opacity-70`,
+            isMobile ? "w-16 h-16 -translate-y-4 translate-x-4" : "w-32 h-32 -translate-y-8 translate-x-8"
           )} />
           
           <div className="relative z-10">
@@ -103,14 +103,14 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
               <motion.div
                 whileHover={isMobile ? {} : { scale: 1.1, rotate: 5 }}
                 className={cn(
-                  `rounded-full bg-${member.color}-100 text-${member.color}-600 transition-all duration-300`,
+                  `rounded-full bg-${member.color}-500/10 text-${member.color}-600 border border-${member.color}-500/20 backdrop-blur-sm transition-all duration-300`,
                   isMobile ? "p-2" : "p-4"
                 )}
               >
                 <RoleIcon className={cn(isMobile ? "h-4 w-4" : "h-8 w-8")} />
               </motion.div>
               <Badge className={cn(
-                `bg-gradient-to-r from-${member.color}-500 to-${member.color}-600 text-white font-semibold`,
+                `bg-gradient-to-r from-${member.color}-500 to-${member.color}-600 text-white font-semibold border border-white/10`,
                 isMobile ? "text-[10px] px-2 py-0.5" : "px-3 py-1"
               )}>
                 {member.role}
@@ -266,7 +266,7 @@ export default function Team() {
   const getTeamMembers = (): TeamMember[] => {
     const members = ['sukhrobjon', 'azamat', 'khondamir', 'islombek'];
     const icons = [Crown, Settings, Calculator, Code];
-    const colors = ['blue', 'green', 'purple', 'orange'];
+    const colors = ['emerald', 'teal', 'emerald', 'teal'];
     const emojis = ['👨‍💼', '👨‍⚙️', '👨‍💻', '👨‍💻'];
     const photosByMember: Record<string, string> = {
       sukhrobjon: sukhrobjonPhoto,
@@ -280,7 +280,7 @@ export default function Team() {
       return {
         id: index + 1,
         name: memberData?.name || `Member ${index + 1}`,
-        photo: photosByMember[memberKey] || '/images/meet-the-team_15916616.png',
+        photo: photosByMember[memberKey] || '/images/meet-the-team_15916616.webp',
         role: memberData?.position || 'Team Member',
         emoji: emojis[index],
         color: colors[index],
@@ -300,8 +300,13 @@ export default function Team() {
 
   return (
     <Layout title={t('team.title', 'Our Team')}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-        <div className={cn("w-full", isMobile ? "px-2 py-4" : "px-4 md:px-6 lg:px-8 py-8")}>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        {/* Decorative background glow orbs */}
+        <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-40 -left-40" />
+        <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40" />
+        <div className="bg-glow-orb bg-glow-emerald w-[400px] h-[400px] bottom-10 -left-20" />
+
+        <div className={cn("w-full relative z-10", isMobile ? "px-2 py-4" : "px-4 md:px-6 lg:px-8 py-8")}>
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -311,7 +316,7 @@ export default function Team() {
             {/* Header section */}
             <motion.div variants={itemVariants} className={cn("text-center", isMobile ? "space-y-2" : "space-y-4")}>
               <h1 className={cn(
-                "font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent",
+                "font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent",
                 isMobile ? "text-xl" : "text-3xl md:text-4xl lg:text-5xl"
               )}>
                 {t('team.title', 'Meet Our Team')}
@@ -328,32 +333,32 @@ export default function Team() {
                 "grid grid-cols-2 max-w-2xl mx-auto",
                 isMobile ? "gap-2 mt-4" : "md:grid-cols-4 gap-4 mt-8"
               )}>
-                <div className={cn("text-center bg-white rounded-lg shadow-sm", isMobile ? "p-2" : "p-4")}>
-                  <div className={cn("font-bold text-blue-600", isMobile ? "text-base" : "text-2xl")}>
+                <div className={cn("text-center glass-card glass-card-hover rounded-lg shadow-sm border border-white/40", isMobile ? "p-2" : "p-4")}>
+                  <div className={cn("font-bold text-emerald-600", isMobile ? "text-base" : "text-2xl")}>
                     {t('team.stats.members.value', '4')}
                   </div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
                     {t('team.stats.members.label', 'Team Members')}
                   </div>
                 </div>
-                <div className={cn("text-center bg-white rounded-lg shadow-sm", isMobile ? "p-2" : "p-4")}>
-                  <div className={cn("font-bold text-green-600", isMobile ? "text-base" : "text-2xl")}>
+                <div className={cn("text-center glass-card glass-card-hover rounded-lg shadow-sm border border-white/40", isMobile ? "p-2" : "p-4")}>
+                  <div className={cn("font-bold text-emerald-600", isMobile ? "text-base" : "text-2xl")}>
                     {t('team.stats.founded.value', '2025')}
                   </div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
                     {t('team.stats.founded.label', 'Founded')}
                   </div>
                 </div>
-                <div className={cn("text-center bg-white rounded-lg shadow-sm", isMobile ? "p-2" : "p-4")}>
-                  <div className={cn("font-bold text-purple-600", isMobile ? "text-base" : "text-2xl")}>
+                <div className={cn("text-center glass-card glass-card-hover rounded-lg shadow-sm border border-white/40", isMobile ? "p-2" : "p-4")}>
+                  <div className={cn("font-bold text-teal-600", isMobile ? "text-base" : "text-2xl")}>
                     {t('team.stats.mission.value', '1')}
                   </div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
                     {t('team.stats.mission.label', 'Mission')}
                   </div>
                 </div>
-                <div className={cn("text-center bg-white rounded-lg shadow-sm", isMobile ? "p-2" : "p-4")}>
-                  <div className={cn("font-bold text-orange-600", isMobile ? "text-base" : "text-2xl")}>
+                <div className={cn("text-center glass-card glass-card-hover rounded-lg shadow-sm border border-white/40", isMobile ? "p-2" : "p-4")}>
+                  <div className={cn("font-bold text-teal-600", isMobile ? "text-base" : "text-2xl")}>
                     {t('team.stats.impact.value', '∞')}
                   </div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
@@ -378,7 +383,7 @@ export default function Team() {
             {/* Call to action */}
             <motion.div variants={itemVariants} className={cn("text-center", isMobile ? "space-y-3 py-6" : "space-y-6 py-12")}>
               <Card className={cn(
-                "mx-auto bg-gradient-to-r from-blue-500 to-green-500 text-white border-0",
+                "mx-auto bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-0",
                 isMobile ? "max-w-full" : "max-w-2xl"
               )}>
                 <CardContent className={cn(isMobile ? "p-4" : "p-8")}>
@@ -389,7 +394,7 @@ export default function Team() {
                     {t('team.cta.title', 'Join Our Mission')}
                   </h2>
                   <p className={cn(
-                    "text-blue-100",
+                    "text-emerald-100",
                     isMobile ? "text-xs mb-3" : "mb-6"
                   )}>
                     {t('team.cta.description', "We're always looking for passionate individuals who share our vision of creating a sustainable future. Join our team and make a real impact.")}
@@ -397,7 +402,7 @@ export default function Team() {
                   <Button
                     size={isMobile ? "default" : "lg"}
                     className={cn(
-                      "bg-white text-blue-600 hover:bg-gray-100 font-semibold",
+                      "bg-white text-emerald-600 hover:bg-gray-100 font-semibold",
                       isMobile ? "h-9 text-xs py-2 px-4" : ""
                     )}
                     onClick={() => {

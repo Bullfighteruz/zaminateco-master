@@ -36,9 +36,9 @@ const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolea
   return (
     <Card
       className={cn(
-        "h-full border border-slate-200/60 bg-white/90 shadow-sm hover:shadow-md hover:border-slate-300/60 transition-all duration-200 overflow-hidden relative group",
+        "glass-card glass-card-hover h-full overflow-hidden relative group",
         isMobile ? "rounded-lg" : "rounded-xl",
-        partner.featured && "ring-1 ring-green-400/30 bg-gradient-to-br from-white to-green-50/30"
+        partner.featured && "ring-1 ring-emerald-500/20 bg-gradient-to-br from-white/30 to-emerald-500/5"
       )}
     >
       <CardHeader className={cn(
@@ -156,7 +156,7 @@ const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolea
         {/* CTA Button */}
         <Button 
           className={cn(
-            "w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-200 border-0 group/btn",
+            "w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-200 border-0 group/btn",
             isMobile ? "h-8 text-[10px] py-1.5" : "h-10 text-sm"
           )}
           variant="default"
@@ -225,9 +225,9 @@ const Partners = () => {
       name: safeTranslate('coffeeBeanCafe', 'Coffee Bean Cafe'),
       category: safeTranslate('food', 'Food & Drinks'),
       icon: Coffee,
-      color: 'from-orange-500 to-red-600',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-300',
+      color: 'from-amber-500 to-amber-600',
+      bgColor: 'bg-amber-50',
+      borderColor: 'border-amber-300',
       discount: '25',
       coinsRequired: 15,
       description: safeTranslate('coffeeBeanDesc', 'Sustainable coffee'),
@@ -239,9 +239,9 @@ const Partners = () => {
       name: safeTranslate('samarkandDarvoza', 'Samarkand Darvoza'),
       category: safeTranslate('restaurant', 'Restaurant'),
       icon: Utensils,
-      color: 'from-red-500 to-rose-600',
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-300',
+      color: 'from-emerald-500 to-teal-600',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-300',
       discount: '25',
       coinsRequired: 40,
       description: safeTranslate('samarkandDesc', 'Traditional cuisine'),
@@ -253,9 +253,9 @@ const Partners = () => {
       name: safeTranslate('korzinkaUz', 'Korzinka.uz'),
       category: safeTranslate('delivery', 'Delivery'),
       icon: Package,
-      color: 'from-blue-500 to-cyan-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-300',
+      color: 'from-teal-500 to-emerald-600',
+      bgColor: 'bg-teal-50',
+      borderColor: 'border-teal-300',
       discount: '12',
       coinsRequired: 20,
       description: safeTranslate('korzinkaDesc', 'Online grocery shopping'),
@@ -267,9 +267,9 @@ const Partners = () => {
       name: safeTranslate('uzbekistanAirways', 'Uzbekistan Airways'),
       category: safeTranslate('travel', 'Travel'),
       icon: Plane,
-      color: 'from-purple-500 to-indigo-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-300',
+      color: 'from-emerald-600 to-teal-700',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-300',
       discount: '5',
       coinsRequired: 100,
       description: safeTranslate('uzbekistanAirwaysDesc', 'Carbon-neutral flights'),
@@ -280,7 +280,7 @@ const Partners = () => {
 
   return (
     <Layout title={t('ourPartners')}>
-      <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-purple-50/20">
+      <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/20 to-teal-50/20">
         {/* Enhanced Hero Section with Rich Content */}
         <div className={cn(
           "relative border-b border-slate-200/50 bg-white/90",
@@ -302,14 +302,14 @@ const Partners = () => {
                 isMobile ? "mb-2" : "mb-5"
               )}>
                 <div className={cn(
-                  "relative bg-gradient-to-br from-green-500 via-blue-500 to-purple-600 rounded-xl shadow-lg",
+                  "relative bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 rounded-xl shadow-lg",
                   isMobile ? "p-2" : "p-4"
                 )}>
                   <Gift className={cn(
                     "text-white relative z-10",
                     isMobile ? "h-5 w-5" : "h-7 w-7"
                   )} />
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-purple-500 rounded-xl blur-xl opacity-50 -z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl blur-xl opacity-50 -z-10" />
                 </div>
               </div>
 
@@ -343,12 +343,12 @@ const Partners = () => {
                   {
                     icon: Sparkles,
                     text: t('ecoFriendlyPartners', { defaultValue: 'Eco-Friendly Partners' }),
-                    color: 'text-blue-600'
+                    color: 'text-emerald-600'
                   },
                   {
                     icon: Coins,
                     text: t('earnAndRedeem', { defaultValue: 'Earn & Redeem Coins' }),
-                    color: 'text-purple-600'
+                    color: 'text-teal-600'
                   }
                 ].map((benefit, index) => (
                   <div
@@ -385,19 +385,19 @@ const Partners = () => {
                     icon: TrendingUp,
                     value: "25%",
                     label: t('maxDiscount'),
-                    gradient: "from-blue-500 to-cyan-500"
+                    gradient: "from-emerald-500 to-teal-500"
                   },
                   {
                     icon: Coins,
                     value: "15",
                     label: t('minCoinsRequired'),
-                    gradient: "from-purple-500 to-indigo-500"
+                    gradient: "from-teal-500 to-emerald-500"
                   }
                 ].map((stat, index) => (
                   <div
                     key={index}
                     className={cn(
-                      "bg-white/90 rounded-lg border border-slate-200/60 shadow-sm",
+                      "glass-card glass-card-hover rounded-lg shadow-sm text-center flex flex-col items-center justify-center",
                       isMobile ? "px-2 py-1.5 min-w-[75px] flex-1 max-w-[100px]" : "px-4 py-3 min-w-[110px]"
                     )}
                   >
@@ -501,25 +501,25 @@ const Partners = () => {
                   step: "2", 
                   title: t('checkOffersStep'),
                     icon: Gift,
-                    color: "from-blue-500 to-cyan-500",
+                    color: "from-emerald-500 to-teal-500",
                 },
                 {
                   step: "3",
                   title: t('redeemStep'),
                     icon: TrendingUp,
-                    color: "from-purple-500 to-indigo-500",
+                    color: "from-teal-500 to-emerald-500",
                 },
                 {
                   step: "4",
                   title: t('enjoyStep'),
                     icon: Users,
-                    color: "from-orange-500 to-red-500",
+                    color: "from-amber-500 to-amber-600",
                 }
               ].map((item) => (
                   <div
                     key={item.step}
                     className={cn(
-                      "text-center bg-white/90 rounded-lg border border-slate-200/60 shadow-sm flex flex-col items-center",
+                      "glass-card glass-card-hover text-center rounded-lg shadow-sm flex flex-col items-center",
                       isMobile ? "p-2" : "p-4"
                     )}
                   >
@@ -550,7 +550,7 @@ const Partners = () => {
 
             {/* Enhanced Call to Action */}
             <div className={cn(
-              "relative bg-gradient-to-r from-green-500 via-blue-500 to-purple-600 rounded-xl text-center text-white overflow-hidden shadow-lg",
+              "relative bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 rounded-xl text-center text-white overflow-hidden shadow-lg",
               isMobile ? "p-4 mb-12" : "p-8 mb-20"
             )}>
               {/* Subtle Pattern Overlay */}

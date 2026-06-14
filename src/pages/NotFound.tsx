@@ -8,7 +8,7 @@ export default function NotFound() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50/50 to-teal-50/30 flex items-center justify-center p-4">
       <Card className="w-full max-w-md text-center">
         <CardContent className="p-8">
           <div className="text-6xl mb-4">🌍</div>
@@ -21,7 +21,7 @@ export default function NotFound() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to="/">
-              <Button className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
+              <Button className="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
                 <Home className="h-4 w-4 mr-2" />
                 {t('backToHome')}
               </Button>

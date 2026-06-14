@@ -1,5 +1,5 @@
 import { Home, Vote, Calendar, ShoppingBag, BookOpen, User, Leaf, Globe } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -26,9 +26,9 @@ const MobileLanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
   
   const languages = [
-    { code: 'en', flag: '/images/en_flag.png', name: 'English' },
-    { code: 'uz', flag: '/images/uz_flag.png', name: 'O\'zbekcha' },
-    { code: 'ru', flag: '/images/ru_flag.png', name: 'Русский' }
+    { code: 'en', flag: '/images/en_flag.webp', name: 'English' },
+    { code: 'uz', flag: '/images/uz_flag.webp', name: 'O\'zbekcha' },
+    { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский' }
   ];
   
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
@@ -41,16 +41,13 @@ const MobileLanguageSwitcher = () => {
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="flex flex-col items-center justify-center">
-          <Globe className="h-5 w-5 mb-0.5 flex-shrink-0" />
-          <span className="text-[9px] font-medium text-center leading-tight whitespace-nowrap">
-            {currentLanguage.code.toUpperCase()}
-          </span>
+        <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white/90 backdrop-blur-md border-2 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800 shadow-md hover:shadow-lg transition-all duration-300">
+          <Globe className="h-5 w-5 flex-shrink-0" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end"
-        side="top"
+        side="bottom"
         sideOffset={8}
         className="w-[180px] p-2 bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl rounded-xl"
         style={{
@@ -112,17 +109,27 @@ const Layout = memo(function Layout({ children, title }: LayoutProps) {
   }, [t]);
 
   // Memoize nav items to prevent unnecessary recalculations
-  const navItems = useMemo(() => [
-    { path: '/', icon: Home, label: getMobileLabel('home') },
-    { path: '/vote', icon: Vote, label: t('ecoVote') },
-    { path: '/actions', icon: Calendar, label: getMobileLabel('ecoActions') },
-    { path: '/shop', icon: ShoppingBag, label: t('shop') },
-    { path: '/stories', icon: BookOpen, label: t('stories') },
-    { path: '/profile', icon: User, label: t('profile') }
-  ], [t, getMobileLabel]);
+  const navItems = useMemo(() => {
+    const items = [
+      { path: '/', icon: Home, label: getMobileLabel('home') },
+      { path: '/vote', icon: Vote, label: t('ecoVote') },
+      { path: '/actions', icon: Calendar, label: getMobileLabel('ecoActions') },
+      { path: '/shop', icon: ShoppingBag, label: t('shop') },
+      { path: '/stories', icon: BookOpen, label: t('stories') },
+      { path: '/profile', icon: User, label: t('profile') }
+    ];
+    if (isMobile) {
+      return items.filter(item => item.path !== '/stories');
+    }
+    return items;
+  }, [t, getMobileLabel, isMobile]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/15 to-teal-50/20 relative overflow-hidden">
+      {/* Global background glow elements for Glassmorphism Depth */}
+      <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30 pointer-events-none" />
+      <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40 opacity-35 pointer-events-none" />
+      <div className="bg-glow-orb bg-glow-emerald w-[450px] h-[450px] bottom-10 -left-20 opacity-25 pointer-events-none" />
       {/* Sticky Logo with "ZAMINAT.eco" - Top left with "roots of change" style background - Hidden on mobile and profile page */}
       {location.pathname !== '/profile' && (
       <div className="hidden md:block fixed top-4 left-4 z-50">
@@ -181,7 +188,7 @@ const Layout = memo(function Layout({ children, title }: LayoutProps) {
               {/* Logo and text content */}
               <div className="relative flex items-center gap-2 sm:gap-3">
                 <img 
-                  src="/logo.png" 
+                  src="/logo.webp" 
                   alt="ZAMINAT.eco Logo" 
                   className={cn(
                     "flex-shrink-0 self-center",
@@ -245,15 +252,20 @@ const Layout = memo(function Layout({ children, title }: LayoutProps) {
         <LanguageSwitcher />
       </div>
       
+      {/* Floating Language Switcher Button - Mobile */}
+      <div className="md:hidden fixed top-3 right-3 z-40">
+        <MobileLanguageSwitcher />
+      </div>
+      
       {/* Main content with bottom padding for navigation */}
       <main className="pb-20">
         {children}
       </main>
 
-      {/* Bottom Navigation - Pinned to bottom, centered, not full-width */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-0">
-        <div className="bg-white border-t border-gray-200 shadow-lg rounded-t-2xl px-3 sm:px-4 py-2.5">
-          <div className="flex justify-around items-center gap-0.5 sm:gap-1">
+      {/* Bottom Navigation - Floating Glassmorphic Island */}
+      <nav className="fixed bottom-4 left-4 right-4 z-50 flex justify-center notranslate" translate="no">
+        <div className="glass-island rounded-2xl px-4 py-2 w-full max-w-lg transition-all duration-300 hover:shadow-[0_12px_40px_rgba(34,197,94,0.12)]">
+          <div className="flex justify-between items-center gap-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -263,25 +275,24 @@ const Layout = memo(function Layout({ children, title }: LayoutProps) {
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-lg transition-colors min-w-0",
-                    "relative",
+                    "flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-[52px] sm:min-w-[64px]",
+                    "relative group",
                     isActive
-                      ? "text-green-600 bg-green-50"
-                      : "text-gray-600 hover:text-green-600 hover:bg-green-50"
+                      ? "text-emerald-600 bg-emerald-500/10 font-semibold"
+                      : "text-gray-500 hover:text-emerald-600 hover:bg-emerald-500/5"
                   )}
                 >
-                  <Icon className="h-5 w-5 mb-0.5 sm:mb-1 flex-shrink-0" />
+                  <Icon className={cn(
+                    "h-5 w-5 mb-0.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110",
+                    isActive && "scale-105"
+                  )} />
                   <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
                     {item.label}
                   </span>
+                  
                 </PrefetchLink>
               );
             })}
-            
-            {/* Language Switcher - Only visible on mobile */}
-            <div className="md:hidden flex flex-col items-center justify-center p-1.5 rounded-lg transition-colors text-gray-600 hover:text-green-600 hover:bg-green-50">
-              <MobileLanguageSwitcher />
-            </div>
           </div>
         </div>
       </nav>

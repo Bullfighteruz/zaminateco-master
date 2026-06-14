@@ -78,7 +78,7 @@ const CartSidebar: React.FC = () => {
             <div className="flex items-center gap-2.5 flex-1 min-w-0">
               <div className="relative flex-shrink-0">
                 <img
-                  src="/images/add-to-cart.png"
+                  src="/images/add-to-cart.webp"
                   alt="Cart"
                   className={cn(
                     "object-contain drop-shadow-lg",
@@ -194,12 +194,12 @@ const CartSidebar: React.FC = () => {
                             isMobile ? "w-12 h-12" : "w-14 h-14"
                           )}>
                             <img
-                              src={item.image || '/images/art-tiles.png'}
+                              src={item.image || '/images/art-tiles.webp'}
                               alt={item.name}
                               className="w-full h-full object-contain p-1"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
-                                target.src = '/images/art-tiles.png';
+                                target.src = '/images/art-tiles.webp';
                               }}
                             />
                           </div>

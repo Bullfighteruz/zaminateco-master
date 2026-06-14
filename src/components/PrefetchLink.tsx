@@ -47,6 +47,7 @@ export default function PrefetchLink({ to, children, ...props }: PrefetchLinkPro
     }
   }, [path, handleFocus]);
 
+  console.log("PrefetchLink rendering to:", to, "type of Link:", typeof Link);
   return (
     <Link
       to={to}

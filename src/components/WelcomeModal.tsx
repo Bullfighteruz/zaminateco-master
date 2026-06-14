@@ -5,11 +5,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Leaf, Sparkles, Globe } from 'lucide-react';
+import { Leaf, Sparkles, Globe, User, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { saveUserName, markAsVisited, isFirstVisit } from '@/utils/userName';
 import { useTranslation } from 'react-i18next';
@@ -33,12 +33,13 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
   const { t, i18n } = useTranslation();
 
   const languages = [
-    { code: 'en', flag: '/images/en_flag.png', name: 'English' },
-    { code: 'uz', flag: '/images/uz_flag.png', name: 'O\'zbekcha' },
-    { code: 'ru', flag: '/images/ru_flag.png', name: 'Русский' }
+    { code: 'en', flag: '/images/en_flag.webp', name: 'English' },
+    { code: 'uz', flag: '/images/uz_flag.webp', name: 'O\'zbekcha' },
+    { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский' }
   ];
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const displayName = (firstName.trim() || lastName.trim()) ? `${firstName} ${lastName}`.trim() : '';
 
   useEffect(() => {
     // Check if this is first visit
@@ -98,179 +99,152 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
       {isOpen && (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
           <DialogContent 
-            className="sm:max-w-[500px] p-0 overflow-hidden border-0 bg-gradient-to-br from-green-50 via-white to-blue-50"
+            className="sm:max-w-[440px] p-0 border border-slate-100 bg-white shadow-2xl rounded-3xl w-[92vw] max-h-[90vh] overflow-y-auto"
             style={{
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+              boxShadow: '0 25px 60px -15px rgba(15, 23, 42, 0.15)',
             }}
           >
-            {/* Decorative Header */}
-            <div className="relative bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 p-6 pb-8">
-              {/* Animated Background Elements */}
-              <motion.div
-                className="absolute inset-0 overflow-hidden"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <motion.div
-                  className="absolute top-4 left-4"
-                  animate={{
-                    rotate: [0, 360],
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                >
-                  <Leaf className="w-12 h-12 text-white/20" />
-                </motion.div>
-                <motion.div
-                  className="absolute top-8 right-8"
-                  animate={{
-                    rotate: [360, 0],
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                >
-                  <Sparkles className="w-10 h-10 text-white/20" />
-                </motion.div>
-              </motion.div>
 
-              <DialogHeader className="relative z-10">
-                <DialogTitle className="text-2xl sm:text-3xl font-bold text-white text-center mb-2">
-                  {t('welcome.title', { defaultValue: 'Welcome to ZAMINAT.eco!' })}
-                </DialogTitle>
-                <DialogDescription className="text-white/90 text-center text-sm sm:text-base">
-                  {t('welcome.description', { 
-                    defaultValue: 'Join our ecological movement and make a difference together!' 
-                  })}
-                </DialogDescription>
-                <div className="mt-4 flex justify-center sm:justify-end">
-                  {/* Language Switcher - moved below title/description to avoid overlapping the close (X) button */}
-                  <DropdownMenu open={langMenuOpen} onOpenChange={setLangMenuOpen} modal={false}>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-10 px-3 text-white hover:bg-white/30 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 shadow-lg transition-all hover:scale-105 flex items-center gap-2"
-                        onClick={(e) => e.stopPropagation()}
+            {/* Language Switcher Pin - Top Left of Dialog */}
+            <div className="absolute left-6 top-6 z-50">
+              <DropdownMenu open={langMenuOpen} onOpenChange={setLangMenuOpen} modal={false}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 px-2.5 text-slate-500 hover:bg-slate-50 bg-slate-50/50 rounded-full border border-slate-200/40 shadow-sm transition-all flex items-center gap-1.5"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Globe className="h-3.5 w-3.5" />
+                    <img
+                      src={currentLanguage.flag}
+                      alt={currentLanguage.name}
+                      className="h-3 w-4.5 object-cover rounded-sm border border-slate-200"
+                    />
+                    <span className="text-[10px] font-black text-slate-600">{currentLanguage.code.toUpperCase()}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  align="start"
+                  side="bottom"
+                  sideOffset={6}
+                  className="w-[160px] p-1 bg-white border border-slate-150 shadow-xl rounded-xl"
+                >
+                  {languages.map((language) => {
+                    const isSelected = currentLanguage.code === language.code;
+                    return (
+                      <DropdownMenuItem
+                        key={language.code}
+                        onClick={() => handleLanguageChange(language.code)}
+                        className={cn(
+                          "flex items-center gap-2.5 cursor-pointer p-2 rounded-lg transition-all text-xs font-semibold",
+                          isSelected
+                            ? "bg-emerald-50/80 text-emerald-800"
+                            : "hover:bg-slate-50 text-slate-600"
+                        )}
                       >
-                        <Globe className="h-5 w-5" />
                         <img
-                          src={currentLanguage.flag}
-                          alt={currentLanguage.name}
-                          className="h-4 w-5 object-cover rounded-sm border border-white/50"
+                          src={language.flag}
+                          alt={language.name}
+                          className="h-3.5 w-5 object-cover rounded-sm border border-gray-200"
                         />
-                        <span className="text-sm font-medium hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent 
-                      align="end"
-                      side="bottom"
-                      sideOffset={8}
-                      className="w-[180px] p-2 bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl rounded-xl"
-                    >
-                      {languages.map((language) => {
-                        const isSelected = currentLanguage.code === language.code;
-                        return (
-                          <DropdownMenuItem
-                            key={language.code}
-                            onClick={() => handleLanguageChange(language.code)}
-                            className={cn(
-                              "flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all",
-                              isSelected
-                                ? "bg-green-50 text-green-800 font-semibold"
-                                : "hover:bg-gray-50"
-                            )}
-                          >
-                            <img
-                              src={language.flag}
-                              alt={language.name}
-                              className="h-5 w-7 object-cover rounded-sm border border-gray-200"
-                            />
-                            <span className="text-sm font-medium">{language.name}</span>
-                          </DropdownMenuItem>
-                        );
-                      })}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </DialogHeader>
+                        <span className="text-xs font-medium">{language.name}</span>
+                      </DropdownMenuItem>
+                    );
+                  })}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
-            {/* Form Content */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
-                    {t('welcome.firstName', { defaultValue: 'First Name' })} 
-                    <span className="text-gray-400 text-xs ml-1">({t('welcome.optional', { defaultValue: 'optional' })})</span>
-                  </Label>
-                  <Input
-                    id="firstName"
-                    type="text"
-                    placeholder={t('welcome.firstNamePlaceholder', { defaultValue: 'Enter your first name' })}
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="h-11 border-gray-300 focus:border-green-500 focus:ring-green-500"
-                    autoFocus
-                  />
+            {/* Main Content Area */}
+            <div className="px-6 sm:px-8 pt-20 pb-8 text-left">
+              {/* Header Text */}
+              <div className="space-y-2 mb-8">
+                <div className="flex items-center gap-1.5 text-emerald-600 font-bold text-[10px] tracking-[0.2em] uppercase">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
+                  <span>INITIALIZE PASSPORT</span>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
-                    {t('welcome.lastName', { defaultValue: 'Last Name' })} 
-                    <span className="text-gray-400 text-xs ml-1">({t('welcome.optional', { defaultValue: 'optional' })})</span>
-                  </Label>
-                  <Input
-                    id="lastName"
-                    type="text"
-                    placeholder={t('welcome.lastNamePlaceholder', { defaultValue: 'Enter your last name' })}
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="h-11 border-gray-300 focus:border-green-500 focus:ring-green-500"
-                  />
-                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+                  Welcome to ZAMINAT
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
+                  Enter your name to initialize your profile and join our ecological digital ecosystem.
+                </p>
               </div>
 
-              <p className="text-xs text-gray-500 text-center">
-                {t('welcome.note', { 
-                  defaultValue: 'You can skip this step and use the default name, or change it later in your profile.' 
-                })}
-              </p>
+              {/* Form Content */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <div className="space-y-2 text-left">
+                    <Label htmlFor="firstName" className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block pl-0.5">
+                      {t('welcome.firstName', { defaultValue: 'First Name' })} 
+                      <span className="text-slate-300 font-medium lowercase ml-1">({t('welcome.optional', { defaultValue: 'optional' })})</span>
+                    </Label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <Input
+                        id="firstName"
+                        type="text"
+                        placeholder={t('welcome.firstNamePlaceholder', { defaultValue: 'e.g. Suxrob' })}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="h-12 pl-10 bg-slate-50 border-slate-200/80 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 text-slate-800 placeholder-slate-300 font-semibold rounded-2xl transition-all"
+                        autoFocus
+                      />
+                    </div>
+                  </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleSkip}
-                  className="flex-1 h-11 border-gray-300 text-gray-700 hover:bg-gray-50"
-                >
-                  {t('welcome.skip', { defaultValue: 'Skip' })}
-                </Button>
-                <Button
-                  type="submit"
-                  className="flex-1 h-11 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
-                >
-                  {t('welcome.continue', { defaultValue: 'Continue' })}
-                </Button>
-              </div>
-            </form>
+                  <div className="space-y-2 text-left">
+                    <Label htmlFor="lastName" className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block pl-0.5">
+                      {t('welcome.lastName', { defaultValue: 'Last Name' })} 
+                      <span className="text-slate-300 font-medium lowercase ml-1">({t('welcome.optional', { defaultValue: 'optional' })})</span>
+                    </Label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <Input
+                        id="lastName"
+                        type="text"
+                        placeholder={t('welcome.lastNamePlaceholder', { defaultValue: 'e.g. Rixsiboyev' })}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="h-12 pl-10 bg-slate-50 border-slate-200/80 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 text-slate-800 placeholder-slate-300 font-semibold rounded-2xl transition-all"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-            {/* Decorative Footer */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-3 border-t border-green-100">
-              <p className="text-xs text-center text-gray-600">
-                {t('welcome.footer', { 
-                  defaultValue: '🌱 Together we can make a difference!' 
-                })}
-              </p>
+                {/* Minimalist Benefits Checklist */}
+                <div className="py-2 flex flex-col gap-2.5">
+                  {[
+                    { text: 'Initialize eco wallet and daily streak rewards.' },
+                    { text: 'Participate in direct project voting funding channels.' },
+                    { text: 'Log actions to earn verified carbon offset badges.' }
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2.5 text-xs text-slate-500 font-medium">
+                      <Check className="w-4 h-4 text-emerald-600 stroke-[3] mt-0.5 flex-shrink-0" />
+                      <span className="leading-tight">{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleSkip}
+                    className="flex-1 h-12 border-slate-200/80 text-slate-500 bg-white hover:bg-slate-50 hover:text-slate-700 font-bold rounded-2xl transition-all active:scale-[0.98]"
+                  >
+                    {t('welcome.skip', { defaultValue: 'Skip' })}
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/25 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  >
+                    {t('welcome.continue', { defaultValue: 'Get Started' })}
+                  </Button>
+                </div>
+              </form>
             </div>
           </DialogContent>
         </Dialog>

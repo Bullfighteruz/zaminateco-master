@@ -172,7 +172,7 @@ export default function Filters({
           <SlidersHorizontal className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
           <span>{t('filters.title', { defaultValue: 'Filters' })}</span>
           {activeFilterCount > 0 && (
-            <Badge className={cn("bg-green-600 text-white", isMobile ? "ml-1 text-[10px] px-1 py-0" : "ml-2")}>
+            <Badge className={cn("bg-emerald-600 text-white", isMobile ? "ml-1 text-[10px] px-1 py-0" : "ml-2")}>
               {activeFilterCount}
             </Badge>
           )}
@@ -191,7 +191,7 @@ export default function Filters({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className={cn("border border-gray-200 rounded-lg bg-white", isMobile ? "p-3 space-y-3" : "p-6 space-y-6")}>
+            <div className={cn("glass-card border border-white/40 rounded-lg shadow-lg", isMobile ? "p-3 space-y-3" : "p-6 space-y-6")}>
               {/* Category Filters */}
               {categories.length > 0 && (
                 <div>
@@ -207,7 +207,7 @@ export default function Filters({
                           "cursor-pointer transition-all",
                           isMobile ? "text-[10px] px-1.5 py-0.5" : "",
                           selectedCategories.includes(category.id)
-                            ? "bg-green-600 text-white"
+                            ? "bg-emerald-600 text-white"
                             : "hover:bg-gray-100"
                         )}
                         onClick={() => toggleCategory(category.id)}
@@ -248,7 +248,7 @@ export default function Filters({
                           "cursor-pointer transition-all",
                           isMobile ? "text-[10px] px-1.5 py-0.5" : "",
                           selectedMaterials.includes(material.id)
-                            ? "bg-green-600 text-white"
+                            ? "bg-emerald-600 text-white"
                             : "hover:bg-gray-100"
                         )}
                         onClick={() => toggleMaterial(material.id)}

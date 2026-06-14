@@ -59,7 +59,7 @@ const FloatingCartIcon: React.FC = () => {
       >
         <div className="relative">
           <img
-            src="/images/add-to-cart.png"
+            src="/images/add-to-cart.webp"
             alt="Cart"
             className={cn(
               "object-contain filter drop-shadow-lg",

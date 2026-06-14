@@ -339,7 +339,7 @@ const Profile: React.FC = () => {
     {
       id: 1,
       emoji: "🌳",
-      image: "/images/plant-a-tree_6675353.png",
+      image: "/images/plant-a-tree_6675353.webp",
       title: t('plantTree'),
       description: t('plantTreeDesc'),
       coins: 50
@@ -347,7 +347,7 @@ const Profile: React.FC = () => {
     {
       id: 2,
       emoji: "🎁",
-      image: "/images/Children's Souvenirs.png",
+      image: "/images/Children's Souvenirs.webp",
       title: t('childrenSouvenirs'),
       description: t('childrenSouvenirsDesc'),
       coins: 75
@@ -355,7 +355,7 @@ const Profile: React.FC = () => {
     {
       id: 3,
       emoji: "🏠",
-      image: "/images/Home Decor Set.png",
+      image: "/images/Home Decor Set.webp",
       title: t('homeDecorSet'),
       description: t('homeDecorSetDesc'),
       coins: 150
@@ -363,7 +363,7 @@ const Profile: React.FC = () => {
     {
       id: 4,
       emoji: "📚",
-      image: "/images/Eco Education Kit.png",
+      image: "/images/Eco Education Kit.webp",
       title: t('ecoEducationKit'),
       description: t('ecoEducationKitDesc'),
       coins: 100
@@ -513,12 +513,12 @@ const Profile: React.FC = () => {
               <div className={cn("flex items-center justify-between", isMobile ? "text-[10px]" : "text-xs")}>
                 <span className="text-gray-500">{t('progress')}</span>
                 <span className={cn("flex items-center gap-1", isAvailable ? 'text-green-600' : 'text-orange-600')}>
-                  {userProgress.ecoCoins}/{reward.coins} <img src="/images/eco coins.png" alt="eco coins" className={cn("inline-block", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                  {userProgress.ecoCoins}/{reward.coins} <img src="/images/eco coins.webp" alt="eco coins" className={cn("inline-block", isMobile ? "h-3 w-3" : "h-4 w-4")} />
                 </span>
               </div>
               <Progress value={progress} className={cn(isMobile ? "h-1.5" : "h-2")} />
               <div className={cn("font-bold text-green-600 flex items-center gap-1", isMobile ? "text-xs" : "text-sm")}>
-                {reward.coins} <img src="/images/eco coins.png" alt="eco coins" className={cn("inline-block", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                {reward.coins} <img src="/images/eco coins.webp" alt="eco coins" className={cn("inline-block", isMobile ? "h-3 w-3" : "h-4 w-4")} />
               </div>
               <Button 
                 className={cn(
@@ -609,7 +609,7 @@ const Profile: React.FC = () => {
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500 font-medium">{t('required')}:</span>
                 <span className={cn("font-bold flex items-center gap-1", isAvailable ? 'text-green-600' : 'text-red-500')}>
-                  {offer.minCoins} <img src="/images/eco coins.png" alt="eco coins" className="h-4 w-4 inline-block" />
+                  {offer.minCoins} <img src="/images/eco coins.webp" alt="eco coins" className="h-4 w-4 inline-block" />
                 </span>
               </div>
               
@@ -630,7 +630,7 @@ const Profile: React.FC = () => {
                   ) : (
                     <>
                       <Coins className="h-4 w-4 mr-2" />
-                      {t('need')} {offer.minCoins - userProgress.ecoCoins} {t('more')} <img src="/images/eco coins.png" alt="eco coins" className="h-4 w-4 inline-block ml-1" />
+                      {t('need')} {offer.minCoins - userProgress.ecoCoins} {t('more')} <img src="/images/eco coins.webp" alt="eco coins" className="h-4 w-4 inline-block ml-1" />
                     </>
                   )}
                 </Button>
@@ -736,40 +736,40 @@ const Profile: React.FC = () => {
     <div className="grid grid-cols-2 gap-4">
       <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
         <CardContent className="p-4 text-center">
-          <img src="/images/ECOBUSSTOP.png" alt="Eco Bus Stop" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
+          <img src="/images/ECOBUSSTOP.webp" alt="Eco Bus Stop" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
           <div className="text-lg font-bold text-green-600">{userProgress.wasteCollected}kg</div>
           <div className="text-xs text-green-600">{t('wasteCollected', { ns: 'profile' })}</div>
         </CardContent>
       </Card>
       
-      <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+      <Card className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200">
         <CardContent className="p-4 text-center">
-          <img src="/images/plant-a-tree_6675353.png" alt="Plant a Tree" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
-          <div className="text-lg font-bold text-blue-600">{userProgress.treesPlanted}</div>
-          <div className="text-xs text-blue-600">{t('treesPlanted', { ns: 'profile' })}</div>
+          <img src="/images/plant-a-tree_6675353.webp" alt="Plant a Tree" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
+          <div className="text-lg font-bold text-teal-600">{userProgress.treesPlanted}</div>
+          <div className="text-xs text-teal-600">{t('treesPlanted', { ns: 'profile' })}</div>
         </CardContent>
       </Card>
       
-      <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+      <Card className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200">
         <CardContent className="p-4 text-center">
-          <img src="/images/community_16119903.png" alt="Community" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
-          <div className="text-lg font-bold text-purple-600">{userProgress.eventsAttended}</div>
-          <div className="text-xs text-purple-600">{t('eventsAttended', { ns: 'profile' })}</div>
+          <img src="/images/community_16119903.webp" alt="Community" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
+          <div className="text-lg font-bold text-teal-600">{userProgress.eventsAttended}</div>
+          <div className="text-xs text-teal-600">{t('eventsAttended', { ns: 'profile' })}</div>
         </CardContent>
       </Card>
       
       <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
         <CardContent className="p-4 text-center">
-          <img src="/images/meet-the-team_15916616.png" alt="Meet the Team" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
-          <div className="text-lg font-bold text-orange-600">{userProgress.referrals}</div>
-          <div className="text-xs text-orange-600">{t('friendsReferred', { ns: 'profile' })}</div>
+          <img src="/images/meet-the-team_15916616.webp" alt="Meet the Team" className="w-8 h-8 mx-auto mb-1 object-contain" loading="lazy" />
+          <div className="text-lg font-bold text-emerald-600">{userProgress.referrals}</div>
+          <div className="text-xs text-emerald-600">{t('friendsReferred', { ns: 'profile' })}</div>
         </CardContent>
       </Card>
     </div>
   );
 
   const ReferralSection: React.FC = () => (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+    <Card className="glass-card border border-white/40 shadow-lg">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center text-base sm:text-lg">
           <UserPlus className="h-5 w-5 mr-2 text-green-600" />
@@ -783,16 +783,16 @@ const Profile: React.FC = () => {
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">50</div>
               <div className="text-sm text-gray-600 flex items-center justify-center gap-1">
-                <img src="/images/eco coins.png" alt="eco coins" className="h-4 w-4 inline-block" /> {t('perReferral')}
+                <img src="/images/eco coins.webp" alt="eco coins" className="h-4 w-4 inline-block" /> {t('perReferral')}
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">{userProgress.referrals * 50}</div>
+              <div className="text-2xl font-bold text-teal-600">{userProgress.referrals * 50}</div>
               <div className="text-sm text-gray-600">{t('totalEarned')}</div>
             </div>
           </div>
         </div>
-        <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold">
+        <Button className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold">
           <Share2 className="h-4 w-4 mr-2" />
           {t('shareReferralLink')}
         </Button>
@@ -802,7 +802,12 @@ const Profile: React.FC = () => {
 
   return (
     <Layout title={t('profile')}>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-blue-50/30">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-blue-50/30 relative overflow-hidden">
+        {/* Decorative background glow orbs */}
+        <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] top-10 -left-40 pointer-events-none" />
+        <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/2 -right-40 pointer-events-none" />
+        <div className="bg-glow-orb bg-glow-emerald w-[400px] h-[400px] bottom-10 -left-20 pointer-events-none" />
+
         <div className={cn(
           "w-full py-4 sm:py-6",
           isMobile ? "px-2" : "px-3 sm:px-4 md:px-6 lg:px-8"
@@ -1068,52 +1073,40 @@ const Profile: React.FC = () => {
                     {/* EcoCoins Card - Golden Theme */}
                     <motion.div 
                       className={cn(
-                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md",
-                        "bg-gradient-to-br from-yellow-500/30 via-yellow-400/25 to-amber-500/20",
-                        "border-yellow-400/50",
-                        isMobile ? "p-2" : "p-3 sm:p-4"
+                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
+                        "bg-white/10 border-white/25 hover:bg-white/15 hover:border-yellow-400/40",
+                        isMobile ? "p-2.5" : "p-3.5 sm:p-5"
                       )}
                       whileHover={isMobile ? {} : { scale: 1.03, y: -2 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
                       {/* Decorative glow effect */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-400/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
                       
-                      <div className="relative z-10">
-                        {/* Icon - Large and Prominent */}
-                        <div className={cn("flex items-center justify-center mb-2", isMobile ? "mb-1.5" : "")}>
-                          <img 
-                            src="/images/eco coins.png" 
-                            alt="Eco Coins" 
-                            className={cn(
-                              "object-contain drop-shadow-lg",
-                              isMobile ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"
-                            )}
-                            style={{ 
-                              filter: 'brightness(1.2) drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
-                            }}
-                            loading="lazy"
-                          />
-                        </div>
-                        
-                        {/* Label */}
-                        <div className={cn("text-center mb-1", isMobile ? "mb-0.5" : "")}>
+                      <div className="relative z-10 flex items-center justify-between gap-3 h-full">
+                        <div className="flex-1 min-w-0 text-left">
                           <span className={cn(
-                            "font-semibold text-white/95 drop-shadow-sm",
-                            isMobile ? "text-[10px]" : "text-xs sm:text-sm"
+                            "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
+                            isMobile ? "text-[8px]" : "text-[10px]"
                           )}>
                             {t('ecoCoins')}
                           </span>
+                          <div className={cn(
+                            "font-extrabold bg-gradient-to-r from-yellow-100 via-yellow-200 to-amber-200 bg-clip-text text-transparent drop-shadow-sm",
+                            isMobile ? "text-sm" : "text-lg sm:text-2xl lg:text-3xl"
+                          )}>
+                            {userProgress.ecoCoins}
+                          </div>
                         </div>
                         
-                        {/* Value - Bold and Prominent */}
-                        <div className={cn(
-                          "text-center font-bold",
-                          "bg-gradient-to-r from-yellow-200 via-yellow-300 to-amber-300 bg-clip-text text-transparent",
-                          "drop-shadow-lg",
-                          isMobile ? "text-base" : "text-xl sm:text-2xl lg:text-3xl"
-                        )}>
-                          {userProgress.ecoCoins}
+                        {/* Icon Container */}
+                        <div className="p-2 rounded-xl bg-yellow-400/10 text-yellow-300 border border-yellow-400/20 shadow-sm flex-shrink-0">
+                          <img 
+                            src="/images/eco coins.webp" 
+                            alt="Eco Coins" 
+                            className={cn("object-contain", isMobile ? "h-6 w-6" : "h-8 w-8")}
+                            loading="lazy"
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -1121,52 +1114,40 @@ const Profile: React.FC = () => {
                     {/* EcoPoints Card - Blue/Cyan Theme */}
                     <motion.div 
                       className={cn(
-                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md",
-                        "bg-gradient-to-br from-blue-500/30 via-cyan-400/25 to-blue-600/20",
-                        "border-blue-400/50",
-                        isMobile ? "p-2" : "p-3 sm:p-4"
+                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
+                        "bg-white/10 border-white/25 hover:bg-white/15 hover:border-sky-400/40",
+                        isMobile ? "p-2.5" : "p-3.5 sm:p-5"
                       )}
                       whileHover={isMobile ? {} : { scale: 1.03, y: -2 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
                       {/* Decorative glow effect */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-400/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
                       
-                      <div className="relative z-10">
-                        {/* Icon - Large and Prominent */}
-                        <div className={cn("flex items-center justify-center mb-2", isMobile ? "mb-1.5" : "")}>
-                          <img 
-                            src="/images/eco-points.png" 
-                            alt="Eco Points" 
-                            className={cn(
-                              "object-contain drop-shadow-lg",
-                              isMobile ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"
-                            )}
-                            style={{ 
-                              filter: 'brightness(1.2) drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
-                            }}
-                            loading="lazy"
-                          />
-                        </div>
-                        
-                        {/* Label */}
-                        <div className={cn("text-center mb-1", isMobile ? "mb-0.5" : "")}>
+                      <div className="relative z-10 flex items-center justify-between gap-3 h-full">
+                        <div className="flex-1 min-w-0 text-left">
                           <span className={cn(
-                            "font-semibold text-white/95 drop-shadow-sm",
-                            isMobile ? "text-[10px]" : "text-xs sm:text-sm"
+                            "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
+                            isMobile ? "text-[8px]" : "text-[10px]"
                           )}>
                             {t('ecoPoints')}
                           </span>
+                          <div className={cn(
+                            "font-extrabold bg-gradient-to-r from-sky-100 via-cyan-200 to-teal-200 bg-clip-text text-transparent drop-shadow-sm",
+                            isMobile ? "text-sm" : "text-lg sm:text-2xl lg:text-3xl"
+                          )}>
+                            {userProgress.ecoPoints.toLocaleString()}
+                          </div>
                         </div>
                         
-                        {/* Value - Bold and Prominent */}
-                        <div className={cn(
-                          "text-center font-bold",
-                          "bg-gradient-to-r from-blue-200 via-cyan-300 to-blue-400 bg-clip-text text-transparent",
-                          "drop-shadow-lg",
-                          isMobile ? "text-base" : "text-xl sm:text-2xl lg:text-3xl"
-                        )}>
-                          {userProgress.ecoPoints.toLocaleString()}
+                        {/* Icon Container */}
+                        <div className="p-2 rounded-xl bg-cyan-400/10 text-cyan-200 border border-cyan-400/20 shadow-sm flex-shrink-0">
+                          <img 
+                            src="/images/eco-points.webp" 
+                            alt="Eco Points" 
+                            className={cn("object-contain", isMobile ? "h-6 w-6" : "h-8 w-8")}
+                            loading="lazy"
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -1174,52 +1155,40 @@ const Profile: React.FC = () => {
                     {/* Waste Collected Card - Green/Emerald Theme */}
                     <motion.div
                       className={cn(
-                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md col-span-1",
-                        "bg-gradient-to-br from-green-500/30 via-emerald-400/25 to-green-600/20",
-                        "border-green-400/50",
-                        isMobile ? "p-2" : "p-3 sm:p-4"
+                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
+                        "bg-white/10 border-white/25 hover:bg-white/15 hover:border-emerald-400/40",
+                        isMobile ? "p-2.5" : "p-3.5 sm:p-5"
                       )}
                       whileHover={isMobile ? {} : { scale: 1.03, y: -2 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
                       {/* Decorative glow effect */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-400/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
                       
-                      <div className="relative z-10">
-                        {/* Icon - Large and Prominent */}
-                        <div className={cn("flex items-center justify-center mb-2", isMobile ? "mb-1.5" : "")}>
-                          <img 
-                            src="/images/Waste Collected.png" 
-                            alt="Waste Collected" 
-                            className={cn(
-                              "object-contain drop-shadow-lg",
-                              isMobile ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"
-                            )}
-                            style={{ 
-                              filter: 'brightness(1.2) drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
-                            }}
-                            loading="lazy"
-                          />
-                        </div>
-                        
-                        {/* Label */}
-                        <div className={cn("text-center mb-1", isMobile ? "mb-0.5" : "")}>
+                      <div className="relative z-10 flex items-center justify-between gap-3 h-full">
+                        <div className="flex-1 min-w-0 text-left">
                           <span className={cn(
-                            "font-semibold text-white/95 drop-shadow-sm",
-                            isMobile ? "text-[10px]" : "text-xs sm:text-sm"
+                            "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
+                            isMobile ? "text-[8px]" : "text-[10px]"
                           )}>
                             {t('wasteCollected')}
                           </span>
+                          <div className={cn(
+                            "font-extrabold bg-gradient-to-r from-emerald-100 via-emerald-200 to-teal-200 bg-clip-text text-transparent drop-shadow-sm",
+                            isMobile ? "text-sm" : "text-lg sm:text-2xl lg:text-3xl"
+                          )}>
+                            {wasteFormatted.value}{wasteFormatted.unit}
+                          </div>
                         </div>
                         
-                        {/* Value - Bold and Prominent */}
-                        <div className={cn(
-                          "text-center font-bold",
-                          "bg-gradient-to-r from-green-200 via-emerald-300 to-green-400 bg-clip-text text-transparent",
-                          "drop-shadow-lg",
-                          isMobile ? "text-base" : "text-xl sm:text-2xl lg:text-3xl"
-                        )}>
-                          {wasteFormatted.value}{wasteFormatted.unit}
+                        {/* Icon Container */}
+                        <div className="p-2 rounded-xl bg-emerald-400/10 text-emerald-300 border border-emerald-400/20 shadow-sm flex-shrink-0">
+                          <img 
+                            src="/images/Waste Collected.webp" 
+                            alt="Waste Collected" 
+                            className={cn("object-contain", isMobile ? "h-6 w-6" : "h-8 w-8")}
+                            loading="lazy"
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -1227,52 +1196,40 @@ const Profile: React.FC = () => {
                     {/* Badges Card - Purple/Pink Theme */}
                     <motion.div
                       className={cn(
-                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md col-span-1",
-                        "bg-gradient-to-br from-purple-500/30 via-pink-400/25 to-purple-600/20",
-                        "border-purple-400/50",
-                        isMobile ? "p-2" : "p-3 sm:p-4"
+                        "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
+                        "bg-white/10 border-white/25 hover:bg-white/15 hover:border-purple-400/40",
+                        isMobile ? "p-2.5" : "p-3.5 sm:p-5"
                       )}
                       whileHover={isMobile ? {} : { scale: 1.03, y: -2 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
                       {/* Decorative glow effect */}
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-pink-400/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-purple-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
                       
-                      <div className="relative z-10">
-                        {/* Icon - Large and Prominent */}
-                        <div className={cn("flex items-center justify-center mb-2", isMobile ? "mb-1.5" : "")}>
-                          <img 
-                            src="/images/badges.png" 
-                            alt="Badges" 
-                            className={cn(
-                              "object-contain drop-shadow-lg",
-                              isMobile ? "h-8 w-8" : "h-10 w-10 sm:h-12 sm:w-12"
-                            )}
-                            style={{ 
-                              filter: 'brightness(1.2) drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
-                            }}
-                            loading="lazy"
-                          />
-                        </div>
-                        
-                        {/* Label */}
-                        <div className={cn("text-center mb-1", isMobile ? "mb-0.5" : "")}>
+                      <div className="relative z-10 flex items-center justify-between gap-3 h-full">
+                        <div className="flex-1 min-w-0 text-left">
                           <span className={cn(
-                            "font-semibold text-white/95 drop-shadow-sm",
-                            isMobile ? "text-[10px]" : "text-xs sm:text-sm"
+                            "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
+                            isMobile ? "text-[8px]" : "text-[10px]"
                           )}>
                             {t('badges')}
                           </span>
+                          <div className={cn(
+                            "font-extrabold bg-gradient-to-r from-purple-100 via-pink-200 to-purple-200 bg-clip-text text-transparent drop-shadow-sm",
+                            isMobile ? "text-sm" : "text-lg sm:text-2xl lg:text-3xl"
+                          )}>
+                            {userProgress.badgesEarned}
+                          </div>
                         </div>
                         
-                        {/* Value - Bold and Prominent */}
-                        <div className={cn(
-                          "text-center font-bold",
-                          "bg-gradient-to-r from-purple-200 via-pink-300 to-purple-400 bg-clip-text text-transparent",
-                          "drop-shadow-lg",
-                          isMobile ? "text-base" : "text-xl sm:text-2xl lg:text-3xl"
-                        )}>
-                          {userProgress.badgesEarned}
+                        {/* Icon Container */}
+                        <div className="p-2 rounded-xl bg-purple-400/10 text-purple-300 border border-purple-400/20 shadow-sm flex-shrink-0">
+                          <img 
+                            src="/images/badges.webp" 
+                            alt="Badges" 
+                            className={cn("object-contain", isMobile ? "h-6 w-6" : "h-8 w-8")}
+                            loading="lazy"
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -1310,7 +1267,7 @@ const Profile: React.FC = () => {
                           transition={{ duration: 0.6 }}
                         >
                           <img 
-                            src="/images/level.png" 
+                            src="/images/level.webp" 
                             alt="Level" 
                             className={cn(
                               "object-contain drop-shadow-lg",
@@ -1480,88 +1437,6 @@ const Profile: React.FC = () => {
                             />
                           </motion.div>
                         </div>
-                        
-                        {/* Floating Progress Indicator */}
-                        <motion.div
-                          className="absolute top-1/2 -translate-y-1/2"
-                          style={{ 
-                            left: `${levelProgress}%`,
-                            transform: 'translate(-50%, -50%)',
-                          }}
-                          initial={{ left: 0 }}
-                          animate={{ 
-                            left: `${levelProgress}%`,
-                          }}
-                          transition={{ 
-                            left: { duration: 1.5, ease: "easeOut" },
-                          }}
-                        >
-                          {/* Outer Glow Halo */}
-                          <motion.div
-                            className="absolute inset-0 rounded-full"
-                            style={{
-                              width: isMobile ? '14px' : '18px',
-                              height: isMobile ? '14px' : '18px',
-                              background: 'radial-gradient(circle, rgba(250, 204, 21, 0.4), transparent 70%)',
-                              transform: 'translate(-50%, -50%)',
-                            }}
-                            animate={{
-                              scale: [1, 1.4, 1],
-                              opacity: [0.5, 0.8, 0.5],
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
-                          
-                          {/* Main Indicator */}
-                          <motion.div
-                            className="absolute inset-0 rounded-full"
-                            style={{
-                              width: isMobile ? '10px' : '12px',
-                              height: isMobile ? '10px' : '12px',
-                              background: 'radial-gradient(circle, #facc15, #fb923c)',
-                              transform: 'translate(-50%, -50%)',
-                              boxShadow: `
-                                0 0 ${4 + (levelProgress / 100) * 6}px rgba(250, 204, 21, 0.8),
-                                0 0 ${2 + (levelProgress / 100) * 4}px rgba(251, 146, 60, 0.6),
-                                inset 0 1px 2px rgba(255, 255, 255, 0.4)
-                              `,
-                              border: '1.5px solid rgba(255, 255, 255, 0.5)',
-                            }}
-                            animate={{
-                              y: [0, -2, 0],
-                              scale: [1, 1.1, 1],
-                            }}
-                            transition={{
-                              duration: 2.5,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
-                          
-                          {/* Inner Highlight */}
-                          <motion.div
-                            className="absolute inset-0 rounded-full"
-                            style={{
-                              width: isMobile ? '4px' : '5px',
-                              height: isMobile ? '4px' : '5px',
-                              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent)',
-                              transform: 'translate(-50%, -50%)',
-                              top: '30%',
-                            }}
-                            animate={{
-                              opacity: [0.6, 1, 0.6],
-                            }}
-                            transition={{
-                              duration: 1.5,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
-                        </motion.div>
                       </div>
                       
                       {/* Points to Next Level - Aligned Left */}
@@ -1655,7 +1530,7 @@ const Profile: React.FC = () => {
             <motion.div variants={itemVariants}>
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className={cn(
-                  "grid w-full grid-cols-4 bg-white/80 backdrop-blur-sm shadow-lg border border-white/20",
+                  "grid w-full grid-cols-4 glass-card border border-white/40 shadow-lg",
                   isMobile ? "h-11 mb-3" : "h-12 sm:h-14 mb-4 sm:mb-6"
                 )}>
                   <TabsTrigger 
@@ -1717,7 +1592,7 @@ const Profile: React.FC = () => {
                     className="space-y-4 sm:space-y-6"
                   >
                       {/* Rewards Store */}
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center justify-between text-base sm:text-lg">
                             <div className="flex items-center">
@@ -1728,7 +1603,7 @@ const Profile: React.FC = () => {
                               className="text-sm text-gray-600 flex items-center space-x-2"
                               whileHover={{ scale: 1.05 }}
                             >
-                              <img src="/images/eco coins.png" alt="eco coins" className="h-5 w-5 inline-block" />
+                              <img src="/images/eco coins.webp" alt="eco coins" className="h-5 w-5 inline-block" />
                               <span>{userProgress.ecoCoins}</span>
                             </motion.div>
                           </CardTitle>
@@ -1746,11 +1621,11 @@ const Profile: React.FC = () => {
                       <ReferralSection />
 
                       {/* Recent Transactions */}
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center justify-between text-base sm:text-lg">
                             <div className="flex items-center">
-                              <TrendingUp className="h-5 w-5 mr-2 text-purple-600" />
+                              <TrendingUp className="h-5 w-5 mr-2 text-teal-600" />
                               {t('recentTransactions')}
                             </div>
                             <Button variant="ghost" size="sm" className="text-sm hover:bg-gray-100">{t('viewAll')}</Button>
@@ -1799,7 +1674,7 @@ const Profile: React.FC = () => {
                                 </div>
                                 <div className="flex items-center space-x-2 flex-shrink-0">
                                   <div className={cn("font-semibold text-sm sm:text-base flex items-center gap-1", transaction.amount > 0 ? 'text-green-600' : 'text-red-600')}>
-                                    {transaction.amount > 0 ? '+' : ''}{transaction.amount} <img src="/images/eco coins.png" alt="eco coins" className="h-4 w-4 inline-block" />
+                                    {transaction.amount > 0 ? '+' : ''}{transaction.amount} <img src="/images/eco coins.webp" alt="eco coins" className="h-4 w-4 inline-block" />
                                   </div>
                                   <ChevronRight className="h-4 w-4 text-gray-400" />
                                 </div>
@@ -1817,19 +1692,19 @@ const Profile: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center justify-between text-base sm:text-lg">
                             <div className="flex items-center">
-                              <Tag className="h-5 w-5 mr-2 text-blue-600" />
+                              <Tag className="h-5 w-5 mr-2 text-teal-600" />
                               {t('partnerDiscountOffers')}
                             </div>
                             <div className="flex items-center space-x-2">
-                              <Badge className="bg-blue-100 text-blue-700 text-xs">
+                              <Badge className="bg-teal-100 text-teal-700 text-xs">
                                 {PARTNER_OFFERS.filter(offer => userProgress.ecoCoins >= offer.minCoins).length} {t('available')}
                               </Badge>
                               <div className="flex items-center text-sm text-gray-600 gap-1">
-                                <img src="/images/eco coins.png" alt="eco coins" className="h-5 w-5 inline-block" />
+                                <img src="/images/eco coins.webp" alt="eco coins" className="h-5 w-5 inline-block" />
                                 {userProgress.ecoCoins}
                               </div>
                             </div>
@@ -1852,7 +1727,7 @@ const Profile: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center text-base sm:text-lg">
                             <Award className="h-5 w-5 mr-2 text-yellow-600" />
@@ -1883,10 +1758,10 @@ const Profile: React.FC = () => {
                     className="space-y-4 sm:space-y-6"
                   >
                       {/* Analytics Overview */}
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center text-base sm:text-lg">
-                            <Activity className="h-5 w-5 mr-2 text-orange-600" />
+                            <Activity className="h-5 w-5 mr-2 text-teal-600" />
                             {t('yourEngagementAnalytics')}
                           </CardTitle>
                         </CardHeader>
@@ -1932,7 +1807,7 @@ const Profile: React.FC = () => {
                       </Card>
 
                       {/* Environmental Impact */}
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center text-base sm:text-lg">
                             <Leaf className="h-5 w-5 mr-2 text-green-600" />
@@ -1945,10 +1820,10 @@ const Profile: React.FC = () => {
                       </Card>
 
                       {/* Goal Progress */}
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center text-base sm:text-lg">
-                            <Target className="h-5 w-5 mr-2 text-purple-600" />
+                            <Target className="h-5 w-5 mr-2 text-teal-600" />
                             {t('goalProgress')}
                           </CardTitle>
                         </CardHeader>
@@ -1978,7 +1853,7 @@ const Profile: React.FC = () => {
                       </Card>
 
                       {/* Leaderboard */}
-                      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                      <Card className="glass-card border border-white/40 shadow-lg">
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center justify-between text-base sm:text-lg">
                             <div className="flex items-center">

@@ -37,7 +37,7 @@ const productData: ProductItem[] = [
   {
     id: 1,
     emoji: '🏗️',
-    image: '/images/art-tiles.png',
+    image: '/images/art-tiles.webp',
     nameKey: 'products.epdmFreeTiles.name',
     englishName: 'EPDM-free Tiles', // Original English name for icon matching
     descriptionKey: 'products.epdmFreeTiles.description',
@@ -49,7 +49,7 @@ const productData: ProductItem[] = [
   {
     id: 2,
     emoji: '🛝',
-    image: '/images/EPDM-Tiles.png', // Primary image
+    image: '/images/EPDM Tiles.webp', // Primary image
     nameKey: 'products.epdmRubberEcotiles.name',
     englishName: 'EPDM Rubber Ecotiles', // Original English name for icon matching
     descriptionKey: 'products.epdmRubberEcotiles.description',
@@ -61,7 +61,7 @@ const productData: ProductItem[] = [
   {
     id: 3,
     emoji: '🧱',
-    image: '/images/EcoBrick.png',
+    image: '/images/EcoBrick.webp',
     nameKey: 'products.ecoBrick.name',
     englishName: 'EcoBrick', // Original English name for icon matching
     descriptionKey: 'products.ecoBrick.description',
@@ -72,7 +72,7 @@ const productData: ProductItem[] = [
   {
     id: 4,
     emoji: '🗑️',
-    image: '/images/Waste Bin.png',
+    image: '/images/Waste Bin.webp',
     nameKey: 'products.wasteBin.name',
     englishName: 'Waste Bin', // Original English name for icon matching
     descriptionKey: 'products.wasteBin.description',
@@ -83,7 +83,7 @@ const productData: ProductItem[] = [
   {
     id: 5,
     emoji: '🪴',
-    image: '/images/Garden Planter.png',
+    image: '/images/Garden Planter.webp',
     nameKey: 'products.gardenPlanter.name',
     englishName: 'Garden Planter', // Original English name for icon matching
     descriptionKey: 'products.gardenPlanter.description',
@@ -94,7 +94,7 @@ const productData: ProductItem[] = [
   {
     id: 6,
     emoji: '🪑',
-    image: '/images/Eco Bench.png',
+    image: '/images/Eco Bench.webp',
     nameKey: 'products.ecoBench.name',
     englishName: 'Eco Bench', // Original English name for icon matching
     descriptionKey: 'products.ecoBench.description',
@@ -105,7 +105,7 @@ const productData: ProductItem[] = [
   {
     id: 7,
     emoji: '🚲',
-    image: '/images/ECOBIKE RACK.png',
+    image: '/images/ECOBIKE RACK.webp',
     nameKey: 'products.ecobikeRack.name',
     englishName: 'ECOBIKE RACK', // Original English name for icon matching
     descriptionKey: 'products.ecobikeRack.description',
@@ -116,7 +116,7 @@ const productData: ProductItem[] = [
   {
     id: 8,
     emoji: '🚌',
-    image: '/images/ECOBUSSTOP.png',
+    image: '/images/ECOBUSSTOP.webp',
     nameKey: 'products.ecobusStop.name',
     englishName: 'ECOBUSSTOP', // Original English name for icon matching
     descriptionKey: 'products.ecobusStop.description',
@@ -127,7 +127,7 @@ const productData: ProductItem[] = [
   {
     id: 9,
     emoji: '🎨',
-    image: '/images/art-tiles.png',
+    image: '/images/art-tiles.webp',
     nameKey: 'products.playgroundBlock.name',
     englishName: 'Playground Block (Art Tiles)', // Original English name for icon matching
     descriptionKey: 'products.playgroundBlock.description',
@@ -138,7 +138,7 @@ const productData: ProductItem[] = [
   {
     id: 10,
     emoji: '🏙️',
-    image: '/images/green-city_5994274.png',
+    image: '/images/green-city_5994274.webp',
     nameKey: 'products.ecostreetFurniture.name',
     englishName: 'Ecostreet Furniture', // Original English name for icon matching
     descriptionKey: 'products.ecostreetFurniture.description',
@@ -167,32 +167,32 @@ type CategoryItem = {
 const categoryData: CategoryItem[] = [
   {
     emoji: '🏗️',
-    image: '/images/art-tiles.png',
-    iconImage: '/images/construction.png', // Construction icon - explicit path
+    image: '/images/art-tiles.webp',
+    iconImage: '/images/construction.webp', // Construction icon - explicit path
     nameKey: 'categories.construction.name',
     englishName: 'Construction', // Original English name for icon matching
     descriptionKey: 'categories.construction.description'
   },
   {
     emoji: '🛝',
-    image: '/images/Eco Bench.png',
-    iconImage: '/images/recreation.png', // Recreation icon - explicit path
+    image: '/images/Eco Bench.webp',
+    iconImage: '/images/recreation.webp', // Recreation icon - explicit path
     nameKey: 'categories.recreation.name',
     englishName: 'Recreation', // Original English name for icon matching
     descriptionKey: 'categories.recreation.description'
   },
   {
     emoji: '🪑',
-    image: '/images/Eco Bench.png',
-    iconImage: '/images/Furniture.png', // Furniture icon - explicit path
+    image: '/images/Eco Bench.webp',
+    iconImage: '/images/Furniture.webp', // Furniture icon - explicit path
     nameKey: 'categories.furniture.name',
     englishName: 'Furniture', // Original English name for icon matching
     descriptionKey: 'categories.furniture.description'
   },
   {
     emoji: '🏙️',
-    image: '/images/green-city_5994274.png',
-    iconImage: '/images/Infrastructure.png', // Infrastructure icon - explicit path
+    image: '/images/green-city_5994274.webp',
+    iconImage: '/images/Infrastructure.webp', // Infrastructure icon - explicit path
     nameKey: 'categories.infrastructure.name',
     englishName: 'Infrastructure', // Original English name for icon matching
     descriptionKey: 'categories.infrastructure.description'
@@ -255,8 +255,13 @@ export default function SocialMissionShop() {
 
   return (
     <Layout title={t('shop', { ns: 'translation' })}>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white">
-        <div className={cn("w-full", isMobile ? "p-1.5 space-y-2" : "p-4 space-y-6")}>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50/30 via-white to-teal-50/20 relative overflow-hidden">
+        {/* Decorative background glow orbs */}
+        <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] top-10 -left-40" />
+        <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/2 -right-40" />
+        <div className="bg-glow-orb bg-glow-emerald w-[400px] h-[400px] bottom-10 -left-20" />
+
+        <div className={cn("w-full relative z-10", isMobile ? "p-1.5 space-y-2" : "p-4 space-y-6")}>
           {/* Header */}
           <div className={cn("text-center", isMobile ? "space-y-1" : "space-y-2")}>
             <h2 className={cn(
@@ -274,7 +279,7 @@ export default function SocialMissionShop() {
           </div>
 
           {/* Stats */}
-          <Card className="bg-gradient-to-r from-green-50 to-blue-50">
+          <Card className="glass-card border border-white/40 shadow-md">
             <CardContent className={cn(isMobile ? "p-2" : "p-3 sm:p-4")}>
               <div className={cn(
                 "grid grid-cols-3 text-center",
@@ -285,11 +290,11 @@ export default function SocialMissionShop() {
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{t('stats.kgRecycled', { ns: 'shop' })}</div>
                 </div>
                 <div>
-                  <div className={cn("font-bold text-blue-600", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>156</div>
+                  <div className={cn("font-bold text-emerald-600", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>156</div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{t('stats.productsSold', { ns: 'shop' })}</div>
                 </div>
                 <div>
-                  <div className={cn("font-bold text-purple-600", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>12</div>
+                  <div className={cn("font-bold text-teal-600", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>12</div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{t('stats.projectsFunded', { ns: 'shop' })}</div>
                 </div>
               </div>
@@ -312,7 +317,7 @@ export default function SocialMissionShop() {
               {productsWithIcons.map((product) => (
                 <Card 
                   key={product.id} 
-                  className="eco-card-hover cursor-pointer transition-all hover:shadow-lg"
+                  className="glass-card glass-card-hover border border-white/40 cursor-pointer"
                   onClick={() => {
                     const slug = product.englishName ? productNameToSlug(product.englishName) : String(product.id);
                     navigate(`/product/${slug}`);
@@ -386,7 +391,7 @@ export default function SocialMissionShop() {
                           </p>
                           {product.infoKey && (
                             <p className={cn(
-                              "text-blue-600",
+                              "text-emerald-600",
                               isMobile ? "text-[10px] mb-1" : "text-xs mb-1 sm:mb-2"
                             )}>
                               <Info className={cn("inline", isMobile ? "h-2 w-2 mr-0.5" : "h-2 w-2 sm:h-3 sm:w-3 mr-0.5 sm:mr-1")} />
@@ -425,7 +430,7 @@ export default function SocialMissionShop() {
                           isMobile ? "h-8 text-[10px] py-1" : "text-xs sm:text-sm py-1 sm:py-2 h-7 sm:h-9",
                           product.isCallForPrice 
                             ? 'bg-background hover:bg-accent hover:text-accent-foreground border border-input' 
-                            : 'bg-green-600 hover:bg-green-700 text-primary-foreground'
+                            : 'bg-emerald-600 hover:bg-emerald-700 text-primary-foreground'
                         )}
                         variant={product.isCallForPrice ? "outline" : "default"}
                         onClick={(e) => {
@@ -523,7 +528,7 @@ export default function SocialMissionShop() {
           </section>
 
           {/* How It Works */}
-          <Card className="bg-blue-50">
+          <Card className="glass-card border border-white/40 shadow-sm bg-blue-50/10 text-blue-900">
             <CardHeader className={cn(isMobile ? "p-2 pb-1" : "p-4")}>
               <CardTitle className={cn(
                 "text-blue-800",
@@ -565,13 +570,13 @@ export default function SocialMissionShop() {
               isMobile ? "gap-1" : "gap-2 sm:gap-3"
             )}>
               {categoriesWithIcons.map((category, index) => (
-                <Card key={index} className="eco-card-hover cursor-pointer">
+                <Card key={index} className="glass-card glass-card-hover border border-white/40 cursor-pointer">
                   <CardContent className={cn(
                     "text-center flex flex-col items-center",
                     isMobile ? "p-2" : "p-3 sm:p-4"
                   )}>
                     <div className={cn(
-                      "flex items-center justify-center mb-1 rounded-full bg-gradient-to-br from-green-50 to-blue-50 flex-shrink-0",
+                      "flex items-center justify-center mb-1 rounded-full bg-gradient-to-br from-emerald-50/50 to-teal-50/50 flex-shrink-0",
                       isMobile ? "w-16 h-16 p-2" : "w-20 h-20 sm:w-24 sm:h-24 p-3"
                     )}>
                       <img 
@@ -621,7 +626,7 @@ export default function SocialMissionShop() {
           </section>
 
           {/* Bottom CTA Section */}
-          <Card className="bg-gradient-to-r from-green-50 to-blue-50">
+          <Card className="glass-card border border-white/40 shadow-md">
             <CardContent className={cn(
               "text-center",
               isMobile ? "p-3" : "p-4 sm:p-6"
@@ -644,7 +649,7 @@ export default function SocialMissionShop() {
               )}>
                 <Button 
                   className={cn(
-                    "bg-green-600 hover:bg-green-700",
+                    "bg-emerald-600 hover:bg-emerald-700",
                     isMobile ? "h-8 text-xs py-1.5 px-3" : "text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6"
                   )}
                   onClick={() => {

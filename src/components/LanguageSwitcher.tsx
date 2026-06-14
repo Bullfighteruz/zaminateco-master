@@ -12,9 +12,9 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 const languages = [
-  { code: 'en', flag: '/images/en_flag.png', name: 'English', country: 'US' },
-  { code: 'uz', flag: '/images/uz_flag.png', name: 'O\'zbekcha', country: 'UZ' },
-  { code: 'ru', flag: '/images/ru_flag.png', name: 'Русский', country: 'RU' }
+  { code: 'en', flag: '/images/en_flag.webp', name: 'English', country: 'US' },
+  { code: 'uz', flag: '/images/uz_flag.webp', name: 'O\'zbekcha', country: 'UZ' },
+  { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский', country: 'RU' }
 ];
 
 const flagVariants = {
@@ -169,7 +169,7 @@ export default function LanguageSwitcher() {
                     "group/item",
                     isSelected
                       ? "bg-gradient-to-r from-green-50 to-emerald-50 text-green-800 font-semibold shadow-md border-2 border-green-200/50"
-                      : "hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 hover:text-blue-800 hover:shadow-sm"
+                      : "hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:text-emerald-800 hover:shadow-sm"
                   )}
                 >
                   {/* Selected indicator background */}

@@ -42,25 +42,25 @@ interface InteractiveMapProps {
 const getCollectionPointIconPath = (type: 'plastic' | 'tires' | 'mixed', name: string): string => {
   // Check for specific location names first
   if (name.toLowerCase().includes('tashkent central park') || name.toLowerCase().includes('central park')) {
-    return '/images/park.png';
+    return '/images/park.webp';
   }
   if (name.toLowerCase().includes('chilonzor')) {
-    return '/images/Chilonzor Mahalla.png';
+    return '/images/Chilonzor Mahalla.webp';
   }
   if (name.toLowerCase().includes('yunusobod')) {
-    return '/images/Yunusobod District.png';
+    return '/images/Yunusobod District.webp';
   }
   
   // Fallback to type-based icons
   switch (type) {
     case 'plastic':
-      return '/images/compost_13285420.png';
+      return '/images/compost_13285420.webp';
     case 'tires':
-      return '/images/ECOBUSSTOP.png';
+      return '/images/ECOBUSSTOP.webp';
     case 'mixed':
-      return '/images/park.png';
+      return '/images/park.webp';
     default:
-      return '/images/park.png';
+      return '/images/park.webp';
   }
 };
 
@@ -177,30 +177,30 @@ const createCollectionPointIcon = (
 const getActionLocationIconPath = (type: 'cleanup' | 'education' | 'recycling' | 'awareness', name: string): string => {
   // Check for specific names first
   if (name.toLowerCase().includes('chirchiq') || name.toLowerCase().includes('river')) {
-    return '/images/River Cleanup.png';
+    return '/images/River Cleanup.webp';
   }
   if (name.toLowerCase().includes('school') || name.toLowerCase().includes('#45')) {
-    return '/images/school.png';
+    return '/images/school.webp';
   }
   if (name.toLowerCase().includes('recycling') || name.toLowerCase().includes('badamzar')) {
-    return '/images/Plastic Recycling.png';
+    return '/images/Plastic Recycling.webp';
   }
   if (name.toLowerCase().includes('awareness') || name.toLowerCase().includes('walk') || name.toLowerCase().includes('olmazor')) {
-    return '/images/community_16119903.png';
+    return '/images/community_16119903.webp';
   }
   
   // Fallback to type-based icons
   switch (type) {
     case 'cleanup':
-      return '/images/River Cleanup.png';
+      return '/images/River Cleanup.webp';
     case 'education':
-      return '/images/school.png';
+      return '/images/school.webp';
     case 'recycling':
-      return '/images/Plastic Recycling.png';
+      return '/images/Plastic Recycling.webp';
     case 'awareness':
-      return '/images/community_16119903.png';
+      return '/images/community_16119903.webp';
     default:
-      return '/images/location_5174778.png';
+      return '/images/location_5174778.webp';
   }
 };
 
@@ -519,7 +519,7 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
             size="sm"
             onClick={() => onNavigate(point)}
             className={cn(
-              "flex-1 bg-green-600 hover:bg-green-700 text-white",
+              "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white",
               isMobile ? "h-9 text-sm px-3" : "h-10 text-base px-4"
             )}
           >
@@ -854,7 +854,7 @@ const ActionLocationPopup: React.FC<{
           <Button
             size="sm"
             onClick={() => onNavigate(point)}
-            className={cn("flex-1 bg-green-600 hover:bg-green-700 text-white", isMobile ? "h-9 text-sm px-3" : "h-10 text-base px-4")}
+            className={cn("flex-1 bg-emerald-600 hover:bg-emerald-700 text-white", isMobile ? "h-9 text-sm px-3" : "h-10 text-base px-4")}
           >
             <Navigation className={cn("mr-2", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
             {t('navigate', { ns: 'translation', defaultValue: 'Navigate' })}
@@ -1226,7 +1226,7 @@ export default function InteractiveMap({
               <div className="flex gap-2">
                 <Button
                   onClick={() => handleNavigate(selectedPoint)}
-                  className="flex-1 bg-green-600 hover:bg-green-700 h-9"
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 h-9"
                 >
                   <Navigation className="h-4 w-4 mr-2" />
                   {t('navigate')}

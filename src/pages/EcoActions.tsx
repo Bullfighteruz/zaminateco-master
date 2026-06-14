@@ -194,36 +194,36 @@ const KeyFeaturesSection = () => {
   const features = useMemo(() => {
     const baseFeatures: Feature[] = [
     {
-        image: '/images/community_16119903.png',
+        image: '/images/community_16119903.webp',
       title: t('communityImpact', { ns: 'actions' }),
       englishTitle: 'Community Impact',
       description: t('communityImpactDesc', { ns: 'actions' }),
-      color: "from-blue-500 to-cyan-500",
-      iconPath: '/images/community_16119903.png'
+      color: "from-emerald-500 to-teal-500",
+      iconPath: '/images/community_16119903.webp'
     },
     {
-        image: '/images/sustainable-future_2293652.png',
+        image: '/images/sustainable-future_2293652.webp',
       title: t('sustainableFuture', { ns: 'actions' }),
       englishTitle: 'Sustainable Future',
       description: t('sustainableFutureDesc', { ns: 'actions' }),
       color: "from-green-500 to-emerald-500",
-      iconPath: '/images/sustainable-future_2293652.png'
+      iconPath: '/images/sustainable-future_2293652.webp'
     },
     {
-        image: '/images/eco-points.png',
+        image: '/images/eco-points.webp',
       title: t('earnEcoPoints', { ns: 'actions' }),
       englishTitle: 'Earn EcoPoints',
       description: t('earnEcoPointsDesc', { ns: 'actions' }),
-      color: "from-purple-500 to-pink-500",
-      iconPath: '/images/eco-points.png'
+      color: "from-teal-500 to-emerald-500",
+      iconPath: '/images/eco-points.webp'
     },
     {
-        image: '/images/Meet Like-minded People.png',
+        image: '/images/Meet Like-minded People.webp',
       title: t('meetLikeMindedPeople', { ns: 'actions' }),
       englishTitle: 'Meet Like-minded People',
       description: t('meetLikeMindedPeopleDesc', { ns: 'actions' }),
-      color: "from-orange-500 to-red-500",
-      iconPath: '/images/Meet Like-minded People.png'
+      color: "from-emerald-500 to-teal-500",
+      iconPath: '/images/Meet Like-minded People.webp'
     }
   ];
     
@@ -244,7 +244,7 @@ const KeyFeaturesSection = () => {
 
   return (
     <motion.div variants={itemVariants} className={cn(isMobile ? "mb-6" : "mb-12")}>
-      <Card className="bg-gradient-to-br from-white via-green-50/30 to-blue-50/30 border-2 border-green-100/50 overflow-hidden shadow-xl">
+      <Card className="bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/30 border-2 border-emerald-100/50 overflow-hidden shadow-xl">
         <CardContent className={cn(isMobile ? "p-4" : "p-8")}>
           <div className={cn("text-center", isMobile ? "mb-4" : "mb-8")}>
             <div className="flex items-center justify-center gap-2 mb-3">
@@ -255,7 +255,7 @@ const KeyFeaturesSection = () => {
                 <Sparkles className={cn("text-yellow-500", isMobile ? "h-5 w-5" : "h-6 w-6")} />
               </motion.div>
               <h2 className={cn(
-                "font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent",
+                "font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent",
                 isMobile ? "text-lg" : "text-2xl md:text-3xl"
               )}>
                 {t('whyJoinOurEcoActions', { ns: 'actions' })}
@@ -378,7 +378,7 @@ export default function EcoActions() {
       whatToBringKey: "events.schoolWorkshop.whatToBring",
       benefitsKey: "events.schoolWorkshop.benefits",
       impactKey: "events.schoolWorkshop.impact",
-      image: '/images/book_649180.png',
+      image: '/images/book_649180.webp',
       isJoined: false
     },
     {
@@ -399,7 +399,7 @@ export default function EcoActions() {
       whatToBringKey: "events.treePlanting.whatToBring",
       benefitsKey: "events.treePlanting.benefits",
       impactKey: "events.treePlanting.impact",
-      image: '/images/plant-a-tree_6675353.png',
+      image: '/images/plant-a-tree_6675353.webp',
       isJoined: true
     },
     {
@@ -420,7 +420,7 @@ export default function EcoActions() {
       whatToBringKey: "events.riverCleanup.whatToBring",
       benefitsKey: "events.riverCleanup.benefits",
       impactKey: "events.riverCleanup.impact",
-      image: '/images/forest_10089053.png',
+      image: '/images/forest_10089053.webp',
       isJoined: false
     },
     {
@@ -441,7 +441,7 @@ export default function EcoActions() {
       whatToBringKey: "events.plasticRecycling.whatToBring",
       benefitsKey: "events.plasticRecycling.benefits",
       impactKey: "events.plasticRecycling.impact",
-      image: '/images/Plastic Recycling.png',
+      image: '/images/Plastic Recycling.webp',
       isJoined: false
     },
     {
@@ -462,7 +462,7 @@ export default function EcoActions() {
       whatToBringKey: "events.awarenessWalk.whatToBring",
       benefitsKey: "events.awarenessWalk.benefits",
       impactKey: "events.awarenessWalk.impact",
-      image: '/images/community_16119903.png',
+      image: '/images/community_16119903.webp',
       isJoined: false
     },
     {
@@ -483,7 +483,7 @@ export default function EcoActions() {
       whatToBringKey: "events.wasteAudit.whatToBring",
       benefitsKey: "events.wasteAudit.benefits",
       impactKey: "events.wasteAudit.impact",
-      image: '/images/eco-points.png',
+      image: '/images/eco-points.webp',
       isJoined: true
     }
   ];
@@ -574,10 +574,10 @@ export default function EcoActions() {
       
       if (!iconPath || !iconPath.startsWith('/images/')) {
         iconPath = point.type === 'plastic' 
-          ? '/images/compost_13285420.png' 
+          ? '/images/compost_13285420.webp' 
           : point.type === 'tires' 
-          ? '/images/ECOBUSSTOP.png' 
-          : '/images/park.png';
+          ? '/images/ECOBUSSTOP.webp' 
+          : '/images/park.webp';
       }
       
       const coordinates = COLLECTION_POINTS.find(cp => cp.id === point.id);
@@ -614,7 +614,7 @@ export default function EcoActions() {
 
   return (
     <Layout title={t('actions', { ns: 'translation' })}>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/20">
         <div className={cn("w-full", isMobile ? "px-2 py-4" : "px-4 md:px-6 lg:px-8 py-6")}>
           <motion.div
             variants={containerVariants}
@@ -627,8 +627,8 @@ export default function EcoActions() {
               variants={itemVariants}
               className={cn(
                 "relative overflow-hidden rounded-2xl",
-                "bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500",
-                "shadow-2xl border border-green-400/20",
+                "bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-800",
+                "shadow-2xl border border-emerald-600/20",
                 isMobile ? "p-4 mb-4" : "p-8 mb-6"
               )}
             >
@@ -771,11 +771,11 @@ export default function EcoActions() {
               {/* Section Header */}
               <div className={cn("text-center mb-6", isMobile && "mb-4")}>
                 <div className="flex items-center justify-center gap-2 mb-3">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-green-500 to-blue-500">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-600 to-teal-600">
                     <MapPin className={cn("text-white", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                   </div>
                   <h2 className={cn(
-                    "font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent",
+                    "font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent",
                     isMobile ? "text-lg" : "text-2xl md:text-3xl"
                   )}>
                     {t('actionLocations', { ns: 'translation' })}
@@ -899,7 +899,7 @@ export default function EcoActions() {
               >
                 {/* Map Section - Left Side */}
                 <div className={cn(isMobile ? "w-full" : "lg:col-span-1")}>
-                  <Card className="border-0 shadow-2xl overflow-hidden bg-white h-full flex flex-col" style={{ minHeight: isMobile ? '400px' : '600px' }}>
+                  <Card className="glass-card border shadow-2xl overflow-hidden h-full flex flex-col" style={{ minHeight: isMobile ? '400px' : '600px' }}>
                     <CardHeader className={cn(
                       "bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white flex-shrink-0",
                       isMobile ? "p-4" : "p-6"
@@ -980,14 +980,14 @@ export default function EcoActions() {
 
                 {/* Collection Points List - Right Side */}
                 <div className={cn(isMobile ? "w-full" : "lg:col-span-1")}>
-                  <Card className="border-0 shadow-lg bg-white h-full flex flex-col">
+                  <Card className="glass-card border shadow-lg h-full flex flex-col">
                     <CardHeader className={cn(
                       "border-b border-gray-100 flex-shrink-0",
                       isMobile ? "p-3" : "p-5"
                     )}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <div className={cn("p-2 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex-shrink-0", isMobile && "p-1.5")}>
+                          <div className={cn("p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex-shrink-0", isMobile && "p-1.5")}>
                             <Users className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-5 w-5")} />
                           </div>
                           <CardTitle className={cn(
@@ -1021,8 +1021,7 @@ export default function EcoActions() {
                           >
                             <div 
                               className={cn(
-                                "relative rounded-xl border-2 transition-all duration-300 overflow-hidden",
-                                "bg-white border-gray-200 hover:border-green-300 hover:shadow-md",
+                                "glass-card glass-card-hover relative rounded-xl transition-all duration-300 overflow-hidden",
                                 "active:scale-[0.98]",
                                 isMobile ? "p-2.5" : "p-4"
                               )}
@@ -1032,9 +1031,9 @@ export default function EcoActions() {
                               <div className={cn("flex items-center gap-2.5", isMobile && "gap-2")}>
                                 <div className={cn(
                                   "rounded-xl flex items-center justify-center flex-shrink-0 shadow-md",
-                                  point.type === 'plastic' ? 'bg-gradient-to-br from-green-400 to-emerald-500' :
-                                  point.type === 'tires' ? 'bg-gradient-to-br from-blue-400 to-cyan-500' :
-                                  'bg-gradient-to-br from-purple-400 to-pink-500',
+                                  point.type === 'plastic' ? 'bg-gradient-to-br from-emerald-400 to-emerald-500' :
+                                  point.type === 'tires' ? 'bg-gradient-to-br from-teal-400 to-teal-500' :
+                                  'bg-gradient-to-br from-teal-400 to-emerald-500',
                                   isMobile ? "w-11 h-11 p-1.5" : "w-14 h-14 p-2.5"
                                 )}>
                                   <img 
@@ -1045,10 +1044,10 @@ export default function EcoActions() {
                                     onError={(e) => {
                                       const target = e.target as HTMLImageElement;
                                       const fallback = point.type === 'plastic' 
-                                        ? '/images/compost_13285420.png' 
+                                        ? '/images/compost_13285420.webp' 
                                         : point.type === 'tires' 
-                                        ? '/images/ECOBUSSTOP.png' 
-                                        : '/images/park.png';
+                                        ? '/images/ECOBUSSTOP.webp' 
+                                        : '/images/park.webp';
                                       if (target.src !== fallback) {
                                         target.src = fallback;
                                       }
@@ -1071,7 +1070,7 @@ export default function EcoActions() {
                                   </div>
                                   <div className="flex flex-wrap items-center gap-1.5">
                                     <Badge className={cn(
-                                      "bg-green-100 text-green-800 border-green-200",
+                                      "bg-emerald-100 text-emerald-800 border-emerald-200",
                                       isMobile ? "text-[9px] px-1 py-0.5" : "text-xs"
                                     )}>
                                       {t('active', { ns: 'translation' })}
@@ -1102,7 +1101,7 @@ export default function EcoActions() {
                                     handleNavigateToPoint(point.id);
                                   }}
                                   className={cn(
-                                    "flex-shrink-0 hover:bg-green-50 hover:border-green-300 active:scale-95",
+                                    "flex-shrink-0 hover:bg-emerald-50 hover:border-emerald-300 active:scale-95",
                                     isMobile ? "text-[10px] h-9 px-2.5 min-w-[44px]" : "text-sm h-9 px-3"
                                   )}
                                   style={{ touchAction: 'manipulation' }}
@@ -1126,11 +1125,11 @@ export default function EcoActions() {
               {/* Section Header */}
               <div className={cn("text-center mb-6", isMobile && "mb-4")}>
                 <div className="flex items-center justify-center gap-2 mb-3">
-                  <div className="p-2 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-600 to-teal-600">
                     <Calendar className={cn("text-white", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                   </div>
                   <h2 className={cn(
-                    "font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent",
+                    "font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent",
                     isMobile ? "text-lg" : "text-2xl md:text-3xl"
                   )}>
                     {t('upcomingEvents', { ns: 'actions' })}
@@ -1147,7 +1146,7 @@ export default function EcoActions() {
               {/* Tabs */}
               <div className={cn("flex justify-center mb-6", isMobile && "mb-4")}>
                 <div className={cn(
-                  "flex bg-white rounded-xl shadow-md border border-green-100",
+                  "flex bg-white rounded-xl shadow-md border border-emerald-100",
                   isMobile ? "p-1" : "p-1.5"
                 )}>
                   <motion.button
@@ -1156,7 +1155,7 @@ export default function EcoActions() {
                       "rounded-lg font-semibold transition-colors",
                       isMobile ? "px-3 py-2.5 text-xs min-h-[44px]" : "px-6 py-2 text-sm",
                       activeTab === 'upcoming'
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900'
                     )}
                     whileHover={{ scale: isMobile ? 1 : 1.02 }}
@@ -1171,7 +1170,7 @@ export default function EcoActions() {
                       "rounded-lg font-semibold transition-colors",
                       isMobile ? "px-3 py-2.5 text-xs min-h-[44px]" : "px-6 py-2 text-sm",
                       activeTab === 'joined'
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900'
                     )}
                     whileHover={{ scale: isMobile ? 1 : 1.02 }}
@@ -1186,7 +1185,7 @@ export default function EcoActions() {
                       "rounded-lg font-semibold transition-colors",
                       isMobile ? "px-3 py-2.5 text-xs min-h-[44px]" : "px-6 py-2 text-sm",
                       activeTab === 'all'
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md'
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900'
                     )}
                     whileHover={{ scale: isMobile ? 1 : 1.02 }}
@@ -1201,7 +1200,7 @@ export default function EcoActions() {
               {/* Filters */}
               <motion.div variants={itemVariants} className="mb-6">
                 <Card className={cn(
-                  "bg-white/90 backdrop-blur-sm border-2 border-green-100 shadow-lg",
+                  "glass-card border shadow-lg",
                   isMobile ? "p-4" : "p-6"
                 )}>
                   <div className={cn(isMobile ? "space-y-3" : "space-y-4")}>
@@ -1216,7 +1215,7 @@ export default function EcoActions() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className={cn(
-                          "border-green-200 focus:border-green-400 bg-white",
+                          "border-emerald-200 focus:border-emerald-400 bg-white",
                           isMobile ? "pl-10 h-11 text-sm min-h-[44px]" : "pl-12 h-11"
                         )}
                         style={{ touchAction: 'manipulation' }}
@@ -1229,7 +1228,7 @@ export default function EcoActions() {
                       isMobile ? "grid-cols-1 gap-2" : "grid-cols-1 md:grid-cols-3 gap-4"
                     )}>
                       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                        <SelectTrigger className="border-green-200 bg-white">
+                        <SelectTrigger className="border-emerald-200 bg-white">
                           <SelectValue placeholder={t('filterByCategory', { ns: 'actions' })} />
                         </SelectTrigger>
                         <SelectContent>
@@ -1243,7 +1242,7 @@ export default function EcoActions() {
                       </Select>
 
                       <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                        <SelectTrigger className="border-green-200 bg-white">
+                        <SelectTrigger className="border-emerald-200 bg-white">
                           <SelectValue placeholder={t('filterByLocation', { ns: 'actions' })} />
                         </SelectTrigger>
                         <SelectContent>
@@ -1265,7 +1264,7 @@ export default function EcoActions() {
                           }}
                           variant="outline"
                           className={cn(
-                            "w-full border-green-200 hover:bg-green-50 bg-white",
+                            "w-full border-emerald-200 hover:bg-emerald-50 bg-white",
                             isMobile ? "h-10 text-xs" : "h-11 text-sm"
                           )}
                         >
@@ -1281,7 +1280,7 @@ export default function EcoActions() {
               {/* Results count */}
               <motion.div variants={itemVariants} className="text-center mb-4">
                 <p className={cn("text-gray-600", isMobile ? "text-xs" : "text-sm")}>
-                  {t('showingResults', { ns: 'translation' })} <span className="font-semibold text-green-600">{filteredEvents.length}</span> {t('of', { ns: 'translation' })} <span className="font-semibold">{sampleEvents.length}</span> {t('events', { ns: 'translation' })}
+                  {t('showingResults', { ns: 'translation' })} <span className="font-semibold text-emerald-600">{filteredEvents.length}</span> {t('of', { ns: 'translation' })} <span className="font-semibold">{sampleEvents.length}</span> {t('events', { ns: 'translation' })}
                 </p>
               </motion.div>
 
@@ -1326,7 +1325,7 @@ export default function EcoActions() {
                       setActiveTab('all');
                     }}
                     className={cn(
-                      "bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white",
+                      "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white",
                       isMobile ? "h-10 text-xs" : "h-11 text-sm"
                     )}
                   >

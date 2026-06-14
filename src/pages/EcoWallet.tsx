@@ -28,7 +28,7 @@ export default function EcoWallet() {
             <div className="text-center space-y-2">
               <div className="flex items-center justify-center space-x-2">
                 <img 
-                  src="/images/eco coins.png" 
+                  src="/images/eco coins.webp" 
                   alt="Eco Coins" 
                   className="h-8 w-8 object-contain"
                   loading="lazy"
@@ -51,7 +51,7 @@ export default function EcoWallet() {
             <div className="text-center space-y-2">
               <div className="flex items-center justify-center space-x-2">
                 <img 
-                  src="/images/eco-points.png" 
+                  src="/images/eco-points.webp" 
                   alt="Eco Points" 
                   className="h-6 w-6 object-contain"
                   loading="lazy"
@@ -112,7 +112,7 @@ export default function EcoWallet() {
         {/* Partner Discounts */}
         <section>
           <h3 className="text-xl font-semibold mb-4 flex items-center">
-            <ShoppingBag className="h-5 w-5 mr-2 text-blue-600" />
+            <ShoppingBag className="h-5 w-5 mr-2 text-teal-600" />
             {t('partnerDiscounts')}
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -122,7 +122,7 @@ export default function EcoWallet() {
                   <span className="text-3xl">{partner.icon}</span>
                   <div>
                     <h4 className="font-medium text-sm">{partner.name}</h4>
-                    <div className="text-lg font-bold text-blue-600">
+                    <div className="text-lg font-bold text-teal-600">
                       {partner.discount} {t('off')}
                     </div>
                   </div>
@@ -145,7 +145,7 @@ export default function EcoWallet() {
         {/* Recent Transactions */}
         <section>
           <h3 className="text-xl font-semibold mb-4 flex items-center">
-            <TrendingUp className="h-5 w-5 mr-2 text-purple-600" />
+            <TrendingUp className="h-5 w-5 mr-2 text-teal-600" />
             {t('recentTransactions')}
           </h3>
           <Card>
@@ -213,13 +213,13 @@ export default function EcoWallet() {
                 <div className="text-xs text-gray-600">{t('wasteCollected')}</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-teal-600">
                   {currentUser.badges.length}
                 </div>
                 <div className="text-xs text-gray-600">{t('badgesEarned')}</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-teal-600">
                   {currentUser.level}
                 </div>
                 <div className="text-xs text-gray-600">{t('currentLevel')}</div>

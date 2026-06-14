@@ -238,7 +238,7 @@ const DonationDialog: React.FC<DonationDialogProps> = ({
                   className={cn(
                     "cursor-pointer transition-all duration-300 border-2 relative overflow-hidden",
                     selectedCurrency === 'usd'
-                      ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-xl shadow-blue-200/50'
+                      ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-emerald-50 shadow-xl shadow-teal-200/50'
                       : 'border-gray-200 hover:border-blue-300 hover:shadow-lg bg-white'
                   )}
                   onClick={() => handleCurrencySelect('usd')}
@@ -265,7 +265,7 @@ const DonationDialog: React.FC<DonationDialogProps> = ({
                         className={cn(
                           "flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-lg",
                           selectedCurrency === 'usd'
-                            ? 'bg-gradient-to-br from-blue-500 to-cyan-600 text-white'
+                            ? 'bg-gradient-to-br from-teal-500 to-teal-600 text-white'
                             : 'bg-gradient-to-br from-gray-100 to-gray-200 text-gray-600'
                         )}
                       >
@@ -296,7 +296,7 @@ const DonationDialog: React.FC<DonationDialogProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 sm:p-5 border-2 border-purple-100 shadow-sm"
+            className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 sm:p-5 border-2 border-emerald-100 shadow-sm"
           >
             <div className="flex items-start space-x-3">
               <Gift className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500 flex-shrink-0 mt-0.5" />

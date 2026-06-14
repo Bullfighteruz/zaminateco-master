@@ -33,16 +33,16 @@ const BRAND_GREEN = '#009E60';
 const BRAND_GOLD = '#E8C468';
 
 const PRODUCT_IMAGE_MAP: Record<string, string> = {
-  'EPDM-free Tiles': '/images/EPDM-free Tiles.png',
-  'EPDM Rubber Ecotiles': '/images/EPDM Tiles.png',
-  'EcoBrick': '/images/EcoBrick.png',
-  'Waste Bin': '/images/Waste Bin.png',
-  'Garden Planter': '/images/Garden Planter.png',
-  'Eco Bench': '/images/Eco Bench.png',
-  'ECOBIKE RACK': '/images/ECOBIKE RACK.png',
-  'ECOBUSSTOP': '/images/ECOBUSSTOP.png',
-  'Playground Block (Art Tiles)': '/images/art-tiles.png',
-  'Ecostreet Furniture': '/images/green-city_5994274.png',
+  'EPDM-free Tiles': '/images/EPDM-free Tiles.webp',
+  'EPDM Rubber Ecotiles': '/images/EPDM Tiles.webp',
+  'EcoBrick': '/images/EcoBrick.webp',
+  'Waste Bin': '/images/Waste Bin.webp',
+  'Garden Planter': '/images/Garden Planter.webp',
+  'Eco Bench': '/images/Eco Bench.webp',
+  'ECOBIKE RACK': '/images/ECOBIKE RACK.webp',
+  'ECOBUSSTOP': '/images/ECOBUSSTOP.webp',
+  'Playground Block (Art Tiles)': '/images/art-tiles.webp',
+  'Ecostreet Furniture': '/images/green-city_5994274.webp',
 };
 
 // Special marker for products that require price inquiry
@@ -158,7 +158,7 @@ const RelatedProductCarousel = React.memo(({ product, productName, productPrice,
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
-                  target.src = PRODUCT_IMAGE_MAP[product.englishName] || '/images/art-tiles.png';
+                  target.src = PRODUCT_IMAGE_MAP[product.englishName] || '/images/art-tiles.webp';
                 }}
               />
             ))}
@@ -168,7 +168,7 @@ const RelatedProductCarousel = React.memo(({ product, productName, productPrice,
             <img
               src={getIconForProductOrCategory(
                 product.englishName,
-                PRODUCT_IMAGE_MAP[product.englishName] || '/images/art-tiles.png'
+                PRODUCT_IMAGE_MAP[product.englishName] || '/images/art-tiles.webp'
               )}
               alt={productName}
               className="w-full h-full object-cover"
@@ -176,7 +176,7 @@ const RelatedProductCarousel = React.memo(({ product, productName, productPrice,
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.onerror = null;
-                target.src = PRODUCT_IMAGE_MAP[product.englishName] || '/images/art-tiles.png';
+                target.src = PRODUCT_IMAGE_MAP[product.englishName] || '/images/art-tiles.webp';
               }}
             />
           </div>
@@ -532,7 +532,7 @@ export default function ProductDetail() {
   
   // Helper function to get fallback image for current product
   const getFallbackImage = useCallback(() => {
-    return PRODUCT_IMAGE_MAP[productDetail?.englishName || ''] || '/images/art-tiles.png';
+    return PRODUCT_IMAGE_MAP[productDetail?.englishName || ''] || '/images/art-tiles.webp';
   }, [productDetail]);
   
   const handleAddToCart = useCallback(() => {
@@ -566,7 +566,7 @@ export default function ProductDetail() {
       id: productDetail.id,
       productName: t(productDetail.nameKey, { ns: 'shop' }),
       price: price,
-        image: heroImage || PRODUCT_IMAGE_MAP[productDetail.englishName] || '/images/art-tiles.png',
+        image: heroImage || PRODUCT_IMAGE_MAP[productDetail.englishName] || '/images/art-tiles.webp',
       description: t(productDetail.descriptionKey, { ns: 'shop' }),
       nameKey: productDetail.nameKey,
       descriptionKey: productDetail.descriptionKey,
@@ -2438,7 +2438,7 @@ export default function ProductDetail() {
                       ? images 
                       : [getIconForProductOrCategory(
                           relatedProduct.englishName,
-                          PRODUCT_IMAGE_MAP[relatedProduct.englishName] || '/images/art-tiles.png'
+                          PRODUCT_IMAGE_MAP[relatedProduct.englishName] || '/images/art-tiles.webp'
                         )];
                     
                     return (

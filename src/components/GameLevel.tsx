@@ -20,7 +20,7 @@ export default function GameLevel({ ecoPoints, showDetails = false }: GameLevelP
         <div className="flex items-center">
           <div className="bg-white/20 rounded-full p-2 mr-3 flex items-center justify-center">
             <img 
-              src="/images/level.png" 
+              src="/images/level.webp" 
               alt="Level" 
               className="h-5 w-5 object-contain"
               loading="lazy"

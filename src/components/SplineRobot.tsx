@@ -171,7 +171,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50"
+            className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50"
             style={{ zIndex: 2 }}
           >
             <motion.div
@@ -242,11 +242,11 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 
       {/* Creative "roots of change" overlay - Improved to fully cover Spline button */}
       <div
-        className="absolute bottom-0 right-0 z-50"
+        className="absolute bottom-[10px] right-[6px] z-50"
         style={{ 
           pointerEvents: 'auto',
-          minWidth: isMobile ? '150px' : '170px',
-          minHeight: isMobile ? '50px' : '55px',
+          minWidth: isMobile ? '150px' : '175px',
+          minHeight: isMobile ? '48px' : '56px',
           padding: isMobile ? '2px' : '3px',
         }}
         onClick={(e) => {
@@ -278,20 +278,22 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
           style={{ pointerEvents: 'none' }}
         >
           <div
-            className="relative overflow-hidden rounded-xl shadow-2xl"
+            className="relative overflow-hidden rounded-full shadow-[0_8px_32px_0_rgba(34,197,94,0.15)] transition-all duration-300 hover:scale-[1.03]"
             style={{
               width: '100%',
               height: '100%',
-              minWidth: isMobile ? '150px' : '170px',
-              minHeight: isMobile ? '50px' : '55px',
-              background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.4) 0%, rgba(59, 130, 246, 0.4) 100%)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '2px solid rgba(34, 197, 94, 0.5)',
-              padding: isMobile ? '10px 14px' : '12px 18px',
+              minWidth: isMobile ? '150px' : '175px',
+              minHeight: isMobile ? '48px' : '56px',
+              background: 'rgba(255, 255, 255, 0.85)',
+              backdropFilter: 'blur(24px) saturate(190%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(190%)',
+              border: '1.5px solid rgba(34, 197, 94, 0.35)',
+              padding: isMobile ? '11px 18px' : '14px 22px',
               pointerEvents: 'auto',
               cursor: 'default',
-              boxShadow: '0 4px 20px rgba(34, 197, 94, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             onClick={(e) => {
               e.preventDefault();
@@ -309,111 +311,51 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
               return false;
             }}
           >
-            <motion.div
-              animate={{
-                rotate: [0, 5, -5, 0],
-                scale: [1, 1.05, 1],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              className="absolute top-1 left-2 opacity-30"
-              style={{ pointerEvents: 'none' }}
-            >
-              <Leaf className="w-6 h-6 text-white" />
-            </motion.div>
+            {/* Soft pulse glow background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-emerald-500/5 to-teal-500/5" style={{ pointerEvents: 'none' }} />
 
-            <motion.div
-              animate={{
-                rotate: [0, -5, 5, 0],
-                scale: [1, 0.95, 1],
-              }}
-              transition={{
-                duration: 3.5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: 0.5,
-              }}
-              className="absolute bottom-1 right-2 opacity-25"
-              style={{ pointerEvents: 'none' }}
-            >
-              <Leaf className="w-5 h-5 text-white" />
-            </motion.div>
-
-            <motion.div
-              animate={{
-                opacity: [0.4, 0.7, 0.4],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              className="absolute top-2 right-3 w-1.5 h-1.5 rounded-full bg-white/70"
-              style={{ pointerEvents: 'none' }}
-            />
-
-            <div className="relative flex items-center justify-center gap-2" style={{ pointerEvents: 'none' }}>
+            <div className="relative flex items-center justify-center gap-2 w-full" style={{ pointerEvents: 'none' }}>
               <motion.div
                 animate={{
-                  rotate: [0, 15, -15, 0],
+                  rotate: [0, 8, -8, 0],
+                  scale: [1, 1.1, 1]
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 4,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
                 style={{ pointerEvents: 'none' }}
+                className="flex items-center"
               >
-                <Leaf className="w-3 h-3 text-white" />
+                <Leaf className="w-3.5 h-3.5 text-green-600 fill-green-500/10" />
               </motion.div>
 
-              <p
-                className="text-xs sm:text-sm font-bold whitespace-nowrap text-white"
+              <span
+                className="text-[10px] sm:text-xs font-semibold whitespace-nowrap text-green-800 tracking-[0.12em] uppercase"
                 style={{
-                  fontSize: '12px',
-                  lineHeight: '1.3',
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+                  lineHeight: '1.2',
                   pointerEvents: 'none',
                 }}
               >
                 roots of change
-              </p>
+              </span>
 
+              {/* Shimmer effect */}
               <motion.div
                 animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [0.6, 1, 0.6],
+                  x: ['-100%', '200%'],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 3,
                   repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.3,
+                  ease: 'linear',
+                  repeatDelay: 3,
                 }}
-                className="w-1 h-1 rounded-full bg-white"
-                style={{ pointerEvents: 'none' }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent"
+                style={{ transform: 'skewX(-20deg)', pointerEvents: 'none' }}
               />
             </div>
-
-            <motion.div
-              animate={{
-                x: ['-100%', '200%'],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'linear',
-                repeatDelay: 2,
-              }}
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              style={{ transform: 'skewX(-20deg)', pointerEvents: 'none' }}
-            />
           </div>
         </motion.div>
       </div>

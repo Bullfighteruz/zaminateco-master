@@ -80,9 +80,7 @@ function ProductCard({
     >
       <Card
         className={cn(
-          "h-full flex flex-col cursor-pointer transition-all duration-300",
-          "hover:shadow-xl hover:shadow-green-100",
-          "border border-gray-200 overflow-hidden group",
+          "h-full flex flex-col cursor-pointer glass-card glass-card-hover border border-white/40 overflow-hidden group",
           isMobile && "min-h-0"
         )}
         onClick={handleCardClick}
@@ -106,7 +104,7 @@ function ProductCard({
                 loading={index < 6 ? "eager" : "lazy"}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "/images/art-tiles.png";
+                target.src = "/images/art-tiles.webp";
               }}
             />
           ) : (
@@ -117,7 +115,7 @@ function ProductCard({
 
           {/* Recycled Badge */}
           {recycledPercent !== undefined && (
-            <Badge className={cn("absolute bg-green-600 text-white shadow-lg", isMobile ? "top-1 right-1 text-[8px] px-0.5 py-0" : "top-3 right-3")}>
+            <Badge className={cn("absolute bg-emerald-600 text-white shadow-lg", isMobile ? "top-1 right-1 text-[8px] px-0.5 py-0" : "top-3 right-3")}>
               <Recycle className={cn(isMobile ? "h-1.5 w-1.5 mr-0.5" : "h-3 w-3 mr-1")} />
               {recycledPercent}%
             </Badge>
@@ -171,7 +169,7 @@ function ProductCard({
           <div className={cn("flex", isMobile ? "gap-1 pt-1" : "gap-2 pt-2")}>
             <Button
               data-product-id={id}
-              className={cn("flex-1 bg-green-600 hover:bg-green-700 text-white", isMobile ? "h-7 text-[9px] px-1" : "")}
+              className={cn("flex-1 bg-emerald-600 hover:bg-emerald-700 text-white", isMobile ? "h-7 text-[9px] px-1" : "")}
               onClick={handleAddToCartClick}
               size={isMobile ? "sm" : "sm"}
             >

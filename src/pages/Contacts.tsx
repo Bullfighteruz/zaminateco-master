@@ -166,21 +166,21 @@ const SocialCard = ({ social }: { social: { icon: typeof Send, platform: string,
   // Define proper button colors
   const getButtonColor = (color: string) => {
     switch (color) {
-      case 'blue': return 'bg-blue-500 hover:bg-blue-600';
+      case 'blue': return 'bg-teal-500 hover:bg-teal-600';
       case 'teal': return 'bg-teal-500 hover:bg-teal-600';
       case 'pink': return 'bg-pink-500 hover:bg-pink-600';
       case 'indigo': return 'bg-indigo-500 hover:bg-indigo-600';
-      default: return 'bg-blue-500 hover:bg-blue-600';
+      default: return 'bg-teal-500 hover:bg-teal-600';
     }
   };
 
   const getIconBg = (color: string) => {
     switch (color) {
-      case 'blue': return 'bg-blue-100 text-blue-600';
+      case 'blue': return 'bg-teal-100 text-teal-600';
       case 'teal': return 'bg-teal-100 text-teal-600';
       case 'pink': return 'bg-pink-100 text-pink-600';
       case 'indigo': return 'bg-indigo-100 text-indigo-600';
-      default: return 'bg-blue-100 text-blue-600';
+      default: return 'bg-teal-100 text-teal-600';
     }
   };
 

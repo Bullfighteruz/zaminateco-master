@@ -114,7 +114,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onReset }) => {
             <Button
               onClick={onReset}
               variant="default"
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700"
             >
               <RefreshCw className="h-4 w-4 mr-2" />
               {t('tryAgain', { defaultValue: 'Try Again' })}

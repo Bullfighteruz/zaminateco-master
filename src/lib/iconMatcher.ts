@@ -5,83 +5,83 @@
 
 // List of available icon files (case-insensitive matching)
 const availableIcons = [
-  'Active Points.png',
-  'art-tiles.png',
-  'badges.png',
-  'balanced_3590523.png',
-  'Bobur.png',
-  'book_649180.png',
-  'bus-stop_7646037.png',
-  'Children\'s Souvenirs.png',
-  'Chilonzor Mahalla.png',
-  'Climate Warrior.png',
-  'Community Impact.png',
-  'community_16119903.png',
-  'compost_13285420.png',
-  'construction.png',
-  'contact-us.png',
-  'delivery.png',
-  'Earth Guardian.png',
-  'Eco Bench.png',
-  'eco coins.png',
-  'Eco Education Kit.png',
-  'Eco Farmer.png',
-  'Eco Star.png',
-  'eco_points_7986841.png',
-  'eco-bag_10158203.png',
-  'eco-bag.png',
-  'eco-points.png',
-  'ECOBIKE RACK.png',
-  'EcoBrick.png',
-  'ECOBUSSTOP.png',
-  'ecologist_15371685.png',
-  'Energy Saver.png',
-  'EPDM Tiles.png',
-  'EPDM-free Tiles.png',
-  'event.png',
-  'forest_10089053.png',
-  'Furniture.png',
-  'Future of Plastic.png',
-  'Future Visionary.png',
-  'gaming.png',
-  'Garden Planter.png',
-  'Green Sprout.png',
-  'green-city_5994274.png',
-  'green-sprout_3340168.png',
-  'Home Decor Set.png',
-  'Infrastructure.png',
-  'kindergarden.png',
-  'Leaf Guardian.png',
-  'level-up_9443850.png',
-  'level.png',
-  'location_5174778.png',
-  'Malika.png',
-  'Meet Like-minded People.png',
-  'meet-the-team_15916616.png',
-  'meeting_10618037.png',
-  'Nature Lover.png',
-  'New Playground for School.png',
-  'online-gaming_3098878.png',
-  'park.png',
-  'partners_7967044.png',
-  'plant-a-tree_6675353.png',
-  'Plastic Recycling.png',
-  'Plastic.png',
-  'playground.png',
-  'real-estate_4171873.png',
-  'recreation.png',
-  'Recycling Hero.png',
-  'River Cleanup.png',
-  'school.png',
-  'Solar Champion.png',
-  'sustainable-future_2293652.png',
-  'Tree Protector.png',
-  'vote_15269306.png',
-  'warehouse_10753075.png',
-  'Waste Bin.png',
-  'Waste Collected.png',
-  'Water Saver.png',
-  'Yunusobod District.png',
+  'Active Points.webp',
+  'art-tiles.webp',
+  'badges.webp',
+  'balanced_3590523.webp',
+  'Bobur.webp',
+  'book_649180.webp',
+  'bus-stop_7646037.webp',
+  'Children\'s Souvenirs.webp',
+  'Chilonzor Mahalla.webp',
+  'Climate Warrior.webp',
+  'Community Impact.webp',
+  'community_16119903.webp',
+  'compost_13285420.webp',
+  'construction.webp',
+  'contact-us.webp',
+  'delivery.webp',
+  'Earth Guardian.webp',
+  'Eco Bench.webp',
+  'eco coins.webp',
+  'Eco Education Kit.webp',
+  'Eco Farmer.webp',
+  'Eco Star.webp',
+  'eco_points_7986841.webp',
+  'eco-bag_10158203.webp',
+  'eco-bag.webp',
+  'eco-points.webp',
+  'ECOBIKE RACK.webp',
+  'EcoBrick.webp',
+  'ECOBUSSTOP.webp',
+  'ecologist_15371685.webp',
+  'Energy Saver.webp',
+  'EPDM Tiles.webp',
+  'EPDM-free Tiles.webp',
+  'event.webp',
+  'forest_10089053.webp',
+  'Furniture.webp',
+  'Future of Plastic.webp',
+  'Future Visionary.webp',
+  'gaming.webp',
+  'Garden Planter.webp',
+  'Green Sprout.webp',
+  'green-city_5994274.webp',
+  'green-sprout_3340168.webp',
+  'Home Decor Set.webp',
+  'Infrastructure.webp',
+  'kindergarden.webp',
+  'Leaf Guardian.webp',
+  'level-up_9443850.webp',
+  'level.webp',
+  'location_5174778.webp',
+  'Malika.webp',
+  'Meet Like-minded People.webp',
+  'meet-the-team_15916616.webp',
+  'meeting_10618037.webp',
+  'Nature Lover.webp',
+  'New Playground for School.webp',
+  'online-gaming_3098878.webp',
+  'park.webp',
+  'partners_7967044.webp',
+  'plant-a-tree_6675353.webp',
+  'Plastic Recycling.webp',
+  'Plastic.webp',
+  'playground.webp',
+  'real-estate_4171873.webp',
+  'recreation.webp',
+  'Recycling Hero.webp',
+  'River Cleanup.webp',
+  'school.webp',
+  'Solar Champion.webp',
+  'sustainable-future_2293652.webp',
+  'Tree Protector.webp',
+  'vote_15269306.webp',
+  'warehouse_10753075.webp',
+  'Waste Bin.webp',
+  'Waste Collected.webp',
+  'Water Saver.webp',
+  'Yunusobod District.webp',
 ];
 
 /**
@@ -114,7 +114,7 @@ function extractKeywords(text: string): string[] {
  */
 function calculateSimilarity(text: string, iconFile: string): number {
   const textNormalized = normalizeText(text);
-  const iconNormalized = normalizeText(iconFile.replace('.png', ''));
+  const iconNormalized = normalizeText(iconFile.replace('.webp', ''));
   
   // Exact match
   if (textNormalized === iconNormalized) return 100;
@@ -153,14 +153,14 @@ function calculateSimilarity(text: string, iconFile: string): number {
  * Finds the best matching icon file for a given product/category name
  */
 export function findIconForName(name: string, fallback?: string): string {
-  if (!name) return fallback || '/images/art-tiles.png';
+  if (!name) return fallback || '/images/art-tiles.webp';
   
   const normalizedName = normalizeText(name);
   let bestMatch: { file: string; score: number } | null = null;
   
   // Try exact match first (case-insensitive)
   const exactMatch = availableIcons.find(icon => 
-    normalizeText(icon.replace('.png', '')) === normalizedName
+    normalizeText(icon.replace('.webp', '')) === normalizedName
   );
   
   if (exactMatch) {
@@ -181,7 +181,7 @@ export function findIconForName(name: string, fallback?: string): string {
   }
   
   // Fallback to provided fallback or default
-  return fallback || '/images/art-tiles.png';
+  return fallback || '/images/art-tiles.webp';
 }
 
 /**
@@ -190,115 +190,116 @@ export function findIconForName(name: string, fallback?: string): string {
  */
 const specialMappings: Record<string, string> = {
   // Products - exact name matches
-  'epdm-free tiles': '/images/EPDM-free Tiles.png',
-  'epdm rubber ecotiles': '/images/EPDM Tiles.png',
-  'epdm tiles': '/images/EPDM Tiles.png',
-  'ecobrick': '/images/EcoBrick.png',
-  'eco brick': '/images/EcoBrick.png',
-  'waste bin': '/images/Waste Bin.png',
-  'garden planter': '/images/Garden Planter.png',
-  'eco bench': '/images/Eco Bench.png',
-  'ecobike rack': '/images/ECOBIKE RACK.png',
-  'ecobusstop': '/images/ECOBUSSTOP.png',
-  'eco bus stop': '/images/ECOBUSSTOP.png',
-  'playground block': '/images/art-tiles.png',
-  'art tiles': '/images/art-tiles.png',
-  'ecostreet furniture': '/images/green-city_5994274.png',
+  'epdm-free tiles': '/images/EPDM-free Tiles.webp',
+  'epdm rubber ecotiles': '/images/EPDM Tiles.webp',
+  'epdm tiles': '/images/EPDM Tiles.webp',
+  'ecobrick': '/images/EcoBrick.webp',
+  'eco brick': '/images/EcoBrick.webp',
+  'waste bin': '/images/Waste Bin.webp',
+  'garden planter': '/images/Garden Planter.webp',
+  'eco bench': '/images/Eco Bench.webp',
+  'ecobike rack': '/images/ECOBIKE RACK.webp',
+  'ecobusstop': '/images/ECOBUSSTOP.webp',
+  'eco bus stop': '/images/ECOBUSSTOP.webp',
+  'playground block': '/images/art-tiles.webp',
+  'art tiles': '/images/art-tiles.webp',
+  'ecostreet furniture': '/images/green-city_5994274.webp',
   
   // Voting Projects - exact name matches
-  'new playground for school': '/images/New Playground for School.png',
-  'new playground for school #45': '/images/New Playground for School.png',
-  'playground for school 45': '/images/New Playground for School.png',
-  'playground': '/images/playground.png',
-  'school': '/images/school.png',
-  'eco park benches': '/images/park.png',
-  'eco-park benches': '/images/park.png',
-  'eco park benches from recycled tires': '/images/park.png',
-  'park benches': '/images/park.png',
-  'park': '/images/park.png',
-  'kindergarten garden path': '/images/kindergarden.png',
-  'kindergarten': '/images/kindergarden.png',
-  'garden path': '/images/plant-a-tree_6675353.png',
+  'new playground for school': '/images/New Playground for School.webp',
+  'new playground for school #45': '/images/New Playground for School.webp',
+  'playground for school 45': '/images/New Playground for School.webp',
+  'playground': '/images/playground.webp',
+  'school': '/images/school.webp',
+  'eco park benches': '/images/park.webp',
+  'eco-park benches': '/images/park.webp',
+  'eco park benches from recycled tires': '/images/park.webp',
+  'eco park benches from recycled plastic and tires': '/images/park.webp',
+  'park benches': '/images/park.webp',
+  'park': '/images/park.webp',
+  'kindergarten garden path': '/images/kindergarden.webp',
+  'kindergarten': '/images/kindergarden.webp',
+  'garden path': '/images/plant-a-tree_6675353.webp',
   
   // Collection Points - exact name matches
-  'tashkent central park': '/images/park.png',
-  'central park': '/images/park.png',
-  'chilonzor mahalla': '/images/Chilonzor Mahalla.png',
-  'chilonzor': '/images/Chilonzor Mahalla.png',
-  'yunusobod district': '/images/Yunusobod District.png',
-  'yunusobod': '/images/Yunusobod District.png',
+  'tashkent central park': '/images/park.webp',
+  'central park': '/images/park.webp',
+  'chilonzor mahalla': '/images/Chilonzor Mahalla.webp',
+  'chilonzor': '/images/Chilonzor Mahalla.webp',
+  'yunusobod district': '/images/Yunusobod District.webp',
+  'yunusobod': '/images/Yunusobod District.webp',
   
   // Collection Point Types
-  'mixed': '/images/park.png',
-  'plastic': '/images/compost_13285420.png',
-  'tires': '/images/ECOBUSSTOP.png',
+  'mixed': '/images/park.webp',
+  'plastic': '/images/compost_13285420.webp',
+  'tires': '/images/ECOBUSSTOP.webp',
   
   // Eco Actions Event Categories
-  'cleanup': '/images/forest_10089053.png',
-  'planting': '/images/plant-a-tree_6675353.png',
-  'education': '/images/book_649180.png',
-  'recycling': '/images/Plastic Recycling.png',
-  'awareness': '/images/community_16119903.png',
+  'cleanup': '/images/forest_10089053.webp',
+  'planting': '/images/plant-a-tree_6675353.webp',
+  'education': '/images/book_649180.webp',
+  'recycling': '/images/Plastic Recycling.webp',
+  'awareness': '/images/community_16119903.webp',
   
   // Eco Actions Event Types (by title keywords)
-  'school workshop': '/images/book_649180.png',
-  'tree planting': '/images/plant-a-tree_6675353.png',
-  'river cleanup': '/images/River Cleanup.png',
-  'chirchiq river cleanup': '/images/River Cleanup.png',
-  'chirchiq river cleanup campaign': '/images/River Cleanup.png',
-  'awareness walk': '/images/community_16119903.png',
-  'waste audit': '/images/eco-points.png',
-  'community impact': '/images/community_16119903.png',
-  'sustainable future': '/images/sustainable-future_2293652.png',
-  'eco points': '/images/eco-points.png',
-  'earn eco points': '/images/eco-points.png',
-  'earn ecopoints': '/images/eco-points.png',
-  'meet like-minded people': '/images/Meet Like-minded People.png',
+  'school workshop': '/images/book_649180.webp',
+  'tree planting': '/images/plant-a-tree_6675353.webp',
+  'river cleanup': '/images/River Cleanup.webp',
+  'chirchiq river cleanup': '/images/River Cleanup.webp',
+  'chirchiq river cleanup campaign': '/images/River Cleanup.webp',
+  'awareness walk': '/images/community_16119903.webp',
+  'waste audit': '/images/eco-points.webp',
+  'community impact': '/images/community_16119903.webp',
+  'sustainable future': '/images/sustainable-future_2293652.webp',
+  'eco points': '/images/eco-points.webp',
+  'earn eco points': '/images/eco-points.webp',
+  'earn ecopoints': '/images/eco-points.webp',
+  'meet like-minded people': '/images/Meet Like-minded People.webp',
   
   // Stories - exact name matches
-  'zaminat.eco launches pilot program': '/images/community_16119903.png',
-  'pilot program': '/images/community_16119903.png',
-  'launches pilot program': '/images/community_16119903.png',
-  'future of plastic and rubber recycling': '/images/Future of Plastic.png',
-  'future of plastic': '/images/Future of Plastic.png',
-  'plastic and rubber recycling': '/images/Plastic.png',
-  'plastic recycling': '/images/Plastic.png',
-  'future recycling': '/images/Future of Plastic.png',
-  'educational programs': '/images/book_649180.png',
-  'teaching the next generation': '/images/book_649180.png',
-  'from landfill to playground': '/images/New Playground for School.png',
-  'mahalla transformation': '/images/Bobur.png',
-  'landfill to playground': '/images/New Playground for School.png',
-  'transformation': '/images/Bobur.png',
-  'bobur rahimov': '/images/Bobur.png',
-  'bobur': '/images/Bobur.png',
-  'teaching kids': '/images/Malika.png',
-  'teaching kids about plastic and rubber recycling': '/images/Malika.png',
-  'malika tursunova': '/images/Malika.png',
-  'malika': '/images/Malika.png',
+  'zaminat.eco launches pilot program': '/images/community_16119903.webp',
+  'pilot program': '/images/community_16119903.webp',
+  'launches pilot program': '/images/community_16119903.webp',
+  'future of plastic and rubber recycling': '/images/Future of Plastic.webp',
+  'future of plastic': '/images/Future of Plastic.webp',
+  'plastic and rubber recycling': '/images/Plastic.webp',
+  'plastic recycling': '/images/Plastic.webp',
+  'future recycling': '/images/Future of Plastic.webp',
+  'educational programs': '/images/book_649180.webp',
+  'teaching the next generation': '/images/book_649180.webp',
+  'from landfill to playground': '/images/New Playground for School.webp',
+  'mahalla transformation': '/images/Bobur.webp',
+  'landfill to playground': '/images/New Playground for School.webp',
+  'transformation': '/images/Bobur.webp',
+  'bobur rahimov': '/images/Bobur.webp',
+  'bobur': '/images/Bobur.webp',
+  'teaching kids': '/images/Malika.webp',
+  'teaching kids about plastic and rubber recycling': '/images/Malika.webp',
+  'malika tursunova': '/images/Malika.webp',
+  'malika': '/images/Malika.webp',
   
   // Categories - exact name matches (using actual file names from images folder)
-  'construction': '/images/construction.png',
-  'recreation': '/images/recreation.png',
-  'furniture': '/images/Furniture.png',
-  'infrastructure': '/images/Infrastructure.png',
+  'construction': '/images/construction.webp',
+  'recreation': '/images/recreation.webp',
+  'furniture': '/images/Furniture.webp',
+  'infrastructure': '/images/Infrastructure.webp',
   
   // Category translations (Russian, Uzbek)
-  'строительство': '/images/construction.png', // Russian: Construction
-  'qurilish': '/images/construction.png', // Uzbek: Construction
-  'отдых': '/images/recreation.png', // Russian: Recreation
-  'dam olish': '/images/recreation.png', // Uzbek: Recreation
-  'мебель': '/images/Furniture.png', // Russian: Furniture
-  'mebel': '/images/Furniture.png', // Uzbek: Furniture
-  'инфраструктура': '/images/Infrastructure.png', // Russian: Infrastructure
-  'infratuzilma': '/images/Infrastructure.png', // Uzbek: Infrastructure
+  'строительство': '/images/construction.webp', // Russian: Construction
+  'qurilish': '/images/construction.webp', // Uzbek: Construction
+  'отдых': '/images/recreation.webp', // Russian: Recreation
+  'dam olish': '/images/recreation.webp', // Uzbek: Recreation
+  'мебель': '/images/Furniture.webp', // Russian: Furniture
+  'mebel': '/images/Furniture.webp', // Uzbek: Furniture
+  'инфраструктура': '/images/Infrastructure.webp', // Russian: Infrastructure
+  'infratuzilma': '/images/Infrastructure.webp', // Uzbek: Infrastructure
 };
 
 /**
  * Enhanced icon finder with special mappings
  */
 export function getIconForProductOrCategory(name: string, fallback?: string): string {
-  if (!name) return fallback || '/images/art-tiles.png';
+  if (!name) return fallback || '/images/art-tiles.webp';
   
   const normalized = normalizeText(name);
   

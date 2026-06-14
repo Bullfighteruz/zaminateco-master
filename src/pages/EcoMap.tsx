@@ -86,10 +86,10 @@ export default function EcoMap() {
       // Ensure we have a valid path
       if (!iconPath || !iconPath.startsWith('/images/')) {
         iconPath = point.type === 'plastic' 
-          ? '/images/compost_13285420.png' 
+          ? '/images/compost_13285420.webp' 
           : point.type === 'tires' 
-          ? '/images/ECOBUSSTOP.png' 
-          : '/images/park.png';
+          ? '/images/ECOBUSSTOP.webp' 
+          : '/images/park.webp';
       }
       
       // Get coordinates for this point
@@ -173,7 +173,7 @@ export default function EcoMap() {
               "text-white/90 leading-relaxed",
               isMobile ? "text-xs" : "text-base"
             )}>
-              {t('collectionPointsInTashkent')} - {t('findNearestCollectionPoint', { defaultValue: 'Find the nearest collection point' })}
+              {t('translation:collectionPointsInTashkent')} - {t('translation:findNearestCollectionPoint', { defaultValue: 'Find the nearest collection point' })}
             </p>
           </div>
         </motion.div>
@@ -229,11 +229,11 @@ export default function EcoMap() {
               <CardContent className={cn("p-4", isMobile && "p-3")}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="p-2 rounded-lg bg-blue-100">
-                    <MapPin className={cn("text-blue-600", isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                    <MapPin className={cn("text-teal-600", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                   </div>
-                  <div className="flex items-center text-blue-600">
+                  <div className="flex items-center text-teal-600">
                     <Zap className={cn("mr-1", isMobile ? "h-3 w-3" : "h-4 w-4")} />
-                    <span className={cn("font-semibold", isMobile ? "text-xs" : "text-sm")}>Active</span>
+                    <span className={cn("font-semibold", isMobile ? "text-xs" : "text-sm")}>{t('active')}</span>
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -427,7 +427,7 @@ export default function EcoMap() {
               isMobile ? "p-4" : "p-6"
             )}>
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500">
                   <Users className={cn("text-white", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                 </div>
                 <CardTitle className={cn(
@@ -484,7 +484,7 @@ export default function EcoMap() {
                           "rounded-xl flex items-center justify-center flex-shrink-0 shadow-md",
                           point.type === 'plastic' ? 'bg-gradient-to-br from-green-400 to-emerald-500' :
                           point.type === 'tires' ? 'bg-gradient-to-br from-blue-400 to-cyan-500' :
-                          'bg-gradient-to-br from-purple-400 to-pink-500',
+                          'bg-gradient-to-br from-teal-400 to-emerald-500',
                           isMobile ? "w-14 h-14 p-2" : "w-16 h-16 p-3"
                         )}>
                           <img 
@@ -495,10 +495,10 @@ export default function EcoMap() {
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               const fallback = point.type === 'plastic' 
-                                ? '/images/compost_13285420.png' 
+                                ? '/images/compost_13285420.webp' 
                                 : point.type === 'tires' 
-                                ? '/images/ECOBUSSTOP.png' 
-                                : '/images/park.png';
+                                ? '/images/ECOBUSSTOP.webp' 
+                                : '/images/park.webp';
                               if (target.src !== fallback) {
                                 target.src = fallback;
                               }
@@ -587,7 +587,7 @@ export default function EcoMap() {
                             }}
                             className={cn(
                               "w-full",
-                              isSelected && "bg-green-600 hover:bg-green-700",
+                              isSelected && "bg-emerald-600 hover:bg-emerald-700",
                               isMobile ? "text-xs h-8" : "text-sm h-9"
                             )}
                           >
@@ -666,7 +666,7 @@ export default function EcoMap() {
               isMobile ? "p-4" : "p-5"
             )}>
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-green-500">
+                <div className="p-2 rounded-lg bg-emerald-500">
                   <Info className={cn("text-white", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                 </div>
                 <CardTitle className={cn(

@@ -91,25 +91,25 @@ export default function About() {
       icon: <Users className="h-8 w-8" />,
       title: t('communityUnity'),
       description: t('communityUnityDesc'),
-      color: "from-blue-500 to-cyan-600",
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-700"
+      color: "from-emerald-500 to-teal-600",
+      bgColor: "bg-emerald-50",
+      textColor: "text-emerald-700"
     },
     {
       icon: <Globe className="h-8 w-8" />,
       title: t('transparency'),
       description: t('transparencyDesc'),
-      color: "from-purple-500 to-indigo-600",
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-700"
+      color: "from-teal-500 to-emerald-600",
+      bgColor: "bg-teal-50",
+      textColor: "text-teal-700"
     },
     {
       icon: <Heart className="h-8 w-8" />,
       title: t('socialImpact'),
       description: t('socialImpactDesc'),
-      color: "from-pink-500 to-rose-600",
-      bgColor: "bg-pink-50",
-      textColor: "text-pink-700"
+      color: "from-emerald-500 to-green-600",
+      bgColor: "bg-emerald-50",
+      textColor: "text-emerald-700"
     }
   ];
 
@@ -122,11 +122,11 @@ export default function About() {
 
   // Brand images for carousel - Only images starting with "zaminat" that exist in folder
   const brandImages = [
-    '/images/Zaminat-brand-1.jpeg',
-    '/images/Zaminat-brand-3.png',
-    '/images/Zaminat-brand-4.jpeg',
-    '/images/Zaminat-brand-5.jpeg',
-    '/images/Zaminat-brand-6.jpeg',
+    '/images/Zaminat-brand-1.webp',
+    '/images/Zaminat-brand-3.webp',
+    '/images/Zaminat-brand-4.webp',
+    '/images/Zaminat-brand-5.webp',
+    '/images/Zaminat-brand-6.webp',
   ];
 
   return (
@@ -298,7 +298,7 @@ export default function About() {
                 <div className="grid gap-6 md:grid-cols-2 flex-1">
                   {/* What We Do Card - Enhanced */}
                   <motion.div 
-                    className="bg-white rounded-2xl shadow-md p-6 card-hover-lift border-2 border-transparent hover:border-green-200 transition-all duration-300 relative overflow-hidden group"
+                    className="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden group"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -358,26 +358,26 @@ export default function About() {
                   
                   {/* Our Impact Goals Card - Enhanced */}
                   <motion.div 
-                    className="bg-white rounded-2xl shadow-md p-6 card-hover-lift border-2 border-transparent hover:border-blue-200 transition-all duration-300 relative overflow-hidden group"
+                    className="glass-card glass-card-hover rounded-2xl p-6 relative overflow-hidden group"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
                     {/* Subtle gradient overlay on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-50/0 to-teal-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
                     {/* Header with enhanced icon */}
                     <div className="relative z-10 mb-4">
                       <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 text-base">
                         <motion.div
-                          className="p-1.5 rounded-lg bg-blue-100"
+                          className="p-1.5 rounded-lg bg-teal-100"
                           whileHover={{ scale: 1.1, rotate: -5 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
-                          <Target className="text-blue-600 h-5 w-5" />
+                          <Target className="text-teal-600 h-5 w-5" />
                         </motion.div>
-                        <span className="bg-gradient-to-r from-blue-700 to-cyan-700 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-teal-700 to-emerald-700 bg-clip-text text-transparent">
                           {t('ourImpactGoals')}
                         </span>
                       </h3>
@@ -403,7 +403,7 @@ export default function About() {
                             whileHover={{ scale: 1.2 }}
                             transition={{ type: "spring", stiffness: 400 }}
                           >
-                            <item.icon className="text-blue-600 h-4 w-4" />
+                            <item.icon className="text-teal-600 h-4 w-4" />
                           </motion.div>
                           <span className="flex-1 leading-relaxed">{item.text}</span>
                         </motion.li>
@@ -486,7 +486,7 @@ export default function About() {
                   {/* What We Do Card - Enhanced */}
                   <motion.div 
                     className={cn(
-                      "bg-white rounded-xl shadow-md border-2 border-transparent hover:border-green-200 transition-all duration-300 relative overflow-hidden group",
+                      "glass-card glass-card-hover rounded-xl relative overflow-hidden group",
                       isMobile ? "p-2.5" : "p-4 rounded-2xl"
                     )}
                     initial={{ opacity: 0, y: 20 }}
@@ -538,7 +538,7 @@ export default function About() {
                   {/* Our Impact Goals Card - Enhanced */}
                   <motion.div 
                     className={cn(
-                      "bg-white rounded-xl shadow-md border-2 border-transparent hover:border-blue-200 transition-all duration-300 relative overflow-hidden group",
+                      "glass-card glass-card-hover rounded-xl relative overflow-hidden group",
                       isMobile ? "p-2.5" : "p-4 rounded-2xl"
                     )}
                     initial={{ opacity: 0, y: 20 }}
@@ -546,17 +546,17 @@ export default function About() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-blue-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-50/0 to-teal-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
                     <div className="relative z-10">
                       <h3 className={cn(
                         "font-semibold text-gray-900 flex items-center gap-1.5",
                         isMobile ? "mb-2 text-xs" : "mb-3 text-sm gap-2"
                       )}>
-                        <div className={cn("rounded-lg bg-blue-100", isMobile ? "p-0.5" : "p-1")}>
-                          <Target className={cn("text-blue-600", isMobile ? "h-3 w-3" : "h-4 w-4")} />
+                        <div className={cn("rounded-lg bg-teal-100", isMobile ? "p-0.5" : "p-1")}>
+                          <Target className={cn("text-teal-600", isMobile ? "h-3 w-3" : "h-4 w-4")} />
                         </div>
-                        <span className="bg-gradient-to-r from-blue-700 to-cyan-700 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-teal-700 to-emerald-700 bg-clip-text text-transparent">
                           {t('ourImpactGoals')}
                         </span>
                       </h3>
@@ -572,7 +572,7 @@ export default function About() {
                         ].map((item, idx) => (
                           <li key={idx} className={cn("flex items-start", isMobile ? "gap-1.5" : "gap-2.5")}>
                             <item.icon className={cn(
-                              "text-blue-600 mt-0.5 flex-shrink-0",
+                              "text-teal-600 mt-0.5 flex-shrink-0",
                               isMobile ? "h-3 w-3" : "h-3.5 w-3.5"
                             )} />
                             <span className="flex-1 leading-relaxed">{item.text}</span>
@@ -637,9 +637,8 @@ export default function About() {
                 className="group"
               >
                 <Card className={cn(
-                  "h-full border-2 card-hover-lift",
-                  "hover:border-green-300",
-                  value.bgColor
+                  "glass-card glass-card-hover h-full card-hover-lift",
+                  value.bgColor + "/20"
                 )}>
                   <CardContent className={cn(isMobile ? "p-2.5" : "p-5")}>
                     <div className={cn("flex items-start", isMobile ? "gap-2" : "gap-4")}>
@@ -690,7 +689,7 @@ export default function About() {
         >
           <div className={cn("flex items-center", isMobile ? "gap-2 mb-2.5" : "gap-3 mb-4")}>
             <div className={cn(
-              "rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600",
+              "rounded-lg bg-gradient-to-br from-teal-500 to-emerald-600",
               isMobile ? "p-1" : "p-2"
             )}>
               <TrendingUp className={cn("text-white", isMobile ? "h-4 w-4" : "h-6 w-6")} />
@@ -706,7 +705,7 @@ export default function About() {
           <div className={cn("relative", isMobile ? "space-y-2" : "space-y-4")}>
             {/* Timeline Line */}
             {!isMobile && (
-              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-400 via-blue-400 to-purple-400 opacity-30" />
+              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-400 via-teal-400 to-emerald-400 opacity-30" />
             )}
             
             {roadmap.map((milestone, index) => (
@@ -716,8 +715,7 @@ export default function About() {
                 className="relative"
               >
                 <Card className={cn(
-                  "border-2 card-hover-lift",
-                  "hover:border-green-300",
+                  "glass-card glass-card-hover card-hover-lift",
                   isMobile ? "ml-0" : "ml-16"
                 )}>
                   <CardContent className={cn(isMobile ? "p-2.5" : "p-5")}>
@@ -726,7 +724,7 @@ export default function About() {
                       {!isMobile && (
                         <div className={cn(
                           "absolute -left-12 top-6",
-                          "w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-blue-500",
+                          "w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500",
                           "flex items-center justify-center text-white shadow-lg",
                           "border-4 border-white transition-transform duration-300 hover:scale-110"
                         )}>
@@ -735,8 +733,8 @@ export default function About() {
                       )}
                       
                       <div className={cn(
-                        "bg-gradient-to-br from-green-100 to-blue-100 rounded-md px-2 py-1",
-                        "font-bold text-green-800 flex-shrink-0",
+                        "bg-gradient-to-br from-emerald-100 to-teal-100 rounded-md px-2 py-1",
+                        "font-bold text-emerald-800 flex-shrink-0",
                         isMobile ? "text-[10px]" : "text-sm rounded-lg px-3 py-1.5"
                       )}>
                         {milestone.year}
@@ -774,7 +772,7 @@ export default function About() {
           className={cn(isMobile ? "mb-8" : "mb-16")}
         >
           <Card className={cn(
-            "shadow-sm border-0 overflow-hidden bg-white",
+            "glass-card shadow-sm border overflow-hidden",
             isMobile ? "rounded-xl" : "rounded-3xl"
           )}>
             <CardHeader className={cn(
@@ -786,7 +784,7 @@ export default function About() {
                 isMobile ? "gap-1.5 text-xs" : "gap-2 text-xl"
               )}>
                 <div className={cn(
-                  "rounded-lg bg-blue-600 text-white",
+                  "rounded-lg bg-teal-600 text-white",
                   isMobile ? "p-1" : "p-2"
                 )}>
                   <Globe className={cn(isMobile ? "h-3 w-3" : "h-5 w-5")} />
@@ -951,7 +949,7 @@ export default function About() {
                 isMobile ? "gap-1.5 text-xs" : "gap-2 text-xl"
               )}>
                 <div className={cn(
-                  "rounded-lg bg-purple-600 text-white",
+                  "rounded-lg bg-teal-600 text-white",
                   isMobile ? "p-1" : "p-2"
                 )}>
                   <Zap className={cn(isMobile ? "h-3 w-3" : "h-5 w-5")} />
@@ -964,7 +962,7 @@ export default function About() {
                 "text-gray-700 leading-relaxed",
                 isMobile ? "text-xs" : "text-base"
               )}>
-                <strong className="text-purple-700">ZAMINAT.eco</strong> {t('technologyDesc')}
+                <strong className="text-teal-700">ZAMINAT.eco</strong> {t('technologyDesc')}
               </p>
               
               <div className={cn(
@@ -982,7 +980,7 @@ export default function About() {
                     "font-bold text-blue-800 flex items-center gap-1.5",
                     isMobile ? "text-xs mb-2" : "text-base mb-3 gap-2"
                   )}>
-                    <Sparkles className={cn("text-blue-600 icon-glow", isMobile ? "h-3 w-3" : "h-5 w-5")} />
+                    <Sparkles className={cn("text-teal-600 icon-glow", isMobile ? "h-3 w-3" : "h-5 w-5")} />
                     {t('ecoAppPlatform')}
                   </h3>
                   <ul className={cn(
@@ -997,7 +995,7 @@ export default function About() {
                     ].map((item, idx) => (
                       <li key={idx} className={cn("flex items-start", isMobile ? "gap-1" : "gap-2")}>
                         <CheckCircle2 className={cn(
-                          "text-blue-600 flex-shrink-0 mt-0.5",
+                          "text-teal-600 flex-shrink-0 mt-0.5",
                           isMobile ? "h-2.5 w-2.5" : "h-4 w-4"
                         )} />
                         <span>{item}</span>
@@ -1008,20 +1006,20 @@ export default function About() {
                 
                 <div
                   className={cn(
-                    "bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border border-purple-200",
+                    "bg-gradient-to-br from-teal-50 to-emerald-50 rounded-lg border border-teal-200",
                     "card-hover-lift shadow-md",
                     isMobile ? "p-2.5" : "p-5 rounded-xl"
                   )}
                 >
                   <h3 className={cn(
-                    "font-bold text-purple-800 flex items-center gap-1.5",
+                    "font-bold text-teal-800 flex items-center gap-1.5",
                     isMobile ? "text-xs mb-2" : "text-base mb-3 gap-2"
                   )}>
-                    <TrendingUp className={cn("text-purple-600 icon-glow", isMobile ? "h-3 w-3" : "h-5 w-5")} />
+                    <TrendingUp className={cn("text-teal-600 icon-glow", isMobile ? "h-3 w-3" : "h-5 w-5")} />
                     {t('plannedFeatures')}
                   </h3>
                   <ul className={cn(
-                    "text-purple-700",
+                    "text-teal-700",
                     isMobile ? "space-y-1 text-[10px]" : "space-y-2 text-sm"
                   )}>
                     {[
@@ -1032,7 +1030,7 @@ export default function About() {
                     ].map((item, idx) => (
                       <li key={idx} className={cn("flex items-start", isMobile ? "gap-1" : "gap-2")}>
                         <CheckCircle2 className={cn(
-                          "text-purple-600 flex-shrink-0 mt-0.5",
+                          "text-teal-600 flex-shrink-0 mt-0.5",
                           isMobile ? "h-2.5 w-2.5" : "h-4 w-4"
                         )} />
                         <span>{item}</span>
@@ -1064,7 +1062,7 @@ export default function About() {
                 isMobile ? "gap-1.5 text-xs" : "gap-2 text-xl"
               )}>
                 <div className={cn(
-                  "rounded-lg bg-green-600 text-white",
+                  "rounded-lg bg-emerald-600 text-white",
                   isMobile ? "p-1" : "p-2"
                 )}>
                   <Mail className={cn(isMobile ? "h-3 w-3" : "h-5 w-5")} />
@@ -1086,7 +1084,7 @@ export default function About() {
               )}>
                 <Button 
                   className={cn(
-                    "bg-green-600 hover:bg-green-700 text-white shadow-lg",
+                    "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg",
                     "w-full transition-all duration-200 hover:shadow-xl",
                     "flex items-center justify-center gap-1.5",
                     isMobile ? "h-10 text-xs py-2" : "h-12 gap-2"

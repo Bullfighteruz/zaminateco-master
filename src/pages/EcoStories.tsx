@@ -16,8 +16,8 @@ const stories = [
   {
     id: 1,
     emoji: '🎉',
-    image: '/images/community_16119903.png',
-    iconPath: '/images/community_16119903.png', // Explicit icon path - same for all languages
+    image: '/images/community_16119903.webp',
+    iconPath: '/images/community_16119903.webp', // Explicit icon path - same for all languages
     badgeType: 'update',
     titleKey: 'stories.pilotProgram.title',
     descriptionKey: 'stories.pilotProgram.description',
@@ -30,8 +30,8 @@ const stories = [
   {
     id: 2,
     emoji: '🏫',
-    image: '/images/school.png',
-    iconPath: '/images/Future of Plastic.png', // Explicit icon path - same for all languages
+    image: '/images/school.webp',
+    iconPath: '/images/Future of Plastic.webp', // Explicit icon path - same for all languages
     badgeType: 'successStory',
     titleKey: 'stories.futureRecycling.title',
     descriptionKey: 'stories.futureRecycling.description',
@@ -44,8 +44,8 @@ const stories = [
   {
     id: 3,
     emoji: '🎤',
-    image: '/images/community_16119903.png',
-    iconPath: '/images/Malika.png', // Explicit icon path - same for all languages
+    image: '/images/community_16119903.webp',
+    iconPath: '/images/Malika.webp', // Explicit icon path - same for all languages
     badgeType: 'education',
     titleKey: 'stories.educationalPrograms.title',
     descriptionKey: 'stories.educationalPrograms.description',
@@ -63,7 +63,7 @@ const communityStories = [
   {
     id: 1,
     avatar: '👨‍🎓',
-    avatarImage: '/images/Bobur.png', // Explicit avatar path - same for all languages
+    avatarImage: '/images/Bobur.webp', // Explicit avatar path - same for all languages
     nameKey: 'stories.mahallTransformation.author',
     englishName: 'Bobur Rahimov', // English name for matching (fallback)
     level: 8,
@@ -74,7 +74,7 @@ const communityStories = [
     environmentalImpactKey: 'stories.mahallTransformation.environmentalImpact',
     impactDescriptionKey: 'stories.mahallTransformation.impactDescription',
     emojis: ['🏗️', '♻️', '🏞️'],
-    images: ['/images/art-tiles.png', '/images/ECOBUSSTOP.png', '/images/forest_10089053.png'],
+    images: ['/images/art-tiles.webp', '/images/ECOBUSSTOP.webp', '/images/forest_10089053.webp'],
     likesKey: 'stories.mahallTransformation.likes',
     commentsKey: 'stories.mahallTransformation.comments',
     hashtags: ['#transformation', '#playground']
@@ -82,7 +82,7 @@ const communityStories = [
   {
     id: 2,
     avatar: '👩‍🏫',
-    avatarImage: '/images/Malika.png', // Explicit avatar path - same for all languages
+    avatarImage: '/images/Malika.webp', // Explicit avatar path - same for all languages
     nameKey: 'stories.teachingKids.author',
     englishName: 'Malika Tursunova', // English name for matching (fallback)
     level: 15,
@@ -91,7 +91,7 @@ const communityStories = [
     dateKey: 'stories.teachingKids.date',
     locationKey: 'stories.teachingKids.location',
     emojis: ['👨‍👩‍👧‍👦', '📚', '🌱'],
-    images: ['/images/community_16119903.png', '/images/book_649180.png', '/images/plant-a-tree_6675353.png'],
+    images: ['/images/community_16119903.webp', '/images/book_649180.webp', '/images/plant-a-tree_6675353.webp'],
     likesKey: 'stories.teachingKids.likes',
     commentsKey: 'stories.teachingKids.comments',
     hashtags: ['#education', '#children']
@@ -164,7 +164,7 @@ export default function EcoStories() {
       case 'successStory':
         return 'bg-green-100 text-green-800';
       case 'education':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-teal-100 text-teal-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -201,7 +201,7 @@ export default function EcoStories() {
               variant={activeFilter === filter.key ? "default" : "outline"}
               className={`whitespace-nowrap text-xs sm:text-sm py-1 sm:py-2 px-2 sm:px-3 h-7 sm:h-9 ${
                 activeFilter === filter.key 
-                  ? 'bg-green-600 hover:bg-green-700' 
+                  ? 'bg-emerald-600 hover:bg-emerald-700' 
                   : ''
               }`}
               onClick={() => setActiveFilter(filter.key)}
@@ -363,13 +363,13 @@ export default function EcoStories() {
         </section>
 
         {/* Educational Resources */}
-        <Card className="bg-purple-50 card-mobile">
+        <Card className="bg-emerald-50 card-mobile">
           <CardHeader className="card-header-mobile">
-            <CardTitle className="text-purple-800 text-lg sm:text-2xl section-title-mobile">
+            <CardTitle className="text-emerald-800 text-lg sm:text-2xl section-title-mobile">
               {t('educationalResources.title', { ns: 'stories' })}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-purple-700 card-content-mobile">
+          <CardContent className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-emerald-700 card-content-mobile">
             <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">
@@ -406,13 +406,13 @@ export default function EcoStories() {
         </Card>
 
         {/* Share Your Story */}
-        <Card className="bg-blue-50 card-mobile">
+        <Card className="bg-teal-50 card-mobile">
           <CardHeader className="card-header-mobile">
-            <CardTitle className="text-blue-800 text-lg sm:text-2xl section-title-mobile">
+            <CardTitle className="text-teal-800 text-lg sm:text-2xl section-title-mobile">
               {t('shareStory.title', { ns: 'stories' })}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-blue-700 card-content-mobile">
+          <CardContent className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-teal-700 card-content-mobile">
             <p>{t('shareStory.description', { ns: 'stories' })}</p>
             <ul className="space-y-1">
               {getTranslationArray('shareStory.guidelines', [
@@ -426,7 +426,7 @@ export default function EcoStories() {
               ))}
             </ul>
             <div className="pt-1 sm:pt-2">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm py-2 px-3 h-7 sm:h-10 bottom-button-mobile">
+              <Button className="bg-teal-600 hover:bg-teal-700 text-xs sm:text-sm py-2 px-3 h-7 sm:h-10 bottom-button-mobile">
                 {t('buttons.shareYourStory', { ns: 'stories' })}
               </Button>
             </div>
@@ -434,7 +434,7 @@ export default function EcoStories() {
         </Card>
 
         {/* Join the Conversation */}
-        <Card className="bg-gradient-to-r from-green-50 to-blue-50 card-mobile">
+        <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 card-mobile">
           <CardContent className="p-4 sm:p-6 text-center card-content-mobile">
             <h3 className="text-lg sm:text-xl font-bold mb-2 bottom-title-mobile">
               {t('joinConversation.title', { ns: 'stories' })}
@@ -443,7 +443,7 @@ export default function EcoStories() {
               {t('joinConversation.description', { ns: 'stories' })}
             </p>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
-              <Button className="bg-green-600 hover:bg-green-700 text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6 bottom-button-mobile">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-sm sm:text-base py-2 sm:py-3 px-4 sm:px-6 bottom-button-mobile">
                 <BookOpen className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 icon-sm-mobile" />
                 {t('buttons.readMoreStories', { ns: 'stories' })}
               </Button>

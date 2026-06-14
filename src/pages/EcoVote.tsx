@@ -23,13 +23,18 @@ import {
   Camera,
   Play,
   Pause,
-  Recycle
+  Recycle,
+  TreePine,
+  Leaf,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import Layout from '../components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Progress } from '../components/ui/progress';
+import { Dialog, DialogContent, DialogTitle } from '../components/ui/dialog';
 import { votingProjects } from '../lib/mockData';
 import { useTranslation } from '../hooks/useTranslation';
 import { getIconForProductOrCategory } from '../lib/iconMatcher';
@@ -37,6 +42,7 @@ import { useMemo, useEffect } from 'react';
 import { toast } from 'sonner';
 import DonationDialog from '../components/DonationDialog';
 import { apiClient, IS_BACKEND_AVAILABLE } from '../lib/api-client';
+import AnimatedCounter from '../components/AnimatedCounter';
 
 // Types for completed projects
 interface TimelineItem {
@@ -159,6 +165,246 @@ const pulseVariants = {
   }
 };
 
+interface CompletedProjectCardProps {
+  project: CompletedProject;
+  setLightboxImage: React.Dispatch<React.SetStateAction<{ 
+    src: string; 
+    title: string; 
+    images?: string[]; 
+    activeIndex?: number; 
+  } | null>>;
+}
+
+const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCardProps) => {
+  const { t } = useTranslation(['translation', 'common']);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeImageTab, setActiveImageTab] = useState<'after' | 'before'>('after');
+
+  return (
+    <motion.div
+      variants={itemVariants}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3 }}
+      layout
+    >
+      <Card className="glass-card glass-card-hover rounded-3xl overflow-hidden">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            {/* Left Column: Premium Interactive Before/After Image */}
+            <div className="md:col-span-4 w-full">
+              <div 
+                className="relative aspect-video md:aspect-square w-full rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200/40 cursor-pointer group"
+                onClick={() => {
+                  const currentSrc = activeImageTab === 'after' ? project.image : project.beforeAfter.before;
+                  const activeIndex = project.gallery.indexOf(currentSrc);
+                  setLightboxImage({ 
+                    src: currentSrc, 
+                    title: `${project.title} (${activeImageTab === 'after' ? t('translation:after', { defaultValue: 'After' }) : t('translation:before', { defaultValue: 'Before' })})`,
+                    images: project.gallery,
+                    activeIndex: activeIndex !== -1 ? activeIndex : 0
+                  });
+                }}
+              >
+                <img 
+                  src={activeImageTab === 'after' ? project.image : project.beforeAfter.before} 
+                  alt={project.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                
+                {/* Micro Camera Indicator overlay */}
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Camera className="w-4 h-4" />
+                </div>
+
+                {/* Before/After Toggle Pill */}
+                <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md p-0.5 rounded-full flex gap-0.5 shadow-sm border border-slate-200/50">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setActiveImageTab('before'); }}
+                    className={`px-3 py-1 rounded-full text-[10px] font-extrabold transition-all uppercase tracking-wider ${
+                      activeImageTab === 'before' 
+                        ? 'bg-slate-800 text-white' 
+                        : 'text-slate-500 hover:text-slate-800'
+                    }`}
+                  >
+                    {t('translation:before', { defaultValue: 'Before' })}
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setActiveImageTab('after'); }}
+                    className={`px-3 py-1 rounded-full text-[10px] font-extrabold transition-all uppercase tracking-wider ${
+                      activeImageTab === 'after' 
+                        ? 'bg-emerald-600 text-white' 
+                        : 'text-slate-500 hover:text-emerald-700'
+                    }`}
+                  >
+                    {t('translation:after', { defaultValue: 'After' })}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Details & Impact */}
+            <div className="md:col-span-8 flex flex-col h-full justify-between">
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-2.5">
+                  <Badge className="bg-emerald-50 text-emerald-800 border border-emerald-100 hover:bg-emerald-100 font-semibold shadow-sm text-xs px-2.5 py-0.5 rounded-full">
+                    <CheckCircle className="h-3 w-3 mr-1 text-emerald-600" />
+                    {t('completedWithSparkles')}
+                  </Badge>
+                  <span className="text-xs text-slate-500 flex items-center">
+                    <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400 flex-shrink-0" />
+                    {project.location}
+                  </span>
+                </div>
+                
+                <h4 className="font-extrabold text-slate-800 text-lg sm:text-xl md:text-2xl mb-2 flex items-center gap-2">
+                  <span>{project.title}</span>
+                  <Sparkles className="h-4 w-4 text-amber-500 animate-pulse flex-shrink-0" />
+                </h4>
+                
+                <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                  {project.description}
+                </p>
+
+                {/* Impact stats grid */}
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-3 text-center">
+                    <div className="text-slate-450 text-[10px] font-bold uppercase tracking-wider mb-1">{t('recycled', { defaultValue: 'Recycled' })}</div>
+                    <div className="text-sm sm:text-base font-extrabold text-emerald-700 flex items-center justify-center gap-1">
+                      <Recycle className="h-3.5 w-3.5 text-emerald-600 flex-shrink-0" />
+                      <span>{project.materialsUsed}kg</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-3 text-center">
+                    <div className="text-slate-455 text-[10px] font-bold uppercase tracking-wider mb-1">{t('beneficiaries', { defaultValue: 'Benefited' })}</div>
+                    <div className="text-sm sm:text-base font-extrabold text-indigo-700 flex items-center justify-center gap-1">
+                      <Users className="h-3.5 w-3.5 text-indigo-600 flex-shrink-0" />
+                      <span>{project.beneficiaries}+</span>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50/70 border border-slate-100 rounded-2xl p-3 text-center">
+                    <div className="text-slate-460 text-[10px] font-bold uppercase tracking-wider mb-1">{t('co2Saved', { defaultValue: 'CO₂ Saved' })}</div>
+                    <div className="text-sm sm:text-base font-extrabold text-teal-700 flex items-center justify-center gap-1">
+                      <Leaf className="h-3.5 w-3.5 text-teal-600 flex-shrink-0" />
+                      <span>{project.co2Saved}t</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Gallery thumbnails */}
+              <div className="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-thin">
+                {project.gallery.map((imgSrc, idx) => {
+                  const isBefore = imgSrc.includes('before');
+                  return (
+                    <motion.div 
+                      key={idx}
+                      className="w-10 h-10 rounded-xl overflow-hidden border border-slate-200/60 flex-shrink-0 cursor-pointer shadow-sm relative group/thumb"
+                      whileHover={{ scale: 1.08 }}
+                      onClick={() => setLightboxImage({ 
+                        src: imgSrc, 
+                        title: `${project.title} (${isBefore ? t('translation:before', { defaultValue: 'Before' }) : t('translation:after', { defaultValue: 'After' })})`,
+                        images: project.gallery,
+                        activeIndex: idx
+                      })}
+                    >
+                      <img src={imgSrc} alt="Gallery item" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/10 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-300" />
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Toggle details */}
+              <Button
+                variant="ghost"
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50/50 flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-emerald-100/50"
+              >
+                <span>{isExpanded ? t('translation:hideDetails', { defaultValue: 'Hide Info' }) : t('translation:viewDetails', { defaultValue: 'Details' })}</span>
+                <motion.div
+                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Eye className="h-4 w-4" />
+                </motion.div>
+              </Button>
+            </div>
+          </div>
+
+          {/* Expandable Details content */}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.04, 0.62, 0.23, 0.98] }}
+                className="overflow-hidden"
+              >
+                <div className="mt-6 p-5 bg-slate-50/80 border border-slate-200/30 rounded-2xl space-y-4">
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <Clock className="h-4 w-4 text-slate-500" />
+                      {t('translation:projectTimeline')}
+                    </h5>
+                    <div className="relative border-l-2 border-slate-200 pl-4 ml-1.5 space-y-3">
+                      {project.timeline.map((item, index) => (
+                        <div key={index} className="relative">
+                          <div className="absolute -left-[22px] top-1.5 w-2.5 h-2.5 bg-emerald-500 border border-white rounded-full shadow-sm" />
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <div className="text-xs font-bold text-slate-800">{item.event}</div>
+                              <div className="text-[10px] text-slate-500">{item.date}</div>
+                            </div>
+                            <div className="flex gap-1 flex-shrink-0">
+                              {item.votes && (
+                                <Badge variant="outline" className="text-[9px] px-2 py-0 bg-white border-slate-200">
+                                  {item.votes} {t('translation:votes')}
+                                </Badge>
+                              )}
+                              {item.amount && (
+                                <Badge variant="outline" className="text-[9px] px-2 py-0 bg-emerald-50 border-emerald-100 text-emerald-800">
+                                  {item.amount}
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200/50">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0">
+                        <Star className="h-4.5 w-4.5 text-yellow-500 fill-yellow-500" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('translation:satisfaction', { defaultValue: 'Satisfaction' })}</div>
+                        <div className="text-sm font-extrabold text-slate-700">{project.satisfaction}% {t('translation:rating', { defaultValue: 'Rating' })}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
+                        <TreePine className="h-4.5 w-4.5 text-emerald-600" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('translation:treeEquivalent', { defaultValue: 'Tree Equivalent' })}</div>
+                        <div className="text-sm font-extrabold text-slate-700">+{project.treesEquivalent} {t('translation:trees', { defaultValue: 'Trees' })}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
 function EcoVote() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('active');
@@ -168,7 +414,49 @@ function EcoVote() {
   const [selectedProjectForDonation, setSelectedProjectForDonation] = useState<VotingProject | null>(null);
   const [projects, setProjects] = useState<VotingProject[]>(votingProjects);
   const [loading, setLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState<{ 
+    src: string; 
+    title: string; 
+    images?: string[]; 
+    activeIndex?: number; 
+  } | null>(null);
   const backendNoticeShownRef = useRef(false);
+
+  // Keyboard navigation for image lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxImage || !lightboxImage.images || lightboxImage.activeIndex === undefined) return;
+      
+      if (e.key === 'ArrowLeft') {
+        const newIndex = (lightboxImage.activeIndex - 1 + lightboxImage.images.length) % lightboxImage.images.length;
+        const newSrc = lightboxImage.images[newIndex];
+        const isBefore = newSrc.includes('before');
+        const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+          (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
+        setLightboxImage({
+          ...lightboxImage,
+          src: newSrc,
+          activeIndex: newIndex,
+          title: newTitle
+        });
+      } else if (e.key === 'ArrowRight') {
+        const newIndex = (lightboxImage.activeIndex + 1) % lightboxImage.images.length;
+        const newSrc = lightboxImage.images[newIndex];
+        const isBefore = newSrc.includes('before');
+        const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+          (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
+        setLightboxImage({
+          ...lightboxImage,
+          src: newSrc,
+          activeIndex: newIndex,
+          title: newTitle
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxImage, t]);
 
   // Fetch projects from backend
   useEffect(() => {
@@ -308,16 +596,14 @@ function EcoVote() {
       const projectTitle = getTranslatedTitle(project);
       const projectCategory = project.category;
       
-      // Special handling for New Playground for School #45 project (ID: '1') - use the PNG directly
+      // High-quality WebP image paths for specific project IDs
+      let imagePath = project.image;
       if (project.id === '1') {
-        return {
-          ...project,
-          iconPath: '/images/New Playground for School.png',
-          image: '/images/New Playground for School.png', // Override the emoji
-          translatedTitle: projectTitle,
-          translatedDescription: getTranslatedDescription(project),
-          translatedLocation: getTranslatedLocation(project)
-        };
+        imagePath = '/images/New Playground for School.webp';
+      } else if (project.id === '2') {
+        imagePath = '/images/eco-park-benches.webp';
+      } else if (project.id === '3') {
+        imagePath = '/images/kindergarten-garden-path.webp';
       }
       
       // Try to match icon based on title first, then category, then original title
@@ -334,14 +620,15 @@ function EcoVote() {
       }
       
       return {
-    ...project,
+        ...project,
+        image: imagePath,
         iconPath,
         translatedTitle: projectTitle,
         translatedDescription: getTranslatedDescription(project),
         translatedLocation: getTranslatedLocation(project)
       };
     });
-  }, [t]);
+  }, [projects, t]);
 
   // Translate voting projects with icons
   const translatedProjects = projectsWithIcons.map(project => {
@@ -362,7 +649,7 @@ function EcoVote() {
       id: 'completed-1',
       title: t('ecoPlaygroundAtSchool12'),
       description: t('ecoPlaygroundDescription'),
-      image: '/images/New Playground for School.png',
+      image: '/images/eco-playground-school-12.webp',
       location: t('shaykhantaurDistrict'),
       completedDate: new Date('2025-08-15'),
       materialsUsed: 1800,
@@ -371,8 +658,8 @@ function EcoVote() {
       co2Saved: 2.4,
       treesEquivalent: 120,
       beforeAfter: {
-        before: '/images/forest_10089053.png',
-        after: '/images/New Playground for School.png'
+        before: '/images/eco-playground-school-12-before.webp',
+        after: '/images/eco-playground-school-12.webp'
       },
       timeline: [
         { date: '2025-06-01', event: t('projectApproved'), votes: 1250 },
@@ -380,7 +667,7 @@ function EcoVote() {
         { date: '2025-07-01', event: t('constructionStarted') },
         { date: '2025-08-15', event: t('projectCompleted') }
       ],
-      gallery: ['/images/New Playground for School.png', '/images/art-tiles.png', '/images/ECOBUSSTOP.png', '/images/meet-the-team_15916616.png'],
+      gallery: ['/images/eco-playground-school-12-before.webp', '/images/eco-playground-school-12.webp'],
       satisfaction: 96,
       views: 15420,
       shares: 234
@@ -389,7 +676,7 @@ function EcoVote() {
       id: 'completed-2',
       title: t('communityGardenBenches'),
       description: t('communityBenchesDescription'),
-      image: '/images/Eco Bench.png',
+      image: '/images/community-garden-benches.webp',
       location: t('alisherNavoiPark'),
       completedDate: new Date('2025-07-22'),
       materialsUsed: 960,
@@ -398,8 +685,8 @@ function EcoVote() {
       co2Saved: 1.2,
       treesEquivalent: 60,
       beforeAfter: {
-        before: '/images/plant-a-tree_6675353.png',
-        after: '/images/Eco Bench.png'
+        before: '/images/community-garden-benches-before.webp',
+        after: '/images/community-garden-benches.webp'
       },
       timeline: [
         { date: '2025-05-10', event: t('projectApproved'), votes: 890 },
@@ -407,312 +694,188 @@ function EcoVote() {
         { date: '2025-06-10', event: t('installationStarted') },
         { date: '2025-07-22', event: t('projectCompleted') }
       ],
-      gallery: ['/images/ECOBUSSTOP.png', '/images/Eco Bench.png', '/images/plant-a-tree_6675353.png', '/images/community_16119903.png'],
+      gallery: ['/images/community-garden-benches-before.webp', '/images/community-garden-benches.webp'],
       satisfaction: 89,
       views: 8930,
       shares: 156
     }
-  ];
-
-  const CompletedProjectCard = ({ project }: { project: CompletedProject }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isAnimating, setIsAnimating] = useState(false);
-    const [showImpactAnimation, setShowImpactAnimation] = useState(false);
-
-    const handleImageCycle = () => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % project.gallery.length);
-        setIsAnimating(false);
-      }, 300);
-    };
-
-    const triggerImpactAnimation = () => {
-      setShowImpactAnimation(true);
-      setTimeout(() => setShowImpactAnimation(false), 1000);
-    };
-
-    return (
-      <motion.div
-        variants={itemVariants}
-        whileHover="hover"
-        layout
-      >
-        <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-2xl transition-all duration-500 overflow-hidden relative">
-          {/* Floating particles effect */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-green-400 rounded-full opacity-30"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                variants={floatingVariants}
-                animate="animate"
-                transition={{ delay: i * 0.5 }}
-              />
-            ))}
-          </div>
-
-          <CardContent className="p-3 sm:p-6 relative z-10">
-            <div className="flex flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-4">
-              {/* Interactive Image Gallery - Mobile Optimized */}
-              <div className="relative w-full sm:w-auto flex justify-center sm:justify-start">
-                <motion.div 
-                  className="text-3xl sm:text-4xl p-3 sm:p-4 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl cursor-pointer border-2 border-green-200 hover:border-green-400 transition-all duration-300"
-                  onClick={handleImageCycle}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  animate={isAnimating ? { rotateY: 180 } : { rotateY: 0 }}
-                >
-                  <img src={project.gallery[currentImageIndex]} alt={project.title} className="w-full h-full object-contain" loading="lazy" />
-                </motion.div>
-                
-                {/* Image counter */}
-                <div className="absolute -bottom-1 -right-1 bg-green-600 text-white text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center font-bold shadow-lg">
-                  {currentImageIndex + 1}
-                </div>
-                
-                {/* Camera hint */}
-                <motion.div
-                  className="absolute -top-1 -left-1 bg-yellow-400 text-yellow-800 text-xs px-1 py-0.5 sm:px-2 sm:py-1 rounded-full shadow-lg"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <Camera className="h-2 w-2 sm:h-3 sm:w-3" />
-                </motion.div>
-              </div>
-              
-              <div className="flex-1 w-full">
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-3 gap-2">
-                  <div className="flex-1">
-                    <h4 className="font-bold text-green-800 text-lg sm:text-xl mb-2 flex items-center justify-center sm:justify-start">
-                      <span className="text-center sm:text-left">{project.title}</span>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        className="ml-2"
-                      >
-                        <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
-                      </motion.div>
-                    </h4>
-                    
-                    {/* Completion badge */}
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-                      className="flex justify-center sm:justify-start"
-                    >
-                      <Badge className="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg">
-                        <CheckCircle className="h-3 w-3 mr-1" />
-                        {t('completedWithSparkles')}
-                      </Badge>
-                    </motion.div>
-                  </div>
-                  
-                  {/* Expand/Collapse button */}
-                  <motion.button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="p-2 bg-green-100 hover:bg-green-200 rounded-full transition-colors duration-300 self-center sm:self-start"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <motion.div
-                      animate={{ rotate: isExpanded ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Eye className="h-4 w-4 text-green-600" />
-                    </motion.div>
-                  </motion.button>
-                </div>
-                
-                <p className="text-green-700 text-sm mb-4 leading-relaxed text-center sm:text-left">
-                  {project.description}
-                </p>
-
-                {/* Impact metrics grid - Mobile Optimized */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-4">
-                  {/* Location */}
-                  <motion.div 
-                    className="flex items-center justify-center sm:justify-start text-green-600 bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg p-2 sm:p-3 cursor-pointer"
-                    whileHover={{ scale: 1.05, backgroundColor: "#dcfce7" }}
-                    onClick={triggerImpactAnimation}
-                  >
-                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-2 flex-shrink-0" />
-                    <span className="font-medium text-xs sm:text-sm">{project.location}</span>
-                  </motion.div>
-
-                  {/* Materials used */}
-                  <motion.div 
-                    className="flex items-center justify-center sm:justify-start text-green-600 bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg p-2 sm:p-3 cursor-pointer"
-                    whileHover={{ scale: 1.05 }}
-                    onClick={triggerImpactAnimation}
-                  >
-                    <Recycle className="h-3 w-3 sm:h-4 sm:w-4 mr-2 flex-shrink-0" />
-                    <motion.span 
-                      className="font-medium text-xs sm:text-sm"
-                      animate={showImpactAnimation ? { scale: [1, 1.2, 1], color: "#059669" } : {}}
-                    >
-                      {project.materialsUsed}kg {t('materialsUsedAmount')}
-                    </motion.span>
-                  </motion.div>
-
-                  {/* People benefited */}
-                  <motion.div 
-                    className="flex items-center justify-center sm:justify-start text-green-600 bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg p-2 sm:p-3 cursor-pointer"
-                    whileHover={{ scale: 1.05 }}
-                    onClick={triggerImpactAnimation}
-                  >
-                    <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-2 flex-shrink-0" />
-                    <motion.span 
-                      className="font-medium text-xs sm:text-sm"
-                      animate={showImpactAnimation ? { scale: [1, 1.2, 1], color: "#059669" } : {}}
-                    >
-                      {project.beneficiaries} {t('peopleBenefitedAmount')}
-                    </motion.span>
-                  </motion.div>
-                </div>
-
-                {/* Expandable details */}
-                <AnimatePresence>
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-4 p-3 sm:p-4 bg-white rounded-lg border border-green-200"
-                    >
-                      <h5 className="font-semibold text-green-800 mb-3 text-center sm:text-left">
-                        {t('projectTimeline')}
-                      </h5>
-                      <div className="space-y-2">
-                        {project.timeline.map((item: TimelineItem, index: number) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3"
-                          >
-                            <div className="w-3 h-3 bg-green-500 rounded-full mx-auto sm:mx-0 flex-shrink-0" />
-                            <div className="flex-1 text-center sm:text-left">
-                              <div className="text-xs sm:text-sm font-medium">{item.event}</div>
-                              <div className="text-xs text-gray-600">{item.date}</div>
-                            </div>
-                            <div className="flex justify-center sm:justify-end gap-1">
-                              {item.votes && (
-                                <Badge variant="outline" className="text-xs">
-                                  {item.votes} {t('votes')}
-                                </Badge>
-                              )}
-                              {item.amount && (
-                                <Badge variant="outline" className="text-xs bg-green-50">
-                                  {item.amount}
-                                </Badge>
-                              )}
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
-  };
-
-  return (
+  ];  return (
     <Layout title={t('ecoVote')}>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-green-50">
-        {/* Hero Section - Mobile Optimized */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 text-white py-8 sm:py-12 px-4"
-        >
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4"
-            >
-              {t('democraticVoting')}
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-sm sm:text-lg text-blue-100 mb-4 sm:mb-6 max-w-2xl mx-auto px-2"
-            >
-              {t('votingDescription')}
-            </motion.p>
-            
-            {/* Statistics - Mobile Optimized */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mt-6 sm:mt-8"
-            >
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3">
-                <div className="text-lg sm:text-xl md:text-2xl font-bold">2,847</div>
-                <div className="text-xs md:text-sm text-blue-100">{t('totalVotes')}</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3">
-                <div className="text-lg sm:text-xl md:text-2xl font-bold">6</div>
-                <div className="text-xs md:text-sm text-blue-100">{t('activeProjects')}</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3">
-                <div className="text-lg sm:text-xl md:text-2xl font-bold">12</div>
-                <div className="text-xs md:text-sm text-blue-100">{t('completed')}</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-3">
-                <div className="text-lg sm:text-xl md:text-2xl font-bold">4.2M</div>
-                <div className="text-xs md:text-sm text-blue-100">{t('materialsRecycled')}</div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/15 uzbek-pattern">
+        {/* ── Premium Hero Banner ── */}
+        <div className="relative overflow-hidden">
+          {/* Rich gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900" />
+          
+          {/* Mesh gradient overlays */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/20 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-400/15 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-600/10 rounded-full blur-[80px] pointer-events-none" />
+          
+          {/* Subtle pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
+          
+          {/* Floating animated decorative elements */}
+          <motion.div
+            className="absolute top-8 left-[10%] text-emerald-400/20 pointer-events-none"
+            animate={{ y: [-8, 8, -8], rotate: [0, 10, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Vote className="h-10 w-10" />
+          </motion.div>
+          <motion.div
+            className="absolute top-16 right-[12%] text-teal-400/15 pointer-events-none"
+            animate={{ y: [6, -6, 6], rotate: [0, -15, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          >
+            <Trophy className="h-8 w-8" />
+          </motion.div>
+          <motion.div
+            className="absolute bottom-12 left-[20%] text-emerald-300/10 pointer-events-none"
+            animate={{ y: [-5, 5, -5], rotate: [0, 8, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          >
+            <Recycle className="h-12 w-12" />
+          </motion.div>
+          <motion.div
+            className="absolute bottom-8 right-[18%] text-teal-300/10 pointer-events-none"
+            animate={{ y: [4, -4, 4] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+          >
+            <Leaf className="h-7 w-7" />
+          </motion.div>
+          
+          {/* Hero Content */}
+          <div className="relative z-10 pt-10 pb-16 px-4 sm:px-6 lg:px-8 text-center">
+            <div className="max-w-4xl mx-auto">
+              {/* Small pill badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-4 py-1.5 mb-5"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                </span>
+                <span className="text-emerald-200 text-xs font-semibold tracking-wide">
+                  {activeProjects.length} {t('activeProjects')}
+                </span>
+              </motion.div>
 
-        <div className="p-2 sm:p-4 space-y-4 sm:space-y-6 max-w-6xl mx-auto">
-          {/* Tab Navigation - Mobile Optimized with Fixed Text Display */}
+              <motion.h1 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-3 text-wrap-balance leading-[1.1]"
+              >
+                {t('democraticVoting')}
+              </motion.h1>
+              <motion.p 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="text-sm sm:text-base text-emerald-100/70 mb-8 max-w-2xl mx-auto leading-relaxed text-wrap-pretty"
+              >
+                {t('votingDescription')}
+              </motion.p>
+              
+              {/* Premium Stats Grid */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto"
+              >
+                {/* Stat Card 1 */}
+                <div className="group bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-xl border border-white/[0.12] rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10">
+                  <div className="w-9 h-9 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-2.5 mx-auto group-hover:scale-110 transition-transform duration-300">
+                    <Vote className="h-4.5 w-4.5 text-emerald-300" />
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-black text-white leading-none">
+                    <AnimatedCounter end={2847} />
+                  </div>
+                  <div className="text-[10px] font-bold text-emerald-300/60 uppercase tracking-widest mt-1.5">{t('totalVotes')}</div>
+                </div>
+
+                {/* Stat Card 2 */}
+                <div className="group bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-xl border border-white/[0.12] rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/10">
+                  <div className="w-9 h-9 bg-teal-500/20 rounded-xl flex items-center justify-center mb-2.5 mx-auto group-hover:scale-110 transition-transform duration-300">
+                    <Zap className="h-4.5 w-4.5 text-teal-300" />
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-black text-white leading-none">
+                    <AnimatedCounter end={6} />
+                  </div>
+                  <div className="text-[10px] font-bold text-emerald-300/60 uppercase tracking-widest mt-1.5">{t('activeProjects')}</div>
+                </div>
+
+                {/* Stat Card 3 */}
+                <div className="group bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-xl border border-white/[0.12] rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10">
+                  <div className="w-9 h-9 bg-emerald-400/20 rounded-xl flex items-center justify-center mb-2.5 mx-auto group-hover:scale-110 transition-transform duration-300">
+                    <Trophy className="h-4.5 w-4.5 text-emerald-300" />
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-black text-white leading-none">
+                    <AnimatedCounter end={12} />
+                  </div>
+                  <div className="text-[10px] font-bold text-emerald-300/60 uppercase tracking-widest mt-1.5">{t('completed')}</div>
+                </div>
+
+                {/* Stat Card 4 */}
+                <div className="group bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-xl border border-white/[0.12] rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/10">
+                  <div className="w-9 h-9 bg-teal-400/20 rounded-xl flex items-center justify-center mb-2.5 mx-auto group-hover:scale-110 transition-transform duration-300">
+                    <Recycle className="h-4.5 w-4.5 text-teal-300" />
+                  </div>
+                  <div className="text-2xl sm:text-3xl font-black text-white leading-none flex items-baseline justify-center">
+                    <AnimatedCounter end={4.2} decimals={1} />
+                    <span className="text-sm font-bold text-emerald-300/80 ml-0.5">M</span>
+                  </div>
+                  <div className="text-[10px] font-bold text-emerald-300/60 uppercase tracking-widest mt-1.5">{t('materialsRecycled')}</div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+          
+          {/* Bottom curved edge */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" preserveAspectRatio="none">
+              <path d="M0 60L1440 60L1440 0C1440 0 1080 40 720 40C360 40 0 0 0 0L0 60Z" fill="white" fillOpacity="0.03" />
+              <path d="M0 60L1440 60L1440 20C1440 20 1080 50 720 50C360 50 0 20 0 20L0 60Z" className="fill-slate-50" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
+          {/* Segmented Tab Toggles */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-center"
           >
-            <Card className="p-1 sm:p-2 bg-white/80 backdrop-blur-sm w-full sm:w-auto">
-              <div className="flex gap-1 sm:gap-2">
-                <Button
-                  variant={activeTab === 'active' ? 'default' : 'outline'}
-                  onClick={() => setActiveTab('active')}
-                  className={`text-xs sm:text-sm flex-1 sm:flex-none ${activeTab === 'active' ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
-                >
-                  <Vote className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{t('activeProjects')}</span>
-                  <span className="sm:hidden">{t('active')}</span>
-                </Button>
-                <Button
-                  variant={activeTab === 'completed' ? 'default' : 'outline'}
-                  onClick={() => setActiveTab('completed')}
-                  className={`text-xs sm:text-sm flex-1 sm:flex-none ${activeTab === 'completed' ? 'bg-green-600 hover:bg-green-700' : ''}`}
-                >
-                  <Trophy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden sm:inline">{t('successStories')}</span>
-                  <span className="sm:hidden">{t('success')}</span>
-                </Button>
-              </div>
-            </Card>
+            <div className="p-1.5 bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl inline-flex items-center gap-1 shadow-lg shadow-slate-200/50">
+              <button
+                onClick={() => setActiveTab('active')}
+                className={`px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all duration-300 ${
+                  activeTab === 'active'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/25'
+                    : 'text-slate-500 hover:text-emerald-700 hover:bg-emerald-50/50'
+                }`}
+              >
+                <Vote className="h-4 w-4" />
+                <span>{t('activeProjects')}</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('completed')}
+                className={`px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all duration-300 ${
+                  activeTab === 'completed'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/25'
+                    : 'text-slate-500 hover:text-emerald-700 hover:bg-emerald-50/50'
+                }`}
+              >
+                <Trophy className="h-4 w-4" />
+                <span>{t('successStories')}</span>
+              </button>
+            </div>
           </motion.div>
 
           <AnimatePresence mode="wait">
@@ -723,211 +886,203 @@ function EcoVote() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="space-y-3 sm:space-y-4"
+                className="space-y-6"
               >
-                {/* Active Voting Projects - Mobile Optimized */}
-                {activeProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    variants={itemVariants}
-                    whileHover="hover"
-                  >
-                    <Card className="overflow-hidden bg-gradient-to-r from-white to-blue-50/30 border-2 border-blue-100 hover:border-blue-300 transition-all duration-300 shadow-lg hover:shadow-xl">
-                      <CardHeader className="pb-2 sm:pb-3">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 sm:gap-4">
-                          <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-3">
-                            <div className="relative">
-                              {project.id === '1' ? (
-                                // Direct PNG for playground project
-                                <img 
-                                  src="/images/New Playground for School.png" 
-                                  alt={project.title} 
-                                  className="w-12 h-12 sm:w-16 sm:h-16 object-contain flex-shrink-0" 
-                                  loading="lazy"
-                                />
-                              ) : project.iconPath && project.iconPath.startsWith('/images/') ? (
-                                <img 
-                                  src={project.iconPath} 
-                                  alt={project.title} 
-                                  className="w-12 h-12 sm:w-16 sm:h-16 object-contain flex-shrink-0" 
-                                  loading="lazy"
-                                />
-                              ) : project.image && project.image.length < 10 ? (
-                                // Show emoji as text if no iconPath and image is emoji
-                                <span className="text-2xl sm:text-3xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center flex-shrink-0">
-                                  {project.image}
-                                </span>
-                              ) : (
-                                // Fallback to image if it's a valid path
-                                <img 
-                                  src={project.image} 
-                                  alt={project.title} 
-                                  className="w-12 h-12 sm:w-16 sm:h-16 object-contain flex-shrink-0" 
-                                  loading="lazy"
-                                />
-                              )}
-                              <div className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center font-bold">
-                                {index + 1}
-                              </div>
-                            </div>
-                            <div className="flex-1 text-center sm:text-left">
-                              <CardTitle className="text-base sm:text-lg md:text-xl mb-2">
-                                {project.title}
-                              </CardTitle>
-                              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2">
-                                <Badge variant="outline" className="text-xs bg-blue-50 border-blue-200">
-                                  {project.category}
-                                </Badge>
-                                <span className="text-xs sm:text-sm text-gray-600 flex items-center">
-                                  <MapPin className="h-3 w-3 mr-1" />
-                                  {project.location}
-                                </span>
-                              </div>
-                            </div>
+                {/* Active Voting Projects Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                  {activeProjects.map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      variants={itemVariants}
+                      whileHover={{ y: -6 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex"
+                    >
+                      <Card className="glass-card glass-card-hover group/card rounded-3xl overflow-hidden flex flex-col w-full relative">
+                        {/* Image banner with overlays */}
+                        <div 
+                          className="relative aspect-video w-full overflow-hidden cursor-pointer group"
+                          onClick={() => setLightboxImage({ src: project.image, title: project.title })}
+                        >
+                          <img 
+                            src={project.image} 
+                            alt={project.title} 
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" 
+                            loading="lazy"
+                          />
+                          {/* Gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
+                          
+                          <div className="absolute top-4 left-4 flex gap-2">
+                            <Badge className="bg-white/95 backdrop-blur-md text-emerald-800 border-0 shadow-sm font-semibold uppercase tracking-wider text-[10px]">
+                              {project.category}
+                            </Badge>
+                          </div>
+                          <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg">
+                            #{index + 1}
                           </div>
                           
-                          {/* Vote Count - Mobile Optimized */}
-                          <div className="text-center bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-lg p-2 sm:p-3 min-w-[100px] sm:min-w-[120px] mx-auto md:mx-0">
-                            <div className="text-xl sm:text-2xl md:text-3xl font-bold">
-                              {project.currentVotes.toLocaleString()}
+                          {/* Bottom image stats overlay */}
+                          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                              <MapPin className="h-3 w-3 text-white/80" />
+                              <span className="text-[11px] font-semibold text-white/90">{project.location}</span>
                             </div>
-                            <div className="text-xs opacity-90">{t('votes')}</div>
+                            <div className="flex items-center gap-1.5 bg-emerald-600/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-emerald-400/20">
+                              <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                              </span>
+                              <span className="text-[11px] font-bold text-white">{t('active', { defaultValue: 'Live' })}</span>
+                            </div>
                           </div>
                         </div>
-                      </CardHeader>
 
-                      <CardContent className="space-y-3 sm:space-y-4">
-                        <p className="text-gray-700 text-sm md:text-base leading-relaxed text-center sm:text-left">
-                          {project.description}
-                        </p>
-                        
-                        {/* Progress Bars - Mobile Optimized */}
-                        <div className="space-y-3">
-                          {/* Voting Progress */}
+                        {/* Card Content */}
+                        <CardContent className="p-6 flex flex-col justify-between flex-grow space-y-4">
                           <div className="space-y-2">
-                            <div className="flex flex-col sm:flex-row sm:justify-between text-sm font-medium gap-1">
-                              <span className="flex items-center justify-center sm:justify-start">
-                                <Trophy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-blue-600" />
-                                {t('communitySupport')}
-                              </span>
-                              <span className="text-blue-600 font-bold text-center sm:text-right">
-                                {((project.currentVotes / project.totalVotes) * 100).toFixed(1)}%
-                              </span>
-                            </div>
-                            <Progress 
-                              value={(project.currentVotes / project.totalVotes) * 100} 
-                              className="h-2 sm:h-3 bg-blue-100"
-                            />
+                            <h4 className="font-extrabold text-slate-800 text-lg sm:text-xl line-clamp-1">
+                              {project.title}
+                            </h4>
+                            
+                            <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
+                              {project.description}
+                            </p>
                           </div>
 
-                          {/* Donation Progress */}
-                          {project.donationTarget && project.donationRaised && (
-                            <div className="space-y-2">
-                              <div className="flex flex-col sm:flex-row sm:justify-between text-sm font-medium gap-1">
-                                <span className="flex items-center justify-center sm:justify-start">
-                                  <Target className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-green-600" />
-                                  {t('fundingProgress')}
-                                </span>
-                                <span className="text-green-600 font-bold text-center sm:text-right text-xs sm:text-sm">
-                                  {formatCurrency(project.donationRaised)} / {formatCurrency(project.donationTarget)}
-                                </span>
+                          <div className="space-y-4 pt-2">
+                            {/* Votes / Target block */}
+                            <div className="flex justify-between items-center bg-gradient-to-r from-emerald-50/80 to-teal-50/80 border border-emerald-100/60 rounded-2xl p-4">
+                              <div>
+                                <div className="text-[10px] text-emerald-600/70 font-bold uppercase tracking-wider">{t('votes')}</div>
+                                <div className="text-2xl sm:text-3xl font-black text-emerald-700 leading-none mt-1">
+                                  {project.currentVotes.toLocaleString()}
+                                </div>
                               </div>
-                              <Progress 
-                                value={(project.donationRaised / project.donationTarget) * 100} 
-                                className="h-2 sm:h-3 bg-green-100"
-                              />
-                              <div className="text-xs text-gray-500 text-center sm:text-right">
-                                {((project.donationRaised / project.donationTarget) * 100).toFixed(1)}% {t('funded')}
+                              <div className="w-px h-10 bg-emerald-200/50" />
+                              <div className="text-right">
+                                <div className="text-[10px] text-emerald-600/70 font-bold uppercase tracking-wider">{t('targetVotes', { defaultValue: 'Target' })}</div>
+                                <div className="text-sm font-bold text-emerald-600/80 mt-1">
+                                  {project.totalVotes.toLocaleString()}
+                                </div>
                               </div>
                             </div>
-                          )}
-                        </div>
 
-                        {/* Project Details - Mobile Optimized */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                          <div className="flex items-center justify-center sm:justify-start text-gray-600 bg-gray-50 rounded-lg p-2">
-                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2 text-orange-500 flex-shrink-0" />
-                            <span>{t('deadline')}: {project.deadline.toLocaleDateString()}</span>
-                          </div>
-                          <div className="flex items-center justify-center sm:justify-start text-gray-600 bg-gray-50 rounded-lg p-2">
-                            <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-2 text-purple-500 flex-shrink-0" />
-                            <span>{project.requiredMaterials}kg {t('materialsNeeded')}</span>
-                          </div>
-                        </div>
+                            {/* Progress bars */}
+                            <div className="space-y-3">
+                              {/* Voting Progress */}
+                              <div className="space-y-1.5">
+                                <div className="flex justify-between text-xs font-bold text-slate-600">
+                                  <span className="flex items-center gap-1">
+                                    <Trophy className="h-3.5 w-3.5 text-emerald-500" />
+                                    {t('communitySupport')}
+                                  </span>
+                                  <span className="text-emerald-600 font-black">
+                                    {((project.currentVotes / project.totalVotes) * 100).toFixed(1)}%
+                                  </span>
+                                </div>
+                                <Progress 
+                                  value={(project.currentVotes / project.totalVotes) * 100} 
+                                  className="h-2 bg-emerald-100/60 rounded-full"
+                                />
+                              </div>
 
-                        {/* Action Buttons - Mobile Optimized */}
-                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                          <motion.div 
-                            whileHover={{ scale: 1.02 }} 
-                            whileTap={{ scale: 0.98 }}
-                            className="flex-1"
-                          >
-                            <Button 
-                              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
-                              onClick={async () => {
-                                if (!IS_BACKEND_AVAILABLE) {
-                                  toast.info(t('backendUnavailable', { defaultValue: 'Backend is offline, showing demo data.' }));
-                                  return;
-                                }
-                                try {
-                                  await apiClient.voteForProject(project.id);
-                                  toast.success(t('voteRecorded', { defaultValue: 'Your vote has been recorded!' }));
-                                  // Refresh projects to get updated vote count
-                                  const status = activeTab === 'active' ? 'ACTIVE' : 'COMPLETED';
-                                  const updatedProjects = await apiClient.getProjects(status, 'votes');
-                                  if (updatedProjects && Array.isArray(updatedProjects) && updatedProjects.length > 0) {
-                                    const transformedProjects: VotingProject[] = updatedProjects.map((p: Record<string, unknown>) => {
-                                      const backendProject = p as unknown as BackendProject;
-                                      return {
-                                      id: backendProject.id || '',
-                                      title: backendProject.title || '',
-                                      description: backendProject.description || '',
-                                      image: backendProject.imageUrl || '🏫',
-                                      location: backendProject.district || backendProject.location || '',
-                                      category: backendProject.category || 'general',
-                                      status: backendProject.status?.toLowerCase() || 'active',
-                                      currentVotes: backendProject.voteCount || 0,
-                                      totalVotes: backendProject.targetVotes || 1000,
-                                      deadline: backendProject.endDate ? new Date(backendProject.endDate) : new Date(),
-                                      requiredMaterials: backendProject.materialsRequiredKg || 0,
-                                      donationTarget: backendProject.budgetRequired || 0,
-                                      donationRaised: backendProject.fundsRaised || 0,
-                                      };
-                                    });
-                                    setProjects(transformedProjects);
+                              {/* Funding Progress */}
+                              {project.donationTarget && project.donationRaised && (
+                                <div className="space-y-1.5">
+                                  <div className="flex justify-between text-xs font-bold text-slate-600">
+                                    <span className="flex items-center gap-1">
+                                      <Target className="h-3.5 w-3.5 text-teal-500" />
+                                      {t('fundingProgress')}
+                                    </span>
+                                    <span className="text-teal-600 font-black">
+                                      {formatCurrency(project.donationRaised)} / {formatCurrency(project.donationTarget)}
+                                    </span>
+                                  </div>
+                                  <Progress 
+                                    value={(project.donationRaised / project.donationTarget) * 100} 
+                                    className="h-2 bg-teal-100/60 rounded-full"
+                                  />
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Materials and deadline */}
+                            <div className="grid grid-cols-2 gap-3 text-xs pt-1">
+                              <div className="flex items-center text-slate-600 bg-slate-50/70 border border-slate-100 rounded-xl p-2.5">
+                                <Calendar className="h-4 w-4 mr-2 text-amber-500 flex-shrink-0" />
+                                <span>{t('deadline')}: {project.deadline.toLocaleDateString()}</span>
+                              </div>
+                              <div className="flex items-center text-slate-600 bg-slate-50/70 border border-slate-100 rounded-xl p-2.5">
+                                <Users className="h-4 w-4 mr-2 text-emerald-500 flex-shrink-0" />
+                                <span>{project.requiredMaterials}kg {t('materialsNeeded')}</span>
+                              </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex gap-3 pt-2">
+                              <Button 
+                                className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3.5 shadow-md hover:shadow-lg transition-all duration-300 text-xs sm:text-sm rounded-xl"
+                                onClick={async () => {
+                                  if (!IS_BACKEND_AVAILABLE) {
+                                    toast.info(t('backendUnavailable', { defaultValue: 'Backend is offline, showing demo data.' }));
+                                    return;
                                   }
-                                } catch (error: unknown) {
-                                  const message = error instanceof Error ? error.message : String(error);
-                                  toast.error(message || t('voteError') || 'Failed to submit vote');
-                                }
-                              }}
-                            >
-                              <Vote className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                              {t('voteNow')}
-                            </Button>
-                          </motion.div>
-                          <motion.div 
-                            whileHover={{ scale: 1.02 }} 
-                            whileTap={{ scale: 0.98 }}
-                            className="flex-1"
-                          >
-                            <Button 
-                              variant="outline" 
-                              className="w-full border-2 border-green-500 text-green-600 hover:bg-green-50 font-semibold py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all duration-300 text-sm"
-                              onClick={() => {
-                                setSelectedProjectForDonation(project);
-                                setDonationDialogOpen(true);
-                              }}
-                            >
-                              <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                              {t('donate')}
-                            </Button>
-                          </motion.div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
+                                  try {
+                                    await apiClient.voteForProject(project.id);
+                                    toast.success(t('voteRecorded', { defaultValue: 'Your vote has been recorded!' }));
+                                    // Refresh projects to get updated vote count
+                                    const status = activeTab === 'active' ? 'ACTIVE' : 'COMPLETED';
+                                    const updatedProjects = await apiClient.getProjects(status, 'votes');
+                                    if (updatedProjects && Array.isArray(updatedProjects) && updatedProjects.length > 0) {
+                                      const transformedProjects: VotingProject[] = updatedProjects.map((p: Record<string, unknown>) => {
+                                        const backendProject = p as unknown as BackendProject;
+                                        return {
+                                        id: backendProject.id || '',
+                                        title: backendProject.title || '',
+                                        description: backendProject.description || '',
+                                        image: backendProject.imageUrl || '🏫',
+                                        location: backendProject.district || backendProject.location || '',
+                                        category: backendProject.category || 'general',
+                                        status: backendProject.status?.toLowerCase() || 'active',
+                                        currentVotes: backendProject.voteCount || 0,
+                                        totalVotes: backendProject.targetVotes || 1000,
+                                        deadline: backendProject.endDate ? new Date(backendProject.endDate) : new Date(),
+                                        requiredMaterials: backendProject.materialsRequiredKg || 0,
+                                        donationTarget: backendProject.budgetRequired || 0,
+                                        donationRaised: backendProject.fundsRaised || 0,
+                                        };
+                                      });
+                                      setProjects(transformedProjects);
+                                    }
+                                  } catch (error: unknown) {
+                                    const message = error instanceof Error ? error.message : String(error);
+                                    toast.error(message || t('voteError') || 'Failed to submit vote');
+                                  }
+                                }}
+                              >
+                                <Vote className="h-4 w-4 mr-1.5" />
+                                {t('voteNow')}
+                              </Button>
+                              
+                              <Button 
+                                variant="outline" 
+                                className="flex-1 border border-emerald-600/30 text-emerald-700 hover:bg-emerald-50/50 font-bold py-3.5 shadow-sm transition-all duration-300 text-xs sm:text-sm rounded-xl"
+                                onClick={() => {
+                                  setSelectedProjectForDonation(project);
+                                  setDonationDialogOpen(true);
+                                }}
+                              >
+                                <DollarSign className="h-4 w-4 mr-1.5" />
+                                {t('donate')}
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
             )}
 
@@ -938,70 +1093,64 @@ function EcoVote() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="space-y-4 sm:space-y-6"
+                className="space-y-6"
               >
-                {/* Success Stories Header - Mobile Optimized */}
-                <motion.div 
-                  variants={itemVariants}
-                  className="text-center py-6 sm:py-8 bg-gradient-to-r from-green-100 via-emerald-100 to-teal-100 rounded-2xl"
-                >
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                    className="inline-block mb-3 sm:mb-4"
-                  >
-                    <Trophy className="h-8 w-8 sm:h-12 sm:w-12 text-green-600" />
-                  </motion.div>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-800 mb-2">{t('successStories')}</h2>
-                  <p className="text-green-700 max-w-2xl mx-auto text-sm sm:text-base px-4">
-                    {t('exploreCompletedProjects')}
-                  </p>
-                </motion.div>
+                {/* Success Stories Header */}
+                <div className="glass-card flex items-center justify-between rounded-2xl px-5 py-3">
+                  <h3 className="text-base font-extrabold text-slate-800 flex items-center gap-2">
+                    <Trophy className="h-4.5 w-4.5 text-emerald-600 animate-pulse" />
+                    <span>{t('successStories')}</span>
+                  </h3>
+                  <span className="text-xs text-slate-500 font-bold bg-white px-2.5 py-1 rounded-full border border-slate-100 shadow-sm">{completedProjects.length} {t('completed')}</span>
+                </div>
 
-                {/* Completed Projects with Advanced Interactions */}
-                <div className="space-y-6 sm:space-y-8">
+                {/* Completed Projects list */}
+                <div className="space-y-6">
                   {completedProjects.map((project) => (
-                    <CompletedProjectCard key={project.id} project={project} />
+                    <CompletedProjectCard key={project.id} project={project} setLightboxImage={setLightboxImage} />
                   ))}
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* How It Works Section - Mobile Optimized */}
+          {/* How It Works Section */}
           <motion.div
             variants={itemVariants}
-            initial="hidden"
-            animate="visible"
           >
-            <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200">
-              <CardHeader>
-                <CardTitle className="text-blue-800 text-lg sm:text-xl md:text-2xl flex items-center justify-center sm:justify-start">
-                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 mr-2" />
+            <Card className="glass-card border rounded-3xl overflow-hidden shadow-sm shadow-slate-200/30">
+              <CardHeader className="pb-2 px-6 pt-6">
+                <CardTitle className="text-slate-800 text-xl sm:text-2xl font-extrabold flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md shadow-emerald-500/20">
+                    <Clock className="h-5 w-5 text-white" />
+                  </div>
                   {t('howVotingWorks')}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
                   {[
-                    { step: 1, text: t('votingStep1'), icon: Vote, color: 'blue' },
-                    { step: 2, text: t('votingStep2'), icon: Users, color: 'purple' },
-                    { step: 3, text: t('votingStep3'), icon: Trophy, color: 'green' },
-                    { step: 4, text: t('votingStep4'), icon: Target, color: 'orange' },
-                    { step: 5, text: t('votingStep5'), icon: CheckCircle, color: 'emerald' }
+                    { step: '01', text: t('votingStep1'), icon: Vote, gradient: 'from-emerald-500 to-emerald-600' },
+                    { step: '02', text: t('votingStep2'), icon: Users, gradient: 'from-teal-500 to-teal-600' },
+                    { step: '03', text: t('votingStep3'), icon: Trophy, gradient: 'from-emerald-600 to-teal-600' },
+                    { step: '04', text: t('votingStep4'), icon: Target, gradient: 'from-teal-500 to-emerald-600' },
+                    { step: '05', text: t('votingStep5'), icon: CheckCircle, gradient: 'from-emerald-500 to-teal-500' }
                   ].map((item, index) => {
                     const IconComponent = item.icon;
                     return (
                       <motion.div
                         key={index}
-                        whileHover={{ scale: 1.05 }}
-                        className={`p-3 sm:p-4 bg-white rounded-lg shadow-sm border-l-4 border-${item.color}-500`}
+                        whileHover={{ y: -6, scale: 1.02 }}
+                        className="glass-card glass-card-hover group p-5 rounded-2xl relative flex flex-col justify-between"
                       >
-                        <div className="flex items-start space-x-2 sm:space-x-3">
-                          <div className={`w-6 h-6 sm:w-8 sm:h-8 bg-${item.color}-100 rounded-full flex items-center justify-center flex-shrink-0`}>
-                            <IconComponent className={`h-3 w-3 sm:h-4 sm:w-4 text-${item.color}-600`} />
+                        <div className={`absolute top-4 right-4 text-3xl font-black bg-gradient-to-br ${item.gradient} bg-clip-text text-transparent opacity-20 select-none group-hover:opacity-40 transition-opacity duration-300`}>
+                          {item.step}
+                        </div>
+                        <div className="space-y-4">
+                          <div className={`w-10 h-10 bg-gradient-to-br ${item.gradient} rounded-xl flex items-center justify-center shadow-md shadow-emerald-500/15 group-hover:scale-110 transition-transform duration-300`}>
+                            <IconComponent className="h-5 w-5 text-white" />
                           </div>
-                          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{item.text}</p>
+                          <p className="text-xs sm:text-sm text-slate-600 font-semibold leading-relaxed">{item.text}</p>
                         </div>
                       </motion.div>
                     );
@@ -1011,36 +1160,43 @@ function EcoVote() {
             </Card>
           </motion.div>
 
-          {/* Call to Action - Mobile Optimized */}
+          {/* Call to Action Block */}
           <motion.div
             variants={itemVariants}
-            initial="hidden"
-            animate="visible"
           >
-            <Card className="bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 text-white border-0 overflow-hidden">
-              <CardContent className="p-6 sm:p-8 text-center relative">
-                <div className="absolute inset-0 bg-black/10"></div>
-                <div className="relative z-10">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">{t('makeVoiceHeard')}</h3>
-                  <p className="text-sm sm:text-lg text-blue-100 mb-4 sm:mb-6 max-w-2xl mx-auto leading-relaxed px-2">
-                    {t('everyVoteHelps')}
-                  </p>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button 
-                      className="bg-white text-blue-600 hover:bg-gray-100 font-bold text-sm sm:text-lg px-6 sm:px-8 py-3 sm:py-4 shadow-xl"
-                      onClick={() => {
-                        setActiveTab('active');
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                    >
-                      <Vote className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                      {t('viewAllProjects')}
-                    </Button>
-                  </motion.div>
+            <Card className="relative overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 text-white shadow-2xl">
+              {/* Subtle light flares */}
+              <div className="absolute top-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-80 h-80 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
+              
+              <CardContent className="relative z-10 p-8 sm:p-12 text-center flex flex-col items-center justify-center max-w-3xl mx-auto space-y-6">
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shadow-inner">
+                  <Vote className="w-6 h-6 text-emerald-400" />
                 </div>
+                
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+                  {t('makeVoiceHeard')}
+                </h3>
+                
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                  {t('everyVoteHelps')}
+                </p>
+                
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Button 
+                    className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-sm sm:text-base px-8 py-5 sm:py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    onClick={() => {
+                      setActiveTab('active');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                  >
+                    <Vote className="h-5 w-5 mr-2" />
+                    {t('viewAllProjects')}
+                  </Button>
+                </motion.div>
               </CardContent>
             </Card>
           </motion.div>
@@ -1052,6 +1208,75 @@ function EcoVote() {
           onOpenChange={setDonationDialogOpen}
           projectTitle={selectedProjectForDonation ? getTranslatedTitle(selectedProjectForDonation) : ''}
         />
+
+        {/* Image Lightbox Dialog */}
+        <Dialog open={!!lightboxImage} onOpenChange={(open) => !open && setLightboxImage(null)}>
+          <DialogContent className="w-auto sm:w-fit max-w-[95vw] sm:max-w-[90vw] md:max-w-[85vw] lg:max-w-[1200px] p-2 bg-black/95 border border-white/10 overflow-hidden rounded-2xl">
+            <DialogTitle className="sr-only">{t('projectImagePreview', { defaultValue: 'Project Image Preview' })}</DialogTitle>
+            <div className="relative w-full h-full max-h-[88vh] flex items-center justify-center p-2 group/lightbox">
+              {lightboxImage && (
+                <img 
+                  src={lightboxImage.src} 
+                  alt={lightboxImage.title} 
+                  className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl transition-all duration-300" 
+                />
+              )}
+
+              {/* Navigation Arrows */}
+              {lightboxImage?.images && lightboxImage.images.length > 1 && lightboxImage.activeIndex !== undefined && (
+                <>
+                  {/* Left Arrow */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newIndex = (lightboxImage.activeIndex! - 1 + lightboxImage.images!.length) % lightboxImage.images!.length;
+                      const newSrc = lightboxImage.images![newIndex];
+                      const isBefore = newSrc.includes('before');
+                      const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+                        (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
+                      setLightboxImage({
+                        ...lightboxImage,
+                        src: newSrc,
+                        activeIndex: newIndex,
+                        title: newTitle
+                      });
+                    }}
+                    className="absolute left-6 z-50 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 text-white/85 hover:text-white flex items-center justify-center border border-white/10 transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    aria-label={t('previousImage', { defaultValue: 'Previous image' })}
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+
+                  {/* Right Arrow */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newIndex = (lightboxImage.activeIndex! + 1) % lightboxImage.images!.length;
+                      const newSrc = lightboxImage.images![newIndex];
+                      const isBefore = newSrc.includes('before');
+                      const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+                        (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
+                      setLightboxImage({
+                        ...lightboxImage,
+                        src: newSrc,
+                        activeIndex: newIndex,
+                        title: newTitle
+                      });
+                    }}
+                    className="absolute right-6 z-50 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 text-white/85 hover:text-white flex items-center justify-center border border-white/10 transition-all shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    aria-label={t('nextImage', { defaultValue: 'Next image' })}
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                </>
+              )}
+
+              <div className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-md text-white px-4 py-2 rounded-xl text-center text-sm font-semibold border border-white/10">
+                {lightboxImage?.title}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );

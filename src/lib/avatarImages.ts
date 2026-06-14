@@ -1,18 +1,18 @@
 // Avatar emoji to image path mapping
 export const avatarEmojiToImage: { [key: string]: string } = {
-  '👩‍🌾': '/images/Eco Farmer.png',
-  '🌱': '/images/Green Sprout.png',
-  '🌿': '/images/Leaf Guardian.png',
-  '🌳': '/images/Tree Protector.png',
-  '♻️': '/images/Recycling Hero.png',
-  '🌍': '/images/Earth Guardian.png',
-  '💧': '/images/Water Saver.png',
-  '☀️': '/images/Solar Champion.png',
-  '⚡': '/images/Energy Saver.png',
-  '🔥': '/images/Climate Warrior.png',
-  '🌟': '/images/Eco Star.png',
-  '🔮': '/images/Future Visionary.png',
-  '🦋': '/images/Nature Lover.png',
+  '👩‍🌾': '/images/Eco Farmer.webp',
+  '🌱': '/images/Green Sprout.webp',
+  '🌿': '/images/Leaf Guardian.webp',
+  '🌳': '/images/Tree Protector.webp',
+  '♻️': '/images/Recycling Hero.webp',
+  '🌍': '/images/Earth Guardian.webp',
+  '💧': '/images/Water Saver.webp',
+  '☀️': '/images/Solar Champion.webp',
+  '⚡': '/images/Energy Saver.webp',
+  '🔥': '/images/Climate Warrior.webp',
+  '🌟': '/images/Eco Star.webp',
+  '🔮': '/images/Future Visionary.webp',
+  '🦋': '/images/Nature Lover.webp',
 };
 
 export const getAvatarImage = (emoji: string): string | undefined => {
