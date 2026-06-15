@@ -23,9 +23,9 @@
     "members": {
       "sukhrobjon": {
         "name": "Sukhrobjon Rikhsiboev",
-        "position": "CEO & Founder",
-        "role": "Strategic Leadership & Vision",
-        "description": "Visionary leader driving ZAMINAT.eco's mission to transform waste management into a sustainable social movement across Uzbekistan.",
+        "position": "Founder / CEO / Strategy & Vision",
+        "role": "Strategy, Partnerships & Fundraising",
+        "description": "Founder, chiefly responsible for strategy, partnerships, fundraising, brand, and project development.",
         "email": "sukhrobjonrikhsiboev@gmail.com",
         "phone": "+998951881888",
         "linkedin": "https://www.linkedin.com/in/sukhrobjon-rikhsiboev-5b9878386/",
@@ -43,53 +43,53 @@
       },
       "azamat": {
         "name": "Azamat Elchibekov",
-        "position": "COO",
-        "role": "Operations Management & Execution",
-        "description": "Operations expert ensuring efficient execution of sustainability programs and community engagement initiatives.",
+        "position": "Project Team — Operations & Partnerships Support",
+        "role": "Operations & Communications",
+        "description": "Assists with operational tasks, preparation, communications, partnerships, and organizational support.",
         "skills": [
-          "Operations Management",
-          "Process Optimization",
-          "Team Coordination",
-          "Quality Control"
+          "Operations Support",
+          "Event Coordination",
+          "Partnership Communications",
+          "Organizational Support"
         ],
         "achievements": [
-          "Streamlined recycling operations workflow",
-          "Managing community events and programs",
-          "Optimizing collection and processing efficiency"
+          "Coordinating community cleanup events",
+          "Supporting operational setup and logistics",
+          "Assisting with partner communications and outreach"
         ]
       },
       "khondamir": {
         "name": "Khondamir Alibekov",
-        "position": "Accounting Manager",
-        "role": "Financial Management & Reporting",
-        "description": "Financial expert managing budgets, reporting, and ensuring transparent financial operations for all sustainability projects.",
+        "position": "Project Team — Digital Platform & Website Demo Support",
+        "role": "Digital Platform & Technical Support",
+        "description": "Helps with digital development, website demos, web MVPs, visual presentation, and technical support for pitch demos.",
         "skills": [
-          "Financial Management",
-          "Budget Planning",
-          "Cost Analysis",
-          "Compliance"
+          "Web Development",
+          "UI/UX Design Support",
+          "Technical Presentations",
+          "Demo Preparation"
         ],
         "achievements": [
-          "Implementing transparent financial reporting",
-          "Managing project budgets and resources",
-          "Ensuring financial compliance and accountability"
+          "Building ZAMINAT.eco website demo & visual assets",
+          "Developing early web prototype and interactive elements",
+          "Assisting in technical presentations for pitch day"
         ]
       },
       "islombek": {
         "name": "Jahongir Normatov",
-        "position": "IT Specialist",
-        "role": "Software Development & IT Support",
-        "description": "Technology specialist developing and maintaining the ZAMINAT.eco platform, ensuring seamless user experience and system reliability.",
+        "position": "Partner from IT Park — IT Advisor & Consultant",
+        "role": "IT Park Partner & Technical Consultant",
+        "description": "Partner and Technical Advisor from IT Park Uzbekistan, providing guidance on digital platform development, systems scalability, and IT integrations.",
         "skills": [
-          "Full-Stack Development",
-          "Mobile Apps",
-          "System Architecture",
-          "Data Analytics"
+          "IT Advisory",
+          "Systems Integration",
+          "Software Consulting",
+          "Technical Guidance"
         ],
         "achievements": [
-          "Developing ZAMINAT.eco platform",
-          "Implementing user engagement features",
-          "Maintaining system reliability and performance"
+          "Advising on ZAMINAT.eco platform architecture",
+          "Facilitating partnership integration with IT Park",
+          "Providing IT infrastructure and security consultation"
         ]
       }
     },

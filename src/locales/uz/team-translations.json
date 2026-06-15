@@ -23,9 +23,9 @@
     "members": {
       "sukhrobjon": {
         "name": "Suxrobjon Rixsiboev",
-        "position": "Bosh direktor va asoschisi",
-        "role": "Strategik rahbarlik va ko'rish",
-        "description": "ZAMINAT.eco missiyasini chiqindi boshqaruvini butun O'zbekiston bo'ylab barqaror ijtimoiy harakatga aylantirish yo'lida olib boruvchi uzoqni ko'ruvchi rahbar.",
+        "position": "Asoschi / CEO / Strategiya va Vizyon",
+        "role": "Strategiya, hamkorlik va fandrejzing",
+        "description": "Asoschi, birinchi navbatda strategiya, hamkorlik, mablag' yig'ish, brend va loyihani rivojlantirish uchun mas'ul.",
         "email": "sukhrobjonrikhsiboev@gmail.com",
         "phone": "+998951881888",
         "linkedin": "https://www.linkedin.com/in/sukhrobjon-rikhsiboev-5b9878386/",
@@ -43,53 +43,53 @@
       },
       "azamat": {
         "name": "Azamat Elchibekov",
-        "position": "Operatsion direktor",
-        "role": "Operatsiyalarni boshqarish va ijro etish",
-        "description": "Barqarorlik dasturlari va jamiyat ishtirokchiligi tashabbuslarining samarali bajarilishini ta'minlaydigan operatsiya mutaxassisi.",
+        "position": "Loyiha jamoasi — Operatsiyalar va hamkorlikni qo'llab-quvvatlash",
+        "role": "Operatsiyalar va kommunikatsiyalar",
+        "description": "Operatsion vazifalar, tayyorgarlik, aloqalar, hamkorlik va tashkiliy masalalarda yordam beradi.",
         "skills": [
-          "Operatsiyalarni boshqarish",
-          "Jarayonlarni optimallashtirish",
-          "Jamoa koordinatsiyasi",
-          "Sifat nazorati"
+          "Operatsion yordam",
+          "Tadbirlarni muvofiqlashtirish",
+          "Hamkorlik aloqalari",
+          "Tashkiliy yordam"
         ],
         "achievements": [
-          "Qayta ishlash operatsiyalari ish oqimini soddalashtirdi",
-          "Jamiyat tadbirlari va dasturlarini boshqaradi",
-          "Yig'ish va qayta ishlash samaradorligini optimallashtiradi"
+          "Jamiyatni tozalash tadbirlarini muvofiqlashtirish",
+          "Operatsion tuzilma va logistikani qo'llab-quvvatlash",
+          "Hamkorlar bilan aloqalar va targ'ibot ishlarida yordam berish"
         ]
       },
       "khondamir": {
         "name": "Xondamir Alibekov",
-        "position": "Buxgalteriya menejeri",
-        "role": "Moliyaviy boshqaruv va hisobot",
-        "description": "Barcha barqarorlik loyihalari uchun byudjetlarni boshqarish, hisobot berish va shaffof moliyaviy operatsiyalarni ta'minlaydigan moliya mutaxassisi.",
+        "position": "Loyiha jamoasi — Raqamli platforma va veb-sayt demo-versiyasini qo'llab-quvvatlash",
+        "role": "Raqamli platforma va texnik yordam",
+        "description": "Raqamli rivojlanish, veb-sayt demosi, veb-MVP, vizual taqdimot va taqdimot demolarini texnik qo'llab-quvvatlashda yordam beradi.",
         "skills": [
-          "Moliyaviy boshqaruv",
-          "Byudjet rejalashtirish",
-          "Xarajatlar tahlili",
-          "Muvofiqlik"
+          "Veb-dasturlash",
+          "UI/UX dizayn yordami",
+          "Texnik taqdimotlar",
+          "Demo tayyorlash"
         ],
         "achievements": [
-          "Shaffof moliyaviy hisobotni joriy etish",
-          "Loyiha byudjetlari va resurslarini boshqarish",
-          "Moliyaviy muvofiqlik va javobgarlikni ta'minlash"
+          "ZAMINAT.eco veb-sayti demosi va vizual resurslarini yaratish",
+          "Ilk veb-prototip va interaktiv elementlarni ishlab chiqish",
+          "Taqdimot kuni uchun texnik taqdimotlarda ko'maklashish"
         ]
       },
       "islombek": {
         "name": "Jahongir Normatov",
-        "position": "IT mutaxassisi",
-        "role": "Dasturiy ta'minot ishlab chiqish va IT qo'llab-quvvatlash",
-        "description": "ZAMINAT.eco platformasini ishlab chiqish va qo'llab-quvvatlash, foydalanuvchi tajribasining uzluksizligi va tizim ishonchliligini ta'minlaydigan texnologiya mutaxassisi.",
+        "position": "IT Park hamkori — IT maslahatchi va konsultant",
+        "role": "IT Park hamkori va texnik konsultant",
+        "description": "IT Park O'zbekiston hamkori va texnik maslahatchisi, raqamli platformani rivojlantirish, tizimlar miqyoslanishi va IT integratsiyalar bo'yicha yo'l-yo'riq ko'rsatadi.",
         "skills": [
-          "To'liq funksional ishlab chiqish",
-          "Mobil ilovalar",
-          "Tizim arxitekturasi",
-          "Ma'lumotlar tahlili"
+          "IT-konsalting",
+          "Tizimlar integratsiyasi",
+          "Dasturiy ta'minot maslahati",
+          "Texnik rahbarlik"
         ],
         "achievements": [
-          "ZAMINAT.eco platformasini ishlab chiqish",
-          "Foydalanuvchi ishtirokchiligi xususiyatlarini joriy etish",
-          "Tizim ishonchliligi va unumdorligini saqlash"
+          "ZAMINAT.eco platformasi arxitekturasi bo'yicha maslahat berish",
+          "IT Park bilan hamkorlik integratsiyasini yo'lga qo'yish",
+          "IT infratuzilma va xavfsizlik bo'yicha konsultatsiya berish"
         ]
       }
     },

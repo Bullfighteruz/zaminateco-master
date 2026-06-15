@@ -677,9 +677,10 @@ export default function Index() {
           {/* Global Impact Stats - Mobile Optimized */}
           <section aria-labelledby="impact-title">
             <div className={cn("flex items-center justify-between", isMobile ? "mb-2" : "mb-3 sm:mb-4")}>
-              <h2 id="impact-title" className={cn("font-semibold flex items-center mx-auto section-title-mobile", isMobile ? "text-sm" : "text-lg sm:text-xl")}>
-                <Award className={cn("mr-2 text-green-600 icon-md-mobile", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
+              <h2 id="impact-title" className={cn("font-semibold flex items-center justify-center mx-auto section-title-mobile gap-2", isMobile ? "text-sm" : "text-lg sm:text-xl")}>
+                <Award className={cn("text-green-600 icon-md-mobile flex-shrink-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
                 <strong>{t('ourImpact')}</strong>
+                <div className={cn("flex-shrink-0 opacity-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} aria-hidden="true" />
               </h2>
             </div>
             <div className={cn("grid grid-cols-2 lg:grid-cols-4 gap-mobile", isMobile ? "gap-1.5" : "gap-3 sm:gap-4")}>
@@ -783,9 +784,10 @@ export default function Index() {
           <section aria-labelledby="actions-title">
             <Card className="card-mobile border border-gray-200/50 shadow-xl bg-white/70 backdrop-blur-md overflow-hidden rounded-3xl">
               <CardHeader className="card-header-mobile border-b border-gray-200/50 bg-gray-50/50">
-                <CardTitle id="actions-title" className={cn("flex items-center justify-center section-title-mobile", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
-                  <Users className={cn("mr-2 text-green-600 icon-md-mobile", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
+                <CardTitle id="actions-title" className={cn("flex items-center justify-center section-title-mobile gap-2", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
+                  <Users className={cn("text-green-600 icon-md-mobile flex-shrink-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
                   <strong className="text-gray-900 tracking-wide font-bold">{t('takeAction')}</strong>
+                  <div className={cn("flex-shrink-0 opacity-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} aria-hidden="true" />
                 </CardTitle>
               </CardHeader>
               <CardContent className={cn("grid grid-cols-2 lg:grid-cols-4 card-content-mobile gap-mobile", isMobile ? "gap-2.5 p-3" : "gap-4 sm:gap-6 p-4 sm:p-6")}>
@@ -800,9 +802,11 @@ export default function Index() {
                     <div className="p-2 sm:p-3 rounded-xl bg-green-500/10 text-green-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
                       <MapPin className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
                     </div>
-                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-green-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
-                      {t('findCollectionPoints')}
-                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-green-600" />}
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-green-700 transition-colors flex items-center justify-center", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
+                      <span className="relative">
+                        {t('findCollectionPoints')}
+                        {!isMobile && <ArrowRight className="absolute left-[calc(100%+6px)] top-1/2 -translate-y-1/2 h-4 w-4 opacity-0 -translate-x-1.5 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-green-600" />}
+                      </span>
                     </span>
                   </div>
                 </PrefetchLink>
@@ -818,9 +822,11 @@ export default function Index() {
                     <div className="p-2 sm:p-3 rounded-xl bg-teal-500/10 text-teal-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
                       <Vote className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
                     </div>
-                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
-                      {t('voteOnProjects')}
-                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-teal-600" />}
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors flex items-center justify-center", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
+                      <span className="relative">
+                        {t('voteOnProjects')}
+                        {!isMobile && <ArrowRight className="absolute left-[calc(100%+6px)] top-1/2 -translate-y-1/2 h-4 w-4 opacity-0 -translate-x-1.5 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-teal-600" />}
+                      </span>
                     </span>
                   </div>
                 </PrefetchLink>
@@ -836,9 +842,11 @@ export default function Index() {
                     <div className="p-2 sm:p-3 rounded-xl bg-teal-500/10 text-teal-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
                       <Calendar className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
                     </div>
-                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-teal-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
-                      {t('eventsButton')}
-                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-teal-600" />}
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-teal-700 transition-colors flex items-center justify-center", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
+                      <span className="relative">
+                        {t('eventsButton')}
+                        {!isMobile && <ArrowRight className="absolute left-[calc(100%+6px)] top-1/2 -translate-y-1/2 h-4 w-4 opacity-0 -translate-x-1.5 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-teal-600" />}
+                      </span>
                     </span>
                   </div>
                 </PrefetchLink>
@@ -854,9 +862,11 @@ export default function Index() {
                     <div className="p-2 sm:p-3 rounded-xl bg-emerald-500/10 text-emerald-600 mb-2 sm:mb-3 transition-transform duration-300 group-hover:scale-110 shadow-sm">
                       <ShoppingBag className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
                     </div>
-                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors flex items-center justify-center gap-1", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
-                      {t('shopButton')}
-                      {!isMobile && <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-emerald-600" />}
+                    <span className={cn("font-bold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors flex items-center justify-center", isMobile ? "text-[11px]" : "text-sm sm:text-base")}>
+                      <span className="relative">
+                        {t('shopButton')}
+                        {!isMobile && <ArrowRight className="absolute left-[calc(100%+6px)] top-1/2 -translate-y-1/2 h-4 w-4 opacity-0 -translate-x-1.5 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-emerald-600" />}
+                      </span>
                     </span>
                   </div>
                 </PrefetchLink>
@@ -875,15 +885,16 @@ export default function Index() {
               <Card className="bg-white/80 backdrop-blur-md border border-white/60 card-mobile shadow-xl shadow-green-900/5 overflow-hidden">
                 <CardHeader className={cn("card-header-mobile bg-gradient-to-r from-emerald-600 to-teal-600 text-white relative overflow-hidden", isMobile ? "p-3" : "p-4 sm:p-6")}>
                   <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
-                  <CardTitle className={cn("flex items-center justify-center section-title-mobile relative z-10", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
+                  <CardTitle className={cn("flex items-center justify-center section-title-mobile relative z-10 gap-2", isMobile ? "text-sm" : "text-lg sm:text-2xl")}>
                     <motion.div
                       animate={{ rotate: [0, 10, -10, 0] }}
                       transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                      className={cn(isMobile ? "mr-1.5" : "mr-2")}
+                      className="flex-shrink-0"
                     >
                       <Leaf className={cn("text-white icon-lg-mobile drop-shadow-lg", isMobile ? "h-4 w-4" : "h-5 w-5 sm:h-6 sm:w-6")} />
                     </motion.div>
-                    {t('aboutZaminatProject')}
+                    <span className="font-bold">{t('aboutZaminatProject')}</span>
+                    <div className={cn("flex-shrink-0 opacity-0", isMobile ? "h-4 w-4" : "h-5 w-5 sm:h-6 sm:w-6")} aria-hidden="true" />
                   </CardTitle>
                 </CardHeader>
                 <CardContent className={cn("text-center card-content-mobile", isMobile ? "p-3 space-y-3" : "p-4 sm:p-6 pt-4 sm:pt-6 space-y-4 sm:space-y-6")}>
@@ -908,7 +919,7 @@ export default function Index() {
                       transition={{ delay: 0.3, duration: 0.5 }}
                       className="group"
                     >
-                      <div className={cn("bg-white/60 backdrop-blur-sm border border-white/80 rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:border-emerald-300/80 about-goals-mobile h-full", isMobile ? "p-3.5" : "p-5 sm:p-6")}>
+                      <div className={cn("bg-white/60 backdrop-blur-sm border border-white/80 rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:border-emerald-300/80 about-goals-mobile h-full", isMobile ? "p-3" : "p-5 sm:p-6")}>
                         <div className={cn("flex items-center justify-center", isMobile ? "gap-1.5 mb-3" : "gap-2 mb-4")}>
                           <div className={cn("bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300", isMobile ? "p-1.5" : "p-2")}>
                             <Target className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
@@ -917,7 +928,7 @@ export default function Index() {
                             {t('ourGoalsFor2026')}
                           </h3>
                         </div>
-                        <ul className={cn("text-gray-700 text-left about-goals-list-mobile space-y-2 sm:space-y-3")}>
+                        <ul className={cn("text-gray-700 text-left about-goals-list-mobile", isMobile ? "space-y-1.5" : "space-y-2 sm:space-y-3")}>
                           {[
                             { icon: Recycle, text: t('recycle1000Tons'), color: 'text-emerald-600', bgColor: 'bg-emerald-500/10' },
                             { icon: Users, text: t('engage50000Users'), color: 'text-emerald-600', bgColor: 'bg-emerald-500/10' },
@@ -930,12 +941,18 @@ export default function Index() {
                               whileInView={{ opacity: 1, x: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: 0.4 + idx * 0.1 }}
-                              className={cn("flex items-center break-words p-2 rounded-xl bg-emerald-500/5 border border-emerald-500/10 gap-3 group/item hover:bg-emerald-500/10 transition-all duration-200")}
+                              className={cn(
+                                "flex items-center break-words bg-emerald-500/5 border border-emerald-500/10 group/item hover:bg-emerald-500/10 transition-all duration-200",
+                                isMobile ? "p-1.5 rounded-lg gap-2" : "p-2 rounded-xl gap-3"
+                              )}
                             >
-                              <div className={cn("p-1.5 rounded-lg flex-shrink-0 text-emerald-600 bg-emerald-500/10 group-hover/item:scale-110 transition-transform")}>
+                              <div className={cn(
+                                "rounded-lg flex-shrink-0 text-emerald-600 bg-emerald-500/10 group-hover/item:scale-110 transition-transform",
+                                isMobile ? "p-1" : "p-1.5"
+                              )}>
                                 <item.icon className={cn(isMobile ? "h-3.5 w-3.5" : "h-4.5 w-4.5 sm:h-5 sm:w-5")} />
                               </div>
-                              <span className={cn("font-medium text-gray-700", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{item.text}</span>
+                              <span className={cn("font-medium text-gray-700", isMobile ? "text-[11px]" : "text-xs sm:text-sm")}>{item.text}</span>
                             </motion.li>
                           ))}
                         </ul>
@@ -950,7 +967,7 @@ export default function Index() {
                       transition={{ delay: 0.3, duration: 0.5 }}
                       className="group"
                     >
-                      <div className={cn("bg-white/60 backdrop-blur-sm border border-white/80 rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:border-emerald-300/80 about-goals-mobile h-full", isMobile ? "p-3.5" : "p-5 sm:p-6")}>
+                      <div className={cn("bg-white/60 backdrop-blur-sm border border-white/80 rounded-lg sm:rounded-xl md:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:border-emerald-300/80 about-goals-mobile h-full", isMobile ? "p-3" : "p-5 sm:p-6")}>
                         <div className={cn("flex items-center justify-center", isMobile ? "gap-1.5 mb-3" : "gap-2 mb-4")}>
                           <div className={cn("bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg shadow-lg group-hover:scale-110 transition-transform duration-300", isMobile ? "p-1.5" : "p-2")}>
                             <TrendingUp className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-4 w-4 sm:h-5 sm:w-5")} />
@@ -959,7 +976,7 @@ export default function Index() {
                             {t('currentProgressStatus')}
                           </h3>
                         </div>
-                        <div className={cn("text-left about-goals-list-mobile space-y-2 sm:space-y-3.5")}>
+                        <div className={cn("text-left about-goals-list-mobile", isMobile ? "space-y-1.5" : "space-y-2 sm:space-y-3.5")}>
                           {[
                             { 
                               icon: Recycle, 
@@ -1008,25 +1025,43 @@ export default function Index() {
                               whileInView={{ opacity: 1, y: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: 0.4 + idx * 0.1 }}
-                              className="space-y-2 group/stat p-2.5 rounded-xl bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 transition-all duration-200"
+                              className={cn(
+                                "group/stat bg-emerald-500/5 border border-emerald-500/10 hover:bg-emerald-500/10 transition-all duration-200",
+                                isMobile ? "p-1.5 rounded-lg space-y-1" : "p-2.5 rounded-xl space-y-2"
+                              )}
                             >
                               <div className={cn("flex items-center justify-between", isMobile ? "gap-1.5" : "gap-2")}>
                                 <div className={cn("flex items-center flex-1 min-w-0 gap-2")}>
-                                  <div className={cn("p-1.5 rounded-lg flex-shrink-0 bg-emerald-500/10 text-emerald-600 group-hover/stat:scale-110 transition-transform")}>
+                                  <div className={cn(
+                                    "rounded-lg flex-shrink-0 bg-emerald-500/10 text-emerald-600 group-hover/stat:scale-110 transition-transform",
+                                    isMobile ? "p-1" : "p-1.5"
+                                  )}>
                                     <stat.icon className={cn(isMobile ? "h-3.5 w-3.5" : "h-4.5 w-4.5 sm:h-5 sm:w-5")} />
                                   </div>
-                                  <span className={cn("text-gray-700 font-medium break-words flex-1", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{stat.label}</span>
+                                  <span className={cn("text-gray-700 font-medium break-words flex-1", isMobile ? "text-[11px]" : "text-xs sm:text-sm")}>{stat.label}</span>
                                 </div>
-                                <div className={cn("rounded-lg font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 px-2 py-0.5 text-xs sm:text-sm flex-shrink-0")}>
-                                  <AnimatedCounter 
-                                    end={stat.value} 
-                                    suffix={stat.suffix}
-                                    className={cn(isMobile ? "text-[10px]" : "text-xs sm:text-sm")}
-                                  />
-                                </div>
+                                {isMobile ? (
+                                  <div className="flex flex-col items-end flex-shrink-0 text-right leading-none">
+                                    <span className="font-bold text-emerald-700 text-[11px]">
+                                      <AnimatedCounter end={stat.value} suffix={stat.suffix} className="text-[11px]" />
+                                    </span>
+                                    <span className="text-[9px] text-emerald-600 font-medium mt-0.5">
+                                      {stat.progress.toFixed(1)}%
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className={cn("rounded-lg font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 px-2 py-0.5 text-xs sm:text-sm flex-shrink-0")}>
+                                    <AnimatedCounter 
+                                      end={stat.value} 
+                                      suffix={stat.suffix}
+                                      className="text-xs sm:text-sm"
+                                    />
+                                  </div>
+                                )}
                               </div>
-                              <div className="space-y-1">
-                                <div className={cn("w-full bg-slate-100 border border-slate-200/50 rounded-full overflow-hidden shadow-inner", isMobile ? "h-1.5" : "h-2 sm:h-2.5")}>
+                              
+                              <div className={isMobile ? "w-full" : "space-y-1"}>
+                                <div className={cn("w-full bg-slate-100 border border-slate-200/50 rounded-full overflow-hidden shadow-inner", isMobile ? "h-1" : "h-2 sm:h-2.5")}>
                                   <motion.div
                                     initial={{ width: 0 }}
                                     whileInView={{ width: `${Math.min(stat.progress, 100)}%` }}
@@ -1039,9 +1074,11 @@ export default function Index() {
                                     className={cn("h-full rounded-full bg-gradient-to-r", stat.fillColor)}
                                   />
                                 </div>
-                                <div className={cn("text-right text-emerald-700 font-semibold", isMobile ? "text-[9px]" : "text-[10px] sm:text-xs")}>
-                                  {stat.progress.toFixed(1)}% {t('completed', { defaultValue: 'complete' })}
-                                </div>
+                                {!isMobile && (
+                                  <div className="text-right text-emerald-700 font-semibold text-[10px] sm:text-xs">
+                                    {stat.progress.toFixed(1)}% {t('completed', { defaultValue: 'complete' })}
+                                  </div>
+                                )}
                               </div>
                             </motion.div>
                           ))}
@@ -1331,8 +1368,9 @@ export default function Index() {
             <Card className="card-mobile border border-gray-200/50 shadow-xl bg-white/70 backdrop-blur-md overflow-hidden rounded-3xl">
               <CardHeader className={cn("card-header-mobile border-b border-gray-200/50 bg-gray-50/50", isMobile ? "p-3" : "p-4 sm:p-5")}>
                 <CardTitle id="progress-title" className={cn("text-center section-title-mobile flex items-center justify-center gap-2", isMobile ? "text-sm" : "text-lg sm:text-xl")}>
-                  <Sparkles className="h-5 w-5 text-amber-500 animate-pulse" />
+                  <Sparkles className="h-5 w-5 text-amber-500 animate-pulse flex-shrink-0" />
                   <strong className="text-gray-900 tracking-wide font-bold">{t('yourEnvironmentalImpact')}</strong>
+                  <div className="h-5 w-5 opacity-0 flex-shrink-0" aria-hidden="true" />
                 </CardTitle>
               </CardHeader>
               <CardContent className={cn("card-content-mobile", isMobile ? "p-3" : "p-6")}>
