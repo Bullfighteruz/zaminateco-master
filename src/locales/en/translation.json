@@ -36,7 +36,6 @@
   "readyForImpact": "Ready for a bigger impact?",
   "joinCampaigns": "Join volunteer eco-campaigns across Uzbekistan and help build a transparent, sustainable future through plastic and rubber recycling.",
   "joinNextCleanup": "Join Next Cleanup",
-  
   "pilotProgramTitle": "ZAMINAT.eco Pilot Program Launch in Tashkent Schools",
   "pilotProgramDesc": "We're excited to announce the launch of our pilot program in 5 Tashkent schools! Students are learning plastic and rubber recycling while creating eco-tiles for their school yards.",
   "futureRecyclingTitle": "The Future of Recycling: Students Leading the Way",
@@ -67,8 +66,7 @@
   "saveName": "Save Name",
   "nameUpdated": "Name updated successfully!",
   "nameRequired": "Please enter at least a first name",
-  "education": "Education",
-  
+  "education": "Education: Teaching communities about plastic and rubber recycling",
   "aboutZaminatEco": "About ZAMINAT.eco",
   "aboutZaminatDesc": "transforms plastic and rubber recycling into a mass social movement, uniting citizens, schools, neighborhoods, volunteers, investors, and government structures into one ecosystem that turns waste into visible contributions for our communities.",
   "plasticRubberRecyclingBadge": "Plastic & Rubber Recycling",
@@ -134,7 +132,6 @@
   "joinTelegramCommunity": "Join Telegram Community",
   "joinTheZaminatMovement": "Join the ZAMINAT Movement",
   "bePartOfTransformation": "Be part of the transformation. Together, we're building a cleaner, more sustainable Uzbekistan.",
-  
   "democraticVoting": "Democratic Project Voting",
   "votingDescription": "Vote for community projects and donate to help them come to life. Projects are ranked by votes and funding progress.",
   "activeProjects": "Active Projects (Ranked by Votes)",
@@ -189,8 +186,7 @@
   "typesOfEvents": "Types of Events",
   "cleanupEvents": "Cleanup Events: Removing waste from public spaces and natural areas",
   "treePlanting": "Tree Planting: Planting trees in urban areas and creating green spaces",
-  "education": "Education: Teaching communities about plastic and rubber recycling",
-  "collection": "Collection: Organizing waste collection campaigns in neighborhoods",
+  "collection": "Collection",
   "whyParticipate": "Why Participate?",
   "earnPoints": "Earn Eco Points: Get rewards for your environmental contributions",
   "meetCommunity": "Meet Community: Connect with like-minded environmental advocates",
@@ -204,7 +200,7 @@
   "home": "Home",
   "ecoMap": "EcoMap",
   "ecoVote": "EcoVote",
-  "actions": "Actions",
+  "actions": "actions",
   "wallet": "Wallet",
   "shop": "Shop",
   "ecoHub": "EcoHub",
@@ -288,7 +284,6 @@
   "meetTeam": "Meet Team",
   "contactUsButton": "Contact Us",
   "getInTouchPartnerships": "Get in touch for partnerships and collaborations",
-  
   "newPlaygroundTitle": "New Playground for School #45",
   "playgroundDescription": "Transform recycled plastic and rubber into colorful playground equipment for 500+ children",
   "chilonzorDistrict": "Chilonzor District",
@@ -387,10 +382,9 @@
   "claimDiscount": "Claim Discount",
   "need": "Need",
   "more": "more",
-  "unlocked": "Unlocked",
+  "unlocked": "unlocked",
   "dailyEngagementStreak": "Daily Engagement Streak",
   "dayStreak": "day streak",
-  "actions": "actions",
   "day": "Day",
   "youreOnStreak": "You're on a",
   "keepItUpStreak": "Keep it up!",
@@ -436,7 +430,6 @@
   "offers": "Offers",
   "badges": "Badges",
   "analytics": "Analytics",
-  
   "ourPartners": "Our Partners",
   "partnersDescription": "Discover exclusive discounts and offers from our eco-conscious partners. Use your earned eco-coins to unlock special deals and support sustainable businesses.",
   "activePartners": "Active Partners",
@@ -480,7 +473,6 @@
   "resetAllFilters": "Reset All Filters",
   "allCategories": "All Categories",
   "allLocations": "All Locations",
-  "collection": "Collection",
   "event": "Event",
   "loadingMap": "Loading map...",
   "hours": "Hours:",
@@ -554,8 +546,6 @@
   "confirmSelection": "Confirm Selection",
   "confirm": "Confirm",
   "avatarCollection": "Avatar Collection",
-  "unlocked": "unlocked",
-  "available": "Available",
   "unlock": "Unlock",
   "locked": "Locked",
   "unlockRequirements": "Unlock Requirements",
@@ -593,7 +583,6 @@
   "reward": "Reward",
   "challenge": "Challenge",
   "easy": "Easy",
-  "medium": "Medium",
   "hard": "Hard",
   "common": "common",
   "rare": "rare",
@@ -730,6 +719,211 @@
     },
     "NmNCxsrOFhU": {
       "title": "Zaminat Kids Ecological Cartoon (Recycling and Ecology) [UZ]"
+    }
+  },
+  "pitch": {
+    "title": "Investor Pitch Deck",
+    "hero": {
+      "title": "Where Waste Ends —\nLife Begins",
+      "subtitle": "A full-cycle Waste-to-Life infrastructure platform from Uzbekistan. Plastic + Tire Waste → Infrastructure Products + Digital Transparency + Education",
+      "stage": "Pre-Seed Stage",
+      "established": "Est. 2025",
+      "location": "Tashkent, Uzbekistan"
+    },
+    "chain": {
+      "waste": "Waste",
+      "material": "Material",
+      "product": "Product",
+      "revenue": "Revenue",
+      "impact": "Impact"
+    },
+    "problem": {
+      "tag": "The Opportunity",
+      "title": "Waste is not an environmental problem. It is unused economic value."
+    },
+    "stats": {
+      "wasteUz": "Waste generated in Uzbekistan",
+      "actuallyRecycled": "Actually recycled",
+      "plasticWaste": "Plastic waste accumulated",
+      "unrealizedValue": "Unrealized economic value",
+      "tonsYear": "tons/year",
+      "tons": "tons",
+      "uzs": "UZS"
+    },
+    "solution": {
+      "tag": "Our Solution",
+      "title": "Three integrated pillars. One impact system.",
+      "pillars": {
+        "physical": {
+          "title": "Physical Products",
+          "desc": "Recycled rubber & plastic → tiles, benches, planters, bricks, bus stops, and more. Real products for real infrastructure."
+        },
+        "digital": {
+          "title": "Digital EcoApp Platform",
+          "desc": "Gamified citizen engagement — EcoMap, EcoWallet, EcoVote, EcoStories. Making recycling visible, measurable, and participatory."
+        },
+        "education": {
+          "title": "EcoKids Education",
+          "desc": "Children design Art Tiles in school workshops. Their creativity becomes real public products installed in parks and playgrounds."
+        }
+      }
+    },
+    "catalog": {
+      "tag": "Product Catalog",
+      "title": "10 products. All from recycled materials.",
+      "materials": {
+        "rubber": "Recycled Rubber",
+        "epdm": "EPDM + Rubber",
+        "plastic": "Recycled Plastic",
+        "composite": "Recycled Materials"
+      },
+      "status": {
+        "selling": "Selling",
+        "pilot": "Pilot-Ready",
+        "roadmap": "Roadmap"
+      }
+    },
+    "ecoapp": {
+      "tag": "Digital Trust Layer",
+      "title": "EcoApp makes recycling visible & participatory.",
+      "modules": {
+        "ecomap": {
+          "name": "EcoMap",
+          "desc": "Interactive collection point finder"
+        },
+        "ecoactions": {
+          "name": "EcoActions",
+          "desc": "Volunteer campaigns & events"
+        },
+        "ecowallet": {
+          "name": "EcoWallet",
+          "desc": "Eco-coins rewards for participation"
+        },
+        "ecostories": {
+          "name": "EcoStories",
+          "desc": "Community impact stories & media"
+        },
+        "ecovote": {
+          "name": "EcoVote",
+          "desc": "Citizens vote on public projects"
+        },
+        "dashboard": {
+          "name": "Impact Dashboard",
+          "desc": "Transparent waste tracking analytics"
+        }
+      }
+    },
+    "business": {
+      "tag": "Business Model",
+      "title": "Multiple revenue channels. One integrated system.",
+      "channels": {
+        "b2g": {
+          "name": "B2G Contracts",
+          "desc": "Municipal & government projects"
+        },
+        "b2b": {
+          "name": "B2B Sales",
+          "desc": "Developers, landscapers, builders"
+        },
+        "b2c": {
+          "name": "B2C E-commerce",
+          "desc": "Direct shop on zaminat.eco"
+        },
+        "social": {
+          "name": "Social Products",
+          "desc": "Art Tiles & EcoKids programs"
+        },
+        "ecoapp": {
+          "name": "EcoApp Platform",
+          "desc": "Eco-coins & gamification monetization"
+        },
+        "franchise": {
+          "name": "Export / Franchise",
+          "desc": "Central Asia expansion model"
+        }
+      },
+      "metrics": {
+        "tam": "TAM",
+        "sam": "SAM",
+        "som": "SOM",
+        "grossMargin": "Gross Margin",
+        "breakeven": "Break-even",
+        "roi": "ROI (4-yr)"
+      }
+    },
+    "roadmap": {
+      "tag": "Roadmap",
+      "title": "4-Year Growth Plan",
+      "y2026": {
+        "title": "Pilot Year",
+        "items": [
+          "First production line",
+          "Pilot sales 10 customers",
+          "EcoApp MVP launch",
+          "EcoKids 3 schools"
+        ]
+      },
+      "y2027": {
+        "title": "Growth",
+        "items": [
+          "500 t/year production",
+          "Tashkent city contracts",
+          "EcoApp 5,000 users",
+          "10 schools enrolled"
+        ]
+      },
+      "y2028": {
+        "title": "Scale",
+        "items": [
+          "2,000 t/year capacity",
+          "Break-even achieved",
+          "Regional expansion pilot",
+          "National partnerships"
+        ]
+      },
+      "y2029": {
+        "title": "Expansion",
+        "items": [
+          "Multi-city operations",
+          "Central Asia market",
+          "Platform licensing",
+          "$183K net profit/year"
+        ]
+      }
+    },
+    "traction": {
+      "tag": "Traction & Readiness",
+      "title": "What we've already done.",
+      "items": [
+        "Registered legal entity (LLC)",
+        "Production logic & pricing finalized",
+        "Website MVP live (zaminat.eco)",
+        "EcoApp prototype built",
+        "Raw material sourcing confirmed",
+        "Equipment suppliers identified",
+        "Financial model validated (4-year)",
+        "Pilot customer pipeline started",
+        "Team of 3 co-founders assembled",
+        "Brand & positioning complete"
+      ]
+    },
+    "team": {
+      "tag": "Founding Team",
+      "title": "Built by operators, not just dreamers."
+    },
+    "ask": {
+      "tag": "Pre-Seed · Pilot Preparation",
+      "seeking": "Seeking",
+      "equity": "Equity",
+      "valuation": "Post-Money Valuation",
+      "fundsTag": "Use of Funds",
+      "fund1": "$320K (91%) — Equipment, raw materials, certification, production",
+      "fund2": "$15K (4%) — EcoApp development & launch",
+      "fund3": "$15K (4%) — Branding, marketing, pilot demos",
+      "footer": "Current stage: registered entity, prepared product logic, web MVP, early sourcing discussions, and pilot roadmap. We are honest about where we are — and clear about where we are going.",
+      "cta1": "Join the first Waste-to-Life infrastructure platform from Uzbekistan.",
+      "cta2": "Where waste ends — life begins.",
+      "qrLabel": "Scan to Open Pitch"
     }
   }
 }

@@ -36,7 +36,6 @@
   "readyForImpact": "Kattaroq ta'sirga tayyormisiz?",
   "joinCampaigns": "O'zbekiston bo'ylab ko'ngillilar eko-kampaniyalariga qo'shiling va plastik va rezina qayta ishlash orqali shaffof, barqaror kelajak qurishga yordam bering.",
   "joinNextCleanup": "Keyingi tozalashga qo'shilish",
-  
   "pilotProgramTitle": "Toshkent maktablarida ZAMINAT.eco pilot dasturi ishga tushirildi",
   "pilotProgramDesc": "Toshkentdagi 5 ta maktabda pilot dasturimizni ishga tushirishni e'lon qilishdan xursandmiz! Talabalar plastik va rezina qayta ishlashni o'rganib, maktab hovlilari uchun eko-kafel yaratmoqdalar.",
   "futureRecyclingTitle": "Qayta ishlashning kelajagi: Talabalar yo'l ko'rsatmoqda",
@@ -48,8 +47,7 @@
   "educationTeam": "Ta'lim jamoasi",
   "update": "Yangilanish",
   "successStory": "Muvaffaqiyat hikoyasi",
-  "education": "Ta'lim",
-  
+  "education": "Ta'lim: Jamiyatlarga plastik va rezina qayta ishlash haqida o'rgatish",
   "aboutZaminatEco": "ZAMINAT.eco haqida",
   "aboutZaminatDesc": "plastik va rezina qayta ishlashni ommaviy ijtimoiy harakatga aylantiradi, fuqarolar, maktablar, mahallalar, ko'ngillilar, investorlar va davlat tuzilmalarini chiqindilarni jamiyatlarimiz uchun ko'rinadigan hissaga aylantiradigan bitta ekotizimga birlashtiradi.",
   "plasticRubberRecyclingBadge": "Plastik va rezina qayta ishlash",
@@ -115,7 +113,6 @@
   "joinTelegramCommunity": "Telegram jamiyatiga qo'shilish",
   "joinTheZaminatMovement": "ZAMINAT harakatiga qo'shilish",
   "bePartOfTransformation": "O'zgarishning bir qismi bo'ling. Birgalikda biz yanada toza, barqaror O'zbekiston quramiz.",
-  
   "democraticVoting": "Loyihalar bo'yicha demokratik ovoz berish",
   "votingDescription": "Jamiyat loyihalari uchun ovoz bering va ularning amalga oshishiga yordam berish uchun xayriya qiling. Loyihalar ovozlar va moliyalashtirish jarayoni bo'yicha reytinglanadi.",
   "activeProjects": "Faol loyihalar (ovozlar bo'yicha reytinglangan)",
@@ -170,8 +167,7 @@
   "typesOfEvents": "Tadbirlar turlari",
   "cleanupEvents": "Tozalash tadbirlari: Jamoat joylari va tabiat hududlaridan chiqindilarni olib tashlash",
   "treePlanting": "Daraxt ekish: Shahar hududlarida daraxt ekish va yashil maydonlar yaratish",
-  "education": "Ta'lim: Jamiyatlarga plastik va rezina qayta ishlash haqida o'rgatish",
-  "collection": "Yig'ish: Mahallalarda chiqindi yig'ish kampaniyalarini tashkil etish",
+  "collection": "Yig'ish",
   "whyParticipate": "Nega ishtirok etish kerak?",
   "earnPoints": "Eko-ochkolar to'plang: Ekologik hissangiz uchun mukofotlar oling",
   "meetCommunity": "Jamiyat bilan tanishing: O'xshash fikrdagi ekologiya tarafdorlari bilan bog'laning",
@@ -185,7 +181,7 @@
   "home": "Bosh sahifa",
   "ecoMap": "EkoXarita",
   "ecoVote": "EkoOvoz",
-  "actions": "Harakatlar",
+  "actions": "harakatlar",
   "wallet": "Hamyon",
   "shop": "Do'kon",
   "ecoHub": "EkoHub",
@@ -269,7 +265,6 @@
   "meetTeam": "Jamoa bilan tanishish",
   "contactUsButton": "Biz bilan bog'lanish",
   "getInTouchPartnerships": "Hamkorlik va hamjihatlik uchun bog'laning",
-  
   "newPlaygroundTitle": "45-sonli maktab uchun yangi o'yin maydoni",
   "playgroundDescription": "Qayta ishlangan plastik va rezinani 500+ bola uchun rangli o'yin jihozlariga aylantiring",
   "chilonzorDistrict": "Chilonzor tumani",
@@ -323,7 +318,7 @@
   "installationStarted": "O'rnatish boshlandi",
   "exploreCompletedProjects": "Interaktiv xususiyatlar, batafsil ta'sir ko'rsatkichlari va virtual turlar bilan yakunlangan loyihalarimizni o'rganing.",
   "high": "Yuqori",
-  "medium": "O'rta",
+  "medium": "O'rtacha",
   "low": "Past",
   "success": "Muvaffaqiyat",
   "firstCollection": "Birinchi yig'ish",
@@ -368,10 +363,9 @@
   "claimDiscount": "Chegirmani olish",
   "need": "Kerak",
   "more": "ko'proq",
-  "unlocked": "Ochilgan",
+  "unlocked": "ochildi",
   "dailyEngagementStreak": "Kunlik ishtirok ketma-ketligi",
   "dayStreak": "kunlik ketma-ketlik",
-  "actions": "harakatlar",
   "day": "Kun",
   "youreOnStreak": "Sizda",
   "keepItUpStreak": "Davom eting!",
@@ -417,7 +411,6 @@
   "offers": "Takliflar",
   "badges": "Nishonlar",
   "analytics": "Analitika",
-  
   "ourPartners": "Bizning hamkorlarimiz",
   "partnersDescription": "Ekologik ongga ega hamkorlarimizdan eksklyuziv chegirmalar va takliflarni kashf eting. Topgan eko-tangalaringizni maxsus takliflarni ochish va barqaror biznesni qo'llab-quvvatlash uchun ishlatng.",
   "activePartners": "Faol hamkorlar",
@@ -461,7 +454,6 @@
   "resetAllFilters": "Barcha filtrlarni qayta tiklash",
   "allCategories": "Barcha kategoriyalar",
   "allLocations": "Barcha joylashuvlar",
-  "collection": "Yig'ish",
   "event": "Tadbir",
   "loadingMap": "Xarita yuklanmoqda...",
   "hours": "Soatlar:",
@@ -535,8 +527,6 @@
   "confirmSelection": "Tanlovni tasdiqlash",
   "confirm": "Tasdiqlash",
   "avatarCollection": "Avatar kolleksiyasi",
-  "unlocked": "ochildi",
-  "available": "Mavjud",
   "unlock": "Ochish",
   "locked": "Qulangan",
   "unlockRequirements": "Ochish talablari",
@@ -574,7 +564,6 @@
   "reward": "Mukofot",
   "challenge": "Vazifa",
   "easy": "Oson",
-  "medium": "O'rtacha",
   "hard": "Qiyin",
   "common": "oddiy",
   "rare": "noyob",
@@ -730,6 +719,211 @@
     },
     "NmNCxsrOFhU": {
       "title": "Ekologik multfilm Zaminat Kids (qayta ishlash va ekologiya)"
+    }
+  },
+  "pitch": {
+    "title": "Investorlar uchun taqdimot",
+    "hero": {
+      "title": "Chiqindi tugagan joyda —\nHayot boshlanadi",
+      "subtitle": "O'zbekistonda to'liq siklli «Chiqindidan hayotga» infratuzilma platformasi. Plastik + Shina chiqindilari → Infratuzilma mahsulotlari + Raqamli shaffoflik + Ta'lim",
+      "stage": "Pre-Seed bosqichi",
+      "established": "Tashkil etilgan: 2025",
+      "location": "Toshkent, O'zbekiston"
+    },
+    "chain": {
+      "waste": "Chiqindi",
+      "material": "Material",
+      "product": "Mahsulot",
+      "revenue": "Daromad",
+      "impact": "Ta'sir"
+    },
+    "problem": {
+      "tag": "Imkoniyatlar",
+      "title": "Chiqindi ekologik muammo emas. Bu ishlatilmagan iqtisodiy qiymatdir."
+    },
+    "stats": {
+      "wasteUz": "O'zbekistonda hosil bo'ladigan chiqindilar",
+      "actuallyRecycled": "Amalda qayta ishlanadi",
+      "plasticWaste": "To'plangan plastik chiqindilar",
+      "unrealizedValue": "Boy berilgan iqtisodiy qiymat",
+      "tonsYear": "tonna/yil",
+      "tons": "tonna",
+      "uzs": "so'm"
+    },
+    "solution": {
+      "tag": "Bizning yechimimiz",
+      "title": "Uchta integratsiyalashgan ustun. Bitta ta'sir tizimi.",
+      "pillars": {
+        "physical": {
+          "title": "Jismoniy mahsulotlar",
+          "desc": "Qayta ishlangan rezina va plastik → kafel, o'rindiqlar, guldonlar, g'ishtlar, avtobus bekatlari. Real infratuzilma uchun real mahsulotlar."
+        },
+        "digital": {
+          "title": "Raqamli EcoApp platformasi",
+          "desc": "Fuqarolarning o'yinli jalb etilishi — EcoMap, EcoWallet, EcoVote, EcoStories. Qayta ishlashni ko'rinadigan, o'lchanadigan va ommaviy qilamiz."
+        },
+        "education": {
+          "title": "EcoKids ta'limi",
+          "desc": "Bolalar maktab to'garaklarida Art Tiles dizaynini yaratadilar. Ularning ijodi bog'lar uchun haqiqiy eko-mahsulotlarga aylanadi."
+        }
+      }
+    },
+    "catalog": {
+      "tag": "Mahsulotlar katalogi",
+      "title": "10 ta mahsulot. Barchasi qayta ishlangan materiallardan.",
+      "materials": {
+        "rubber": "Qayta ishlangan rezina",
+        "epdm": "EPDM + Rezina",
+        "plastic": "Qayta ishlangan plastik",
+        "composite": "Qayta ishlangan materiallar"
+      },
+      "status": {
+        "selling": "Sotuvda",
+        "pilot": "Pilot tayyor",
+        "roadmap": "Rejada"
+      }
+    },
+    "ecoapp": {
+      "tag": "Raqamli shaffoflik",
+      "title": "EcoApp qayta ishlashni shaffof va qiziqarli qiladi.",
+      "modules": {
+        "ecomap": {
+          "name": "EcoMap",
+          "desc": "Qabul qilish punktlarining interaktiv xaritasi"
+        },
+        "ecoactions": {
+          "name": "EcoActions",
+          "desc": "Ko'ngillilar kampaniyalari va eko-tadbirlar"
+        },
+        "ecowallet": {
+          "name": "EcoWallet",
+          "desc": "Qayta ishlash uchun eko-tangalar to'plash"
+        },
+        "ecostories": {
+          "name": "EcoStories",
+          "desc": "Jamiyat muvaffaqiyatlari va eko-tarixlar"
+        },
+        "ecovote": {
+          "name": "EcoVote",
+          "desc": "Fuqarolarning eko-loyihalarga ovoz berishi"
+        },
+        "dashboard": {
+          "name": "Ta'sir paneli",
+          "desc": "Chiqindilarni kuzatish shaffof tahlili"
+        }
+      }
+    },
+    "business": {
+      "tag": "Biznes model",
+      "title": "Ko'p daromad kanallari. Bitta integratsiyalashgan tizim.",
+      "channels": {
+        "b2g": {
+          "name": "B2G shartnomalari",
+          "desc": "Munitsipal va davlat loyihalari"
+        },
+        "b2b": {
+          "name": "B2B savdosi",
+          "desc": "Dasturchilar, landshaft dizaynerlari, quruvchilar"
+        },
+        "b2c": {
+          "name": "B2C E-tijorat",
+          "desc": "zaminat.eco saytidagi to'g'ridan-to'g'ri do'kon"
+        },
+        "social": {
+          "name": "Ijtimoiy mahsulotlar",
+          "desc": "Art Tiles va EcoKids maktab dasturlari"
+        },
+        "ecoapp": {
+          "name": "EcoApp platformasi",
+          "desc": "Eko-tangalar va o'yinli monetizatsiya"
+        },
+        "franchise": {
+          "name": "Eksport / Franshiza",
+          "desc": "O'rta Osiyo bozoriga chiqish modeli"
+        }
+      },
+      "metrics": {
+        "tam": "TAM",
+        "sam": "SAM",
+        "som": "SOM",
+        "grossMargin": "Yalpi marja",
+        "breakeven": "Zararsizlik",
+        "roi": "ROI (4 yil)"
+      }
+    },
+    "roadmap": {
+      "tag": "Rivojlanish rejasi",
+      "title": "4 yillik o'sish rejasi",
+      "y2026": {
+        "title": "Pilot yili",
+        "items": [
+          "Birinchi ishlab chiqarish liniyasi",
+          "10 ta mijozga pilot savdolar",
+          "EcoApp MVP ishga tushirilishi",
+          "3 ta maktabda EcoKids"
+        ]
+      },
+      "y2027": {
+        "title": "O'sish",
+        "items": [
+          "500 t/yil ishlab chiqarish",
+          "Toshkent shahar miqyosidagi shartnomalar",
+          "Ilovada 5 000 foydalanuvchi",
+          "10 ta maktab jalb etilishi"
+        ]
+      },
+      "y2028": {
+        "title": "Kengayish",
+        "items": [
+          "Imkoniyat: 2 000 t/yil",
+          "Zararsizlikka erishish",
+          "Viloyatlarga kengayish piloti",
+          "Milliy hamkorlik"
+        ]
+      },
+      "y2029": {
+        "title": "Kengayish",
+        "items": [
+          "Bir nechta shaharlarda faoliyat",
+          "O'rta Osiyo bozoriga chiqish",
+          "Platformani litsenziyalash",
+          "$183K yillik sof foyda"
+        ]
+      }
+    },
+    "traction": {
+      "tag": "Natijalar va tayyorgarlik",
+      "title": "Biz allaqachon qilgan ishlarimiz.",
+      "items": [
+        "Yuridik shaxs ro'yxatdan o'tkazildi (MChJ)",
+        "Ishlab chiqarish logikasi va narxlar tasdiqlandi",
+        "MVP veb-sayt ishga tushdi (zaminat.eco)",
+        "EcoApp ilovasi prototipi tayyorlandi",
+        "Xomashyo manbalari tasdiqlandi",
+        "Uskunalar yetkazib beruvchilar aniqlandi",
+        "4 yillik moliyaviy model tasdiqlandi",
+        "Pilot mijozlar jalb etilishi boshlandi",
+        "3 kishilik jamoa yig'ildi",
+        "Brend va pozitsiyalash yakunlandi"
+      ]
+    },
+    "team": {
+      "tag": "Jamoa",
+      "title": "Shunchaki xayolparastlar emas, balki amaliyotchilar jamoasi."
+    },
+    "ask": {
+      "tag": "Pre-Seed · Pilotga tayyorgarlik",
+      "seeking": "Kiritilayotgan mablag'",
+      "equity": "Ushbu ulush uchun",
+      "valuation": "Investitsiyadan keyingi baholash",
+      "fundsTag": "Mablag'lardan foydalanish",
+      "fund1": "$320K (91%) — Uskunalar, xomashyo, sertifikatlash, ishlab chiqarish",
+      "fund2": "$15K (4%) — EcoApp ilovasini ishlab chiqish va ishga tushirish",
+      "fund3": "$15K (4%) — Brending, marketing, pilot namoyishlar",
+      "footer": "Joriy bosqich: yuridik shaxs ro'yxatdan o'tgan, mahsulot mantig'i tayyor, veb-sayt MVP, xomashyo muzokaralari olib borilmoqda va pilot reja tayyor. Biz hozirgi holatimiz haqida rost gapiramiz va maqsadimiz sari aniq harakat qilamiz.",
+      "cta1": "O'zbekistondagi birinchi «Chiqindidan infratuzilmaga» platformasiga qo'shiling.",
+      "cta2": "Chiqindi tugagan joyda — hayot boshlanadi.",
+      "qrLabel": "Taqdimotni ochish uchun skanerlang"
     }
   }
 }
