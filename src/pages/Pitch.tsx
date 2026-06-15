@@ -73,7 +73,7 @@ const TRACTION = [
   'Equipment suppliers identified',
   'Financial model validated (4-year)',
   'Pilot customer pipeline started',
-  'Team of 3 co-founders assembled',
+  'Founder & CEO assembled the core project team',
   'Brand & positioning complete',
 ];
 
@@ -297,7 +297,7 @@ export default function Pitch() {
       'Equipment suppliers identified',
       'Financial model validated (4-year)',
       'Pilot customer pipeline started',
-      'Team of 3 co-founders assembled',
+      'Founder & CEO assembled the core project team',
       'Brand & positioning complete',
     ]);
   }, [t]);
