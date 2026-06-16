@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
 import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
+import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
 
 /* ────────────────────────────── Data ────────────────────────────── */
 
@@ -94,7 +95,7 @@ const TEAM = [
     name: 'Khondamir Alibekov', 
     role: 'Project Team — Digital Platform & Website Demo Support', 
     focus: 'Helps with digital development, website demos, web MVPs, visual presentation, and technical support for pitch demos.', 
-    photo: '/images/meet-the-team_15916616.webp' 
+    photo: khondamirPhoto 
   },
 ];
 
@@ -418,7 +419,7 @@ export default function Pitch() {
       name: t('team.members.khondamir.name', { ns: 'team' }), 
       role: t('team.members.khondamir.position', { ns: 'team' }), 
       focus: t('team.members.khondamir.description', { ns: 'team' }), 
-      photo: '/images/meet-the-team_15916616.webp' 
+      photo: khondamirPhoto 
     },
   ], [t]);
 

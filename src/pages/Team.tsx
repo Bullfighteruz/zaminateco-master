@@ -13,6 +13,7 @@ import { contactHelpers } from '@/utils/mailto';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
 import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
 import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.jpg';
+import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
 
 // Animation variants
 const containerVariants = {
@@ -271,6 +272,7 @@ export default function Team() {
     const photosByMember: Record<string, string> = {
       sukhrobjon: sukhrobjonPhoto,
       azamat: azamatPhoto,
+      khondamir: khondamirPhoto,
       islombek: jahongirPhoto,
     };
 
