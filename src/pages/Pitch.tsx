@@ -308,7 +308,7 @@ export default function Pitch() {
   ], [t]);
 
   const tractionStage = useMemo(() => ({
-    label: t('pitch.traction.stage.label'),
+    title: t('pitch.traction.stage.title'),
     desc: t('pitch.traction.stage.desc'),
   }), [t]);
 
@@ -316,36 +316,90 @@ export default function Pitch() {
     {
       title: t('pitch.traction.pillars.legal.title'),
       items: getArray('pitch.traction.pillars.legal.items', [
-        "Official company registration (MCHJ)",
-        "Trademark application filed to protect the ZAMINAT.eco brand",
-        "Official brand identity and positioning developed",
+        "MChJ officially registered",
+        "Trademark application filed",
+        "Brand identity and positioning developed",
         "Official communication channels launched",
-        "Founder-led setup with a lean execution team"
+        "Founder-led setup with lean project support team"
       ])
     },
     {
       title: t('pitch.traction.pillars.accelerator.title'),
       items: getArray('pitch.traction.pillars.accelerator.items', [
         "Green-tech acceleration completed at U-ENTER",
-        "Pitch strategy prepared",
-        "Investor-facing positioning refined",
+        "Investor pitch strategy prepared",
         "Website-based pitch format prepared",
-        "Strategic model clarified: production + digital + education + public impact"
+        "QR investor access prepared",
+        "Business model clarified: production + digital transparency + education + public impact"
       ])
     },
     {
       title: t('pitch.traction.pillars.product.title'),
       items: getArray('pitch.traction.pillars.product.items', [
-        "Product categories defined (EcoTiles, Safety Tiles, EcoBusStops, Art Tiles, etc.)",
-        "Product formulas and SKU structure prepared",
-        "SKU cost calculator and unit economics prepared",
-        "Theoretical product indicators prepared",
-        "Priority product lines identified for pilot production",
-        "Product use cases mapped across schools, parks, sports facilities, and public spaces"
+        "Product categories defined: EcoTiles, safety tiles, EcoCurbs, EcoFurniture, Art Tiles",
+        "Product formulas prepared",
+        "SKU structure prepared",
+        "SKU calculator and unit economics prepared",
+        "Target product indicators prepared for pilot validation",
+        "Priority SKUs identified for pilot production"
       ]),
       note: t('pitch.traction.pillars.product.note')
+    },
+    {
+      title: t('pitch.traction.pillars.sourcing.title'),
+      items: getArray('pitch.traction.pillars.sourcing.items', [
+        "Industry consultations completed",
+        "Field visits completed",
+        "Practical recommendations received",
+        "Preliminary rubber-waste supply discussions started with small enterprises",
+        "Tire and plastic sourcing logic prepared for pilot launch"
+      ])
+    },
+    {
+      title: t('pitch.traction.pillars.facility.title'),
+      items: getArray('pitch.traction.pillars.facility.items', [
+        "Lean pilot production workshop strategy prepared",
+        "Facility partnership model prepared",
+        "Site requirements identified: electricity, ventilation, truck access, storage and equipment space",
+        "Strategy avoids building a factory from scratch in phase one",
+        "Production launch roadmap prepared"
+      ])
+    },
+    {
+      title: t('pitch.traction.pillars.digital.title'),
+      items: getArray('pitch.traction.pillars.digital.items', [
+        "Web MVP and investor pitch-demo route prepared",
+        "EcoApp concept prepared",
+        "EcoKids concept prepared",
+        "EcoMap, EcoVote, EcoActions, EcoWallet and Impact Dashboard logic prepared",
+        "Digital transparency and education model developed"
+      ])
+    },
+    {
+      title: t('pitch.traction.pillars.investment.title'),
+      items: getArray('pitch.traction.pillars.investment.items', [
+        "$400K pre-seed ask structured",
+        "Base offer prepared: $400K for 20% equity",
+        "Strategic launch partner model prepared: cash + facility access up to 25%",
+        "Facility-only partner model prepared: 3–5% equity or revenue-share",
+        "Use of funds updated for equipment, facility adaptation, raw materials, testing, digital platform and demo projects"
+      ])
     }
   ], [t]);
+
+  const nextMilestone = useMemo(() => ({
+    title: t('pitch.traction.nextMilestone.title'),
+    subtitle: t('pitch.traction.nextMilestone.subtitle'),
+    items: getArray('pitch.traction.nextMilestone.items', [
+      "Secure industrial facility or site partner",
+      "Finalize equipment suppliers",
+      "Formalize raw material supply agreements",
+      "Launch pilot production",
+      "Begin testing and certification roadmap",
+      "Produce first demo objects",
+      "Start first B2B/B2G sales conversations"
+    ])
+  }), [t]);
 
   const team = useMemo(() => [
     { 
@@ -710,14 +764,19 @@ export default function Pitch() {
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
                 {t('pitch.traction.title')}
               </h2>
+              {t('pitch.traction.subtitle') && (
+                <p className={cn("mx-auto mt-3 text-gray-600 leading-relaxed max-w-3xl", isMobile ? "text-xs px-2" : "text-sm")}>
+                  {t('pitch.traction.subtitle')}
+                </p>
+              )}
               
               {/* Stage Banner */}
               <div className="mt-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 text-emerald-800 text-left max-w-3xl mx-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                 <div className="bg-emerald-500 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider flex-shrink-0">
-                  {tractionStage.label.split(': ')[0] || "Stage"}
+                  {t('pitch.hero.stage')}
                 </div>
                 <div className="space-y-0.5">
-                  <h4 className="text-xs font-bold text-gray-900">{tractionStage.label.split(': ')[1] || tractionStage.label}</h4>
+                  <h4 className="text-xs font-bold text-gray-900">{tractionStage.title}</h4>
                   <p className="text-gray-600 text-[11px] leading-relaxed">
                     {tractionStage.desc}
                   </p>
@@ -728,14 +787,18 @@ export default function Pitch() {
             {/* Structured Pillars Grid */}
             <div className={cn("grid gap-6", isMobile ? "grid-cols-1" : "grid-cols-3")}>
               {tractionPillars.map((pillar, idx) => (
-                <motion.div key={idx} variants={fadeUp}>
+                <motion.div 
+                  key={idx} 
+                  variants={fadeUp} 
+                  className={cn(idx === 6 ? "md:col-span-3 lg:col-span-3" : "")}
+                >
                   <Card className="h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
                     <CardContent className={cn("flex flex-col justify-between h-full", isMobile ? "p-4" : "p-5")}>
                       <div>
                         <h4 className={cn("font-bold text-gray-900 border-b border-gray-100 pb-3 mb-3", isMobile ? "text-xs" : "text-sm")}>
                           {pillar.title}
                         </h4>
-                        <ul className="space-y-2.5">
+                        <ul className={cn("space-y-2.5", idx === 6 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2" : "")}>
                           {pillar.items.map((item, itemIdx) => (
                             <li key={itemIdx} className="flex items-start gap-2 text-gray-700">
                               <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" />
@@ -754,6 +817,39 @@ export default function Pitch() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Next Execution Milestone */}
+            <motion.div variants={fadeUp} className="mt-8">
+              <Card className="border border-emerald-500/20 shadow-lg bg-gradient-to-br from-white to-emerald-50/10 overflow-hidden">
+                <CardContent className={cn("p-6 md:p-8")}>
+                  <div className="flex flex-col lg:flex-row gap-6 items-start justify-between">
+                    <div className="space-y-2 max-w-md">
+                      <div className="bg-emerald-500 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider w-fit">
+                        {nextMilestone.title}
+                      </div>
+                      <h3 className={cn("font-black text-gray-900 leading-tight", isMobile ? "text-lg" : "text-xl")}>
+                        {nextMilestone.subtitle}
+                      </h3>
+                      <p className="text-gray-500 text-xs leading-relaxed">
+                        {t('pitch.traction.nextMilestone.description', { defaultValue: "Operational roadmap for pilot launching and scaling. These milestones unlock key growth phases, product validation, and initial revenue generation." })}
+                      </p>
+                    </div>
+                    <div className="w-full lg:max-w-2xl">
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
+                        {nextMilestone.items.map((item, index) => (
+                          <li key={index} className="flex items-start gap-2.5 text-gray-700">
+                            <div className="h-5 w-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs flex-shrink-0 mt-0.5">
+                              {index + 1}
+                            </div>
+                            <span className={cn(isMobile ? "text-[11px]" : "text-xs leading-relaxed font-medium")}>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </motion.section>
 
           {/* ═══════ SECTION 9: Team ═══════ */}

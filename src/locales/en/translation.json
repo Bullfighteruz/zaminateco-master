@@ -913,44 +913,99 @@
     },
     "traction": {
       "tag": "Traction & Readiness",
-      "title": "Ready for Execution",
+      "title": "De-Risked Pre-Seed, Ready for Pilot Execution",
+      "subtitle": "ZAMINAT.eco has moved from concept to structured launch readiness: legal foundation, product formulas, SKU economics, sourcing discussions, facility strategy, digital MVP, and a clear pilot production roadmap.",
       "stage": {
-        "label": "Current Stage: Pre-Seed / Pilot Preparation",
-        "desc": "ZAMINAT.eco is currently at the pre-seed / pilot preparation stage. We are a prepared green-tech infrastructure startup that has already moved from idea to execution readiness."
+        "title": "Pre-Seed / Pilot Preparation",
+        "desc": "Founder-led green-tech infrastructure startup preparing for pilot production, product validation, certification, first sales, and demonstration objects."
       },
       "pillars": {
         "legal": {
           "title": "1. Legal & Brand Readiness",
           "items": [
-            "Official company registration (MCHJ)",
-            "Trademark application filed to protect the ZAMINAT.eco brand",
-            "Official brand identity and positioning developed",
+            "MChJ officially registered",
+            "Trademark application filed",
+            "Brand identity and positioning developed",
             "Official communication channels launched",
-            "Founder-led setup with a lean execution team"
+            "Founder-led setup with lean project support team"
           ]
         },
         "accelerator": {
-          "title": "2. Acceleration & Ecosystem Validation",
+          "title": "2. Acceleration & Pitch Readiness",
           "items": [
             "Green-tech acceleration completed at U-ENTER",
-            "Pitch strategy prepared",
-            "Investor-facing positioning refined",
+            "Investor pitch strategy prepared",
             "Website-based pitch format prepared",
-            "Strategic model clarified: production + digital + education + public impact"
+            "QR investor access prepared",
+            "Business model clarified: production + digital transparency + education + public impact"
           ]
         },
         "product": {
-          "title": "3. Product Development Readiness",
+          "title": "3. Product & Unit Economics Readiness",
           "items": [
-            "Product categories defined (EcoTiles, Safety Tiles, EcoBusStops, Art Tiles, etc.)",
-            "Product formulas and SKU structure prepared",
-            "SKU cost calculator and unit economics prepared",
-            "Theoretical product indicators prepared",
-            "Priority product lines identified for pilot production",
-            "Product use cases mapped across schools, parks, sports facilities, and public spaces"
+            "Product categories defined: EcoTiles, safety tiles, EcoCurbs, EcoFurniture, Art Tiles",
+            "Product formulas prepared",
+            "SKU structure prepared",
+            "SKU calculator and unit economics prepared",
+            "Target product indicators prepared for pilot validation",
+            "Priority SKUs identified for pilot production"
           ],
-          "note": "*Note: Product indicators are theoretical / model-based assumptions and will be validated during pilot production, laboratory testing, and certification."
+          "note": "*Note: Product indicators are model-based at this stage and will be validated through pilot production, laboratory testing and certification."
+        },
+        "sourcing": {
+          "title": "4. Raw Material Sourcing Readiness",
+          "items": [
+            "Industry consultations completed",
+            "Field visits completed",
+            "Practical recommendations received",
+            "Preliminary rubber-waste supply discussions started with small enterprises",
+            "Tire and plastic sourcing logic prepared for pilot launch"
+          ]
+        },
+        "facility": {
+          "title": "5. Facility & Production Launch Strategy",
+          "items": [
+            "Lean pilot production workshop strategy prepared",
+            "Facility partnership model prepared",
+            "Site requirements identified: electricity, ventilation, truck access, storage and equipment space",
+            "Strategy avoids building a factory from scratch in phase one",
+            "Production launch roadmap prepared"
+          ]
+        },
+        "digital": {
+          "title": "6. Digital & Education Layer",
+          "items": [
+            "Web MVP and investor pitch-demo route prepared",
+            "EcoApp concept prepared",
+            "EcoKids concept prepared",
+            "EcoMap, EcoVote, EcoActions, EcoWallet and Impact Dashboard logic prepared",
+            "Digital transparency and education model developed"
+          ]
+        },
+        "investment": {
+          "title": "7. Investment Readiness",
+          "items": [
+            "$400K pre-seed ask structured",
+            "Base offer prepared: $400K for 20% equity",
+            "Strategic launch partner model prepared: cash + facility access up to 25%",
+            "Facility-only partner model prepared: 3–5% equity or revenue-share",
+            "Use of funds updated for equipment, facility adaptation, raw materials, testing, digital platform and demo projects"
+          ]
         }
+      },
+      "nextMilestone": {
+        "title": "8. Next Execution Milestone",
+        "subtitle": "Next Milestone: Pilot Production + Certification + First Sales",
+        "description": "Operational roadmap for pilot launching and scaling. These milestones unlock key growth phases, product validation, and initial revenue generation.",
+        "items": [
+          "Secure industrial facility or site partner",
+          "Finalize equipment suppliers",
+          "Formalize raw material supply agreements",
+          "Launch pilot production",
+          "Begin testing and certification roadmap",
+          "Produce first demo objects",
+          "Start first B2B/B2G sales conversations"
+        ]
       }
     },
     "team": {

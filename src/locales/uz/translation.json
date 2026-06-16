@@ -913,44 +913,99 @@
     },
     "traction": {
       "tag": "Natijalar va Tayyorgarlik",
-      "title": "Ishga tushishga tayyor",
+      "title": "Pre-Seed xavflari kamaytirilgan, Pilot loyihani ishga tushirishga tayyor",
+      "subtitle": "ZAMINAT.eco loyihasi g'oyadan tizimli tayyorgarlik darajasiga o'tdi: yuridik asos yaratildi, mahsulot retseptlari tayyorlandi, SKU iqtisodiyoti hisoblandi, xomashyo yetkazib beruvchilar bilan muzokaralar olib borildi, ishlab chiqarish strategiyasi belgilandi, raqamli MVP tayyor va pilot ishlab chiqarishning aniq rejasi ishlab chiqildi.",
       "stage": {
-        "label": "Joriy bosqich: Pre-Seed / Pilot tayyorgarligi",
-        "desc": "ZAMINAT.eco loyihasi pre-seed / pilot tayyorgarlik bosqichida. Biz g'oyadan amalga oshirish tayyorgarligiga o'tgan yashil texnologiyalar startapini taqdim etmoqdamiz."
+        "title": "Pre-Seed / Pilot tayyorgarligi",
+        "desc": "Pilot ishlab chiqarish, mahsulot validatsiyasi, sertifikatlashtirish, birinchi savdo va namoyish ob'ektlarini tayyorlash bosqichidagi yashil texnologiyalar (green-tech) startapi."
       },
       "pillars": {
         "legal": {
           "title": "1. Yuridik va brend tayyorgarligi",
           "items": [
-            "Kompaniya rasman MChJ shaklida ro'yxatdan o'tkazildi",
-            "ZAMINAT.eco brendini himoya qilish uchun savdo belgisi arizasi topshirildi",
-            "Rasmiy brend identifikatsiyasi va pozitsiyalash ishlab chiqildi",
+            "MChJ rasman ro'yxatdan o'tkazildi",
+            "Savdo belgisini ro'yxatdan o'tkazish uchun ariza topshirildi",
+            "Brend identifikatsiyasi va pozitsiyalash ishlab chiqildi",
             "Rasmiy aloqa kanallari ishga tushirildi",
-            "Loyiha asoschi rahbarligidagi ixcham ijro jamoasi sifatida shakllantirildi"
+            "Ixcham loyiha guruhiga ega bo'lgan asoschi boshqaruvidagi tuzilma"
           ]
         },
         "accelerator": {
-          "title": "2. Akseleratsiya va ekotizim validatsiyasi",
+          "title": "2. Akseleratsiya va taqdimotga tayyorgarlik",
           "items": [
             "U-ENTER markazida yashil texnologiyalar akseleratsiyasi yakunlandi",
-            "Taqdimot (pitch) strategiyasi tayyorlandi",
-            "Investorlar uchun pozitsiyalash aniqlashtirildi",
-            "Veb-saytga asoslangan pitch formati tayyorlandi",
-            "Strategik model aniqlashtirildi: ishlab chiqarish + raqamli tizim + ta'lim + ijtimoiy ta'sir"
+            "Investorlar uchun pitch strategiyasi tayyorlandi",
+            "Veb-saytga asoslangan pitch formati ishlab chiqildi",
+            "Investorlar uchun QR-kod orqali kirish imkoniyati yaratildi",
+            "Biznes-model aniqlashtirildi: ishlab chiqarish + raqamli shaffoflik + ta'lim + ijtimoiy ta'sir"
           ]
         },
         "product": {
-          "title": "3. Mahsulot ishlab chiqish tayyorgarligi",
+          "title": "3. Mahsulot va yunit-ekonomika tayyorgarligi",
           "items": [
-            "Mahsulot toifalari belgilandi (EcoTiles, xavfsiz rezina plitalar, eko-bekatlar va boshqalar)",
-            "Mahsulot formulalari va SKU tuzilmasi tayyorlandi",
-            "SKU tannarx kalkulyatori va yunit-ekonomikasi tayyorlandi",
-            "Nazariy mahsulot ko'rsatkichlari tayyorlandi",
-            "Pilot ishlab chiqarish uchun ustuvor mahsulot liniyalari belgilandi",
-            "Maktablar, bog'lar, sport maydonlari va jamoat joylari uchun foydalanish holatlari belgilandi"
+            "Mahsulot toifalari belgilandi: EcoTiles, xavfsiz rezina plitalar, EcoCurbs, EcoFurniture, Art Tiles",
+            "Mahsulot retseptlari tayyorlandi",
+            "SKU tuzilmasi shakllantirildi",
+            "SKU kalkulyatori va yunit-ekonomikasi tayyorlandi",
+            "Pilot sinovlar uchun maqsadli mahsulot ko'rsatkichlari belgilandi",
+            "Pilot ishlab chiqarish uchun ustuvor SKU'lar aniqlandi"
           ],
-          "note": "*Eslatma: Mahsulot ko'rsatkichlari hozirgi bosqichda nazariy modelga asoslangan bo'lim bo'lib, pilot ishlab chiqarish, laboratoriya sinovlari va sertifikatlashtirish jarayonida tasdiqlanadi."
+          "note": "*Eslatma: Mahsulot ko'rsatkichlari hozirgi bosqichda modelga asoslangan bo'lib, pilot ishlab chiqarish, laboratoriya sinovlari va sertifikatlashtirish jarayonida tasdiqlanadi."
+        },
+        "sourcing": {
+          "title": "4. Xomashyo manbalari tayyorgarligi",
+          "items": [
+            "Soha mutaxassislari bilan maslahatlashuvlar yakunlandi",
+            "Ishlab chiqarish joylariga tashriflar amalga oshirildi",
+            "Amaliy tavsiyalar olindi",
+            "Kichik korxonalar bilan rezina chiqindilarini yetkazib berish bo'yicha dastlabki muzokaralar boshlandi",
+            "Pilot ishga tushirish uchun shina va plastik xomashyosini yig'ish logikasi tayyorlandi"
+          ]
+        },
+        "facility": {
+          "title": "5. Ishlab chiqarish va sexni ishga tushirish strategiyasi",
+          "items": [
+            "Pilot ishlab chiqarish sexi uchun tejamkor strategiya tayyorlandi",
+            "Ishlab chiqarish maydoni bo'yicha hamkorlik modeli ishlab chiqildi",
+            "Maydonga qo'yiladigan talablar aniqlandi: elektr energiyasi, ventilyatsiya, yuk mashinalari yo'li, saqlash va uskunalar joyi",
+            "Birinchi bosqichda zavodni noldan qurish xarajatlaridan qochish strategiyasi belgilandi",
+            "Ishlab chiqarishni ishga tushirishning batafsil yo'l xaritasi tayyorlandi"
+          ]
+        },
+        "digital": {
+          "title": "6. Raqamli va ta'limiy qatlam",
+          "items": [
+            "Veb-sayt MVP va investorlar uchun namoyish marshruti tayyorlandi",
+            "EcoApp konsepsiyasi ishlab chiqildi",
+            "EcoKids konsepsiyasi ishlab chiqildi",
+            "EcoMap, EcoVote, EcoActions, EcoWallet va Impact Dashboard modullari logikasi tayyorlandi",
+            "Raqamli shaffoflik va ekologik ta'lim modeli shakllantirildi"
+          ]
+        },
+        "investment": {
+          "title": "7. Investitsiyaga tayyorgarlik",
+          "items": [
+            "$400K miqdoridagi pre-seed so'rovi tizimlashtirildi",
+            "Boshlang'ich taklif tayyorlandi: $400K uchun 20% ulush",
+            "Strategik hamkorlik modeli ishlab chiqildi: investitsiya + sex maydoni uchun 25% gacha ulush",
+            "Faqat maydon taqdim etuvchi hamkor modeli tayyorlandi: 3-5% ulush yoki daromad ulushi (revenue-share)",
+            "Mablag'lardan foydalanish rejasi yangilandi: uskunalar, sexni moslashtirish, xomashyo, sinovlar, raqamli platforma va namoyish ob'ektlari"
+          ]
         }
+      },
+      "nextMilestone": {
+        "title": "8. Keyingi amalga oshirish bosqichi",
+        "subtitle": "Keyingi qadam: Pilot ishlab chiqarish + Sertifikatlashtirish + Birinchi savdo",
+        "description": "Pilot loyihani ishga tushirish va kengaytirish bo'yicha operatsion yo'l xaritasi. Ushbu bosqichlar asosiy o'sish fazalarini, mahsulotlarni tasdiqlashni va dastlabki daromadlarni ochib beradi.",
+        "items": [
+          "Sanoat maydoni yoki hudud bo'yicha hamkor bilan kelishuvni yakunlash",
+          "Uskunalar yetkazib beruvchilarni aniqlash",
+          "Xomashyo yetkazib berish bo'yicha shartnomalarni rasmiylashtirish",
+          "Pilot ishlab chiqarishni ishga tushirish",
+          "Sinov va sertifikatlashtirish yo'l xaritasini boshlash",
+          "Birinchi namoyish ob'ektlarini yaratish",
+          "Birinchi B2B/B2G savdo muzokaralarini boshlash"
+        ]
       }
     },
     "team": {
