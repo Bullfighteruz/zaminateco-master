@@ -1464,19 +1464,19 @@ export default function Index() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-shrink-0 md:max-w-md">
-                <Link to="/actions" className="w-full sm:w-auto flex-1">
+              <div className="flex flex-col sm:flex-row md:flex-col gap-3 w-full md:w-[320px] lg:w-[360px] xl:w-[400px] flex-shrink-0">
+                <Link to="/actions" className="w-full sm:w-auto md:w-full flex-1 md:flex-initial">
                   <Button className={cn(
-                    "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold",
-                    "py-2.5 sm:py-3 px-5 text-sm rounded-xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5"
+                    "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold whitespace-normal h-auto",
+                    "py-3 px-5 text-sm rounded-xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5"
                   )}>
                     {t('joinNextCleanupEvent')}
                   </Button>
                 </Link>
-                <Link to="/about" className="w-full sm:w-auto flex-1">
+                <Link to="/about" className="w-full sm:w-auto md:w-full flex-1 md:flex-initial">
                   <Button variant="outline" className={cn(
-                    "w-full border border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-bold",
-                    "py-2.5 sm:py-3 px-5 text-sm rounded-xl transition-all hover:-translate-y-0.5"
+                    "w-full border border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-bold whitespace-normal h-auto",
+                    "py-3 px-5 text-sm rounded-xl transition-all hover:-translate-y-0.5"
                   )}>
                     {t('learnAboutZaminatProject')}
                   </Button>
