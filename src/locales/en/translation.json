@@ -842,10 +842,30 @@
           "desc": "Central Asia expansion model"
         }
       },
+      "market": {
+        "title": "Market Size",
+        "tam": {
+          "label": "TAM (Total Addressable Market)",
+          "value": "$250M",
+          "desc": "Waste recycling and green infrastructure materials market in Uzbekistan."
+        },
+        "sam": {
+          "label": "SAM (Serviceable Addressable Market)",
+          "value": "$5M",
+          "desc": "Serviceable addressable segment: schools, parks, kindergartens, B2B/B2G contracts, private infrastructure, sports, and public spaces."
+        },
+        "launchSom": {
+          "label": "Launch SOM (First Year)",
+          "value": "$120K–$200K/year",
+          "desc": "First 12 months: pilot production, first sales, demo objects, early B2B/B2G validation."
+        },
+        "pilotSom": {
+          "label": "Pilot Scale SOM (24–36 Months)",
+          "value": "$600K–$1M/year",
+          "desc": "24–36 months: certified products, higher capacity, B2B/B2G contracts, public infrastructure projects."
+        }
+      },
       "metrics": {
-        "tam": "TAM",
-        "sam": "SAM",
-        "som": "SOM",
         "grossMargin": "Gross Margin",
         "breakeven": "Break-even",
         "roi": "ROI (4-yr)"

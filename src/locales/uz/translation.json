@@ -842,10 +842,30 @@
           "desc": "O'rta Osiyo bozoriga chiqish modeli"
         }
       },
+      "market": {
+        "title": "Bozor hajmi",
+        "tam": {
+          "label": "TAM (Umumiy maqsadli bozor)",
+          "value": "$250 mln",
+          "desc": "O'zbekistondagi chiqindilarni qayta ishlash va yashil infratuzilma materiallari bozori."
+        },
+        "sam": {
+          "label": "SAM (Xizmat ko'rsatiladigan maqsadli bozor)",
+          "value": "$5 mln",
+          "desc": "Xizmat ko'rsatish mumkin bo'lgan maqsadli segment: maktablar, bog'lar, bolalar bog'chalari, B2B/B2G shartnomalari, xususiy infratuzilma, sport va jamoat joylari."
+        },
+        "launchSom": {
+          "label": "Launch SOM (Birinchi yil)",
+          "value": "$120K–$200K / yil",
+          "desc": "Dastlabki 12 oy: pilot ishlab chiqarish, birinchi sotuvlar, demo ob'ektlar, erta B2B/B2G tasdiqlanishi."
+        },
+        "pilotSom": {
+          "label": "Pilot Scale SOM (24–36 oy)",
+          "value": "$600K–$1M / yil",
+          "desc": "24–36 oy: sertifikatlangan mahsulotlar, yuqori quvvat, B2B/B2G shartnomalari, jamoat infratuzilmasi loyihalari."
+        }
+      },
       "metrics": {
-        "tam": "TAM",
-        "sam": "SAM",
-        "som": "SOM",
         "grossMargin": "Yalpi marja",
         "breakeven": "Zararsizlik",
         "roi": "ROI (4 yil)"

@@ -271,10 +271,30 @@ export default function Pitch() {
     { name: t('pitch.business.channels.franchise.name'), desc: t('pitch.business.channels.franchise.desc'), icon: Globe },
   ], [t]);
 
+  const marketDetails = useMemo(() => [
+    {
+      label: t('pitch.business.market.tam.label'),
+      value: t('pitch.business.market.tam.value'),
+      desc: t('pitch.business.market.tam.desc'),
+    },
+    {
+      label: t('pitch.business.market.sam.label'),
+      value: t('pitch.business.market.sam.value'),
+      desc: t('pitch.business.market.sam.desc'),
+    },
+    {
+      label: t('pitch.business.market.launchSom.label'),
+      value: t('pitch.business.market.launchSom.value'),
+      desc: t('pitch.business.market.launchSom.desc'),
+    },
+    {
+      label: t('pitch.business.market.pilotSom.label'),
+      value: t('pitch.business.market.pilotSom.value'),
+      desc: t('pitch.business.market.pilotSom.desc'),
+    },
+  ], [t]);
+
   const businessMetrics = useMemo(() => [
-    { label: t('pitch.business.metrics.tam'), value: '$250M' },
-    { label: t('pitch.business.metrics.sam'), value: '$5M' },
-    { label: t('pitch.business.metrics.som'), value: '$600K–$1M' },
     { label: t('pitch.business.metrics.grossMargin'), value: '45%+' },
     { label: t('pitch.business.metrics.breakeven'), value: '2028' },
     { label: t('pitch.business.metrics.roi'), value: '152%' },
@@ -581,17 +601,50 @@ export default function Pitch() {
               ))}
             </div>
 
+            {/* Market Size Section */}
+            <div className="mt-8 space-y-4">
+              <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
+                {t('pitch.business.market.title')}
+              </h3>
+              <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-4")}>
+                {marketDetails.map((item, i) => (
+                  <motion.div key={i} variants={fadeUp}>
+                    <Card className="h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden bg-gradient-to-br from-white to-emerald-50/5">
+                      <CardContent className={cn("flex flex-col justify-between h-full", isMobile ? "p-4" : "p-5")}>
+                        <div>
+                          <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">
+                            {item.label}
+                          </span>
+                          <div className={cn("font-black text-gray-900", isMobile ? "text-xl" : "text-2xl lg:text-3xl")}>
+                            {item.value}
+                          </div>
+                        </div>
+                        <p className={cn("text-gray-500 mt-2 leading-relaxed border-t border-gray-100 pt-3", isMobile ? "text-[11px]" : "text-xs")}>
+                          {item.desc}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
             {/* Key Financial Metrics */}
-            <motion.div variants={fadeUp} className={cn("grid gap-3 mt-6", isMobile ? "grid-cols-3" : "grid-cols-6")}>
-              {businessMetrics.map((m, i) => (
-                <Card key={i} className="text-center border-gray-200/60 shadow-sm">
-                  <CardContent className={cn(isMobile ? "p-2.5" : "p-3")}>
-                    <div className={cn("font-black text-emerald-600", isMobile ? "text-base" : "text-lg")}>{m.value}</div>
-                    <div className={cn("text-gray-500 mt-0.5", isMobile ? "text-[9px]" : "text-[11px]")}>{m.label}</div>
-                  </CardContent>
-                </Card>
-              ))}
-            </motion.div>
+            <div className="mt-8 space-y-4">
+              <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
+                {t('pitch.business.tag')} — Key Metrics
+              </h3>
+              <motion.div variants={fadeUp} className={cn("grid gap-4", isMobile ? "grid-cols-3" : "grid-cols-3 max-w-2xl")}>
+                {businessMetrics.map((m, i) => (
+                  <Card key={i} className="text-center border-gray-200/60 shadow-sm bg-gradient-to-br from-white to-slate-50">
+                    <CardContent className={cn(isMobile ? "p-3" : "p-4")}>
+                      <div className={cn("font-black text-emerald-600", isMobile ? "text-base" : "text-xl")}>{m.value}</div>
+                      <div className={cn("text-gray-500 mt-1 font-semibold", isMobile ? "text-[9px]" : "text-xs")}>{m.label}</div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </motion.div>
+            </div>
           </motion.section>
 
           {/* ═══════ SECTION 7: Roadmap ═══════ */}
