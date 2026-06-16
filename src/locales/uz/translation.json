@@ -912,20 +912,46 @@
       }
     },
     "traction": {
-      "tag": "Natijalar va tayyorgarlik",
-      "title": "Biz allaqachon qilgan ishlarimiz.",
-      "items": [
-        "Yuridik shaxs ro'yxatdan o'tkazildi (MChJ)",
-        "Ishlab chiqarish logikasi va narxlar tasdiqlandi",
-        "MVP veb-sayt ishga tushdi (zaminat.uz / zaminateco.com)",
-        "EcoApp ilovasi prototipi tayyorlandi",
-        "Xomashyo manbalari tasdiqlandi",
-        "Uskunalar yetkazib beruvchilar aniqlandi",
-        "4 yillik moliyaviy model tasdiqlandi",
-        "Pilot mijozlar jalb etilishi boshlandi",
-        "Muassis va bosh direktor asosiy loyiha jamoasini yig'di",
-        "Brend va pozitsiyalash yakunlandi"
-      ]
+      "tag": "Natijalar va Tayyorgarlik",
+      "title": "Ishga tushishga tayyor",
+      "stage": {
+        "label": "Joriy bosqich: Pre-Seed / Pilot tayyorgarligi",
+        "desc": "ZAMINAT.eco loyihasi pre-seed / pilot tayyorgarlik bosqichida. Biz g'oyadan amalga oshirish tayyorgarligiga o'tgan yashil texnologiyalar startapini taqdim etmoqdamiz."
+      },
+      "pillars": {
+        "legal": {
+          "title": "1. Yuridik va brend tayyorgarligi",
+          "items": [
+            "Kompaniya rasman MChJ shaklida ro'yxatdan o'tkazildi",
+            "ZAMINAT.eco brendini himoya qilish uchun savdo belgisi arizasi topshirildi",
+            "Rasmiy brend identifikatsiyasi va pozitsiyalash ishlab chiqildi",
+            "Rasmiy aloqa kanallari ishga tushirildi",
+            "Loyiha asoschi rahbarligidagi ixcham ijro jamoasi sifatida shakllantirildi"
+          ]
+        },
+        "accelerator": {
+          "title": "2. Akseleratsiya va ekotizim validatsiyasi",
+          "items": [
+            "U-ENTER markazida yashil texnologiyalar akseleratsiyasi yakunlandi",
+            "Taqdimot (pitch) strategiyasi tayyorlandi",
+            "Investorlar uchun pozitsiyalash aniqlashtirildi",
+            "Veb-saytga asoslangan pitch formati tayyorlandi",
+            "Strategik model aniqlashtirildi: ishlab chiqarish + raqamli tizim + ta'lim + ijtimoiy ta'sir"
+          ]
+        },
+        "product": {
+          "title": "3. Mahsulot ishlab chiqish tayyorgarligi",
+          "items": [
+            "Mahsulot toifalari belgilandi (EcoTiles, xavfsiz rezina plitalar, eko-bekatlar va boshqalar)",
+            "Mahsulot formulalari va SKU tuzilmasi tayyorlandi",
+            "SKU tannarx kalkulyatori va yunit-ekonomikasi tayyorlandi",
+            "Nazariy mahsulot ko'rsatkichlari tayyorlandi",
+            "Pilot ishlab chiqarish uchun ustuvor mahsulot liniyalari belgilandi",
+            "Maktablar, bog'lar, sport maydonlari va jamoat joylari uchun foydalanish holatlari belgilandi"
+          ],
+          "note": "*Eslatma: Mahsulot ko'rsatkichlari hozirgi bosqichda nazariy modelga asoslangan bo'lim bo'lib, pilot ishlab chiqarish, laboratoriya sinovlari va sertifikatlashtirish jarayonida tasdiqlanadi."
+        }
+      }
     },
     "team": {
       "tag": "Jamoa",

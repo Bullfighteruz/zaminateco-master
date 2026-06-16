@@ -307,20 +307,45 @@ export default function Pitch() {
     { year: '2029', title: t('pitch.roadmap.y2029.title'), items: getArray('pitch.roadmap.y2029.items', ['Multi-city operations', 'Central Asia market', 'Platform licensing', '$183K net profit/year']) },
   ], [t]);
 
-  const traction = useMemo(() => {
-    return getArray('pitch.traction.items', [
-      'Registered legal entity (LLC)',
-      'Production logic & pricing finalized',
-      'Website MVP live (zaminat.uz / zaminateco.com)',
-      'EcoApp prototype built',
-      'Raw material sourcing confirmed',
-      'Equipment suppliers identified',
-      'Financial model validated (4-year)',
-      'Pilot customer pipeline started',
-      'Founder & CEO assembled the core project team',
-      'Brand & positioning complete',
-    ]);
-  }, [t]);
+  const tractionStage = useMemo(() => ({
+    label: t('pitch.traction.stage.label'),
+    desc: t('pitch.traction.stage.desc'),
+  }), [t]);
+
+  const tractionPillars = useMemo(() => [
+    {
+      title: t('pitch.traction.pillars.legal.title'),
+      items: getArray('pitch.traction.pillars.legal.items', [
+        "Official company registration (MCHJ)",
+        "Trademark application filed to protect the ZAMINAT.eco brand",
+        "Official brand identity and positioning developed",
+        "Official communication channels launched",
+        "Founder-led setup with a lean execution team"
+      ])
+    },
+    {
+      title: t('pitch.traction.pillars.accelerator.title'),
+      items: getArray('pitch.traction.pillars.accelerator.items', [
+        "Green-tech acceleration completed at U-ENTER",
+        "Pitch strategy prepared",
+        "Investor-facing positioning refined",
+        "Website-based pitch format prepared",
+        "Strategic model clarified: production + digital + education + public impact"
+      ])
+    },
+    {
+      title: t('pitch.traction.pillars.product.title'),
+      items: getArray('pitch.traction.pillars.product.items', [
+        "Product categories defined (EcoTiles, Safety Tiles, EcoBusStops, Art Tiles, etc.)",
+        "Product formulas and SKU structure prepared",
+        "SKU cost calculator and unit economics prepared",
+        "Theoretical product indicators prepared",
+        "Priority product lines identified for pilot production",
+        "Product use cases mapped across schools, parks, sports facilities, and public spaces"
+      ]),
+      note: t('pitch.traction.pillars.product.note')
+    }
+  ], [t]);
 
   const team = useMemo(() => [
     { 
@@ -685,15 +710,47 @@ export default function Pitch() {
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
                 {t('pitch.traction.title')}
               </h2>
+              
+              {/* Stage Banner */}
+              <div className="mt-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 text-emerald-800 text-left max-w-3xl mx-auto flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                <div className="bg-emerald-500 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider flex-shrink-0">
+                  {tractionStage.label.split(': ')[0] || "Stage"}
+                </div>
+                <div className="space-y-0.5">
+                  <h4 className="text-xs font-bold text-gray-900">{tractionStage.label.split(': ')[1] || tractionStage.label}</h4>
+                  <p className="text-gray-600 text-[11px] leading-relaxed">
+                    {tractionStage.desc}
+                  </p>
+                </div>
+              </div>
             </motion.div>
 
-            <div className={cn("grid gap-2", isMobile ? "grid-cols-1" : "grid-cols-2")}>
-              {traction.map((item, i) => (
-                <motion.div key={i} variants={fadeUp}
-                  className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white border border-gray-200/60 shadow-sm"
-                >
-                  <CheckCircle2 className={cn("text-emerald-500 flex-shrink-0", isMobile ? "h-4 w-4" : "h-5 w-5")} />
-                  <span className={cn("text-gray-700", isMobile ? "text-xs" : "text-sm")}>{item}</span>
+            {/* Structured Pillars Grid */}
+            <div className={cn("grid gap-6", isMobile ? "grid-cols-1" : "grid-cols-3")}>
+              {tractionPillars.map((pillar, idx) => (
+                <motion.div key={idx} variants={fadeUp}>
+                  <Card className="h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                    <CardContent className={cn("flex flex-col justify-between h-full", isMobile ? "p-4" : "p-5")}>
+                      <div>
+                        <h4 className={cn("font-bold text-gray-900 border-b border-gray-100 pb-3 mb-3", isMobile ? "text-xs" : "text-sm")}>
+                          {pillar.title}
+                        </h4>
+                        <ul className="space-y-2.5">
+                          {pillar.items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="flex items-start gap-2 text-gray-700">
+                              <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                              <span className={cn(isMobile ? "text-[11px]" : "text-xs leading-relaxed")}>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      {pillar.note && (
+                        <p className={cn("text-gray-400 mt-4 pt-3 border-t border-gray-100 italic", isMobile ? "text-[9px]" : "text-[10px] leading-relaxed")}>
+                          {pillar.note}
+                        </p>
+                      )}
+                    </CardContent>
+                  </Card>
                 </motion.div>
               ))}
             </div>

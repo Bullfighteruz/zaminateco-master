@@ -913,19 +913,45 @@
     },
     "traction": {
       "tag": "Traction & Readiness",
-      "title": "What we've already done.",
-      "items": [
-        "Registered legal entity (LLC)",
-        "Production logic & pricing finalized",
-        "Website MVP live (zaminat.uz / zaminateco.com)",
-        "EcoApp prototype built",
-        "Raw material sourcing confirmed",
-        "Equipment suppliers identified",
-        "Financial model validated (4-year)",
-        "Pilot customer pipeline started",
-        "Founder & CEO assembled the core project team",
-        "Brand & positioning complete"
-      ]
+      "title": "Ready for Execution",
+      "stage": {
+        "label": "Current Stage: Pre-Seed / Pilot Preparation",
+        "desc": "ZAMINAT.eco is currently at the pre-seed / pilot preparation stage. We are a prepared green-tech infrastructure startup that has already moved from idea to execution readiness."
+      },
+      "pillars": {
+        "legal": {
+          "title": "1. Legal & Brand Readiness",
+          "items": [
+            "Official company registration (MCHJ)",
+            "Trademark application filed to protect the ZAMINAT.eco brand",
+            "Official brand identity and positioning developed",
+            "Official communication channels launched",
+            "Founder-led setup with a lean execution team"
+          ]
+        },
+        "accelerator": {
+          "title": "2. Acceleration & Ecosystem Validation",
+          "items": [
+            "Green-tech acceleration completed at U-ENTER",
+            "Pitch strategy prepared",
+            "Investor-facing positioning refined",
+            "Website-based pitch format prepared",
+            "Strategic model clarified: production + digital + education + public impact"
+          ]
+        },
+        "product": {
+          "title": "3. Product Development Readiness",
+          "items": [
+            "Product categories defined (EcoTiles, Safety Tiles, EcoBusStops, Art Tiles, etc.)",
+            "Product formulas and SKU structure prepared",
+            "SKU cost calculator and unit economics prepared",
+            "Theoretical product indicators prepared",
+            "Priority product lines identified for pilot production",
+            "Product use cases mapped across schools, parks, sports facilities, and public spaces"
+          ],
+          "note": "*Note: Product indicators are theoretical / model-based assumptions and will be validated during pilot production, laboratory testing, and certification."
+        }
+      }
     },
     "team": {
       "tag": "Founding Team",
