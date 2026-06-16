@@ -675,72 +675,152 @@ export default function Pitch() {
               ))}
             </div>
           </motion.section>
-
           {/* ═══════ SECTION 10: Investment Ask ═══════ */}
           <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp}>
               <Card 
-                className="border-0 shadow-2xl text-white overflow-hidden relative bg-cover bg-center bg-no-repeat"
+                className="border-0 shadow-2xl text-white overflow-hidden relative bg-cover bg-center bg-no-repeat rounded-3xl"
                 style={{ backgroundImage: "url('/images/pitch-ask-bg.jpg')" }}
               >
-                <div className="absolute inset-0 bg-emerald-950/45" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/35" />
-                <CardContent className={cn("relative z-10 text-center", isMobile ? "p-6" : "p-12")}>
-                  <Badge className="bg-white/15 text-white border-white/20 mb-4">{t('pitch.ask.tag')}</Badge>
-                  <div className="text-xs font-semibold text-white/60 uppercase tracking-widest mb-1">{t('pitch.ask.seeking')}</div>
-                  <div className={cn("font-black", isMobile ? "text-4xl" : "text-6xl")}>$350,000</div>
+                <div className="absolute inset-0 bg-emerald-950/85" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+                <CardContent className={cn("relative z-10 text-left", isMobile ? "p-6" : "p-10 lg:p-12")}>
                   
-                  <div className={cn("flex items-center justify-center gap-6 mt-4", isMobile ? "gap-4" : "gap-8")}>
-                    <div>
-                      <div className="text-xs text-white/60">{t('pitch.ask.equity')}</div>
-                      <div className={cn("font-black", isMobile ? "text-xl" : "text-2xl")}>25%</div>
+                  {/* Badge & Title */}
+                  <div className="text-center mb-8">
+                    <Badge className="bg-white/15 text-white border-white/20 mb-4">{t('pitch.ask.tag')}</Badge>
+                    <h3 className={cn("font-black tracking-tight leading-snug max-w-2xl mx-auto text-center", isMobile ? "text-xl" : "text-3xl")}>
+                      {t('pitch.ask.seekingTitle')}
+                    </h3>
+                  </div>
+
+                  {/* Scenarios Grid */}
+                  <div className={cn("grid gap-6 mb-10", isMobile ? "grid-cols-1" : "grid-cols-3")}>
+                    {/* Scenario A */}
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-white/10 transition-colors">
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Landmark className="h-5 w-5 text-emerald-300" />
+                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioA.title').split(' — ')[0]}</span>
+                        </div>
+                        <h4 className="font-bold text-lg mb-2">{t('pitch.ask.scenarioA.title').split(' — ')[1] || t('pitch.ask.scenarioA.title')}</h4>
+                        <p className="text-base font-extrabold text-white/95">{t('pitch.ask.scenarioA.details')}</p>
+                      </div>
+                      <div className="text-xs text-white/50 mt-4 border-t border-white/5 pt-3">
+                        {t('pitch.ask.scenarioA.note')}
+                      </div>
                     </div>
-                    <div className="w-px h-8 bg-white/20" />
-                    <div>
-                      <div className="text-xs text-white/60">{t('pitch.ask.valuation')}</div>
-                      <div className={cn("font-bold", isMobile ? "text-base" : "text-lg")}>$1.4M</div>
+
+                    {/* Scenario B */}
+                    <div className="bg-emerald-500/10 border-2 border-emerald-400/30 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-emerald-500/15 transition-colors relative overflow-hidden">
+                      <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-bl-lg">
+                        Recommended
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Building2 className="h-5 w-5 text-emerald-300" />
+                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioB.title').split(' — ')[0]}</span>
+                        </div>
+                        <h4 className="font-bold text-lg mb-2">{t('pitch.ask.scenarioB.title').split(' — ')[1] || t('pitch.ask.scenarioB.title')}</h4>
+                        <p className="text-base font-extrabold text-white/95">{t('pitch.ask.scenarioB.details')}</p>
+                      </div>
+                      <div className="text-xs text-white/70 mt-4 border-t border-white/10 pt-3 leading-relaxed">
+                        {t('pitch.ask.scenarioB.note')}
+                      </div>
+                    </div>
+
+                    {/* Scenario C */}
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-white/10 transition-colors">
+                      <div>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Globe className="h-5 w-5 text-emerald-300" />
+                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioC.title').split(' — ')[0] || "Scenario C"}</span>
+                        </div>
+                        <h4 className="font-bold text-lg mb-2">{t('pitch.ask.scenarioC.title').split(' — ')[1] || t('pitch.ask.scenarioC.title')}</h4>
+                        <p className="text-base font-extrabold text-white/95">{t('pitch.ask.scenarioC.details')}</p>
+                      </div>
+                      <div className="text-xs text-white/50 mt-4 border-t border-white/5 pt-3 leading-relaxed">
+                        {t('pitch.ask.scenarioC.note')}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Use of Funds */}
-                  <div className={cn("mx-auto mt-8", isMobile ? "max-w-sm" : "max-w-md")}>
-                    <div className="text-xs text-white/50 mb-2 uppercase tracking-wide">{t('pitch.ask.fundsTag')}</div>
-                    <div className="flex h-3 rounded-full overflow-hidden gap-0.5">
-                      <div className="bg-emerald-300 rounded-full" style={{ width: '91%' }} />
-                      <div className="bg-yellow-400 rounded-full" style={{ width: '4.5%' }} />
-                      <div className="bg-orange-400 rounded-full" style={{ width: '4.5%' }} />
+                  {/* Mid Section: Use of Funds & Strategy */}
+                  <div className={cn("grid gap-8 border-t border-white/10 pt-8 mb-8", isMobile ? "grid-cols-1" : "grid-cols-2")}>
+                    {/* Left Column: Use of Funds */}
+                    <div className="space-y-4">
+                      <h4 className="font-bold text-lg text-emerald-300 flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5" />
+                        {t('pitch.ask.fundsTitle')}
+                      </h4>
+                      {/* Visual budget split bar */}
+                      <div className="flex h-3.5 rounded-full overflow-hidden gap-0.5 bg-white/10 p-0.5">
+                        <div className="bg-emerald-400 rounded-full" style={{ width: '75%' }} title="Equipment (75%)" />
+                        <div className="bg-teal-400 rounded-full" style={{ width: '11%' }} title="Facility Adaptation (11%)" />
+                        <div className="bg-amber-400 rounded-full" style={{ width: '5%' }} title="Raw Materials (5%)" />
+                        <div className="bg-sky-400 rounded-full" style={{ width: '4%' }} title="Certification (4%)" />
+                        <div className="bg-indigo-400 rounded-full" style={{ width: '5%' }} title="Digital & Marketing (5%)" />
+                      </div>
+
+                      {/* Items */}
+                      <div className="grid grid-cols-1 gap-2.5 text-xs text-white/80">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-3 h-3 rounded bg-emerald-400 flex-shrink-0" />
+                          <span className="font-medium">{t('pitch.ask.fund1')}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-3 h-3 rounded bg-teal-400 flex-shrink-0" />
+                          <span className="font-medium">{t('pitch.ask.fund2')}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-3 h-3 rounded bg-amber-400 flex-shrink-0" />
+                          <span className="font-medium">{t('pitch.ask.fund3')}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-3 h-3 rounded bg-sky-400 flex-shrink-0" />
+                          <span className="font-medium">{t('pitch.ask.fund4')}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-3 h-3 rounded bg-indigo-400 flex-shrink-0" />
+                          <span className="font-medium">{t('pitch.ask.fund5')}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className={cn("flex flex-col gap-1 mt-3 text-left", isMobile ? "text-[10px]" : "text-xs")}>
-                      <div className="flex items-center gap-2 text-white/80">
-                        <div className="w-2.5 h-2.5 rounded-sm bg-emerald-300 flex-shrink-0" />
-                        {t('pitch.ask.fund1')}
+
+                    {/* Right Column: Facility Strategy & Partner Advantage */}
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <h4 className="font-bold text-lg text-emerald-300 flex items-center gap-2">
+                          <Building2 className="h-5 w-5" />
+                          {t('pitch.ask.facilityTitle')}
+                        </h4>
+                        <p className="text-xs text-white/80 leading-relaxed">
+                          {t('pitch.ask.facilityDesc')}
+                        </p>
                       </div>
-                      <div className="flex items-center gap-2 text-white/80">
-                        <div className="w-2.5 h-2.5 rounded-sm bg-yellow-400 flex-shrink-0" />
-                        {t('pitch.ask.fund2')}
-                      </div>
-                      <div className="flex items-center gap-2 text-white/80">
-                        <div className="w-2.5 h-2.5 rounded-sm bg-orange-400 flex-shrink-0" />
-                        {t('pitch.ask.fund3')}
+                      <div className="space-y-2">
+                        <h4 className="font-bold text-lg text-emerald-300 flex items-center gap-2">
+                          <Sparkles className="h-5 w-5" />
+                          {t('pitch.ask.partnerTitle')}
+                        </h4>
+                        <p className="text-xs text-white/80 leading-relaxed">
+                          {t('pitch.ask.partnerDesc')}
+                        </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-white/10">
-                    <p className={cn("text-white/50 mx-auto", isMobile ? "text-[10px] max-w-sm" : "text-xs max-w-lg")}>
-                      {t('pitch.ask.footer')}
-                    </p>
-                  </div>
-
-                  <div className="mt-6">
-                    <p className={cn("font-semibold text-white/90", isMobile ? "text-sm" : "text-base")}>
+                  {/* Join Section */}
+                  <div className="text-center border-t border-white/10 pt-8">
+                    <p className={cn("font-semibold text-white/95", isMobile ? "text-sm" : "text-base")}>
                       {t('pitch.ask.cta1')}
                     </p>
-                    <p className={cn("font-black text-yellow-300 mt-1", isMobile ? "text-lg" : "text-2xl")}>
+                    <p className={cn("font-black text-yellow-300 mt-1 uppercase tracking-wider", isMobile ? "text-lg" : "text-2xl")}>
                       {t('pitch.ask.cta2')}
                     </p>
                   </div>
 
+                  {/* Scan & Contact */}
                   <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-6">
                     <div className="flex flex-col items-center gap-2">
                       <div className="bg-white p-2 rounded-xl shadow-xl w-28 h-28 flex items-center justify-center group hover:scale-105 transition-transform duration-300">
@@ -756,8 +836,8 @@ export default function Pitch() {
                     <Button
                       onClick={() => contactHelpers.generalInquiry('Investment Inquiry — ZAMINAT.eco Pitch Deck', 'I viewed the ZAMINAT.eco pitch deck and would like to discuss investment opportunities.')}
                       className={cn(
-                        "bg-white text-emerald-700 hover:bg-gray-100 font-bold shadow-xl",
-                        isMobile ? "px-6 py-2.5 text-sm w-full max-w-[200px]" : "px-8 py-3.5 text-base"
+                        "bg-white text-emerald-700 hover:bg-gray-100 font-bold shadow-xl rounded-xl transition-all hover:-translate-y-0.5",
+                        isMobile ? "px-6 py-3 text-sm w-full max-w-[240px]" : "px-8 py-4 text-base"
                       )}
                     >
                       <Mail className="h-4 w-4 mr-2" />

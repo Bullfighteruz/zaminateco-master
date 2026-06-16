@@ -913,14 +913,32 @@
     },
     "ask": {
       "tag": "Pre-Seed · Pilot Preparation",
-      "seeking": "Seeking",
-      "equity": "Equity",
-      "valuation": "Post-Money Valuation",
-      "fundsTag": "Use of Funds",
-      "fund1": "$320K (91%) — Equipment, raw materials, certification, production",
-      "fund2": "$15K (4%) — EcoApp development & launch",
-      "fund3": "$15K (4%) — Branding, marketing, pilot demos",
-      "footer": "Current stage: registered entity, prepared product logic, web MVP, early sourcing discussions, and pilot roadmap. We are honest about where we are — and clear about where we are going.",
+      "seekingTitle": "Seeking $400,000 pre-seed investment to launch the first pilot production cycle.",
+      "scenarioA": {
+        "title": "Scenario A — Financial Investor",
+        "details": "$400K cash → 20% equity",
+        "note": "$2.0M post-money valuation"
+      },
+      "scenarioB": {
+        "title": "Scenario B — Strategic Launch Partner",
+        "details": "$400K cash + facility access → up to 25% equity",
+        "note": "Additional facility-related equity is milestone-based and depends on legal access, site readiness, utility capacity, logistics, storage, and duration of use."
+      },
+      "scenarioC": {
+        "title": "Scenario C — Facility Partner",
+        "details": "Factory / land / workshop access → 3–5% equity or revenue-share",
+        "note": "Alternative: revenue-share or discounted lease instead of equity."
+      },
+      "fundsTitle": "Use of Funds ($400,000)",
+      "fund1": "75% ($300,000) — Equipment, molds and production line",
+      "fund2": "11% ($45,000) — Facility adaptation and installation",
+      "fund3": "5% ($20,000) — Raw materials and consumables",
+      "fund4": "4% ($15,000) — Certification and testing roadmap",
+      "fund5": "5% ($20,000) — Digital platform, marketing and demo projects",
+      "facilityTitle": "Facility Strategy",
+      "facilityDesc": "We are not building a factory from scratch in phase one. We will launch a lean pilot production workshop inside a leased or strategic partner industrial facility. This reduces CAPEX, accelerates launch, and allows us to validate production, certification, first sales, and B2B/B2G demand before scaling.",
+      "partnerTitle": "Strategic Partner Advantage",
+      "partnerDesc": "The ideal investor can contribute not only capital, but also: industrial space, land or factory access, utilities and storage, B2B/B2G connections, pilot locations, ESG or corporate sponsorship channels.",
       "cta1": "Join the first Waste-to-Life infrastructure platform from Uzbekistan.",
       "cta2": "Where waste ends — life begins.",
       "qrLabel": "Scan to Open Pitch"

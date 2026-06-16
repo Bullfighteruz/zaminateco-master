@@ -912,15 +912,33 @@
       "title": "Shunchaki xayolparastlar emas, balki amaliyotchilar jamoasi."
     },
     "ask": {
-      "tag": "Pre-Seed · Pilotga tayyorgarlik",
-      "seeking": "Kiritilayotgan mablag'",
-      "equity": "Ushbu ulush uchun",
-      "valuation": "Investitsiyadan keyingi baholash",
-      "fundsTag": "Mablag'lardan foydalanish",
-      "fund1": "$320K (91%) — Uskunalar, xomashyo, sertifikatlash, ishlab chiqarish",
-      "fund2": "$15K (4%) — EcoApp ilovasini ishlab chiqish va ishga tushirish",
-      "fund3": "$15K (4%) — Brending, marketing, pilot namoyishlar",
-      "footer": "Joriy bosqich: yuridik shaxs ro'yxatdan o'tgan, mahsulot mantig'i tayyor, veb-sayt MVP, xomashyo muzokaralari olib borilmoqda va pilot reja tayyor. Biz hozirgi holatimiz haqida rost gapiramiz va maqsadimiz sari aniq harakat qilamiz.",
+      "tag": "Pre-Seed · Pilot tayyorgarligi",
+      "seekingTitle": "Birinchi pilot ishlab chiqarish tsiklini yo'lga qo'yish uchun $400,000 pre-seed investitsiyalarini jalb qilish.",
+      "scenarioA": {
+        "title": "A Ssenariy — Moliyaviy investor",
+        "details": "$400K naqd pul → 20% ulush",
+        "note": "Kompaniyaning post-money qiymati: $2.0M"
+      },
+      "scenarioB": {
+        "title": "B Ssenariy — Strategik ishga tushirish hamkori",
+        "details": "$400K naqd pul + ishlab chiqarish maydoniga kirish → 25% gacha ulush",
+        "note": "Maydon bilan bog'liq qo'shimcha ulush shartlarga bog'liq: yuridik kirish, tayyorlik holati, elektr quvvati, logistika, saqlash va foydalanish muddatiga ko'ra bosqichma-bosqich beriladi."
+      },
+      "scenarioC": {
+        "title": "C Ssenariy — Faqat maydon hamkori",
+        "details": "Zavod / yer / sexga kirish → 3–5% ulush yoki daromadni baham ko'rish (revenue-share)",
+        "note": "Muqobil variant: ulush o'rniga daromadni bo'lishish yoki chegirmali ijara shartnomasi."
+      },
+      "fundsTitle": "Mablag'lardan foydalanish ($400,000)",
+      "fund1": "75% ($300,000) — Uskunalar, qoliplar va ishlab chiqarish liniyasi",
+      "fund2": "11% ($45,000) — Binoni moslashtirish va o'rnatish",
+      "fund3": "5% ($20,000) — Xomashyo va sarflanadigan materiallar",
+      "fund4": "4% ($15,000) — Mahsulotlarni sertifikatlash va sinovdan o'tkazish",
+      "fund5": "5% ($20,000) — Raqamli platforma, marketing va demo loyihalar",
+      "facilityTitle": "Ishlab chiqarish maydoni strategiyasi",
+      "facilityDesc": "Biz birinchi bosqichda zavodni noldan qurishni rejalashtirmayapmiz. Biz ijaraga olingan yoki strategik hamkorlikdagi sanoat maydonida ixcham pilot ishlab chiqarish sexini ishga tushiramiz. Bu ortiqcha CAPEX-ni kamaytiradi, ishga tushirishni tezlashtiradi va miqyosni kengaytirishdan oldin sinov, sertifikatlash va B2B/B2G talabini tasdiqlash imkonini beradi.",
+      "partnerTitle": "Strategik hamkorlik afzalliklari",
+      "partnerDesc": "Ideal investor nafaqat kapital, balki sanoat maydoni, zavod yoki yer, kommunal xizmatlar va omborlar, B2B/B2G aloqalari, sinov lokatsiyalari, ESG yoki korporativ homiylik kanallarini taqdim etishi mumkin.",
       "cta1": "O'zbekistondagi birinchi «Chiqindidan infratuzilmaga» platformasiga qo'shiling.",
       "cta2": "Chiqindi tugagan joyda — hayot boshlanadi.",
       "qrLabel": "Taqdimotni ochish uchun skanerlang"
