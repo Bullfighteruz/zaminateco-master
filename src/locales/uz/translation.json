@@ -827,7 +827,7 @@
         },
         "b2c": {
           "name": "B2C E-tijorat",
-          "desc": "zaminat.eco saytidagi to'g'ridan-to'g'ri do'kon"
+          "desc": "zaminat.uz / zaminateco.com saytidagi to'g'ridan-to'g'ri do'kon"
         },
         "social": {
           "name": "Ijtimoiy mahsulotlar",
@@ -917,7 +917,7 @@
       "items": [
         "Yuridik shaxs ro'yxatdan o'tkazildi (MChJ)",
         "Ishlab chiqarish logikasi va narxlar tasdiqlandi",
-        "MVP veb-sayt ishga tushdi (zaminat.eco)",
+        "MVP veb-sayt ishga tushdi (zaminat.uz / zaminateco.com)",
         "EcoApp ilovasi prototipi tayyorlandi",
         "Xomashyo manbalari tasdiqlandi",
         "Uskunalar yetkazib beruvchilar aniqlandi",

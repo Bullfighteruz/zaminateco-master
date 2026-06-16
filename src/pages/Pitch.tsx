@@ -51,7 +51,7 @@ const ECOAPP_MODULES = [
 const REVENUE_CHANNELS = [
   { name: 'B2G Contracts', desc: 'Municipal & government projects', icon: Landmark },
   { name: 'B2B Sales', desc: 'Developers, landscapers, builders', icon: Building2 },
-  { name: 'B2C E-commerce', desc: 'Direct shop on zaminat.eco', icon: Package },
+  { name: 'B2C E-commerce', desc: 'Direct shop on zaminat.uz / zaminateco.com', icon: Package },
   { name: 'Social Products', desc: 'Art Tiles & EcoKids programs', icon: Heart },
   { name: 'EcoApp Platform', desc: 'Eco-coins & gamification monetization', icon: Smartphone },
   { name: 'Export / Franchise', desc: 'Central Asia expansion model', icon: Globe },
@@ -67,7 +67,7 @@ const ROADMAP = [
 const TRACTION = [
   'Registered legal entity (LLC)',
   'Production logic & pricing finalized',
-  'Website MVP live (zaminat.eco)',
+  'Website MVP live (zaminat.uz / zaminateco.com)',
   'EcoApp prototype built',
   'Raw material sourcing confirmed',
   'Equipment suppliers identified',
@@ -311,7 +311,7 @@ export default function Pitch() {
     return getArray('pitch.traction.items', [
       'Registered legal entity (LLC)',
       'Production logic & pricing finalized',
-      'Website MVP live (zaminat.eco)',
+      'Website MVP live (zaminat.uz / zaminateco.com)',
       'EcoApp prototype built',
       'Raw material sourcing confirmed',
       'Equipment suppliers identified',
