@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Users, Target, Globe, Award, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
-  Smartphone, Mail, Briefcase, Menu, X, ArrowUp
+  Smartphone, Mail, Briefcase, Menu, X, ArrowUp, ChevronUp, ChevronDown
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -113,6 +113,47 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  // Go to previous section
+  const goToPrevSection = useCallback(() => {
+    const currentIndex = NAV_SECTIONS.findIndex(s => s.id === activeSection);
+    if (currentIndex > 0) {
+      scrollTo(NAV_SECTIONS[currentIndex - 1].id);
+    }
+  }, [activeSection, scrollTo]);
+
+  // Go to next section
+  const goToNextSection = useCallback(() => {
+    const currentIndex = NAV_SECTIONS.findIndex(s => s.id === activeSection);
+    if (currentIndex < NAV_SECTIONS.length - 1) {
+      scrollTo(NAV_SECTIONS[currentIndex + 1].id);
+    }
+  }, [activeSection, scrollTo]);
+
+  // Handle keyboard events
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Avoid intercepting if focus is in input/textarea
+      if (
+        document.activeElement?.tagName === 'INPUT' ||
+        document.activeElement?.tagName === 'TEXTAREA' ||
+        document.activeElement?.isContentEditable
+      ) {
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        goToNextSection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        goToPrevSection();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [goToPrevSection, goToNextSection]);
+
   return (
     <>
       {/* Sticky Top Nav */}
@@ -199,20 +240,61 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
         </div>
       </motion.nav>
 
-      {/* Scroll-to-top FAB */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: isScrolled ? 1 : 0, scale: isScrolled ? 1 : 0.8 }}
-        transition={{ duration: 0.2 }}
-        onClick={scrollToTop}
-        className={cn(
-          "fixed z-40 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-xl hover:shadow-2xl transition-all",
-          isMobile ? "bottom-4 right-4 p-2.5" : "bottom-6 right-6 p-3"
+      {/* Floating Section Navigation Controls */}
+      <div className={cn(
+        "fixed z-40 flex flex-col gap-2 transition-all duration-300",
+        isMobile ? "bottom-4 right-4" : "bottom-6 right-6"
+      )}>
+        {/* Scroll to top (only visible when scrolled) */}
+        {isScrolled && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-lg p-2.5 transition-all hover:scale-105 active:scale-95"
+            title="Scroll to Top"
+          >
+            <ArrowUp className="h-4 w-4" />
+          </motion.button>
         )}
-        style={{ pointerEvents: isScrolled ? 'auto' : 'none' }}
-      >
-        <ArrowUp className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
-      </motion.button>
+
+        {/* Section Navigation Column (Glassmorphic Container) */}
+        <div className="bg-gray-950/80 backdrop-blur-md border border-white/10 rounded-full flex flex-col items-center p-1 shadow-2xl">
+          {/* Up Arrow Button (Previous Section) */}
+          <button
+            onClick={goToPrevSection}
+            disabled={activeSection === NAV_SECTIONS[0].id}
+            className={cn(
+              "p-2 rounded-full transition-all",
+              activeSection === NAV_SECTIONS[0].id
+                ? "text-white/20 cursor-not-allowed"
+                : "text-white/70 hover:text-white hover:bg-white/10 active:scale-90"
+            )}
+            title="Previous Section (Up Arrow Key)"
+          >
+            <ChevronUp className="h-5 w-5" />
+          </button>
+          
+          {/* Divider */}
+          <div className="w-4 h-[1px] bg-white/10 my-0.5" />
+
+          {/* Down Arrow Button (Next Section) */}
+          <button
+            onClick={goToNextSection}
+            disabled={activeSection === NAV_SECTIONS[NAV_SECTIONS.length - 1].id}
+            className={cn(
+              "p-2 rounded-full transition-all",
+              activeSection === NAV_SECTIONS[NAV_SECTIONS.length - 1].id
+                ? "text-white/20 cursor-not-allowed"
+                : "text-white/70 hover:text-white hover:bg-white/10 active:scale-90"
+            )}
+            title="Next Section (Down Arrow Key)"
+          >
+            <ChevronDown className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
     </>
   );
 }
