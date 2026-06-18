@@ -5,7 +5,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from './LanguageSwitcher';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useState, useMemo, memo } from 'react';
+import { useState, useMemo, memo, useEffect } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -94,6 +94,15 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
   const isHomePage = location.pathname === '/';
   const isMobile = useIsMobile();
 
+  // Hide scrollbars when rendered within an iframe mockup
+  useEffect(() => {
+    if (window.self !== window.top) {
+      document.documentElement.classList.add('in-iframe');
+    } else {
+      document.documentElement.classList.remove('in-iframe');
+    }
+  }, []);
+
   // Helper to get mobile-friendly labels - Memoized
   const getMobileLabel = useMemo(() => {
     return (key: string): string => {
@@ -124,18 +133,17 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       { path: '/stories', icon: BookOpen, label: t('stories') },
       { path: '/profile', icon: User, label: t('profile') }
     ];
-    if (isMobile) {
-      return items.filter(item => item.path !== '/stories');
-    }
     return items;
   }, [t, getMobileLabel, isMobile]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/15 to-teal-50/20 relative overflow-hidden">
-      {/* Global background glow elements for Glassmorphism Depth */}
-      <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30 pointer-events-none" />
-      <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40 opacity-35 pointer-events-none" />
-      <div className="bg-glow-orb bg-glow-emerald w-[450px] h-[450px] bottom-10 -left-20 opacity-25 pointer-events-none" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/15 to-teal-50/20 relative">
+      {/* Global background glow elements for Glassmorphism Depth wrapped in a clipped z-0 container */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30" />
+        <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40 opacity-35" />
+        <div className="bg-glow-orb bg-glow-emerald w-[450px] h-[450px] bottom-10 -left-20 opacity-25" />
+      </div>
 
 
       {/* Sticky Language Switcher Button - Pinned to top right - Hidden on mobile */}

@@ -65,6 +65,7 @@ export function productNameToSlug(productName: string): string {
     'ECOBIKE RACK': 'ecobike-rack',
     'ECOBUSSTOP': 'ecobusstop',
     'Playground Block (Art Tiles)': 'playground-block-art-tiles',
+    'Eco-friendly Business Cards': 'eco-friendly-business-cards',
   };
   
   // Check if there's a special case

@@ -65,6 +65,10 @@
   * {
     @apply border-border;
   }
+  html,
+  body {
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -541,4 +545,30 @@ textarea:focus-visible {
               border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hide scrollbar when page is rendered within phone mockup frames */
+.in-iframe, .in-iframe body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.in-iframe::-webkit-scrollbar, .in-iframe body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Phone mockup screenshot loading shimmer */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Hide scrollbar on phone carousel */
+.snap-x::-webkit-scrollbar {
+  display: none;
+}
+.snap-x {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }

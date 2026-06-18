@@ -1,9 +1,9 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Users, Target, Globe, Award, TrendingUp, Sparkles, Recycle,
+  Users, Target, Globe, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
-  Smartphone, Mail, Briefcase, Menu, X, ArrowUp, ChevronUp, ChevronDown
+  Smartphone, Mail, Briefcase, Menu, X, ArrowUp
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -15,6 +15,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { contactHelpers } from '@/utils/mailto';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
 import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
@@ -27,16 +28,14 @@ const PRODUCTS_PHASE1 = [
   { name: 'EPDM Rubber Tiles', image: '/images/EPDM Tiles.webp', material: 'EPDM + Rubber', price: '539,000 UZS/m²', status: 'pilotSku', rawName: 'EPDM Rubber Tiles' },
   { name: 'EcoBrick', image: '/images/EcoBrick.webp', material: 'Recycled Plastic', price: '99,000 UZS/pc', status: 'pilotReady', rawName: 'EcoBrick' },
   { name: 'Eco Bench', image: '/images/Eco Bench.webp', material: 'Recycled Plastic', price: '790,000 UZS/pc', status: 'pilotReady', rawName: 'Eco Bench' },
-];
-
-const PRODUCTS_PHASE2 = [
   { name: 'Garden Planter', image: '/images/Garden Planter.webp', material: 'Recycled Plastic', price: '149,000 UZS/pc', status: 'pilotReady', rawName: 'Garden Planter' },
   { name: 'ECOBIKE RACK', image: '/images/ECOBIKE RACK.webp', material: 'Recycled Plastic', price: '490,000 UZS/pc', status: 'pilotReady', rawName: 'ECOBIKE RACK' },
   { name: 'Waste Bin', image: '/images/Waste Bin.webp', material: 'Recycled Plastic', price: '79,000 UZS/pc', status: 'pilotReady', rawName: 'Waste Bin' },
-  { name: 'ECOBUSSTOP', image: '/images/ECOBUSSTOP.webp', material: 'Recycled Materials', price: '8,590,000 UZS', status: 'demo', rawName: 'ECOBUSSTOP' },
+  { name: 'Eco-friendly Business Cards', image: '/images/Eco-friendly Business Cards.webp', material: 'Recycled Plastic', price: '10,900 UZS/pc', status: 'pilotReady', rawName: 'Eco-friendly Business Cards' },
 ];
 
-const PRODUCTS_ROADMAP = [
+const PRODUCTS_PHASE2 = [
+  { name: 'ECOBUSSTOP', image: '/images/ECOBUSSTOP.webp', material: 'Recycled Materials', price: '8,590,000 UZS', status: 'demo', rawName: 'ECOBUSSTOP' },
   { name: 'Art Tiles', image: '/images/art-tiles.webp', material: 'Recycled Rubber', price: '49,000 UZS/pc', status: 'roadmap', rawName: 'Art Tiles' },
   { name: 'Ecostreet Furniture', image: '/images/green-city_5994274.webp', material: 'Recycled Materials', price: 'Custom', status: 'roadmap', rawName: 'Ecostreet Furniture' },
 ];
@@ -60,7 +59,6 @@ const NAV_SECTIONS = [
   { id: 'pitch-opportunity', labelKey: 'pitch.problem.tag', shortLabel: 'Opportunity' },
   { id: 'pitch-solution', labelKey: 'pitch.solution.tag', shortLabel: 'Solution' },
   { id: 'pitch-products', labelKey: 'pitch.catalog.tag', shortLabel: 'Products' },
-  { id: 'pitch-ecoapp', labelKey: 'pitch.ecoapp.tag', shortLabel: 'EcoApp' },
   { id: 'pitch-business', labelKey: 'pitch.business.tag', shortLabel: 'Business' },
   { id: 'pitch-roadmap', labelKey: 'pitch.roadmap.tag', shortLabel: 'Roadmap' },
   { id: 'pitch-traction', labelKey: 'pitch.traction.tag', shortLabel: 'Traction' },
@@ -312,6 +310,7 @@ export default function Pitch() {
   const isMobile = useIsMobile();
   const { t, i18n } = useTranslation(['translation', 'shop', 'team']);
   const navigate = useNavigate();
+  const phoneZoneRef = useRef<HTMLDivElement>(null);
 
   // Helper to get array translations safely
   const getArray = (key: string, defaultVal: string[]): string[] => {
@@ -359,6 +358,7 @@ export default function Pitch() {
       'Garden Planter': 'garden-planter',
       'ECOBIKE RACK': 'ecobike-rack',
       'Waste Bin': 'waste-bin',
+      'Eco-friendly Business Cards': 'eco-friendly-business-cards',
       'ECOBUSSTOP': 'ecobusstop',
       'Art Tiles': 'playground-block-art-tiles',
       'Ecostreet Furniture': 'ecostreet-furniture',
@@ -432,6 +432,7 @@ export default function Pitch() {
       'ECOBUSSTOP': 'products.ecobusStop.name',
       'Art Tiles': 'products.playgroundBlock.name',
       'Ecostreet Furniture': 'products.ecostreetFurniture.name',
+      'Eco-friendly Business Cards': 'products.businessCards.name',
     };
     const materialKeys: Record<string, string> = {
       'Recycled Rubber': 'pitch.catalog.materials.rubber',
@@ -450,16 +451,6 @@ export default function Pitch() {
 
   const phase1Products = useMemo(() => PRODUCTS_PHASE1.map(translateProduct), [t, i18n.language]);
   const phase2Products = useMemo(() => PRODUCTS_PHASE2.map(translateProduct), [t, i18n.language]);
-  const roadmapProducts = useMemo(() => PRODUCTS_ROADMAP.map(translateProduct), [t, i18n.language]);
-
-  const ecoappModules = useMemo(() => [
-    { name: t('pitch.ecoapp.modules.ecomap.name'), desc: t('pitch.ecoapp.modules.ecomap.desc'), icon: Globe },
-    { name: t('pitch.ecoapp.modules.ecoactions.name'), desc: t('pitch.ecoapp.modules.ecoactions.desc'), icon: Users },
-    { name: t('pitch.ecoapp.modules.ecowallet.name'), desc: t('pitch.ecoapp.modules.ecowallet.desc'), icon: Sparkles },
-    { name: t('pitch.ecoapp.modules.ecostories.name'), desc: t('pitch.ecoapp.modules.ecostories.desc'), icon: Heart },
-    { name: t('pitch.ecoapp.modules.ecovote.name'), desc: t('pitch.ecoapp.modules.ecovote.desc'), icon: Landmark },
-    { name: t('pitch.ecoapp.modules.dashboard.name'), desc: t('pitch.ecoapp.modules.dashboard.desc'), icon: TrendingUp },
-  ], [t]);
 
   const revenueChannels = useMemo(() => [
     { name: t('pitch.business.channels.b2g.name'), desc: t('pitch.business.channels.b2g.desc'), icon: Landmark },
@@ -610,11 +601,6 @@ export default function Pitch() {
       photo: jahongirPhoto 
     },
   ], [t]);
-
-  const ecoappFlow = useMemo(() => {
-    const val = t('pitch.ecoapp.flow', { returnObjects: true });
-    return Array.isArray(val) ? val : ['Collect', 'Participate', 'Earn', 'Vote', 'Track Impact'];
-  }, [t]);
 
   const solutionTitleParts = t('pitch.solution.title').split('. ');
   const catalogTitleParts = t('pitch.catalog.title').split('. ');
@@ -819,7 +805,10 @@ export default function Pitch() {
                   <Card className={cn("h-full border-gray-200/60 shadow-sm hover:shadow-lg transition-all group", isMobile ? "" : "hover:-translate-y-1")}>
                     <CardContent className={cn(isMobile ? "p-4" : "p-6")}>
                       <div className={cn(
-                        `p-2.5 rounded-xl bg-${pillar.color}-50 text-${pillar.color}-600 w-fit mb-3`,
+                        "p-2.5 rounded-xl w-fit mb-3",
+                        pillar.color === 'emerald' && "bg-emerald-50 text-emerald-600",
+                        pillar.color === 'teal' && "bg-teal-50 text-teal-600",
+                        pillar.color === 'green' && "bg-green-50 text-green-600",
                         "group-hover:scale-105 transition-transform"
                       )}>
                         <pillar.icon className="h-6 w-6" />
@@ -860,67 +849,23 @@ export default function Pitch() {
             </div>
 
             {/* Phase 2 */}
-            <div className="mb-6">
+            <div>
               <h3 className={cn("font-bold text-gray-800 border-l-4 border-sky-500 pl-3 mb-4", isMobile ? "text-sm" : "text-base")}>
                 {t('pitch.catalog.phase2Title')}
               </h3>
               <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-4")}>
-                {phase2Products.map((p, i) => renderProductCard(p, i + 4))}
-              </div>
-            </div>
-
-            {/* Roadmap Products */}
-            <div>
-              <h3 className={cn("font-bold text-gray-800 border-l-4 border-gray-400 pl-3 mb-4", isMobile ? "text-sm" : "text-base")}>
-                {t('pitch.catalog.roadmapTitle')}
-              </h3>
-              <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-4")}>
-                {roadmapProducts.map((p, i) => renderProductCard(p, i + 8))}
+                {phase2Products.map((p, i) => renderProductCard(p, i + phase1Products.length))}
               </div>
             </div>
           </motion.section>
 
-          {/* ═══════ SECTION 5: EcoApp Platform ═══════ */}
-          <motion.section id="pitch-ecoapp" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
-            <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-teal-50 text-teal-700 border-teal-200 mb-3">{t('pitch.ecoapp.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {t('pitch.ecoapp.title')}
-              </h2>
-            </motion.div>
+          {/* ═══════ PHONE SHOWCASE ZONE — Sections 5–8 with sticky phone ═══════ */}
+          <div ref={phoneZoneRef} className="relative">
+            <div className={cn(isMobile ? "" : "flex gap-8 items-start")}>
+              {/* Left column: content sections */}
+              <div className={cn(isMobile ? "w-full" : "flex-1 min-w-0", isMobile ? "space-y-10" : "space-y-16")}>
 
-            {/* Visual Flow */}
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-1 mb-6">
-              {ecoappFlow.map((step: string, i: number) => (
-                <React.Fragment key={step}>
-                  <span className="px-3 py-1.5 bg-teal-50 border border-teal-200 rounded-lg text-xs font-bold text-teal-700">
-                    {step}
-                  </span>
-                  {i < ecoappFlow.length - 1 && <ChevronRight className="h-4 w-4 text-teal-300" />}
-                </React.Fragment>
-              ))}
-            </motion.div>
-
-            <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-3")}>
-              {ecoappModules.map((mod, i) => (
-                <motion.div key={i} variants={fadeUp}>
-                  <Card className="h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">
-                    <CardContent className={cn("flex items-start gap-3", isMobile ? "p-3" : "p-4")}>
-                      <div className="p-2 rounded-lg bg-teal-50 text-teal-600 flex-shrink-0">
-                        <mod.icon className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
-                      </div>
-                      <div>
-                        <h4 className={cn("font-bold text-gray-900", isMobile ? "text-xs" : "text-sm")}>{mod.name}</h4>
-                        <p className={cn("text-gray-500 leading-relaxed mt-0.5", isMobile ? "text-[10px]" : "text-xs")}>{mod.desc}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* ═══════ SECTION 6: Business Model ═══════ */}
+          {/* ═══════ SECTION 5: Business Model ═══════ */}
           <motion.section id="pitch-business" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-indigo-50 text-indigo-700 border-indigo-200 mb-3">{t('pitch.business.tag')}</Badge>
@@ -954,7 +899,7 @@ export default function Pitch() {
             </div>
 
             {/* Market Size Section */}
-            <div className="mt-8 space-y-4">
+            <div id="pitch-business-market" className="mt-8 space-y-4">
               <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
                 {t('pitch.business.market.title')}
               </h3>
@@ -988,7 +933,7 @@ export default function Pitch() {
             {/* Key Financial Metrics */}
             <div className="mt-8 space-y-4">
               <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
-                {t('pitch.business.tag')} — Key Metrics
+                {t('pitch.business.tag')} — {t('pitch.business.keyMetricsLabel', { defaultValue: 'Key Metrics' })}
               </h3>
               <motion.div variants={fadeUp} className={cn("grid gap-4", isMobile ? "grid-cols-3" : "grid-cols-3 max-w-2xl")}>
                 {businessMetrics.map((m, i) => (
@@ -1003,7 +948,11 @@ export default function Pitch() {
             </div>
           </motion.section>
 
-          {/* ═══════ SECTION 7: Roadmap ═══════ */}
+          {/* Mobile: Phone carousel after Business Model and before Roadmap */}
+          {isMobile && <FloatingPhoneShowcase scrollRef={phoneZoneRef} />}
+
+
+          {/* ═══════ SECTION 6: Roadmap ═══════ */}
           <motion.section id="pitch-roadmap" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-cyan-50 text-cyan-700 border-cyan-200 mb-3">{t('pitch.roadmap.tag')}</Badge>
@@ -1034,7 +983,9 @@ export default function Pitch() {
             </div>
           </motion.section>
 
-          {/* ═══════ SECTION 8: Traction ═══════ */}
+
+
+          {/* ═══════ SECTION 7: Traction ═══════ */}
           <motion.section id="pitch-traction" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-green-50 text-green-700 border-green-200 mb-3">{t('pitch.traction.tag')}</Badge>
@@ -1129,7 +1080,7 @@ export default function Pitch() {
             </motion.div>
           </motion.section>
 
-          {/* ═══════ SECTION 9: Team ═══════ */}
+          {/* ═══════ SECTION 8: Team ═══════ */}
           <motion.section id="pitch-team" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-purple-50 text-purple-700 border-purple-200 mb-3">{t('pitch.team.tag')}</Badge>
@@ -1158,7 +1109,17 @@ export default function Pitch() {
               ))}
             </div>
           </motion.section>
-          {/* ═══════ SECTION 10: Investment Ask ═══════ */}
+
+              </div>{/* End left content column */}
+
+              {/* Right column: Desktop sticky phone */}
+              {!isMobile && (
+                <FloatingPhoneShowcase scrollRef={phoneZoneRef} />
+              )}
+            </div>{/* End flex row */}
+          </div>{/* End phone showcase zone */}
+
+          {/* ═══════ SECTION 9: Investment Ask ═══════ */}
           <motion.section id="pitch-ask" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp}>
               <Card 
@@ -1299,7 +1260,7 @@ export default function Pitch() {
                       {t('pitch.ask.cta1')}
                     </p>
                     <p className={cn("font-black text-yellow-300 mt-1 uppercase tracking-wider", isMobile ? "text-lg" : "text-2xl")}>
-                      {t('pitch.ask.cta2')}
+                      {t('pitch.ask.cta2', { defaultValue: 'Build the future with us.' })}
                     </p>
                   </div>
 

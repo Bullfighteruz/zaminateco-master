@@ -20,6 +20,7 @@ export const PRODUCT_TRANSLATION_KEY_MAP: Record<string, string> = {
   'ECOBUSSTOP': 'ecobusStop',
   'Playground Block (Art Tiles)': 'playgroundBlock',
   'Ecostreet Furniture': 'ecostreetFurniture',
+  'Eco-friendly Business Cards': 'businessCards',
 };
 
 /**

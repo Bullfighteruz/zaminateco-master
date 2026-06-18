@@ -197,6 +197,19 @@ const productData: ProductItem[] = [
     isCallForPrice: true,
     recycledPercent: 100,
     category: 'Furniture'
+  },
+  {
+    id: 11,
+    emoji: '📇',
+    image: '/images/Eco-friendly Business Cards.webp',
+    nameKey: 'products.businessCards.name',
+    englishName: 'Eco-friendly Business Cards',
+    descriptionKey: 'products.businessCards.description',
+    categoryKey: 'products.businessCards.category',
+    price: '10 900 UZS',
+    pricingKey: 'pricing.perPiece',
+    recycledPercent: 100,
+    category: 'Art-Tiles'
   }
 ];
 

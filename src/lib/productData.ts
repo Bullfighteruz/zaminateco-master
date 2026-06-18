@@ -72,6 +72,7 @@ const PRODUCT_FOLDER_MAP: Record<string, string> = {
   'ECOBUSSTOP': 'ECOBUSSTOP-page',
   'Playground Block (Art Tiles)': 'art-tiles-page',
   'Ecostreet Furniture': 'Ecostreet-Furniture-page',
+  'Eco-friendly Business Cards': 'business-cards-page',
 };
 
 /**
@@ -703,6 +704,66 @@ export const PRODUCT_DETAIL_DATA: Record<string, ProductDetailData> = {
     materialComposition: {
       recycledPlastic: 70,
       recycledRubber: 30,
+    },
+  },
+  'Eco-friendly Business Cards': {
+    id: 11,
+    englishName: 'Eco-friendly Business Cards',
+    nameKey: 'products.businessCards.name',
+    descriptionKey: 'products.businessCards.description',
+    categoryKey: 'products.businessCards.category',
+    folderName: 'business-cards-page',
+    badges: [
+      { text: '100% Recycled Material' },
+      { text: 'Waterproof' },
+      { text: 'Tear Resistant' },
+      { text: 'Premium Matte Finish' },
+    ],
+    overview: {
+      title: 'Eco-friendly Business Cards — Premium 100% Recycled Plastic Cards',
+      description: 'Elegant, durable, and fully customizable business cards made entirely from 100% recycled plastic waste. Showcase your brand\'s commitment to sustainability with a premium feel.',
+      specifications: [
+        'Dimensions: 85×55 mm or 90×50 mm',
+        'Material: 100% Recycled Post-Consumer Plastic (HDPE/PP)',
+        'Thickness: 0.5–0.8 mm',
+        'Finish: Textured matte, embossed branding options',
+        'Lifespan: Lifetime durability (waterproof & tearproof)',
+        'Sustainability: 100% circular, fully recyclable again',
+      ],
+    },
+    technicalSpecs: [
+      { label: 'Dimensions', value: '85×55 or 90×50', unit: 'mm' },
+      { label: 'Thickness', value: '0.5–0.8', unit: 'mm' },
+      { label: 'Material', value: '100% Recycled Post-Consumer Plastic (HDPE/PP)' },
+      { label: 'Weight', value: '3–5', unit: 'g/card' },
+      { label: 'Finish', value: 'Fine textured matte, debossed/embossed custom print' },
+      { label: 'Waterproof', value: '100% Waterproof' },
+      { label: 'Tear Resistance', value: 'High' },
+      { label: 'Lifespan', value: 'Permanent' },
+      { label: 'Customization', value: 'Custom logo, double-sided printing, color specks' },
+    ],
+    sustainability: [
+      { label: 'Recycled Plastic', value: '100%', description: 'Post-consumer HDPE/PP waste' },
+      { label: 'CO2 Reduction', value: '80%', description: 'vs virgin PVC plastic cards' },
+      { label: 'Waste Diverted', value: '0.5', unit: 'kg/100 cards', description: 'From landfill and ocean' },
+      { label: 'Social Impact', value: 'Funds local circular economy and clean-up programs' },
+    ],
+    useCases: [
+      { title: 'Corporate Branding', description: 'Showcase company green initiatives', icon: '💼' },
+      { title: 'Networking Events', description: 'Memorable and conversational business cards', icon: '🤝' },
+      { title: 'Premium Services', description: 'Sleek luxury design for top executives', icon: '✨' },
+      { title: 'Eco-Retail', description: 'Perfect tags and cards for green shops', icon: '🏷️' },
+    ],
+    features: [
+      { title: '100% Recycled', description: 'Zero virgin plastic, zero paper trees cut', icon: '♻️' },
+      { title: 'Waterproof', description: 'Will not smudge, rip, or degrade in water', icon: '💧' },
+      { title: 'Premium Finish', description: 'Unique terrazzo texture makes each card one-of-a-kind', icon: '💎' },
+      { title: 'Conversational', description: 'A tangible icebreaker that speaks of your values', icon: '💬' },
+      { title: 'Tearproof', description: 'Indestructible durability under daily use', icon: '💪' },
+      { title: 'Recyclable', description: 'Can be re-shredded and recycled indefinitely', icon: '🔄' },
+    ],
+    materialComposition: {
+      recycledPlastic: 100,
     },
   },
 };

@@ -1072,9 +1072,23 @@
       "partnerTitle": "Strategic Partner Advantage",
       "partnerDesc": "The ideal investor can contribute not only capital, but also: industrial space, land or factory access, utilities and storage, B2B/B2G connections, pilot locations, ESG or corporate sponsorship channels.",
       "cta1": "Join the first Waste-to-Life infrastructure platform from Uzbekistan.",
-      "cta2": "Where waste ends — life begins.",
+      "cta2": "Build the future with us.",
       "qrLabel": "Investor Pitch Access",
       "qrSublabel": "Scan to explore ZAMINAT.eco"
+    },
+    "simulator": {
+      "tag": "Live Simulator",
+      "title": "Experience the App Interface Live",
+      "description": "Interact directly with the real pages of the ZAMINAT.eco application inside the phone mockups below.",
+      "phone1Badge": "1. Eco Dashboard",
+      "phone1Title": "Eco Dashboard & Profile",
+      "phone1Desc": "Track Eco Coins, Eco Points, level progress, badges, and rewards catalog.",
+      "phone2Badge": "2. Democratic Voting",
+      "phone2Title": "Democratic Project Voting",
+      "phone2Desc": "Participate in mahalla-led decisions on parks, playgrounds, and recycling.",
+      "phone3Badge": "3. Trash Map & Campaigns",
+      "phone3Title": "Actions Map & Campaigns",
+      "phone3Desc": "Explore Tashkent's recycling collection pins and volunteer cleanup opportunities."
     }
   }
 }

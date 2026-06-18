@@ -204,6 +204,9 @@ const specialMappings: Record<string, string> = {
   'playground block': '/images/art-tiles.webp',
   'art tiles': '/images/art-tiles.webp',
   'ecostreet furniture': '/images/green-city_5994274.webp',
+  'eco-friendly business cards': '/images/Eco-friendly Business Cards.webp',
+  'eco friendly business cards': '/images/Eco-friendly Business Cards.webp',
+  'business cards': '/images/Eco-friendly Business Cards.webp',
   
   // Voting Projects - exact name matches
   'new playground for school': '/images/New Playground for School.webp',

@@ -43,6 +43,7 @@ const PRODUCT_IMAGE_MAP: Record<string, string> = {
   'ECOBUSSTOP': '/images/ECOBUSSTOP.webp',
   'Playground Block (Art Tiles)': '/images/art-tiles.webp',
   'Ecostreet Furniture': '/images/green-city_5994274.webp',
+  'Eco-friendly Business Cards': '/images/Eco-friendly Business Cards.webp',
 };
 
 // Special marker for products that require price inquiry
@@ -59,6 +60,7 @@ const PRODUCT_PRICE_MAP: Record<string, string> = {
   'ECOBUSSTOP': '8 590 000 UZS',
   'Playground Block (Art Tiles)': '49 000 UZS',
   'Ecostreet Furniture': CALL_FOR_PRICE_MARKER,
+  'Eco-friendly Business Cards': '10 900 UZS',
 };
 
 // Related Product Carousel Component

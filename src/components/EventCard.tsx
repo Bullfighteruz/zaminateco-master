@@ -11,13 +11,7 @@ import {
   Info,
   Heart,
   Zap,
-  TrendingUp,
-  Globe,
-  Leaf,
-  BookOpen,
-  Target,
-  Shield,
-  Star
+  TrendingUp
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -114,16 +108,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
     }
   };
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'cleanup': return <Globe className="h-4 w-4" />;
-      case 'planting': return <Leaf className="h-4 w-4" />;
-      case 'education': return <BookOpen className="h-4 w-4" />;
-      case 'recycling': return <Target className="h-4 w-4" />;
-      case 'awareness': return <Heart className="h-4 w-4" />;
-      default: return <Star className="h-4 w-4" />;
-    }
-  };
+
 
   return (
     <motion.div
@@ -173,9 +158,6 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
                   )}
                   aria-label={t(`eventCategories.${event.category}`, { ns: 'actions' })}
                 >
-                  <span className={cn(isMobile ? "h-2.5 w-2.5" : "h-3 w-3")} aria-hidden="true">
-                    {getCategoryIcon(event.category)}
-                  </span>
                   <span className="capitalize">{t(`eventCategories.${event.category}`, { ns: 'actions' })}</span>
                 </Badge>
                 <Badge 
@@ -185,7 +167,6 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
                   )}
                   aria-label={t(`difficultyLevels.${event.difficulty}`, { ns: 'actions' })}
                 >
-                  <Shield className={cn(isMobile ? "h-2.5 w-2.5 mr-0.5" : "h-3 w-3 mr-1")} aria-hidden="true" />
                   <span className="capitalize">{t(`difficultyLevels.${event.difficulty}`, { ns: 'actions' })}</span>
                 </Badge>
               </div>

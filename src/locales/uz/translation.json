@@ -1072,9 +1072,22 @@
       "partnerTitle": "Strategik hamkor afzalligi",
       "partnerDesc": "Ideal investor nafaqat kapital, balki: sanoat maydoni, yer yoki zavodga kirish, kommunal xizmatlar va omborlar, B2B/B2G aloqalar, pilot lokatsiyalar, ESG yoki korporativ homiylik kanallari ham kiritishi mumkin.",
       "cta1": "O'zbekistondan birinchi Chiqindi-Hayotga infratuzilma platformasiga qo'shiling.",
-      "cta2": "Chiqindilar tugagan joyda — hayot boshlanadi.",
       "qrLabel": "Investor pitch kirishi",
       "qrSublabel": "ZAMINAT.eco ni ochish uchun skanerlang"
+    },
+    "simulator": {
+      "tag": "Jonli simulyator",
+      "title": "Ilova interfeysini jonli sinab ko'ring",
+      "description": "Quyidagi telefon maketlari ichida ZAMINAT.eco ilovasining haqiqiy sahifalari bilan bevosita aloqa qiling.",
+      "phone1Badge": "1. Eko boshqaruv paneli",
+      "phone1Title": "Eko boshqaruv paneli va profil",
+      "phone1Desc": "Eko tangalar, eko ballar, darajalar taraqqiyoti, nishonlar va mukofotlar do'konini kuzating.",
+      "phone2Badge": "2. Demokratik ovoz berish",
+      "phone2Title": "Demokratik loyihalar ovozi",
+      "phone2Desc": "Mahalla miqyosidagi parklar, o'yin maydonchalari va qayta ishlash loyihalarida ovoz bering.",
+      "phone3Badge": "3. Chiqindilar xaritasi va aksiyalar",
+      "phone3Title": "Xarita va ko'ngillilar aksiyalari",
+      "phone3Desc": "Toshkentdagi yig'ish nuqtalari va ko'ngillilik tadbirlari xaritasini o'rganing."
     }
   }
 }

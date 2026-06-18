@@ -63,6 +63,12 @@
       "name": "Eko ko'cha mebelları",
       "description": "Qayta ishlangan materiallardan maxsus ko'cha mebeli yechimlari",
       "category": "Infratuzilma"
+    },
+    "businessCards": {
+      "name": "Eko-tashrif qog'ozlari",
+      "description": "100% qayta ishlangan plastikdan tayyorlangan maxsus dizaynli tashrif qog'ozlari",
+      "info": "100 dona, maxsus dizayn",
+      "category": "San'at"
     }
   },
   "pricing": {
@@ -566,6 +572,91 @@
         "easyInstallation": {
           "title": "Oson o'rnatish",
           "description": "Tez sozlash uchun modul dizayn"
+        }
+      }
+    },
+    "businessCards": {
+      "badges": {
+        "recycledMaterial": "100% Qayta ishlangan material",
+        "waterproof": "Suvga chidamli",
+        "tearResistant": "Yirtilmaydigan",
+        "premiumMatte": "Premium matli qoplama"
+      },
+      "overview": {
+        "title": "Eko-tashrif qog'ozlari — Premium 100% qayta ishlangan plastik kartochkalar",
+        "description": "100% qayta ishlangan plastik chiqindilaridan tayyorlangan zamonaviy, mustahkam va to'liq moslashtiriladigan tashrif qog'ozlari. Premium darajadagi sifat bilan brendingizning ekologik mas'uliyatini namoyish eting.",
+        "specs": [
+          "O'lchamlari: 85×55 mm yoki 90×50 mm",
+          "Material: 100% Qayta ishlangan iste'molchi plastigi (HDPE/PP)",
+          "Qalinligi: 0.5–0.8 mm",
+          "Qoplama: Teksturali matli, brend bo'rtma naqsh variantlari",
+          "Xizmat muddati: Cheksiz chidamlilik (suvga va yirtilishga chidamli)",
+          "Barqarorlik: 100% aylanma mahsulot, to'liq qayta ishlanadigan"
+        ]
+      },
+      "technicalSpecs": {
+        "dimensions": "O'lchamlari",
+        "thickness": "Qalinligi",
+        "material": "Material",
+        "weight": "Og'irligi",
+        "finish": "Qoplama",
+        "waterproof": "Suvga chidamlilik",
+        "tearresistance": "Yirtilishga chidamlilik",
+        "lifespan": "Xizmat muddati",
+        "customization": "Moslashtirish"
+      },
+      "sustainability": {
+        "recycledplastic": "Qayta ishlangan plastik",
+        "co2reduction": "CO2 kamaytirish",
+        "wastediverted": "Chiqindi aylanmasi",
+        "socialimpact": "Ijtimoiy ta'sir",
+        "postconsumerhdpeppwaste": "Iste'moldan keyingi HDPE/PP plastik chiqindilari",
+        "vsvirginpvcplasticcards": "birlamchi PVX plastik kartalariga nisbatan",
+        "fromlandfillandocean": "Poligon va okeanlardan tozalangan",
+        "fundslocalcirculareconomyandcleanupprograms": "Mahalliy aylanma iqtisodiyot va tozalash dasturlarini moliyalashtiradi"
+      },
+      "useCases": {
+        "corporateBranding": {
+          "title": "Korporativ brending",
+          "description": "Kompaniyaning yashil tashabbuslarini namoyish qilish"
+        },
+        "networkingEvents": {
+          "title": "Tanishuv uchrashuvlari",
+          "description": "Suhbat boshlash uchun ajoyib bahona bo'luvchi esda qolarli vizitkalar"
+        },
+        "premiumServices": {
+          "title": "Premium xizmatlar",
+          "description": "Rahbarlar va top-menejerlar uchun hashamatli dizayn"
+        },
+        "ecoRetail": {
+          "title": "Eko-Savdo",
+          "description": "Yashil do'konlar uchun ideal teg va kartochkalar"
+        }
+      },
+      "features": {
+        "recycled": {
+          "title": "100% Qayta ishlangan",
+          "description": "Birlamchi plastik ishlatilmaydi, qog'oz daraxtlari kesilmaydi"
+        },
+        "waterproof": {
+          "title": "Suvga chidamli",
+          "description": "Suvda ivimaydi, yirtilmaydi va rangi o'chmaydi"
+        },
+        "premiumFinish": {
+          "title": "Premium qoplama",
+          "description": "Noyob terrazzo teksturasi har bir kartani takrorlanmas qiladi"
+        },
+        "conversational": {
+          "title": "Muloqot boshlovchi",
+          "description": "Tanishayotganda qadriyatlaringizni ko'rsatuvchi ajoyib vosita"
+        },
+        "tearproof": {
+          "title": "Yirtilmas chidamlilik",
+          "description": "Kundalik foydalanishda sinmas va yirtilmas chidamlilik"
+        },
+        "recyclable": {
+          "title": "Qayta ishlanuvchan",
+          "description": "Maydalab, cheksiz marta qayta ishlash mumkin"
         }
       }
     }

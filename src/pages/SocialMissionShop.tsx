@@ -144,6 +144,17 @@ const productData: ProductItem[] = [
     descriptionKey: 'products.ecostreetFurniture.description',
     categoryKey: 'products.ecostreetFurniture.category',
     isCallForPrice: true
+  },
+  {
+    id: 11,
+    emoji: '📇',
+    image: '/images/Eco-friendly Business Cards.webp',
+    nameKey: 'products.businessCards.name',
+    englishName: 'Eco-friendly Business Cards', // Original English name for icon matching
+    descriptionKey: 'products.businessCards.description',
+    categoryKey: 'products.businessCards.category',
+    price: '10 900 UZS',
+    pricingKey: 'pricing.perPiece'
   }
 ];
 
