@@ -86,7 +86,6 @@ function Slide1Hero({ t, lang }: { t: any; lang: string }) {
       {/* Founder quote */}
       <div className="bg-white/10 border border-white/15 rounded-2xl backdrop-blur-sm p-6 max-w-2xl">
         <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="h-5 w-5 text-yellow-300" />
           <span className="text-sm font-bold uppercase tracking-wider text-yellow-300">{t('pitch.hero.founderMission')}</span>
         </div>
         <p className="text-lg text-white/90 leading-relaxed italic">

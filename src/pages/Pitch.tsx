@@ -619,7 +619,6 @@ export default function Pitch() {
             <motion.div variants={fadeUp} className="mt-8 max-w-2xl mx-auto">
               <div className="bg-white/10 border border-white/15 rounded-2xl backdrop-blur-sm p-4 text-left">
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="h-4 w-4 text-yellow-300" />
                   <span className="text-xs font-bold uppercase tracking-wider text-yellow-300">{t('pitch.hero.founderMission')}</span>
                 </div>
                 <p className={cn("text-white/90 leading-relaxed italic", isMobile ? "text-xs" : "text-sm")}>
@@ -671,11 +670,6 @@ export default function Pitch() {
             <motion.div variants={fadeUp} className="mt-6 max-w-4xl mx-auto">
               <Card className="border-emerald-200/60 shadow-md bg-gradient-to-r from-emerald-50/80 to-teal-50/60 overflow-hidden">
                 <CardContent className={cn("flex flex-col md:flex-row gap-4 items-start", isMobile ? "p-4" : "p-6")}>
-                  <div className="flex-shrink-0">
-                    <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-600">
-                      <TrendingUp className={cn(isMobile ? "h-5 w-5" : "h-6 w-6")} />
-                    </div>
-                  </div>
                   <div className="space-y-2">
                     <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[10px] font-bold uppercase tracking-wider">
                       {t('pitch.problem.policyTailwind.tag')}
@@ -697,7 +691,6 @@ export default function Pitch() {
                 "bg-amber-50/60 border border-amber-200/50 rounded-xl flex items-start gap-3",
                 isMobile ? "p-3" : "p-4"
               )}>
-                <Award className={cn("text-amber-500 flex-shrink-0 mt-0.5", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                 <div>
                   <span className={cn("font-bold text-amber-800", isMobile ? "text-xs" : "text-sm")}>
                     {t('pitch.problem.adjacentSignal.title')}:
