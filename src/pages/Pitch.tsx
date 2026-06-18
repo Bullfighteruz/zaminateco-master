@@ -6,6 +6,7 @@ import {
   Smartphone, Mail, Briefcase, Menu, X, ArrowUp, ChevronUp, ChevronDown
 } from 'lucide-react';
 import Layout from '@/components/Layout';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -158,6 +159,16 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
 
   return (
     <>
+      {/* Fixed Language Switcher (only visible when NOT scrolled) */}
+      {!isScrolled && (
+        <div className={cn(
+          "fixed z-50 transition-opacity duration-300",
+          isMobile ? "top-3 right-3" : "top-4 right-4"
+        )}>
+          <LanguageSwitcher darkMode={true} />
+        </div>
+      )}
+
       {/* Sticky Top Nav */}
       <motion.nav
         initial={{ y: -80 }}
@@ -207,17 +218,27 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                   <Smartphone className="h-3.5 w-3.5" />
                   EcoApp MVP
                 </button>
+
+                {/* Language Switcher inside sticky nav */}
+                <div className="flex-shrink-0">
+                  <LanguageSwitcher darkMode={true} />
+                </div>
               </div>
             )}
 
-            {/* Mobile Hamburger */}
+            {/* Mobile Actions (Language Switcher + Hamburger) */}
             {isMobile && (
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all"
-              >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
+              <div className="flex items-center gap-2">
+                <div className="scale-90 flex-shrink-0 origin-right">
+                  <LanguageSwitcher darkMode={true} />
+                </div>
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all flex-shrink-0"
+                >
+                  {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </button>
+              </div>
             )}
           </div>
 
