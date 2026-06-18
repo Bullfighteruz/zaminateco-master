@@ -54,12 +54,12 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
             size="sm" 
             className={cn(
               "flex items-center gap-2.5",
-              darkMode ? "bg-white/10 backdrop-blur-md" : "bg-white/95 backdrop-blur-md",
-              darkMode ? "border-2 border-white/20" : "border-2 border-gray-200/50",
-              darkMode ? "hover:border-white/40 hover:bg-white/20" : "hover:border-green-400/60 hover:bg-white",
+              darkMode ? "bg-yellow-300/15 backdrop-blur-md" : "bg-white/95 backdrop-blur-md",
+              darkMode ? "border-2 border-yellow-300/30" : "border-2 border-gray-200/50",
+              darkMode ? "hover:border-yellow-300/50 hover:bg-yellow-300/25" : "hover:border-green-400/60 hover:bg-white",
               "transition-all duration-300",
-              "shadow-md hover:shadow-lg",
-              darkMode ? "text-white hover:text-white" : "text-gray-800 hover:text-gray-900",
+              darkMode ? "shadow-md shadow-yellow-400/10 hover:shadow-lg hover:shadow-yellow-400/20" : "shadow-md hover:shadow-lg",
+              darkMode ? "text-yellow-300 hover:text-yellow-200" : "text-gray-800 hover:text-gray-900",
               "font-semibold",
               "px-3 py-2",
               "relative overflow-hidden",
@@ -106,7 +106,7 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className={cn("text-sm font-bold tracking-wide hidden sm:inline-block", darkMode ? "text-white" : "text-gray-900")}
+                className={cn("text-sm font-bold tracking-wide hidden sm:inline-block", darkMode ? "text-yellow-300" : "text-gray-900")}
               >
                 {currentLanguage.code.toUpperCase()}
               </motion.span>
@@ -116,7 +116,7 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <ChevronDown className={cn("h-3.5 w-3.5 transition-colors", darkMode ? "text-white/60 group-hover:text-white" : "text-gray-600 group-hover:text-green-600")} />
+                <ChevronDown className={cn("h-3.5 w-3.5 transition-colors", darkMode ? "text-yellow-300/60 group-hover:text-yellow-200" : "text-gray-600 group-hover:text-green-600")} />
               </motion.div>
             </div>
           </Button>
