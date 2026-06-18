@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Users, Target, Globe, Award, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
-  Smartphone, Mail
+  Smartphone, Mail, Briefcase
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -20,83 +20,23 @@ import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
 
 /* ────────────────────────────── Data ────────────────────────────── */
 
-const PROBLEM_STATS = [
-  { value: '14.8M', unit: 'tons/year', label: 'Waste generated in Uzbekistan', icon: Recycle },
-  { value: '~5%', unit: '', label: 'Actually recycled', icon: Target },
-  { value: '1M+', unit: 'tons', label: 'Plastic waste accumulated', icon: Globe },
-  { value: '1T', unit: 'UZS', label: 'Unrealized economic value', icon: TrendingUp },
+const PRODUCTS_PHASE1 = [
+  { name: 'EPDM-free Tiles', image: '/images/EPDM-free Tiles.webp', material: 'Recycled Rubber', price: '219,000 UZS/m²', status: 'pilotSku', rawName: 'EPDM-free Tiles' },
+  { name: 'EPDM Rubber Tiles', image: '/images/EPDM Tiles.webp', material: 'EPDM + Rubber', price: '539,000 UZS/m²', status: 'pilotSku', rawName: 'EPDM Rubber Tiles' },
+  { name: 'EcoBrick', image: '/images/EcoBrick.webp', material: 'Recycled Plastic', price: '99,000 UZS/pc', status: 'pilotReady', rawName: 'EcoBrick' },
+  { name: 'Eco Bench', image: '/images/Eco Bench.webp', material: 'Recycled Plastic', price: '790,000 UZS/pc', status: 'pilotReady', rawName: 'Eco Bench' },
 ];
 
-const PRODUCTS = [
-  { name: 'EPDM-free Tiles', image: '/images/EPDM-free Tiles.webp', material: 'Recycled Rubber', price: '219,000 UZS/m²', status: 'Selling' },
-  { name: 'EPDM Rubber Tiles', image: '/images/EPDM Tiles.webp', material: 'EPDM + Rubber', price: '539,000 UZS/m²', status: 'Selling' },
-  { name: 'EcoBrick', image: '/images/EcoBrick.webp', material: 'Recycled Plastic', price: '99,000 UZS/pc', status: 'Selling' },
-  { name: 'Eco Bench', image: '/images/Eco Bench.webp', material: 'Recycled Plastic', price: '790,000 UZS/pc', status: 'Selling' },
-  { name: 'Garden Planter', image: '/images/Garden Planter.webp', material: 'Recycled Plastic', price: '149,000 UZS/pc', status: 'Selling' },
-  { name: 'ECOBIKE RACK', image: '/images/ECOBIKE RACK.webp', material: 'Recycled Plastic', price: '490,000 UZS/pc', status: 'Selling' },
-  { name: 'Waste Bin', image: '/images/Waste Bin.webp', material: 'Recycled Plastic', price: '79,000 UZS/pc', status: 'Selling' },
-  { name: 'ECOBUSSTOP', image: '/images/ECOBUSSTOP.webp', material: 'Recycled Materials', price: '8,590,000 UZS', status: 'Selling' },
-  { name: 'Art Tiles', image: '/images/art-tiles.webp', material: 'Recycled Rubber', price: '49,000 UZS/pc', status: 'Pilot-Ready' },
-  { name: 'Ecostreet Furniture', image: '/images/green-city_5994274.webp', material: 'Recycled Materials', price: 'Custom', status: 'Roadmap' },
+const PRODUCTS_PHASE2 = [
+  { name: 'Garden Planter', image: '/images/Garden Planter.webp', material: 'Recycled Plastic', price: '149,000 UZS/pc', status: 'pilotReady', rawName: 'Garden Planter' },
+  { name: 'ECOBIKE RACK', image: '/images/ECOBIKE RACK.webp', material: 'Recycled Plastic', price: '490,000 UZS/pc', status: 'pilotReady', rawName: 'ECOBIKE RACK' },
+  { name: 'Waste Bin', image: '/images/Waste Bin.webp', material: 'Recycled Plastic', price: '79,000 UZS/pc', status: 'pilotReady', rawName: 'Waste Bin' },
+  { name: 'ECOBUSSTOP', image: '/images/ECOBUSSTOP.webp', material: 'Recycled Materials', price: '8,590,000 UZS', status: 'demo', rawName: 'ECOBUSSTOP' },
 ];
 
-const ECOAPP_MODULES = [
-  { name: 'EcoMap', desc: 'Interactive collection point finder', icon: Globe },
-  { name: 'EcoActions', desc: 'Volunteer campaigns & events', icon: Users },
-  { name: 'EcoWallet', desc: 'Eco-coins rewards for participation', icon: Sparkles },
-  { name: 'EcoStories', desc: 'Community impact stories & media', icon: Heart },
-  { name: 'EcoVote', desc: 'Citizens vote on public projects', icon: Landmark },
-  { name: 'Impact Dashboard', desc: 'Transparent waste tracking analytics', icon: TrendingUp },
-];
-
-const REVENUE_CHANNELS = [
-  { name: 'B2G Contracts', desc: 'Municipal & government projects', icon: Landmark },
-  { name: 'B2B Sales', desc: 'Developers, landscapers, builders', icon: Building2 },
-  { name: 'B2C E-commerce', desc: 'Direct shop on zaminat.uz / zaminateco.com', icon: Package },
-  { name: 'Social Products', desc: 'Art Tiles & EcoKids programs', icon: Heart },
-  { name: 'EcoApp Platform', desc: 'Eco-coins & gamification monetization', icon: Smartphone },
-  { name: 'Export / Franchise', desc: 'Central Asia expansion model', icon: Globe },
-];
-
-const ROADMAP = [
-  { year: '2026', title: 'Pilot Year', items: ['First production line', 'Pilot sales 10 customers', 'EcoApp MVP launch', 'EcoKids 3 schools'] },
-  { year: '2027', title: 'Growth', items: ['500 t/year production', 'Tashkent city contracts', 'EcoApp 5,000 users', '10 schools enrolled'] },
-  { year: '2028', title: 'Scale', items: ['2,000 t/year capacity', 'Break-even achieved', 'Regional expansion pilot', 'National partnerships'] },
-  { year: '2029', title: 'Expansion', items: ['Multi-city operations', 'Central Asia market', 'Platform licensing', '$183K net profit/year'] },
-];
-
-const TRACTION = [
-  'Registered legal entity (LLC)',
-  'Production logic & pricing finalized',
-  'Website MVP live (zaminat.uz / zaminateco.com)',
-  'EcoApp prototype built',
-  'Raw material sourcing confirmed',
-  'Equipment suppliers identified',
-  'Financial model validated (4-year)',
-  'Pilot customer pipeline started',
-  'Founder & CEO assembled the core project team',
-  'Brand & positioning complete',
-];
-
-const TEAM = [
-  { 
-    name: 'Sukhrobjon Rikhsiboev', 
-    role: 'Founder / CEO / Strategy & Vision', 
-    focus: 'Founder, chiefly responsible for strategy, partnerships, fundraising, brand, and project development.', 
-    photo: sukhrobjonPhoto 
-  },
-  { 
-    name: 'Azamat Elchibekov', 
-    role: 'Project Team — Operations & Partnerships Support', 
-    focus: 'Assists with operational tasks, preparation, communications, partnerships, and organizational support.', 
-    photo: azamatPhoto 
-  },
-  { 
-    name: 'Khondamir Alibekov', 
-    role: 'Project Team — Digital Platform & Website Demo Support', 
-    focus: 'Helps with digital development, website demos, web MVPs, visual presentation, and technical support for pitch demos.', 
-    photo: khondamirPhoto 
-  },
+const PRODUCTS_ROADMAP = [
+  { name: 'Art Tiles', image: '/images/art-tiles.webp', material: 'Recycled Rubber', price: '49,000 UZS/pc', status: 'roadmap', rawName: 'Art Tiles' },
+  { name: 'Ecostreet Furniture', image: '/images/green-city_5994274.webp', material: 'Recycled Materials', price: 'Custom', status: 'roadmap', rawName: 'Ecostreet Furniture' },
 ];
 
 /* ────────────────────────────── Animations ────────────────────────────── */
@@ -171,23 +111,44 @@ export default function Pitch() {
     return map[name] || name.toLowerCase().replace(/\s+/g, '-');
   };
 
+  const getStatusBadgeStyle = (status: string) => {
+    switch (status) {
+      case 'pilotSku': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'pilotReady': return 'bg-sky-50 text-sky-700 border-sky-200';
+      case 'demo': return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'roadmap': return 'bg-gray-50 text-gray-600 border-gray-200';
+      default: return 'bg-gray-50 text-gray-600 border-gray-200';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    const statusKeys: Record<string, string> = {
+      'pilotSku': 'pitch.catalog.status.pilotSku',
+      'pilotReady': 'pitch.catalog.status.pilotReady',
+      'demo': 'pitch.catalog.status.demo',
+      'roadmap': 'pitch.catalog.status.roadmap',
+    };
+    const key = statusKeys[status];
+    return key ? t(key) : status;
+  };
+
   const stats = useMemo(() => [
     { 
-      value: i18n.language === 'ru' ? '14,8 млн' : i18n.language === 'uz' ? '14.8 mln' : '14.8M', 
+      value: i18n.language === 'ru' ? '15,1 млн+' : i18n.language === 'uz' ? '15.1 mln+' : '15.1M+', 
       unit: t('pitch.stats.tonsYear'), 
       label: t('pitch.stats.wasteUz'), 
       icon: Recycle 
     },
     { 
-      value: '~5%', 
-      unit: '', 
-      label: t('pitch.stats.actuallyRecycled'), 
+      value: i18n.language === 'ru' ? '1,5–2,2 млн' : i18n.language === 'uz' ? '1.5–2.2 mln' : '1.5–2.2M', 
+      unit: t('pitch.stats.tons'), 
+      label: t('pitch.stats.plasticStream'), 
       icon: Target 
     },
     { 
-      value: i18n.language === 'ru' ? '1 млн+' : i18n.language === 'uz' ? '1 mln+' : '1M+', 
-      unit: t('pitch.stats.tons'), 
-      label: t('pitch.stats.plasticWaste'), 
+      value: '11.2% / 17%', 
+      unit: t('pitch.stats.recycling'), 
+      label: t('pitch.stats.recyclingRate'), 
       icon: Globe 
     },
     { 
@@ -199,12 +160,12 @@ export default function Pitch() {
   ], [t, i18n.language]);
 
   const pillars = useMemo(() => [
-    { title: t('pitch.solution.pillars.physical.title'), desc: t('pitch.solution.pillars.physical.desc'), icon: Package, color: 'emerald' },
-    { title: t('pitch.solution.pillars.digital.title'), desc: t('pitch.solution.pillars.digital.desc'), icon: Smartphone, color: 'teal' },
-    { title: t('pitch.solution.pillars.education.title'), desc: t('pitch.solution.pillars.education.desc'), icon: Heart, color: 'green' },
+    { title: t('pitch.solution.pillars.physical.title'), subtitle: t('pitch.solution.pillars.physical.subtitle'), desc: t('pitch.solution.pillars.physical.desc'), icon: Package, color: 'emerald' },
+    { title: t('pitch.solution.pillars.digital.title'), subtitle: t('pitch.solution.pillars.digital.subtitle'), desc: t('pitch.solution.pillars.digital.desc'), icon: Smartphone, color: 'teal' },
+    { title: t('pitch.solution.pillars.education.title'), subtitle: t('pitch.solution.pillars.education.subtitle'), desc: t('pitch.solution.pillars.education.desc'), icon: Heart, color: 'green' },
   ], [t]);
 
-  const translatedProducts = useMemo(() => {
+  const translateProduct = (p: { name: string; image: string; material: string; price: string; status: string; rawName: string }) => {
     const productKeys: Record<string, string> = {
       'EPDM-free Tiles': 'products.epdmFreeTiles.name',
       'EPDM Rubber Tiles': 'products.epdmRubberEcotiles.name',
@@ -217,42 +178,24 @@ export default function Pitch() {
       'Art Tiles': 'products.playgroundBlock.name',
       'Ecostreet Furniture': 'products.ecostreetFurniture.name',
     };
-
     const materialKeys: Record<string, string> = {
       'Recycled Rubber': 'pitch.catalog.materials.rubber',
       'EPDM + Rubber': 'pitch.catalog.materials.epdm',
       'Recycled Plastic': 'pitch.catalog.materials.plastic',
       'Recycled Materials': 'pitch.catalog.materials.composite',
     };
+    const nameKey = productKeys[p.rawName];
+    const name = nameKey ? t(nameKey, { ns: 'shop' }) : p.name;
+    const matKey = materialKeys[p.material];
+    const material = matKey ? t(matKey) : p.material;
+    const price = formatPrice(p.price, i18n.language);
+    const statusLabel = getStatusLabel(p.status);
+    return { ...p, name, material, price, statusLabel };
+  };
 
-    const statusKeys: Record<string, string> = {
-      'Selling': 'pitch.catalog.status.selling',
-      'Pilot-Ready': 'pitch.catalog.status.pilot',
-      'Roadmap': 'pitch.catalog.status.roadmap',
-    };
-
-    return PRODUCTS.map(p => {
-      const nameKey = productKeys[p.name];
-      const name = nameKey ? t(nameKey, { ns: 'shop' }) : p.name;
-      
-      const matKey = materialKeys[p.material];
-      const material = matKey ? t(matKey) : p.material;
-
-      const statKey = statusKeys[p.status];
-      const status = statKey ? t(statKey) : p.status;
-
-      const price = formatPrice(p.price, i18n.language);
-
-      return {
-        ...p,
-        name,
-        material,
-        price,
-        status,
-        rawName: p.name
-      };
-    });
-  }, [t, i18n.language]);
+  const phase1Products = useMemo(() => PRODUCTS_PHASE1.map(translateProduct), [t, i18n.language]);
+  const phase2Products = useMemo(() => PRODUCTS_PHASE2.map(translateProduct), [t, i18n.language]);
+  const roadmapProducts = useMemo(() => PRODUCTS_ROADMAP.map(translateProduct), [t, i18n.language]);
 
   const ecoappModules = useMemo(() => [
     { name: t('pitch.ecoapp.modules.ecomap.name'), desc: t('pitch.ecoapp.modules.ecomap.desc'), icon: Globe },
@@ -267,45 +210,29 @@ export default function Pitch() {
     { name: t('pitch.business.channels.b2g.name'), desc: t('pitch.business.channels.b2g.desc'), icon: Landmark },
     { name: t('pitch.business.channels.b2b.name'), desc: t('pitch.business.channels.b2b.desc'), icon: Building2 },
     { name: t('pitch.business.channels.b2c.name'), desc: t('pitch.business.channels.b2c.desc'), icon: Package },
+    { name: t('pitch.business.channels.corporate.name'), desc: t('pitch.business.channels.corporate.desc'), icon: Briefcase },
     { name: t('pitch.business.channels.social.name'), desc: t('pitch.business.channels.social.desc'), icon: Heart },
-    { name: t('pitch.business.channels.ecoapp.name'), desc: t('pitch.business.channels.ecoapp.desc'), icon: Smartphone },
     { name: t('pitch.business.channels.franchise.name'), desc: t('pitch.business.channels.franchise.desc'), icon: Globe },
   ], [t]);
 
   const marketDetails = useMemo(() => [
-    {
-      label: t('pitch.business.market.tam.label'),
-      value: t('pitch.business.market.tam.value'),
-      desc: t('pitch.business.market.tam.desc'),
-    },
-    {
-      label: t('pitch.business.market.sam.label'),
-      value: t('pitch.business.market.sam.value'),
-      desc: t('pitch.business.market.sam.desc'),
-    },
-    {
-      label: t('pitch.business.market.launchSom.label'),
-      value: t('pitch.business.market.launchSom.value'),
-      desc: t('pitch.business.market.launchSom.desc'),
-    },
-    {
-      label: t('pitch.business.market.pilotSom.label'),
-      value: t('pitch.business.market.pilotSom.value'),
-      desc: t('pitch.business.market.pilotSom.desc'),
-    },
+    { label: t('pitch.business.market.tam.label'), value: t('pitch.business.market.tam.value'), desc: t('pitch.business.market.tam.desc') },
+    { label: t('pitch.business.market.sam.label'), value: t('pitch.business.market.sam.value'), desc: t('pitch.business.market.sam.desc') },
+    { label: t('pitch.business.market.launchSom.label'), value: t('pitch.business.market.launchSom.value'), desc: t('pitch.business.market.launchSom.desc') },
+    { label: t('pitch.business.market.pilotSom.label'), value: t('pitch.business.market.pilotSom.value'), desc: t('pitch.business.market.pilotSom.desc') },
   ], [t]);
 
   const businessMetrics = useMemo(() => [
     { label: t('pitch.business.metrics.grossMargin'), value: '45%+' },
     { label: t('pitch.business.metrics.breakeven'), value: '2028' },
-    { label: t('pitch.business.metrics.roi'), value: '152%' },
+    { label: t('pitch.business.metrics.roi'), value: '124–152%' },
   ], [t]);
 
   const roadmap = useMemo(() => [
-    { year: '2026', title: t('pitch.roadmap.y2026.title'), items: getArray('pitch.roadmap.y2026.items', ['First production line', 'Pilot sales 10 customers', 'EcoApp MVP launch', 'EcoKids 3 schools']) },
-    { year: '2027', title: t('pitch.roadmap.y2027.title'), items: getArray('pitch.roadmap.y2027.items', ['500 t/year production', 'Tashkent city contracts', 'EcoApp 5,000 users', '10 schools enrolled']) },
-    { year: '2028', title: t('pitch.roadmap.y2028.title'), items: getArray('pitch.roadmap.y2028.items', ['2,000 t/year capacity', 'Break-even achieved', 'Regional expansion pilot', 'National partnerships']) },
-    { year: '2029', title: t('pitch.roadmap.y2029.title'), items: getArray('pitch.roadmap.y2029.items', ['Multi-city operations', 'Central Asia market', 'Platform licensing', '$183K net profit/year']) },
+    { year: '2026', title: t('pitch.roadmap.y2026.title'), items: getArray('pitch.roadmap.y2026.items', ['First pilot production line', 'Target: 10 pilot customers', 'EcoApp MVP launch', 'Target: 3 EcoKids pilot schools']) },
+    { year: '2027', title: t('pitch.roadmap.y2027.title'), items: getArray('pitch.roadmap.y2027.items', ['Target: 500 t/year production', 'Tashkent pilot city contracts', 'Target: 5,000 EcoApp users', 'Target: 10 schools enrolled']) },
+    { year: '2028', title: t('pitch.roadmap.y2028.title'), items: getArray('pitch.roadmap.y2028.items', ['Target: 2,000 t/year capacity', 'Target: break-even achieved', 'Regional expansion pilot', 'National partnerships']) },
+    { year: '2029', title: t('pitch.roadmap.y2029.title'), items: getArray('pitch.roadmap.y2029.items', ['Multi-city operations', 'Central Asia market entry', 'Platform licensing', 'Target net profit scenario: $183K/year']) },
   ], [t]);
 
   const tractionStage = useMemo(() => ({
@@ -423,31 +350,43 @@ export default function Pitch() {
     },
   ], [t]);
 
-  const renderTealTitle = (title: string, lang: string) => {
-    let highlight = 'visible & participatory.';
-    if (lang === 'ru') highlight = 'прозрачной и интерактивной.';
-    if (lang === 'uz') highlight = 'shaffof va qiziqarli qiladi.';
-    
-    const parts = title.split(highlight);
-    if (parts.length > 1) {
-      return (
-        <>
-          {parts[0]}
-          <span className="text-teal-600">{highlight}</span>
-          {parts[1]}
-        </>
-      );
-    }
-    return title;
-  };
+  const ecoappFlow = useMemo(() => {
+    const val = t('pitch.ecoapp.flow', { returnObjects: true });
+    return Array.isArray(val) ? val : ['Collect', 'Participate', 'Earn', 'Vote', 'Track Impact'];
+  }, [t]);
 
   const solutionTitleParts = t('pitch.solution.title').split('. ');
   const catalogTitleParts = t('pitch.catalog.title').split('. ');
   const businessTitleParts = t('pitch.business.title').split('. ');
   const problemTitleParts = t('pitch.problem.title').split('. ');
 
+  const renderProductCard = (p: ReturnType<typeof translateProduct>, i: number) => (
+    <motion.div key={i} variants={fadeUp}>
+      <Card 
+        onClick={() => navigate(`/product/${getProductSlug(p.rawName)}`)}
+        className="h-full overflow-hidden border-gray-200/60 shadow-sm hover:shadow-md transition-all group cursor-pointer hover:border-emerald-300"
+      >
+        <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+        </div>
+        <CardContent className={cn(isMobile ? "p-2" : "p-3")}>
+          <h4 className={cn("font-bold text-gray-900 leading-tight", isMobile ? "text-[11px]" : "text-xs")}>{p.name}</h4>
+          <div className={cn("text-emerald-600 font-semibold mt-0.5", isMobile ? "text-[10px]" : "text-[11px]")}>{p.material}</div>
+          <div className="flex items-center justify-between mt-1.5">
+            <span className={cn("font-bold text-gray-700", isMobile ? "text-[10px]" : "text-[11px]")}>
+              {t('pitch.catalog.priceLabel')}: {p.price}
+            </span>
+            <Badge className={cn("text-[9px] px-1.5 py-0", getStatusBadgeStyle(p.status))}>
+              {p.statusLabel}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+
   return (
-    <Layout title={t('pitch.title')}>
+    <Layout title={t('pitch.title')} hideBottomNav>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/10">
         
         {/* ═══════ SECTION 1: Hero ═══════ */}
@@ -505,6 +444,19 @@ export default function Pitch() {
                 </React.Fragment>
               ))}
             </motion.div>
+
+            {/* Founder-Led Mission Card */}
+            <motion.div variants={fadeUp} className="mt-8 max-w-2xl mx-auto">
+              <div className="bg-white/10 border border-white/15 rounded-2xl backdrop-blur-sm p-4 text-left">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="h-4 w-4 text-yellow-300" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-yellow-300">{t('pitch.hero.founderMission')}</span>
+                </div>
+                <p className={cn("text-white/90 leading-relaxed italic", isMobile ? "text-xs" : "text-sm")}>
+                  "{t('pitch.hero.founderMissionText')}"
+                </p>
+              </div>
+            </motion.div>
           </motion.div>
         </section>
 
@@ -531,7 +483,7 @@ export default function Pitch() {
                   <Card className="text-center h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">
                     <CardContent className={cn(isMobile ? "p-3" : "p-5")}>
                       <stat.icon className={cn("mx-auto mb-2 text-emerald-500", isMobile ? "h-5 w-5" : "h-7 w-7")} />
-                      <div className={cn("font-black text-emerald-600", isMobile ? "text-2xl" : "text-3xl")}>{stat.value}</div>
+                      <div className={cn("font-black text-emerald-600", isMobile ? "text-xl" : "text-2xl")}>{stat.value}</div>
                       {stat.unit && <div className="text-xs font-semibold text-emerald-500 mt-0.5">{stat.unit}</div>}
                       <div className={cn("text-gray-500 mt-1", isMobile ? "text-[10px]" : "text-xs")}>{stat.label}</div>
                     </CardContent>
@@ -539,6 +491,11 @@ export default function Pitch() {
                 </motion.div>
               ))}
             </div>
+
+            {/* Source note */}
+            <motion.p variants={fadeUp} className="text-center text-gray-400 text-[10px] mt-3 italic max-w-2xl mx-auto">
+              {t('pitch.problem.sourceNote')}
+            </motion.p>
           </motion.section>
 
           {/* ═══════ SECTION 3: Our Solution ═══════ */}
@@ -567,7 +524,8 @@ export default function Pitch() {
                       )}>
                         <pillar.icon className="h-6 w-6" />
                       </div>
-                      <h3 className={cn("font-bold text-gray-900 mb-2", isMobile ? "text-base" : "text-lg")}>{pillar.title}</h3>
+                      <h3 className={cn("font-bold text-gray-900 mb-1", isMobile ? "text-base" : "text-lg")}>{pillar.title}</h3>
+                      <div className={cn("text-emerald-600 font-semibold mb-2", isMobile ? "text-[11px]" : "text-xs")}>{pillar.subtitle}</div>
                       <p className={cn("text-gray-600 leading-relaxed", isMobile ? "text-xs" : "text-sm")}>{pillar.desc}</p>
                     </CardContent>
                   </Card>
@@ -576,7 +534,7 @@ export default function Pitch() {
             </div>
           </motion.section>
 
-          {/* ═══════ SECTION 4: Product Catalog ═══════ */}
+          {/* ═══════ SECTION 4: Product Portfolio ═══════ */}
           <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-amber-50 text-amber-700 border-amber-200 mb-3">{t('pitch.catalog.tag')}</Badge>
@@ -591,32 +549,34 @@ export default function Pitch() {
               </h2>
             </motion.div>
 
-            <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-5")}>
-              {translatedProducts.map((p, i) => (
-                <motion.div key={i} variants={fadeUp}>
-                  <Card 
-                    onClick={() => navigate(`/product/${getProductSlug(p.rawName)}`)}
-                    className="h-full overflow-hidden border-gray-200/60 shadow-sm hover:shadow-md transition-all group cursor-pointer hover:border-emerald-300"
-                  >
-                    <div className="aspect-[4/3] overflow-hidden bg-gray-100">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    </div>
-                    <CardContent className={cn(isMobile ? "p-2" : "p-3")}>
-                      <h4 className={cn("font-bold text-gray-900 leading-tight", isMobile ? "text-[11px]" : "text-xs")}>{p.name}</h4>
-                      <div className={cn("text-emerald-600 font-semibold mt-0.5", isMobile ? "text-[10px]" : "text-[11px]")}>{p.material}</div>
-                      <div className="flex items-center justify-between mt-1.5">
-                        <span className={cn("font-bold text-gray-700", isMobile ? "text-[10px]" : "text-[11px]")}>{p.price}</span>
-                        <Badge className={cn(
-                          "text-[9px] px-1.5 py-0",
-                          p.rawName !== 'Art Tiles' && p.rawName !== 'Ecostreet Furniture' ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                          p.rawName === 'Art Tiles' ? "bg-amber-50 text-amber-700 border-amber-200" :
-                          "bg-gray-50 text-gray-600 border-gray-200"
-                        )}>{p.status}</Badge>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+            {/* Phase 1 */}
+            <div className="mb-6">
+              <h3 className={cn("font-bold text-gray-800 border-l-4 border-emerald-500 pl-3 mb-4", isMobile ? "text-sm" : "text-base")}>
+                {t('pitch.catalog.phase1Title')}
+              </h3>
+              <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-4")}>
+                {phase1Products.map((p, i) => renderProductCard(p, i))}
+              </div>
+            </div>
+
+            {/* Phase 2 */}
+            <div className="mb-6">
+              <h3 className={cn("font-bold text-gray-800 border-l-4 border-sky-500 pl-3 mb-4", isMobile ? "text-sm" : "text-base")}>
+                {t('pitch.catalog.phase2Title')}
+              </h3>
+              <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-4")}>
+                {phase2Products.map((p, i) => renderProductCard(p, i + 4))}
+              </div>
+            </div>
+
+            {/* Roadmap Products */}
+            <div>
+              <h3 className={cn("font-bold text-gray-800 border-l-4 border-gray-400 pl-3 mb-4", isMobile ? "text-sm" : "text-base")}>
+                {t('pitch.catalog.roadmapTitle')}
+              </h3>
+              <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-4")}>
+                {roadmapProducts.map((p, i) => renderProductCard(p, i + 8))}
+              </div>
             </div>
           </motion.section>
 
@@ -625,8 +585,20 @@ export default function Pitch() {
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-teal-50 text-teal-700 border-teal-200 mb-3">{t('pitch.ecoapp.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {renderTealTitle(t('pitch.ecoapp.title'), i18n.language)}
+                {t('pitch.ecoapp.title')}
               </h2>
+            </motion.div>
+
+            {/* Visual Flow */}
+            <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-1 mb-6">
+              {ecoappFlow.map((step: string, i: number) => (
+                <React.Fragment key={step}>
+                  <span className="px-3 py-1.5 bg-teal-50 border border-teal-200 rounded-lg text-xs font-bold text-teal-700">
+                    {step}
+                  </span>
+                  {i < ecoappFlow.length - 1 && <ChevronRight className="h-4 w-4 text-teal-300" />}
+                </React.Fragment>
+              ))}
             </motion.div>
 
             <div className={cn("grid gap-3", isMobile ? "grid-cols-2" : "grid-cols-3")}>
@@ -707,6 +679,10 @@ export default function Pitch() {
                   </motion.div>
                 ))}
               </div>
+              {/* Market note */}
+              <p className="text-center text-gray-400 text-[10px] italic max-w-2xl mx-auto">
+                {t('pitch.business.market.note')}
+              </p>
             </div>
 
             {/* Key Financial Metrics */}
@@ -921,7 +897,7 @@ export default function Pitch() {
                     {/* Scenario B */}
                     <div className="bg-emerald-500/10 border-2 border-emerald-400/30 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-emerald-500/15 transition-colors relative overflow-hidden">
                       <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-bl-lg">
-                        Recommended
+                        {t('pitch.ask.scenarioB.badge', { defaultValue: 'Strategic Option' })}
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-3">
@@ -1035,6 +1011,9 @@ export default function Pitch() {
                       </div>
                       <span className="text-[10px] text-white/70 font-semibold tracking-wide">
                         {t('pitch.ask.qrLabel')}
+                      </span>
+                      <span className="text-[9px] text-white/50">
+                        {t('pitch.ask.qrSublabel', { defaultValue: 'Scan to explore ZAMINAT.eco' })}
                       </span>
                     </div>
 

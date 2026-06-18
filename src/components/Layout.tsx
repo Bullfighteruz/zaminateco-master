@@ -18,6 +18,7 @@ import PrefetchLink from './PrefetchLink';
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
+  hideBottomNav?: boolean;
 }
 
 // Mobile Language Switcher Component
@@ -82,7 +83,7 @@ const MobileLanguageSwitcher = () => {
   );
 };
 
-const Layout = memo(function Layout({ children, title }: LayoutProps) {
+const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutProps) {
   const location = useLocation();
   const { t } = useTranslation('common'); // Specify the common namespace
   const isHomePage = location.pathname === '/';
@@ -143,44 +144,46 @@ const Layout = memo(function Layout({ children, title }: LayoutProps) {
       </div>
       
       {/* Main content with bottom padding for navigation */}
-      <main className="pb-20">
+      <main className={hideBottomNav ? '' : 'pb-20'}>
         {children}
       </main>
 
       {/* Bottom Navigation - Floating Glassmorphic Island */}
-      <nav className="fixed bottom-4 left-4 right-4 z-50 flex justify-center notranslate" translate="no">
-        <div className="glass-island rounded-2xl px-4 py-2 w-full max-w-lg transition-all duration-300 hover:shadow-[0_12px_40px_rgba(34,197,94,0.12)]">
-          <div className="flex justify-between items-center gap-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              
-              return (
-                <PrefetchLink
-                  key={item.path}
-                  to={item.path}
-                  className={cn(
-                    "flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-[52px] sm:min-w-[64px]",
-                    "relative group",
-                    isActive
-                      ? "text-emerald-600 bg-emerald-500/10 font-semibold"
-                      : "text-gray-500 hover:text-emerald-600 hover:bg-emerald-500/5"
-                  )}
-                >
-                  <Icon className={cn(
-                    "h-5 w-5 mb-0.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110",
-                    isActive && "scale-105"
-                  )} />
-                  <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
-                    {item.label}
-                  </span>
-                  
-                </PrefetchLink>
-              );
-            })}
+      {!hideBottomNav && (
+        <nav className="fixed bottom-4 left-4 right-4 z-50 flex justify-center notranslate" translate="no">
+          <div className="glass-island rounded-2xl px-4 py-2 w-full max-w-lg transition-all duration-300 hover:shadow-[0_12px_40px_rgba(34,197,94,0.12)]">
+            <div className="flex justify-between items-center gap-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                
+                return (
+                  <PrefetchLink
+                    key={item.path}
+                    to={item.path}
+                    className={cn(
+                      "flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-[52px] sm:min-w-[64px]",
+                      "relative group",
+                      isActive
+                        ? "text-emerald-600 bg-emerald-500/10 font-semibold"
+                        : "text-gray-500 hover:text-emerald-600 hover:bg-emerald-500/5"
+                    )}
+                  >
+                    <Icon className={cn(
+                      "h-5 w-5 mb-0.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110",
+                      isActive && "scale-105"
+                    )} />
+                    <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
+                      {item.label}
+                    </span>
+                    
+                  </PrefetchLink>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      )}
     </div>
   );
 });

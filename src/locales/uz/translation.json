@@ -722,13 +722,16 @@
     }
   },
   "pitch": {
-    "title": "Investorlar uchun taqdimot",
+    "title": "Investor Pitch Deck",
     "hero": {
-      "title": "Chiqindi tugagan joyda —\nHayot boshlanadi",
-      "subtitle": "O'zbekistonda to'liq siklli «Chiqindidan hayotga» infratuzilma platformasi. Plastik + Shina chiqindilari → Infratuzilma mahsulotlari + Raqamli shaffoflik + Ta'lim",
+      "title": "Chiqindilar tugagan joyda —\nHayot boshlanadi",
+      "subtitle": "O'zbekistondan to'liq tsiklli Chiqindi-Hayotga infrastruktura platformasi. Plastik + Shinalar → Infratuzilma mahsulotlari + Raqamli shaffoflik + Ta'lim",
       "stage": "Pre-Seed bosqichi",
-      "established": "Tashkil etilgan: 2025",
-      "location": "Toshkent, O'zbekiston"
+      "established": "Tashkil 2025",
+      "location": "Toshkent, O'zbekiston",
+      "founderMission": "Asoschi missiyasi",
+      "founderMissionText": "Chiqindilar materialning hayotidagi so'nggi bo'lim bo'lmasligi kerak. O'zbekistonda plastik va eski shinalar maktab maydonchalariga, parklarga, ish joylariga va yashil infratuzilmaga aylanishi mumkin.",
+      "founderMissionRu": "Отходы не должны быть финалом материала."
     },
     "chain": {
       "waste": "Chiqindi",
@@ -738,39 +741,47 @@
       "impact": "Ta'sir"
     },
     "problem": {
-      "tag": "Imkoniyatlar",
-      "title": "Chiqindi ekologik muammo emas. Bu ishlatilmagan iqtisodiy qiymatdir."
+      "tag": "Imkoniyat",
+      "title": "Chiqindilar faqat ekologik muammo emas. Bu foydalanilmagan iqtisodiy qiymat.",
+      "sourceNote": "Manba eslatmasi: ommaviy ma'lumotlar va ichki bozor modeli asosidagi taxminlar. Rasmiy investitsiya hujjatlarini tayyorlashdan oldin yakuniy raqamlar tekshirilishi kerak."
     },
     "stats": {
-      "wasteUz": "O'zbekistonda hosil bo'ladigan chiqindilar",
-      "actuallyRecycled": "Amalda qayta ishlanadi",
-      "plasticWaste": "To'plangan plastik chiqindilar",
-      "unrealizedValue": "Boy berilgan iqtisodiy qiymat",
+      "wasteUz": "O'zbekistonda yig'ilgan qattiq maishiy chiqindilar, 2025 yil taxmini",
+      "plasticStream": "Yillik plastik chiqindilar oqimining taxminiy hajmi",
+      "recyclingRate": "Plastik qayta ishlash / shina qayta ishlash taxminlari",
+      "unrealizedValue": "Qayta ishlash mumkin bo'lgan chiqindilardan xom ashyo qiymati",
       "tonsYear": "tonna/yil",
       "tons": "tonna",
-      "uzs": "so'm"
+      "uzs": "taxminiy qiymat",
+      "recycling": "qayta ishlash darajasi"
     },
     "solution": {
       "tag": "Bizning yechimimiz",
-      "title": "Uchta integratsiyalashgan ustun. Bitta ta'sir tizimi.",
+      "title": "Uchta integratsiyalashgan yo'nalish. Bitta ta'sir tizimi.",
       "pillars": {
         "physical": {
           "title": "Jismoniy mahsulotlar",
-          "desc": "Qayta ishlangan rezina va plastik → kafel, o'rindiqlar, guldonlar, g'ishtlar, avtobus bekatlari. Real infratuzilma uchun real mahsulotlar."
+          "subtitle": "Daromad dvigatel",
+          "desc": "Qayta ishlangan rezina va plastik bozorga tayyor mahsulotlarga aylanadi: xavfsizlik plitkalari, kompozit plitkalar, bordyurlar, jamoat maydoni elementlari va Art Tiles."
         },
         "digital": {
-          "title": "Raqamli EcoApp platformasi",
-          "desc": "Fuqarolarning o'yinli jalb etilishi — EcoMap, EcoWallet, EcoVote, EcoStories. Qayta ishlashni ko'rinadigan, o'lchanadigan va ommaviy qilamiz."
+          "title": "Raqamli shaffoflik platformasi",
+          "subtitle": "Ishonch va ishtirok qatlami",
+          "desc": "EcoApp yig'ish, ishtirok etish, ovoz berish, mukofotlash va ta'sir hisobotlarini fuqarolar, maktablar, mahallalar, hamkorlar va investorlar uchun shaffof qiladi."
         },
         "education": {
           "title": "EcoKids ta'limi",
-          "desc": "Bolalar maktab to'garaklarida Art Tiles dizaynini yaratadilar. Ularning ijodi bog'lar uchun haqiqiy eko-mahsulotlarga aylanadi."
+          "subtitle": "Madaniyat va uzoq muddatli qo'llash qatlami",
+          "desc": "Bolalar ekologiyani mini-darslar, saralash vazifalari, 3D-dizayn va eng yaxshi g'oyalar haqiqiy Art Tiles bo'lishi mumkin bo'lgan tanlovlar orqali o'rganadilar."
         }
       }
     },
     "catalog": {
-      "tag": "Mahsulotlar katalogi",
-      "title": "10 ta mahsulot. Barchasi qayta ishlangan materiallardan.",
+      "tag": "Mahsulot portfeli",
+      "title": "1-bosqich mahsulotlari. Pilot tekshiruv uchun yaratilgan.",
+      "phase1Title": "Faza 1 — Pilot mahsulotlar",
+      "phase2Title": "Faza 2 — Kengayish mahsulotlari",
+      "roadmapTitle": "Yo'l xaritasi mahsulotlari",
       "materials": {
         "rubber": "Qayta ishlangan rezina",
         "epdm": "EPDM + Rezina",
@@ -778,271 +789,283 @@
         "composite": "Qayta ishlangan materiallar"
       },
       "status": {
-        "selling": "Sotuvda",
-        "pilot": "Pilot tayyor",
+        "pilotSku": "Pilot SKU",
+        "pilotReady": "Pilotga tayyor",
+        "demo": "Demo",
         "roadmap": "Rejada"
-      }
+      },
+      "priceLabel": "Maqsadli narx"
     },
     "ecoapp": {
-      "tag": "Raqamli shaffoflik",
-      "title": "EcoApp qayta ishlashni shaffof va qiziqarli qiladi.",
+      "tag": "Raqamli ishonch qatlami",
+      "title": "EcoApp qayta ishlashni ko'rinadigan, foydali va shaffof qiladi.",
+      "flow": [
+        "Yig'ish",
+        "Ishtirok",
+        "Ishlash",
+        "Ovoz berish",
+        "Kuzatish"
+      ],
       "modules": {
         "ecomap": {
           "name": "EcoMap",
-          "desc": "Qabul qilish punktlarining interaktiv xaritasi"
+          "desc": "Yig'ish nuqtalari va mahalliy eko-aksiyalarni toping."
         },
         "ecoactions": {
           "name": "EcoActions",
-          "desc": "Ko'ngillilar kampaniyalari va eko-tadbirlar"
+          "desc": "Tozalash, maktab dasturlari va jamoat tadbirlariga qo'shiling."
         },
         "ecowallet": {
           "name": "EcoWallet",
-          "desc": "Qayta ishlash uchun eko-tangalar to'plash"
+          "desc": "Faol ishtirokchilar uchun mukofotlar, tan olish, hamkor chegirmalari va kuponlar."
         },
         "ecostories": {
           "name": "EcoStories",
-          "desc": "Jamiyat muvaffaqiyatlari va eko-tarixlar"
+          "desc": "Maktablar, parklar va mahallalardan oldin/keyin ta'sir hikoyalari."
         },
         "ecovote": {
           "name": "EcoVote",
-          "desc": "Fuqarolarning eko-loyihalarga ovoz berishi"
+          "desc": "Fuqarolar jamoat loyihalari va hamjamiyat ustuvorliklari uchun ovoz beradilar."
         },
         "dashboard": {
           "name": "Ta'sir paneli",
-          "desc": "Chiqindilarni kuzatish shaffof tahlili"
+          "desc": "Yig'ilgan chiqindilar, mahsulot foydalanishi va jamoat ta'sirini shaffof kuzatish."
         }
       }
     },
     "business": {
-      "tag": "Biznes model",
-      "title": "Ko'p daromad kanallari. Bitta integratsiyalashgan tizim.",
+      "tag": "Biznes-model",
+      "title": "Bir nechta daromad kanallari. Bitta integratsiyalashgan tizim.",
       "channels": {
         "b2g": {
-          "name": "B2G shartnomalari",
-          "desc": "Munitsipal va davlat loyihalari"
+          "name": "B2G shartnomalar",
+          "desc": "Munitsipal, maktab, park, mahalla va jamoat infratuzilma loyihalari."
         },
         "b2b": {
-          "name": "B2B savdosi",
-          "desc": "Dasturchilar, landshaft dizaynerlari, quruvchilar"
+          "name": "B2B sotuvlar",
+          "desc": "Quruvchilar, landshaft kompaniyalari, sport inshootlari, zavodlar va xususiy muassasalar."
         },
         "b2c": {
-          "name": "B2C E-tijorat",
-          "desc": "zaminat.uz / zaminateco.com saytidagi to'g'ridan-to'g'ri do'kon"
+          "name": "B2C / To'g'ridan-to'g'ri sotuvlar",
+          "desc": "Xususiy hovlilar, bog'lar, fermer xo'jaliklari va kichik biznes uchun tanlangan mahsulotlar."
+        },
+        "corporate": {
+          "name": "Korporativ tsiklik hamkorliklar",
+          "desc": "Chiqindi oqimlari, ESG dasturlari, brendlangan eko-mahsulotlar va o'lchanadigan ta'sir hisobotlari."
         },
         "social": {
           "name": "Ijtimoiy mahsulotlar",
-          "desc": "Art Tiles va EcoKids maktab dasturlari"
-        },
-        "ecoapp": {
-          "name": "EcoApp platformasi",
-          "desc": "Eko-tangalar va o'yinli monetizatsiya"
+          "desc": "Art Tiles, EcoKids dasturlari, homiylik qilingan maktab va jamoat loyihalari."
         },
         "franchise": {
           "name": "Eksport / Franshiza",
-          "desc": "O'rta Osiyo bozoriga chiqish modeli"
+          "desc": "Pilot tekshiruv va ishlab chiqarish ko'lamidan keyin Markaziy Osiyoga kengayish modeli."
         }
       },
       "market": {
         "title": "Bozor hajmi",
+        "note": "Bosqichma-bosqich bozor modeli / ichki taxmin. Pilot SKUlar, dastlabki B2B/B2G mijozlari, demo-obyektlar va 24–36 oylik ishlab chiqarish ko'lami asosida.",
         "tam": {
-          "label": "TAM (Umumiy maqsadli bozor)",
-          "value": "$250 mln",
-          "desc": "O'zbekistondagi chiqindilarni qayta ishlash va yashil infratuzilma materiallari bozori."
+          "label": "TAM (umumiy murojaat qilinadigan bozor)",
+          "value": "$250M",
+          "desc": "O'zbekistonda chiqindilarni qayta ishlash va yashil infratuzilma materiallari bozori."
         },
         "sam": {
-          "label": "SAM (Xizmat ko'rsatiladigan maqsadli bozor)",
-          "value": "$5 mln",
-          "desc": "Xizmat ko'rsatish mumkin bo'lgan maqsadli segment: maktablar, bog'lar, bolalar bog'chalari, B2B/B2G shartnomalari, xususiy infratuzilma, sport va jamoat joylari."
+          "label": "SAM (xizmat ko'rsatiladigan bozor)",
+          "value": "$5M",
+          "desc": "Xizmat ko'rsatiladigan segment: maktablar, parklar, bog'chalar, B2B/B2G shartnomalar, xususiy infratuzilma, sport va jamoat maydonlari."
         },
         "launchSom": {
-          "label": "Launch SOM (Birinchi yil)",
-          "value": "$120K–$200K / yil",
-          "desc": "Dastlabki 12 oy: pilot ishlab chiqarish, birinchi sotuvlar, demo ob'ektlar, erta B2B/B2G tasdiqlanishi."
+          "label": "Launch SOM (birinchi yil)",
+          "value": "$120K–$200K/yil",
+          "desc": "Birinchi 12 oy: pilot ishlab chiqarish, birinchi sotuvlar, demo-obyektlar, dastlabki B2B/B2G tekshiruvi."
         },
         "pilotSom": {
           "label": "Pilot Scale SOM (24–36 oy)",
-          "value": "$600K–$1M / yil",
-          "desc": "24–36 oy: sertifikatlangan mahsulotlar, yuqori quvvat, B2B/B2G shartnomalari, jamoat infratuzilmasi loyihalari."
+          "value": "$600K–$1M/yil",
+          "desc": "24–36 oy: sertifikatlangan mahsulotlar, yuqori quvvat, B2B/B2G shartnomalar va jamoat infratuzilma loyihalari."
         }
       },
       "metrics": {
-        "grossMargin": "Yalpi marja",
-        "breakeven": "Zararsizlik",
-        "roi": "ROI (4 yil)"
+        "grossMargin": "Maqsadli yalpi marja",
+        "breakeven": "Maqsadli zarar-foyda nuqtasi",
+        "roi": "Maqsadli 4 yillik ROI stsenariysi"
       }
     },
     "roadmap": {
-      "tag": "Rivojlanish rejasi",
+      "tag": "Yo'l xaritasi",
       "title": "4 yillik o'sish rejasi",
       "y2026": {
-        "title": "Pilot yili",
+        "title": "Pilot tekshiruv",
         "items": [
-          "Birinchi ishlab chiqarish liniyasi",
-          "10 ta mijozga pilot savdolar",
-          "EcoApp MVP ishga tushirilishi",
-          "3 ta maktabda EcoKids"
+          "Birinchi pilot ishlab chiqarish liniyasi",
+          "Maqsad: 10 pilot mijoz",
+          "EcoApp MVP ishga tushirish",
+          "Maqsad: 3 pilot EcoKids maktab"
         ]
       },
       "y2027": {
-        "title": "O'sish",
+        "title": "Bozorga kirish",
         "items": [
-          "500 t/yil ishlab chiqarish",
-          "Toshkent shahar miqyosidagi shartnomalar",
-          "Ilovada 5 000 foydalanuvchi",
-          "10 ta maktab jalb etilishi"
+          "Maqsad: 500 t/yil ishlab chiqarish",
+          "Toshkent pilot shahar shartnomalar",
+          "Maqsad: 5,000 EcoApp foydalanuvchi",
+          "Maqsad: 10 maktab ulangan"
         ]
       },
       "y2028": {
-        "title": "Kengayish",
+        "title": "Ishlab chiqarish ko'lami",
         "items": [
-          "Imkoniyat: 2 000 t/yil",
-          "Zararsizlikka erishish",
-          "Viloyatlarga kengayish piloti",
-          "Milliy hamkorlik"
+          "Maqsad: 2,000 t/yil quvvat",
+          "Maqsad: zarar-foyda nuqtasiga erishish",
+          "Mintaqaviy kengayish piloti",
+          "Milliy hamkorliklar"
         ]
       },
       "y2029": {
-        "title": "Kengayish",
+        "title": "Mintaqaviy kengayish",
         "items": [
-          "Bir nechta shaharlarda faoliyat",
-          "O'rta Osiyo bozoriga chiqish",
-          "Platformani litsenziyalash",
-          "$183K yillik sof foyda"
+          "Ko'p shaharli operatsiyalar",
+          "Markaziy Osiyo bozoriga kirish",
+          "Platforma litsenziyalash",
+          "Maqsadli sof foyda stsenariysi: $183K/yil"
         ]
       }
     },
     "traction": {
-      "tag": "Natijalar va Tayyorgarlik",
-      "title": "Pre-Seed xavflari kamaytirilgan, Pilot loyihani ishga tushirishga tayyor",
-      "subtitle": "ZAMINAT.eco loyihasi g'oyadan tizimli tayyorgarlik darajasiga o'tdi: yuridik asos yaratildi, mahsulot retseptlari tayyorlandi, SKU iqtisodiyoti hisoblandi, xomashyo yetkazib beruvchilar bilan muzokaralar olib borildi, ishlab chiqarish strategiyasi belgilandi, raqamli MVP tayyor va pilot ishlab chiqarishning aniq rejasi ishlab chiqildi.",
+      "tag": "Trekshhn va tayyorlik",
+      "title": "Pre-Seed xavfi kamaytilgan, pilot ishga tushirishga tayyor",
+      "subtitle": "ZAMINAT.eco kontseptsiyadan tuzilgan ishga tushirish tayyorligiga o'tdi: yuridik asos, mahsulot formulalari, SKU iqtisodiyoti, yetkazib beruvchilar bilan muhokamalar, maydoncha strategiyasi, raqamli MVP va aniq pilot ishlab chiqarish yo'l xaritasi.",
       "stage": {
-        "title": "Pre-Seed / Pilot tayyorgarligi",
-        "desc": "Pilot ishlab chiqarish, mahsulot validatsiyasi, sertifikatlashtirish, birinchi savdo va namoyish ob'ektlarini tayyorlash bosqichidagi yashil texnologiyalar (green-tech) startapi."
+        "title": "Pre-Seed / Pilot tayyorgarlik",
+        "desc": "Asoschi rahbarligidagi yashil texnologiya infratuzilma startapi pilot ishlab chiqarish, mahsulot tekshiruvi, sertifikatsiya, birinchi sotuvlar va demo-obyektlarga tayyorlanmoqda."
       },
       "pillars": {
         "legal": {
-          "title": "1. Yuridik va brend tayyorgarligi",
+          "title": "1. Yuridik va brend tayyorligi",
           "items": [
             "MChJ rasman ro'yxatdan o'tkazildi",
-            "Savdo belgisini ro'yxatdan o'tkazish uchun ariza topshirildi",
-            "Brend identifikatsiyasi va pozitsiyalash ishlab chiqildi",
+            "Tovar belgisi uchun ariza berildi",
+            "Brend identifikatsiyasi va joylashtiruvi ishlab chiqildi",
             "Rasmiy aloqa kanallari ishga tushirildi",
-            "Ixcham loyiha guruhiga ega bo'lgan asoschi boshqaruvidagi tuzilma"
+            "Asoschi rahbarligida ixcham loyiha jamoasi tuzildi"
           ]
         },
         "accelerator": {
-          "title": "2. Akseleratsiya va taqdimotga tayyorgarlik",
+          "title": "2. Akseleratsiya va pitch tayyorligi",
           "items": [
-            "U-ENTER markazida yashil texnologiyalar akseleratsiyasi yakunlandi",
-            "Investorlar uchun pitch strategiyasi tayyorlandi",
-            "Veb-saytga asoslangan pitch formati ishlab chiqildi",
-            "Investorlar uchun QR-kod orqali kirish imkoniyati yaratildi",
-            "Biznes-model aniqlashtirildi: ishlab chiqarish + raqamli shaffoflik + ta'lim + ijtimoiy ta'sir"
+            "U-ENTER da yashil texnologiya akseleratsiyasi yakunlandi",
+            "Investor pitch strategiyasi tayyorlandi",
+            "Veb-sayt asosidagi pitch formati tayyorlandi",
+            "Investorlar uchun QR kirish tayyorlandi",
+            "Biznes-model aniqlashtirildi: ishlab chiqarish + raqamli shaffoflik + ta'lim + jamoat ta'siri"
           ]
         },
         "product": {
-          "title": "3. Mahsulot va yunit-ekonomika tayyorgarligi",
+          "title": "3. Mahsulot va birlik iqtisodiyoti tayyorligi",
           "items": [
-            "Mahsulot toifalari belgilandi: EcoTiles, xavfsiz rezina plitalar, EcoCurbs, EcoFurniture, Art Tiles",
-            "Mahsulot retseptlari tayyorlandi",
-            "SKU tuzilmasi shakllantirildi",
-            "SKU kalkulyatori va yunit-ekonomikasi tayyorlandi",
-            "Pilot sinovlar uchun maqsadli mahsulot ko'rsatkichlari belgilandi",
-            "Pilot ishlab chiqarish uchun ustuvor SKU'lar aniqlandi"
+            "Mahsulot toifalari aniqlandi: EcoTiles, xavfsizlik plitkalari, EcoCurbs, EcoFurniture, Art Tiles",
+            "Mahsulot formulalari tayyorlandi",
+            "SKU tuzilmasi tayyorlandi",
+            "SKU kalkulyator va birlik iqtisodiyoti tayyorlandi",
+            "Maqsadli mahsulot ko'rsatkichlari pilot tekshiruv uchun tayyorlandi",
+            "Pilot ishlab chiqarish uchun ustuvor SKUlar aniqlandi"
           ],
-          "note": "*Eslatma: Mahsulot ko'rsatkichlari hozirgi bosqichda modelga asoslangan bo'lib, pilot ishlab chiqarish, laboratoriya sinovlari va sertifikatlashtirish jarayonida tasdiqlanadi."
+          "note": "*Eslatma: mahsulot ko'rsatkichlari hozirgi bosqichda modelga asoslangan va pilot ishlab chiqarish, laboratoriya sinovlari va sertifikatsiya orqali tekshiriladi."
         },
         "sourcing": {
-          "title": "4. Xomashyo manbalari tayyorgarligi",
+          "title": "4. Xom ashyo ta'minoti tayyorligi",
           "items": [
-            "Soha mutaxassislari bilan maslahatlashuvlar yakunlandi",
-            "Ishlab chiqarish joylariga tashriflar amalga oshirildi",
+            "Sanoat konsultatsiyalari o'tkazildi",
+            "Dala tashrflari yakunlandi",
             "Amaliy tavsiyalar olindi",
-            "Kichik korxonalar bilan rezina chiqindilarini yetkazib berish bo'yicha dastlabki muzokaralar boshlandi",
-            "Pilot ishga tushirish uchun shina va plastik xomashyosini yig'ish logikasi tayyorlandi"
+            "Rezina chiqindilari yetkazib berish bo'yicha dastlabki muzokaralar boshlandi",
+            "Shinalar va plastik ta'minot mantig'i pilot ishga tushirish uchun tayyorlandi"
           ]
         },
         "facility": {
-          "title": "5. Ishlab chiqarish va sexni ishga tushirish strategiyasi",
+          "title": "5. Maydoncha va ishlab chiqarish strategiyasi",
           "items": [
-            "Pilot ishlab chiqarish sexi uchun tejamkor strategiya tayyorlandi",
-            "Ishlab chiqarish maydoni bo'yicha hamkorlik modeli ishlab chiqildi",
-            "Maydonga qo'yiladigan talablar aniqlandi: elektr energiyasi, ventilyatsiya, yuk mashinalari yo'li, saqlash va uskunalar joyi",
-            "Birinchi bosqichda zavodni noldan qurish xarajatlaridan qochish strategiyasi belgilandi",
-            "Ishlab chiqarishni ishga tushirishning batafsil yo'l xaritasi tayyorlandi"
+            "Ixcham pilot ishlab chiqarish sexi strategiyasi tayyorlandi",
+            "Maydoncha hamkorlik modeli tayyorlandi",
+            "Maydonchaga talablar aniqlandi: elektr, ventilyatsiya, yuk mashinasi kirishi, ombor va uskunalar joyi",
+            "Strategiya birinchi bosqichda zavodni noldan qurishni istisno qiladi",
+            "Ishlab chiqarishni ishga tushirish yo'l xaritasi tayyorlandi"
           ]
         },
         "digital": {
-          "title": "6. Raqamli va ta'limiy qatlam",
+          "title": "6. Raqamli va ta'lim qatlami",
           "items": [
-            "Veb-sayt MVP va investorlar uchun namoyish marshruti tayyorlandi",
-            "EcoApp konsepsiyasi ishlab chiqildi",
-            "EcoKids konsepsiyasi ishlab chiqildi",
-            "EcoMap, EcoVote, EcoActions, EcoWallet va Impact Dashboard modullari logikasi tayyorlandi",
-            "Raqamli shaffoflik va ekologik ta'lim modeli shakllantirildi"
+            "Veb-MVP va investor pitch-demo yo'nalishi tayyorlandi",
+            "EcoApp kontseptsiyasi tayyorlandi",
+            "EcoKids kontseptsiyasi tayyorlandi",
+            "EcoMap, EcoVote, EcoActions, EcoWallet va Impact Dashboard mantig'i tayyorlandi",
+            "Raqamli shaffoflik va ta'lim modeli ishlab chiqildi"
           ]
         },
         "investment": {
-          "title": "7. Investitsiyaga tayyorgarlik",
+          "title": "7. Investitsiya tayyorligi",
           "items": [
-            "$400K miqdoridagi pre-seed so'rovi tizimlashtirildi",
-            "Boshlang'ich taklif tayyorlandi: $400K uchun 20% ulush",
-            "Strategik hamkorlik modeli ishlab chiqildi: investitsiya + sex maydoni uchun 25% gacha ulush",
-            "Faqat maydon taqdim etuvchi hamkor modeli tayyorlandi: 3-5% ulush yoki daromad ulushi (revenue-share)",
-            "Mablag'lardan foydalanish rejasi yangilandi: uskunalar, sexni moslashtirish, xomashyo, sinovlar, raqamli platforma va namoyish ob'ektlari"
+            "$400K pre-seed so'rovi tuzildi",
+            "Asosiy taklif tayyorlandi: $400K uchun 20% ulush",
+            "Strategik ishga tushirish hamkori modeli: kapital + maydonchaga kirish 25% gacha",
+            "Faqat maydoncha hamkori modeli: 3–5% ulush yoki revenue-share",
+            "Mablag'lardan foydalanish yangilandi: uskunalar, maydoncha moslashtirish, xom ashyo, sinov, raqamli platforma va demo-loyihalar"
           ]
         }
       },
       "nextMilestone": {
-        "title": "8. Keyingi amalga oshirish bosqichi",
-        "subtitle": "Keyingi qadam: Pilot ishlab chiqarish + Sertifikatlashtirish + Birinchi savdo",
-        "description": "Pilot loyihani ishga tushirish va kengaytirish bo'yicha operatsion yo'l xaritasi. Ushbu bosqichlar asosiy o'sish fazalarini, mahsulotlarni tasdiqlashni va dastlabki daromadlarni ochib beradi.",
+        "title": "8. Keyingi ijro bosqichlari",
+        "subtitle": "Keyingi bosqich: Pilot ishlab chiqarish + Sertifikatsiya + Birinchi sotuvlar",
+        "description": "Pilot ishga tushirish va ko'lamini oshirish uchun operatsion yo'l xaritasi. Bu bosqichlar asosiy o'sish fazalarini, mahsulot tekshiruvini va dastlabki daromadni ochadi.",
         "items": [
-          "Sanoat maydoni yoki hudud bo'yicha hamkor bilan kelishuvni yakunlash",
-          "Uskunalar yetkazib beruvchilarni aniqlash",
-          "Xomashyo yetkazib berish bo'yicha shartnomalarni rasmiylashtirish",
-          "Pilot ishlab chiqarishni ishga tushirish",
-          "Sinov va sertifikatlashtirish yo'l xaritasini boshlash",
-          "Birinchi namoyish ob'ektlarini yaratish",
-          "Birinchi B2B/B2G savdo muzokaralarini boshlash"
+          "Sanoat maydonchasini yoki sayt hamkorini ta'minlash",
+          "Uskunalar yetkazib beruvchilarini yakunlash",
+          "Xom ashyo yetkazib berish shartnomalarini rasmiylash",
+          "Pilot ishlab chiqarishni boshlash",
+          "Sinov va sertifikatsiya yo'l xaritasini boshlash",
+          "Birinchi demo-obyektlarni ishlab chiqarish",
+          "Birinchi B2B/B2G sotish muzokaralarini boshlash"
         ]
       }
     },
     "team": {
-      "tag": "Jamoa",
-      "title": "Shunchaki xayolparastlar emas, balki amaliyotchilar jamoasi."
+      "tag": "Asos jamoa",
+      "title": "Asoschi rahbarligida. Ixcham ijro jamoasi qo'llab-quvvatlaydi."
     },
     "ask": {
-      "tag": "Pre-Seed · Pilot tayyorgarligi",
-      "seekingTitle": "Birinchi pilot ishlab chiqarish tsiklini yo'lga qo'yish uchun $400,000 pre-seed investitsiyalarini jalb qilish.",
+      "tag": "Pre-Seed · Pilot tayyorgarlik",
+      "seekingTitle": "Birinchi pilot ishlab chiqarish tsiklini boshlash uchun $400,000 pre-seed investitsiya jalb qilish.",
       "scenarioA": {
-        "title": "A Ssenariy — Moliyaviy investor",
-        "details": "$400K naqd pul → 20% ulush",
-        "note": "Kompaniyaning post-money qiymati: $2.0M"
+        "title": "Stsenariy A — Moliyaviy investor",
+        "details": "$400K naqd → 20% ulush",
+        "note": "Post-money baholash $2.0M"
       },
       "scenarioB": {
-        "title": "B Ssenariy — Strategik ishga tushirish hamkori",
-        "details": "$400K naqd pul + ishlab chiqarish maydoniga kirish → 25% gacha ulush",
-        "note": "Maydon bilan bog'liq qo'shimcha ulush shartlarga bog'liq: yuridik kirish, tayyorlik holati, elektr quvvati, logistika, saqlash va foydalanish muddatiga ko'ra bosqichma-bosqich beriladi."
+        "title": "Stsenariy B — Strategik ishga tushirish hamkori",
+        "details": "$400K naqd + tasdiqlangan sanoat maydonchasiga kirish → 25% gacha ulush",
+        "note": "Maydoncha bilan bog'liq qo'shimcha ulush bosqichlarga asoslanadi va yuridik kirish, maydoncha tayyorligi, quvvatlar, logistika, ombor va foydalanish muddatiga bog'liq.",
+        "badge": "Strategik variant"
       },
       "scenarioC": {
-        "title": "C Ssenariy — Faqat maydon hamkori",
-        "details": "Zavod / yer / sexga kirish → 3–5% ulush yoki daromadni baham ko'rish (revenue-share)",
-        "note": "Muqobil variant: ulush o'rniga daromadni bo'lishish yoki chegirmali ijara shartnomasi."
+        "title": "Stsenariy C — Maydoncha hamkori",
+        "details": "Zavod / yer / sex kirishiga → 3–5% ulush yoki revenue-share",
+        "note": "Muqobil: daromadni taqsimlash yoki ijaraga chegirma ulush o'rniga."
       },
       "fundsTitle": "Mablag'lardan foydalanish ($400,000)",
       "fund1": "75% ($300,000) — Uskunalar, qoliplar va ishlab chiqarish liniyasi",
-      "fund2": "11% ($45,000) — Binoni moslashtirish va o'rnatish",
-      "fund3": "5% ($20,000) — Xomashyo va sarflanadigan materiallar",
-      "fund4": "4% ($15,000) — Mahsulotlarni sertifikatlash va sinovdan o'tkazish",
-      "fund5": "5% ($20,000) — Raqamli platforma, marketing va demo loyihalar",
-      "facilityTitle": "Ishlab chiqarish maydoni strategiyasi",
-      "facilityDesc": "Biz birinchi bosqichda zavodni noldan qurishni rejalashtirmayapmiz. Biz ijaraga olingan yoki strategik hamkorlikdagi sanoat maydonida ixcham pilot ishlab chiqarish sexini ishga tushiramiz. Bu ortiqcha CAPEX-ni kamaytiradi, ishga tushirishni tezlashtiradi va miqyosni kengaytirishdan oldin sinov, sertifikatlash va B2B/B2G talabini tasdiqlash imkonini beradi.",
-      "partnerTitle": "Strategik hamkorlik afzalliklari",
-      "partnerDesc": "Ideal investor nafaqat kapital, balki sanoat maydoni, zavod yoki yer, kommunal xizmatlar va omborlar, B2B/B2G aloqalari, sinov lokatsiyalari, ESG yoki korporativ homiylik kanallarini taqdim etishi mumkin.",
-      "cta1": "O'zbekistondagi birinchi «Chiqindidan infratuzilmaga» platformasiga qo'shiling.",
-      "cta2": "Chiqindi tugagan joyda — hayot boshlanadi.",
-      "qrLabel": "Taqdimotni ochish uchun skanerlang"
+      "fund2": "11% ($45,000) — Maydoncha moslashtirish va o'rnatish",
+      "fund3": "5% ($20,000) — Xom ashyo va sarf materiallari",
+      "fund4": "4% ($15,000) — Sertifikatsiya va sinov yo'l xaritasi",
+      "fund5": "5% ($20,000) — Raqamli platforma, marketing va demo-loyihalar",
+      "facilityTitle": "Maydoncha strategiyasi",
+      "facilityDesc": "Biz birinchi bosqichda zavodni noldan qurmayapmiz. Biz ijaraga olingan yoki strategik hamkor sanoat maydonchasida ixcham pilot ishlab chiqarish sexini ishga tushiramiz. Bu CAPEX ni kamaytiradi, ishga tushirishni tezlashtiradi va ko'lamini oshirishdan oldin ishlab chiqarish, sertifikatsiya, birinchi sotuvlar va B2B/B2G talabini tekshirish imkonini beradi.",
+      "partnerTitle": "Strategik hamkor afzalligi",
+      "partnerDesc": "Ideal investor nafaqat kapital, balki: sanoat maydoni, yer yoki zavodga kirish, kommunal xizmatlar va omborlar, B2B/B2G aloqalar, pilot lokatsiyalar, ESG yoki korporativ homiylik kanallari ham kiritishi mumkin.",
+      "cta1": "O'zbekistondan birinchi Chiqindi-Hayotga infratuzilma platformasiga qo'shiling.",
+      "cta2": "Chiqindilar tugagan joyda — hayot boshlanadi.",
+      "qrLabel": "Investor pitch kirishi",
+      "qrSublabel": "ZAMINAT.eco ni ochish uchun skanerlang"
     }
   }
 }

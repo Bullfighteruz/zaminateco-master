@@ -728,7 +728,10 @@
       "subtitle": "A full-cycle Waste-to-Life infrastructure platform from Uzbekistan. Plastic + Tire Waste → Infrastructure Products + Digital Transparency + Education",
       "stage": "Pre-Seed Stage",
       "established": "Est. 2025",
-      "location": "Tashkent, Uzbekistan"
+      "location": "Tashkent, Uzbekistan",
+      "founderMission": "Founder-Led Mission",
+      "founderMissionText": "Waste should not be the end of a material's life. In Uzbekistan, plastic and old tires can become school yards, parks, jobs, and green infrastructure.",
+      "founderMissionRu": "Отходы не должны быть финалом материала."
     },
     "chain": {
       "waste": "Waste",
@@ -739,16 +742,18 @@
     },
     "problem": {
       "tag": "The Opportunity",
-      "title": "Waste is not an environmental problem. It is unused economic value."
+      "title": "Waste is not only an environmental problem. It is unused economic value.",
+      "sourceNote": "Source note: public-data estimates and internal market model. Final figures should be verified before formal investment documentation."
     },
     "stats": {
-      "wasteUz": "Waste generated in Uzbekistan",
-      "actuallyRecycled": "Actually recycled",
-      "plasticWaste": "Plastic waste accumulated",
-      "unrealizedValue": "Unrealized economic value",
+      "wasteUz": "Municipal solid waste collected in Uzbekistan, 2025 estimate",
+      "plasticStream": "Estimated annual plastic waste stream",
+      "recyclingRate": "Plastic recycling / tire recycling estimates",
+      "unrealizedValue": "Potential raw material value from recyclable waste streams",
       "tonsYear": "tons/year",
       "tons": "tons",
-      "uzs": "UZS"
+      "uzs": "estimated value",
+      "recycling": "recycling rate"
     },
     "solution": {
       "tag": "Our Solution",
@@ -756,21 +761,27 @@
       "pillars": {
         "physical": {
           "title": "Physical Products",
-          "desc": "Recycled rubber & plastic → tiles, benches, planters, bricks, bus stops, and more. Real products for real infrastructure."
+          "subtitle": "Revenue engine",
+          "desc": "Recycled rubber and plastic become market-ready products: safety tiles, composite tiles, curbs, public-space elements and Art Tiles."
         },
         "digital": {
-          "title": "Digital EcoApp Platform",
-          "desc": "Gamified citizen engagement — EcoMap, EcoWallet, EcoVote, EcoStories. Making recycling visible, measurable, and participatory."
+          "title": "Digital Transparency Platform",
+          "subtitle": "Trust and participation layer",
+          "desc": "EcoApp makes collection, participation, voting, rewards and impact reporting visible for citizens, schools, mahallas, partners and investors."
         },
         "education": {
           "title": "EcoKids Education",
-          "desc": "Children design Art Tiles in school workshops. Their creativity becomes real public products installed in parks and playgrounds."
+          "subtitle": "Culture and long-term adoption layer",
+          "desc": "Children learn ecology through mini-lessons, sorting tasks, 3D design and contests where the best ideas can become real Art Tiles."
         }
       }
     },
     "catalog": {
-      "tag": "Product Catalog",
-      "title": "10 products. All from recycled materials.",
+      "tag": "Product Portfolio",
+      "title": "Phase 1 Products. Built for pilot validation.",
+      "phase1Title": "Phase 1 — Pilot Products",
+      "phase2Title": "Phase 2 — Expansion Products",
+      "roadmapTitle": "Roadmap Products",
       "materials": {
         "rubber": "Recycled Rubber",
         "epdm": "EPDM + Rubber",
@@ -778,38 +789,41 @@
         "composite": "Recycled Materials"
       },
       "status": {
-        "selling": "Selling",
-        "pilot": "Pilot-Ready",
+        "pilotSku": "Pilot SKU",
+        "pilotReady": "Pilot-ready",
+        "demo": "Demo",
         "roadmap": "Roadmap"
-      }
+      },
+      "priceLabel": "Target price"
     },
     "ecoapp": {
       "tag": "Digital Trust Layer",
-      "title": "EcoApp makes recycling visible & participatory.",
+      "title": "EcoApp makes recycling visible, rewarding and transparent.",
+      "flow": ["Collect", "Participate", "Earn", "Vote", "Track Impact"],
       "modules": {
         "ecomap": {
           "name": "EcoMap",
-          "desc": "Interactive collection point finder"
+          "desc": "Find collection points and local eco-actions."
         },
         "ecoactions": {
           "name": "EcoActions",
-          "desc": "Volunteer campaigns & events"
+          "desc": "Join cleanups, school programs and community events."
         },
         "ecowallet": {
           "name": "EcoWallet",
-          "desc": "Eco-coins rewards for participation"
+          "desc": "Rewards, recognition, partner discounts and coupons for active participants."
         },
         "ecostories": {
           "name": "EcoStories",
-          "desc": "Community impact stories & media"
+          "desc": "Before/after impact stories from schools, parks and mahallas."
         },
         "ecovote": {
           "name": "EcoVote",
-          "desc": "Citizens vote on public projects"
+          "desc": "Citizens vote for public projects and community priorities."
         },
         "dashboard": {
           "name": "Impact Dashboard",
-          "desc": "Transparent waste tracking analytics"
+          "desc": "Transparent tracking of collected waste, product use and public impact."
         }
       }
     },
@@ -819,31 +833,32 @@
       "channels": {
         "b2g": {
           "name": "B2G Contracts",
-          "desc": "Municipal & government projects"
+          "desc": "Municipal, school, park, mahalla and public infrastructure projects."
         },
         "b2b": {
           "name": "B2B Sales",
-          "desc": "Developers, landscapers, builders"
+          "desc": "Developers, landscapers, sports facilities, factories and private institutions."
         },
         "b2c": {
-          "name": "B2C E-commerce",
-          "desc": "Direct shop on zaminat.uz / zaminateco.com"
+          "name": "B2C / Direct Sales",
+          "desc": "Selected products for private yards, gardens, farms and small businesses."
+        },
+        "corporate": {
+          "name": "Corporate Circular Partnerships",
+          "desc": "Waste streams, ESG programs, branded eco-products and measurable impact reports."
         },
         "social": {
           "name": "Social Products",
-          "desc": "Art Tiles & EcoKids programs"
-        },
-        "ecoapp": {
-          "name": "EcoApp Platform",
-          "desc": "Eco-coins & gamification monetization"
+          "desc": "Art Tiles, EcoKids programs, sponsored school and community projects."
         },
         "franchise": {
           "name": "Export / Franchise",
-          "desc": "Central Asia expansion model"
+          "desc": "Central Asia expansion model after pilot validation and production scale."
         }
       },
       "market": {
         "title": "Market Size",
+        "note": "Staged market model / internal estimate. Based on pilot SKUs, early B2B/B2G clients, demo objects and 24–36 month production scale.",
         "tam": {
           "label": "TAM (Total Addressable Market)",
           "value": "$250M",
@@ -852,7 +867,7 @@
         "sam": {
           "label": "SAM (Serviceable Addressable Market)",
           "value": "$5M",
-          "desc": "Serviceable addressable segment: schools, parks, kindergartens, B2B/B2G contracts, private infrastructure, sports, and public spaces."
+          "desc": "Serviceable segment: schools, parks, kindergartens, B2B/B2G contracts, private infrastructure, sports and public spaces."
         },
         "launchSom": {
           "label": "Launch SOM (First Year)",
@@ -862,52 +877,52 @@
         "pilotSom": {
           "label": "Pilot Scale SOM (24–36 Months)",
           "value": "$600K–$1M/year",
-          "desc": "24–36 months: certified products, higher capacity, B2B/B2G contracts, public infrastructure projects."
+          "desc": "24–36 months: certified products, higher capacity, B2B/B2G contracts and public infrastructure projects."
         }
       },
       "metrics": {
-        "grossMargin": "Gross Margin",
-        "breakeven": "Break-even",
-        "roi": "ROI (4-yr)"
+        "grossMargin": "Target gross margin",
+        "breakeven": "Target break-even",
+        "roi": "Target 4-year ROI scenario"
       }
     },
     "roadmap": {
       "tag": "Roadmap",
       "title": "4-Year Growth Plan",
       "y2026": {
-        "title": "Pilot Year",
+        "title": "Pilot Validation",
         "items": [
-          "First production line",
-          "Pilot sales 10 customers",
+          "First pilot production line",
+          "Target: 10 pilot customers",
           "EcoApp MVP launch",
-          "EcoKids 3 schools"
+          "Target: 3 EcoKids pilot schools"
         ]
       },
       "y2027": {
-        "title": "Growth",
+        "title": "Market Entry",
         "items": [
-          "500 t/year production",
-          "Tashkent city contracts",
-          "EcoApp 5,000 users",
-          "10 schools enrolled"
+          "Target: 500 t/year production",
+          "Tashkent pilot city contracts",
+          "Target: 5,000 EcoApp users",
+          "Target: 10 schools enrolled"
         ]
       },
       "y2028": {
-        "title": "Scale",
+        "title": "Production Scale",
         "items": [
-          "2,000 t/year capacity",
-          "Break-even achieved",
+          "Target: 2,000 t/year capacity",
+          "Target: break-even achieved",
           "Regional expansion pilot",
           "National partnerships"
         ]
       },
       "y2029": {
-        "title": "Expansion",
+        "title": "Regional Expansion",
         "items": [
           "Multi-city operations",
-          "Central Asia market",
+          "Central Asia market entry",
           "Platform licensing",
-          "$183K net profit/year"
+          "Target net profit scenario: $183K/year"
         ]
       }
     },
@@ -1010,7 +1025,7 @@
     },
     "team": {
       "tag": "Founding Team",
-      "title": "Built by operators, not just dreamers."
+      "title": "Founder-led. Supported by a lean execution team."
     },
     "ask": {
       "tag": "Pre-Seed · Pilot Preparation",
@@ -1022,8 +1037,9 @@
       },
       "scenarioB": {
         "title": "Scenario B — Strategic Launch Partner",
-        "details": "$400K cash + facility access → up to 25% equity",
-        "note": "Additional facility-related equity is milestone-based and depends on legal access, site readiness, utility capacity, logistics, storage, and duration of use."
+        "details": "$400K cash + verified industrial facility access → up to 25% equity",
+        "note": "Additional facility-related equity is milestone-based and depends on legal access, site readiness, utility capacity, logistics, storage, and duration of use.",
+        "badge": "Strategic Option"
       },
       "scenarioC": {
         "title": "Scenario C — Facility Partner",
@@ -1037,12 +1053,13 @@
       "fund4": "4% ($15,000) — Certification and testing roadmap",
       "fund5": "5% ($20,000) — Digital platform, marketing and demo projects",
       "facilityTitle": "Facility Strategy",
-      "facilityDesc": "We are not building a factory from scratch in phase one. We will launch a lean pilot production workshop inside a leased or strategic partner industrial facility. This reduces CAPEX, accelerates launch, and allows us to validate production, certification, first sales, and B2B/B2G demand before scaling.",
+      "facilityDesc": "We are not building a factory from scratch in phase one. We will launch a lean pilot production workshop inside a leased or strategic partner industrial facility. This reduces CAPEX, accelerates launch, and allows us to validate production, certification, first sales and B2B/B2G demand before scaling.",
       "partnerTitle": "Strategic Partner Advantage",
       "partnerDesc": "The ideal investor can contribute not only capital, but also: industrial space, land or factory access, utilities and storage, B2B/B2G connections, pilot locations, ESG or corporate sponsorship channels.",
       "cta1": "Join the first Waste-to-Life infrastructure platform from Uzbekistan.",
       "cta2": "Where waste ends — life begins.",
-      "qrLabel": "Scan to Open Pitch"
+      "qrLabel": "Investor Pitch Access",
+      "qrSublabel": "Scan to explore ZAMINAT.eco"
     }
   }
-}
+}
