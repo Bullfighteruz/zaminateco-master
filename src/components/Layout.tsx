@@ -22,7 +22,7 @@ interface LayoutProps {
 }
 
 // Mobile Language Switcher Component
-const MobileLanguageSwitcher = () => {
+const MobileLanguageSwitcher = ({ darkMode = false }: { darkMode?: boolean }) => {
   const { i18n } = useI18nTranslation();
   const [isOpen, setIsOpen] = useState(false);
   
@@ -42,7 +42,12 @@ const MobileLanguageSwitcher = () => {
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center justify-center w-10 h-10 rounded-full bg-white/90 backdrop-blur-md border-2 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800 shadow-md hover:shadow-lg transition-all duration-300">
+        <button className={cn(
+          "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border-2 shadow-md hover:shadow-lg transition-all duration-300",
+          darkMode 
+            ? "bg-white/10 border-white/20 hover:border-white/40 hover:bg-white/20 text-white"
+            : "bg-white/90 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800"
+        )}>
           <Globe className="h-5 w-5 flex-shrink-0" />
         </button>
       </DropdownMenuTrigger>
@@ -135,12 +140,12 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
 
       {/* Sticky Language Switcher Button - Pinned to top right - Hidden on mobile */}
       <div className="hidden md:block fixed top-4 right-4 z-50">
-        <LanguageSwitcher />
+        <LanguageSwitcher darkMode={hideBottomNav} />
       </div>
       
       {/* Floating Language Switcher Button - Mobile */}
       <div className="md:hidden fixed top-3 right-3 z-40">
-        <MobileLanguageSwitcher />
+        <MobileLanguageSwitcher darkMode={hideBottomNav} />
       </div>
       
       {/* Main content with bottom padding for navigation */}

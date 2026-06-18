@@ -29,7 +29,7 @@ const menuItemVariants = {
   exit: { opacity: 0, x: -10 }
 };
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ darkMode = false }: { darkMode?: boolean }) {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   
@@ -54,12 +54,12 @@ export default function LanguageSwitcher() {
             size="sm" 
             className={cn(
               "flex items-center gap-2.5",
-              "bg-white/95 backdrop-blur-md",
-              "border-2 border-gray-200/50",
-              "hover:border-green-400/60 hover:bg-white",
+              darkMode ? "bg-white/10 backdrop-blur-md" : "bg-white/95 backdrop-blur-md",
+              darkMode ? "border-2 border-white/20" : "border-2 border-gray-200/50",
+              darkMode ? "hover:border-white/40 hover:bg-white/20" : "hover:border-green-400/60 hover:bg-white",
               "transition-all duration-300",
               "shadow-md hover:shadow-lg",
-              "text-gray-800 hover:text-gray-900",
+              darkMode ? "text-white hover:text-white" : "text-gray-800 hover:text-gray-900",
               "font-semibold",
               "px-3 py-2",
               "relative overflow-hidden",
@@ -106,7 +106,7 @@ export default function LanguageSwitcher() {
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className="text-sm font-bold text-gray-900 tracking-wide hidden sm:inline-block"
+                className={cn("text-sm font-bold tracking-wide hidden sm:inline-block", darkMode ? "text-white" : "text-gray-900")}
               >
                 {currentLanguage.code.toUpperCase()}
               </motion.span>
@@ -116,7 +116,7 @@ export default function LanguageSwitcher() {
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <ChevronDown className="h-3.5 w-3.5 text-gray-600 transition-colors group-hover:text-green-600" />
+                <ChevronDown className={cn("h-3.5 w-3.5 transition-colors", darkMode ? "text-white/60 group-hover:text-white" : "text-gray-600 group-hover:text-green-600")} />
               </motion.div>
             </div>
           </Button>
