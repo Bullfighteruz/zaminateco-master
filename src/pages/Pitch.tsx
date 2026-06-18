@@ -71,6 +71,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('pitch-hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -174,27 +175,38 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
 
             {/* Desktop Section Links */}
             {!isMobile && (
-              <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
-                {NAV_SECTIONS.map(s => {
-                  const isActive = activeSection === s.id;
-                  const label = t(s.labelKey, { defaultValue: s.shortLabel });
-                  // Use short labels to keep navbar compact
-                  const displayLabel = label.length > 14 ? s.shortLabel : label;
-                  return (
-                    <button
-                      key={s.id}
-                      onClick={() => scrollTo(s.id)}
-                      className={cn(
-                        "px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 whitespace-nowrap",
-                        isActive
-                          ? "bg-emerald-500/20 text-emerald-400"
-                          : "text-white/50 hover:text-white/80 hover:bg-white/5"
-                      )}
-                    >
-                      {displayLabel}
-                    </button>
-                  );
-                })}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
+                  {NAV_SECTIONS.map(s => {
+                    const isActive = activeSection === s.id;
+                    const label = t(s.labelKey, { defaultValue: s.shortLabel });
+                    // Use short labels to keep navbar compact
+                    const displayLabel = label.length > 14 ? s.shortLabel : label;
+                    return (
+                      <button
+                        key={s.id}
+                        onClick={() => scrollTo(s.id)}
+                        className={cn(
+                          "px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 whitespace-nowrap",
+                          isActive
+                            ? "bg-emerald-500/20 text-emerald-400"
+                            : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                        )}
+                      >
+                        {displayLabel}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* EcoApp MVP Button */}
+                <button
+                  onClick={() => navigate('/')}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 whitespace-nowrap hover:scale-105 active:scale-95"
+                >
+                  <Smartphone className="h-3.5 w-3.5" />
+                  EcoApp MVP
+                </button>
               </div>
             )}
 
@@ -235,6 +247,20 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Mobile EcoApp MVP Button */}
+              <div className="px-3 pb-3 pt-1 border-t border-white/5">
+                <button
+                  onClick={() => {
+                    navigate('/');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95"
+                >
+                  <Smartphone className="h-3.5 w-3.5" />
+                  EcoApp MVP
+                </button>
               </div>
             </motion.div>
           )}
