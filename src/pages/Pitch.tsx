@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   Users, Target, Globe, Award, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
-  Smartphone, Mail, Briefcase
+  Smartphone, Mail, Briefcase, Menu, X, ArrowUp
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -51,7 +51,173 @@ const stagger = {
   visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
 };
 
-/* ────────────────────────────── Component ────────────────────────────── */
+/* ────────────────────────────── Pitch Nav Bar ────────────────────────────── */
+
+const NAV_SECTIONS = [
+  { id: 'pitch-hero', labelKey: 'pitch.hero.title', shortLabel: 'Hero' },
+  { id: 'pitch-opportunity', labelKey: 'pitch.problem.tag', shortLabel: 'Opportunity' },
+  { id: 'pitch-solution', labelKey: 'pitch.solution.tag', shortLabel: 'Solution' },
+  { id: 'pitch-products', labelKey: 'pitch.catalog.tag', shortLabel: 'Products' },
+  { id: 'pitch-ecoapp', labelKey: 'pitch.ecoapp.tag', shortLabel: 'EcoApp' },
+  { id: 'pitch-business', labelKey: 'pitch.business.tag', shortLabel: 'Business' },
+  { id: 'pitch-roadmap', labelKey: 'pitch.roadmap.tag', shortLabel: 'Roadmap' },
+  { id: 'pitch-traction', labelKey: 'pitch.traction.tag', shortLabel: 'Traction' },
+  { id: 'pitch-team', labelKey: 'pitch.team.tag', shortLabel: 'Team' },
+  { id: 'pitch-ask', labelKey: 'pitch.ask.tag', shortLabel: 'Invest' },
+];
+
+function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('pitch-hero');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Track active section via IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-80px 0px -50% 0px', threshold: 0 }
+    );
+    NAV_SECTIONS.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollTo = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = 70;
+      const y = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <>
+      {/* Sticky Top Nav */}
+      <motion.nav
+        initial={{ y: -80 }}
+        animate={{ y: isScrolled ? 0 : -80 }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+        className="fixed top-0 left-0 right-0 z-50"
+      >
+        <div className="bg-gray-950/85 backdrop-blur-xl border-b border-white/5 shadow-xl">
+          <div className={cn("max-w-7xl mx-auto flex items-center justify-between", isMobile ? "px-3 py-2" : "px-5 py-2.5")}>
+            {/* Logo */}
+            <button onClick={scrollToTop} className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
+              <img src="/logo.webp" alt="ZAMINAT.eco" className="h-7 w-7 rounded-lg" />
+              <span className={cn("font-bold text-white/90 tracking-tight", isMobile ? "text-sm" : "text-base")}>ZAMINAT.eco</span>
+            </button>
+
+            {/* Desktop Section Links */}
+            {!isMobile && (
+              <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
+                {NAV_SECTIONS.map(s => {
+                  const isActive = activeSection === s.id;
+                  const label = t(s.labelKey, { defaultValue: s.shortLabel });
+                  // Use short labels to keep navbar compact
+                  const displayLabel = label.length > 14 ? s.shortLabel : label;
+                  return (
+                    <button
+                      key={s.id}
+                      onClick={() => scrollTo(s.id)}
+                      className={cn(
+                        "px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 whitespace-nowrap",
+                        isActive
+                          ? "bg-emerald-500/20 text-emerald-400"
+                          : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                      )}
+                    >
+                      {displayLabel}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Mobile Hamburger */}
+            {isMobile && (
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all"
+              >
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            )}
+          </div>
+
+          {/* Mobile Dropdown Menu */}
+          {isMobile && mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="border-t border-white/5 bg-gray-950/95 backdrop-blur-xl"
+            >
+              <div className="px-3 py-2 grid grid-cols-2 gap-1">
+                {NAV_SECTIONS.map(s => {
+                  const isActive = activeSection === s.id;
+                  return (
+                    <button
+                      key={s.id}
+                      onClick={() => scrollTo(s.id)}
+                      className={cn(
+                        "px-3 py-2 rounded-lg text-xs font-semibold text-left transition-all",
+                        isActive
+                          ? "bg-emerald-500/20 text-emerald-400"
+                          : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                      )}
+                    >
+                      {s.shortLabel}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </motion.nav>
+
+      {/* Scroll-to-top FAB */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: isScrolled ? 1 : 0, scale: isScrolled ? 1 : 0.8 }}
+        transition={{ duration: 0.2 }}
+        onClick={scrollToTop}
+        className={cn(
+          "fixed z-40 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-xl hover:shadow-2xl transition-all",
+          isMobile ? "bottom-4 right-4 p-2.5" : "bottom-6 right-6 p-3"
+        )}
+        style={{ pointerEvents: isScrolled ? 'auto' : 'none' }}
+      >
+        <ArrowUp className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
+      </motion.button>
+    </>
+  );
+}
+
+/* ────────────────────────────── Main Component ────────────────────────────── */
 
 export default function Pitch() {
   const isMobile = useIsMobile();
@@ -388,9 +554,13 @@ export default function Pitch() {
   return (
     <Layout title={t('pitch.title')} hideBottomNav>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/10">
-        
+
+        {/* ═══════ PITCH NAVIGATION BAR ═══════ */}
+        <PitchNavBar isMobile={isMobile} t={t} />
+
         {/* ═══════ SECTION 1: Hero ═══════ */}
-        <section 
+        <section
+          id="pitch-hero"
           className="relative overflow-hidden bg-cover bg-center bg-no-repeat text-white"
           style={{ backgroundImage: "url('/images/pitch-hero-bg.jpg')" }}
         >
@@ -463,7 +633,7 @@ export default function Pitch() {
         <div className={cn("max-w-6xl mx-auto", isMobile ? "px-3 space-y-10 py-8" : "px-6 space-y-16 py-14")}>
 
           {/* ═══════ SECTION 2: The Problem / Opportunity ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-opportunity" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-red-50 text-red-700 border-red-200 mb-3">{t('pitch.problem.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -541,7 +711,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 3: Our Solution ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-solution" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 mb-3">{t('pitch.solution.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -577,7 +747,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 4: Product Portfolio ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-products" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-amber-50 text-amber-700 border-amber-200 mb-3">{t('pitch.catalog.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -623,7 +793,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 5: EcoApp Platform ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-ecoapp" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-teal-50 text-teal-700 border-teal-200 mb-3">{t('pitch.ecoapp.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -663,7 +833,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 6: Business Model ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-business" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-indigo-50 text-indigo-700 border-indigo-200 mb-3">{t('pitch.business.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -746,7 +916,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 7: Roadmap ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-roadmap" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-cyan-50 text-cyan-700 border-cyan-200 mb-3">{t('pitch.roadmap.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -777,7 +947,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 8: Traction ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-traction" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-green-50 text-green-700 border-green-200 mb-3">{t('pitch.traction.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -872,7 +1042,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* ═══════ SECTION 9: Team ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-team" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
               <Badge className="bg-purple-50 text-purple-700 border-purple-200 mb-3">{t('pitch.team.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
@@ -901,7 +1071,7 @@ export default function Pitch() {
             </div>
           </motion.section>
           {/* ═══════ SECTION 10: Investment Ask ═══════ */}
-          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+          <motion.section id="pitch-ask" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp}>
               <Card 
                 className="border-0 shadow-2xl text-white overflow-hidden relative bg-cover bg-center bg-no-repeat rounded-3xl"
