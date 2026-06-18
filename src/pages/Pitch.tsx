@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
 import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
+import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.jpg';
 
 /* ────────────────────────────── Data ────────────────────────────── */
 
@@ -555,6 +556,12 @@ export default function Pitch() {
       focus: t('team.members.khondamir.description', { ns: 'team' }), 
       photo: khondamirPhoto 
     },
+    { 
+      name: t('team.members.islombek.name', { ns: 'team' }), 
+      role: t('team.members.islombek.position', { ns: 'team' }), 
+      focus: t('team.members.islombek.description', { ns: 'team' }), 
+      photo: jahongirPhoto 
+    },
   ], [t]);
 
   const ecoappFlow = useMemo(() => {
@@ -1084,7 +1091,7 @@ export default function Pitch() {
               </h2>
             </motion.div>
 
-            <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "grid-cols-3")}>
+            <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4")}>
               {team.map((member, i) => (
                 <motion.div key={i} variants={fadeUp}>
                   <Card className="h-full text-center border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">
