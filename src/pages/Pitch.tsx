@@ -165,7 +165,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
           "fixed z-50 transition-opacity duration-300",
           isMobile ? "top-3 right-3" : "top-4 right-4"
         )}>
-          <LanguageSwitcher darkMode={true} />
+          <LanguageSwitcher darkMode={true} compact={true} />
         </div>
       )}
 
@@ -213,7 +213,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                 {/* EcoApp MVP Button */}
                 <button
                   onClick={() => navigate('/')}
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 whitespace-nowrap hover:scale-105 active:scale-95"
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 h-8 rounded-lg text-[11px] font-bold transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 whitespace-nowrap hover:scale-105 active:scale-95"
                 >
                   <Smartphone className="h-3.5 w-3.5" />
                   EcoApp MVP
@@ -221,7 +221,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
 
                 {/* Language Switcher inside sticky nav */}
                 <div className="flex-shrink-0">
-                  <LanguageSwitcher darkMode={true} />
+                  <LanguageSwitcher darkMode={true} compact={true} />
                 </div>
               </div>
             )}
@@ -229,8 +229,8 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
             {/* Mobile Actions (Language Switcher + Hamburger) */}
             {isMobile && (
               <div className="flex items-center gap-2">
-                <div className="scale-90 flex-shrink-0 origin-right">
-                  <LanguageSwitcher darkMode={true} />
+                <div className="flex-shrink-0">
+                  <LanguageSwitcher darkMode={true} compact={true} />
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

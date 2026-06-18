@@ -29,7 +29,7 @@ const menuItemVariants = {
   exit: { opacity: 0, x: -10 }
 };
 
-export default function LanguageSwitcher({ darkMode = false }: { darkMode?: boolean }) {
+export default function LanguageSwitcher({ darkMode = false, compact = false }: { darkMode?: boolean; compact?: boolean }) {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   
@@ -53,15 +53,15 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
             variant="outline" 
             size="sm" 
             className={cn(
-              "flex items-center gap-2.5",
+              "flex items-center gap-2",
               darkMode ? "bg-black/70 backdrop-blur-md" : "bg-white/95 backdrop-blur-md",
-              darkMode ? "border-2 border-white/10" : "border-2 border-gray-200/50",
+              darkMode ? "border border-white/10" : "border border-gray-200/50",
               darkMode ? "hover:border-white/25 hover:bg-black/80" : "hover:border-green-400/60 hover:bg-white",
               "transition-all duration-300",
               "shadow-md hover:shadow-lg",
               darkMode ? "text-white/90 hover:text-white" : "text-gray-800 hover:text-gray-900",
-              "font-semibold",
-              "px-3 py-2",
+              "font-bold",
+              compact ? "px-2.5 h-8 text-[11px] rounded-lg" : "px-3 py-2 text-xs",
               "relative overflow-hidden",
               "group"
             )}
@@ -77,7 +77,7 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
               transition={{ duration: 0.3 }}
             />
             
-            <div className="relative z-10 flex items-center gap-2.5">
+            <div className={cn("relative z-10 flex items-center", compact ? "gap-1.5" : "gap-2.5")}>
               {/* Flag icon with smooth transitions */}
               <AnimatePresence mode="wait">
                 <motion.div
@@ -91,7 +91,7 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
                   <motion.img
                     src={currentLanguage.flag}
                     alt={currentLanguage.name}
-                    className="h-5 w-7 object-cover rounded-sm shadow-sm border border-gray-200/50"
+                    className={cn("object-cover rounded-sm shadow-sm border border-gray-200/50", compact ? "h-3.5 w-5" : "h-5 w-7")}
                     variants={flagVariants}
                     whileHover="hover"
                     whileTap="tap"
@@ -106,7 +106,7 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className={cn("text-sm font-bold tracking-wide hidden sm:inline-block", darkMode ? "text-white/90" : "text-gray-900")}
+                className={cn("font-bold tracking-wide hidden sm:inline-block", compact ? "text-[11px]" : "text-sm", darkMode ? "text-white/90" : "text-gray-900")}
               >
                 {currentLanguage.code.toUpperCase()}
               </motion.span>
@@ -116,7 +116,7 @@ export default function LanguageSwitcher({ darkMode = false }: { darkMode?: bool
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <ChevronDown className={cn("h-3.5 w-3.5 transition-colors", darkMode ? "text-white/50 group-hover:text-white/80" : "text-gray-600 group-hover:text-green-600")} />
+                <ChevronDown className={cn("transition-colors", compact ? "h-3 w-3" : "h-3.5 w-3.5", darkMode ? "text-white/50 group-hover:text-white/80" : "text-gray-600 group-hover:text-green-600")} />
               </motion.div>
             </div>
           </Button>
