@@ -496,6 +496,48 @@ export default function Pitch() {
             <motion.p variants={fadeUp} className="text-center text-gray-400 text-[10px] mt-3 italic max-w-2xl mx-auto">
               {t('pitch.problem.sourceNote')}
             </motion.p>
+
+            {/* Policy Tailwind */}
+            <motion.div variants={fadeUp} className="mt-6 max-w-4xl mx-auto">
+              <Card className="border-emerald-200/60 shadow-md bg-gradient-to-r from-emerald-50/80 to-teal-50/60 overflow-hidden">
+                <CardContent className={cn("flex flex-col md:flex-row gap-4 items-start", isMobile ? "p-4" : "p-6")}>
+                  <div className="flex-shrink-0">
+                    <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-600">
+                      <TrendingUp className={cn(isMobile ? "h-5 w-5" : "h-6 w-6")} />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[10px] font-bold uppercase tracking-wider">
+                      {t('pitch.problem.policyTailwind.tag')}
+                    </Badge>
+                    <h3 className={cn("font-bold text-gray-900 leading-snug", isMobile ? "text-sm" : "text-base")}>
+                      {t('pitch.problem.policyTailwind.title')}
+                    </h3>
+                    <p className={cn("text-gray-600 leading-relaxed", isMobile ? "text-xs" : "text-sm")}>
+                      {t('pitch.problem.policyTailwind.description')}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Adjacent Infrastructure Signal */}
+            <motion.div variants={fadeUp} className="mt-4 max-w-4xl mx-auto">
+              <div className={cn(
+                "bg-amber-50/60 border border-amber-200/50 rounded-xl flex items-start gap-3",
+                isMobile ? "p-3" : "p-4"
+              )}>
+                <Award className={cn("text-amber-500 flex-shrink-0 mt-0.5", isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                <div>
+                  <span className={cn("font-bold text-amber-800", isMobile ? "text-xs" : "text-sm")}>
+                    {t('pitch.problem.adjacentSignal.title')}:
+                  </span>{' '}
+                  <span className={cn("text-amber-700 leading-relaxed", isMobile ? "text-xs" : "text-sm")}>
+                    {t('pitch.problem.adjacentSignal.description')}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
           </motion.section>
 
           {/* ═══════ SECTION 3: Our Solution ═══════ */}

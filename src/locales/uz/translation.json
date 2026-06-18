@@ -743,7 +743,16 @@
     "problem": {
       "tag": "Imkoniyat",
       "title": "Chiqindilar faqat ekologik muammo emas. Bu foydalanilmagan iqtisodiy qiymat.",
-      "sourceNote": "Manba eslatmasi: ommaviy ma'lumotlar va ichki bozor modeli asosidagi taxminlar. Rasmiy investitsiya hujjatlarini tayyorlashdan oldin yakuniy raqamlar tekshirilishi kerak."
+      "sourceNote": "Manba eslatmasi: ommaviy ma'lumotlar va ichki bozor modeli asosidagi taxminlar. Rasmiy investitsiya hujjatlarini tayyorlashdan oldin yakuniy raqamlar tekshirilishi kerak.",
+      "policyTailwind": {
+        "tag": "Siyosat shamoli",
+        "title": "O'zbekistonning $1,3 mlrd chiqindilarni energiyaga aylantirish investitsiya loyihalari chiqindi infratuzilmasi milliy ustuvorlikka aylanayotganini tasdiqlaydi.",
+        "description": "ZAMINAT.eco buni to'ldiradi — yuqori qiymatli plastik va shina chiqindilarini mahsulotlarga, infratuzilmaga va o'lchanadigan jamoat ta'siriga qayta ishlaydi."
+      },
+      "adjacentSignal": {
+        "title": "Qo'shni infratuzilma signali",
+        "description": "O'zbekiston taxminan $1,3 mlrd miqdoridagi chiqindilarni energiyaga aylantirish loyihalarini e'lon qildi, bu chiqindi infratuzilmasi va tsiklik iqtisodiyot investitsiyalari bo'yicha kuchli milliy momentumni tasdiqlaydi."
+      }
     },
     "stats": {
       "wasteUz": "O'zbekistonda yig'ilgan qattiq maishiy chiqindilar, 2025 yil taxmini",

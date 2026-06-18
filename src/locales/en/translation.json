@@ -743,7 +743,16 @@
     "problem": {
       "tag": "The Opportunity",
       "title": "Waste is not only an environmental problem. It is unused economic value.",
-      "sourceNote": "Source note: public-data estimates and internal market model. Final figures should be verified before formal investment documentation."
+      "sourceNote": "Source note: public-data estimates and internal market model. Final figures should be verified before formal investment documentation.",
+      "policyTailwind": {
+        "tag": "Policy Tailwind",
+        "title": "Uzbekistan's $1.3B waste-to-energy investment pipeline confirms that waste infrastructure is becoming a national priority.",
+        "description": "ZAMINAT.eco complements this by recovering higher-value plastic and tire waste into products, infrastructure and measurable public impact."
+      },
+      "adjacentSignal": {
+        "title": "Adjacent infrastructure signal",
+        "description": "Uzbekistan has announced approximately $1.3B in waste-to-energy projects, confirming strong national momentum around waste infrastructure and circular economy investment."
+      }
     },
     "stats": {
       "wasteUz": "Municipal solid waste collected in Uzbekistan, 2025 estimate",
@@ -799,7 +808,13 @@
     "ecoapp": {
       "tag": "Digital Trust Layer",
       "title": "EcoApp makes recycling visible, rewarding and transparent.",
-      "flow": ["Collect", "Participate", "Earn", "Vote", "Track Impact"],
+      "flow": [
+        "Collect",
+        "Participate",
+        "Earn",
+        "Vote",
+        "Track Impact"
+      ],
       "modules": {
         "ecomap": {
           "name": "EcoMap",
@@ -1062,4 +1077,4 @@
       "qrSublabel": "Scan to explore ZAMINAT.eco"
     }
   }
-}
+}
