@@ -716,7 +716,6 @@ export default function Pitch() {
         <div className={cn("max-w-6xl mx-auto", isMobile ? "px-3 py-8" : "px-6 py-14")}>
           <motion.section id="pitch-team" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-purple-50 text-purple-700 border-purple-200 mb-3">{t('pitch.team.tag')}</Badge>
               <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
                 {t('pitch.team.title')}
               </h2>
