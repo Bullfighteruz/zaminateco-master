@@ -712,6 +712,38 @@ export default function Pitch() {
           </motion.div>
         </section>
 
+        {/* ═══════ FOUNDING TEAM — Placed right after Hero ═══════ */}
+        <div className={cn("max-w-6xl mx-auto", isMobile ? "px-3 py-8" : "px-6 py-14")}>
+          <motion.section id="pitch-team" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
+            <motion.div variants={fadeUp} className="text-center mb-8">
+              <Badge className="bg-purple-50 text-purple-700 border-purple-200 mb-3">{t('pitch.team.tag')}</Badge>
+              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
+                {t('pitch.team.title')}
+              </h2>
+            </motion.div>
+
+            <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4")}>
+              {team.map((member, i) => (
+                <motion.div key={i} variants={fadeUp}>
+                  <Card className="h-full text-center border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">
+                    <CardContent className={cn(isMobile ? "p-4" : "p-6")}>
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className={cn("mx-auto rounded-full object-cover border-4 border-white shadow-lg ring-2 ring-gray-100", isMobile ? "w-24 h-24 mb-3" : "w-32 h-32 mb-4")}
+                        loading="lazy"
+                      />
+                      <h4 className={cn("font-bold text-gray-900", isMobile ? "text-sm" : "text-base")}>{member.name}</h4>
+                      <div className={cn("text-emerald-600 font-semibold mt-0.5", isMobile ? "text-xs" : "text-sm")}>{member.role}</div>
+                      <div className={cn("text-gray-500 mt-1", isMobile ? "text-[10px]" : "text-xs")}>{member.focus}</div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        </div>
+
         <div className={cn("max-w-6xl mx-auto", isMobile ? "px-3 space-y-10 py-8" : "px-6 space-y-16 py-14")}>
 
           {/* ═══════ SECTION 2: The Problem / Opportunity ═══════ */}
@@ -1083,37 +1115,7 @@ export default function Pitch() {
               </Card>
             </motion.div>
           </motion.section>
-
-          {/* ═══════ SECTION 8: Team ═══════ */}
-          <motion.section id="pitch-team" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
-            <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-purple-50 text-purple-700 border-purple-200 mb-3">{t('pitch.team.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {t('pitch.team.title')}
-              </h2>
-            </motion.div>
-
-            <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4")}>
-              {team.map((member, i) => (
-                <motion.div key={i} variants={fadeUp}>
-                  <Card className="h-full text-center border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">
-                    <CardContent className={cn(isMobile ? "p-4" : "p-6")}>
-                      <img
-                        src={member.photo}
-                        alt={member.name}
-                        className={cn("mx-auto rounded-full object-cover border-4 border-white shadow-lg ring-2 ring-gray-100", isMobile ? "w-24 h-24 mb-3" : "w-32 h-32 mb-4")}
-                        loading="lazy"
-                      />
-                      <h4 className={cn("font-bold text-gray-900", isMobile ? "text-sm" : "text-base")}>{member.name}</h4>
-                      <div className={cn("text-emerald-600 font-semibold mt-0.5", isMobile ? "text-xs" : "text-sm")}>{member.role}</div>
-                      <div className={cn("text-gray-500 mt-1", isMobile ? "text-[10px]" : "text-xs")}>{member.focus}</div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-            {/* Marker: slideshow tracking ends here (Team bottom) */}
+            {/* Marker: slideshow tracking ends here (Traction bottom) */}
             <div ref={slideEndRef} />
 
               </div>{/* End left content column */}
