@@ -176,7 +176,7 @@ function DesktopFloatingPhone({
       style={{
         position: 'sticky',
         top: STICKY_TOP_OFFSET,
-        width: 340,
+        width: 420,
         zIndex: 2,
       }}
     >
@@ -201,7 +201,7 @@ function DesktopFloatingPhone({
         }}
         className="flex justify-center"
       >
-        <PhoneMockup width={300}>
+        <PhoneMockup width={380}>
           {/* 
             Screen content with smooth CSS crossfade.
             All 5 images are pre-rendered and stacked. Only the active
