@@ -818,6 +818,15 @@ export default function Pitch() {
             </motion.div>
           </motion.section>
 
+          {/* ═══════ PHONE SHOWCASE ZONE — Sections 3–8 with sticky phone ═══════ */}
+          <div ref={phoneZoneRef} className="relative">
+            <div className={cn(isMobile ? "" : "flex gap-8 items-start")}>
+              {/* Left column: content sections */}
+              <div className={cn(isMobile ? "w-full" : "flex-1 min-w-0", isMobile ? "space-y-10" : "space-y-16")}>
+
+          {/* Marker: slideshow tracking starts here (Solution top) */}
+          <div ref={slideStartRef} />
+
           {/* ═══════ SECTION 3: Our Solution ═══════ */}
           <motion.section id="pitch-solution" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
@@ -857,6 +866,9 @@ export default function Pitch() {
             </div>
           </motion.section>
 
+          {/* Mobile: Phone carousel after Solution */}
+          {isMobile && <FloatingPhoneShowcase scrollRef={phoneZoneRef} slideStartRef={slideStartRef} slideEndRef={slideEndRef} />}
+
           {/* ═══════ SECTION 4: Product Portfolio ═══════ */}
           <motion.section id="pitch-products" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
@@ -893,11 +905,6 @@ export default function Pitch() {
             </div>
           </motion.section>
 
-          {/* ═══════ PHONE SHOWCASE ZONE — Sections 5–8 with sticky phone ═══════ */}
-          <div ref={phoneZoneRef} className="relative">
-            <div className={cn(isMobile ? "" : "flex gap-8 items-start")}>
-              {/* Left column: content sections */}
-              <div className={cn(isMobile ? "w-full" : "flex-1 min-w-0", isMobile ? "space-y-10" : "space-y-16")}>
 
           {/* ═══════ SECTION 5: Business Model ═══════ */}
           <motion.section id="pitch-business" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
@@ -932,8 +939,6 @@ export default function Pitch() {
               ))}
             </div>
 
-            {/* Marker: slideshow tracking starts here (Market Size top) */}
-            <div ref={slideStartRef} />
             {/* Market Size Section */}
             <div id="pitch-business-market" className="mt-8 space-y-4">
               <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
@@ -983,9 +988,6 @@ export default function Pitch() {
               </motion.div>
             </div>
           </motion.section>
-
-          {/* Mobile: Phone carousel after Business Model and before Roadmap */}
-          {isMobile && <FloatingPhoneShowcase scrollRef={phoneZoneRef} slideStartRef={slideStartRef} slideEndRef={slideEndRef} />}
 
 
           {/* ═══════ SECTION 6: Roadmap ═══════ */}
