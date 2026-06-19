@@ -164,12 +164,12 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
                   <Sparkles className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
                   <span>{t('welcome.passport')}</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+                <DialogTitle className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
                   {t('welcome.title')}
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
+                </DialogTitle>
+                <DialogDescription className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
                   {t('welcome.description')}
-                </p>
+                </DialogDescription>
               </div>
 
               {/* Form Content */}

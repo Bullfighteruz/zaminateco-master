@@ -25,7 +25,7 @@ import { Badge } from '../components/ui/badge';
 import { Avatar, AvatarFallback } from '../components/ui/avatar';
 import { useTranslation } from 'react-i18next';
 import { getIconForProductOrCategory } from '../lib/iconMatcher';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
 import { useSEO } from '../hooks/useSEO';
 import '../styles/mobile-responsive.css';
 
@@ -816,7 +816,7 @@ export default function EcoStories() {
           {selectedVideo && (
             <div className="flex flex-col h-full text-left">
               <DialogHeader className="p-4 border-b border-white/5 bg-slate-950 flex flex-row items-center justify-between">
-                <div className="text-white font-extrabold text-sm sm:text-base line-clamp-1 flex items-center gap-2 pr-6">
+                <DialogTitle className="text-white font-extrabold text-sm sm:text-base line-clamp-1 flex items-center gap-2 pr-6">
                   {selectedVideo.platform === 'youtube' ? (
                     <Youtube className="h-5 w-5 text-red-500 fill-white" />
                   ) : (
@@ -832,7 +832,10 @@ export default function EcoStories() {
                     {selectedVideo.lang}
                   </span>
                   <span>{t(`videos.${selectedVideo.id}.title`, { ns: 'translation' })}</span>
-                </div>
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                  Video Player for Zaminat Eco Stories
+                </DialogDescription>
               </DialogHeader>
 
               {/* Video Player view container */}

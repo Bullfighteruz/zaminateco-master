@@ -52,6 +52,29 @@ function DesktopFloatingPhone({
   const [activeIndex, setActiveIndex] = useState(0);
   const phoneContainerRef = useRef<HTMLDivElement>(null);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(new Array(APP_SCREENS.length).fill(false));
+  const [viewportHeight, setViewportHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 900);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Dynamically scale mockup size based on viewport height to prevent clipping
+  let mockupWidth = 300;
+  let topOffset = STICKY_TOP_OFFSET;
+
+  if (viewportHeight < 760) {
+    mockupWidth = 240; // Height ≈ 520px
+    topOffset = 50;
+  } else if (viewportHeight < 840) {
+    mockupWidth = 270; // Height ≈ 585px
+    topOffset = 65;
+  }
+
+  const containerWidth = mockupWidth + 40;
 
   // Preload all images eagerly on mount
   useEffect(() => {
@@ -172,11 +195,11 @@ function DesktopFloatingPhone({
   return (
     <div
       ref={phoneContainerRef}
-      className={cn(`sticky top-[${STICKY_TOP_OFFSET}px] self-start flex-shrink-0`, className)}
+      className={cn("sticky self-start flex-shrink-0", className)}
       style={{
         position: 'sticky',
-        top: STICKY_TOP_OFFSET,
-        width: 340,
+        top: topOffset,
+        width: containerWidth,
         zIndex: 2,
       }}
     >
@@ -201,7 +224,7 @@ function DesktopFloatingPhone({
         }}
         className="flex justify-center"
       >
-        <PhoneMockup width={300}>
+        <PhoneMockup width={mockupWidth}>
           {/* 
             Screen content with smooth CSS crossfade.
             All 5 images are pre-rendered and stacked. Only the active

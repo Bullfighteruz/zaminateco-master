@@ -81,8 +81,8 @@ export default defineConfig(({ mode }) => ({
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
-    // Enable source maps only in development
-    sourcemap: mode === 'development',
+    // Disable source maps in production build
+    sourcemap: false,
     // CSS code splitting
     cssCodeSplit: true,
     // Optimize asset inlining threshold

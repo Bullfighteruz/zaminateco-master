@@ -34,7 +34,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Progress } from '../components/ui/progress';
-import { Dialog, DialogContent, DialogTitle } from '../components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '../components/ui/dialog';
 import { votingProjects } from '../lib/mockData';
 import { useTranslation } from '../hooks/useTranslation';
 import { getIconForProductOrCategory } from '../lib/iconMatcher';
@@ -1213,6 +1213,9 @@ function EcoVote() {
         <Dialog open={!!lightboxImage} onOpenChange={(open) => !open && setLightboxImage(null)}>
           <DialogContent className="w-auto sm:w-fit max-w-[95vw] sm:max-w-[90vw] md:max-w-[85vw] lg:max-w-[1200px] p-2 bg-black/95 border border-white/10 overflow-hidden rounded-2xl">
             <DialogTitle className="sr-only">{t('projectImagePreview', { defaultValue: 'Project Image Preview' })}</DialogTitle>
+            <DialogDescription className="sr-only">
+              Large resolution preview of the selected ecological project image.
+            </DialogDescription>
             <div className="relative w-full h-full max-h-[88vh] flex items-center justify-center p-2 group/lightbox">
               {lightboxImage && (
                 <img 
