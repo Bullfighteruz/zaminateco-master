@@ -666,6 +666,7 @@
   "categoryNeon": "neon",
   "categoryPastel": "pastel",
   "welcome": {
+    "passport": "Pasportni faollashtirish",
     "title": "ZAMINAT.eco'ga xush kelibsiz!",
     "description": "Ekologik harakatimizga qo'shiling va birgalikda farq qiling!",
     "firstName": "Ism",
@@ -676,6 +677,9 @@
     "note": "Ushbu bosqichni o'tkazib yuborishingiz va standart nomdan foydalanishingiz yoki keyinroq profilida o'zgartirishingiz mumkin.",
     "skip": "O'tkazib yuborish",
     "continue": "Davom etish",
+    "benefit1": "Eko-hamyon va kunlik ketma-ketlik mukofotlarini faollashtirish.",
+    "benefit2": "To'g'ridan-to'g'ri loyihaga ovoz berish moliyalashtirish kanallarida ishtirok etish.",
+    "benefit3": "Tasdiqlangan uglerod kompensatsiyasi nishonlarini olish uchun harakatlarni yozib borish.",
     "footer": "🌱 Birgalikda biz farq qilishimiz mumkin!"
   },
   "settings": "Sozlamalar",
@@ -722,6 +726,17 @@
     }
   },
   "pitch": {
+    "nav": {
+      "hero": "Kirish",
+      "opportunity": "Muammo",
+      "solution": "Yechim",
+      "products": "Mahsulotlar",
+      "business": "Biznes",
+      "roadmap": "Reja",
+      "traction": "Natija",
+      "team": "Jamoa",
+      "invest": "Invest"
+    },
     "title": "Investor Pitch Deck",
     "hero": {
       "title": "Chiqindilar tugagan joyda —\nHayot boshlanadi",
@@ -1071,7 +1086,9 @@
       "facilityDesc": "Biz birinchi bosqichda zavodni noldan qurmayapmiz. Biz ijaraga olingan yoki strategik hamkor sanoat maydonchasida ixcham pilot ishlab chiqarish sexini ishga tushiramiz. Bu CAPEX ni kamaytiradi, ishga tushirishni tezlashtiradi va ko'lamini oshirishdan oldin ishlab chiqarish, sertifikatsiya, birinchi sotuvlar va B2B/B2G talabini tekshirish imkonini beradi.",
       "partnerTitle": "Strategik hamkor afzalligi",
       "partnerDesc": "Ideal investor nafaqat kapital, balki: sanoat maydoni, yer yoki zavodga kirish, kommunal xizmatlar va omborlar, B2B/B2G aloqalar, pilot lokatsiyalar, ESG yoki korporativ homiylik kanallari ham kiritishi mumkin.",
+      "ctaTitle": "ZAMINAT.eco Platformasi",
       "cta1": "O'zbekistondan birinchi Chiqindi-Hayotga infratuzilma platformasiga qo'shiling.",
+      "cta2": "Kelajakni biz bilan quring.",
       "qrLabel": "Investor pitch kirishi",
       "qrSublabel": "ZAMINAT.eco ni ochish uchun skanerlang"
     },

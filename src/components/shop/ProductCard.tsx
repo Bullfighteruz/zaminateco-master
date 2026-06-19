@@ -169,15 +169,19 @@ function ProductCard({
           <div className={cn("flex", isMobile ? "gap-1 pt-1" : "gap-2 pt-2")}>
             <Button
               data-product-id={id}
-              className={cn("flex-1 bg-emerald-600 hover:bg-emerald-700 text-white", isMobile ? "h-7 text-[9px] px-1" : "")}
+              className={cn("flex-1 bg-emerald-600 hover:bg-emerald-700 text-white min-w-0", isMobile ? "h-7 text-[9px] px-1" : "")}
               onClick={handleAddToCartClick}
               size={isMobile ? "sm" : "sm"}
             >
-              <ShoppingBag className={cn(isMobile ? "h-2.5 w-2.5 mr-0.5" : "h-4 w-4 mr-2")} />
-              <span className={cn(isMobile ? "truncate" : "")}>{isCallForPrice 
-                  ? t('buttons.contactShort', { defaultValue: 'Contact' })
-                  : t('buttons.cartShort', { defaultValue: 'Cart' })
-                }</span>
+              <div className="flex items-center justify-center w-full min-w-0">
+                <ShoppingBag className={cn(isMobile ? "h-2.5 w-2.5 mr-0.5 flex-shrink-0" : "h-4 w-4 mr-2 flex-shrink-0")} />
+                <span className="truncate">
+                  {isCallForPrice 
+                    ? t('buttons.contactShort', { defaultValue: 'Contact' })
+                    : t('buttons.cartShort', { defaultValue: 'Cart' })
+                  }
+                </span>
+              </div>
             </Button>
             <Button
               variant="outline"

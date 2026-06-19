@@ -162,13 +162,13 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
               <div className="space-y-2 mb-8">
                 <div className="flex items-center gap-1.5 text-emerald-600 font-bold text-[10px] tracking-[0.2em] uppercase">
                   <Sparkles className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
-                  <span>INITIALIZE PASSPORT</span>
+                  <span>{t('welcome.passport')}</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
-                  Welcome to ZAMINAT
+                  {t('welcome.title')}
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
-                  Enter your name to initialize your profile and join our ecological digital ecosystem.
+                  {t('welcome.description')}
                 </p>
               </div>
 
@@ -216,13 +216,13 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
                 {/* Minimalist Benefits Checklist */}
                 <div className="py-2 flex flex-col gap-2.5">
                   {[
-                    { text: 'Initialize eco wallet and daily streak rewards.' },
-                    { text: 'Participate in direct project voting funding channels.' },
-                    { text: 'Log actions to earn verified carbon offset badges.' }
+                    { text: t('welcome.benefit1') },
+                    { text: t('welcome.benefit2') },
+                    { text: t('welcome.benefit3') }
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2.5 text-xs text-slate-500 font-medium">
+                    <div key={i} className="flex items-start gap-2.5 text-xs text-slate-500 font-medium w-full">
                       <Check className="w-4 h-4 text-emerald-600 stroke-[3] mt-0.5 flex-shrink-0" />
-                      <span className="leading-tight">{item.text}</span>
+                      <span className="leading-tight flex-1 min-w-0 break-words">{item.text}</span>
                     </div>
                   ))}
                 </div>

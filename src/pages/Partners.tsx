@@ -52,7 +52,7 @@ const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolea
           )}>
             <IconComponent className={cn(isMobile ? "h-4 w-4" : "h-6 w-6")} />
           </div>
-          <div className="flex items-start gap-1.5 flex-1 min-w-0">
+          <div className="flex flex-wrap items-start gap-1.5 flex-1 min-w-0">
             {partner.featured && (
               <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0 text-[9px] px-1 py-0.5 shadow-sm flex-shrink-0">
                 <Star className="h-2 w-2 mr-0.5 fill-white" />
@@ -107,8 +107,8 @@ const PartnerCard = ({ partner, isMobile }: { partner: Partner; isMobile: boolea
 
         {/* Discount and Coins */}
         <div className={cn(
-          "flex items-center justify-between",
-          isMobile ? "gap-1.5" : "gap-3"
+          "flex flex-wrap items-center justify-between gap-2",
+          isMobile ? "" : ""
         )}>
           <Badge className={cn(
             `bg-gradient-to-r ${partner.color} text-white font-semibold border-0 shadow-sm`,

@@ -36,7 +36,7 @@ export default function FloatingPhoneShowcase({ scrollRef, slideStartRef, slideE
 /* ─────────────────────────── Desktop Floating Phone ─────────────────────────── */
 
 /** The CSS `top` value for the sticky phone container */
-const STICKY_TOP_OFFSET = 200;
+const STICKY_TOP_OFFSET = 75;
 
 function DesktopFloatingPhone({
   scrollRef,
@@ -176,7 +176,7 @@ function DesktopFloatingPhone({
       style={{
         position: 'sticky',
         top: STICKY_TOP_OFFSET,
-        width: 420,
+        width: 340,
         zIndex: 2,
       }}
     >
@@ -201,7 +201,7 @@ function DesktopFloatingPhone({
         }}
         className="flex justify-center"
       >
-        <PhoneMockup width={380}>
+        <PhoneMockup width={300}>
           {/* 
             Screen content with smooth CSS crossfade.
             All 5 images are pre-rendered and stacked. Only the active

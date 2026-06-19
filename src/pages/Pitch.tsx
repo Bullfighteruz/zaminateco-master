@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Users, Target, Globe, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
-  Smartphone, Mail, Briefcase, Menu, X, ArrowUp
+  Smartphone, Mail, Briefcase, Menu, X, ArrowUp, Check
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -55,15 +55,15 @@ const stagger = {
 /* ────────────────────────────── Pitch Nav Bar ────────────────────────────── */
 
 const NAV_SECTIONS = [
-  { id: 'pitch-hero', labelKey: 'pitch.hero.title', shortLabel: 'Hero' },
-  { id: 'pitch-opportunity', labelKey: 'pitch.problem.tag', shortLabel: 'Opportunity' },
-  { id: 'pitch-solution', labelKey: 'pitch.solution.tag', shortLabel: 'Solution' },
-  { id: 'pitch-products', labelKey: 'pitch.catalog.tag', shortLabel: 'Products' },
-  { id: 'pitch-business', labelKey: 'pitch.business.tag', shortLabel: 'Business' },
-  { id: 'pitch-roadmap', labelKey: 'pitch.roadmap.tag', shortLabel: 'Roadmap' },
-  { id: 'pitch-traction', labelKey: 'pitch.traction.tag', shortLabel: 'Traction' },
-  { id: 'pitch-team', labelKey: 'pitch.team.tag', shortLabel: 'Team' },
-  { id: 'pitch-ask', labelKey: 'pitch.ask.tag', shortLabel: 'Invest' },
+  { id: 'pitch-hero', labelKey: 'pitch.nav.hero' },
+  { id: 'pitch-team', labelKey: 'pitch.nav.team' },
+  { id: 'pitch-opportunity', labelKey: 'pitch.nav.opportunity' },
+  { id: 'pitch-solution', labelKey: 'pitch.nav.solution' },
+  { id: 'pitch-products', labelKey: 'pitch.nav.products' },
+  { id: 'pitch-business', labelKey: 'pitch.nav.business' },
+  { id: 'pitch-roadmap', labelKey: 'pitch.nav.roadmap' },
+  { id: 'pitch-traction', labelKey: 'pitch.nav.traction' },
+  { id: 'pitch-ask', labelKey: 'pitch.nav.invest' },
 ];
 
 function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
@@ -75,16 +75,28 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
   const scrollTargetRef = useRef<string | null>(null);
   const lastScrollTimeRef = useRef<number>(0);
 
+  // Dynamic state to check if screen width requires compact hamburger nav (width < 1200px)
+  const [isNavCompact, setIsNavCompact] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => {
+      setIsNavCompact(window.innerWidth < 1200);
+    };
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
+
   // Dynamic coordinates retrieval for sections
   const getSectionPositions = useCallback(() => {
-    const offset = isMobile ? 60 : 80;
+    const offset = isNavCompact ? 60 : 80;
     return NAV_SECTIONS.map(s => {
       const el = document.getElementById(s.id);
       if (!el) return null;
       const top = el.getBoundingClientRect().top + window.scrollY - offset;
       return { id: s.id, top };
     }).filter((s): s is { id: string; top: number } => s !== null);
-  }, [isMobile]);
+  }, [isNavCompact]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,8 +112,9 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Track active section via IntersectionObserver
+  // Track active section via IntersectionObserver, aligning rootMargin dynamically
   useEffect(() => {
+    const margin = isNavCompact ? '-60px 0px -50% 0px' : '-80px 0px -50% 0px';
     const observer = new IntersectionObserver(
       (entries) => {
         // If at the absolute bottom of the page, stick to the last section
@@ -118,25 +131,25 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
           setActiveSection(visible[0].target.id);
         }
       },
-      { rootMargin: '-80px 0px -50% 0px', threshold: 0 }
+      { rootMargin: margin, threshold: 0 }
     );
     NAV_SECTIONS.forEach(s => {
       const el = document.getElementById(s.id);
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [isNavCompact]);
 
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const offset = isMobile ? 60 : 80;
+      const offset = isNavCompact ? 60 : 80;
       const y = el.getBoundingClientRect().top + window.scrollY - offset;
       scrollTargetRef.current = id;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
     setMobileMenuOpen(false);
-  }, [isMobile]);
+  }, [isNavCompact]);
 
   const scrollToTop = useCallback(() => {
     scrollTargetRef.current = NAV_SECTIONS[0].id;
@@ -261,22 +274,20 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
         className="fixed top-0 left-0 right-0 z-50"
       >
         <div className="bg-gray-950/85 backdrop-blur-xl border-b border-white/5 shadow-xl">
-          <div className={cn("max-w-7xl mx-auto flex items-center justify-between", isMobile ? "px-3 py-2" : "px-5 py-2.5")}>
+          <div className={cn("max-w-7xl mx-auto flex items-center justify-between", isNavCompact ? "px-3 py-2" : "px-5 py-2.5")}>
             {/* Logo */}
             <button onClick={scrollToTop} className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
               <img src="/logo.webp" alt="ZAMINAT.eco" className="h-7 w-7 rounded-lg" />
-              <span className={cn("font-bold text-white/90 tracking-tight", isMobile ? "text-sm" : "text-base")}>ZAMINAT.eco</span>
+              <span className={cn("font-bold text-white/90 tracking-tight", isNavCompact ? "text-sm" : "text-base")}>ZAMINAT.eco</span>
             </button>
 
             {/* Desktop Section Links */}
-            {!isMobile && (
+            {!isNavCompact && (
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
                   {NAV_SECTIONS.map(s => {
                     const isActive = activeSection === s.id;
-                    const label = t(s.labelKey, { defaultValue: s.shortLabel });
-                    // Use short labels to keep navbar compact
-                    const displayLabel = label.length > 14 ? s.shortLabel : label;
+                    const displayLabel = t(s.labelKey);
                     return (
                       <button
                         key={s.id}
@@ -310,8 +321,8 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
               </div>
             )}
 
-            {/* Mobile Actions (Language Switcher + Hamburger) */}
-            {isMobile && (
+            {/* Mobile/Compact Actions (Language Switcher + Hamburger) */}
+            {isNavCompact && (
               <div className="flex items-center gap-2">
                 <div className="flex-shrink-0">
                   <LanguageSwitcher darkMode={true} compact={true} />
@@ -326,8 +337,8 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
             )}
           </div>
 
-          {/* Mobile Dropdown Menu */}
-          {isMobile && mobileMenuOpen && (
+          {/* Mobile/Compact Dropdown Menu */}
+          {isNavCompact && mobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -337,6 +348,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
               <div className="px-3 py-2 grid grid-cols-2 gap-1">
                 {NAV_SECTIONS.map(s => {
                   const isActive = activeSection === s.id;
+                  const displayLabel = t(s.labelKey);
                   return (
                     <button
                       key={s.id}
@@ -348,13 +360,13 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                           : "text-white/50 hover:text-white/80 hover:bg-white/5"
                       )}
                     >
-                      {s.shortLabel}
+                      {displayLabel}
                     </button>
                   );
                 })}
               </div>
 
-              {/* Mobile EcoApp MVP Button */}
+              {/* Mobile/Compact EcoApp MVP Button */}
               <div className="px-3 pb-3 pt-1 border-t border-white/5">
                 <button
                   onClick={() => {
@@ -495,7 +507,7 @@ export default function Pitch() {
       icon: Globe 
     },
     { 
-      value: i18n.language === 'ru' ? '1 трлн' : i18n.language === 'uz' ? '1 trln' : '1T', 
+      value: i18n.language === 'ru' ? '$83 млн' : i18n.language === 'uz' ? '$83 mln' : '$83M', 
       unit: t('pitch.stats.uzs'), 
       label: t('pitch.stats.unrealizedValue'), 
       icon: TrendingUp 
@@ -694,27 +706,21 @@ export default function Pitch() {
   const catalogTitleParts = t('pitch.catalog.title').split('. ');
   const businessTitleParts = t('pitch.business.title').split('. ');
   const problemTitleParts = t('pitch.problem.title').split('. ');
+  const teamTitleParts = t('pitch.team.title').split('. ');
 
   const renderProductCard = (p: ReturnType<typeof translateProduct>, i: number) => (
     <motion.div key={i} variants={fadeUp}>
       <Card 
         onClick={() => navigate(`/product/${getProductSlug(p.rawName)}`)}
-        className="h-full overflow-hidden border-gray-200/60 shadow-sm hover:shadow-md transition-all group cursor-pointer hover:border-emerald-300"
+        className="h-full overflow-hidden border-gray-200/60 shadow-sm hover:shadow-md transition-all group cursor-pointer hover:border-emerald-300 bg-white"
       >
         <div className="aspect-[4/3] overflow-hidden bg-gray-100">
           <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
         </div>
-        <CardContent className={cn(isMobile ? "p-2" : "p-3")}>
-          <h4 className={cn("font-bold text-gray-900 leading-tight", isMobile ? "text-[11px]" : "text-xs")}>{p.name}</h4>
-          <div className={cn("text-emerald-600 font-semibold mt-0.5", isMobile ? "text-[10px]" : "text-[11px]")}>{p.material}</div>
-          <div className="flex items-center justify-between mt-1.5">
-            <span className={cn("font-bold text-gray-700", isMobile ? "text-[10px]" : "text-[11px]")}>
-              {t('pitch.catalog.priceLabel')}: {p.price}
-            </span>
-            <Badge className={cn("text-[9px] px-1.5 py-0", getStatusBadgeStyle(p.status))}>
-              {p.statusLabel}
-            </Badge>
-          </div>
+        <CardContent className={cn("text-center", isMobile ? "p-2" : "p-3.5")}>
+          <h4 className={cn("font-bold text-gray-900 leading-tight transition-colors group-hover:text-emerald-600", isMobile ? "text-[11px]" : "text-xs")}>
+            {p.name}
+          </h4>
         </CardContent>
       </Card>
     </motion.div>
@@ -802,8 +808,19 @@ export default function Pitch() {
         <div className={cn("max-w-6xl mx-auto", isMobile ? "px-3 py-8" : "px-6 py-14")}>
           <motion.section id="pitch-team" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {t('pitch.team.title')}
+              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.team.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {teamTitleParts[0]}
+                </span>
+                {teamTitleParts[1] && (
+                  <>
+                    .<br />
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-500 font-extrabold">
+                      {teamTitleParts[1]}
+                    </span>
+                  </>
+                )}
               </h2>
             </motion.div>
 
@@ -834,13 +851,17 @@ export default function Pitch() {
           {/* ═══════ SECTION 2: The Problem / Opportunity ═══════ */}
           <motion.section id="pitch-opportunity" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-red-50 text-red-700 border-red-200 mb-3">{t('pitch.problem.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {problemTitleParts[0]}
+              <Badge variant="outline" className="bg-red-50 text-red-700 border-red-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.problem.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {problemTitleParts[0]}
+                </span>
                 {problemTitleParts[1] && (
                   <>
                     .<br />
-                    <span className="text-emerald-600">{problemTitleParts[1]}</span>
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-orange-500 font-extrabold">
+                      {problemTitleParts[1]}
+                    </span>
                   </>
                 )}
               </h2>
@@ -915,13 +936,17 @@ export default function Pitch() {
           {/* ═══════ SECTION 3: Our Solution ═══════ */}
           <motion.section id="pitch-solution" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 mb-3">{t('pitch.solution.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {solutionTitleParts[0]}
+              <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.solution.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {solutionTitleParts[0]}
+                </span>
                 {solutionTitleParts[1] && (
                   <>
                     .{' '}
-                    <span className="text-emerald-600">{solutionTitleParts[1]}</span>
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 font-extrabold">
+                      {solutionTitleParts[1]}
+                    </span>
                   </>
                 )}
               </h2>
@@ -957,13 +982,17 @@ export default function Pitch() {
           {/* ═══════ SECTION 4: Product Portfolio ═══════ */}
           <motion.section id="pitch-products" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-amber-50 text-amber-700 border-amber-200 mb-3">{t('pitch.catalog.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {catalogTitleParts[0]}
+              <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.catalog.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {catalogTitleParts[0]}
+                </span>
                 {catalogTitleParts[1] && (
                   <>
                     .{' '}
-                    <span className="text-emerald-600">{catalogTitleParts[1]}</span>
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-orange-500 font-extrabold">
+                      {catalogTitleParts[1]}
+                    </span>
                   </>
                 )}
               </h2>
@@ -994,13 +1023,17 @@ export default function Pitch() {
           {/* ═══════ SECTION 5: Business Model ═══════ */}
           <motion.section id="pitch-business" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-indigo-50 text-indigo-700 border-indigo-200 mb-3">{t('pitch.business.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {businessTitleParts[0]}
+              <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.business.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {businessTitleParts[0]}
+                </span>
                 {businessTitleParts[1] && (
                   <>
                     .{' '}
-                    <span className="text-emerald-600">{businessTitleParts[1]}</span>
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500 font-extrabold">
+                      {businessTitleParts[1]}
+                    </span>
                   </>
                 )}
               </h2>
@@ -1029,7 +1062,7 @@ export default function Pitch() {
               <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
                 {t('pitch.business.market.title')}
               </h3>
-              <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-4")}>
+              <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "grid-cols-2")}>
                 {marketDetails.map((item, i) => (
                   <motion.div key={i} variants={fadeUp}>
                     <Card className="h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden bg-gradient-to-br from-white to-emerald-50/5">
@@ -1038,11 +1071,11 @@ export default function Pitch() {
                           <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">
                             {item.label}
                           </span>
-                          <div className={cn("font-black text-gray-900", isMobile ? "text-xl" : "text-2xl lg:text-3xl")}>
+                          <div className={cn("font-black text-gray-900 tracking-tight whitespace-nowrap", isMobile ? "text-xl" : "text-2xl md:text-3xl")}>
                             {item.value}
                           </div>
                         </div>
-                        <p className={cn("text-gray-500 mt-2 leading-relaxed border-t border-gray-100 pt-3", isMobile ? "text-[11px]" : "text-xs")}>
+                        <p className={cn("text-gray-500 mt-2 leading-relaxed border-t border-gray-100 pt-3 break-words", isMobile ? "text-[11px]" : "text-xs")}>
                           {item.desc}
                         </p>
                       </CardContent>
@@ -1078,13 +1111,15 @@ export default function Pitch() {
           {/* ═══════ SECTION 6: Roadmap ═══════ */}
           <motion.section id="pitch-roadmap" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-cyan-50 text-cyan-700 border-cyan-200 mb-3">{t('pitch.roadmap.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {t('pitch.roadmap.title')}
+              <Badge variant="outline" className="bg-cyan-50 text-cyan-700 border-cyan-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.roadmap.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {t('pitch.roadmap.title')}
+                </span>
               </h2>
             </motion.div>
 
-            <div className={cn("grid gap-4", isMobile ? "grid-cols-2" : "grid-cols-4")}>
+            <div className={cn("grid gap-4", isMobile ? "grid-cols-2" : "grid-cols-2")}>
               {roadmap.map((yr, i) => (
                 <motion.div key={i} variants={fadeUp}>
                   <Card className="h-full border-gray-200/60 shadow-sm">
@@ -1093,7 +1128,7 @@ export default function Pitch() {
                       <div className={cn("font-bold text-gray-900 mb-2", isMobile ? "text-xs" : "text-sm")}>{yr.title}</div>
                       <ul className="space-y-1">
                         {yr.items.map((item, j) => (
-                          <li key={j} className={cn("flex items-start gap-1.5 text-gray-600", isMobile ? "text-[10px]" : "text-xs")}>
+                          <li key={j} className={cn("flex items-start gap-1.5 text-gray-600 break-words", isMobile ? "text-[10px]" : "text-xs")}>
                             <div className="w-1 h-1 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
                             {item}
                           </li>
@@ -1111,9 +1146,11 @@ export default function Pitch() {
           {/* ═══════ SECTION 7: Traction ═══════ */}
           <motion.section id="pitch-traction" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
             <motion.div variants={fadeUp} className="text-center mb-8">
-              <Badge className="bg-green-50 text-green-700 border-green-200 mb-3">{t('pitch.traction.tag')}</Badge>
-              <h2 className={cn("font-bold text-gray-900", isMobile ? "text-2xl" : "text-3xl")}>
-                {t('pitch.traction.title')}
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">{t('pitch.traction.tag')}</Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {t('pitch.traction.title')}
+                </span>
               </h2>
               {t('pitch.traction.subtitle') && (
                 <p className={cn("mx-auto mt-3 text-gray-600 leading-relaxed max-w-3xl", isMobile ? "text-xs px-2" : "text-sm")}>
@@ -1136,37 +1173,98 @@ export default function Pitch() {
             </motion.div>
 
             {/* Structured Pillars Grid */}
-            <div className={cn("grid gap-6", isMobile ? "grid-cols-1" : "grid-cols-3")}>
-              {tractionPillars.map((pillar, idx) => (
-                <motion.div 
-                  key={idx} 
-                  variants={fadeUp} 
-                  className={cn(idx === 6 ? "md:col-span-3 lg:col-span-3" : "")}
-                >
-                  <Card className="h-full border-gray-200/60 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-                    <CardContent className={cn("flex flex-col justify-between h-full", isMobile ? "p-4" : "p-5")}>
-                      <div>
-                        <h4 className={cn("font-bold text-gray-900 border-b border-gray-100 pb-3 mb-3", isMobile ? "text-xs" : "text-sm")}>
-                          {pillar.title}
-                        </h4>
-                        <ul className={cn("space-y-2.5", idx === 6 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2" : "")}>
-                          {pillar.items.map((item, itemIdx) => (
-                            <li key={itemIdx} className="flex items-start gap-2 text-gray-700">
-                              <CheckCircle2 className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                              <span className={cn(isMobile ? "text-[11px]" : "text-xs leading-relaxed")}>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      {pillar.note && (
-                        <p className={cn("text-gray-400 mt-4 pt-3 border-t border-gray-100 italic", isMobile ? "text-[9px]" : "text-[10px] leading-relaxed")}>
-                          {pillar.note}
-                        </p>
+            <div className={cn("grid gap-6", isMobile ? "grid-cols-1" : "grid-cols-2")}>
+              {tractionPillars.map((pillar, idx) => {
+                const isInvestment = idx === 6;
+                const cleanTitle = pillar.title.replace(/^\d+\.\s*/, '');
+                return (
+                  <motion.div
+                    key={idx}
+                    variants={fadeUp}
+                    className={cn(isInvestment ? "md:col-span-2" : "")}
+                  >
+                    <Card
+                      className={cn(
+                        "h-full border-gray-200/60 shadow-sm transition-all duration-300 relative overflow-hidden flex flex-col justify-between group",
+                        isInvestment
+                          ? "bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 border-emerald-500/20 text-white shadow-md hover:shadow-xl hover:border-emerald-500/40"
+                          : "bg-white hover:shadow-md hover:border-emerald-200/80"
                       )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                    >
+                      {/* Top Accent line */}
+                      <div className={cn(
+                        "absolute top-0 left-0 right-0 h-[3px]",
+                        isInvestment ? "bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400" : "bg-emerald-500/20 group-hover:bg-emerald-500/60 transition-colors duration-300"
+                      )} />
+
+                      {/* Subtly colored watermark number in background */}
+                      <div className={cn(
+                        "absolute right-4 top-4 text-7xl font-black select-none pointer-events-none transition-transform duration-500 group-hover:scale-105",
+                        isInvestment ? "text-emerald-400/5" : "text-gray-900/5 group-hover:text-emerald-500/5"
+                      )}>
+                        {String(idx + 1).padStart(2, '0')}
+                      </div>
+
+                      <CardContent className={cn("flex flex-col justify-between h-full relative z-10", isMobile ? "p-4" : "p-6")}>
+                        <div>
+                          {/* Card Header with custom index pill badge */}
+                          <div className={cn(
+                            "flex items-center gap-3 border-b pb-3.5 mb-4",
+                            isInvestment ? "border-white/10" : "border-gray-100"
+                          )}>
+                            <span className={cn(
+                              "flex items-center justify-center w-6 h-6 rounded-lg text-xs font-black shadow-sm shrink-0",
+                              isInvestment
+                                ? "bg-emerald-500/25 text-emerald-300 border border-emerald-400/20"
+                                : "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                            )}>
+                              {idx + 1}
+                            </span>
+                            <h4 className={cn(
+                              "font-black tracking-tight text-sm md:text-base leading-tight",
+                              isInvestment ? "text-white" : "text-gray-900"
+                            )}>
+                              {cleanTitle}
+                            </h4>
+                          </div>
+
+                          <ul className={cn(
+                            "space-y-3",
+                            isInvestment ? "grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5 space-y-0" : ""
+                          )}>
+                            {pillar.items.map((item, itemIdx) => (
+                              <li key={itemIdx} className="flex items-start gap-2.5">
+                                <div className={cn(
+                                  "rounded-full p-0.5 shrink-0 mt-0.5",
+                                  isInvestment ? "bg-emerald-500/20 text-emerald-400" : "bg-emerald-50 text-emerald-600"
+                                )}>
+                                  <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                                </div>
+                                <span className={cn(
+                                  "break-words font-medium",
+                                  isMobile ? "text-[11px]" : "text-xs leading-relaxed",
+                                  isInvestment ? "text-gray-200" : "text-gray-700"
+                                )}>
+                                  {item}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        {pillar.note && (
+                          <p className={cn(
+                            "mt-4 pt-3 border-t italic",
+                            isMobile ? "text-[9px]" : "text-[10px] leading-relaxed",
+                            isInvestment ? "border-white/10 text-emerald-300/70" : "border-gray-100 text-gray-400"
+                          )}>
+                            {pillar.note}
+                          </p>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Next Execution Milestone */}
@@ -1223,77 +1321,77 @@ export default function Pitch() {
               >
                 <div className="absolute inset-0 bg-emerald-950/85" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
-                <CardContent className={cn("relative z-10 text-left", isMobile ? "p-6" : "p-10 lg:p-12")}>
+                <CardContent className={cn("relative z-10 text-left", isMobile ? "p-5 pb-8" : "p-8 pb-8")}>
                   
                   {/* Badge & Title */}
-                  <div className="text-center mb-8">
-                    <Badge className="bg-white/15 text-white border-white/20 mb-4">{t('pitch.ask.tag')}</Badge>
-                    <h3 className={cn("font-black tracking-tight leading-snug max-w-2xl mx-auto text-center", isMobile ? "text-xl" : "text-3xl")}>
+                  <div className="text-center mb-5">
+                    <Badge variant="outline" className="bg-white/10 text-white border-white/15 mb-2 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm">{t('pitch.ask.tag')}</Badge>
+                    <h3 className={cn("font-black tracking-tight leading-snug max-w-2xl mx-auto text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-gray-300", isMobile ? "text-lg" : "text-xl md:text-2xl")}>
                       {t('pitch.ask.seekingTitle')}
                     </h3>
                   </div>
 
                   {/* Scenarios Grid */}
-                  <div className={cn("grid gap-6 mb-10", isMobile ? "grid-cols-1" : "grid-cols-3")}>
+                  <div className={cn("grid gap-4 mb-6", isMobile ? "grid-cols-1" : "grid-cols-3")}>
                     {/* Scenario A */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-white/10 transition-colors">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm flex flex-col justify-between hover:bg-white/10 transition-colors">
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Landmark className="h-5 w-5 text-emerald-300" />
-                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioA.title').split(' — ')[0]}</span>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <Landmark className="h-4 w-4 text-emerald-300" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioA.title').split(' — ')[0]}</span>
                         </div>
-                        <h4 className="font-bold text-lg mb-2">{t('pitch.ask.scenarioA.title').split(' — ')[1] || t('pitch.ask.scenarioA.title')}</h4>
-                        <p className="text-base font-extrabold text-white/95">{t('pitch.ask.scenarioA.details')}</p>
+                        <h4 className="font-bold text-sm mb-1">{t('pitch.ask.scenarioA.title').split(' — ')[1] || t('pitch.ask.scenarioA.title')}</h4>
+                        <p className="text-xs font-extrabold text-white/95">{t('pitch.ask.scenarioA.details')}</p>
                       </div>
-                      <div className="text-xs text-white/50 mt-4 border-t border-white/5 pt-3">
+                      <div className="text-[10px] text-white/50 mt-3 border-t border-white/5 pt-2">
                         {t('pitch.ask.scenarioA.note')}
                       </div>
                     </div>
 
                     {/* Scenario B */}
-                    <div className="bg-emerald-500/10 border-2 border-emerald-400/30 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-emerald-500/15 transition-colors relative overflow-hidden">
-                      <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-bl-lg">
+                    <div className="bg-emerald-500/10 border-2 border-emerald-400/30 rounded-2xl p-4 backdrop-blur-sm flex flex-col justify-between hover:bg-emerald-500/15 transition-colors relative overflow-hidden">
+                      <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[8px] font-black uppercase px-2 py-0.5 rounded-bl-lg">
                         {t('pitch.ask.scenarioB.badge', { defaultValue: 'Strategic Option' })}
                       </div>
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Building2 className="h-5 w-5 text-emerald-300" />
-                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioB.title').split(' — ')[0]}</span>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <Building2 className="h-4 w-4 text-emerald-300" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioB.title').split(' — ')[0]}</span>
                         </div>
-                        <h4 className="font-bold text-lg mb-2">{t('pitch.ask.scenarioB.title').split(' — ')[1] || t('pitch.ask.scenarioB.title')}</h4>
-                        <p className="text-base font-extrabold text-white/95">{t('pitch.ask.scenarioB.details')}</p>
+                        <h4 className="font-bold text-sm mb-1">{t('pitch.ask.scenarioB.title').split(' — ')[1] || t('pitch.ask.scenarioB.title')}</h4>
+                        <p className="text-xs font-extrabold text-white/95">{t('pitch.ask.scenarioB.details')}</p>
                       </div>
-                      <div className="text-xs text-white/70 mt-4 border-t border-white/10 pt-3 leading-relaxed">
+                      <div className="text-[10px] text-white/70 mt-3 border-t border-white/10 pt-2 leading-relaxed">
                         {t('pitch.ask.scenarioB.note')}
                       </div>
                     </div>
 
                     {/* Scenario C */}
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm flex flex-col justify-between hover:bg-white/10 transition-colors">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm flex flex-col justify-between hover:bg-white/10 transition-colors">
                       <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Globe className="h-5 w-5 text-emerald-300" />
-                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioC.title').split(' — ')[0] || "Scenario C"}</span>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <Globe className="h-4 w-4 text-emerald-300" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">{t('pitch.ask.scenarioC.title').split(' — ')[0] || "Scenario C"}</span>
                         </div>
-                        <h4 className="font-bold text-lg mb-2">{t('pitch.ask.scenarioC.title').split(' — ')[1] || t('pitch.ask.scenarioC.title')}</h4>
-                        <p className="text-base font-extrabold text-white/95">{t('pitch.ask.scenarioC.details')}</p>
+                        <h4 className="font-bold text-sm mb-1">{t('pitch.ask.scenarioC.title').split(' — ')[1] || t('pitch.ask.scenarioC.title')}</h4>
+                        <p className="text-xs font-extrabold text-white/95">{t('pitch.ask.scenarioC.details')}</p>
                       </div>
-                      <div className="text-xs text-white/50 mt-4 border-t border-white/5 pt-3 leading-relaxed">
+                      <div className="text-[10px] text-white/50 mt-3 border-t border-white/5 pt-2 leading-relaxed">
                         {t('pitch.ask.scenarioC.note')}
                       </div>
                     </div>
                   </div>
 
-                  {/* Mid Section: Use of Funds & Strategy */}
-                  <div className={cn("grid gap-8 border-t border-white/10 pt-8 mb-8", isMobile ? "grid-cols-1" : "grid-cols-2")}>
-                    {/* Left Column: Use of Funds */}
-                    <div className="space-y-4">
-                      <h4 className="font-bold text-lg text-emerald-300 flex items-center gap-2">
-                        <TrendingUp className="h-5 w-5" />
+                  {/* Mid Section: Use of Funds & Strategy & Contact */}
+                  <div className={cn("grid border-t border-white/10 pt-6 gap-6", isMobile ? "grid-cols-1" : "grid-cols-1 md:grid-cols-12")}>
+                    {/* Column 1: Use of Funds (Span 5) */}
+                    <div className={cn("space-y-3", isMobile ? "" : "col-span-5")}>
+                      <h4 className="font-bold text-xs text-emerald-300 flex items-center gap-1.5 uppercase tracking-wider">
+                        <TrendingUp className="h-4 w-4" />
                         {t('pitch.ask.fundsTitle')}
                       </h4>
                       {/* Visual budget split bar */}
-                      <div className="flex h-3.5 rounded-full overflow-hidden gap-0.5 bg-white/10 p-0.5">
+                      <div className="flex h-2.5 rounded-full overflow-hidden gap-0.5 bg-white/10 p-0.5">
                         <div className="bg-emerald-400 rounded-full" style={{ width: '75%' }} title="Equipment (75%)" />
                         <div className="bg-teal-400 rounded-full" style={{ width: '11%' }} title="Facility Adaptation (11%)" />
                         <div className="bg-amber-400 rounded-full" style={{ width: '5%' }} title="Raw Materials (5%)" />
@@ -1302,89 +1400,79 @@ export default function Pitch() {
                       </div>
 
                       {/* Items */}
-                      <div className="grid grid-cols-1 gap-2.5 text-xs text-white/80">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-3 h-3 rounded bg-emerald-400 flex-shrink-0" />
-                          <span className="font-medium">{t('pitch.ask.fund1')}</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-3 h-3 rounded bg-teal-400 flex-shrink-0" />
-                          <span className="font-medium">{t('pitch.ask.fund2')}</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-3 h-3 rounded bg-amber-400 flex-shrink-0" />
-                          <span className="font-medium">{t('pitch.ask.fund3')}</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-3 h-3 rounded bg-sky-400 flex-shrink-0" />
-                          <span className="font-medium">{t('pitch.ask.fund4')}</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-3 h-3 rounded bg-indigo-400 flex-shrink-0" />
-                          <span className="font-medium">{t('pitch.ask.fund5')}</span>
-                        </div>
+                      <div className="space-y-1.5 text-[11px] text-white/80">
+                        {[
+                          { color: 'bg-emerald-400', text: t('pitch.ask.fund1') },
+                          { color: 'bg-teal-400', text: t('pitch.ask.fund2') },
+                          { color: 'bg-amber-400', text: t('pitch.ask.fund3') },
+                          { color: 'bg-sky-400', text: t('pitch.ask.fund4') },
+                          { color: 'bg-indigo-400', text: t('pitch.ask.fund5') },
+                        ].map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-2">
+                            <div className={cn("w-2.5 h-2.5 rounded flex-shrink-0", item.color)} />
+                            <span className="font-medium truncate" title={item.text}>{item.text}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Right Column: Facility Strategy & Partner Advantage */}
-                    <div className="space-y-6">
-                      <div className="space-y-2">
-                        <h4 className="font-bold text-lg text-emerald-300 flex items-center gap-2">
-                          <Building2 className="h-5 w-5" />
+                    {/* Column 2: Facility Strategy & Partner Advantage (Span 4) */}
+                    <div className={cn("space-y-3.5", isMobile ? "" : "col-span-4 border-l border-white/5 pl-6")}>
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-[10px] text-emerald-300 flex items-center gap-1.5 uppercase tracking-wider">
+                          <Building2 className="h-3.5 w-3.5" />
                           {t('pitch.ask.facilityTitle')}
                         </h4>
-                        <p className="text-xs text-white/80 leading-relaxed">
+                        <p className="text-[10px] text-white/85 leading-relaxed">
                           {t('pitch.ask.facilityDesc')}
                         </p>
                       </div>
-                      <div className="space-y-2">
-                        <h4 className="font-bold text-lg text-emerald-300 flex items-center gap-2">
-                          <Sparkles className="h-5 w-5" />
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-[10px] text-emerald-300 flex items-center gap-1.5 uppercase tracking-wider">
+                          <Sparkles className="h-3.5 w-3.5" />
                           {t('pitch.ask.partnerTitle')}
                         </h4>
-                        <p className="text-xs text-white/80 leading-relaxed">
+                        <p className="text-[10px] text-white/85 leading-relaxed">
                           {t('pitch.ask.partnerDesc')}
                         </p>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Join Section */}
-                  <div className="text-center border-t border-white/10 pt-8">
-                    <p className={cn("font-semibold text-white/95", isMobile ? "text-sm" : "text-base")}>
-                      {t('pitch.ask.cta1')}
-                    </p>
-                    <p className={cn("font-black text-yellow-300 mt-1 uppercase tracking-wider", isMobile ? "text-lg" : "text-2xl")}>
-                      {t('pitch.ask.cta2', { defaultValue: 'Build the future with us.' })}
-                    </p>
-                  </div>
-
-                  {/* Scan & Contact */}
-                  <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-6">
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="bg-white p-2 rounded-xl shadow-xl w-28 h-28 flex items-center justify-center group hover:scale-105 transition-transform duration-300">
-                        <img src="/images/pitch-qr.png" alt="Scan to open Pitch Deck" className="w-full h-full object-contain" />
+                    {/* Column 3: CTA & QR & Contact Button (Span 3) */}
+                    <div className={cn("flex flex-col items-center justify-between gap-3 text-center", isMobile ? "" : "col-span-3 border-l border-white/5 pl-6")}>
+                      <div className="space-y-1">
+                        <span className="text-[9px] font-bold text-white/60 uppercase tracking-widest block">
+                          {t('pitch.ask.ctaTitle', { defaultValue: 'ZAMINAT.eco Platform' })}
+                        </span>
+                        <h4 className="text-xs font-black text-yellow-300 uppercase tracking-wider">
+                          {t('pitch.ask.cta2')}
+                        </h4>
                       </div>
-                      <span className="text-[10px] text-white/70 font-semibold tracking-wide">
-                        {t('pitch.ask.qrLabel')}
-                      </span>
-                      <span className="text-[9px] text-white/50">
-                        {t('pitch.ask.qrSublabel', { defaultValue: 'Scan to explore ZAMINAT.eco' })}
-                      </span>
+
+                      {/* QR Code */}
+                      <div className="flex items-center gap-3">
+                        <div className="bg-white p-1.5 rounded-xl shadow-md w-24 h-24 flex items-center justify-center flex-shrink-0 group hover:scale-105 transition-transform duration-300">
+                          <img src="/images/pitch-qr.png" alt="Scan to open Pitch Deck" className="w-full h-full object-contain" />
+                        </div>
+                        <div className="text-left space-y-1">
+                          <div className="text-[10px] text-white font-bold leading-tight">
+                            {t('pitch.ask.qrLabel')}
+                          </div>
+                          <div className="text-[9px] text-white/50 leading-tight">
+                            {t('pitch.ask.qrSublabel')}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Button */}
+                      <Button
+                        onClick={() => contactHelpers.generalInquiry('Investment Inquiry — ZAMINAT.eco Pitch Deck', 'I viewed the ZAMINAT.eco pitch deck and would like to discuss investment opportunities.')}
+                        className="bg-white text-emerald-700 hover:bg-gray-100 font-bold shadow-md rounded-lg w-full text-[11px] h-8 flex items-center justify-center gap-1.5 hover:-translate-y-0.5 transition-all"
+                      >
+                        <Mail className="h-3.5 w-3.5" />
+                        {t('buttons.contactUs', { ns: 'shop' })}
+                      </Button>
                     </div>
-
-                    <div className="w-px h-16 bg-white/20 hidden md:block" />
-
-                    <Button
-                      onClick={() => contactHelpers.generalInquiry('Investment Inquiry — ZAMINAT.eco Pitch Deck', 'I viewed the ZAMINAT.eco pitch deck and would like to discuss investment opportunities.')}
-                      className={cn(
-                        "bg-white text-emerald-700 hover:bg-gray-100 font-bold shadow-xl rounded-xl transition-all hover:-translate-y-0.5",
-                        isMobile ? "px-6 py-3 text-sm w-full max-w-[240px]" : "px-8 py-4 text-base"
-                      )}
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      {t('buttons.contactUs', { ns: 'shop' })}
-                    </Button>
                   </div>
                 </CardContent>
               </Card>

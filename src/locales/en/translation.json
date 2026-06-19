@@ -48,6 +48,7 @@
   "update": "Update",
   "successStory": "Success Story",
   "welcome": {
+    "passport": "Initialize Passport",
     "title": "Welcome to ZAMINAT.eco!",
     "description": "Join our ecological movement and make a difference together!",
     "firstName": "First Name",
@@ -58,6 +59,9 @@
     "note": "You can skip this step and use the default name, or change it later in your profile.",
     "skip": "Skip",
     "continue": "Continue",
+    "benefit1": "Initialize eco wallet and daily streak rewards.",
+    "benefit2": "Participate in direct project voting funding channels.",
+    "benefit3": "Log actions to earn verified carbon offset badges.",
     "footer": "🌱 Together we can make a difference!"
   },
   "settings": "Settings",
@@ -722,6 +726,17 @@
     }
   },
   "pitch": {
+    "nav": {
+      "hero": "Hero",
+      "opportunity": "Problem",
+      "solution": "Solution",
+      "products": "Products",
+      "business": "Business",
+      "roadmap": "Roadmap",
+      "traction": "Traction",
+      "team": "Team",
+      "invest": "Invest"
+    },
     "title": "Investor Pitch Deck",
     "hero": {
       "title": "Where Waste Ends —\nLife Begins",
@@ -1071,6 +1086,7 @@
       "facilityDesc": "We are not building a factory from scratch in phase one. We will launch a lean pilot production workshop inside a leased or strategic partner industrial facility. This reduces CAPEX, accelerates launch, and allows us to validate production, certification, first sales and B2B/B2G demand before scaling.",
       "partnerTitle": "Strategic Partner Advantage",
       "partnerDesc": "The ideal investor can contribute not only capital, but also: industrial space, land or factory access, utilities and storage, B2B/B2G connections, pilot locations, ESG or corporate sponsorship channels.",
+      "ctaTitle": "ZAMINAT.eco Platform",
       "cta1": "Join the first Waste-to-Life infrastructure platform from Uzbekistan.",
       "cta2": "Build the future with us.",
       "qrLabel": "Investor Pitch Access",

@@ -1978,18 +1978,20 @@ const Profile: React.FC = () => {
                                           )}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                          <div className={cn(
-                                            "font-semibold truncate",
-                                            player.isCurrentUser ? "text-orange-600" : "text-gray-900",
-                                            isMobile ? "text-xs" : "text-sm"
-                                          )}>
-                                            {player.name}
-                                            {player.isCurrentUser && (
-                                              <Badge className="ml-2 bg-orange-100 text-orange-700 border-orange-300 text-[10px] px-1.5 py-0">
-                                                {t('you', { ns: 'profile' })}
-                                              </Badge>
-                                            )}
-                                          </div>
+                                           <div className="flex items-center gap-1.5 w-full min-w-0">
+                                             <span className={cn(
+                                               "font-semibold truncate flex-1 min-w-0",
+                                               player.isCurrentUser ? "text-orange-600" : "text-gray-900",
+                                               isMobile ? "text-xs" : "text-sm"
+                                             )}>
+                                               {player.name}
+                                             </span>
+                                             {player.isCurrentUser && (
+                                               <Badge className="bg-orange-100 text-orange-700 border-orange-300 text-[10px] px-1.5 py-0 flex-shrink-0">
+                                                 {t('you', { ns: 'profile' })}
+                                               </Badge>
+                                             )}
+                                           </div>
                                         </div>
                                       </div>
                                     </td>
@@ -2062,18 +2064,20 @@ const Profile: React.FC = () => {
                                       </AvatarFallback>
                                     </Avatar>
                                     <div className="flex-1 min-w-0 ml-2">
-                                      <div className={cn(
-                                        "font-semibold truncate text-xs",
-                                        player.isCurrentUser ? "text-orange-600" : "text-gray-900"
-                                      )}>
-                                        {player.name}
-                                        {player.isCurrentUser && (
-                                          <Badge className="ml-1 bg-orange-100 text-orange-700 border-orange-300 text-[9px] px-1 py-0">
-                                            {t('you', { ns: 'profile' })}
-                                          </Badge>
-                                        )}
-                                      </div>
-                                    </div>
+                                       <div className="flex items-center gap-1 w-full min-w-0">
+                                         <span className={cn(
+                                           "font-semibold truncate text-xs flex-1 min-w-0",
+                                           player.isCurrentUser ? "text-orange-600" : "text-gray-900"
+                                         )}>
+                                           {player.name}
+                                         </span>
+                                         {player.isCurrentUser && (
+                                           <Badge className="bg-orange-100 text-orange-700 border-orange-300 text-[9px] px-1 py-0 flex-shrink-0">
+                                             {t('you', { ns: 'profile' })}
+                                           </Badge>
+                                         )}
+                                       </div>
+                                     </div>
                                   </div>
                                   <div className={cn(
                                     "font-bold text-sm flex-shrink-0 ml-2",

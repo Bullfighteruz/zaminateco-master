@@ -1821,9 +1821,9 @@ export default function ProductDetail() {
                     </h3>
                     <div className="space-y-2">
                       {specsToShow.map((spec, index) => (
-                        <div key={index} className="flex justify-between items-center text-xs">
-                          <span className="text-gray-600 font-medium">{spec.label}</span>
-                          <span className="font-medium text-gray-900 ml-2 text-right">
+                        <div key={index} className="flex justify-between items-start gap-2 text-xs py-0.5">
+                          <span className="text-gray-600 font-medium flex-1 min-w-0 break-words">{spec.label}</span>
+                          <span className="font-medium text-gray-900 text-right flex-shrink-0">
                             {spec.value}
                             {spec.unit && <span className="text-gray-500 ml-0.5 font-normal">{spec.unit}</span>}
                           </span>
@@ -1874,14 +1874,14 @@ export default function ProductDetail() {
                     </div>
                     <div className="space-y-2">
                       {metricsToShow.map((metric, index) => (
-                        <div key={index} className="flex items-center justify-between py-0.5">
-                          <span className="text-xs text-gray-600">{metric.label}</span>
-                          <span className="text-xs font-semibold text-green-600">
+                        <div key={index} className="flex items-start justify-between gap-2 py-0.5">
+                          <span className="text-xs text-gray-600 flex-1 min-w-0 break-words">{metric.label}</span>
+                          <span className="text-xs font-semibold text-green-600 text-right flex-shrink-0">
                             {metric.value}
                             {metric.unit && <span className="font-normal ml-0.5">{metric.unit}</span>}
                           </span>
-                      </div>
-                    ))}
+                        </div>
+                      ))}
                   </div>
                 </div>
                 );
@@ -1988,7 +1988,7 @@ export default function ProductDetail() {
                                   isMobile ? "h-3 w-3" : "h-3.5 w-3.5"
                                 )} />
                               </div>
-                              <div className="flex-1 min-w-0">
+                              <div className="flex-1 min-w-0 break-words">
                                 {label ? (
                                   <>
                                     <span className={cn(
@@ -2091,18 +2091,18 @@ export default function ProductDetail() {
                           <div 
                             key={index} 
                             className={cn(
-                              "flex justify-between items-start py-3 px-4 border-b border-gray-200 last:border-0 group hover:bg-green-50/20 transition-colors cursor-default",
+                              "flex justify-between items-start gap-4 py-3 px-4 border-b border-gray-200 last:border-0 group hover:bg-green-50/20 transition-colors cursor-default",
                               index % 2 === 0 ? "bg-gray-50/50" : "bg-white"
                             )}
                           >
                             <span className={cn(
-                              "text-gray-700 font-medium group-hover:text-gray-900 transition-colors",
+                              "text-gray-700 font-medium group-hover:text-gray-900 transition-colors flex-1 min-w-0 break-words",
                               isMobile ? "text-xs" : "text-sm"
                             )}>
                               {spec.label}
                             </span>
                             <span className={cn(
-                              "font-semibold text-gray-900 text-right ml-4 group-hover:text-green-700 transition-colors",
+                              "font-semibold text-gray-900 text-right flex-shrink-0 group-hover:text-green-700 transition-colors",
                               isMobile ? "text-xs" : "text-sm"
                             )}>
                               {spec.value}
@@ -2129,21 +2129,21 @@ export default function ProductDetail() {
                       </h2>
                       <div className="border border-green-200 rounded-lg p-4 bg-gradient-to-br from-green-50/50 to-white shadow-sm hover:shadow-md transition-shadow space-y-3">
                       {productDetail.materialComposition.recycledRubber && (
-                          <div className="flex items-center justify-between py-2 px-3 border-b border-green-200 last:border-0 group hover:bg-green-100/50 rounded-md transition-colors cursor-default">
-                            <div className="flex items-center">
+                          <div className="flex items-start justify-between gap-3 py-2 px-3 border-b border-green-200 last:border-0 group hover:bg-green-100/50 rounded-md transition-colors cursor-default">
+                            <div className="flex items-start flex-1 min-w-0">
                               <Leaf className={cn(
-                                "mr-2 text-green-600 group-hover:scale-110 transition-transform",
+                                "mr-2 text-green-600 group-hover:scale-110 transition-transform flex-shrink-0 mt-0.5",
                                 isMobile ? "h-3.5 w-3.5" : "h-4 w-4"
                               )} />
                               <span className={cn(
-                                "text-gray-800 font-medium group-hover:text-gray-900 transition-colors",
+                                "text-gray-800 font-medium group-hover:text-gray-900 transition-colors flex-1 min-w-0 break-words",
                                 isMobile ? "text-xs" : "text-sm"
                               )}>
                             {t('recycledRubber', { defaultValue: 'Recycled Rubber', ns: 'shop' })}
                           </span>
                             </div>
                           <span className={cn(
-                              "font-bold text-green-600 group-hover:text-green-700 transition-colors",
+                              "font-bold text-green-600 group-hover:text-green-700 transition-colors flex-shrink-0 text-right",
                               isMobile ? "text-sm" : "text-base"
                           )}>
                             {productDetail.materialComposition.recycledRubber}%
@@ -2151,21 +2151,21 @@ export default function ProductDetail() {
                         </div>
                       )}
                       {productDetail.materialComposition.recycledPlastic && (
-                          <div className="flex items-center justify-between py-2 px-3 border-b border-green-200 last:border-0 group hover:bg-green-100/50 rounded-md transition-colors cursor-default">
-                            <div className="flex items-center">
+                          <div className="flex items-start justify-between gap-3 py-2 px-3 border-b border-green-200 last:border-0 group hover:bg-green-100/50 rounded-md transition-colors cursor-default">
+                            <div className="flex items-start flex-1 min-w-0">
                               <Recycle className={cn(
-                                "mr-2 text-green-600 group-hover:scale-110 transition-transform",
+                                "mr-2 text-green-600 group-hover:scale-110 transition-transform flex-shrink-0 mt-0.5",
                                 isMobile ? "h-3.5 w-3.5" : "h-4 w-4"
                               )} />
                               <span className={cn(
-                                "text-gray-800 font-medium group-hover:text-gray-900 transition-colors",
+                                "text-gray-800 font-medium group-hover:text-gray-900 transition-colors flex-1 min-w-0 break-words",
                                 isMobile ? "text-xs" : "text-sm"
                               )}>
                             {t('recycledPlastic', { defaultValue: 'Recycled Plastic', ns: 'shop' })}
                           </span>
                             </div>
                           <span className={cn(
-                              "font-bold text-green-600 group-hover:text-green-700 transition-colors",
+                              "font-bold text-green-600 group-hover:text-green-700 transition-colors flex-shrink-0 text-right",
                               isMobile ? "text-sm" : "text-base"
                           )}>
                             {productDetail.materialComposition.recycledPlastic}%
@@ -2173,21 +2173,21 @@ export default function ProductDetail() {
                         </div>
                       )}
                       {productDetail.materialComposition.other && (
-                          <div className="flex items-center justify-between py-2 px-3 group hover:bg-green-100/50 rounded-md transition-colors cursor-default">
-                            <div className="flex items-center">
+                          <div className="flex items-start justify-between gap-3 py-2 px-3 group hover:bg-green-100/50 rounded-md transition-colors cursor-default">
+                            <div className="flex items-start flex-1 min-w-0">
                               <Info className={cn(
-                                "mr-2 text-green-600 group-hover:scale-110 transition-transform",
+                                "mr-2 text-green-600 group-hover:scale-110 transition-transform flex-shrink-0 mt-0.5",
                                 isMobile ? "h-3.5 w-3.5" : "h-4 w-4"
                               )} />
                               <span className={cn(
-                                "text-gray-800 font-medium group-hover:text-gray-900 transition-colors",
+                                "text-gray-800 font-medium group-hover:text-gray-900 transition-colors flex-1 min-w-0 break-words",
                                 isMobile ? "text-xs" : "text-sm"
                               )}>
                             {t('otherMaterials', { defaultValue: 'Other Materials', ns: 'shop' })}
                           </span>
                             </div>
                           <span className={cn(
-                              "font-semibold text-gray-900 group-hover:text-green-700 transition-colors",
+                              "font-semibold text-gray-900 group-hover:text-green-700 transition-colors flex-shrink-0 text-right",
                               isMobile ? "text-xs" : "text-sm"
                           )}>
                             {productDetail.materialComposition.other}
@@ -2211,14 +2211,14 @@ export default function ProductDetail() {
                       key={index} 
                       className="border border-green-200 rounded-lg p-4 bg-gradient-to-br from-green-50/40 to-white shadow-sm hover:shadow-md hover:border-green-300 transition-all group cursor-default"
                     >
-                      <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-start justify-between gap-3 mb-3">
                         <h3 className={cn(
-                          "font-semibold text-gray-900 group-hover:text-green-700 transition-colors",
+                          "font-semibold text-gray-900 group-hover:text-green-700 transition-colors flex-1 min-w-0 break-words",
                           isMobile ? "text-xs" : "text-sm"
                         )}>
                           {metric.label}
                         </h3>
-                        <div className="rounded-full bg-green-100 p-1.5 group-hover:bg-green-200 group-hover:scale-110 transition-all">
+                        <div className="rounded-full bg-green-100 p-1.5 group-hover:bg-green-200 group-hover:scale-110 transition-all flex-shrink-0">
                           <Recycle className={cn(
                             "text-green-600",
                             isMobile ? "h-3.5 w-3.5" : "h-4 w-4"
