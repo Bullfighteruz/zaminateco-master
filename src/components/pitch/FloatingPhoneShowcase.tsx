@@ -160,7 +160,7 @@ function DesktopFloatingPhone({
 
   return (
     <div
-      className={cn('sticky top-[120px] self-start flex-shrink-0', className)}
+      className={cn('sticky top-[200px] self-start flex-shrink-0', className)}
       style={{
         width: 340,
         zIndex: 2,
