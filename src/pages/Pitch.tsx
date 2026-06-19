@@ -72,9 +72,29 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  const scrollTargetRef = useRef<string | null>(null);
+  const lastScrollTimeRef = useRef<number>(0);
+
+  // Dynamic coordinates retrieval for sections
+  const getSectionPositions = useCallback(() => {
+    const offset = isMobile ? 60 : 80;
+    return NAV_SECTIONS.map(s => {
+      const el = document.getElementById(s.id);
+      if (!el) return null;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      return { id: s.id, top };
+    }).filter((s): s is { id: string; top: number } => s !== null);
+  }, [isMobile]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
+
+      // Force active section to be the last section if scrolled to absolute bottom
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+      if (isAtBottom && NAV_SECTIONS.length > 0) {
+        setActiveSection(NAV_SECTIONS[NAV_SECTIONS.length - 1].id);
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -84,6 +104,13 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        // If at the absolute bottom of the page, stick to the last section
+        const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+        if (isAtBottom && NAV_SECTIONS.length > 0) {
+          setActiveSection(NAV_SECTIONS[NAV_SECTIONS.length - 1].id);
+          return;
+        }
+
         const visible = entries
           .filter(e => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -103,44 +130,103 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const offset = 70;
+      const offset = isMobile ? 60 : 80;
       const y = el.getBoundingClientRect().top + window.scrollY - offset;
+      scrollTargetRef.current = id;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
     setMobileMenuOpen(false);
-  }, []);
+  }, [isMobile]);
 
   const scrollToTop = useCallback(() => {
+    scrollTargetRef.current = NAV_SECTIONS[0].id;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  // Clear target scrolling section on manual user interaction
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      scrollTargetRef.current = null;
+    };
+    window.addEventListener('wheel', handleUserInteraction, { passive: true });
+    window.addEventListener('touchmove', handleUserInteraction, { passive: true });
+    window.addEventListener('mousedown', handleUserInteraction, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', handleUserInteraction);
+      window.removeEventListener('touchmove', handleUserInteraction);
+      window.removeEventListener('mousedown', handleUserInteraction);
+    };
   }, []);
 
   // Go to previous section
   const goToPrevSection = useCallback(() => {
-    const currentIndex = NAV_SECTIONS.findIndex(s => s.id === activeSection);
-    if (currentIndex > 0) {
-      scrollTo(NAV_SECTIONS[currentIndex - 1].id);
+    const positions = getSectionPositions();
+    if (positions.length === 0) return;
+
+    let refY = window.scrollY;
+    if (scrollTargetRef.current) {
+      const targetPos = positions.find(p => p.id === scrollTargetRef.current);
+      if (targetPos) {
+        refY = targetPos.top;
+      }
     }
-  }, [activeSection, scrollTo]);
+
+    const sorted = [...positions].sort((a, b) => a.top - b.top);
+    const prev = [...sorted].reverse().find(p => p.top < refY - 10);
+
+    if (prev) {
+      scrollTo(prev.id);
+    } else {
+      scrollToTop();
+    }
+  }, [getSectionPositions, scrollTo, scrollToTop]);
 
   // Go to next section
   const goToNextSection = useCallback(() => {
-    const currentIndex = NAV_SECTIONS.findIndex(s => s.id === activeSection);
-    if (currentIndex < NAV_SECTIONS.length - 1) {
-      scrollTo(NAV_SECTIONS[currentIndex + 1].id);
+    const positions = getSectionPositions();
+    if (positions.length === 0) return;
+
+    let refY = window.scrollY;
+    if (scrollTargetRef.current) {
+      const targetPos = positions.find(p => p.id === scrollTargetRef.current);
+      if (targetPos) {
+        refY = targetPos.top;
+      }
     }
-  }, [activeSection, scrollTo]);
+
+    const sorted = [...positions].sort((a, b) => a.top - b.top);
+    const next = sorted.find(p => p.top > refY + 10);
+
+    if (next) {
+      scrollTo(next.id);
+    }
+  }, [getSectionPositions, scrollTo]);
 
   // Handle keyboard events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Avoid intercepting if focus is in input/textarea
+      const activeEl = document.activeElement;
       if (
-        document.activeElement?.tagName === 'INPUT' ||
-        document.activeElement?.tagName === 'TEXTAREA' ||
-        document.activeElement?.isContentEditable
+        activeEl?.tagName === 'INPUT' ||
+        activeEl?.tagName === 'TEXTAREA' ||
+        activeEl?.tagName === 'SELECT' ||
+        activeEl?.hasAttribute('contenteditable') ||
+        (activeEl as HTMLElement)?.isContentEditable
       ) {
         return;
       }
+
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') {
+        return;
+      }
+
+      // Throttle keypresses to 250ms
+      const now = Date.now();
+      if (now - lastScrollTimeRef.current < 250) {
+        e.preventDefault();
+        return;
+      }
+      lastScrollTimeRef.current = now;
 
       if (e.key === 'ArrowDown') {
         e.preventDefault();
@@ -151,7 +237,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown, { passive: false });
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [goToPrevSection, goToNextSection]);
 
