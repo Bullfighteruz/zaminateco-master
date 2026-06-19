@@ -104,7 +104,7 @@ function DesktopFloatingPhone({
   // NOTE: rotateY, scale, and perspective were removed because they cause
   // the browser GPU compositor to rasterize images at lower quality,
   // resulting in blurry/compressed-looking screenshots.
-  const y = useTransform(smoothProgress, [0, 1], [40, -60]);
+  const y = useTransform(smoothProgress, [0, 1], [35, 12]);
   
   // Phone fades in at container entrance and fades out late (0.94) so last image has display time
   const opacity = useTransform(enterExitProgress, [0, 0.05, 0.94, 1], [0.3, 1, 1, 0]);
