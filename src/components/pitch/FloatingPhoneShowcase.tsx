@@ -1,16 +1,15 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import PhoneMockup from './PhoneMockup';
 import { APP_SCREENS } from './ScrollScreenRenderer';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { AnimatePresence } from 'framer-motion';
 
 interface FloatingPhoneShowcaseProps {
   scrollRef: React.RefObject<HTMLDivElement>;
-  /** Marker at the top of Market Size section */
+  /** Marker at the top of the Solution section */
   slideStartRef?: React.RefObject<HTMLDivElement>;
-  /** Marker at the bottom of Founding Team section */
+  /** Marker at the bottom of the Traction section */
   slideEndRef?: React.RefObject<HTMLDivElement>;
   className?: string;
 }
@@ -19,11 +18,10 @@ interface FloatingPhoneShowcaseProps {
  * Premium scroll-driven floating phone showcase.
  * 
  * Desktop: Sticky phone on the right side with parallax transforms.
+ *   Image transitions are driven by scroll progress, divided equally
+ *   among the 5 app screen images. The range is bounded by how long
+ *   the phone remains visually sticky on screen.
  * Mobile: Inline horizontal swipe carousel between sections.
- * 
- * Image transitions are driven by scroll progress between slideStartRef
- * (Market Size top) and slideEndRef (Team bottom), divided equally
- * among the 5 app screen images.
  */
 export default function FloatingPhoneShowcase({ scrollRef, slideStartRef, slideEndRef, className }: FloatingPhoneShowcaseProps) {
   const isMobile = useIsMobile();
@@ -37,6 +35,9 @@ export default function FloatingPhoneShowcase({ scrollRef, slideStartRef, slideE
 
 /* ─────────────────────────── Desktop Floating Phone ─────────────────────────── */
 
+/** The CSS `top` value for the sticky phone container */
+const STICKY_TOP_OFFSET = 200;
+
 function DesktopFloatingPhone({
   scrollRef,
   slideStartRef,
@@ -49,9 +50,10 @@ function DesktopFloatingPhone({
   className?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const phoneContainerRef = useRef<HTMLDivElement>(null);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(new Array(APP_SCREENS.length).fill(false));
 
-  // Preload all images
+  // Preload all images eagerly on mount
   useEffect(() => {
     APP_SCREENS.forEach((screen, i) => {
       const img = new Image();
@@ -66,13 +68,13 @@ function DesktopFloatingPhone({
     });
   }, []);
 
-  // Track the overall scroll entrance/exit of the container relative to viewport (used for parallax and opacity)
+  // Track the overall scroll entrance/exit of the container (for parallax + opacity)
   const { scrollYProgress: enterExitProgress } = useScroll({
     target: scrollRef,
     offset: ['start end', 'end start'],
   });
 
-  // Smooth spring for premium feel
+  // Smooth spring for premium parallax feel
   const smoothProgress = useSpring(enterExitProgress, { stiffness: 80, damping: 25, mass: 0.4 });
 
   // Parallax transforms
@@ -80,42 +82,57 @@ function DesktopFloatingPhone({
   const rotateY = useTransform(smoothProgress, [0, 0.5, 1], [-5, 0, 4]);
   const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.97, 1.02, 0.98]);
   
-  // Phone fades in at container entrance and fades out at container exit
-  const opacity = useTransform(enterExitProgress, [0, 0.05, 0.88, 1], [0.3, 1, 1, 0]);
+  // Phone fades in at container entrance and fades out late (0.94) so last image has display time
+  const opacity = useTransform(enterExitProgress, [0, 0.05, 0.94, 1], [0.3, 1, 1, 0]);
 
   /**
-   * Custom scroll handler that maps scroll position between
-   * slideStartRef and slideEndRef to equally-spaced image indices.
+   * Scroll handler that maps scroll position to equally-spaced image indices.
    * 
-   * This ensures each of the 5 images gets exactly 1/5 of the
-   * scroll distance between Market Size top and Team bottom.
+   * KEY INSIGHT: The phone is sticky, so images should transition across the
+   * scroll range where the phone is actually VISIBLE and STUCK on screen.
+   * This is from when the slideStartRef reaches the viewport top, to when
+   * the sticky container would naturally unstick (parent bottom minus 
+   * phone height minus sticky offset).
+   * 
+   * We calculate the effective sticky scroll range and distribute all 5
+   * images equally across it, ensuring the last image appears well before
+   * the phone scrolls away.
    */
   const handleScroll = useCallback(() => {
     const startEl = slideStartRef?.current;
     const endEl = slideEndRef?.current;
+    const phoneEl = phoneContainerRef.current;
 
-    if (!startEl || !endEl) {
-      // Fallback: no marker refs, use full container progress
-      return;
-    }
+    if (!startEl || !endEl) return;
 
-    const startRect = startEl.getBoundingClientRect();
-    const endRect = endEl.getBoundingClientRect();
+    // Absolute page positions (stable, don't shift with scroll)
+    const startTop = startEl.getBoundingClientRect().top + window.scrollY;
+    const endBottom = endEl.getBoundingClientRect().bottom + window.scrollY;
 
-    // Total scrollable distance from Market Size top to Team bottom (in page coords)
-    const totalHeight = endRect.bottom - startRect.top;
+    // The phone's parent container determines when sticky ends.
+    // When the parent's bottom edge reaches the phone's bottom edge,
+    // the phone unsticks and scrolls away. We want all 5 images to
+    // finish transitioning BEFORE that point.
+    //
+    // Effective scroll range = distance from start marker to
+    // (endBottom minus a safety margin for the phone height).
+    // But we simplify by using 90% of the total marker distance,
+    // ensuring the last image is fully shown before the phone exits.
+    
+    const markerDistance = endBottom - startTop;
+    if (markerDistance <= 0) return;
 
-    if (totalHeight <= 0) {
-      return;
-    }
+    // Use 85% of the distance as the active transition zone.
+    // This means all 5 images finish transitioning when we've scrolled
+    // through 85% of the marker-to-marker distance, giving the last
+    // image ~15% of scroll distance as pure display time.
+    const effectiveDistance = markerDistance * 0.85;
 
-    // How far we've scrolled past the start marker (from viewport top)
-    // When startRect.top === 0, we're at the very start
-    // progress goes from 0 (start at viewport top) to 1 (end at viewport top)
-    const scrolled = -startRect.top;
-    const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
+    // Current scroll position relative to start marker
+    const scrolled = window.scrollY - startTop;
+    const progress = Math.max(0, Math.min(1, scrolled / effectiveDistance));
 
-    // Divide into equal segments
+    // Divide into 5 equal segments
     const numScreens = APP_SCREENS.length;
     const segmentSize = 1 / numScreens;
     const newIndex = Math.min(
@@ -123,45 +140,41 @@ function DesktopFloatingPhone({
       Math.max(0, Math.floor(progress / segmentSize))
     );
 
-    setActiveIndex(newIndex);
+    setActiveIndex(prev => prev !== newIndex ? newIndex : prev);
   }, [slideStartRef, slideEndRef]);
 
-  // Attach scroll listener for custom marker-based tracking
+  // Attach scroll listener with rAF throttling for smooth 60fps
   useEffect(() => {
-    if (slideStartRef?.current && slideEndRef?.current) {
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      // Initial call
-      handleScroll();
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
+    if (!slideStartRef?.current || !slideEndRef?.current) return;
+
+    let rafId: number | null = null;
+    
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        handleScroll();
+        rafId = null;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    handleScroll(); // Initial call
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [handleScroll, slideStartRef, slideEndRef]);
-
-  // Fallback: If no marker refs provided, use the old framer-motion approach
-  const { scrollYProgress: stickyProgress } = useScroll({
-    target: scrollRef,
-    offset: ['start start', 'end end'],
-  });
-
-  useMotionValueEvent(stickyProgress, 'change', (latest) => {
-    // Only use this fallback if marker refs aren't available
-    if (slideStartRef?.current && slideEndRef?.current) return;
-
-    const segmentSize = 1 / APP_SCREENS.length;
-    const newIndex = Math.min(
-      APP_SCREENS.length - 1,
-      Math.max(0, Math.floor(latest / segmentSize))
-    );
-    setActiveIndex(newIndex);
-  });
 
   const currentScreen = APP_SCREENS[activeIndex];
 
   return (
     <div
-      className={cn('sticky top-[200px] self-start flex-shrink-0', className)}
+      ref={phoneContainerRef}
+      className={cn(`sticky top-[${STICKY_TOP_OFFSET}px] self-start flex-shrink-0`, className)}
       style={{
+        position: 'sticky',
+        top: STICKY_TOP_OFFSET,
         width: 340,
         zIndex: 2,
         perspective: 1200,
@@ -192,21 +205,28 @@ function DesktopFloatingPhone({
         className="flex justify-center"
       >
         <PhoneMockup width={300}>
-          {/* Screen content with crossfade */}
+          {/* 
+            Screen content with smooth CSS crossfade.
+            All 5 images are pre-rendered and stacked. Only the active
+            one has opacity: 1. CSS transition handles the crossfade
+            for buttery-smooth 60fps animation without React re-renders.
+          */}
           <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                style={{ position: 'absolute', inset: 0 }}
+            {APP_SCREENS.map((screen, i) => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: i === activeIndex ? 1 : 0,
+                  transition: 'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  zIndex: i === activeIndex ? 1 : 0,
+                }}
               >
-                {imagesLoaded[activeIndex] ? (
+                {imagesLoaded[i] ? (
                   <img
-                    src={currentScreen.src}
-                    alt={currentScreen.label}
+                    src={screen.src}
+                    alt={screen.label}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -227,15 +247,13 @@ function DesktopFloatingPhone({
                     }}
                   />
                 )}
-              </motion.div>
-            </AnimatePresence>
-
-
+              </div>
+            ))}
           </div>
         </PhoneMockup>
       </motion.div>
 
-      {/* Caption below phone */}
+      {/* Screen label indicator */}
       <motion.div
         style={{ opacity }}
         className="text-center mt-5"
@@ -243,8 +261,11 @@ function DesktopFloatingPhone({
         <p className="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest">
           ZAMINAT.eco Platform
         </p>
-        <p className="text-[9px] text-gray-400 mt-0.5">
-          Scroll to explore app screens
+        <p
+          className="text-[9px] text-gray-400 mt-0.5"
+          style={{ transition: 'opacity 0.3s ease' }}
+        >
+          {currentScreen.label} — {activeIndex + 1}/{APP_SCREENS.length}
         </p>
       </motion.div>
     </div>
