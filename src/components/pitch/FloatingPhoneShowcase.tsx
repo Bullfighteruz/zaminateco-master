@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import PhoneMockup from './PhoneMockup';
 import { APP_SCREENS } from './ScrollScreenRenderer';
@@ -8,6 +8,10 @@ import { AnimatePresence } from 'framer-motion';
 
 interface FloatingPhoneShowcaseProps {
   scrollRef: React.RefObject<HTMLDivElement>;
+  /** Marker at the top of Market Size section */
+  slideStartRef?: React.RefObject<HTMLDivElement>;
+  /** Marker at the bottom of Founding Team section */
+  slideEndRef?: React.RefObject<HTMLDivElement>;
   className?: string;
 }
 
@@ -16,24 +20,32 @@ interface FloatingPhoneShowcaseProps {
  * 
  * Desktop: Sticky phone on the right side with parallax transforms.
  * Mobile: Inline horizontal swipe carousel between sections.
+ * 
+ * Image transitions are driven by scroll progress between slideStartRef
+ * (Market Size top) and slideEndRef (Team bottom), divided equally
+ * among the 5 app screen images.
  */
-export default function FloatingPhoneShowcase({ scrollRef, className }: FloatingPhoneShowcaseProps) {
+export default function FloatingPhoneShowcase({ scrollRef, slideStartRef, slideEndRef, className }: FloatingPhoneShowcaseProps) {
   const isMobile = useIsMobile();
 
   if (isMobile) {
     return <MobilePhoneCarousel />;
   }
 
-  return <DesktopFloatingPhone scrollRef={scrollRef} className={className} />;
+  return <DesktopFloatingPhone scrollRef={scrollRef} slideStartRef={slideStartRef} slideEndRef={slideEndRef} className={className} />;
 }
 
 /* ─────────────────────────── Desktop Floating Phone ─────────────────────────── */
 
 function DesktopFloatingPhone({
   scrollRef,
+  slideStartRef,
+  slideEndRef,
   className,
 }: {
   scrollRef: React.RefObject<HTMLDivElement>;
+  slideStartRef?: React.RefObject<HTMLDivElement>;
+  slideEndRef?: React.RefObject<HTMLDivElement>;
   className?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -71,14 +83,71 @@ function DesktopFloatingPhone({
   // Phone fades in at container entrance and fades out at container exit
   const opacity = useTransform(enterExitProgress, [0, 0.05, 0.88, 1], [0.3, 1, 1, 0]);
 
-  // Track scroll progress ONLY while the phone is sticky in the viewport (to drive the slideshow)
+  /**
+   * Custom scroll handler that maps scroll position between
+   * slideStartRef and slideEndRef to equally-spaced image indices.
+   * 
+   * This ensures each of the 5 images gets exactly 1/5 of the
+   * scroll distance between Market Size top and Team bottom.
+   */
+  const handleScroll = useCallback(() => {
+    const startEl = slideStartRef?.current;
+    const endEl = slideEndRef?.current;
+
+    if (!startEl || !endEl) {
+      // Fallback: no marker refs, use full container progress
+      return;
+    }
+
+    const startRect = startEl.getBoundingClientRect();
+    const endRect = endEl.getBoundingClientRect();
+
+    // Total scrollable distance from Market Size top to Team bottom (in page coords)
+    const totalHeight = endRect.bottom - startRect.top;
+
+    if (totalHeight <= 0) {
+      return;
+    }
+
+    // How far we've scrolled past the start marker (from viewport top)
+    // When startRect.top === 0, we're at the very start
+    // progress goes from 0 (start at viewport top) to 1 (end at viewport top)
+    const scrolled = -startRect.top;
+    const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
+
+    // Divide into equal segments
+    const numScreens = APP_SCREENS.length;
+    const segmentSize = 1 / numScreens;
+    const newIndex = Math.min(
+      numScreens - 1,
+      Math.max(0, Math.floor(progress / segmentSize))
+    );
+
+    setActiveIndex(newIndex);
+  }, [slideStartRef, slideEndRef]);
+
+  // Attach scroll listener for custom marker-based tracking
+  useEffect(() => {
+    if (slideStartRef?.current && slideEndRef?.current) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      // Initial call
+      handleScroll();
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [handleScroll, slideStartRef, slideEndRef]);
+
+  // Fallback: If no marker refs provided, use the old framer-motion approach
   const { scrollYProgress: stickyProgress } = useScroll({
     target: scrollRef,
     offset: ['start start', 'end end'],
   });
 
-  // Map scroll progress to active screenshot index
   useMotionValueEvent(stickyProgress, 'change', (latest) => {
+    // Only use this fallback if marker refs aren't available
+    if (slideStartRef?.current && slideEndRef?.current) return;
+
     const segmentSize = 1 / APP_SCREENS.length;
     const newIndex = Math.min(
       APP_SCREENS.length - 1,

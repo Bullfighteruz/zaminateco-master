@@ -311,6 +311,8 @@ export default function Pitch() {
   const { t, i18n } = useTranslation(['translation', 'shop', 'team']);
   const navigate = useNavigate();
   const phoneZoneRef = useRef<HTMLDivElement>(null);
+  const slideStartRef = useRef<HTMLDivElement>(null);
+  const slideEndRef = useRef<HTMLDivElement>(null);
 
   // Helper to get array translations safely
   const getArray = (key: string, defaultVal: string[]): string[] => {
@@ -898,6 +900,8 @@ export default function Pitch() {
               ))}
             </div>
 
+            {/* Marker: slideshow tracking starts here (Market Size top) */}
+            <div ref={slideStartRef} />
             {/* Market Size Section */}
             <div id="pitch-business-market" className="mt-8 space-y-4">
               <h3 className={cn("font-bold text-gray-900 border-l-4 border-emerald-500 pl-3", isMobile ? "text-base" : "text-lg")}>
@@ -949,7 +953,7 @@ export default function Pitch() {
           </motion.section>
 
           {/* Mobile: Phone carousel after Business Model and before Roadmap */}
-          {isMobile && <FloatingPhoneShowcase scrollRef={phoneZoneRef} />}
+          {isMobile && <FloatingPhoneShowcase scrollRef={phoneZoneRef} slideStartRef={slideStartRef} slideEndRef={slideEndRef} />}
 
 
           {/* ═══════ SECTION 6: Roadmap ═══════ */}
@@ -1109,12 +1113,14 @@ export default function Pitch() {
               ))}
             </div>
           </motion.section>
+            {/* Marker: slideshow tracking ends here (Team bottom) */}
+            <div ref={slideEndRef} />
 
               </div>{/* End left content column */}
 
               {/* Right column: Desktop sticky phone */}
               {!isMobile && (
-                <FloatingPhoneShowcase scrollRef={phoneZoneRef} />
+                <FloatingPhoneShowcase scrollRef={phoneZoneRef} slideStartRef={slideStartRef} slideEndRef={slideEndRef} />
               )}
             </div>{/* End flex row */}
           </div>{/* End phone showcase zone */}
