@@ -77,10 +77,11 @@ function DesktopFloatingPhone({
   // Smooth spring for premium parallax feel
   const smoothProgress = useSpring(enterExitProgress, { stiffness: 80, damping: 25, mass: 0.4 });
 
-  // Parallax transforms
-  const y = useTransform(smoothProgress, [0, 1], [60, -100]);
-  const rotateY = useTransform(smoothProgress, [0, 0.5, 1], [-5, 0, 4]);
-  const scale = useTransform(smoothProgress, [0, 0.5, 1], [0.97, 1.02, 0.98]);
+  // Parallax transforms — only vertical movement + opacity, no 3D transforms
+  // NOTE: rotateY, scale, and perspective were removed because they cause
+  // the browser GPU compositor to rasterize images at lower quality,
+  // resulting in blurry/compressed-looking screenshots.
+  const y = useTransform(smoothProgress, [0, 1], [40, -60]);
   
   // Phone fades in at container entrance and fades out late (0.94) so last image has display time
   const opacity = useTransform(enterExitProgress, [0, 0.05, 0.94, 1], [0.3, 1, 1, 0]);
@@ -177,7 +178,6 @@ function DesktopFloatingPhone({
         top: STICKY_TOP_OFFSET,
         width: 340,
         zIndex: 2,
-        perspective: 1200,
       }}
     >
       {/* Emerald glow behind phone */}
@@ -197,10 +197,7 @@ function DesktopFloatingPhone({
       <motion.div
         style={{
           y,
-          rotateY,
-          scale,
           opacity,
-          transformStyle: 'preserve-3d',
         }}
         className="flex justify-center"
       >
@@ -233,6 +230,8 @@ function DesktopFloatingPhone({
                       objectFit: 'cover',
                       objectPosition: 'top center',
                       display: 'block',
+                      imageRendering: 'auto',
+                      backfaceVisibility: 'hidden',
                     }}
                     draggable={false}
                   />
