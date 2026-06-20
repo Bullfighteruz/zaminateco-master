@@ -280,93 +280,230 @@ textarea:focus-visible {
 
 /* Print styles */
 @media print {
-  /* Set layout size to A4 landscape for a clean pitch deck slide look */
+  /* ── Page Setup ── */
   @page {
     size: A4 landscape;
-    margin: 0.8cm;
+    margin: 0.6cm;
   }
 
-  /* Hide interactive/non-printable widgets, sticky nav, buttons, scroll indicators, language switcher, and mobile carousel scroll indicators */
-  .no-print,
-  nav,
-  header,
-  footer,
-  button,
-  .fixed,
-  .absolute.bottom-4.right-4,
-  [class*="LanguageSwitcher"],
-  [class*="FloatingPhoneShowcase"],
-  .mobile-nav,
-  .qr-container,
-  .voting-panel {
-    display: none !important;
-  }
-
-  /* Ensure background colors, background images, and gradients are printed */
+  /* ── Force Background Rendering ── */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
 
-  /* Format sections as individual landscape slide pages */
+  /* ── Hide Non-Printable Elements ── */
+  .no-print,
+  nav,
+  header,
+  footer,
+  button,
+  .fixed,
+  .sticky,
+  [class*="LanguageSwitcher"],
+  [class*="FloatingPhoneShowcase"],
+  [class*="MobileLanguageSwitcher"],
+  .mobile-nav,
+  .qr-container,
+  .voting-panel,
+  [role="navigation"],
+  .absolute.bottom-4.right-4 {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ── Disable All Animations & Force Visibility ── */
+  /* Framer-motion sets opacity:0 and transform:translateY on elements before they enter viewport.
+     In print, elements below the fold never become "in view", so they stay invisible. */
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Force ALL content visible — framer-motion and any opacity/transform based animation */
   section[id^="pitch-"],
+  section[id^="pitch-"] *,
+  section[id^="pitch-"] > *,
   #pitch-team,
-  section.relative {
+  #pitch-team *,
+  [style*="opacity"],
+  [style*="transform"] {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  /* ── Fix Two-Column Phone Showcase Layout → Single Column ── */
+  /* The phone showcase zone uses flex-row on desktop with a sticky phone column.
+     In print, the phone is hidden but the flex layout still constrains width. */
+  .flex.gap-8.items-start,
+  [class*="flex"][class*="gap-8"][class*="items-start"] {
+    display: block !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Force the left content column to take full page width */
+  .flex-1.min-w-0,
+  .flex-1 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    min-width: 100% !important;
+  }
+
+  /* ── Section Layout — Clean Page-Friendly Flow ── */
+  /* Don't force sections to 100vh (which creates massive whitespace).
+     Instead, let content flow naturally and use page-break-after to separate. */
+  section[id^="pitch-"],
+  #pitch-team {
     page-break-after: always !important;
     break-after: page !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
     margin: 0 !important;
-    padding: 1cm 0 !important;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
+    padding: 0.5cm 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
+    display: block !important;
+    overflow: visible !important;
   }
 
-  /* Reset grid layouts and padding to fit standard A4 margins */
+  /* The hero section has a bg-image and special layout — don't break it */
+  #pitch-hero {
+    min-height: auto !important;
+    height: auto !important;
+    padding: 1cm 0.5cm !important;
+  }
+
+  /* Wrapper divs around sections should not constrain width or add padding */
+  section[id^="pitch-"]:not(#pitch-hero) {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* ── Text Gradient Fix ── */
+  /* bg-clip-text with text-transparent makes text invisible when printed.
+     Force text to render with a solid fallback color. */
+  .bg-clip-text,
+  [class*="bg-clip-text"] {
+    -webkit-text-fill-color: initial !important;
+    color: #1a202c !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    background: none !important;
+  }
+
+  /* Specifically keep white text gradient on dark backgrounds (like the Ask section) */
+  #pitch-ask .bg-clip-text,
+  #pitch-ask [class*="bg-clip-text"] {
+    color: white !important;
+  }
+
+  /* ── Reset Max Widths ── */
+  .max-w-5xl, .max-w-6xl, .max-w-7xl, .max-w-4xl, .max-w-3xl, .max-w-2xl, .max-w-xl {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* ── Container Padding Overrides ── */
+  .px-3, .px-4, .px-6 {
+    padding-left: 0.3cm !important;
+    padding-right: 0.3cm !important;
+  }
+
+  /* ── Text Sizing for Print ── */
+  h1 { font-size: 24pt !important; line-height: 1.2 !important; }
+  h2 { font-size: 18pt !important; line-height: 1.2 !important; }
+  h3 { font-size: 14pt !important; line-height: 1.3 !important; }
+  h4 { font-size: 11pt !important; line-height: 1.3 !important; }
+  p, li { font-size: 9pt !important; line-height: 1.4 !important; }
+  span { font-size: inherit !important; }
+
+  /* ── Grid Layout Fixes ── */
   .grid {
-    gap: 0.4cm !important;
-  }
-
-  /* Ensure left content column takes up full print page width (when phone showcase is hidden) */
-  .flex-1.min-w-0 {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
-  }
-
-  /* Optimize text sizing to fit standard landscape height bounds */
-  h1 { font-size: 28pt !important; line-height: 1.2 !important; }
-  h2 { font-size: 20pt !important; line-height: 1.2 !important; }
-  h3 { font-size: 16pt !important; line-height: 1.2 !important; }
-  p, span, div, li { font-size: 10pt !important; line-height: 1.5 !important; }
-  
-  /* Reset max widths */
-  .max-w-5xl, .max-w-6xl, .max-w-7xl, .max-w-4xl, .max-w-2xl {
-    max-width: 100% !important;
+    gap: 0.3cm !important;
     width: 100% !important;
   }
 
-  /* Specific adjustments for cards to render side-by-side neatly in print grids */
-  .grid-cols-4 {
+  /* Ensure grids maintain their column count in print */
+  .grid-cols-4,
+  [class*="grid-cols-4"] {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
-  .grid-cols-3 {
+  .grid-cols-3,
+  [class*="grid-cols-3"] {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
-  .grid-cols-2 {
+  .grid-cols-2,
+  [class*="grid-cols-2"] {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
-  /* Make sure background gradients and shadows print cleanly without black edges */
-  .card, .Card {
-    background-color: white !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  /* ── Cards ── */
+  .card, .Card, [class*="Card"] {
     box-shadow: none !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* ── Overflow & Clipping Prevention ── */
+  body, html, #root, main, .min-h-screen {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  /* Prevent overflow:hidden containers from clipping content in print */
+  .overflow-hidden,
+  .overflow-x-clip,
+  [class*="overflow-hidden"] {
+    overflow: visible !important;
+  }
+
+  /* ── Image Sizing for Print ── */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* ── Spacing Compression ── */
+  .space-y-16 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.5cm !important;
+  }
+  .space-y-10 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.3cm !important;
+  }
+  .py-14, .py-8 {
+    padding-top: 0.3cm !important;
+    padding-bottom: 0.3cm !important;
+  }
+
+  /* ── Backdrop / Blur Effects — Not Supported in Print ── */
+  [class*="backdrop-blur"],
+  [class*="backdrop-filter"],
+  .glass-island,
+  .glass-card,
+  .glass-card-dark,
+  .glass-badge {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* ── Link Decoration ── */
+  a[href]::after {
+    content: none !important;
   }
 }
 
