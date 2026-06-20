@@ -280,8 +280,93 @@ textarea:focus-visible {
 
 /* Print styles */
 @media print {
-  .no-print {
+  /* Set layout size to A4 landscape for a clean pitch deck slide look */
+  @page {
+    size: A4 landscape;
+    margin: 0.8cm;
+  }
+
+  /* Hide interactive/non-printable widgets, sticky nav, buttons, scroll indicators, language switcher, and mobile carousel scroll indicators */
+  .no-print,
+  nav,
+  header,
+  footer,
+  button,
+  .fixed,
+  .absolute.bottom-4.right-4,
+  [class*="LanguageSwitcher"],
+  [class*="FloatingPhoneShowcase"],
+  .mobile-nav,
+  .qr-container,
+  .voting-panel {
     display: none !important;
+  }
+
+  /* Ensure background colors, background images, and gradients are printed */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Format sections as individual landscape slide pages */
+  section[id^="pitch-"],
+  #pitch-team,
+  section.relative {
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin: 0 !important;
+    padding: 1cm 0 !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Reset grid layouts and padding to fit standard A4 margins */
+  .grid {
+    gap: 0.4cm !important;
+  }
+
+  /* Ensure left content column takes up full print page width (when phone showcase is hidden) */
+  .flex-1.min-w-0 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  /* Optimize text sizing to fit standard landscape height bounds */
+  h1 { font-size: 28pt !important; line-height: 1.2 !important; }
+  h2 { font-size: 20pt !important; line-height: 1.2 !important; }
+  h3 { font-size: 16pt !important; line-height: 1.2 !important; }
+  p, span, div, li { font-size: 10pt !important; line-height: 1.5 !important; }
+  
+  /* Reset max widths */
+  .max-w-5xl, .max-w-6xl, .max-w-7xl, .max-w-4xl, .max-w-2xl {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Specific adjustments for cards to render side-by-side neatly in print grids */
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Make sure background gradients and shadows print cleanly without black edges */
+  .card, .Card {
+    background-color: white !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: none !important;
   }
 }
 
