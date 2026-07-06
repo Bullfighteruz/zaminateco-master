@@ -730,6 +730,7 @@
       "hero": "Kirish",
       "opportunity": "Muammo",
       "solution": "Yechim",
+      "ai": "AI Core",
       "products": "Mahsulotlar",
       "business": "Biznes",
       "roadmap": "Reja",
@@ -1105,6 +1106,89 @@
       "phone3Badge": "3. Chiqindilar xaritasi va aksiyalar",
       "phone3Title": "Xarita va ko'ngillilar aksiyalari",
       "phone3Desc": "Toshkentdagi yig'ish nuqtalari va ko'ngillilik tadbirlari xaritasini o'rganing."
+    }
+  },
+  "ai": {
+    "tag": "ZAMINAT AI Core",
+    "subtitle": "Chiqindilarni qayta ishlash, ijtimoiy aksiyalar va o'lchanadigan natijalar ortidagi intellektual qatlam.",
+    "exploreApp": "EcoApp ni ochish",
+    "viewPitch": "Investor pitchini ko'rish",
+    "tagConcept": "Sun'iy intellekt konsepsiyasi",
+    "tagPlanned": "Rejalashtirilgan SI qatlami",
+    "tagUpcoming": "Kelgusi SI funksiyalari",
+    "tagPrototype": "Prototip mantiqi",
+    "tagDesign": "EcoApp keyingi versiyasi uchun mo'ljallangan",
+    "disclaimer": "ZAMINAT AI Core bizning Chiqindi-Hayotga ekotizimimizning intellektual yadrosi bo'lishi uchun mo'ljallangan — u qayta ishlanadigan materiallarni aniqlashga, fuqarolarga yo'l ko'rsatishga, hisobotlarni tekshirishga, ta'sirni hisoblashga va kelajakda ishlab chiqarishni rejalashtirishga yordam beradi.",
+    "trustTitle": "Kengaytiriladigan infratuzilmani rejalashtirish",
+    "pitchTitle": "Sun'iy intellektga asoslangan Chiqindi-Hayotga infratuzilmasi",
+    "pitchSubtitle": "ZAMINAT AI Core ekologik faollikni tekshirilgan ma'lumotlarga, o'lchanadigan natijalarga va kengaytiriladigan infratuzilmani rejalashtirishga aylantiradi.",
+    "roadmapTitle": "AI Core ni tatbiq etish yo'l xaritasi",
+    "roadmapSubtitle": "Amaliyotlarni kengaytirish, ma'lumotlarni himoyalash va ekologik qiymat yaratish uchun bosqichma-bosqich joriy etish.",
+    "features": {
+      "ecoscan": {
+        "title": "AI EcoScan",
+        "desc": "Fotosuratlardan plastik, rezina og'irliklar va qayta ishlanadigan materiallarni kompyuter ko'rish texnologiyasi yordamida aniqlaydi. Chiqindi turini tezda tasniflaydi, og'irligini taxmin qiladi va eng yaqin yig'ish punktini Eko Koin mukofotlari bilan ko'rsatadi."
+      },
+      "ecocoach": {
+        "title": "AI EcoCoach",
+        "desc": "O'zbek, rus va ingliz tillarida fuqarolarga yo'l-yo'riq ko'rsatuvchi ko'p tilli AI yordamchi. Saralash bo'yicha savollarga javob beradi, yaqin EcoPoint'larni tavsiya qiladi va joylashuvingiz hamda faoliyat tarixingiz asosida shaxsiy maslahatlar beradi."
+      },
+      "impact": {
+        "title": "AI Impact Engine",
+        "desc": "Yig'ilgan chiqindilar, yaratilgan mahsulotlar va haqiqiy ijtimoiy ta'sirni real vaqtda hisoblab chiqadi. Qayta ishlash ma'lumotlarini aniq natijalarga aylantiradi — ishlab chiqarilgan eko-plitalar, tejalgan CO₂, moliyalashtirilgan park skameykalari."
+      },
+      "fraud": {
+        "title": "AI Anti-Fraud",
+        "desc": "Hisobotlarni GPS tekshiruvi, fotosurat haqiqiyligi, vaqt tamg'asi tahlili va anomaliyalarni aniqlash orqali tekshiradi. Har bir qayta ishlash topshirig'ining qonuniyligini ta'minlaydi va ekotizimni soxta da'volardan himoya qiladi."
+      },
+      "kids": {
+        "title": "AI EcoKids Tutor",
+        "desc": "Bolalar uchun ekologik ta'limni o'yinli saralash vazifalari, interaktiv viktorinalar va yutuq nishonlari orqali shaxsiylashtiradi. Qayta ishlash haqida o'rganishni qiziqarli qiladi va erta yoshdan barqaror odatlarni shakllantiradi."
+      },
+      "planner": {
+        "title": "AI Production Planner",
+        "desc": "Yig'ilgan materiallarni kelajakdagi tayyor mahsulot hajmi bilan xom ashyo mavjudligini bashorat qilish, partiya jadvallarini optimallashtirish va ishlab chiqarish ustuvorliklarini tavsiya qilish orqali bog'laydi."
+      }
+    },
+    "layers": {
+      "citizen": {
+        "title": "Fuqaro qatlami",
+        "desc": "Foydalanuvchilarga qulay chiqindilarni aniqlash va yo'naltirish imkonini beradi.",
+        "items": ["AI EcoCoach yordamchisi", "EcoScan rasm skaneri", "Shaxsiylashtirilgan yashil faoliyatlar"]
+      },
+      "trust": {
+        "title": "Ishonch qatlami",
+        "desc": "Ma'lumotlar butunligini ta'minlaydi va o'yin mantiqini suiiste'mol qilishni oldini oladi.",
+        "items": ["Firibgarlikka qarshi tizim", "Fotosuratlarni tekshirish zanjiri", "GPS manbalarini tasdiqlash"]
+      },
+      "infrastructure": {
+        "title": "Infratuzilma qatlami",
+        "desc": "Mahalliy ma'lumotlarni zavod quvvatlari va ijtimoiy infratuzilma bilan bog'laydi.",
+        "items": ["Konversiya matematik hisobi", "Materiallar oqimini prognozlash", "Ishlab chiqarish quvvatlari rejalashtiruvchisi"]
+      }
+    },
+    "roadmap": {
+      "phase1": {
+        "title": "1-bosqich — MVP intellekti",
+        "items": ["AI EcoCoach suhbatdosh yo'riqnomasi", "EcoScan prototip tasniflagichi", "Ta'sir kalkulyatori algoritmlari", "Avtomatlashtirilgan hisobot shablonlari"]
+      },
+      "phase2": {
+        "title": "2-bosqich — Ishonch va faollik",
+        "items": ["Firibgarlikka qarshi anomaliyalarni aniqlash", "EcoVote ballarini tekshirish", "EcoKids sun'iy intellekt repetitori", "Aqlli ekologik aksiyalar tavsiyalari"]
+      },
+      "phase3": {
+        "title": "3-bosqich — Infratuzilma intellekti",
+        "items": ["SI ishlab chiqarish rejalashtiruvchisi", "Hamkorlar uchun avtomatlashtirilgan hisobotlar", "Shahar darajasidagi materiallar oqimini prognozlash", "Uglerod izini hisoblash paneli"]
+      }
+    },
+    "workflow": {
+      "userPhoto": "Foydalanuvchi surati",
+      "aiRecog": "Sun'iy intellekt aniqlashi",
+      "collectionPoint": "Yig'ish nuqtasi",
+      "ecoVote": "EcoVote qarori",
+      "production": "Production",
+      "publicObject": "Ijtimoiy infratuzilma",
+      "impactReport": "Tasdiqlangan hisobot"
     }
   }
 }

@@ -730,6 +730,7 @@
       "hero": "Hero",
       "opportunity": "Problem",
       "solution": "Solution",
+      "ai": "AI Core",
       "products": "Products",
       "business": "Business",
       "roadmap": "Roadmap",
@@ -1105,6 +1106,89 @@
       "phone3Badge": "3. Trash Map & Campaigns",
       "phone3Title": "Actions Map & Campaigns",
       "phone3Desc": "Explore Tashkent's recycling collection pins and volunteer cleanup opportunities."
+    }
+  },
+  "ai": {
+    "tag": "ZAMINAT AI Core",
+    "subtitle": "The intelligence layer behind recycling, community action and measurable impact.",
+    "exploreApp": "Explore EcoApp",
+    "viewPitch": "View Investor Pitch",
+    "tagConcept": "AI-Powered Concept",
+    "tagPlanned": "Planned AI Layer",
+    "tagUpcoming": "Upcoming AI features",
+    "tagPrototype": "Prototype Logic",
+    "tagDesign": "Designed for Next EcoApp Version",
+    "disclaimer": "ZAMINAT AI Core is designed to become the intelligence layer of our Waste-to-Life ecosystem — helping identify recyclable materials, guide citizens, verify reports, calculate impact and support future production planning.",
+    "trustTitle": "Scalable Infrastructure Planning",
+    "pitchTitle": "AI-Powered Waste-to-Life Infrastructure",
+    "pitchSubtitle": "ZAMINAT AI Core turns environmental activity into verified data, measurable impact and scalable infrastructure planning.",
+    "roadmapTitle": "AI Core Implementation Roadmap",
+    "roadmapSubtitle": "Staged rollout to scale operations, secure data, and drive ecological value.",
+    "features": {
+      "ecoscan": {
+        "title": "AI EcoScan",
+        "desc": "Recognizes plastic, rubber and recyclable materials from photos using computer vision. Instantly classifies waste type, estimates weight, and shows the nearest collection point with estimated Eco Coin rewards."
+      },
+      "ecocoach": {
+        "title": "AI EcoCoach",
+        "desc": "A multilingual AI assistant that guides citizens in Uzbek, Russian and English. Answers sorting questions, recommends nearby EcoPoints, and provides personalized recycling tips based on your location and activity history."
+      },
+      "impact": {
+        "title": "AI Impact Engine",
+        "desc": "Calculates waste collected, products created and real community impact in real time. Converts recycling data into tangible outputs — eco-tiles produced, CO₂ saved, park benches funded — so every action has measurable results."
+      },
+      "fraud": {
+        "title": "AI Anti-Fraud",
+        "desc": "Verifies reports using GPS validation, photo integrity checks, timestamp analysis and anomaly detection. Ensures every recycling submission is legitimate and protects the ecosystem from duplicate or fraudulent claims."
+      },
+      "kids": {
+        "title": "AI EcoKids Tutor",
+        "desc": "Personalizes ecological education for children through gamified sorting challenges, interactive quizzes and achievement badges. Makes learning about recycling fun while building sustainable habits from an early age."
+      },
+      "planner": {
+        "title": "AI Production Planner",
+        "desc": "Connects collected materials with future product output by forecasting feedstock availability, optimizing batch schedules and recommending production priorities. Bridges citizen recycling data with factory operations."
+      }
+    },
+    "layers": {
+      "citizen": {
+        "title": "Citizen Layer",
+        "desc": "Enables user-friendly waste recognition and guidance.",
+        "items": ["AI EcoCoach Assistant", "EcoScan Image Scanner", "Personalized Green Activities"]
+      },
+      "trust": {
+        "title": "Trust Layer",
+        "desc": "Secures data integrity and prevents gamification exploitation.",
+        "items": ["Anti-Fraud Engine", "Photo Verification Pipeline", "GPS Sourcing Validation"]
+      },
+      "infrastructure": {
+        "title": "Infrastructure Layer",
+        "desc": "Bridges local data with factory scales and community infrastructure.",
+        "items": ["Impact Conversions Math", "Material Stream Forecasting", "Production Output Scheduler"]
+      }
+    },
+    "roadmap": {
+      "phase1": {
+        "title": "Phase 1 — MVP Intelligence",
+        "items": ["AI EcoCoach conversational guidance", "EcoScan prototype recognition", "Impact calculator algorithms", "Automated report templates"]
+      },
+      "phase2": {
+        "title": "Phase 2 — Trust & Engagement",
+        "items": ["Anti-fraud anomaly detection", "EcoVote scoring verification", "EcoKids AI educational tutor", "Smart community event recommendations"]
+      },
+      "phase3": {
+        "title": "Phase 3 — Infrastructure Intelligence",
+        "items": ["AI production planner scheduler", "Automated partner impact reporting", "City-level material stream forecasting", "Carbon offset calculation dashboard"]
+      }
+    },
+    "workflow": {
+      "userPhoto": "User Photo",
+      "aiRecog": "AI Recognition",
+      "collectionPoint": "Collection Point",
+      "ecoVote": "EcoVote Decision",
+      "production": "Production Output",
+      "publicObject": "Public Infrastructure",
+      "impactReport": "Verified Impact Report"
     }
   }
 }

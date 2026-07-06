@@ -168,7 +168,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       {/* Bottom Navigation - Floating Glassmorphic Island */}
       {!hideBottomNav && (
         <nav className="fixed bottom-4 left-4 right-4 z-50 flex justify-center notranslate" translate="no">
-          <div className="glass-island rounded-2xl px-4 py-2 w-full max-w-lg transition-all duration-300 hover:shadow-[0_12px_40px_rgba(34,197,94,0.12)]">
+          <div className="glass-island rounded-2xl px-4 py-2 w-full max-w-xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(34,197,94,0.12)]">
             <div className="flex justify-between items-center gap-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -179,13 +179,18 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
                     key={item.path}
                     to={item.path}
                     className={cn(
-                      "flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-[52px] sm:min-w-[64px]",
+                      "flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 min-w-[48px] sm:min-w-[64px]",
                       "relative group",
                       isActive
                         ? "text-emerald-600 bg-emerald-500/10 font-semibold"
                         : "text-gray-500 hover:text-emerald-600 hover:bg-emerald-500/5"
                     )}
                   >
+                    {item.badge && (
+                      <span className="absolute -top-1 -right-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-extrabold text-[7px] px-1 py-0.2 rounded-full uppercase scale-90 border border-white shadow-sm">
+                        {item.badge}
+                      </span>
+                    )}
                     <Icon className={cn(
                       "h-5 w-5 mb-0.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110",
                       isActive && "scale-105"

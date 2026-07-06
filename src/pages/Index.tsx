@@ -1,5 +1,6 @@
 import { Bell, Leaf, Award, Users, ArrowRight, Settings, Coins, Star, Trophy, Crown, MapPin, School, ExternalLink, UserCheck, Phone, Mail, Sparkles, Recycle, TreePine, Target, TrendingUp, CheckCircle2, Vote, Calendar, ShoppingBag, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AICoreSection from '@/components/ai/AICoreSection';
 import PrefetchLink from '@/components/PrefetchLink';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -66,11 +67,11 @@ export default function Index() {
 
   // SEO Management
   useSEO({
-    title: t('heroTitle', { defaultValue: 'ZAMINAT.eco - Ecological Movement' }),
-    description: t('heroDescription', { defaultValue: 'Transform plastic and rubber waste recycling into social movement in Uzbekistan. Join EcoApp gamification platform for eco-products, volunteer campaigns, sustainable future.' }),
+    title: 'ZAMINAT AI Core — AI-Powered Recycling and Impact Platform',
+    description: 'ZAMINAT AI Core is the planned intelligence layer of ZAMINAT.eco, helping identify recyclable materials, guide citizens, verify reports, calculate impact and support scalable Waste-to-Life infrastructure.',
     image: '/logo.webp',
     type: 'website',
-    keywords: 'plastic recycling, rubber recycling, eco-tiles, waste management Uzbekistan, volunteer eco-campaigns, EcoApp, EcoKids, environmental movement, sustainability',
+    keywords: 'plastic recycling, rubber recycling, AI waste recognition, waste management Uzbekistan, volunteer eco-campaigns, EcoApp, EcoKids, environmental movement, sustainability, AI Core',
   });
 
   // Hreflang tags for multilingual SEO
@@ -109,6 +110,51 @@ export default function Index() {
       window.removeEventListener('userProgressUpdated', handleStorageChange);
       window.removeEventListener('userNameUpdated', handleUserNameUpdate);
       window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
+  // Inject JSON-LD structured data for ZAMINAT AI Core
+  useEffect(() => {
+    const scriptId = 'jsonld-ai-core';
+    let script = document.getElementById(scriptId) as HTMLScriptElement;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://zaminat.eco/#organization",
+          "name": "ZAMINAT.eco",
+          "url": "https://zaminat.eco",
+          "logo": "https://zaminat.eco/logo.webp",
+          "sameAs": [
+            "https://github.com/Bullfighteruz/zaminateco-master"
+          ]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://zaminat.eco/#software",
+          "name": "ZAMINAT AI Core",
+          "applicationCategory": "GreenTechApplication",
+          "operatingSystem": "All",
+          "description": "ZAMINAT AI Core is the intelligence layer of ZAMINAT.eco, helping identify recyclable materials, guide citizens, verify reports, calculate impact and support scalable Waste-to-Life infrastructure.",
+          "publisher": {
+            "@id": "https://zaminat.eco/#organization"
+          }
+        }
+      ]
+    });
+
+    return () => {
+      const existingScript = document.getElementById(scriptId);
+      if (existingScript) {
+        existingScript.remove();
+      }
     };
   }, []);
 
@@ -873,6 +919,9 @@ export default function Index() {
               </CardContent>
             </Card>
           </section>
+
+          {/* ZAMINAT AI Core Platform Update */}
+          <AICoreSection />
 
           {/* About Section - Enhanced with Interactive Elements */}
           <section id="about-section" className="scroll-mt-20">
