@@ -1108,6 +1108,30 @@
       "phone3Desc": "Toshkentdagi yig'ish nuqtalari va ko'ngillilik tadbirlari xaritasini o'rganing."
     }
   },
+  "scanner": {
+    "navLabel": "Skaner",
+    "title": "AI EkoSkan",
+    "back": "Orqaga",
+    "loading": "Kamera ishga tushmoqda...",
+    "hint": "Kamerani chiqindiga yo'naltiring va skanerlash uchun tugmani bosing",
+    "retake": "Qayta suratga olish",
+    "analyze": "Tahlil qilish",
+    "analyzing": "Chiqindi tahlil qilinmoqda...",
+    "aiProcessing": "ZAMINAT AI Core materialni aniqlayapti",
+    "recyclable": "Qayta ishlanadi",
+    "confidence": "Ishonchlilik",
+    "recyclability": "Qayta ishlanuvchanlik",
+    "verified": "AI tasdiqlagan",
+    "suggestion": "Tavsiya",
+    "scanAgain": "Qayta skanerlash",
+    "errCameraDenied": "Kameraga kirish taqiqlangan",
+    "errCameraDeniedDesc": "AI EkoSkan'dan foydalanish uchun brauzer sozlamalarida kameraga kirish ruxsatini bering.",
+    "errApiKey": "API kalit kerak",
+    "errApiKeyDesc": ".env faylga Gemini API kalitini qo'shing (VITE_GEMINI_API_KEY).",
+    "errGeneric": "Skanerlash xatosi",
+    "errGenericDesc": "Nimadir noto'g'ri ketdi. Qayta urinib ko'ring.",
+    "tryAgain": "Qayta urinish"
+  },
   "ai": {
     "tag": "ZAMINAT AI Core",
     "subtitle": "Chiqindilarni qayta ishlash, ijtimoiy aksiyalar va o'lchanadigan natijalar ortidagi intellektual qatlam.",

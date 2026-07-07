@@ -1108,6 +1108,30 @@
       "phone3Desc": "Explore Tashkent's recycling collection pins and volunteer cleanup opportunities."
     }
   },
+  "scanner": {
+    "navLabel": "Scanner",
+    "title": "AI EcoScan",
+    "back": "Back",
+    "loading": "Starting camera...",
+    "hint": "Point your camera at waste material and tap the button to scan",
+    "retake": "Retake",
+    "analyze": "Analyze",
+    "analyzing": "Analyzing waste...",
+    "aiProcessing": "ZAMINAT AI Core is identifying the material",
+    "recyclable": "Recyclable",
+    "confidence": "Confidence",
+    "recyclability": "Recyclability",
+    "verified": "AI Verified",
+    "suggestion": "Recommendation",
+    "scanAgain": "Scan Again",
+    "errCameraDenied": "Camera Access Denied",
+    "errCameraDeniedDesc": "Please allow camera access in your browser settings to use AI EcoScan.",
+    "errApiKey": "API Key Required",
+    "errApiKeyDesc": "Please add your Gemini API key to the .env file (VITE_GEMINI_API_KEY).",
+    "errGeneric": "Scan Failed",
+    "errGenericDesc": "Something went wrong during analysis. Please try again.",
+    "tryAgain": "Try Again"
+  },
   "ai": {
     "tag": "ZAMINAT AI Core",
     "subtitle": "The intelligence layer behind recycling, community action and measurable impact.",

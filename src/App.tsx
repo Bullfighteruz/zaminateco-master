@@ -41,6 +41,7 @@ const ProductDetail = lazy(() => import(/* webpackChunkName: "product" */ './pag
 const NotFound = lazy(() => import(/* webpackChunkName: "notfound" */ './pages/NotFound'));
 const Pitch = lazy(() => import(/* webpackChunkName: "pitch" */ './pages/Pitch'));
 const PitchLive = lazy(() => import(/* webpackChunkName: "pitch-live" */ './pages/PitchLive'));
+const Scanner = lazy(() => import(/* webpackChunkName: "scanner" */ './pages/Scanner'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -73,6 +74,7 @@ const App = () => (
                   <Route path="/product/:id" element={<ProductDetail />} />
                   <Route path="/pitch" element={<Pitch />} />
                   <Route path="/pitch-live" element={<PitchLive />} />
+                  <Route path="/scanner" element={<Scanner />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

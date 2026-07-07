@@ -1,4 +1,4 @@
-import { Vote, Calendar, ShoppingBag, BookOpen, User, Home, Users, Handshake, Mail, Cpu } from 'lucide-react';
+import { Vote, Calendar, ShoppingBag, BookOpen, User, Home, Users, Handshake, Mail, Cpu, Camera } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -8,6 +8,7 @@ const navigationItems = [
   { path: '/', icon: Home, labelKey: 'home' as const },
   { path: '/vote', icon: Vote, labelKey: 'ecoVote' as const },
   { path: '/actions', icon: Calendar, labelKey: 'ecoActions' as const },
+  { path: '/scanner', icon: Camera, labelKey: 'scanner' as const, badge: 'AI' },
   { path: '/pitch', icon: Cpu, labelKey: 'ai' as const, badge: 'New' },
   { path: '/shop', icon: ShoppingBag, labelKey: 'shop' as const },
   { path: '/stories', icon: BookOpen, labelKey: 'stories' as const },
@@ -28,6 +29,9 @@ export default function Navigation() {
   const getTranslation = (key: string, isMobileNav: boolean = false): string => {
     if (key === 'ai') {
       return t('ai.tag', { defaultValue: 'AI Core' });
+    }
+    if (key === 'scanner') {
+      return t('scanner.navLabel', { defaultValue: 'Scanner' });
     }
     // For mobile navigation, use short versions for longer labels
     if (isMobileNav) {
