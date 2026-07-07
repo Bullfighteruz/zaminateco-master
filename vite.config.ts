@@ -100,10 +100,9 @@ export default defineConfig(({ mode }) => ({
       protocol: 'ws',
     },
     // Reduce latency
+    // File system security
     fs: {
-      strict: false, // Allow serving files outside root for faster dev
-      // Allow serving files from workspace root
-      allow: ['..'],
+      strict: true, // Only allow serving files from project root
     },
     // Prevent crashes on unhandled errors
     middlewareMode: false,

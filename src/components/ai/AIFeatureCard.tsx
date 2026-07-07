@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 interface AIFeatureCardProps {
   title: string;
@@ -11,9 +12,10 @@ interface AIFeatureCardProps {
   badgeKey: 'tagConcept' | 'tagPlanned' | 'tagUpcoming' | 'tagPrototype' | 'tagDesign';
   index: number;
   isActive?: boolean;
+  launchPath?: string;
 }
 
-export default function AIFeatureCard({ title, description, icon: Icon, badgeKey, index, isActive }: AIFeatureCardProps) {
+export default function AIFeatureCard({ title, description, icon: Icon, badgeKey, index, isActive, launchPath }: AIFeatureCardProps) {
   const { t } = useTranslation();
 
   return (
@@ -64,6 +66,18 @@ export default function AIFeatureCard({ title, description, icon: Icon, badgeKey
           <p className="text-[11px] text-slate-500 leading-snug">
             {description}
           </p>
+          
+          {launchPath && isActive && (
+            <div className="pt-1.5">
+              <Link 
+                to={launchPath}
+                className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-600 hover:text-emerald-700 transition-colors uppercase tracking-wider"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {t('tryLiveDemo', { defaultValue: 'Try Live Demo' })} →
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

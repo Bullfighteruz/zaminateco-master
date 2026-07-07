@@ -339,3 +339,32 @@ values
   ('s1', 'How Yunusobod Mahalla Recycled 1 Ton of Plastic', 'how-yunusobod-recycled-1-ton', 'Through the coordinate efforts of schools, local mahalla committees, and our EcoScan app, Yunusobod citizens successfully collected and diverted 1,000 kg of plastic. The collected PET and HDPE were loaded directly to the Zaminat production site to be turned into benches and tile squares.', '/images/how-yunusobod-recycled-1-ton.jpg', 'mahalla', 'Sardor Rahim', 156, 12, 'uz'),
   ('s2', 'EcoKids: Interactive Recycling Lessons in Tashkent', 'ecokids-interactive-recycling', 'The EcoKids program launched educational workshops in five public schools, using mobile gamification to motivate students. Children learned resin codes, scanned materials using cameras, and participated in direct mahalla competitions.', '/images/ecokids-lessons.jpg', 'eco-kids', 'Zola Karimova', 94, 8, 'ru')
 on conflict do nothing;
+
+-- 9. Global Impact Stats
+create table if not exists public.global_impact_stats (
+  id serial primary key,
+  total_plastic_kg double precision default 0.0,
+  total_rubber_kg double precision default 0.0,
+  total_paper_kg double precision default 0.0,
+  benches_created integer default 0,
+  tiles_created integer default 0,
+  co2_saved_kg double precision default 0.0,
+  last_updated timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.global_impact_stats enable row level security;
+
+create policy "Anyone can view global impact stats."
+  on public.global_impact_stats for select
+  using (true);
+
+-- Seed initial global impact stats
+insert into public.global_impact_stats (id, total_plastic_kg, total_rubber_kg, total_paper_kg, benches_created, tiles_created, co2_saved_kg)
+values (1, 1420.5, 950.0, 680.0, 18, 235, 1850.4)
+on conflict (id) do update set
+  total_plastic_kg = excluded.total_plastic_kg,
+  total_rubber_kg = excluded.total_rubber_kg,
+  total_paper_kg = excluded.total_paper_kg,
+  benches_created = excluded.benches_created,
+  tiles_created = excluded.tiles_created,
+  co2_saved_kg = excluded.co2_saved_kg;

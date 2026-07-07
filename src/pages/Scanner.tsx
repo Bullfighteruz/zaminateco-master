@@ -11,9 +11,17 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { scanWasteImage, type WasteScanResult, type DetectedItem } from '@/lib/gemini';
+import { 
+  classifyWasteFromBase64, classifyWasteImage as classifyWasteFromElement,
+  loadClassifierModel, isModelReady, isModelLoading as checkModelLoading,
+  type ClassifierResult, type WasteClassification 
+} from '@/lib/wasteClassifier';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { apiClient } from '@/lib/api-client';
+import { loadUserProgress, saveUserProgress } from '@/lib/userProgress';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
+import SmartSortingOverlay from '@/components/ai/SmartSortingOverlay';
 
 type ScanState = 'camera' | 'preview' | 'scanning' | 'result' | 'error';
 
@@ -53,9 +61,91 @@ export default function Scanner() {
   const [cameraReady, setCameraReady] = useState(false);
   const [useNativeCamera, setUseNativeCamera] = useState(false);
 
-  // Anti-fraud check simulation states
+  // Anti-fraud check states
   const [selectedProject, setSelectedProject] = useState<string>('school45');
   const [isJoinedEvent, setIsJoinedEvent] = useState(false);
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [collectionPoints, setCollectionPoints] = useState<any[]>([]);
+  const [selectedPoint, setSelectedPoint] = useState<any>(null);
+  const [verificationStatus, setVerificationStatus] = useState<'Pending' | 'Verified'>('Pending');
+  const [antiFraudMessage, setAntiFraudMessage] = useState<string>('');
+
+  // ML Classifier states
+  const [scanMode, setScanMode] = useState<'cloud' | 'offline'>('cloud');
+  const [mlResult, setMlResult] = useState<ClassifierResult | null>(null);
+  const [mlModelLoading, setMlModelLoading] = useState(false);
+  const [mlModelReady, setMlModelReady] = useState(isModelReady());
+
+  // Smart Sorting overlay
+  const [smartSortActive, setSmartSortActive] = useState(false);
+
+  // 1. Fetch points and locate user
+  useEffect(() => {
+    // Get points
+    apiClient.getCollectionPoints()
+      .then((points) => {
+        setCollectionPoints(points);
+        if (points.length > 0) {
+          setSelectedPoint(points[0]); // default
+        }
+      })
+      .catch(console.error);
+
+    // Get GPS coords
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const coords = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          setUserCoords(coords);
+          console.log('[Anti-Fraud] User location loaded:', coords);
+        },
+        (err) => {
+          console.warn('[Anti-Fraud] Geolocator access denied or offline:', err.message);
+        }
+      );
+    }
+  }, []);
+
+  // 2. Haversine distance proximity calculator
+  const getProximityCheck = useCallback((point: any) => {
+    if (!userCoords || !point) return { distance: null, isClose: false };
+    const R = 6371; // Earth radius in km
+    const dLat = (point.latitude - userCoords.lat) * Math.PI / 180;
+    const dLon = (point.longitude - userCoords.lng) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(userCoords.lat * Math.PI / 180) * Math.cos(point.latitude * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distanceKm = R * c;
+    const distanceMeters = distanceKm * 1000;
+    
+    return {
+      distance: distanceKm,
+      isClose: distanceMeters <= 200 // 200m range threshold
+    };
+  }, [userCoords]);
+
+  // 3. Auto-select nearest point once user coordinates are resolved
+  useEffect(() => {
+    if (userCoords && collectionPoints.length > 0) {
+      let nearest = collectionPoints[0];
+      let minDistance = Infinity;
+
+      collectionPoints.forEach(p => {
+        const check = getProximityCheck(p);
+        if (check.distance !== null && check.distance < minDistance) {
+          minDistance = check.distance;
+          nearest = p;
+        }
+      });
+      setSelectedPoint(nearest);
+      console.log('[Anti-Fraud] Auto-selected nearest EcoPoint:', nearest.name);
+    }
+  }, [userCoords, collectionPoints, getProximityCheck]);
 
   // Start camera
   const startCamera = useCallback(async () => {
@@ -139,6 +229,17 @@ export default function Scanner() {
       const scanResult = await scanWasteImage(capturedImage, i18n.language);
       setResult(scanResult);
       
+      // Proximity GPS Check
+      const check = getProximityCheck(selectedPoint);
+      const status = check.isClose ? 'Verified' : 'Pending';
+      setVerificationStatus(status);
+      
+      if (status === 'Verified') {
+        setAntiFraudMessage(t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' }));
+      } else {
+        setAntiFraudMessage(t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' }));
+      }
+      
       // If Supabase is configured, attempt to save the scan record
       if (isSupabaseConfigured() && supabase) {
         console.log('[EcoScan] Supabase is configured. Checking user session...');
@@ -154,13 +255,31 @@ export default function Scanner() {
               total_weight_kg: scanResult.totalEstimatedWeightKg,
               estimated_coins: scanResult.estimatedEcoCoins,
               project_pledged: selectedProject,
-              verification_status: 'Pending'
+              verification_status: status
             });
             
           if (dbError) {
             console.error('[EcoScan] Database insert failed:', dbError.message);
           } else {
             console.log('[EcoScan] Scan successfully persisted to database.');
+            
+            if (status === 'Verified') {
+              const { data: profile } = await supabase
+                .from('profiles')
+                .select('eco_coins, xp')
+                .eq('id', session.user.id)
+                .single();
+              if (profile) {
+                await supabase
+                  .from('profiles')
+                  .update({
+                    eco_coins: (profile.eco_coins || 0) + scanResult.estimatedEcoCoins,
+                    xp: (profile.xp || 0) + (scanResult.estimatedEcoCoins * 10)
+                  })
+                  .eq('id', session.user.id);
+                console.log('[Anti-Fraud] Supabase wallet auto-credited!');
+              }
+            }
           }
         } else {
           console.log('[EcoScan] No active user session. Running in guest/demo mode.');
@@ -168,6 +287,15 @@ export default function Scanner() {
       } else {
         console.log('[EcoScan] Supabase not configured. Running in local/demo mode.');
       }
+      
+      // Also update local storage progress
+      const local = loadUserProgress();
+      if (status === 'Verified') {
+        local.ecoCoins += scanResult.estimatedEcoCoins;
+        local.ecoPoints += scanResult.estimatedEcoCoins * 10;
+      }
+      local.wasteCollected += 0.25; // add simulation weight
+      saveUserProgress(local);
       
       setState('result');
     } catch (err: any) {
@@ -183,6 +311,83 @@ export default function Scanner() {
       setState('error');
     }
   }, [capturedImage, i18n.language, selectedProject]);
+
+  // Analyze with TF.js ML (offline)
+  const analyzeWithML = useCallback(async () => {
+    if (!capturedImage) return;
+    setState('scanning');
+    try {
+      const mlClassification = await classifyWasteFromBase64(capturedImage);
+      setMlResult(mlClassification);
+
+      // Convert ML result to WasteScanResult format for the existing result UI
+      const mlItems: DetectedItem[] = mlClassification.predictions
+        .filter(p => p.confidence > 5)
+        .map(p => ({
+          name: p.category + ' waste',
+          quantity: 1,
+          wasteType: p.category,
+          status: p.confidence > 50 ? 'Accepted' as const : 'Needs sorting' as const,
+          instructions: p.instructions,
+        }));
+
+      if (mlItems.length === 0) {
+        mlItems.push({
+          name: 'Unidentified item',
+          quantity: 1,
+          wasteType: 'Unknown',
+          status: 'Needs sorting',
+          instructions: 'Please bring to an EcoPoint for manual assessment.',
+        });
+      }
+
+      const topPred = mlClassification.topPrediction;
+      const scanResult: WasteScanResult = {
+        items: mlItems,
+        totalEstimatedWeightKg: 0.25,
+        estimatedEcoCoins: topPred.ecoCoinsEstimate,
+        overallRecommendation: `${topPred.sortingBin}: ${topPred.instructions}`,
+        confidence: topPred.confidence,
+      };
+
+      setResult(scanResult);
+
+      // GPS check (same as cloud scan)
+      const check = getProximityCheck(selectedPoint);
+      const status = check.isClose ? 'Verified' : 'Pending';
+      setVerificationStatus(status);
+      setAntiFraudMessage(
+        status === 'Verified'
+          ? t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' })
+          : t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' })
+      );
+
+      // Update local progress
+      const local = loadUserProgress();
+      if (status === 'Verified') {
+        local.ecoCoins += scanResult.estimatedEcoCoins;
+        local.ecoPoints += scanResult.estimatedEcoCoins * 10;
+      }
+      local.wasteCollected += 0.25;
+      saveUserProgress(local);
+
+      setState('result');
+    } catch (err: any) {
+      setError('ML_SCAN_ERROR');
+      setState('error');
+    }
+  }, [capturedImage, i18n.language, selectedProject]);
+
+  // Preload ML model when switching to offline mode
+  useEffect(() => {
+    if (scanMode === 'offline' && !isModelReady()) {
+      setMlModelLoading(true);
+      loadClassifierModel().then((ready) => {
+        setMlModelReady(ready);
+        setMlModelLoading(false);
+      });
+    }
+  }, [scanMode]);
 
   // Reset to camera
   const resetScanner = useCallback(() => {
@@ -304,17 +509,28 @@ export default function Scanner() {
                       {/* Scanning overlay */}
                       {cameraReady && (
                         <div className="absolute inset-0 pointer-events-none">
-                          <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
-                          <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
-                          <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
-                          <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
-                          <motion.div
-                            className="absolute left-8 right-8 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(52,211,153,0.5)]"
-                            animate={{ top: ['15%', '85%', '15%'] }}
-                            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                          />
+                          {!smartSortActive && (
+                            <>
+                              <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
+                              <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
+                              <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
+                              <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
+                              <motion.div
+                                className="absolute left-8 right-8 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(52,211,153,0.5)]"
+                                animate={{ top: ['15%', '85%', '15%'] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                              />
+                            </>
+                          )}
                         </div>
                       )}
+
+                      {/* Smart Sorting ML Overlay */}
+                      <SmartSortingOverlay
+                        videoRef={videoRef}
+                        isActive={smartSortActive}
+                        onClose={() => setSmartSortActive(false)}
+                      />
                       {!cameraReady && (
                         <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
                           <div className="text-center space-y-2">
@@ -353,6 +569,20 @@ export default function Scanner() {
                         <SwitchCamera className="h-5 w-5" />
                       </Button>
                     </div>
+
+                    {/* Smart Sort Toggle */}
+                    <button
+                      onClick={() => setSmartSortActive(!smartSortActive)}
+                      className={cn(
+                        "w-full h-11 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all border",
+                        smartSortActive
+                          ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white border-violet-400/30 shadow-lg shadow-violet-500/20"
+                          : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white"
+                      )}
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {smartSortActive ? 'Smart Sort: ON' : 'Smart Sort: Real-time ML'}
+                    </button>
                   </>
                 )}
               </motion.div>
@@ -369,7 +599,53 @@ export default function Scanner() {
               >
                 <div className="relative rounded-[2.25rem] overflow-hidden aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/10">
                   <img src={capturedImage} alt="Captured" className="w-full h-full object-cover" />
+                  
+                  {/* ML Pre-classification overlay */}
+                  {mlResult && scanMode === 'offline' && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent p-4 pt-10">
+                      <div className="text-[9px] font-bold uppercase tracking-wider text-emerald-400 mb-1.5">ML Pre-scan ({mlResult.processingTimeMs}ms)</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {mlResult.predictions.slice(0, 3).map((pred, i) => (
+                          <span key={i} className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-lg border" style={{
+                            backgroundColor: pred.binColor + '15',
+                            borderColor: pred.binColor + '40',
+                            color: pred.binColor,
+                          }}>
+                            {pred.icon} {pred.category} {pred.confidence}%
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
+
+                {/* Scan Mode Toggle */}
+                <div className="flex items-center gap-2 bg-slate-900/60 backdrop-blur-xl border border-white/5 rounded-2xl p-1.5">
+                  <button
+                    onClick={() => setScanMode('cloud')}
+                    className={cn(
+                      "flex-1 h-10 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all",
+                      scanMode === 'cloud'
+                        ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    )}
+                  >
+                    <Zap className="h-3.5 w-3.5" /> AI Cloud
+                  </button>
+                  <button
+                    onClick={() => setScanMode('offline')}
+                    className={cn(
+                      "flex-1 h-10 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all",
+                      scanMode === 'offline'
+                        ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    )}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" /> Offline ML
+                    {mlModelLoading && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />}
+                  </button>
+                </div>
+
                 <div className="flex gap-4">
                   <Button 
                     onClick={resetScanner} 
@@ -379,10 +655,20 @@ export default function Scanner() {
                     <RotateCcw className="h-4 w-4 mr-2" /> {t('scanner.retake')}
                   </Button>
                   <Button 
-                    onClick={analyzeImage} 
-                    className="flex-1 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
+                    onClick={scanMode === 'cloud' ? analyzeImage : analyzeWithML} 
+                    disabled={scanMode === 'offline' && mlModelLoading}
+                    className={cn(
+                      "flex-1 h-13 rounded-2xl font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all",
+                      scanMode === 'cloud'
+                        ? "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white"
+                        : "bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400 text-white"
+                    )}
                   >
-                    <Zap className="h-4 w-4 mr-2" /> {t('scanner.analyze')}
+                    {scanMode === 'cloud' ? (
+                      <><Zap className="h-4 w-4 mr-2" /> {t('scanner.analyze')}</>
+                    ) : (
+                      <><Sparkles className="h-4 w-4 mr-2" /> ML Scan</>
+                    )}
                   </Button>
                 </div>
               </motion.div>
@@ -443,6 +729,30 @@ export default function Scanner() {
                     </div>
                   </div>
                 </div>
+
+                {/* Anti-Fraud Validation Badge */}
+                {antiFraudMessage && (
+                  <div className={cn(
+                    "rounded-2xl p-3 border flex items-start gap-2.5 shadow-lg",
+                    verificationStatus === 'Verified'
+                      ? "bg-emerald-500/10 border-emerald-500/35 text-emerald-400"
+                      : "bg-amber-500/10 border-amber-500/35 text-amber-400"
+                  )}>
+                    {verificationStatus === 'Verified' ? (
+                      <ShieldCheck className="h-5 w-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    ) : (
+                      <AlertTriangle className="h-5 w-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                    )}
+                    <div className="space-y-0.5 text-left">
+                      <div className="text-[10px] font-black uppercase tracking-wider">
+                        {verificationStatus === 'Verified' ? 'GPS Verification: Passed' : 'GPS Verification: Mismatch'}
+                      </div>
+                      <p className="text-[10px] opacity-90 leading-tight">
+                        {antiFraudMessage}
+                      </p>
+                    </div>
+                  </div>
+                )}
 
                 {/* 1. DETECTED ITEMS LIST */}
                 <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-5 border border-white/5 shadow-xl space-y-3">
@@ -515,27 +825,38 @@ export default function Scanner() {
                   </div>
                 )}
 
-                {/* 3. ECOMAP INTEGRATION */}
-                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-4 border border-white/5 space-y-3">
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                        <MapPin className="h-4 w-4 text-emerald-400" />
-                        {t('scanner.nearestPoint')}
-                      </h4>
-                      <p className="text-[10px] font-semibold text-slate-300">Yunusobod EcoPoint (1.4 km · 8 min walk)</p>
-                      <p className="text-[9px] text-slate-400">Open: 09:00 - 18:00 · Accepts: PET, HDPE, PP, Paper</p>
-                    </div>
-                    <a 
-                      href="https://maps.google.com/?q=Tashkent,Yunusobod" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
-                    >
-                      <NavIcon className="h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
+                 {/* 3. ECOMAP INTEGRATION */}
+                 <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-4 border border-white/5 space-y-3">
+                   <div className="flex items-start justify-between">
+                     <div className="space-y-1 text-left">
+                       <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                         <MapPin className="h-4 w-4 text-emerald-400" />
+                         {t('scanner.nearestPoint', { defaultValue: 'Nearest Collection Point' })}
+                       </h4>
+                       <p className="text-[10px] font-semibold text-slate-300">
+                         {selectedPoint ? selectedPoint.name : 'Yunusobod EcoPoint'}
+                         {selectedPoint && userCoords && (
+                           <span className="text-emerald-400 ml-1.5 font-extrabold">
+                             ({getProximityCheck(selectedPoint).distance?.toFixed(2)} km)
+                           </span>
+                         )}
+                       </p>
+                       <p className="text-[9px] text-slate-400">
+                         Accepts: {selectedPoint ? selectedPoint.accepted_materials : 'PET, HDPE, PP, Paper'}
+                       </p>
+                     </div>
+                     {selectedPoint && (
+                       <a 
+                         href={`https://maps.google.com/?q=${selectedPoint.latitude},${selectedPoint.longitude}`} 
+                         target="_blank" 
+                         rel="noopener noreferrer"
+                         className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
+                       >
+                         <NavIcon className="h-4 w-4" />
+                       </a>
+                     )}
+                   </div>
+                 </div>
 
                 {/* 4. ECOVOTE & ECOACTIONS ACTIONABLE CARDS */}
                 <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-5 border border-white/5 space-y-4">

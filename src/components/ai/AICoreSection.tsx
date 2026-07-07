@@ -31,12 +31,12 @@ export default function AICoreSection() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
 
   const features = [
-    { key: 'ecoscan', icon: Camera, badgeKey: 'tagPrototype' as const, screenIndex: 0 },
-    { key: 'ecocoach', icon: MessageSquare, badgeKey: 'tagConcept' as const, screenIndex: 1 },
+    { key: 'ecoscan', icon: Camera, badgeKey: 'tagPrototype' as const, screenIndex: 0, launchPath: '/scanner' },
+    { key: 'ecocoach', icon: MessageSquare, badgeKey: 'tagConcept' as const, screenIndex: 1, launchPath: '/coach' },
     { key: 'impact', icon: Cpu, badgeKey: 'tagPrototype' as const, screenIndex: 2 },
     { key: 'fraud', icon: ShieldCheck, badgeKey: 'tagUpcoming' as const, screenIndex: 3 },
     { key: 'kids', icon: Smile, badgeKey: 'tagDesign' as const, screenIndex: 4 },
-    { key: 'planner', icon: Factory, badgeKey: 'tagPlanned' as const, screenIndex: 5 }
+    { key: 'planner', icon: Factory, badgeKey: 'tagPlanned' as const, screenIndex: 5, launchPath: '/planner' }
   ];
 
   // Scroll-driven phone transitions
@@ -153,6 +153,7 @@ export default function AICoreSection() {
                         badgeKey={feature.badgeKey}
                         index={idx}
                         isActive={activeScreenIndex === feature.screenIndex}
+                        launchPath={feature.launchPath}
                       />
                     </div>
                   ))}
