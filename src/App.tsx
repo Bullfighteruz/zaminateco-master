@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { CartProvider } from './contexts/CartContext';
 import LightweightLoader from './components/LightweightLoader';
 import WelcomeModal from './components/WelcomeModal';
+import FloatingCoachWidget from './components/ai/FloatingCoachWidget';
 import './styles/enhanced-mobile.css';
 
 // Optimized QueryClient with better defaults for performance
@@ -42,6 +43,9 @@ const NotFound = lazy(() => import(/* webpackChunkName: "notfound" */ './pages/N
 const Pitch = lazy(() => import(/* webpackChunkName: "pitch" */ './pages/Pitch'));
 const PitchLive = lazy(() => import(/* webpackChunkName: "pitch-live" */ './pages/PitchLive'));
 const Scanner = lazy(() => import(/* webpackChunkName: "scanner" */ './pages/Scanner'));
+const EcoCoach = lazy(() => import(/* webpackChunkName: "coach" */ './pages/EcoCoach'));
+const ProductionPlanner = lazy(() => import(/* webpackChunkName: "planner" */ './pages/ProductionPlanner'));
+const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ './pages/Analytics'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -58,6 +62,7 @@ const App = () => (
               <RouterErrorBoundary>
               <ScrollManager />
               <WelcomeModal />
+              <FloatingCoachWidget />
               <Suspense fallback={<LightweightLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
@@ -75,6 +80,9 @@ const App = () => (
                   <Route path="/pitch" element={<Pitch />} />
                   <Route path="/pitch-live" element={<PitchLive />} />
                   <Route path="/scanner" element={<Scanner />} />
+                  <Route path="/coach" element={<EcoCoach />} />
+                  <Route path="/planner" element={<ProductionPlanner />} />
+                  <Route path="/analytics" element={<Analytics />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

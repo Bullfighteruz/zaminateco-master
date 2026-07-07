@@ -1,0 +1,388 @@
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { X, Send, Trash2, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { getEcoCoachResponse } from '@/lib/gemini';
+import { loadUserProgress } from '@/lib/userProgress';
+import { useLocation, Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+
+interface Message {
+  id: string;
+  role: 'user' | 'model';
+  text: string;
+}
+
+const STORAGE_KEY = 'zami_bot_chat';
+
+/** Parse simple markdown (bold, bullet points, line breaks) into React elements */
+function renderMarkdown(text: string): React.ReactNode[] {
+  const lines = text.split('\n');
+  const elements: React.ReactNode[] = [];
+
+  lines.forEach((line, lineIdx) => {
+    if (lineIdx > 0) {
+      elements.push(<br key={`br-${lineIdx}`} />);
+    }
+
+    // Detect bullet lines
+    const bulletMatch = line.match(/^(\s*[-•*]\s+)(.*)/);
+    const content = bulletMatch ? bulletMatch[2] : line;
+    const isBullet = !!bulletMatch;
+
+    // Split by **bold** markers
+    const parts = content.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, partIdx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={`${lineIdx}-${partIdx}`} className="font-semibold">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={`${lineIdx}-${partIdx}`}>{part}</span>;
+    });
+
+    if (isBullet) {
+      elements.push(
+        <span key={`bullet-${lineIdx}`} className="flex items-start gap-1.5 mt-0.5">
+          <span className="text-emerald-400 mt-px select-none">•</span>
+          <span>{rendered}</span>
+        </span>
+      );
+    } else {
+      elements.push(...rendered);
+    }
+  });
+
+  return elements;
+}
+
+function loadMessages(): Message[] | null {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch {
+    // ignore parse errors
+  }
+  return null;
+}
+
+function saveMessages(messages: Message[]) {
+  try {
+    // Save only the last 50 messages to keep localStorage lean
+    const toSave = messages.slice(-50);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch {
+    // localStorage full or unavailable
+  }
+}
+
+function getWelcomeText(lang: string): string {
+  return lang === 'uz'
+    ? "Salom! Men Zami Bot yordamchisiman. Sizga qayta ishlash yoki platforma bo'yicha qanday yordam bera olaman?"
+    : lang === 'ru'
+    ? "Привет! Я помощник Zami Bot. Чем могу помочь вам по сортировке или работе платформы?"
+    : "Hello! I'm Zami Bot. How can I help you today with sorting or recycling?";
+}
+
+export default function FloatingCoachWidget() {
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [inputText, setInputText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [ctaIndex, setCtaIndex] = useState(0);
+  const [showCta, setShowCta] = useState(true);
+  const ctaCycleCount = useRef(0);
+
+  const ctaMessages: Record<string, string[]> = useMemo(() => ({
+    en: [
+      "♻️ Not sure how to sort it? Ask me!",
+      "🤖 I know Uzbekistan's eco-laws",
+      "🌱 Get personalized eco-tips",
+      "📊 Check your recycling impact",
+    ],
+    uz: [
+      "♻️ Qanday saralashni bilmayapsizmi?",
+      "🤖 Ekologiya qonunlarini bilaman",
+      "🌱 Shaxsiy eko-maslahatlar oling",
+      "📊 Qayta ishlash ta'siringizni tekshiring",
+    ],
+    ru: [
+      "♻️ Не знаете, как сортировать?",
+      "🤖 Знаю эко-законы Узбекистана",
+      "🌱 Получите эко-советы",
+      "📊 Проверьте свой эко-вклад",
+    ],
+  }), []);
+
+  // Cycle CTA messages
+  useEffect(() => {
+    if (isOpen || !showCta) return;
+    const interval = setInterval(() => {
+      setCtaIndex(prev => {
+        const lang = i18n.language as string;
+        const msgs = ctaMessages[lang] || ctaMessages.en;
+        const next = (prev + 1) % msgs.length;
+        if (next === 0) {
+          ctaCycleCount.current += 1;
+          if (ctaCycleCount.current >= 3) {
+            setShowCta(false);
+          }
+        }
+        return next;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isOpen, showCta, i18n.language, ctaMessages]);
+
+  const defaultMessages: Message[] = useMemo(() => [{
+    id: 'welcome',
+    role: 'model' as const,
+    text: getWelcomeText(i18n.language)
+  }], []);
+
+  const [messages, setMessages] = useState<Message[]>(() => {
+    return loadMessages() || defaultMessages;
+  });
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Save messages to localStorage whenever they change
+  useEffect(() => {
+    saveMessages(messages);
+  }, [messages]);
+
+  useEffect(() => {
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [isOpen, messages, isTyping]);
+
+  // Update welcome message text when language changes
+  useEffect(() => {
+    setMessages(prev => prev.map(m => {
+      if (m.id === 'welcome') {
+        return { ...m, text: getWelcomeText(i18n.language) };
+      }
+      return m;
+    }));
+  }, [i18n.language]);
+
+  const handleSendMessage = async (textToSend: string) => {
+    if (!textToSend.trim()) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      text: textToSend
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputText('');
+    setIsTyping(true);
+
+    try {
+      const history = messages
+        .filter(m => m.id !== 'welcome')
+        .map(m => ({
+          role: m.role,
+          parts: [{ text: m.text }]
+        }));
+
+      const progress = loadUserProgress();
+      const userInfo = progress ? {
+        displayName: progress.name,
+        coins: progress.ecoCoins,
+        points: progress.ecoPoints,
+        level: progress.level,
+        location: "Uzbekistan",
+        school: "School #45, Chilonzor District",
+      } : undefined;
+
+      const reply = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
+      
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'model',
+        text: reply
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      if (import.meta.env.DEV) console.error(error);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  const clearChat = () => {
+    const freshMessages = [{
+      id: 'welcome',
+      role: 'model' as const,
+      text: getWelcomeText(i18n.language)
+    }];
+    setMessages(freshMessages);
+    saveMessages(freshMessages);
+  };
+
+  // Don't show this widget on the main EcoCoach page
+  if (location.pathname === '/coach') return null;
+
+  return (
+    <div className="fixed bottom-20 md:bottom-6 right-4 z-[9999] flex flex-col items-end pointer-events-auto select-none">
+      
+      {/* Floating Chat Panel */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 32, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 32, scale: 0.95 }}
+            className="w-[380px] sm:w-[420px] h-[560px] bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
+          >
+            {/* Header */}
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-7 w-7 rounded-full object-cover ring-2 ring-white/30" />
+                <span className="text-xs font-bold tracking-wide text-white">Zami Bot</span>
+              </div>
+              <div className="flex items-center gap-1">
+                {messages.length > 1 && (
+                  <button
+                    onClick={clearChat}
+                    className="text-white/60 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-all"
+                    title="Clear chat"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                )}
+                <Link 
+                  to="/coach" 
+                  onClick={() => setIsOpen(false)}
+                  className="text-[10px] bg-white/10 hover:bg-white/20 text-white font-extrabold px-2 py-0.5 rounded-lg mr-1.5 flex items-center gap-0.5 transition-all"
+                >
+                  {i18n.language === 'uz' ? 'To\'liq' : i18n.language === 'ru' ? 'Полный экран' : 'Full Page'} <ArrowRight className="h-3 w-3" />
+                </Link>
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-all"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-3.5 space-y-3 scrollbar-thin">
+              {messages.map((m) => (
+                <div 
+                  key={m.id}
+                  className={cn(
+                    "flex w-full items-start gap-2",
+                    m.role === 'user' ? "justify-end" : "justify-start"
+                  )}
+                >
+                  {m.role === 'model' && (
+                    <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10 flex-shrink-0" />
+                  )}
+                  <div className={cn(
+                    "max-w-[80%] rounded-xl px-3 py-2 text-xs leading-relaxed shadow",
+                    m.role === 'user'
+                      ? "bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-tr-none text-right font-medium"
+                      : "bg-slate-950 border border-white/5 text-slate-100 rounded-tl-none text-left"
+                  )}>
+                    {m.role === 'model' ? renderMarkdown(m.text) : m.text}
+                  </div>
+                </div>
+              ))}
+
+              {isTyping && (
+                <div className="flex w-full items-start gap-2 justify-start">
+                  <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10 flex-shrink-0" />
+                  <div className="bg-slate-950 border border-white/5 rounded-xl rounded-tl-none px-3 py-2 flex items-center gap-1">
+                    <span className="w-1 h-1 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                    <span className="w-1 h-1 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                    <span className="w-1 h-1 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Form */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSendMessage(inputText);
+              }}
+              className="bg-slate-950/80 border-t border-white/5 p-2 flex items-center gap-1.5"
+            >
+              <Input
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                maxLength={2000}
+                placeholder={i18n.language === 'uz' ? "Yozing..." : i18n.language === 'ru' ? "Напишите..." : "Type here..."}
+                className="flex-1 bg-slate-900 border-white/5 text-white placeholder-slate-500 h-9 px-2 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+              />
+              <Button
+                type="submit"
+                disabled={!inputText.trim() || isTyping}
+                size="icon"
+                className="h-9 w-9 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold"
+              >
+                <Send className="h-3.5 w-3.5" />
+              </Button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toggle Button + CTA */}
+      <div className="flex items-center gap-2.5">
+        {/* CTA Speech Bubble */}
+        {!isOpen && showCta && (
+          <button
+            onClick={() => { setShowCta(false); setIsOpen(true); }}
+            className="relative bg-white border border-gray-200/80 text-gray-700 text-[11px] font-medium leading-snug pl-3 pr-7 py-2 rounded-xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-200 max-w-[200px] cursor-pointer"
+          >
+            {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
+            {/* Dismiss X */}
+            <span
+              onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
+              className="absolute top-1 right-1.5 text-gray-300 hover:text-gray-500 text-[10px] leading-none cursor-pointer"
+            >
+              ✕
+            </span>
+            {/* Triangle pointer */}
+            <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-white" />
+            <span className="absolute top-1/2 -translate-y-1/2 -right-[7px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-gray-200/80" style={{ zIndex: -1 }} />
+          </button>
+        )}
+
+        {/* Avatar Button */}
+        <button
+          onClick={() => setIsOpen(prev => !prev)}
+          className="h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0"
+        >
+          {isOpen ? (
+            <div className="h-14 w-14 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center">
+              <X className="h-5 w-5 text-white" />
+            </div>
+          ) : (
+            <img
+              src="/images/ai-screens/Zami-bot-avatar.jpg"
+              alt="Zami Bot"
+              className="h-14 w-14 rounded-full object-cover ring-2 ring-white/80 shadow-lg"
+            />
+          )}
+        </button>
+      </div>
+
+    </div>
+  );
+}

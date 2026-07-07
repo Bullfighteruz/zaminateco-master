@@ -94,8 +94,8 @@ export default function Navigation() {
   return (
     <>
       {/* Main Bottom Navigation - Pinned to bottom, centered, not full-width */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-0 mobile-nav">
-        <div className="bg-white border-t border-gray-200 shadow-lg rounded-t-2xl px-3 sm:px-4 py-2.5">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-0 mobile-nav pointer-events-none">
+        <div className="bg-white border-t border-gray-200 shadow-lg rounded-t-2xl px-3 sm:px-4 py-2.5 pointer-events-auto">
           <div className="flex justify-around items-center gap-0.5 sm:gap-1">
             {navigationItems.map((item) => {
               const Icon = item.icon;
