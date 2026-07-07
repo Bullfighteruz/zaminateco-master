@@ -28,7 +28,7 @@ const WASTE_COLORS: Record<string, { bg: string; text: string; border: string }>
 };
 
 export default function Scanner() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -125,12 +125,14 @@ export default function Scanner() {
     if (!capturedImage) return;
     setState('scanning');
     try {
-      const scanResult = await scanWasteImage(capturedImage);
+      const scanResult = await scanWasteImage(capturedImage, i18n.language);
       setResult(scanResult);
       setState('result');
     } catch (err: any) {
       if (err.message === 'GEMINI_API_KEY_MISSING') {
         setError('API_KEY_MISSING');
+      } else if (err.message === 'API_KEY_INVALID') {
+        setError('API_KEY_INVALID');
       } else if (err.message === 'PARSE_ERROR') {
         setError('PARSE_ERROR');
       } else {
@@ -138,7 +140,7 @@ export default function Scanner() {
       }
       setState('error');
     }
-  }, [capturedImage]);
+  }, [capturedImage, i18n.language]);
 
   // Reset to camera
   const resetScanner = useCallback(() => {
@@ -340,7 +342,7 @@ export default function Scanner() {
                   <img src={capturedImage!} alt="Scanned" className="w-full h-full object-cover" />
                   <div className="absolute top-3 right-3">
                     <div className={cn("px-3 py-1 rounded-full text-xs font-bold border", wasteColor.bg, wasteColor.text, wasteColor.border)}>
-                      {result.wasteType}
+                      {t(`scanner.wasteTypes.${result.wasteType}`, { defaultValue: result.wasteType })}
                     </div>
                   </div>
                 </div>
@@ -352,7 +354,7 @@ export default function Scanner() {
                       <h3 className="font-black text-lg text-gray-900">{result.material}</h3>
                       <div className="flex items-center gap-2 mt-1">
                         <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-bold border", wasteColor.bg, wasteColor.text, wasteColor.border)}>
-                          {result.wasteType}
+                          {t(`scanner.wasteTypes.${result.wasteType}`, { defaultValue: result.wasteType })}
                         </span>
                         {result.recyclable && (
                           <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -379,10 +381,12 @@ export default function Scanner() {
                       <div className="text-sm font-black text-amber-700">+{result.ecoCoins}</div>
                       <div className="text-[9px] text-amber-600/70 font-medium">Eco Coins</div>
                     </div>
-                    <div className="bg-blue-50 rounded-xl p-3 text-center">
-                      <ShieldCheck className="h-4 w-4 text-blue-600 mx-auto mb-1" />
-                      <div className="text-sm font-black text-blue-700">{result.recyclable ? '✓' : '✗'}</div>
-                      <div className="text-[9px] text-blue-600/70 font-medium">{t('scanner.verified')}</div>
+                    <div className={cn("rounded-xl p-3 text-center transition-colors", result.recyclable ? "bg-emerald-50" : "bg-red-50")}>
+                      <ShieldCheck className={cn("h-4 w-4 mx-auto mb-1", result.recyclable ? "text-emerald-600" : "text-red-500")} />
+                      <div className={cn("text-sm font-black", result.recyclable ? "text-emerald-700" : "text-red-700")}>
+                        {result.recyclable ? t('scanner.yes') : t('scanner.no')}
+                      </div>
+                      <div className={cn("text-[9px] font-medium", result.recyclable ? "text-emerald-600/70" : "text-red-600/70")}>{t('scanner.verified')}</div>
                     </div>
                   </div>
 

@@ -1132,7 +1132,21 @@
     "errGenericDesc": "Что-то пошло не так. Попробуйте еще раз.",
     "tryAgain": "Повторить",
     "takePhoto": "Сделать фото",
-    "uploadPhoto": "Загрузить из галереи"
+    "uploadPhoto": "Загрузить из галереи",
+    "yes": "Да",
+    "no": "Нет",
+    "wasteTypes": {
+      "Plastic": "Пластик",
+      "Metal": "Металл",
+      "Glass": "Стекло",
+      "Paper": "Бумага",
+      "Rubber": "Резина",
+      "Organic": "Органика",
+      "E-waste": "Эл. отходы",
+      "Textile": "Текстиль",
+      "Mixed": "Смешанный",
+      "Unknown": "Неизвестно"
+    }
   },
   "ai": {
     "tag": "ZAMINAT AI Core",

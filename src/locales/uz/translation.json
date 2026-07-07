@@ -1132,7 +1132,21 @@
     "errGenericDesc": "Nimadir noto'g'ri ketdi. Qayta urinib ko'ring.",
     "tryAgain": "Qayta urinish",
     "takePhoto": "Suratga olish",
-    "uploadPhoto": "Galereyadan yuklash"
+    "uploadPhoto": "Galereyadan yuklash",
+    "yes": "Ha",
+    "no": "Yo'q",
+    "wasteTypes": {
+      "Plastic": "Plastik",
+      "Metal": "Metall",
+      "Glass": "Shisha",
+      "Paper": "Qog'oz",
+      "Rubber": "Rezina",
+      "Organic": "Organika",
+      "E-waste": "Elektronika",
+      "Textile": "To'qimachilik",
+      "Mixed": "Aralash",
+      "Unknown": "Noma'lum"
+    }
   },
   "ai": {
     "tag": "ZAMINAT AI Core",

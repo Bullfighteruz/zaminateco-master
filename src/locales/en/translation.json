@@ -1132,7 +1132,21 @@
     "errGenericDesc": "Something went wrong during analysis. Please try again.",
     "tryAgain": "Try Again",
     "takePhoto": "Take Photo",
-    "uploadPhoto": "Upload from Gallery"
+    "uploadPhoto": "Upload from Gallery",
+    "yes": "Yes",
+    "no": "No",
+    "wasteTypes": {
+      "Plastic": "Plastic",
+      "Metal": "Metal",
+      "Glass": "Glass",
+      "Paper": "Paper",
+      "Rubber": "Rubber",
+      "Organic": "Organic",
+      "E-waste": "E-waste",
+      "Textile": "Textile",
+      "Mixed": "Mixed",
+      "Unknown": "Unknown"
+    }
   },
   "ai": {
     "tag": "ZAMINAT AI Core",

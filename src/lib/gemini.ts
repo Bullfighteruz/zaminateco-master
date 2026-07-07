@@ -28,14 +28,31 @@ Return ONLY valid JSON (no markdown, no code fences) with this exact structure:
 If the image does not contain waste or recyclable materials, set wasteType to "Unknown" and confidence to 0.
 Be specific in the material field — don't just say "plastic", say what kind.`;
 
-export async function scanWasteImage(imageBase64: string, mimeType: string = 'image/jpeg'): Promise<WasteScanResult> {
+export async function scanWasteImage(
+  imageBase64: string, 
+  lang: string = 'en',
+  mimeType: string = 'image/jpeg'
+): Promise<WasteScanResult> {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   
-  console.log('[EcoScan] API key loaded:', apiKey ? `${apiKey.substring(0, 6)}...` : 'MISSING');
+  console.log('[EcoScan] API key loaded:', apiKey ? `${apiKey.substring(0, 6)}...` : 'MISSING', 'Language:', lang);
   
   if (!apiKey || apiKey === 'your-api-key-here') {
     throw new Error('GEMINI_API_KEY_MISSING');
   }
+
+  // Map language codes to clear names for the LLM
+  const langNames: Record<string, string> = {
+    uz: 'Uzbek (in Latin script, e.g. "Ishlatilgan salfetka" / "Plastik butilka")',
+    ru: 'Russian',
+    en: 'English'
+  };
+  const targetLang = langNames[lang.substring(0, 2)] || 'English';
+
+  const dynamicPrompt = `${SCAN_PROMPT}
+
+CRITICAL: You MUST write the values for "material" and "suggestion" in the ${targetLang} language.
+Ensure the translation is natural and accurate.`;
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
@@ -47,7 +64,7 @@ export async function scanWasteImage(imageBase64: string, mimeType: string = 'im
     console.log('[EcoScan] Sending image to Gemini...', { mimeType, dataLength: base64Data.length });
 
     const result = await model.generateContent([
-      SCAN_PROMPT,
+      dynamicPrompt,
       {
         inlineData: {
           mimeType,
