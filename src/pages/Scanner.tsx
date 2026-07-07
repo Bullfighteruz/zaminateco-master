@@ -162,47 +162,80 @@ export default function Scanner() {
   const wasteColor = result ? (WASTE_COLORS[result.wasteType] || WASTE_COLORS.Unknown) : WASTE_COLORS.Unknown;
 
   return (
-    <Layout>
-      <div className={cn("min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 relative overflow-hidden", isMobile ? "pt-16" : "pt-20")}>
-        {/* Header */}
-        <div className="relative z-10 flex items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
-            <ArrowLeft className="h-5 w-5" />
-            <span className="text-sm font-medium">{t('scanner.back')}</span>
-          </Link>
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30">
-              <Zap className="h-4 w-4 text-emerald-400" />
+    <Layout hideBottomNav={true}>
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden flex flex-col">
+        
+        {/* Floating Premium Header */}
+        <div className="relative z-20 px-4 pt-4 pb-2">
+          <div className="max-w-md mx-auto bg-slate-900/60 backdrop-blur-xl border border-white/5 rounded-2xl px-4 py-3 flex items-center justify-between shadow-2xl">
+            <Link 
+              to="/" 
+              className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors duration-200 group"
+            >
+              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+              <span className="text-xs font-semibold">{t('scanner.back')}</span>
+            </Link>
+            
+            <div className="flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-black text-white/90 uppercase tracking-widest">{t('scanner.title')}</span>
             </div>
-            <span className="text-sm font-bold text-white">{t('scanner.title')}</span>
+            
+            <div className="flex items-center gap-1.5 p-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+              <Zap className="h-3 w-3 text-emerald-400" />
+              <span className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider">AI</span>
+            </div>
           </div>
-          <div className="w-16" /> {/* Spacer for centering */}
         </div>
 
-        {/* Main Content */}
-        <div className={cn("relative z-10 px-4 pb-8", isMobile ? "max-w-full" : "max-w-lg mx-auto")}>
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col justify-center px-4 pb-8 max-w-md mx-auto w-full relative z-10">
           <canvas ref={canvasRef} className="hidden" />
-          <input ref={fileInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFileUpload} />
+          <input 
+            ref={fileInputRef} 
+            type="file" 
+            accept="image/*" 
+            capture="environment" 
+            className="hidden" 
+            onChange={handleFileUpload} 
+          />
 
           <AnimatePresence mode="wait">
             {/* ─── CAMERA VIEW ─── */}
             {state === 'camera' && (
-              <motion.div key="camera" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                
+              <motion.div 
+                key="camera" 
+                initial={{ opacity: 0, scale: 0.96 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                exit={{ opacity: 0, scale: 0.96 }} 
+                className="space-y-6 w-full"
+              >
                 {/* Native camera fallback mode (iOS / no HTTPS) */}
                 {useNativeCamera ? (
-                  <div className="rounded-3xl overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900 aspect-[3/4] shadow-2xl border border-white/10 flex flex-col items-center justify-center p-8 gap-6">
-                    <div className="p-5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
-                      <Camera className="h-12 w-12 text-emerald-400" />
+                  <div className="rounded-[2.25rem] overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/5 flex flex-col items-center justify-center p-8 gap-6 relative">
+                    {/* Glowing radial background */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08)_0%,transparent_70%)] pointer-events-none" />
+                    
+                    <div className="relative">
+                      {/* Radar-like pulsing circles */}
+                      <div className="absolute inset-0 rounded-full bg-emerald-500/10 animate-ping scale-150 duration-1000" />
+                      <div className="absolute inset-0 rounded-full bg-emerald-500/5 animate-ping scale-125 duration-700" />
+                      <div className="p-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 relative z-10">
+                        <Camera className="h-10 w-10 stroke-[1.75]" />
+                      </div>
                     </div>
-                    <div className="text-center space-y-2">
-                      <h3 className="text-white font-bold text-lg">{t('scanner.title')}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed max-w-[260px]">{t('scanner.hint')}</p>
+
+                    <div className="text-center space-y-2 relative z-10">
+                      <h3 className="text-white font-extrabold text-xl tracking-tight">{t('scanner.title')}</h3>
+                      <p className="text-slate-400 text-xs leading-relaxed max-w-[240px] mx-auto">
+                        {t('scanner.hint')}
+                      </p>
                     </div>
-                    <div className="flex flex-col gap-3 w-full max-w-[240px]">
+
+                    <div className="flex flex-col gap-3 w-full max-w-[240px] relative z-10 mt-2">
                       <button
                         onClick={() => fileInputRef.current?.click()}
-                        className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                        className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-[0_8px_30px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 active:scale-95 transition-all duration-200"
                       >
                         <Camera className="h-5 w-5" /> {t('scanner.takePhoto')}
                       </button>
@@ -214,7 +247,7 @@ export default function Scanner() {
                             fileInputRef.current.setAttribute('capture', 'environment');
                           }
                         }}
-                        className="w-full h-12 rounded-2xl border border-white/20 bg-white/5 text-white/80 font-medium text-sm flex items-center justify-center gap-2 hover:bg-white/10 active:scale-95 transition-all"
+                        className="w-full h-12 rounded-2xl border border-white/10 bg-white/5 text-slate-300 font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/10 active:scale-95 transition-all duration-200"
                       >
                         <ImageIcon className="h-4 w-4" /> {t('scanner.uploadPhoto')}
                       </button>
@@ -223,7 +256,7 @@ export default function Scanner() {
                 ) : (
                   /* Live camera viewfinder mode (HTTPS / desktop) */
                   <>
-                    <div className="relative rounded-3xl overflow-hidden bg-black aspect-[3/4] shadow-2xl border border-white/10">
+                    <div className="relative rounded-[2.25rem] overflow-hidden bg-black aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/10">
                       <video
                         ref={videoRef}
                         autoPlay
@@ -235,23 +268,23 @@ export default function Scanner() {
                       {cameraReady && (
                         <div className="absolute inset-0 pointer-events-none">
                           {/* Corner brackets */}
-                          <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
-                          <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
-                          <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
-                          <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
+                          <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
+                          <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
+                          <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
+                          <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
                           {/* Scan line animation */}
                           <motion.div
-                            className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
+                            className="absolute left-8 right-8 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(52,211,153,0.5)]"
                             animate={{ top: ['15%', '85%', '15%'] }}
                             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                           />
                         </div>
                       )}
                       {!cameraReady && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+                        <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
                           <div className="text-center space-y-2">
-                            <Camera className="h-10 w-10 text-emerald-400 mx-auto animate-pulse" />
-                            <p className="text-sm text-white/60">{t('scanner.loading')}</p>
+                            <Camera className="h-8 w-8 text-emerald-400 mx-auto animate-pulse" />
+                            <p className="text-xs text-slate-400">{t('scanner.loading')}</p>
                           </div>
                         </div>
                       )}
@@ -263,7 +296,7 @@ export default function Scanner() {
                         onClick={() => fileInputRef.current?.click()}
                         variant="outline"
                         size="icon"
-                        className="h-12 w-12 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                        className="h-12 w-12 rounded-full border-white/10 bg-slate-900/60 backdrop-blur-md text-white hover:bg-slate-800/80 active:scale-95 transition-all"
                       >
                         <ImageIcon className="h-5 w-5" />
                       </Button>
@@ -271,22 +304,20 @@ export default function Scanner() {
                       <button
                         onClick={capturePhoto}
                         disabled={!cameraReady}
-                        className="h-16 w-16 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-white/30 shadow-lg shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:hover:scale-100 flex items-center justify-center"
+                        className="h-18 w-18 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-white/20 shadow-[0_8px_30px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:hover:scale-100 flex items-center justify-center"
                       >
-                        <Camera className="h-6 w-6 text-white" />
+                        <div className="h-8 w-8 rounded-full border-2 border-white/80" />
                       </button>
 
                       <Button
                         onClick={flipCamera}
                         variant="outline"
                         size="icon"
-                        className="h-12 w-12 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                        className="h-12 w-12 rounded-full border-white/10 bg-slate-900/60 backdrop-blur-md text-white hover:bg-slate-800/80 active:scale-95 transition-all"
                       >
                         <SwitchCamera className="h-5 w-5" />
                       </Button>
                     </div>
-
-                    <p className="text-center text-xs text-white/40">{t('scanner.hint')}</p>
                   </>
                 )}
               </motion.div>
@@ -294,15 +325,28 @@ export default function Scanner() {
 
             {/* ─── PREVIEW ─── */}
             {state === 'preview' && capturedImage && (
-              <motion.div key="preview" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                <div className="relative rounded-3xl overflow-hidden aspect-[3/4] shadow-2xl border border-white/10">
+              <motion.div 
+                key="preview" 
+                initial={{ opacity: 0, scale: 0.96 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                exit={{ opacity: 0, scale: 0.96 }} 
+                className="space-y-6 w-full"
+              >
+                <div className="relative rounded-[2.25rem] overflow-hidden aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/10">
                   <img src={capturedImage} alt="Captured" className="w-full h-full object-cover" />
                 </div>
-                <div className="flex gap-3">
-                  <Button onClick={resetScanner} variant="outline" className="flex-1 h-12 rounded-2xl border-white/20 bg-white/5 text-white hover:bg-white/10">
+                <div className="flex gap-4">
+                  <Button 
+                    onClick={resetScanner} 
+                    variant="outline" 
+                    className="flex-1 h-13 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-95 transition-all"
+                  >
                     <RotateCcw className="h-4 w-4 mr-2" /> {t('scanner.retake')}
                   </Button>
-                  <Button onClick={analyzeImage} className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-lg shadow-emerald-500/25">
+                  <Button 
+                    onClick={analyzeImage} 
+                    className="flex-1 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
+                  >
                     <Zap className="h-4 w-4 mr-2" /> {t('scanner.analyze')}
                   </Button>
                 </div>
@@ -311,10 +355,16 @@ export default function Scanner() {
 
             {/* ─── SCANNING ANIMATION ─── */}
             {state === 'scanning' && (
-              <motion.div key="scanning" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                <div className="relative rounded-3xl overflow-hidden aspect-[3/4] shadow-2xl border border-emerald-500/30">
-                  <img src={capturedImage!} alt="Scanning" className="w-full h-full object-cover opacity-50" />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+              <motion.div 
+                key="scanning" 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }} 
+                className="w-full"
+              >
+                <div className="relative rounded-[2.25rem] overflow-hidden aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-emerald-500/20">
+                  <img src={capturedImage!} alt="Scanning" className="w-full h-full object-cover opacity-40" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-slate-950/60 backdrop-blur-md">
                     <div className="text-center space-y-4">
                       <div className="relative mx-auto w-16 h-16">
                         <motion.div
@@ -322,11 +372,11 @@ export default function Scanner() {
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                         />
-                        <Zap className="absolute inset-0 m-auto h-6 w-6 text-emerald-400" />
+                        <Zap className="absolute inset-0 m-auto h-6 w-6 text-emerald-400 animate-pulse" />
                       </div>
-                      <div>
-                        <p className="text-white font-bold text-sm">{t('scanner.analyzing')}</p>
-                        <p className="text-white/50 text-xs mt-1">{t('scanner.aiProcessing')}</p>
+                      <div className="space-y-1">
+                        <p className="text-white font-extrabold text-base tracking-tight">{t('scanner.analyzing')}</p>
+                        <p className="text-slate-400 text-xs">{t('scanner.aiProcessing')}</p>
                       </div>
                     </div>
                   </div>
@@ -336,70 +386,88 @@ export default function Scanner() {
 
             {/* ─── RESULTS ─── */}
             {state === 'result' && result && (
-              <motion.div key="result" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
+              <motion.div 
+                key="result" 
+                initial={{ opacity: 0, y: 24 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: 24 }} 
+                className="space-y-6 w-full"
+              >
                 {/* Thumbnail */}
-                <div className="relative rounded-2xl overflow-hidden h-48 shadow-xl border border-white/10">
+                <div className="relative rounded-[2.25rem] overflow-hidden h-44 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/10">
                   <img src={capturedImage!} alt="Scanned" className="w-full h-full object-cover" />
-                  <div className="absolute top-3 right-3">
-                    <div className={cn("px-3 py-1 rounded-full text-xs font-bold border", wasteColor.bg, wasteColor.text, wasteColor.border)}>
+                  <div className="absolute top-4 right-4">
+                    <div className={cn("px-3 py-1 rounded-full text-xs font-bold border backdrop-blur-md shadow-md", wasteColor.bg, wasteColor.text, wasteColor.border)}>
                       {t(`scanner.wasteTypes.${result.wasteType}`, { defaultValue: result.wasteType })}
                     </div>
                   </div>
                 </div>
 
-                {/* Result Card */}
-                <div className="bg-white rounded-3xl p-5 shadow-xl space-y-4">
+                {/* Result Card (Glassmorphism design) */}
+                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-[2.25rem] p-6 shadow-2xl border border-white/5 space-y-5 relative">
+                  
+                  {/* Glowing card border accent */}
+                  <div className={cn("absolute top-0 left-6 right-6 h-[2px]", result.recyclable ? 'bg-emerald-500/30' : 'bg-red-500/30')} />
+
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-black text-lg text-gray-900">{result.material}</h3>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-bold border", wasteColor.bg, wasteColor.text, wasteColor.border)}>
+                      <h3 className="font-extrabold text-xl text-white tracking-tight leading-tight">{result.material}</h3>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className={cn("px-2.5 py-0.5 rounded-full text-[10px] font-bold border", wasteColor.bg, wasteColor.text, wasteColor.border)}>
                           {t(`scanner.wasteTypes.${result.wasteType}`, { defaultValue: result.wasteType })}
                         </span>
                         {result.recyclable && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                             ♻️ {t('scanner.recyclable')}
                           </span>
                         )}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-black text-emerald-600">{result.confidence}%</div>
-                      <div className="text-[10px] text-slate-400 font-medium">{t('scanner.confidence')}</div>
+                      <div className="text-2xl font-black text-emerald-400 leading-none">{result.confidence}%</div>
+                      <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-1">{t('scanner.confidence')}</div>
                     </div>
                   </div>
 
                   {/* Stats Grid */}
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="bg-emerald-50 rounded-xl p-3 text-center">
-                      <Leaf className="h-4 w-4 text-emerald-600 mx-auto mb-1" />
-                      <div className="text-sm font-black text-emerald-700">{result.recyclabilityScore}%</div>
-                      <div className="text-[9px] text-emerald-600/70 font-medium">{t('scanner.recyclability')}</div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {/* Recyclability */}
+                    <div className="bg-white/5 border border-white/5 rounded-2xl p-3 text-center">
+                      <Leaf className="h-4 w-4 text-emerald-400 mx-auto mb-1.5" />
+                      <div className="text-base font-extrabold text-white">{result.recyclabilityScore}%</div>
+                      <div className="text-[9px] text-slate-400 font-semibold mt-0.5">{t('scanner.recyclability')}</div>
                     </div>
-                    <div className="bg-amber-50 rounded-xl p-3 text-center">
-                      <Coins className="h-4 w-4 text-amber-600 mx-auto mb-1" />
-                      <div className="text-sm font-black text-amber-700">+{result.ecoCoins}</div>
-                      <div className="text-[9px] text-amber-600/70 font-medium">Eco Coins</div>
+                    {/* Eco Coins */}
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3 text-center">
+                      <Coins className="h-4 w-4 text-amber-400 mx-auto mb-1.5" />
+                      <div className="text-base font-extrabold text-amber-400">+{result.ecoCoins}</div>
+                      <div className="text-[9px] text-amber-500/70 font-semibold mt-0.5">Eco Coins</div>
                     </div>
-                    <div className={cn("rounded-xl p-3 text-center transition-colors", result.recyclable ? "bg-emerald-50" : "bg-red-50")}>
-                      <ShieldCheck className={cn("h-4 w-4 mx-auto mb-1", result.recyclable ? "text-emerald-600" : "text-red-500")} />
-                      <div className={cn("text-sm font-black", result.recyclable ? "text-emerald-700" : "text-red-700")}>
+                    {/* Verified */}
+                    <div className={cn("rounded-2xl p-3 text-center border transition-colors", result.recyclable ? "bg-emerald-500/10 border-emerald-500/20" : "bg-red-500/10 border-red-500/20")}>
+                      <ShieldCheck className={cn("h-4 w-4 mx-auto mb-1.5", result.recyclable ? "text-emerald-400" : "text-red-400")} />
+                      <div className={cn("text-base font-extrabold", result.recyclable ? "text-emerald-400" : "text-red-400")}>
                         {result.recyclable ? t('scanner.yes') : t('scanner.no')}
                       </div>
-                      <div className={cn("text-[9px] font-medium", result.recyclable ? "text-emerald-600/70" : "text-red-600/70")}>{t('scanner.verified')}</div>
+                      <div className={cn("text-[9px] font-semibold mt-0.5", result.recyclable ? "text-emerald-400/60" : "text-red-400/60")}>{t('scanner.verified')}</div>
                     </div>
                   </div>
 
-                  {/* Suggestion */}
-                  <div className="bg-gray-50 rounded-xl p-3">
-                    <p className="text-xs font-bold text-gray-700 mb-1">💡 {t('scanner.suggestion')}</p>
-                    <p className="text-xs text-gray-500 leading-relaxed">{result.suggestion}</p>
+                  {/* Suggestion Card */}
+                  <div className="bg-white/5 border border-white/5 rounded-2xl p-4 space-y-1">
+                    <p className="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
+                      <span>💡</span> {t('scanner.suggestion')}
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed">{result.suggestion}</p>
                   </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-3">
-                  <Button onClick={resetScanner} className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-lg shadow-emerald-500/25">
+                <div className="flex gap-4">
+                  <Button 
+                    onClick={resetScanner} 
+                    className="flex-1 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
+                  >
                     <Camera className="h-4 w-4 mr-2" /> {t('scanner.scanAgain')}
                   </Button>
                 </div>
@@ -408,24 +476,33 @@ export default function Scanner() {
 
             {/* ─── ERROR ─── */}
             {state === 'error' && (
-              <motion.div key="error" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-4">
-                <div className="bg-white rounded-3xl p-6 shadow-xl text-center space-y-4">
-                  <div className="p-3 rounded-full bg-red-50 w-fit mx-auto">
-                    <AlertTriangle className="h-8 w-8 text-red-500" />
+              <motion.div 
+                key="error" 
+                initial={{ opacity: 0, y: 24 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: 24 }} 
+                className="w-full"
+              >
+                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-[2.25rem] p-8 shadow-2xl border border-white/5 text-center space-y-5">
+                  <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 w-fit mx-auto text-red-400">
+                    <AlertTriangle className="h-8 w-8 stroke-[1.75]" />
                   </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 text-lg">
+                  <div className="space-y-2">
+                    <h3 className="font-extrabold text-white text-lg tracking-tight">
                       {error === 'CAMERA_DENIED' ? t('scanner.errCameraDenied') :
                        error === 'API_KEY_MISSING' ? t('scanner.errApiKey') :
                        t('scanner.errGeneric')}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p className="text-xs text-slate-400 leading-relaxed max-w-[260px] mx-auto">
                       {error === 'CAMERA_DENIED' ? t('scanner.errCameraDeniedDesc') :
                        error === 'API_KEY_MISSING' ? t('scanner.errApiKeyDesc') :
                        t('scanner.errGenericDesc')}
                     </p>
                   </div>
-                  <Button onClick={resetScanner} variant="outline" className="rounded-2xl">
+                  <Button 
+                    onClick={resetScanner} 
+                    className="h-12 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs hover:bg-white/10 px-6"
+                  >
                     <RotateCcw className="h-4 w-4 mr-2" /> {t('scanner.tryAgain')}
                   </Button>
                 </div>
@@ -435,9 +512,11 @@ export default function Scanner() {
         </div>
 
         {/* Background decorative elements */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
+        <div className="absolute top-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500/10 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
       </div>
     </Layout>
+  );
+}
   );
 }
