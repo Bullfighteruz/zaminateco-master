@@ -3,29 +3,37 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Camera, RotateCcw, Zap, Leaf, Coins, ShieldCheck,
-  AlertTriangle, X, SwitchCamera, ImageIcon, ArrowLeft
+  AlertTriangle, X, SwitchCamera, ImageIcon, ArrowLeft,
+  CheckCircle2, MapPin, Wallet, Sparkles, Navigation as NavIcon,
+  Vote, Calendar as CalendarIcon, Info, Weight, Barcode
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { scanWasteImage, type WasteScanResult } from '@/lib/gemini';
+import { scanWasteImage, type WasteScanResult, type DetectedItem } from '@/lib/gemini';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
-import { loadUserProgress, saveUserProgress } from '@/lib/userProgress';
 
 type ScanState = 'camera' | 'preview' | 'scanning' | 'result' | 'error';
 
+const STATUS_COLORS = {
+  Accepted: { bg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  'Needs sorting': { bg: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
+  'Needs cleaning': { bg: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
+  'Not accepted': { bg: 'bg-red-500/10 text-red-400 border-red-500/20' },
+};
+
 const WASTE_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  Plastic:  { bg: 'bg-blue-50',    text: 'text-blue-700',    border: 'border-blue-200' },
-  Metal:    { bg: 'bg-slate-50',   text: 'text-slate-700',   border: 'border-slate-200' },
-  Glass:    { bg: 'bg-cyan-50',    text: 'text-cyan-700',    border: 'border-cyan-200' },
-  Paper:    { bg: 'bg-amber-50',   text: 'text-amber-700',   border: 'border-amber-200' },
-  Rubber:   { bg: 'bg-stone-50',   text: 'text-stone-700',   border: 'border-stone-200' },
-  Organic:  { bg: 'bg-green-50',   text: 'text-green-700',   border: 'border-green-200' },
-  'E-waste':{ bg: 'bg-red-50',     text: 'text-red-700',     border: 'border-red-200' },
-  Textile:  { bg: 'bg-purple-50',  text: 'text-purple-700',  border: 'border-purple-200' },
-  Mixed:    { bg: 'bg-orange-50',  text: 'text-orange-700',  border: 'border-orange-200' },
-  Unknown:  { bg: 'bg-gray-50',    text: 'text-gray-700',    border: 'border-gray-200' },
+  Plastic:  { bg: 'bg-blue-500/10',    text: 'text-blue-400',    border: 'border-blue-500/20' },
+  Metal:    { bg: 'bg-slate-500/10',   text: 'text-slate-400',   border: 'border-slate-500/20' },
+  Glass:    { bg: 'bg-cyan-500/10',    text: 'text-cyan-400',    border: 'border-cyan-500/20' },
+  Paper:    { bg: 'bg-amber-500/10',   text: 'text-amber-400',   border: 'border-amber-500/20' },
+  Rubber:   { bg: 'bg-stone-500/10',   text: 'text-stone-400',   border: 'border-stone-500/20' },
+  Organic:  { bg: 'bg-green-500/10',   text: 'text-green-400',   border: 'border-green-500/20' },
+  'E-waste':{ bg: 'bg-red-500/10',     text: 'text-red-400',     border: 'border-red-500/20' },
+  Textile:  { bg: 'bg-purple-500/10',  text: 'text-purple-400',  border: 'border-purple-500/20' },
+  Mixed:    { bg: 'bg-orange-500/10',  text: 'text-orange-400',  border: 'border-orange-500/20' },
+  Unknown:  { bg: 'bg-gray-500/10',    text: 'text-gray-400',    border: 'border-gray-500/20' },
 };
 
 export default function Scanner() {
@@ -43,19 +51,20 @@ export default function Scanner() {
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [cameraReady, setCameraReady] = useState(false);
   const [useNativeCamera, setUseNativeCamera] = useState(false);
-  const [claimed, setClaimed] = useState(false);
+
+  // Anti-fraud check simulation states
+  const [selectedProject, setSelectedProject] = useState<string>('school45');
+  const [isJoinedEvent, setIsJoinedEvent] = useState(false);
 
   // Start camera
   const startCamera = useCallback(async () => {
     try {
-      // Check if getUserMedia is available (requires HTTPS on iOS)
       if (!navigator.mediaDevices?.getUserMedia) {
         setUseNativeCamera(true);
         setState('camera');
         return;
       }
 
-      // Stop existing stream
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(t => t.stop());
       }
@@ -73,7 +82,6 @@ export default function Scanner() {
       setState('camera');
       setError('');
     } catch (err: any) {
-      // On iOS over HTTP, fall back to native camera input instead of showing error
       if (err.name === 'NotAllowedError' || err.name === 'NotFoundError' || err.name === 'NotReadableError' || err.name === 'TypeError') {
         setUseNativeCamera(true);
         setState('camera');
@@ -149,7 +157,7 @@ export default function Scanner() {
     setCapturedImage(null);
     setResult(null);
     setError('');
-    setClaimed(false);
+    setIsJoinedEvent(false);
     if (useNativeCamera) {
       setState('camera');
     } else {
@@ -157,80 +165,10 @@ export default function Scanner() {
     }
   }, [startCamera, useNativeCamera]);
 
-  // Claim reward handler
-  const handleClaim = useCallback(() => {
-    if (!result) return;
-    try {
-      const progress = loadUserProgress();
-      const updated = {
-        ...progress,
-        ecoCoins: progress.ecoCoins + result.ecoCoins,
-        wasteCollected: (progress.wasteCollected || 0) + 1,
-        ecoPoints: progress.ecoPoints + Math.round(result.recyclabilityScore * 1.5),
-        lastActive: new Date().toISOString()
-      };
-      saveUserProgress(updated);
-      setClaimed(true);
-
-      // Simple premium JS confetti burst
-      const container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.inset = '0';
-      container.style.pointerEvents = 'none';
-      container.style.zIndex = '9999';
-      document.body.appendChild(container);
-
-      const colors = ['#10B981', '#34D399', '#FBBF24', '#3B82F6', '#EC4899'];
-      for (let i = 0; i < 60; i++) {
-        const particle = document.createElement('div');
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.position = 'absolute';
-        particle.style.width = `${Math.random() * 8 + 6}px`;
-        particle.style.height = `${Math.random() * 8 + 6}px`;
-        particle.style.backgroundColor = color;
-        particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
-        particle.style.left = '50%';
-        particle.style.top = '70%';
-        particle.style.opacity = '1';
-        container.appendChild(particle);
-
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 15 + 10;
-        const vx = Math.cos(angle) * velocity;
-        const vy = Math.sin(angle) * velocity - 12;
-
-        let posX = window.innerWidth / 2;
-        let posY = window.innerHeight * 0.7;
-        let opacity = 1;
-
-        const animate = () => {
-          posX += vx;
-          posY += vy + 0.5; // gravity
-          opacity -= 0.02;
-          particle.style.left = `${posX}px`;
-          particle.style.top = `${posY}px`;
-          particle.style.opacity = opacity.toString();
-          if (opacity > 0) {
-            requestAnimationFrame(animate);
-          } else {
-            particle.remove();
-          }
-        };
-        requestAnimationFrame(animate);
-      }
-
-      setTimeout(() => container.remove(), 2000);
-    } catch (err) {
-      console.error('Error claiming coins:', err);
-    }
-  }, [result]);
-
   // Flip camera
   const flipCamera = useCallback(() => {
     setFacingMode(prev => prev === 'environment' ? 'user' : 'environment');
   }, []);
-
-  const wasteColor = result ? (WASTE_COLORS[result.wasteType] || WASTE_COLORS.Unknown) : WASTE_COLORS.Unknown;
 
   return (
     <Layout hideBottomNav={true}>
@@ -238,7 +176,7 @@ export default function Scanner() {
         
         {/* Floating Premium Header */}
         <div className="relative z-20 px-4 pt-4 pb-2">
-          <div className="max-w-md mx-auto bg-slate-900/60 backdrop-blur-xl border border-white/5 rounded-2xl px-4 py-3 flex items-center justify-between shadow-2xl">
+          <div className="max-w-md mx-auto bg-slate-900/70 backdrop-blur-xl border border-white/5 rounded-2xl px-4 py-3.5 flex items-center justify-between shadow-2xl">
             <Link 
               to="/" 
               className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors duration-200 group"
@@ -249,7 +187,7 @@ export default function Scanner() {
             
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-black text-white/90 uppercase tracking-widest">{t('scanner.title')}</span>
+              <span className="text-xs font-black text-white/95 uppercase tracking-widest">{t('scanner.title')}</span>
             </div>
             
             <div className="flex items-center gap-1.5 p-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
@@ -284,11 +222,9 @@ export default function Scanner() {
                 {/* Native camera fallback mode (iOS / no HTTPS) */}
                 {useNativeCamera ? (
                   <div className="rounded-[2.25rem] overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/5 flex flex-col items-center justify-center p-8 gap-6 relative">
-                    {/* Glowing radial background */}
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08)_0%,transparent_70%)] pointer-events-none" />
                     
                     <div className="relative">
-                      {/* Radar-like pulsing circles */}
                       <div className="absolute inset-0 rounded-full bg-emerald-500/10 animate-ping scale-150 duration-1000" />
                       <div className="absolute inset-0 rounded-full bg-emerald-500/5 animate-ping scale-125 duration-700" />
                       <div className="p-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 relative z-10">
@@ -338,12 +274,10 @@ export default function Scanner() {
                       {/* Scanning overlay */}
                       {cameraReady && (
                         <div className="absolute inset-0 pointer-events-none">
-                          {/* Corner brackets */}
                           <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
                           <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
                           <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
                           <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
-                          {/* Scan line animation */}
                           <motion.div
                             className="absolute left-8 right-8 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(52,211,153,0.5)]"
                             animate={{ top: ['15%', '85%', '15%'] }}
@@ -455,7 +389,7 @@ export default function Scanner() {
               </motion.div>
             )}
 
-            {/* ─── RESULTS ─── */}
+            {/* ─── RESULTS (SOLID ECOSYSTEM ENGINE) ─── */}
             {state === 'result' && result && (
               <motion.div 
                 key="result" 
@@ -464,120 +398,194 @@ export default function Scanner() {
                 exit={{ opacity: 0, y: 24 }} 
                 className="space-y-6 w-full"
               >
-                {/* Thumbnail */}
-                <div className="relative rounded-[2.25rem] overflow-hidden h-44 shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/10">
-                  <img src={capturedImage!} alt="Scanned" className="w-full h-full object-cover" />
-                  <div className="absolute top-4 right-4">
-                    <div className={cn("px-3 py-1 rounded-full text-xs font-bold border backdrop-blur-md shadow-md", wasteColor.bg, wasteColor.text, wasteColor.border)}>
-                      {t(`scanner.wasteTypes.${result.wasteType}`, { defaultValue: result.wasteType })}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Result Card (Glassmorphism design) */}
-                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-[2.25rem] p-6 shadow-2xl border border-white/5 space-y-5 relative">
-                  
-                  {/* Glowing card border accent */}
-                  <div className={cn("absolute top-0 left-6 right-6 h-[2px]", result.recyclable ? 'bg-emerald-500/30' : 'bg-red-500/30')} />
-
-                  <div className="flex items-start justify-between">
+                {/* Photo Header */}
+                <div className="relative rounded-[2.25rem] overflow-hidden h-40 shadow-2xl border border-white/10">
+                  <img src={capturedImage!} alt="Scanned waste" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+                  <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
                     <div>
-                      <h3 className="font-extrabold text-xl text-white tracking-tight leading-tight">{result.material}</h3>
-                      <div className="flex items-center gap-2 mt-2">
-                        <span className={cn("px-2.5 py-0.5 rounded-full text-[10px] font-bold border", wasteColor.bg, wasteColor.text, wasteColor.border)}>
-                          {t(`scanner.wasteTypes.${result.wasteType}`, { defaultValue: result.wasteType })}
-                        </span>
-                        {result.recyclable && (
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            ♻️ {t('scanner.recyclable')}
-                          </span>
-                        )}
-                      </div>
+                      <span className="text-[10px] text-emerald-400 font-extrabold uppercase tracking-wider">{t('scanner.scanSuccess')}</span>
+                      <h4 className="text-white font-bold text-sm">{t('scanner.detectedCount', { count: result.items.length })}</h4>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-black text-emerald-400 leading-none">{result.confidence}%</div>
-                      <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-1">{t('scanner.confidence')}</div>
+                    <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2.5 py-1 text-right">
+                      <div className="text-xs font-black text-emerald-400">{result.confidence}%</div>
+                      <div className="text-[7px] font-bold text-emerald-400/70 uppercase tracking-widest leading-none">{t('scanner.confidence')}</div>
                     </div>
-                  </div>
-
-                  {/* Stats Grid */}
-                  <div className="grid grid-cols-3 gap-3">
-                    {/* Recyclability */}
-                    <div className="bg-white/5 border border-white/5 rounded-2xl p-3 text-center">
-                      <Leaf className="h-4 w-4 text-emerald-400 mx-auto mb-1.5" />
-                      <div className="text-base font-extrabold text-white">{result.recyclabilityScore}%</div>
-                      <div className="text-[9px] text-slate-400 font-semibold mt-0.5">{t('scanner.recyclability')}</div>
-                    </div>
-                    {/* Eco Coins */}
-                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3 text-center">
-                      <Coins className="h-4 w-4 text-amber-400 mx-auto mb-1.5" />
-                      <div className="text-base font-extrabold text-amber-400">+{result.ecoCoins}</div>
-                      <div className="text-[9px] text-amber-500/70 font-semibold mt-0.5">Eco Coins</div>
-                    </div>
-                    {/* Verified */}
-                    <div className={cn("rounded-2xl p-3 text-center border transition-colors", result.recyclable ? "bg-emerald-500/10 border-emerald-500/20" : "bg-red-500/10 border-red-500/20")}>
-                      <ShieldCheck className={cn("h-4 w-4 mx-auto mb-1.5", result.recyclable ? "text-emerald-400" : "text-red-400")} />
-                      <div className={cn("text-base font-extrabold", result.recyclable ? "text-emerald-400" : "text-red-400")}>
-                        {result.recyclable ? t('scanner.yes') : t('scanner.no')}
-                      </div>
-                      <div className={cn("text-[9px] font-semibold mt-0.5", result.recyclable ? "text-emerald-400/60" : "text-red-400/60")}>{t('scanner.verified')}</div>
-                    </div>
-                  </div>
-
-                  {/* Suggestion Card */}
-                  <div className="bg-white/5 border border-white/5 rounded-2xl p-4 space-y-1">
-                    <p className="text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
-                      <span>💡</span> {t('scanner.suggestion')}
-                    </p>
-                    <p className="text-xs text-slate-300 leading-relaxed">{result.suggestion}</p>
                   </div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-4">
-                  {result.recyclable ? (
-                    claimed ? (
-                      <>
-                        <Button 
-                          disabled 
-                          className="flex-1 h-13 rounded-2xl bg-emerald-600/25 border border-emerald-500/20 text-emerald-400 font-bold opacity-100 flex items-center justify-center gap-2"
+                {/* 1. DETECTED ITEMS LIST */}
+                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-5 border border-white/5 shadow-xl space-y-3">
+                  <h4 className="text-xs font-extrabold text-white/90 uppercase tracking-wider flex items-center gap-1.5">
+                    <Barcode className="h-4 w-4 text-emerald-400" />
+                    {t('scanner.detectedItems')}
+                  </h4>
+                  
+                  <div className="space-y-2">
+                    {result.items.map((item, idx) => {
+                      const color = WASTE_COLORS[item.wasteType] || WASTE_COLORS.Unknown;
+                      const statusColor = STATUS_COLORS[item.status] || STATUS_COLORS.Accepted;
+                      return (
+                        <div key={idx} className="bg-white/5 border border-white/5 rounded-2xl p-3 flex items-start justify-between gap-3">
+                          <div className="space-y-1 flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-xs font-black text-white">{item.quantity} × {item.name}</span>
+                              <span className={cn("text-[9px] font-bold px-2 py-0.5 rounded-full border", color.bg, color.text, color.border)}>
+                                {t(`scanner.wasteTypes.${item.wasteType}`, { defaultValue: item.wasteType })}
+                              </span>
+                              <span className={cn("text-[8px] font-semibold px-1.5 py-0.5 rounded border", statusColor.bg)}>
+                                {t(`scanner.status.${item.status.replace(' ', '')}`, { defaultValue: item.status })}
+                              </span>
+                            </div>
+                            {item.instructions && (
+                              <p className="text-[10px] text-slate-400 leading-normal flex items-start gap-1">
+                                <span className="text-emerald-400/80">•</span> {item.instructions}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                    {result.items.length === 0 && (
+                      <div className="text-center py-4 text-slate-500 text-xs">{t('scanner.noItemsFound')}</div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 2. ECOSYSTEM ESTIMATES & WALLET */}
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Pending Eco Wallet Card */}
+                  <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/20 rounded-3xl p-4 space-y-1">
+                    <div className="flex items-center gap-1.5 text-amber-400">
+                      <Wallet className="h-4 w-4" />
+                      <span className="text-[9px] font-extrabold uppercase tracking-wider">{t('scanner.pendingWallet')}</span>
+                    </div>
+                    <div className="text-lg font-black text-amber-400">+{result.estimatedEcoCoins}</div>
+                    <p className="text-[9px] text-amber-500/70 leading-snug">{t('scanner.walletAwaiting')}</p>
+                  </div>
+
+                  {/* Impact Engine Card */}
+                  <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 rounded-3xl p-4 space-y-1">
+                    <div className="flex items-center gap-1.5 text-emerald-400">
+                      <Weight className="h-4 w-4" />
+                      <span className="text-[9px] font-extrabold uppercase tracking-wider">{t('scanner.materialWeight')}</span>
+                    </div>
+                    <div className="text-lg font-black text-emerald-400">{result.totalEstimatedWeightKg}</div>
+                    <p className="text-[9px] text-emerald-500/70 leading-snug">
+                      {t('scanner.productOutputPrefix')} <span className="font-bold text-emerald-300">{result.suggestedProduct}</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Impact details */}
+                {result.moatImpact && (
+                  <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-3 flex items-start gap-2">
+                    <Leaf className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                    <p className="text-[10px] text-emerald-300/80 leading-normal">{result.moatImpact}</p>
+                  </div>
+                )}
+
+                {/* 3. ECOMAP INTEGRATION */}
+                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-4 border border-white/5 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                        <MapPin className="h-4 w-4 text-emerald-400" />
+                        {t('scanner.nearestPoint')}
+                      </h4>
+                      <p className="text-[10px] font-semibold text-slate-300">Yunusobod EcoPoint (1.4 km · 8 min walk)</p>
+                      <p className="text-[9px] text-slate-400">Open: 09:00 - 18:00 · Accepts: PET, HDPE, PP, Paper</p>
+                    </div>
+                    <a 
+                      href="https://maps.google.com/?q=Tashkent,Yunusobod" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
+                    >
+                      <NavIcon className="h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* 4. ECOVOTE & ECOACTIONS ACTIONABLE CARDS */}
+                <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-5 border border-white/5 space-y-4">
+                  
+                  {/* EcoVote Connection */}
+                  <div className="space-y-2">
+                    <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                      <Vote className="h-3.5 w-3.5 text-emerald-400" />
+                      {t('scanner.linkProject')}
+                    </h5>
+                    
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { id: 'school45', label: 'School #45 Playground' },
+                        { id: 'mahallaPark', label: 'Yunusobod Park' },
+                      ].map((proj) => (
+                        <button
+                          key={proj.id}
+                          onClick={() => setSelectedProject(proj.id)}
+                          className={cn(
+                            "p-2.5 rounded-xl border text-left transition-all duration-200",
+                            selectedProject === proj.id 
+                              ? "bg-emerald-500/10 border-emerald-500/40 text-emerald-400"
+                              : "bg-white/5 border-white/5 text-slate-400 hover:bg-white/10"
+                          )}
                         >
-                          <ShieldCheck className="h-4 w-4" /> {t('scanner.coinsClaimed')}
-                        </Button>
-                        <Button 
-                          onClick={resetScanner} 
-                          variant="outline" 
-                          className="h-13 px-5 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-95 transition-all"
-                        >
-                          <Camera className="h-4 w-4" />
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button 
-                          onClick={resetScanner} 
-                          variant="outline" 
-                          className="flex-1 h-13 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-95 transition-all"
-                        >
-                          {t('scanner.scanAgain')}
-                        </Button>
-                        <Button 
-                          onClick={handleClaim} 
-                          className="flex-[2] h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all flex items-center justify-center gap-2"
-                        >
-                          <Coins className="h-4 w-4" /> {t('scanner.claimCoins', { coins: result.ecoCoins })}
-                        </Button>
-                      </>
-                    )
-                  ) : (
+                          <div className="text-xs font-bold leading-tight">{proj.label}</div>
+                          <div className="text-[8px] opacity-65 mt-0.5">{selectedProject === proj.id ? '✓ Selected' : 'Tap to select'}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <hr className="border-white/5" />
+
+                  {/* EcoActions Connection */}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="space-y-0.5">
+                      <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <CalendarIcon className="h-3.5 w-3.5 text-emerald-400" />
+                        {t('scanner.nearbyEvent')}
+                      </h5>
+                      <p className="text-xs font-bold text-white">Yunusobod Plastic Drive</p>
+                      <p className="text-[9px] text-slate-400">Saturday, 10:00 AM @ EcoPoint</p>
+                    </div>
+                    
+                    <Button
+                      size="sm"
+                      onClick={() => setIsJoinedEvent(prev => !prev)}
+                      className={cn(
+                        "rounded-xl font-bold text-xs h-9 px-4",
+                        isJoinedEvent 
+                          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30"
+                          : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                      )}
+                    >
+                      {isJoinedEvent ? '✓ Joined' : 'Join'}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* 5. DYNAMIC FLOW ACTIONS */}
+                <div className="flex flex-col gap-3">
+                  <Link to="/vote" className="w-full">
+                    <Button className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all">
+                      {t('scanner.btnDropoff')}
+                    </Button>
+                  </Link>
+
+                  <div className="flex gap-3">
                     <Button 
                       onClick={resetScanner} 
-                      className="flex-1 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
+                      variant="outline" 
+                      className="flex-1 h-12 rounded-2xl border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
                     >
-                      <Camera className="h-4 w-4 mr-2" /> {t('scanner.scanAgain')}
+                      {t('scanner.btnScanMore')}
                     </Button>
-                  )}
+                  </div>
                 </div>
+
               </motion.div>
             )}
 
