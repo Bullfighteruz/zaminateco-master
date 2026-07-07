@@ -1022,38 +1022,52 @@ export default function Pitch() {
                 ))}
               </div>
 
-              {/* 6 AI Modules Grid — investor-style compact tech cards */}
+              {/* 6 AI Modules Grid — investor-style tech cards */}
               <div>
-                <h3 className={cn("font-extrabold text-gray-900 mb-3", isMobile ? "text-base" : "text-lg")}>
+                <h3 className={cn("font-extrabold text-gray-900 mb-4", isMobile ? "text-base" : "text-lg")}>
                   6 Intelligence Modules
                 </h3>
-                <div className={cn("grid gap-2.5", isMobile ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-3")}>
+                <div className={cn("grid gap-3", isMobile ? "grid-cols-1" : "grid-cols-2")}>
                   {[
-                    { icon: Camera, title: 'AI EcoScan', desc: 'Computer vision material recognition — classifies waste type, estimates weight, maps to nearest collection point.', status: 'Prototype' },
-                    { icon: MessageSquare, title: 'AI EcoCoach', desc: 'Multilingual AI assistant (UZ/RU/EN) — answers sorting questions, recommends EcoPoints, provides personalized guidance.', status: 'Concept' },
-                    { icon: Cpu, title: 'AI Impact Engine', desc: 'Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value.', status: 'Prototype' },
-                    { icon: ShieldCheck, title: 'AI Anti-Fraud', desc: 'Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions.', status: 'Upcoming' },
-                    { icon: Smile, title: 'AI EcoKids Tutor', desc: 'Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood.', status: 'Design' },
-                    { icon: Factory, title: 'AI Production Planner', desc: 'Factory integration layer — feedstock forecasting, batch scheduling, production priority recommendations.', status: 'Planned' },
-                  ].map((module, idx) => (
+                    { icon: Camera, title: 'AI EcoScan', desc: 'Computer vision material recognition — classifies waste type, estimates weight, and maps to nearest collection point.', status: 'Prototype', color: 'emerald' },
+                    { icon: MessageSquare, title: 'AI EcoCoach', desc: 'Multilingual AI assistant (UZ/RU/EN) — answers sorting questions, recommends EcoPoints, provides personalized guidance.', status: 'Concept', color: 'blue' },
+                    { icon: Cpu, title: 'AI Impact Engine', desc: 'Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value.', status: 'Prototype', color: 'emerald' },
+                    { icon: ShieldCheck, title: 'AI Anti-Fraud', desc: 'Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions.', status: 'Upcoming', color: 'amber' },
+                    { icon: Smile, title: 'AI EcoKids Tutor', desc: 'Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood.', status: 'Design', color: 'violet' },
+                    { icon: Factory, title: 'AI Production Planner', desc: 'Factory integration layer — feedstock forecasting, batch scheduling, production priority recommendations.', status: 'Planned', color: 'slate' },
+                  ].map((module, idx) => {
+                    const statusColors: Record<string, string> = {
+                      'Prototype': 'bg-emerald-500',
+                      'Concept': 'bg-blue-500',
+                      'Upcoming': 'bg-amber-500',
+                      'Design': 'bg-violet-500',
+                      'Planned': 'bg-slate-400',
+                    };
+                    return (
                     <div 
                       key={idx} 
-                      className="group bg-white/70 border border-slate-100 rounded-xl p-3.5 hover:border-emerald-200 hover:bg-emerald-50/30 transition-all duration-200"
+                      className="group relative bg-white border border-slate-100 rounded-2xl p-5 hover:border-emerald-200 hover:shadow-md transition-all duration-300 overflow-hidden"
                     >
-                      <div className="flex items-start gap-3">
-                        <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100/50 flex-shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                          <module.icon className="h-4 w-4 stroke-[2.25]" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
-                            <h4 className="font-bold text-sm text-gray-900 leading-tight">{module.title}</h4>
-                            <span className="text-[8px] font-semibold px-1.5 py-px rounded bg-slate-100 text-slate-500 uppercase tracking-wider">{module.status}</span>
+                      {/* Decorative top accent line */}
+                      <div className={cn("absolute top-0 left-0 right-0 h-[2px]", statusColors[module.status] || 'bg-slate-300')} />
+                      
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+                            <module.icon className="h-5 w-5 stroke-[2]" />
                           </div>
-                          <p className="text-[11px] text-slate-500 leading-snug">{module.desc}</p>
+                          <div>
+                            <h4 className="font-bold text-base text-gray-900 leading-tight">{module.title}</h4>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <div className={cn("h-1.5 w-1.5 rounded-full", statusColors[module.status] || 'bg-slate-300')} />
+                          <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider">{module.status}</span>
                         </div>
                       </div>
+                      <p className="text-[13px] text-slate-500 leading-relaxed">{module.desc}</p>
                     </div>
-                  ))}
+                  )})}
                 </div>
               </div>
 
