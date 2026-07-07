@@ -63,14 +63,14 @@ function DesktopFloatingPhone({
   }, []);
 
   // Dynamically scale mockup size based on viewport height to prevent clipping
-  let mockupWidth = 300;
+  let mockupWidth = 360;
   let topOffset = STICKY_TOP_OFFSET;
 
   if (viewportHeight < 760) {
-    mockupWidth = 240; // Height ≈ 520px
+    mockupWidth = 280; // Height ≈ 600px
     topOffset = 50;
   } else if (viewportHeight < 840) {
-    mockupWidth = 270; // Height ≈ 585px
+    mockupWidth = 320; // Height ≈ 690px
     topOffset = 65;
   }
 

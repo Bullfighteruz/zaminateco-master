@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import {
   Users, Target, Globe, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
-  Smartphone, Mail, Briefcase, Menu, X, ArrowUp, Check
+  Smartphone, Mail, Briefcase, Menu, X, ArrowUp, Check,
+  Camera, MessageSquare, Cpu, ShieldCheck, Smile, Factory
 } from 'lucide-react';
 import Layout from '@/components/Layout';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -16,6 +17,8 @@ import { contactHelpers } from '@/utils/mailto';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
+import AIWorkflowDiagram from '@/components/ai/AIWorkflowDiagram';
+import AIEcosystemTabs from '@/components/ai/AIEcosystemTabs';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
 import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
@@ -59,6 +62,7 @@ const NAV_SECTIONS = [
   { id: 'pitch-team', labelKey: 'pitch.nav.team' },
   { id: 'pitch-opportunity', labelKey: 'pitch.nav.opportunity' },
   { id: 'pitch-solution', labelKey: 'pitch.nav.solution' },
+  { id: 'pitch-ai', labelKey: 'pitch.nav.ai' },
   { id: 'pitch-products', labelKey: 'pitch.nav.products' },
   { id: 'pitch-business', labelKey: 'pitch.nav.business' },
   { id: 'pitch-roadmap', labelKey: 'pitch.nav.roadmap' },
@@ -976,7 +980,121 @@ export default function Pitch() {
             </div>
           </motion.section>
 
-          {/* Mobile: Phone carousel after Solution */}
+          {/* ═══════ AI-POWERED INFRASTRUCTURE SECTION ═══════ */}
+          <motion.section 
+            id="pitch-ai" 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-80px" }} 
+            variants={stagger}
+            className="scroll-mt-20 space-y-8"
+          >
+            <motion.div variants={fadeUp} className="text-center mb-6">
+              <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 mb-3 tracking-widest uppercase text-[10px] font-bold px-3 py-1 rounded-full shadow-sm">
+                {t('ai.tag')}
+              </Badge>
+              <h2 className={cn("font-black tracking-tight leading-tight text-gray-900", isMobile ? "text-2xl" : "text-3xl md:text-4xl")}>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-950 via-slate-800 to-gray-900">
+                  {t('ai.pitchTitle')}
+                </span>
+              </h2>
+              <p className={cn("mx-auto mt-3 text-gray-600 leading-relaxed max-w-3xl", isMobile ? "text-xs px-2" : "text-sm")}>
+                {t('ai.pitchSubtitle')}
+              </p>
+            </motion.div>
+
+            {/* ─── AI Technology Stack Overview (Investor View) ─── */}
+            <motion.div variants={fadeUp} className="bg-white/50 border border-slate-200/40 rounded-3xl p-5 sm:p-8 shadow-lg backdrop-blur-md space-y-6">
+              
+              {/* Key Metrics Bar */}
+              <div className={cn("grid gap-3 text-center", isMobile ? "grid-cols-2" : "grid-cols-4")}>
+                {[
+                  { value: '6', label: 'AI Modules', sublabel: 'In Development' },
+                  { value: '3', label: 'Languages', sublabel: 'UZ · RU · EN' },
+                  { value: 'Real-time', label: 'Processing', sublabel: 'Edge + Cloud' },
+                  { value: '92%', label: 'Target Accuracy', sublabel: 'Material Recognition' },
+                ].map((stat, i) => (
+                  <div key={i} className="bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-100/50 rounded-2xl p-3 sm:p-4">
+                    <div className="text-lg sm:text-xl font-black text-emerald-700">{stat.value}</div>
+                    <div className="text-[10px] sm:text-xs font-bold text-gray-800 mt-0.5">{stat.label}</div>
+                    <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium">{stat.sublabel}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* 6 AI Modules Grid — investor-style compact tech cards */}
+              <div>
+                <h3 className={cn("font-extrabold text-gray-900 mb-3", isMobile ? "text-base" : "text-lg")}>
+                  6 Intelligence Modules
+                </h3>
+                <div className={cn("grid gap-2.5", isMobile ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-3")}>
+                  {[
+                    { icon: Camera, title: 'AI EcoScan', desc: 'Computer vision material recognition — classifies waste type, estimates weight, maps to nearest collection point.', status: 'Prototype' },
+                    { icon: MessageSquare, title: 'AI EcoCoach', desc: 'Multilingual AI assistant (UZ/RU/EN) — answers sorting questions, recommends EcoPoints, provides personalized guidance.', status: 'Concept' },
+                    { icon: Cpu, title: 'AI Impact Engine', desc: 'Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value.', status: 'Prototype' },
+                    { icon: ShieldCheck, title: 'AI Anti-Fraud', desc: 'Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions.', status: 'Upcoming' },
+                    { icon: Smile, title: 'AI EcoKids Tutor', desc: 'Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood.', status: 'Design' },
+                    { icon: Factory, title: 'AI Production Planner', desc: 'Factory integration layer — feedstock forecasting, batch scheduling, production priority recommendations.', status: 'Planned' },
+                  ].map((module, idx) => (
+                    <div 
+                      key={idx} 
+                      className="group bg-white/70 border border-slate-100 rounded-xl p-3.5 hover:border-emerald-200 hover:bg-emerald-50/30 transition-all duration-200"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100/50 flex-shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                          <module.icon className="h-4 w-4 stroke-[2.25]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                            <h4 className="font-bold text-sm text-gray-900 leading-tight">{module.title}</h4>
+                            <span className="text-[8px] font-semibold px-1.5 py-px rounded bg-slate-100 text-slate-500 uppercase tracking-wider">{module.status}</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 leading-snug">{module.desc}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Competitive Moat */}
+              <div className="bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 rounded-2xl p-4 sm:p-6 text-white">
+                <h4 className={cn("font-extrabold mb-3", isMobile ? "text-sm" : "text-base")}>Why AI Creates a Defensible Moat</h4>
+                <div className={cn("grid gap-3", isMobile ? "grid-cols-1" : "grid-cols-2")}>
+                  {[
+                    { title: 'Proprietary Training Data', desc: 'Every scan, report and collection builds a dataset no competitor can replicate.' },
+                    { title: 'Uzbekistan-First Models', desc: 'Trained on local waste types, packaging brands and regional recycling infrastructure.' },
+                    { title: 'Network Effects', desc: 'More users → better AI accuracy → higher engagement → more verified data for investors.' },
+                    { title: 'Platform Lock-in', desc: 'AI modules are deeply integrated across EcoApp, making switching costs prohibitively high.' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <span className="text-xs font-bold text-white/90">{item.title}</span>
+                        <p className="text-[11px] text-white/60 leading-snug mt-0.5">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 3-Column Investor Layer Explanation via interactive Tabs */}
+            <motion.div variants={fadeUp}>
+              <AIEcosystemTabs />
+            </motion.div>
+
+            {/* Workflow Diagram */}
+            <motion.div variants={fadeUp} className="bg-white/40 border border-slate-200/40 rounded-3xl p-4 sm:p-6 shadow-lg backdrop-blur-md">
+              <div className="text-center mb-4">
+                <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest block">Waste-to-Life Data Lifecycle</span>
+                <h4 className="font-extrabold text-sm sm:text-base text-gray-900">Platform Sourcing & Output Integration</h4>
+              </div>
+              <AIWorkflowDiagram />
+            </motion.div>
+          </motion.section>
+
+          {/* Mobile: Phone carousel after Solution/AI */}
           {isMobile && <FloatingPhoneShowcase scrollRef={phoneZoneRef} slideStartRef={slideStartRef} slideEndRef={slideEndRef} />}
 
           {/* ═══════ SECTION 4: Product Portfolio ═══════ */}

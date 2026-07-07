@@ -92,10 +92,6 @@ export default function AICoreSection() {
 
               {/* TOP: Section Header + CTAs */}
               <div className={cn("space-y-2", isMobile ? "" : "")}>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-800 border border-emerald-500/20 font-bold text-[10px] tracking-wider uppercase">
-                  <Sparkles className="h-3 w-3 text-emerald-600" />
-                  <span>{t('ai.tag')}</span>
-                </div>
                 <h2 className={cn(
                   "font-black text-gray-900 tracking-tight leading-tight",
                   isMobile ? "text-xl" : "text-2xl lg:text-3xl"

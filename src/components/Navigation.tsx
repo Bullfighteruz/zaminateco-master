@@ -1,4 +1,4 @@
-import { Vote, Calendar, ShoppingBag, BookOpen, User, Home, Users, Handshake, Mail } from 'lucide-react';
+import { Vote, Calendar, ShoppingBag, BookOpen, User, Home, Users, Handshake, Mail, Cpu } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -8,6 +8,7 @@ const navigationItems = [
   { path: '/', icon: Home, labelKey: 'home' as const },
   { path: '/vote', icon: Vote, labelKey: 'ecoVote' as const },
   { path: '/actions', icon: Calendar, labelKey: 'ecoActions' as const },
+  { path: '/pitch', icon: Cpu, labelKey: 'ai' as const, badge: 'New' },
   { path: '/shop', icon: ShoppingBag, labelKey: 'shop' as const },
   { path: '/stories', icon: BookOpen, labelKey: 'stories' as const },
   { path: '/profile', icon: User, labelKey: 'profile' as const }
@@ -25,6 +26,9 @@ export default function Navigation() {
 
   // Helper function to get translation with proper fallback and mobile optimization
   const getTranslation = (key: string, isMobileNav: boolean = false): string => {
+    if (key === 'ai') {
+      return t('ai.tag', { defaultValue: 'AI Core' });
+    }
     // For mobile navigation, use short versions for longer labels
     if (isMobileNav) {
       const shortKeyMap: Record<string, string> = {
@@ -105,6 +109,11 @@ export default function Navigation() {
                       : "text-gray-600 hover:text-green-600 hover:bg-green-50"
                   )}
                 >
+                  {('badge' in item) && item.badge && (
+                    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-extrabold text-[7px] px-1 py-0.2 rounded-full uppercase scale-90 border border-white shadow-sm">
+                      {item.badge}
+                    </span>
+                  )}
                   <Icon className="h-5 w-5 mb-0.5 sm:mb-1 flex-shrink-0" />
                   <span className="text-[9px] sm:text-[10px] font-medium text-center leading-tight whitespace-nowrap">
                     {getTranslation(item.labelKey, true)}
