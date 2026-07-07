@@ -1130,7 +1130,9 @@
     "errApiKeyDesc": "Добавьте ключ Gemini API в файл .env (VITE_GEMINI_API_KEY).",
     "errGeneric": "Ошибка сканирования",
     "errGenericDesc": "Что-то пошло не так. Попробуйте еще раз.",
-    "tryAgain": "Повторить"
+    "tryAgain": "Повторить",
+    "takePhoto": "Сделать фото",
+    "uploadPhoto": "Загрузить из галереи"
   },
   "ai": {
     "tag": "ZAMINAT AI Core",

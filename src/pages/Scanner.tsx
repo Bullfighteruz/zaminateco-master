@@ -41,10 +41,18 @@ export default function Scanner() {
   const [error, setError] = useState<string>('');
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [cameraReady, setCameraReady] = useState(false);
+  const [useNativeCamera, setUseNativeCamera] = useState(false);
 
   // Start camera
   const startCamera = useCallback(async () => {
     try {
+      // Check if getUserMedia is available (requires HTTPS on iOS)
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setUseNativeCamera(true);
+        setState('camera');
+        return;
+      }
+
       // Stop existing stream
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(t => t.stop());
@@ -63,8 +71,14 @@ export default function Scanner() {
       setState('camera');
       setError('');
     } catch (err: any) {
-      setError(err.name === 'NotAllowedError' ? 'CAMERA_DENIED' : 'CAMERA_ERROR');
-      setState('error');
+      // On iOS over HTTP, fall back to native camera input instead of showing error
+      if (err.name === 'NotAllowedError' || err.name === 'NotFoundError' || err.name === 'NotReadableError' || err.name === 'TypeError') {
+        setUseNativeCamera(true);
+        setState('camera');
+      } else {
+        setError('CAMERA_ERROR');
+        setState('error');
+      }
     }
   }, [facingMode]);
 
@@ -131,8 +145,12 @@ export default function Scanner() {
     setCapturedImage(null);
     setResult(null);
     setError('');
-    startCamera();
-  }, [startCamera]);
+    if (useNativeCamera) {
+      setState('camera');
+    } else {
+      startCamera();
+    }
+  }, [startCamera, useNativeCamera]);
 
   // Flip camera
   const flipCamera = useCallback(() => {
@@ -168,70 +186,107 @@ export default function Scanner() {
             {/* ─── CAMERA VIEW ─── */}
             {state === 'camera' && (
               <motion.div key="camera" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                <div className="relative rounded-3xl overflow-hidden bg-black aspect-[3/4] shadow-2xl border border-white/10">
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Scanning overlay */}
-                  {cameraReady && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      {/* Corner brackets */}
-                      <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
-                      <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
-                      <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
-                      <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
-                      {/* Scan line animation */}
-                      <motion.div
-                        className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
-                        animate={{ top: ['15%', '85%', '15%'] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                
+                {/* Native camera fallback mode (iOS / no HTTPS) */}
+                {useNativeCamera ? (
+                  <div className="rounded-3xl overflow-hidden bg-gradient-to-b from-gray-800 to-gray-900 aspect-[3/4] shadow-2xl border border-white/10 flex flex-col items-center justify-center p-8 gap-6">
+                    <div className="p-5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
+                      <Camera className="h-12 w-12 text-emerald-400" />
+                    </div>
+                    <div className="text-center space-y-2">
+                      <h3 className="text-white font-bold text-lg">{t('scanner.title')}</h3>
+                      <p className="text-white/50 text-sm leading-relaxed max-w-[260px]">{t('scanner.hint')}</p>
+                    </div>
+                    <div className="flex flex-col gap-3 w-full max-w-[240px]">
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                      >
+                        <Camera className="h-5 w-5" /> {t('scanner.takePhoto')}
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (fileInputRef.current) {
+                            fileInputRef.current.removeAttribute('capture');
+                            fileInputRef.current.click();
+                            fileInputRef.current.setAttribute('capture', 'environment');
+                          }
+                        }}
+                        className="w-full h-12 rounded-2xl border border-white/20 bg-white/5 text-white/80 font-medium text-sm flex items-center justify-center gap-2 hover:bg-white/10 active:scale-95 transition-all"
+                      >
+                        <ImageIcon className="h-4 w-4" /> {t('scanner.uploadPhoto')}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Live camera viewfinder mode (HTTPS / desktop) */
+                  <>
+                    <div className="relative rounded-3xl overflow-hidden bg-black aspect-[3/4] shadow-2xl border border-white/10">
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        className="w-full h-full object-cover"
                       />
+                      {/* Scanning overlay */}
+                      {cameraReady && (
+                        <div className="absolute inset-0 pointer-events-none">
+                          {/* Corner brackets */}
+                          <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
+                          <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
+                          <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
+                          <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
+                          {/* Scan line animation */}
+                          <motion.div
+                            className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent"
+                            animate={{ top: ['15%', '85%', '15%'] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                          />
+                        </div>
+                      )}
+                      {!cameraReady && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+                          <div className="text-center space-y-2">
+                            <Camera className="h-10 w-10 text-emerald-400 mx-auto animate-pulse" />
+                            <p className="text-sm text-white/60">{t('scanner.loading')}</p>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {!cameraReady && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-                      <div className="text-center space-y-2">
-                        <Camera className="h-10 w-10 text-emerald-400 mx-auto animate-pulse" />
-                        <p className="text-sm text-white/60">{t('scanner.loading')}</p>
-                      </div>
+
+                    {/* Camera controls */}
+                    <div className="flex items-center justify-center gap-4">
+                      <Button
+                        onClick={() => fileInputRef.current?.click()}
+                        variant="outline"
+                        size="icon"
+                        className="h-12 w-12 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                      >
+                        <ImageIcon className="h-5 w-5" />
+                      </Button>
+                      
+                      <button
+                        onClick={capturePhoto}
+                        disabled={!cameraReady}
+                        className="h-16 w-16 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-white/30 shadow-lg shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:hover:scale-100 flex items-center justify-center"
+                      >
+                        <Camera className="h-6 w-6 text-white" />
+                      </button>
+
+                      <Button
+                        onClick={flipCamera}
+                        variant="outline"
+                        size="icon"
+                        className="h-12 w-12 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                      >
+                        <SwitchCamera className="h-5 w-5" />
+                      </Button>
                     </div>
-                  )}
-                </div>
 
-                {/* Camera controls */}
-                <div className="flex items-center justify-center gap-4">
-                  <Button
-                    onClick={() => fileInputRef.current?.click()}
-                    variant="outline"
-                    size="icon"
-                    className="h-12 w-12 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
-                  >
-                    <ImageIcon className="h-5 w-5" />
-                  </Button>
-                  
-                  <button
-                    onClick={capturePhoto}
-                    disabled={!cameraReady}
-                    className="h-16 w-16 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-white/30 shadow-lg shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:hover:scale-100 flex items-center justify-center"
-                  >
-                    <Camera className="h-6 w-6 text-white" />
-                  </button>
-
-                  <Button
-                    onClick={flipCamera}
-                    variant="outline"
-                    size="icon"
-                    className="h-12 w-12 rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
-                  >
-                    <SwitchCamera className="h-5 w-5" />
-                  </Button>
-                </div>
-
-                <p className="text-center text-xs text-white/40">{t('scanner.hint')}</p>
+                    <p className="text-center text-xs text-white/40">{t('scanner.hint')}</p>
+                  </>
+                )}
               </motion.div>
             )}
 

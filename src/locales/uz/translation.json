@@ -1130,7 +1130,9 @@
     "errApiKeyDesc": ".env faylga Gemini API kalitini qo'shing (VITE_GEMINI_API_KEY).",
     "errGeneric": "Skanerlash xatosi",
     "errGenericDesc": "Nimadir noto'g'ri ketdi. Qayta urinib ko'ring.",
-    "tryAgain": "Qayta urinish"
+    "tryAgain": "Qayta urinish",
+    "takePhoto": "Suratga olish",
+    "uploadPhoto": "Galereyadan yuklash"
   },
   "ai": {
     "tag": "ZAMINAT AI Core",
