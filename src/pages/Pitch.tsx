@@ -1009,15 +1009,15 @@ export default function Pitch() {
               {/* Key Metrics Bar */}
               <div className={cn("grid gap-3 text-center", isMobile ? "grid-cols-2" : "grid-cols-4")}>
                 {[
-                  { value: '6', label: 'AI Modules', sublabel: 'In Development' },
-                  { value: '3', label: 'Languages', sublabel: 'UZ · RU · EN' },
-                  { value: 'Real-time', label: 'Processing', sublabel: 'Edge + Cloud' },
-                  { value: '92%', label: 'Target Accuracy', sublabel: 'Material Recognition' },
+                  { value: '6', labelKey: 'ai.metrics.modules', subKey: 'ai.metrics.modulesSub' },
+                  { value: '3', labelKey: 'ai.metrics.languages', subKey: 'ai.metrics.languagesSub' },
+                  { value: 'Real-time', labelKey: 'ai.metrics.processing', subKey: 'ai.metrics.processingSub' },
+                  { value: '92%', labelKey: 'ai.metrics.accuracy', subKey: 'ai.metrics.accuracySub' },
                 ].map((stat, i) => (
                   <div key={i} className="bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-100/50 rounded-2xl p-3 sm:p-4">
                     <div className="text-lg sm:text-xl font-black text-emerald-700">{stat.value}</div>
-                    <div className="text-[10px] sm:text-xs font-bold text-gray-800 mt-0.5">{stat.label}</div>
-                    <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium">{stat.sublabel}</div>
+                    <div className="text-[10px] sm:text-xs font-bold text-gray-800 mt-0.5">{t(stat.labelKey)}</div>
+                    <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium">{t(stat.subKey)}</div>
                   </div>
                 ))}
               </div>
@@ -1025,16 +1025,16 @@ export default function Pitch() {
               {/* 6 AI Modules Grid — investor-style tech cards */}
               <div>
                 <h3 className={cn("font-extrabold text-gray-900 mb-4", isMobile ? "text-base" : "text-lg")}>
-                  6 Intelligence Modules
+                  {t('ai.modulesTitle')}
                 </h3>
                 <div className={cn("grid gap-3", isMobile ? "grid-cols-1" : "grid-cols-2")}>
                   {[
-                    { icon: Camera, title: 'AI EcoScan', desc: 'Computer vision material recognition — classifies waste type, estimates weight, and maps to nearest collection point.', status: 'Prototype', color: 'emerald' },
-                    { icon: MessageSquare, title: 'AI EcoCoach', desc: 'Multilingual AI assistant (UZ/RU/EN) — answers sorting questions, recommends EcoPoints, provides personalized guidance.', status: 'Concept', color: 'blue' },
-                    { icon: Cpu, title: 'AI Impact Engine', desc: 'Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value.', status: 'Prototype', color: 'emerald' },
-                    { icon: ShieldCheck, title: 'AI Anti-Fraud', desc: 'Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions.', status: 'Upcoming', color: 'amber' },
-                    { icon: Smile, title: 'AI EcoKids Tutor', desc: 'Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood.', status: 'Design', color: 'violet' },
-                    { icon: Factory, title: 'AI Production Planner', desc: 'Factory integration layer — feedstock forecasting, batch scheduling, production priority recommendations.', status: 'Planned', color: 'slate' },
+                    { icon: Camera, titleKey: 'ai.features.ecoscan.title', descKey: 'ai.pitchModules.ecoscan.desc', status: 'Prototype', color: 'emerald' },
+                    { icon: MessageSquare, titleKey: 'ai.features.ecocoach.title', descKey: 'ai.pitchModules.ecocoach.desc', status: 'Concept', color: 'blue' },
+                    { icon: Cpu, titleKey: 'ai.features.impact.title', descKey: 'ai.pitchModules.impact.desc', status: 'Prototype', color: 'emerald' },
+                    { icon: ShieldCheck, titleKey: 'ai.features.fraud.title', descKey: 'ai.pitchModules.fraud.desc', status: 'Upcoming', color: 'amber' },
+                    { icon: Smile, titleKey: 'ai.features.kids.title', descKey: 'ai.pitchModules.kids.desc', status: 'Design', color: 'violet' },
+                    { icon: Factory, titleKey: 'ai.features.planner.title', descKey: 'ai.pitchModules.planner.desc', status: 'Planned', color: 'slate' },
                   ].map((module, idx) => {
                     const statusColors: Record<string, string> = {
                       'Prototype': 'bg-emerald-500',
@@ -1057,7 +1057,7 @@ export default function Pitch() {
                             <module.icon className="h-5 w-5 stroke-[2]" />
                           </div>
                           <div>
-                            <h4 className="font-bold text-base text-gray-900 leading-tight">{module.title}</h4>
+                            <h4 className="font-bold text-base text-gray-900 leading-tight">{t(module.titleKey)}</h4>
                           </div>
                         </div>
                         <div className="flex items-center gap-1.5">
@@ -1065,7 +1065,7 @@ export default function Pitch() {
                           <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider">{module.status}</span>
                         </div>
                       </div>
-                      <p className="text-[13px] text-slate-500 leading-relaxed">{module.desc}</p>
+                      <p className="text-[13px] text-slate-500 leading-relaxed">{t(module.descKey)}</p>
                     </div>
                   )})}
                 </div>
@@ -1073,19 +1073,19 @@ export default function Pitch() {
 
               {/* Competitive Moat */}
               <div className="bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 rounded-2xl p-4 sm:p-6 text-white">
-                <h4 className={cn("font-extrabold mb-3", isMobile ? "text-sm" : "text-base")}>Why AI Creates a Defensible Moat</h4>
+                <h4 className={cn("font-extrabold mb-3", isMobile ? "text-sm" : "text-base")}>{t('ai.moat.title')}</h4>
                 <div className={cn("grid gap-3", isMobile ? "grid-cols-1" : "grid-cols-2")}>
                   {[
-                    { title: 'Proprietary Training Data', desc: 'Every scan, report and collection builds a dataset no competitor can replicate.' },
-                    { title: 'Uzbekistan-First Models', desc: 'Trained on local waste types, packaging brands and regional recycling infrastructure.' },
-                    { title: 'Network Effects', desc: 'More users → better AI accuracy → higher engagement → more verified data for investors.' },
-                    { title: 'Platform Lock-in', desc: 'AI modules are deeply integrated across EcoApp, making switching costs prohibitively high.' },
+                    { titleKey: 'ai.moat.data', descKey: 'ai.moat.dataDesc' },
+                    { titleKey: 'ai.moat.local', descKey: 'ai.moat.localDesc' },
+                    { titleKey: 'ai.moat.network', descKey: 'ai.moat.networkDesc' },
+                    { titleKey: 'ai.moat.lockin', descKey: 'ai.moat.lockinDesc' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-2.5">
                       <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0" />
                       <div>
-                        <span className="text-xs font-bold text-white/90">{item.title}</span>
-                        <p className="text-[11px] text-white/60 leading-snug mt-0.5">{item.desc}</p>
+                        <span className="text-xs font-bold text-white/90">{t(item.titleKey)}</span>
+                        <p className="text-[11px] text-white/60 leading-snug mt-0.5">{t(item.descKey)}</p>
                       </div>
                     </div>
                   ))}
@@ -1101,8 +1101,8 @@ export default function Pitch() {
             {/* Workflow Diagram */}
             <motion.div variants={fadeUp} className="bg-white/40 border border-slate-200/40 rounded-3xl p-4 sm:p-6 shadow-lg backdrop-blur-md">
               <div className="text-center mb-4">
-                <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest block">Waste-to-Life Data Lifecycle</span>
-                <h4 className="font-extrabold text-sm sm:text-base text-gray-900">Platform Sourcing & Output Integration</h4>
+                <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest block">{t('ai.workflow.lifecycleTitle')}</span>
+                <h4 className="font-extrabold text-sm sm:text-base text-gray-900">{t('ai.workflow.lifecycleSubtitle')}</h4>
               </div>
               <AIWorkflowDiagram />
             </motion.div>

@@ -1188,7 +1188,41 @@
       "ecoVote": "EcoVote Decision",
       "production": "Production Output",
       "publicObject": "Public Infrastructure",
-      "impactReport": "Verified Impact Report"
+      "impactReport": "Verified Impact Report",
+      "lifecycleTitle": "Waste-to-Life Data Lifecycle",
+      "lifecycleSubtitle": "Platform Sourcing & Output Integration"
+    },
+    "intelligenceLayers": "Intelligence Layers",
+    "hoverExplore": "Hover cards to explore",
+    "modulesTitle": "6 Intelligence Modules",
+    "metrics": {
+      "modules": "AI Modules",
+      "modulesSub": "In Development",
+      "languages": "Languages",
+      "languagesSub": "UZ · RU · EN",
+      "processing": "Processing",
+      "processingSub": "Edge + Cloud",
+      "accuracy": "Target Accuracy",
+      "accuracySub": "Material Recognition"
+    },
+    "pitchModules": {
+      "ecoscan": { "desc": "Computer vision material recognition — classifies waste type, estimates weight, and maps to nearest collection point." },
+      "ecocoach": { "desc": "Multilingual AI assistant (UZ/RU/EN) — answers sorting questions, recommends EcoPoints, provides personalized guidance." },
+      "impact": { "desc": "Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value." },
+      "fraud": { "desc": "Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions." },
+      "kids": { "desc": "Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood." },
+      "planner": { "desc": "Factory integration layer — feedstock forecasting, batch scheduling, production priority recommendations." }
+    },
+    "moat": {
+      "title": "Why AI Creates a Defensible Moat",
+      "data": "Proprietary Training Data",
+      "dataDesc": "Every scan, report and collection builds a dataset no competitor can replicate.",
+      "local": "Uzbekistan-First Models",
+      "localDesc": "Trained on local waste types, packaging brands and regional recycling infrastructure.",
+      "network": "Network Effects",
+      "networkDesc": "More users → better AI accuracy → higher engagement → more verified data for investors.",
+      "lockin": "Platform Lock-in",
+      "lockinDesc": "AI modules are deeply integrated across EcoApp, making switching costs prohibitively high."
     }
   }
 }

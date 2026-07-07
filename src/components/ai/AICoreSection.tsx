@@ -133,7 +133,7 @@ export default function AICoreSection() {
                   "text-emerald-600/80 font-bold uppercase tracking-widest",
                   isMobile ? "text-[9px]" : "text-[10px]"
                 )}>
-                  Intelligence Layers
+                  {t('ai.intelligenceLayers')}
                 </p>
                 <div 
                   ref={cardsContainerRef}
@@ -174,7 +174,7 @@ export default function AICoreSection() {
                 <FloatingAIPhone activeIndex={activeScreenIndex} />
                 <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium select-none animate-pulse">
                   <MousePointerClick className="h-3 w-3" />
-                  <span>Hover cards to explore</span>
+                  <span>{t('ai.hoverExplore')}</span>
                 </div>
               </div>
             </div>

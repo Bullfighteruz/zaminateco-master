@@ -1188,7 +1188,41 @@
       "ecoVote": "EcoVote qarori",
       "production": "Production",
       "publicObject": "Ijtimoiy infratuzilma",
-      "impactReport": "Tasdiqlangan hisobot"
+      "impactReport": "Tasdiqlangan hisobot",
+      "lifecycleTitle": "Chiqindi-Hayotga ma'lumotlar aylanishi",
+      "lifecycleSubtitle": "Platforma manbalari va ishlab chiqarish integratsiyasi"
+    },
+    "intelligenceLayers": "Intellekt qatlamlari",
+    "hoverExplore": "Kartalarni ko'rish uchun sichqonchani olib boring",
+    "modulesTitle": "6 ta intellekt moduli",
+    "metrics": {
+      "modules": "AI Modullar",
+      "modulesSub": "Ishlab chiqilmoqda",
+      "languages": "Tillar",
+      "languagesSub": "O'Z · RU · EN",
+      "processing": "Qayta ishlash",
+      "processingSub": "Edge + Cloud",
+      "accuracy": "Maqsadli aniqlik",
+      "accuracySub": "Material aniqlash"
+    },
+    "pitchModules": {
+      "ecoscan": { "desc": "Kompyuter ko'rish bilan materialni aniqlash — chiqindi turini tasniflaydi, og'irligini baholaydi va eng yaqin yig'ish nuqtasini ko'rsatadi." },
+      "ecocoach": { "desc": "Ko'p tilli AI yordamchi (O'Z/RU/EN) — saralash savollariga javob beradi, EcoPoint'larni tavsiya qiladi, shaxsiy maslahatlar beradi." },
+      "impact": { "desc": "Real vaqtda ta'sir hisoblash — qayta ishlash ma'lumotlarini o'lchanadigan natijalarga aylantiradi: tejalgan CO₂, yaratilgan mahsulotlar." },
+      "fraud": { "desc": "Ko'p qatlamli tekshiruv — GPS tekshiruvi, fotosurat haqiqiyligi, vaqt tahlili, barcha topshiriqlar uchun anomaliyalarni aniqlash." },
+      "kids": { "desc": "O'yinlashtirilgan ekologik ta'lim — saralash vazifalari, viktorinalar, bolalikdan odatlarni shakllantirish uchun yutuqlar tizimi." },
+      "planner": { "desc": "Zavod integratsiya qatlami — xom ashyo bashorati, partiya jadvallari, ishlab chiqarish ustuvorlik tavsiyalari." }
+    },
+    "moat": {
+      "title": "Nima uchun AI himoyalanadigan ustunlik yaratadi",
+      "data": "Maxsus o'quv ma'lumotlari",
+      "dataDesc": "Har bir skanerlash, hisobot va yig'ish hech bir raqobatchi takrorlay olmaydigan ma'lumotlar bazasini yaratadi.",
+      "local": "O'zbekiston uchun birinchi modellar",
+      "localDesc": "Mahalliy chiqindi turlari, qadoqlash brendlari va mintaqaviy qayta ishlash infratuzilmasi bo'yicha o'qitilgan.",
+      "network": "Tarmoq effektlari",
+      "networkDesc": "Ko'proq foydalanuvchilar → aniqroq AI → yuqoriroq faollik → investorlar uchun ko'proq tasdiqlangan ma'lumotlar.",
+      "lockin": "Platforma qulflash",
+      "lockinDesc": "AI modullari EcoApp bo'ylab chuqur integratsiyalangan, bu esa o'tish xarajatlarini yuqori qiladi."
     }
   }
 }
