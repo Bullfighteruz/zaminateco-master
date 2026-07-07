@@ -1135,6 +1135,8 @@
     "uploadPhoto": "Galereyadan yuklash",
     "yes": "Ha",
     "no": "Yo'q",
+    "claimCoins": "+{{coins}} tanga olish",
+    "coinsClaimed": "Tangalar olindi! ✓",
     "wasteTypes": {
       "Plastic": "Plastik",
       "Metal": "Metall",

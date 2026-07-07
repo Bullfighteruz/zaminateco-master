@@ -1135,6 +1135,8 @@
     "uploadPhoto": "Upload from Gallery",
     "yes": "Yes",
     "no": "No",
+    "claimCoins": "Claim +{{coins}} Coins",
+    "coinsClaimed": "Coins Claimed! ✓",
     "wasteTypes": {
       "Plastic": "Plastic",
       "Metal": "Metal",

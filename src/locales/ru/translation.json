@@ -1135,6 +1135,8 @@
     "uploadPhoto": "Загрузить из галереи",
     "yes": "Да",
     "no": "Нет",
+    "claimCoins": "Забрать +{{coins}} монет",
+    "coinsClaimed": "Монеты получены! ✓",
     "wasteTypes": {
       "Plastic": "Пластик",
       "Metal": "Металл",

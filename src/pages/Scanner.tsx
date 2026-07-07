@@ -11,6 +11,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { scanWasteImage, type WasteScanResult } from '@/lib/gemini';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
+import { loadUserProgress, saveUserProgress } from '@/lib/userProgress';
 
 type ScanState = 'camera' | 'preview' | 'scanning' | 'result' | 'error';
 
@@ -42,6 +43,7 @@ export default function Scanner() {
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [cameraReady, setCameraReady] = useState(false);
   const [useNativeCamera, setUseNativeCamera] = useState(false);
+  const [claimed, setClaimed] = useState(false);
 
   // Start camera
   const startCamera = useCallback(async () => {
@@ -147,12 +149,81 @@ export default function Scanner() {
     setCapturedImage(null);
     setResult(null);
     setError('');
+    setClaimed(false);
     if (useNativeCamera) {
       setState('camera');
     } else {
       startCamera();
     }
   }, [startCamera, useNativeCamera]);
+
+  // Claim reward handler
+  const handleClaim = useCallback(() => {
+    if (!result) return;
+    try {
+      const progress = loadUserProgress();
+      const updated = {
+        ...progress,
+        ecoCoins: progress.ecoCoins + result.ecoCoins,
+        wasteCollected: (progress.wasteCollected || 0) + 1,
+        ecoPoints: progress.ecoPoints + Math.round(result.recyclabilityScore * 1.5),
+        lastActive: new Date().toISOString()
+      };
+      saveUserProgress(updated);
+      setClaimed(true);
+
+      // Simple premium JS confetti burst
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.inset = '0';
+      container.style.pointerEvents = 'none';
+      container.style.zIndex = '9999';
+      document.body.appendChild(container);
+
+      const colors = ['#10B981', '#34D399', '#FBBF24', '#3B82F6', '#EC4899'];
+      for (let i = 0; i < 60; i++) {
+        const particle = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.position = 'absolute';
+        particle.style.width = `${Math.random() * 8 + 6}px`;
+        particle.style.height = `${Math.random() * 8 + 6}px`;
+        particle.style.backgroundColor = color;
+        particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+        particle.style.left = '50%';
+        particle.style.top = '70%';
+        particle.style.opacity = '1';
+        container.appendChild(particle);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 15 + 10;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity - 12;
+
+        let posX = window.innerWidth / 2;
+        let posY = window.innerHeight * 0.7;
+        let opacity = 1;
+
+        const animate = () => {
+          posX += vx;
+          posY += vy + 0.5; // gravity
+          opacity -= 0.02;
+          particle.style.left = `${posX}px`;
+          particle.style.top = `${posY}px`;
+          particle.style.opacity = opacity.toString();
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        };
+        requestAnimationFrame(animate);
+      }
+
+      setTimeout(() => container.remove(), 2000);
+    } catch (err) {
+      console.error('Error claiming coins:', err);
+    }
+  }, [result]);
 
   // Flip camera
   const flipCamera = useCallback(() => {
@@ -464,12 +535,48 @@ export default function Scanner() {
 
                 {/* Actions */}
                 <div className="flex gap-4">
-                  <Button 
-                    onClick={resetScanner} 
-                    className="flex-1 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
-                  >
-                    <Camera className="h-4 w-4 mr-2" /> {t('scanner.scanAgain')}
-                  </Button>
+                  {result.recyclable ? (
+                    claimed ? (
+                      <>
+                        <Button 
+                          disabled 
+                          className="flex-1 h-13 rounded-2xl bg-emerald-600/25 border border-emerald-500/20 text-emerald-400 font-bold opacity-100 flex items-center justify-center gap-2"
+                        >
+                          <ShieldCheck className="h-4 w-4" /> {t('scanner.coinsClaimed')}
+                        </Button>
+                        <Button 
+                          onClick={resetScanner} 
+                          variant="outline" 
+                          className="h-13 px-5 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-95 transition-all"
+                        >
+                          <Camera className="h-4 w-4" />
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button 
+                          onClick={resetScanner} 
+                          variant="outline" 
+                          className="flex-1 h-13 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-95 transition-all"
+                        >
+                          {t('scanner.scanAgain')}
+                        </Button>
+                        <Button 
+                          onClick={handleClaim} 
+                          className="flex-[2] h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all flex items-center justify-center gap-2"
+                        >
+                          <Coins className="h-4 w-4" /> {t('scanner.claimCoins', { coins: result.ecoCoins })}
+                        </Button>
+                      </>
+                    )
+                  ) : (
+                    <Button 
+                      onClick={resetScanner} 
+                      className="flex-1 h-13 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
+                    >
+                      <Camera className="h-4 w-4 mr-2" /> {t('scanner.scanAgain')}
+                    </Button>
+                  )}
                 </div>
               </motion.div>
             )}
