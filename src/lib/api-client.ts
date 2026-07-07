@@ -1,48 +1,7 @@
-/**
- * Zaminat Backend API Client
- * 
- * This client provides a type-safe interface to communicate with the Zaminat backend API.
- * All requests are authenticated using JWT tokens stored in localStorage.
- */
+import { supabase, isSupabaseConfigured } from './supabase';
+import { votingProjects, collectionPoints, ecoActions, products, ecoStories, currentUser } from './mockData';
 
-const DEFAULT_API_URL = import.meta.env.DEV ? 'http://localhost:3000/api/v1' : '';
-const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_URL);
-
-function isLocalHost(host?: string) {
-  if (!host) return false;
-  const normalized = host.toLowerCase();
-  return normalized === 'localhost' || normalized === '127.0.0.1';
-}
-
-function determineBackendAvailability(baseURL: string): boolean {
-  if (!baseURL) return false;
-
-  try {
-    const parsed = new URL(
-      baseURL,
-      typeof window !== 'undefined' ? window.location.href : 'http://localhost'
-    );
-    const targetHost = parsed.hostname;
-    const runningOnLocalhost =
-      typeof window !== 'undefined' && isLocalHost(window.location.hostname);
-
-    if (!runningOnLocalhost && isLocalHost(targetHost)) {
-      return false;
-    }
-
-    if (import.meta.env.PROD && isLocalHost(targetHost)) {
-      return false;
-    }
-
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-const BACKEND_ENABLED = determineBackendAvailability(API_BASE_URL);
-export const IS_BACKEND_AVAILABLE = BACKEND_ENABLED;
-
+// Types
 interface ApiResponse<T> {
   data?: T;
   error?: string;
@@ -50,9 +9,15 @@ interface ApiResponse<T> {
   requiresOtp?: boolean;
 }
 
-// Type aliases for API responses
 type ApiData = Record<string, unknown>;
 type ApiDataArray = Record<string, unknown>[];
+
+// Check if we are running in Dev/Prod
+const DEFAULT_API_URL = import.meta.env.DEV ? 'http://localhost:3000/api/v1' : '';
+const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_URL);
+
+// We consider backend available if either a standard REST URL is set OR Supabase is configured!
+export const IS_BACKEND_AVAILABLE = isSupabaseConfigured() || !!import.meta.env.VITE_API_URL;
 
 class ApiClient {
   private baseURL: string;
@@ -60,151 +25,25 @@ class ApiClient {
 
   constructor(baseURL: string) {
     this.baseURL = baseURL;
-    this.loadToken();
   }
 
-  private loadToken() {
-    if (typeof window !== 'undefined') {
-      this.token = localStorage.getItem('accessToken');
-    }
-  }
-
-  private setToken(token: string) {
-    this.token = token;
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('accessToken', token);
-    }
-  }
-
-  private clearToken() {
-    this.token = null;
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-    }
-  }
-
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
-    if (!BACKEND_ENABLED) {
+  // Generic request fallback for REST backend (if configured)
+  private async restRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    if (!import.meta.env.VITE_API_URL) {
       throw new Error('BACKEND_DISABLED');
     }
-
-    const url = `${this.baseURL}${endpoint}`;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
       ...options.headers,
     };
-
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
-    }
-
-    try {
-      // Add timeout to prevent hanging requests
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-
-      const response = await fetch(url, {
-        ...options,
-        headers,
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      // Handle token refresh on 401
-      if (response.status === 401 && this.token) {
-        const refreshed = await this.refreshToken();
-        if (refreshed) {
-          // Retry original request
-          headers['Authorization'] = `Bearer ${this.token}`;
-          const retryController = new AbortController();
-          const retryTimeoutId = setTimeout(() => retryController.abort(), 5000);
-          const retryResponse = await fetch(url, {
-            ...options,
-            headers,
-            signal: retryController.signal,
-          });
-          clearTimeout(retryTimeoutId);
-          if (!retryResponse.ok) {
-            throw new Error(`API Error: ${retryResponse.statusText}`);
-          }
-          return retryResponse.json();
-        }
-      }
-
-      if (!response.ok) {
-        // Don't throw error for 401/403 - let the calling code handle it
-        if (response.status === 401 || response.status === 403) {
-          const error = await response.json().catch(() => ({ message: response.statusText }));
-          throw new Error(error.message || `API Error: ${response.statusText}`);
-        }
-        const error = await response.json().catch(() => ({ message: response.statusText }));
-        throw new Error(error.message || `API Error: ${response.statusText}`);
-      }
-
-      return response.json();
-    } catch (error: unknown) {
-      // Silently handle network errors - app works without backend
-      const message = error instanceof Error ? error.message : String(error);
-      if (message === 'BACKEND_DISABLED') {
-        throw error;
-      }
-      // Only log if it's not a network/timeout error (which are expected when backend is unavailable)
-      if (
-        !message.includes('Failed to fetch') &&
-        !message.includes('aborted') &&
-        !message.includes('timeout') &&
-        !message.includes('not configured')
-      ) {
-        console.error('API request failed:', message);
-      }
-      throw error;
-    }
+    const response = await fetch(`${this.baseURL}${endpoint}`, { ...options, headers });
+    if (!response.ok) throw new Error(response.statusText);
+    return response.json();
   }
 
-  private async refreshToken(): Promise<boolean> {
-    if (!BACKEND_ENABLED) {
-      return false;
-    }
-    const refreshToken = typeof window !== 'undefined' 
-      ? localStorage.getItem('refreshToken') 
-      : null;
-
-    if (!refreshToken) {
-      this.clearToken();
-      return false;
-    }
-
-    try {
-      const response = await fetch(`${this.baseURL}/auth/refresh`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        this.setToken(data.accessToken);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('refreshToken', data.refreshToken);
-        }
-        return true;
-      }
-    } catch (error) {
-      console.error('Token refresh failed:', error);
-    }
-
-    this.clearToken();
-    return false;
-  }
-
-  // Authentication
+  // ==========================================
+  // AUTHENTICATION
+  // ==========================================
   async register(data: {
     email?: string;
     phone?: string;
@@ -215,347 +54,689 @@ class ApiClient {
     school?: string;
     mahalla?: string;
   }) {
-    const response = await this.request<ApiData & { accessToken?: string; refreshToken?: string; user?: ApiData; requiresOtp?: boolean }>('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    if (isSupabaseConfigured() && supabase) {
+      const email = data.email || `${data.phone || Math.random().toString(36).substring(7)}@zaminat.local`;
+      const password = data.password || 'TemporaryPassword123!';
+      
+      const { data: authData, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: `${data.firstName} ${data.lastName}`,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            district: data.district,
+            school: data.school,
+            mahalla: data.mahalla
+          }
+        }
+      });
 
-    if (response.accessToken) {
-      this.setToken(response.accessToken);
-      if (response.refreshToken && typeof window !== 'undefined') {
-        localStorage.setItem('refreshToken', response.refreshToken);
-      }
+      if (error) throw new Error(error.message);
+      
+      return {
+        accessToken: authData.session?.access_token || 'mock_access_token',
+        refreshToken: authData.session?.refresh_token || 'mock_refresh_token',
+        user: authData.user ? {
+          id: authData.user.id,
+          email: authData.user.email,
+          full_name: `${data.firstName} ${data.lastName}`
+        } : null
+      };
     }
 
-    return response;
+    // Local Fallback Mock
+    console.log('[ApiClient] Mocking registration for:', data.email || data.phone);
+    return {
+      accessToken: 'mock_access_token',
+      user: { id: 'mock_user_id', email: data.email || 'guest@zaminat.local' }
+    };
   }
 
   async login(data: { email?: string; phone?: string; password?: string; otp?: string }) {
-    const response = await this.request<ApiData & { accessToken?: string; refreshToken?: string; user?: ApiData; requiresOtp?: boolean }>('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    if (isSupabaseConfigured() && supabase) {
+      const email = data.email || `${data.phone}@zaminat.local`;
+      const password = data.password || 'TemporaryPassword123!';
 
-    if (response.accessToken) {
-      this.setToken(response.accessToken);
-      if (response.refreshToken && typeof window !== 'undefined') {
-        localStorage.setItem('refreshToken', response.refreshToken);
-      }
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw new Error(error.message);
+
+      return {
+        accessToken: authData.session?.access_token,
+        refreshToken: authData.session?.refresh_token,
+        user: authData.user ? {
+          id: authData.user.id,
+          email: authData.user.email
+        } : null
+      };
     }
 
-    return response;
+    return {
+      accessToken: 'mock_access_token',
+      user: { id: 'mock_user_id', email: data.email || 'guest@zaminat.local' }
+    };
   }
 
   async verifyOtp(phone: string, otp: string) {
-    const response = await this.request<ApiData & { accessToken?: string; refreshToken?: string; user?: ApiData }>('/auth/verify-otp', {
-      method: 'POST',
-      body: JSON.stringify({ phone, otp }),
-    });
-
-    if (response.accessToken) {
-      this.setToken(response.accessToken);
-      if (response.refreshToken && typeof window !== 'undefined') {
-        localStorage.setItem('refreshToken', response.refreshToken);
-      }
-    }
-
-    return response;
+    return { accessToken: 'mock_access_token', user: { id: 'mock_user' } };
   }
 
   async getCurrentUser() {
-    return this.request<ApiData>('/auth/me');
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+
+        return profile || { id: session.user.id, email: session.user.email };
+      }
+      return null;
+    }
+    return currentUser;
   }
 
   logout() {
-    this.clearToken();
+    if (isSupabaseConfigured() && supabase) {
+      supabase.auth.signOut();
+    }
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 
-  // Projects
-  async getProjects(status?: string, sortBy?: string) {
-    const query = new URLSearchParams();
-    if (status) query.append('status', status);
-    if (sortBy) query.append('sortBy', sortBy);
-    const queryString = query.toString();
-    return this.request<ApiDataArray>(`/projects${queryString ? `?${queryString}` : ''}`);
-  }
-
-  async getProject(id: string) {
-    return this.request<ApiData>(`/projects/${id}`);
-  }
-
-  async getProjectResults(id: string) {
-    return this.request<ApiData>(`/projects/${id}/results`);
-  }
-
-  async voteForProject(projectId: string) {
-    return this.request<ApiData>(`/projects/${projectId}/vote`, {
-      method: 'POST',
-    });
-  }
-
-  async donateToProject(projectId: string, amount: number, currency: string, paymentProvider?: string) {
-    return this.request<ApiData>(`/projects/${projectId}/donate`, {
-      method: 'POST',
-      body: JSON.stringify({ amount, currency, paymentProvider }),
-    });
-  }
-
-  // Users
+  // ==========================================
+  // PROFILE / USER
+  // ==========================================
   async getUserProfile() {
-    return this.request<ApiData>('/users/me');
+    return this.getCurrentUser();
   }
 
-  async updateUserProfile(data: Record<string, unknown>) {
-    return this.request<ApiData>('/users/me', {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
+  async updateUserProfile(data: Record<string, any>) {
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('Not authenticated');
+
+      const { data: updatedProfile, error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: data.fullName || data.full_name,
+          mahalla: data.mahalla,
+          school: data.school,
+          avatar_url: data.avatarUrl || data.avatar_url
+        })
+        .eq('id', session.user.id)
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      return updatedProfile;
+    }
+
+    return { ...currentUser, ...data };
   }
 
   async getUserStats(userId: string) {
-    return this.request<ApiData>(`/users/${userId}/stats`);
+    if (isSupabaseConfigured() && supabase) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('eco_coins, level, xp, waste_collected')
+        .eq('id', userId)
+        .single();
+      return profile || {};
+    }
+    return {
+      ecoCoins: currentUser.ecoCoins,
+      level: currentUser.level,
+      xp: currentUser.xp || 1400,
+      wasteCollected: currentUser.wasteCollected
+    };
   }
 
-  // Events
+  // ==========================================
+  // ECOVOTE / PROJECTS
+  // ==========================================
+  async getProjects(status?: string, sortBy?: string) {
+    if (isSupabaseConfigured() && supabase) {
+      let query = supabase.from('voting_projects').select('*');
+      if (status) {
+        query = query.eq('status', status.toLowerCase());
+      }
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+
+      // Transform db fields to camelCase expected by components
+      return data.map(p => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        image: p.image_url,
+        location: p.location,
+        requiredMaterials: p.required_materials,
+        currentVotes: p.current_votes,
+        totalVotes: p.total_votes,
+        category: p.category,
+        deadline: new Date(p.deadline),
+        status: p.status,
+        donationTarget: p.donation_target,
+        donationRaised: p.donation_raised
+      }));
+    }
+    return votingProjects;
+  }
+
+  async getProject(id: string) {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('voting_projects')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw new Error(error.message);
+      return {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        image: data.image_url,
+        location: data.location,
+        requiredMaterials: data.required_materials,
+        currentVotes: data.current_votes,
+        totalVotes: data.total_votes,
+        category: data.category,
+        deadline: new Date(data.deadline),
+        status: data.status,
+        donationTarget: data.donation_target,
+        donationRaised: data.donation_raised
+      };
+    }
+    return votingProjects.find(p => p.id === id) || votingProjects[0];
+  }
+
+  async voteForProject(projectId: string) {
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('Not authenticated to vote');
+
+      // Check if already voted
+      const { data: existingVote } = await supabase
+        .from('user_votes')
+        .select('*')
+        .eq('project_id', projectId)
+        .eq('user_id', session.user.id)
+        .single();
+
+      if (existingVote) {
+        throw new Error('ALREADY_VOTED');
+      }
+
+      // Insert vote
+      const { error: insertError } = await supabase
+        .from('user_votes')
+        .insert({ project_id: projectId, user_id: session.user.id });
+
+      if (insertError) throw new Error(insertError.message);
+
+      // Increment vote count
+      const { data: project } = await supabase
+        .from('voting_projects')
+        .select('current_votes')
+        .eq('id', projectId)
+        .single();
+
+      const newVotes = (project?.current_votes || 0) + 1;
+
+      await supabase
+        .from('voting_projects')
+        .update({ current_votes: newVotes })
+        .eq('id', projectId);
+
+      return { success: true, currentVotes: newVotes };
+    }
+
+    return { success: true };
+  }
+
+  async donateToProject(projectId: string, amount: number, currency: string, paymentProvider?: string) {
+    if (isSupabaseConfigured() && supabase) {
+      const { data: project } = await supabase
+        .from('voting_projects')
+        .select('donation_raised')
+        .eq('id', projectId)
+        .single();
+
+      const newDonations = Number(project?.donation_raised || 0) + Number(amount);
+
+      await supabase
+        .from('voting_projects')
+        .update({ donation_raised: newDonations })
+        .eq('id', projectId);
+
+      return { success: true, donationRaised: newDonations };
+    }
+    return { success: true };
+  }
+
+  // ==========================================
+  // ECOACTIONS / EVENTS
+  // ==========================================
   async getEvents(status?: string) {
-    const query = status ? `?status=${status}` : '';
-    return this.request<ApiDataArray>(`/events${query}`);
-  }
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('eco_actions')
+        .select('*')
+        .order('event_date', { ascending: true });
 
-  async getEvent(id: string) {
-    return this.request<ApiData>(`/events/${id}`);
+      if (error) throw new Error(error.message);
+
+      return data.map(e => ({
+        id: e.id,
+        title: e.title,
+        description: e.description,
+        date: new Date(e.event_date),
+        location: e.location_name,
+        latitude: e.latitude,
+        longitude: e.longitude,
+        xpReward: e.xp_reward,
+        registeredCount: e.registered_count
+      }));
+    }
+    return ecoActions;
   }
 
   async joinEvent(eventId: string) {
-    return this.request<ApiData>(`/events/${eventId}/join`, {
-      method: 'POST',
-    });
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('Not authenticated');
+
+      const { error: dbError } = await supabase
+        .from('eco_action_participants')
+        .insert({ action_id: eventId, user_id: session.user.id });
+
+      if (dbError) {
+        if (dbError.code === '23505') return { success: true, message: 'Already joined' };
+        throw new Error(dbError.message);
+      }
+
+      // Increment registered count
+      const { data: ev } = await supabase
+        .from('eco_actions')
+        .select('registered_count, xp_reward')
+        .eq('id', eventId)
+        .single();
+
+      const newCount = (ev?.registered_count || 0) + 1;
+      await supabase
+        .from('eco_actions')
+        .update({ registered_count: newCount })
+        .eq('id', eventId);
+
+      // Award XP to user profile
+      const { data: userProfile } = await supabase
+        .from('profiles')
+        .select('xp, level')
+        .eq('id', session.user.id)
+        .single();
+
+      if (userProfile) {
+        const addedXp = ev?.xp_reward || 50;
+        const currentXp = (userProfile.xp || 0) + addedXp;
+        const currentLevel = userProfile.level || 1;
+        // Level up algorithm (1000 XP per level)
+        const newLevel = Math.floor(currentXp / 1000) + 1;
+
+        await supabase
+          .from('profiles')
+          .update({
+            xp: currentXp,
+            level: Math.max(currentLevel, newLevel)
+          })
+          .eq('id', session.user.id);
+      }
+
+      return { success: true };
+    }
+    return { success: true };
   }
 
-  // Locations
+  // ==========================================
+  // LOCATIONS / MAP POINTS
+  // ==========================================
   async getLocations(filters?: { type?: string; eventType?: string; district?: string }) {
-    const query = new URLSearchParams(filters as Record<string, string>).toString();
-    return this.request<ApiDataArray>(`/locations${query ? `?${query}` : ''}`);
+    return this.getCollectionPoints();
   }
 
-  async getLocation(id: string) {
-    return this.request<ApiData>(`/locations/${id}`);
-  }
-
-  async getNearbyLocations(lat: number, lng: number, radius?: number) {
-    const query = new URLSearchParams({
-      lat: lat.toString(),
-      lng: lng.toString(),
-      ...(radius && { radius: radius.toString() }),
-    }).toString();
-    return this.request<ApiDataArray>(`/locations/nearby?${query}`);
-  }
-
-  // Collections
   async getCollectionPoints(filters?: { materialType?: string; district?: string; status?: string; limit?: number }) {
-    const query = new URLSearchParams(filters as Record<string, string>).toString();
-    return this.request<ApiDataArray>(`/collection-points${query ? `?${query}` : ''}`);
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('eco_points')
+        .select('*');
+
+      if (error) throw new Error(error.message);
+
+      return data.map(p => ({
+        id: p.id,
+        name: p.name,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        type: p.accepted_materials?.[0]?.toLowerCase() || 'mixed',
+        totalCollected: p.total_collected,
+        lastUpdated: new Date(p.created_at),
+        isActive: p.is_active
+      }));
+    }
+    return collectionPoints;
   }
 
-  async getCollectionPoint(id: string) {
-    return this.request<ApiData>(`/collection-points/${id}`);
+  // ==========================================
+  // WASTE LOGS / SCANS
+  // ==========================================
+  async getUserWasteLogs(userId?: string) {
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      const targetUserId = userId || session?.user?.id;
+      if (!targetUserId) return [];
+
+      const { data, error } = await supabase
+        .from('scans')
+        .select('*')
+        .eq('user_id', targetUserId)
+        .order('created_at', { ascending: false });
+
+      if (error) throw new Error(error.message);
+
+      return data.map(s => ({
+        id: s.id,
+        date: new Date(s.created_at).toLocaleDateString(),
+        weight: s.total_weight_kg || '0.2 kg',
+        ecoCoins: s.estimated_coins,
+        status: s.verification_status,
+        items: s.detected_items
+      }));
+    }
+    return [];
   }
 
-  async createCollection(data: { collectionPointId: string; materialType: string; weightKg: number; photoUrl?: string }) {
-    return this.request<ApiData>('/collections', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }
-
-  async getUserCollections(userId: string) {
-    return this.request<ApiDataArray>(`/collections/user/${userId}`);
-  }
-
-  // Waste Logs
-  async createWasteLog(data: { weightKg: number; category: string; location?: string; photoURL?: string; date?: string }) {
-    return this.request<ApiData>('/waste-logs', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }
-
-  async getUserWasteLogs(userId?: string, filters?: { status?: string; category?: string; limit?: number; offset?: number }) {
-    const query = new URLSearchParams();
-    if (filters?.status) query.append('status', filters.status);
-    if (filters?.category) query.append('category', filters.category);
-    if (filters?.limit) query.append('limit', filters.limit.toString());
-    if (filters?.offset) query.append('offset', filters.offset.toString());
-    const queryString = query.toString();
-    const endpoint = userId ? `/waste-logs/user/${userId}` : '/waste-logs/me';
-    return this.request<ApiDataArray>(`${endpoint}${queryString ? `?${queryString}` : ''}`);
-  }
-
-  async getWasteLogStats(userId?: string) {
-    const query = userId ? `?userId=${userId}` : '';
-    return this.request<ApiData>(`/waste-logs/stats${query}`);
-  }
-
-  async getWasteLog(id: string) {
-    return this.request<ApiData>(`/waste-logs/${id}`);
-  }
-
-  async deleteWasteLog(id: string) {
-    return this.request<ApiData>(`/waste-logs/${id}`, {
-      method: 'DELETE',
-    });
-  }
-
-  // News & Content
-  async getNews(filters?: { limit?: number; offset?: number; search?: string }) {
-    const query = new URLSearchParams();
-    if (filters?.limit) query.append('limit', filters.limit.toString());
-    if (filters?.offset) query.append('offset', filters.offset.toString());
-    if (filters?.search) query.append('search', filters.search);
-    const queryString = query.toString();
-    return this.request<ApiDataArray>(`/news${queryString ? `?${queryString}` : ''}`);
-  }
-
-  async getNewsArticle(slug: string) {
-    return this.request<ApiData>(`/news/${slug}`);
-  }
-
-  // Shop
+  // ==========================================
+  // SOCIAL SHOP
+  // ==========================================
   async getProducts(category?: string) {
-    const query = category ? `?category=${category}` : '';
-    return this.request<ApiDataArray>(`/shop/products${query}`);
+    if (isSupabaseConfigured() && supabase) {
+      let query = supabase.from('products').select('*').eq('is_active', true);
+      if (category) {
+        query = query.eq('category', category);
+      }
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+
+      return data.map(p => ({
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        price: p.price_coins,
+        stock: p.stock_count,
+        image: p.image_url,
+        category: p.category,
+        co2Saved: p.co2_saved,
+        recycledRatio: p.recycled_ratio
+      }));
+    }
+    return products;
   }
 
   async getProduct(id: string) {
-    return this.request<ApiData>(`/shop/products/${id}`);
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', id)
+        .single();
+      if (error) throw new Error(error.message);
+
+      return {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        price: data.price_coins,
+        stock: data.stock_count,
+        image: data.image_url,
+        category: data.category,
+        co2Saved: data.co2_saved,
+        recycledRatio: data.recycled_ratio
+      };
+    }
+    return products.find(p => p.id === id) || products[0];
   }
 
-  async createOrder(data: { items: Array<{ productId: string; quantity: number }>; shippingAddress: Record<string, unknown> }) {
-    return this.request<ApiData>('/orders', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+  async createOrder(data: { items: Array<{ productId: string; quantity: number }>; shippingAddress: any }) {
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('Not authenticated');
+
+      // Calculate total cost
+      let totalCost = 0;
+      for (const item of data.items) {
+        const prod = await this.getProduct(item.productId);
+        totalCost += (prod.price || 0) * item.quantity;
+      }
+
+      // Check user balance
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('eco_coins')
+        .eq('id', session.user.id)
+        .single();
+
+      const currentCoins = profile?.eco_coins || 0;
+      if (currentCoins < totalCost) {
+        throw new Error('INSUFFICIENT_FUNDS');
+      }
+
+      // Deduct coins
+      await supabase
+        .from('profiles')
+        .update({ eco_coins: currentCoins - totalCost })
+        .eq('id', session.user.id);
+
+      // Create order
+      const { data: order, error } = await supabase
+        .from('orders')
+        .insert({
+          user_id: session.user.id,
+          items: data.items,
+          total_coins: totalCost,
+          shipping_address: data.shippingAddress,
+          status: 'Pending'
+        })
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      return order;
+    }
+
+    return { success: true, orderId: 'mock_order_id' };
   }
 
-  async getOrder(id: string) {
-    return this.request<ApiData>(`/orders/${id}`);
-  }
+  // ==========================================
+  // ECOSTORIES
+  // ==========================================
+  async getStories(category?: string, type?: string, language?: string) {
+    if (isSupabaseConfigured() && supabase) {
+      let query = supabase.from('eco_stories').select('*');
+      if (category) query = query.eq('category', category);
+      if (language) query = query.eq('language', language);
+      
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
 
-  // Stories
-  async getStories(category?: string, type?: string, language?: string, search?: string) {
-    const query = new URLSearchParams();
-    if (category) query.append('category', category);
-    if (type) query.append('type', type);
-    if (language) query.append('language', language);
-    if (search) query.append('search', search);
-    const queryString = query.toString();
-    return this.request<ApiDataArray>(`/posts${queryString ? `?${queryString}` : ''}`);
+      return data.map(s => ({
+        id: s.id,
+        title: s.title,
+        slug: s.slug,
+        content: s.content,
+        image: s.image_url,
+        category: s.category,
+        author: s.author,
+        likes: s.likes_count,
+        comments: s.comments_count,
+        date: new Date(s.created_at).toLocaleDateString(),
+        readTime: '4 min'
+      }));
+    }
+    return ecoStories;
   }
 
   async getStory(slug: string) {
-    return this.request<ApiData>(`/posts/${slug}`);
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('eco_stories')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+      if (error) throw new Error(error.message);
+
+      return {
+        id: data.id,
+        title: data.title,
+        slug: data.slug,
+        content: data.content,
+        image: data.image_url,
+        category: data.category,
+        author: data.author,
+        likes: data.likes_count,
+        comments: data.comments_count,
+        date: new Date(data.created_at).toLocaleDateString(),
+        readTime: '4 min'
+      };
+    }
+    return ecoStories.find(s => s.slug === slug) || ecoStories[0];
   }
 
   async reactToPost(postId: string, reactionType: string) {
-    return this.request<ApiData>(`/posts/${postId}/reactions`, {
-      method: 'POST',
-      body: JSON.stringify({ reactionType }),
-    });
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('Not authenticated');
+
+      const { data: existingReaction } = await supabase
+        .from('story_reactions')
+        .select('*')
+        .eq('story_id', postId)
+        .eq('user_id', session.user.id)
+        .single();
+
+      let newCount = 0;
+      const { data: story } = await supabase
+        .from('eco_stories')
+        .select('likes_count')
+        .eq('id', postId)
+        .single();
+
+      if (existingReaction) {
+        // Delete reaction (unlike)
+        await supabase
+          .from('story_reactions')
+          .delete()
+          .eq('story_id', postId)
+          .eq('user_id', session.user.id);
+          
+        newCount = Math.max(0, (story?.likes_count || 0) - 1);
+      } else {
+        // Insert reaction (like)
+        await supabase
+          .from('story_reactions')
+          .insert({ story_id: postId, user_id: session.user.id, reaction_type: reactionType });
+
+        newCount = (story?.likes_count || 0) + 1;
+      }
+
+      await supabase
+        .from('eco_stories')
+        .update({ likes_count: newCount })
+        .eq('id', postId);
+
+      return { success: true, likes: newCount };
+    }
+    return { success: true };
   }
 
   async commentOnPost(postId: string, content: string) {
-    return this.request<ApiData>(`/posts/${postId}/comments`, {
-      method: 'POST',
-      body: JSON.stringify({ content }),
-    });
-  }
+    if (isSupabaseConfigured() && supabase) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('Not authenticated');
 
-  // Leaderboard
-  async getLeaderboard(period?: string, limit?: number) {
-    const query = new URLSearchParams({
-      ...(period && { period }),
-      ...(limit && { limit: limit.toString() }),
-    }).toString();
-    return this.request<ApiDataArray>(`/leaderboard${query ? `?${query}` : ''}`);
-  }
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', session.user.id)
+        .single();
 
-  // Achievements
-  async getAchievements() {
-    return this.request<ApiDataArray>('/achievements');
-  }
+      const userName = profile?.full_name || session.user.email || 'Eco Citizen';
 
-  async getUserAchievements(userId: string) {
-    return this.request<ApiDataArray>(`/users/${userId}/achievements`);
-  }
+      const { data: comment, error } = await supabase
+        .from('story_comments')
+        .insert({
+          story_id: postId,
+          user_id: session.user.id,
+          user_name: userName,
+          content
+        })
+        .select()
+        .single();
 
-  // Rewards
-  async getRewards() {
-    return this.request<ApiDataArray>('/rewards');
-  }
+      if (error) throw new Error(error.message);
 
-  async redeemReward(rewardId: string) {
-    return this.request<ApiData>(`/rewards/${rewardId}/redeem`, {
-      method: 'POST',
-    });
-  }
+      // Increment comments count on story
+      const { data: story } = await supabase
+        .from('eco_stories')
+        .select('comments_count')
+        .eq('id', postId)
+        .single();
 
-  // Notifications
-  async getNotifications(page?: number, limit?: number) {
-    const query = new URLSearchParams({
-      ...(page && { page: page.toString() }),
-      ...(limit && { limit: limit.toString() }),
-    }).toString();
-    return this.request<ApiDataArray>(`/notifications${query ? `?${query}` : ''}`);
-  }
+      const newCommentsCount = (story?.comments_count || 0) + 1;
+      await supabase
+        .from('eco_stories')
+        .update({ comments_count: newCommentsCount })
+        .eq('id', postId);
 
-  async markNotificationsRead(notificationIds?: string[]) {
-    return this.request<ApiData>('/notifications/mark-read', {
-      method: 'POST',
-      body: JSON.stringify({ notificationIds }),
-    });
-  }
-
-  // Impact Stats
-  async getImpactStats() {
-    return this.request<ApiData>('/impact/stats');
-  }
-
-  // Search
-  async search(query: string) {
-    return this.request<ApiData>(`/search?q=${encodeURIComponent(query)}`);
-  }
-
-  // Upload
-  async uploadImage(file: File) {
-    if (!BACKEND_ENABLED) {
-      throw new Error('BACKEND_DISABLED');
+      return comment;
     }
-    const formData = new FormData();
-    formData.append('file', file);
+    return { id: 'mock_comment', userName: 'Guest User', content, createdAt: new Date() };
+  }
 
-    const url = `${this.baseURL}/upload/image`;
-    const headers: HeadersInit = {};
+  // ==========================================
+  // LEADERBOARD
+  // ==========================================
+  async getLeaderboard() {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('full_name, avatar_url, level, xp')
+        .order('xp', { ascending: false })
+        .limit(10);
 
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
+      if (error) throw new Error(error.message);
+
+      return data.map((p, index) => ({
+        rank: index + 1,
+        name: p.full_name || 'Eco User',
+        avatar: p.avatar_url || '👩‍🌾',
+        level: p.level || 1,
+        xp: p.xp || 0
+      }));
     }
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Upload failed: ${response.statusText}`);
-    }
-
-    return response.json();
+    return [
+      { rank: 1, name: 'Aziz Alimov', avatar: '🦸‍♂️', level: 15, xp: 15400 },
+      { rank: 2, name: 'Malika Karimova', avatar: '👩‍⚕️', level: 14, xp: 14200 },
+      { rank: 3, name: 'Dilshod Tursunov', avatar: '👨‍🎓', level: 13, xp: 13100 },
+    ];
   }
 }
 
-// Export singleton instance
 export const apiClient = new ApiClient(API_BASE_URL);
-
-// Export types
-export type { ApiResponse };
