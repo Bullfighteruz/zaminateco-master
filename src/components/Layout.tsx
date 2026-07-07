@@ -147,14 +147,14 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
 
 
       {/* Sticky Language Switcher Button - Pinned to top right - Hidden on mobile */}
-      {location.pathname !== '/pitch' && (
+      {!['/pitch', '/scanner'].includes(location.pathname) && (
         <div className="hidden md:block fixed top-4 right-4 z-50">
           <LanguageSwitcher darkMode={hideBottomNav} />
         </div>
       )}
       
       {/* Floating Language Switcher Button - Mobile */}
-      {location.pathname !== '/pitch' && (
+      {!['/pitch', '/scanner'].includes(location.pathname) && (
         <div className="md:hidden fixed top-3 right-3 z-40">
           <MobileLanguageSwitcher darkMode={hideBottomNav} />
         </div>
