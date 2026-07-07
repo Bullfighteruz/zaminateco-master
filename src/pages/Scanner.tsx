@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { scanWasteImage, type WasteScanResult, type DetectedItem } from '@/lib/gemini';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
 
@@ -137,6 +138,37 @@ export default function Scanner() {
     try {
       const scanResult = await scanWasteImage(capturedImage, i18n.language);
       setResult(scanResult);
+      
+      // If Supabase is configured, attempt to save the scan record
+      if (isSupabaseConfigured() && supabase) {
+        console.log('[EcoScan] Supabase is configured. Checking user session...');
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          console.log('[EcoScan] Active session found. Saving scan to database...');
+          const { error: dbError } = await supabase
+            .from('scans')
+            .insert({
+              user_id: session.user.id,
+              detected_items: scanResult.items,
+              total_weight_kg: scanResult.totalEstimatedWeightKg,
+              estimated_coins: scanResult.estimatedEcoCoins,
+              project_pledged: selectedProject,
+              verification_status: 'Pending'
+            });
+            
+          if (dbError) {
+            console.error('[EcoScan] Database insert failed:', dbError.message);
+          } else {
+            console.log('[EcoScan] Scan successfully persisted to database.');
+          }
+        } else {
+          console.log('[EcoScan] No active user session. Running in guest/demo mode.');
+        }
+      } else {
+        console.log('[EcoScan] Supabase not configured. Running in local/demo mode.');
+      }
+      
       setState('result');
     } catch (err: any) {
       if (err.message === 'GEMINI_API_KEY_MISSING') {
@@ -150,7 +182,7 @@ export default function Scanner() {
       }
       setState('error');
     }
-  }, [capturedImage, i18n.language]);
+  }, [capturedImage, i18n.language, selectedProject]);
 
   // Reset to camera
   const resetScanner = useCallback(() => {
