@@ -31,36 +31,41 @@ Be specific in the material field — don't just say "plastic", say what kind.`;
 export async function scanWasteImage(imageBase64: string, mimeType: string = 'image/jpeg'): Promise<WasteScanResult> {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   
+  console.log('[EcoScan] API key loaded:', apiKey ? `${apiKey.substring(0, 6)}...` : 'MISSING');
+  
   if (!apiKey || apiKey === 'your-api-key-here') {
     throw new Error('GEMINI_API_KEY_MISSING');
   }
 
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-  // Strip the data URL prefix if present
-  const base64Data = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
-
-  const result = await model.generateContent([
-    SCAN_PROMPT,
-    {
-      inlineData: {
-        mimeType,
-        data: base64Data,
-      },
-    },
-  ]);
-
-  const text = result.response.text().trim();
-  
-  // Try to parse JSON, handle potential markdown wrapping
-  let jsonStr = text;
-  const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (jsonMatch) {
-    jsonStr = jsonMatch[1].trim();
-  }
-
   try {
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+
+    // Strip the data URL prefix if present
+    const base64Data = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
+
+    console.log('[EcoScan] Sending image to Gemini...', { mimeType, dataLength: base64Data.length });
+
+    const result = await model.generateContent([
+      SCAN_PROMPT,
+      {
+        inlineData: {
+          mimeType,
+          data: base64Data,
+        },
+      },
+    ]);
+
+    const text = result.response.text().trim();
+    console.log('[EcoScan] Gemini response:', text.substring(0, 200));
+    
+    // Try to parse JSON, handle potential markdown wrapping
+    let jsonStr = text;
+    const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (jsonMatch) {
+      jsonStr = jsonMatch[1].trim();
+    }
+
     const parsed = JSON.parse(jsonStr);
     return {
       wasteType: parsed.wasteType || 'Unknown',
@@ -71,7 +76,19 @@ export async function scanWasteImage(imageBase64: string, mimeType: string = 'im
       suggestion: parsed.suggestion || 'Please consult your local recycling guidelines.',
       confidence: Math.min(100, Math.max(0, parsed.confidence || 0)),
     };
-  } catch {
-    throw new Error('PARSE_ERROR');
+  } catch (err: any) {
+    console.error('[EcoScan] Error:', err.message || err);
+    console.error('[EcoScan] Full error:', err);
+    
+    if (err.message === 'GEMINI_API_KEY_MISSING') {
+      throw err;
+    }
+    if (err.message?.includes('API_KEY_INVALID') || err.message?.includes('API key')) {
+      throw new Error('API_KEY_INVALID');
+    }
+    if (err instanceof SyntaxError) {
+      throw new Error('PARSE_ERROR');
+    }
+    throw new Error('SCAN_ERROR');
   }
 }
