@@ -55,7 +55,11 @@ import {
   ChevronDown,
   Camera,
   CircleDollarSign,
-  BadgeCheck
+  BadgeCheck,
+  Globe,
+  Lock,
+  LogOut,
+  Palette
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -231,10 +235,7 @@ const NameChangeSection: React.FC<{ onNameUpdated: () => void; t: TFunction }> =
             // If only first name is provided, lastName will be empty string (no default last name added)
             saveUserName(firstName.trim() || '', lastName.trim() || '');
             onNameUpdated();
-            
-            toast.success(t('nameUpdated', { ns: 'profile', defaultValue: 'Name updated successfully!' }));
           }}
-          className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white"
         >
           {t('saveName', { ns: 'profile', defaultValue: 'Save Name' })}
         </Button>
@@ -244,9 +245,9 @@ const NameChangeSection: React.FC<{ onNameUpdated: () => void; t: TFunction }> =
 };
 
 const Profile: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
-  const { user, isAuthenticated, loading: authLoading } = useAuth();
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
   
   // Load user progress from localStorage or use default
   const [userProgress, setUserProgress] = useState<UserProgress>(() => loadUserProgress());
@@ -256,10 +257,12 @@ const Profile: React.FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [emailUpdates, setEmailUpdates] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const touchHandledRef = useRef(false);
   const [loading, setLoading] = useState(true);
 
-  // Load user data from localStorage only (just like avatars/backgrounds)
   // Backend sync is completely optional and non-blocking
   useEffect(() => {
     // Always use localStorage first (works offline, no backend needed)
@@ -267,9 +270,7 @@ const Profile: React.FC = () => {
     setUserProgress(savedProgress);
     setLoading(false);
 
-    // Optional: Try to sync with backend in background (non-blocking)
-    // This only runs if user is authenticated AND backend is available
-    // If backend fails, we just use localStorage (which already works)
+
     if (IS_BACKEND_AVAILABLE && isAuthenticated && user) {
       // Run in background, don't wait for it
       apiClient.getUserProfile()
@@ -945,22 +946,22 @@ const Profile: React.FC = () => {
                   <motion.div
                     className={cn(
                       "absolute top-0 right-0 z-20",
-                      isMobile ? "top-2 right-2" : "top-4 right-4 sm:top-6 sm:right-6"
+                      isMobile ? "top-2.5 right-2.5" : "top-4 right-4 sm:top-6 sm:right-6"
                     )}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button 
                       variant="ghost" 
-                      size="sm" 
+                      size="icon" 
                       className={cn(
-                        "text-white hover:bg-white/20 backdrop-blur-sm border border-white/20 transition-all duration-300",
-                        isMobile ? "h-7 w-7 p-0 min-h-[28px] min-w-[28px]" : "h-8 w-8"
+                        "text-white bg-slate-950/40 hover:bg-slate-950/60 backdrop-blur-md border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-300 rounded-xl p-0 flex items-center justify-center",
+                        isMobile ? "h-8 w-8" : "h-9 w-9"
                       )}
                       onClick={() => setIsSettingsOpen(true)}
                       style={{ touchAction: 'manipulation' }}
                     >
-                      <Settings className={cn(isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
+                      <Settings className={cn(isMobile ? "h-4 w-4" : "h-5 w-5")} />
                     </Button>
                   </motion.div>
 
@@ -1027,12 +1028,23 @@ const Profile: React.FC = () => {
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <h2 className={cn(
-                          "font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent",
-                          isMobile ? "text-sm leading-tight" : "text-lg sm:text-xl lg:text-2xl"
-                        )}>
-                          {userProgress.name}
-                        </h2>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h2 className={cn(
+                            "font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent",
+                            isMobile ? "text-sm leading-tight animate-pulse" : "text-lg sm:text-xl lg:text-2xl"
+                          )}>
+                            {userProgress.name}
+                          </h2>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-6 sm:h-7 px-2.5 sm:px-3 text-[10px] sm:text-xs font-semibold text-white/90 bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm rounded-lg flex items-center gap-1 active:scale-95 transition-all duration-200"
+                            onClick={() => setIsSettingsOpen(true)}
+                          >
+                            <Settings className="h-3 w-3" />
+                            <span>{t('editProfile', { defaultValue: 'Edit Profile' })}</span>
+                          </Button>
+                        </div>
                         <div className="flex items-center space-x-1 mt-0.5">
                           <p className={cn(
                             "text-white/90 font-medium",
@@ -2111,7 +2123,7 @@ const Profile: React.FC = () => {
               {t('settingsDescription', { ns: 'profile' })}
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-6 py-4">
+          <div className="space-y-6 py-4 max-h-[75vh] overflow-y-auto px-1">
             {/* Name Change Section */}
             <NameChangeSection 
               onNameUpdated={() => {
@@ -2121,55 +2133,178 @@ const Profile: React.FC = () => {
               t={t}
             />
 
-            {/* Notifications */}
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label htmlFor="notifications" className="text-base font-medium">
-                  {t('notifications', { ns: 'profile' })}
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  {t('notificationsDescription', { ns: 'profile' })}
-                </p>
+            {/* Language Settings */}
+            <div className="pt-4 border-t space-y-3">
+              <h3 className="text-sm font-semibold flex items-center gap-2 text-slate-800">
+                <Globe className="h-4 w-4 text-emerald-500" />
+                {t('language', { defaultValue: 'App Language' })}
+              </h3>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { code: 'uz', label: "O'zbekcha" },
+                  { code: 'ru', label: 'Русский' },
+                  { code: 'en', label: 'English' }
+                ].map((lang) => (
+                  <Button
+                    key={lang.code}
+                    variant={i18n.language === lang.code ? 'default' : 'outline'}
+                    className={i18n.language === lang.code ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-0 shadow-sm' : 'text-slate-600'}
+                    size="sm"
+                    onClick={() => {
+                      i18n.changeLanguage(lang.code);
+                      toast.success(t('languageChanged', { defaultValue: 'Language updated!' }));
+                    }}
+                  >
+                    {lang.label}
+                  </Button>
+                ))}
               </div>
-              <Switch
-                id="notifications"
-                checked={notificationsEnabled}
-                onCheckedChange={(checked) => {
-                  setNotificationsEnabled(checked);
-                  toast.success(t('settingsSaved', { ns: 'profile' }));
-                }}
-              />
             </div>
 
-            {/* Email Updates */}
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label htmlFor="email-updates" className="text-base font-medium">
-                  {t('emailUpdates', { ns: 'profile' })}
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  {t('emailUpdatesDescription', { ns: 'profile' })}
-                </p>
-              </div>
-              <Switch
-                id="email-updates"
-                checked={emailUpdates}
-                onCheckedChange={(checked) => {
-                  setEmailUpdates(checked);
-                  toast.success(t('settingsSaved', { ns: 'profile' }));
+            {/* Theme & Customization */}
+            <div className="pt-4 border-t space-y-3">
+              <h3 className="text-sm font-semibold flex items-center gap-2 text-slate-800">
+                <Palette className="h-4 w-4 text-purple-500" />
+                {t('appearanceTheme', { defaultValue: 'Appearance & Themes' })}
+              </h3>
+              <Button
+                variant="outline"
+                className="w-full justify-start flex items-center gap-2 border-slate-200 hover:bg-slate-50 text-slate-700"
+                onClick={() => {
+                  setIsSettingsOpen(false);
+                  setTimeout(() => setIsAvatarSelectorOpen(true), 250);
                 }}
-              />
+              >
+                <Palette className="h-4 w-4 text-purple-500" />
+                <span>{t('changeAvatarBackground', { defaultValue: 'Change Avatar & Profile Theme' })}</span>
+              </Button>
+            </div>
+
+            {/* Security Settings */}
+            <div className="pt-4 border-t space-y-3">
+              <h3 className="text-sm font-semibold flex items-center gap-2 text-slate-800">
+                <Lock className="h-4 w-4 text-blue-500" />
+                {t('security', { defaultValue: 'Security & Password' })}
+              </h3>
+              
+              {!isChangingPassword ? (
+                <Button
+                  variant="outline"
+                  className="w-full justify-start border-slate-200 hover:bg-slate-50 text-slate-700"
+                  onClick={() => setIsChangingPassword(true)}
+                >
+                  {t('changePassword', { defaultValue: 'Update Account Password' })}
+                </Button>
+              ) : (
+                <div className="space-y-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <div className="space-y-1">
+                    <Label className="text-xs font-semibold text-slate-700">{t('newPassword', { defaultValue: 'New Password' })}</Label>
+                    <Input 
+                      type="password" 
+                      value={newPassword} 
+                      onChange={(e) => setNewPassword(e.target.value)} 
+                      placeholder="••••••••"
+                      className="h-9"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs font-semibold text-slate-700">{t('confirmPassword', { defaultValue: 'Confirm Password' })}</Label>
+                    <Input 
+                      type="password" 
+                      value={confirmPassword} 
+                      onChange={(e) => setConfirmPassword(e.target.value)} 
+                      placeholder="••••••••"
+                      className="h-9"
+                    />
+                  </div>
+                  <div className="flex gap-2 justify-end pt-1">
+                    <Button variant="outline" size="sm" className="h-8 text-xs" onClick={() => {
+                      setIsChangingPassword(false);
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    }}>{t('cancel', { defaultValue: 'Cancel' })}</Button>
+                    <Button size="sm" className="h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white" onClick={async () => {
+                      if (newPassword.length < 6) {
+                        toast.error(t('passwordMinLength', { defaultValue: 'Password must be at least 6 characters' }));
+                        return;
+                      }
+                      if (newPassword !== confirmPassword) {
+                        toast.error(t('passwordsDontMatch', { defaultValue: 'Passwords do not match' }));
+                        return;
+                      }
+                      
+                      // If Supabase is active, update
+                      if (isSupabaseConfigured() && supabase) {
+                        const { error } = await supabase.auth.updateUser({ password: newPassword });
+                        if (error) {
+                          toast.error(error.message);
+                          return;
+                        }
+                      }
+                      
+                      toast.success(t('passwordUpdated', { defaultValue: 'Password updated successfully!' }));
+                      setIsChangingPassword(false);
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    }}>{t('save', { defaultValue: 'Save' })}</Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Notifications */}
+            <div className="pt-4 border-t space-y-3">
+              <h3 className="text-sm font-semibold text-slate-800">
+                {t('notifications', { ns: 'profile' })}
+              </h3>
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label htmlFor="notifications" className="text-sm font-medium text-slate-700">
+                    {t('notifications', { ns: 'profile' })}
+                  </Label>
+                  <p className="text-xs text-slate-500">
+                    {t('notificationsDescription', { ns: 'profile' })}
+                  </p>
+                </div>
+                <Switch
+                  id="notifications"
+                  checked={notificationsEnabled}
+                  onCheckedChange={(checked) => {
+                    setNotificationsEnabled(checked);
+                    toast.success(t('settingsSaved', { ns: 'profile' }));
+                  }}
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <div className="space-y-0.5">
+                  <Label htmlFor="email-updates" className="text-sm font-medium text-slate-700">
+                    {t('emailUpdates', { ns: 'profile' })}
+                  </Label>
+                  <p className="text-xs text-slate-500">
+                    {t('emailUpdatesDescription', { ns: 'profile' })}
+                  </p>
+                </div>
+                <Switch
+                  id="email-updates"
+                  checked={emailUpdates}
+                  onCheckedChange={(checked) => {
+                    setEmailUpdates(checked);
+                    toast.success(t('settingsSaved', { ns: 'profile' }));
+                  }}
+                />
+              </div>
             </div>
 
             {/* Privacy Settings */}
             <div className="pt-4 border-t">
-              <h3 className="text-sm font-semibold mb-3">
+              <h3 className="text-sm font-semibold mb-3 text-slate-800">
                 {t('privacy', { ns: 'profile' })}
               </h3>
               <div className="space-y-2">
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start text-slate-700 border-slate-200"
                   onClick={() => {
                     toast.info(t('privacyPolicyComingSoon', { ns: 'profile' }));
                   }}
@@ -2178,7 +2313,7 @@ const Profile: React.FC = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start text-slate-700 border-slate-200"
                   onClick={() => {
                     toast.info(t('termsComingSoon', { ns: 'profile' }));
                   }}
@@ -2190,19 +2325,32 @@ const Profile: React.FC = () => {
 
             {/* Account Actions */}
             <div className="pt-4 border-t">
-              <h3 className="text-sm font-semibold mb-3">
+              <h3 className="text-sm font-semibold mb-3 text-slate-800">
                 {t('account', { ns: 'profile' })}
               </h3>
               <div className="space-y-2">
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start text-slate-700 border-slate-200"
                   onClick={() => {
                     toast.info(t('exportDataComingSoon', { ns: 'profile' }));
                   }}
                 >
                   {t('exportData', { ns: 'profile' })}
                 </Button>
+                
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 flex items-center gap-2"
+                  onClick={() => {
+                    logout();
+                    toast.success(t('loggedOut', { defaultValue: 'Logged out successfully!' }));
+                  }}
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>{t('logout', { defaultValue: 'Sign Out Session' })}</span>
+                </Button>
+
                 <Button
                   variant="destructive"
                   className="w-full justify-start"
