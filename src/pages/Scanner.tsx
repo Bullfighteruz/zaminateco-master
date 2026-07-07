@@ -209,18 +209,22 @@ export default function Scanner() {
             onChange={handleFileUpload} 
           />
 
-          <div className="w-full">
+          <AnimatePresence mode="wait">
             {/* ─── CAMERA VIEW ─── */}
             {state === 'camera' && (
-              <div className="space-y-6 w-full">
+              <motion.div 
+                key="camera" 
+                initial={{ opacity: 0, scale: 0.96 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                exit={{ opacity: 0, scale: 0.96 }} 
+                className="space-y-6 w-full"
+              >
                 {/* Native camera fallback mode (iOS / no HTTPS) */}
                 {useNativeCamera ? (
                   <div className="rounded-[2.25rem] overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/5 flex flex-col items-center justify-center p-8 gap-6 relative">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08)_0%,transparent_70%)] pointer-events-none" />
                     
                     <div className="relative">
-                      <div className="absolute inset-0 rounded-full bg-emerald-500/10 animate-ping scale-150 duration-1000" />
-                      <div className="absolute inset-0 rounded-full bg-emerald-500/5 animate-ping scale-125 duration-700" />
                       <div className="p-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 relative z-10">
                         <Camera className="h-10 w-10 stroke-[1.75]" />
                       </div>
@@ -319,12 +323,18 @@ export default function Scanner() {
                     </div>
                   </>
                 )}
-              </div>
+              </motion.div>
             )}
 
             {/* ─── PREVIEW ─── */}
             {state === 'preview' && capturedImage && (
-              <div className="space-y-6 w-full">
+              <motion.div 
+                key="preview" 
+                initial={{ opacity: 0, scale: 0.96 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                exit={{ opacity: 0, scale: 0.96 }} 
+                className="space-y-6 w-full"
+              >
                 <div className="relative rounded-[2.25rem] overflow-hidden aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-white/10">
                   <img src={capturedImage} alt="Captured" className="w-full h-full object-cover" />
                 </div>
@@ -343,12 +353,18 @@ export default function Scanner() {
                     <Zap className="h-4 w-4 mr-2" /> {t('scanner.analyze')}
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* ─── SCANNING ANIMATION ─── */}
             {state === 'scanning' && (
-              <div className="w-full">
+              <motion.div 
+                key="scanning" 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }} 
+                className="w-full"
+              >
                 <div className="relative rounded-[2.25rem] overflow-hidden aspect-[3/4] shadow-[0_24px_60px_rgba(0,0,0,0.5)] border border-emerald-500/20">
                   <img src={capturedImage!} alt="Scanning" className="w-full h-full object-cover opacity-40" />
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-950/60 backdrop-blur-md">
@@ -368,12 +384,18 @@ export default function Scanner() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* ─── RESULTS (SOLID ECOSYSTEM ENGINE) ─── */}
             {state === 'result' && result && (
-              <div className="space-y-6 w-full">
+              <motion.div 
+                key="result" 
+                initial={{ opacity: 0, y: 24 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: 24 }} 
+                className="space-y-6 w-full"
+              >
                 {/* Photo Header */}
                 <div className="relative rounded-[2.25rem] overflow-hidden h-40 shadow-2xl border border-white/10">
                   <img src={capturedImage!} alt="Scanned waste" className="w-full h-full object-cover" />
@@ -562,12 +584,18 @@ export default function Scanner() {
                   </div>
                 </div>
 
-              </div>
+              </motion.div>
             )}
 
             {/* ─── ERROR ─── */}
             {state === 'error' && (
-              <div className="w-full">
+              <motion.div 
+                key="error" 
+                initial={{ opacity: 0, y: 24 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: 24 }} 
+                className="w-full"
+              >
                 <div className="bg-slate-900/80 backdrop-blur-2xl rounded-[2.25rem] p-8 shadow-2xl border border-white/5 text-center space-y-5">
                   <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 w-fit mx-auto text-red-400">
                     <AlertTriangle className="h-8 w-8 stroke-[1.75]" />
@@ -591,9 +619,9 @@ export default function Scanner() {
                     <RotateCcw className="h-4 w-4 mr-2" /> {t('scanner.tryAgain')}
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
 
         {/* Background decorative elements */}
