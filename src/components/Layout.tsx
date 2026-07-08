@@ -298,7 +298,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
           </div>
         </nav>
       )}
-      <InstallPrompt />
+      {/* <InstallPrompt /> — PWA Suggestions disabled as requested */}
     </div>
   );
 });

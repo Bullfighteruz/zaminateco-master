@@ -222,52 +222,48 @@ export default function Index() {
           {isMobile ? (
             /* Mobile Layout: Robot takes most space, Spline text visible, consistent cards below */
             <div className="relative z-10">
-              {/* Robot Section - Optimized for Mobile */}
-              <div className="relative w-full mb-3 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center" style={{ height: isMobile ? '54vh' : '44.55vh', minHeight: isMobile ? '432px' : '324px', maxHeight: isMobile ? '500px' : '389px', width: '100%' }}>
+              {/* Robot Section - Optimized for Mobile (Scaled down by 20%) */}
+              <div className="relative w-full mb-3 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center" style={{ height: isMobile ? '43vh' : '44.55vh', minHeight: isMobile ? '345px' : '324px', maxHeight: isMobile ? '400px' : '389px', width: '100%' }}>
                 <SplineRobot />
               </div>
             
-              {/* Text Content - Combined Interactive Section */}
-              <div className="px-3 sm:px-4">
-                {/* Combined Interactive Card with Enhanced Design */}
+              {/* Text Content - Restored to match PC layout style (Separate clean subtitle and glass description) */}
+              <div className="px-3 sm:px-4 flex flex-col items-center">
+                {/* Subtitle - Clean text with spacing, exactly like PC layout */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4 md:p-5"
-                  style={{ 
-                    background: 'rgba(255, 255, 255, 0.18)',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.25)',
-                    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.05)',
-                  }}
+                  className="max-w-3xl mx-auto px-2 mb-3 text-center"
+                >
+                  <p className={cn("leading-relaxed text-gray-700 font-semibold text-center", isMobile ? "text-xs" : "text-sm sm:text-base")}>
+                    {t('heroSubtitle')}
+                  </p>
+                </motion.div>
+                
+                {/* Description Card - Distinct glass container, exactly like PC layout */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="max-w-2xl mx-auto w-full mb-4"
                   whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
                 >
-                  {/* Combined Text Content */}
-                  <div className="relative z-10 space-y-2 sm:space-y-3">
-                    {/* Subtitle */}
-                    <motion.p 
-                      className={cn("leading-relaxed text-gray-800 font-semibold", isMobile ? "text-xs" : "text-sm sm:text-base")}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      {t('heroSubtitle')}
-                    </motion.p>
-                    
-                    {/* Divider */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-                    
-                    {/* Description */}
-                    <motion.p 
-                      className={cn("leading-relaxed text-gray-700 font-medium", isMobile ? "text-[11px]" : "text-xs sm:text-sm")}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      {t('heroDescription')}
-                    </motion.p>
+                  <div 
+                    className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-4"
+                    style={{ 
+                      background: 'rgba(255, 255, 255, 0.18)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.25)',
+                      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.05)',
+                    }}
+                  >
+                    <div className="relative z-10 text-center">
+                      <p className={cn("leading-relaxed text-gray-800 font-medium text-center", isMobile ? "text-[11px]" : "text-xs sm:text-sm")}>
+                        {t('heroDescription')}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
                 
@@ -276,7 +272,7 @@ export default function Index() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className={cn("flex flex-row gap-2.5", isMobile ? "gap-2" : "gap-3")}
+                  className={cn("flex flex-row gap-2.5 w-full", isMobile ? "gap-2" : "gap-3")}
                 >
                   <Button 
                     onClick={scrollToAbout}

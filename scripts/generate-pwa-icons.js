@@ -52,7 +52,7 @@ async function generateIcons() {
       width: 512,
       height: 512,
       channels: 4,
-      background: { r: 5, g: 150, b: 105, alpha: 1 } // emerald-600 solid background
+      background: { r: 0, g: 0, b: 0, alpha: 0 } // transparent background
     }
   })
     .composite([{ input: innerLogoBuffer, blend: 'over' }])
