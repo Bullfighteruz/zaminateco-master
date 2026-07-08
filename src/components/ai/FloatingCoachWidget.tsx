@@ -325,11 +325,11 @@ export default function FloatingCoachWidget() {
   if (location.pathname === '/coach') return null;
 
   return (
-    // bottom position: clears the floating nav bar (72px) + device home indicator + sits higher on mobile to avoid level card overlap
+    // bottom position: standard float position on mobile, clearing the bottom navigation bar beautifully
     <div
       className="fixed right-4 z-[45] flex flex-col items-end pointer-events-auto select-none"
       style={{
-        bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 145px)' : '24px',
+        bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 90px)' : '24px',
       }}
     >
       
@@ -445,30 +445,31 @@ export default function FloatingCoachWidget() {
 
       {/* Toggle Button + CTA */}
       <div className="flex items-center gap-2.5">
-        {/* CTA Speech Bubble */}
+        {/* CTA Speech Bubble - Minimalistic design with glassmorphism style */}
         <AnimatePresence>
           {!isOpen && showCta && (
             <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.95 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
+              initial={{ opacity: 0, x: -8, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: -4, scale: 0.95 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="mr-2 mb-1"
             >
               <button
                 onClick={() => { setShowCta(false); setIsOpen(true); }}
-                className="relative bg-white border border-gray-200/80 text-gray-700 text-[11px] font-medium leading-snug pl-3 pr-7 py-2 rounded-xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-200 max-w-[160px] sm:max-w-[200px] cursor-pointer"
+                className="relative bg-white/95 backdrop-blur-md border border-slate-200/60 text-slate-800 text-[10px] font-semibold leading-relaxed pl-2.5 pr-6 py-1.5 rounded-xl shadow-md hover:shadow-lg hover:border-emerald-400/50 transition-all duration-200 max-w-[145px] cursor-pointer text-left"
               >
                 {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
                 {/* Dismiss X */}
                 <span
                   onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
-                  className="absolute top-1 right-1.5 text-gray-300 hover:text-gray-500 text-[10px] leading-none cursor-pointer"
+                  className="absolute top-1 right-1.5 text-slate-400 hover:text-slate-600 text-[10px] leading-none cursor-pointer"
                 >
                   ✕
                 </span>
                 {/* Triangle pointer */}
-                <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-white" />
-                <span className="absolute top-1/2 -translate-y-1/2 -right-[7px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-gray-200/80" style={{ zIndex: -1 }} />
+                <span className="absolute top-1/2 -translate-y-1/2 -right-[5px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[5px] border-l-white/95" />
+                <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[5px] border-l-slate-200/60" style={{ zIndex: -1 }} />
               </button>
             </motion.div>
           )}
