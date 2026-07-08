@@ -223,9 +223,9 @@ export default function Index() {
             /* Mobile Layout: Robot takes most space, Spline text visible, consistent cards below */
             <div className="relative z-10">
               {/* Robot Section - Optimized for Mobile */}
-              <div className="relative w-full mb-3 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center" style={{ height: isMobile ? '35vh' : '44.55vh', minHeight: isMobile ? '280px' : '324px', maxHeight: isMobile ? '320px' : '389px', width: '100%' }}>
+              <div className="relative w-full mb-3 rounded-xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center" style={{ height: isMobile ? '54vh' : '44.55vh', minHeight: isMobile ? '432px' : '324px', maxHeight: isMobile ? '500px' : '389px', width: '100%' }}>
                 <SplineRobot />
-            </div>
+              </div>
             
               {/* Text Content - Combined Interactive Section */}
               <div className="px-3 sm:px-4">
@@ -535,28 +535,17 @@ export default function Index() {
                     <div className="relative rounded-full overflow-hidden h-3 bg-white/5 border border-white/10 shadow-inner">
                       {/* Fluid Emerald/Teal Progress Fill */}
                       <motion.div
-                        className="h-full rounded-full relative"
-                        variants={progressVariants}
-                        initial="initial"
-                        animate="animate"
-                        custom={levelProgress}
+                        className="h-full rounded-full relative overflow-hidden"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${levelProgress}%` }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
                         style={{
                           background: `linear-gradient(90deg, #34d399 0%, #2dd4bf 50%, #06b6d4 100%)`,
                           boxShadow: '0 0 8px rgba(45, 212, 191, 0.4)'
                         }}
                       >
                         {/* Shimmer overlay wave */}
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                          animate={{
-                            x: ['-100%', '100%'],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "linear"
-                          }}
-                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent shimmer-sweep-animation" />
                       </motion.div>
                     </div>
 

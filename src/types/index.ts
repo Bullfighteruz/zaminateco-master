@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   name: string;
+  displayName?: string;
   avatar?: string;
   level: number;
   ecoPoints: number;
@@ -10,6 +11,7 @@ export interface User {
   badges: Badge[];
   mahalla?: string;
   school?: string;
+  xp?: number;
 }
 
 export interface Badge {
@@ -87,6 +89,7 @@ export interface EcoStory {
   tags: string[];
   wasteCollected?: number;
   location?: string;
+  slug?: string;
 }
 
 export interface NewsItem {

@@ -74,6 +74,19 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 16px;
     line-height: 1.6;
+    /* Eliminate 300ms tap delay across entire app on iOS/Android */
+    touch-action: manipulation;
+  }
+
+  /* Eliminate 300ms tap delay on all interactive elements — must-have for PWA feel */
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  [role="button"],
+  [tabindex] {
+    touch-action: manipulation;
   }
   
   /* Accessibility improvements */
@@ -97,6 +110,41 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+/* ── PWA Safe-Area Utilities ──
+   These ensure content never hides behind iPhone notch, Dynamic Island,
+   home indicator, or Android navigation bars in standalone PWA mode. */
+.pb-nav-safe {
+  /* Accounts for: bottom nav height (~60px) + 12px gap + device home indicator */
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ── Touch Feedback Utilities ── */
+/* Provides haptic-like visual press response — essential for PWA native feel */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Smooth scale-down on active press for all nav/button elements */
+@media (hover: none) and (pointer: coarse) {
+  /* Only apply on touch devices to avoid janky desktop hover */
+  .active\:scale-90:active {
+    transform: scale(0.90);
+    transition: transform 0.1s ease;
+  }
+  .active\:scale-95:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
   }
 }
 
@@ -152,6 +200,7 @@ p {
 .text-ellipsis-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2; /* Standard property for compatibility */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -159,6 +208,7 @@ p {
 .text-ellipsis-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3; /* Standard property for compatibility */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -290,7 +340,7 @@ textarea:focus-visible {
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    color-adjust: exact !important;
+    /* color-adjust is a deprecated alias for print-color-adjust — removed */
   }
 
   /* ── Hide Non-Printable Elements ── */
@@ -786,6 +836,25 @@ textarea:focus-visible {
   100% { background-position: -200% 0; }
 }
 
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  15% {
+    transform: translateX(-100%);
+  }
+  85% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-sweep-animation {
+  animation: shimmer-sweep 3.5s infinite ease-in-out;
+}
+
 /* Hide scrollbar on phone carousel */
 .snap-x::-webkit-scrollbar {
   display: none;
@@ -793,4 +862,21 @@ textarea:focus-visible {
 .snap-x {
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+@keyframes wave-flow-1 {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.wave-layer-1 {
+  animation: wave-flow-1 3s infinite linear;
+}
+
+.wave-layer-2 {
+  animation: wave-flow-1 4.5s infinite linear;
 }

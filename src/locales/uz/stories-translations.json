@@ -1,11 +1,12 @@
 {
+  "discoverOur": "Kashf eting",
   "title": "EkoHub",
   "subtitle": "Jamiyat hikoyalari, ta'lim kontenti va O'zbekistonda plastik va rezina qayta ishlash haqidagi so'nggi yangiliklar.",
   "filters": {
-    "allContent": "Barcha kontent",
-    "communityStories": "Jamiyat hikoyalari",
-    "education": "Ta'lim: Jamoalarni plastik va rezina qayta ishlash haqida o'rgatish",
-    "newsUpdates": "Yangiliklar va yangilanishlar"
+    "allContent": "Barchasi",
+    "communityStories": "Jamiyat",
+    "education": "Ta'lim",
+    "newsUpdates": "Yangiliklar"
   },
   "sections": {
     "featuredContent": "Tavsiya etilgan kontent"
@@ -108,6 +109,16 @@
     "description": "Ekologik sayohatingizni baham ko'ring va ZAMINAT jamiyatidan o'rganing. Birgalikda biz plastik va rezina qayta ishlash orqali barqaror kelajak quramiz."
   },
   "common": {
-    "by": "tomonidan"
+    "by": "tomonidan",
+    "likesCount": "ta layk",
+    "viewComments": "Barcha {{count}} ta izohni ko'rish",
+    "environmentalImpact": "Ekologik ta'sir",
+    "addComment": "Izoh qo'shing...",
+    "post": "Joylash",
+    "postSaved": "Post saqlandi",
+    "postUnsaved": "Saqlangandan olib tashlandi",
+    "linkCopied": "Havola nusxalandi",
+    "comments": "Izohlar",
+    "reply": "Javob berish"
   }
 }

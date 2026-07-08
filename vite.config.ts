@@ -26,6 +26,16 @@ export default defineConfig(({ mode }) => ({
         scope: '/',
         icons: [
           {
+            src: '/apple-touch-icon-120x120.png',
+            sizes: '120x120',
+            type: 'image/png',
+          },
+          {
+            src: '/apple-touch-icon-180x180.png',
+            sizes: '180x180',
+            type: 'image/png',
+          },
+          {
             src: '/pwa-icon-192.png',
             sizes: '192x192',
             type: 'image/png',
@@ -34,7 +44,13 @@ export default defineConfig(({ mode }) => ({
             src: '/pwa-icon-512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'any',
+          },
+          {
+            src: '/pwa-icon-512-maskable.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
           },
         ],
       },

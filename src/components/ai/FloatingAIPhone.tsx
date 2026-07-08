@@ -66,6 +66,81 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
     return () => clearInterval(interval);
   }, [propActiveIndex]);
 
+  if (isMobile) {
+    return (
+      <div className="relative flex flex-col items-center justify-center w-full px-2">
+        {/* Decorative Outer Shadow Ring */}
+        <div className="absolute inset-0 bg-emerald-500/5 rounded-3xl blur-2xl scale-95 pointer-events-none" />
+
+        {/* Flat mobile screen view without bezel frame */}
+        <div className="relative w-full max-w-[290px] aspect-[9/19.2] overflow-hidden rounded-2xl border border-slate-150 bg-slate-950 shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
+          <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+            {AI_SCREENS.map((screen, i) => (
+              <div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: i === activeIndex ? 1 : 0,
+                  transition: 'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  zIndex: i === activeIndex ? 1 : 0,
+                }}
+              >
+                {imagesLoaded[i] ? (
+                  <img
+                    src={screen.src}
+                    alt={screen.label}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'top center',
+                      display: 'block',
+                      imageRendering: 'auto',
+                      backfaceVisibility: 'hidden',
+                    }}
+                    draggable={false}
+                  />
+                ) : (
+                  <div 
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      backgroundColor: '#0c0f14',
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-full border-2 border-emerald-500/30 border-t-emerald-500 animate-spin" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Screen Selector Dots indicator */}
+        <div className="flex items-center gap-1.5 mt-4.5 z-20">
+          {AI_SCREENS.map((_, idx) => (
+            <div
+              key={idx}
+              role="button"
+              onClick={() => setInternalIndex(idx)}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300 cursor-pointer min-h-0 min-w-0",
+                activeIndex === idx 
+                  ? "w-4 bg-emerald-600" 
+                  : "w-1.5 bg-slate-300 hover:bg-slate-400"
+              )}
+              aria-label={`Show ${AI_SCREENS[idx].label} screen`}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex flex-col items-center justify-center">
       {/* Decorative Outer Shadow Ring */}

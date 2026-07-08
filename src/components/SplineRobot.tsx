@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTranslation } from 'react-i18next';
 
 interface SplineRobotProps {
   className?: string;
@@ -17,6 +18,7 @@ interface SplineRobotProps {
  * - Progressive enhancement
  */
 export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) => {
+  const { i18n } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
@@ -229,14 +231,13 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         </motion.div>
       )}
 
-      {/* Creative "roots of change" overlay - Improved to fully cover Spline button */}
       <div
-        className="absolute bottom-[10px] right-[6px] z-50"
+        className="absolute z-50 bottom-[19px] right-[14px] md:bottom-[19px] md:right-[12px]"
         style={{ 
           pointerEvents: 'auto',
-          minWidth: isMobile ? '150px' : '175px',
-          minHeight: isMobile ? '48px' : '56px',
-          padding: isMobile ? '2px' : '3px',
+          minWidth: isMobile ? '148px' : '160px',
+          minHeight: isMobile ? '40px' : '44px',
+          padding: '0px',
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -267,19 +268,19 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
           style={{ pointerEvents: 'none' }}
         >
           <div
-            className="relative overflow-hidden rounded-full shadow-[0_8px_32px_0_rgba(34,197,94,0.15)] transition-all duration-300 hover:scale-[1.03]"
+            className="relative overflow-hidden rounded-full shadow-[0_8px_32px_0_rgba(34,197,94,0.15)]"
             style={{
               width: '100%',
               height: '100%',
-              minWidth: isMobile ? '150px' : '175px',
-              minHeight: isMobile ? '48px' : '56px',
+              minWidth: isMobile ? '148px' : '160px',
+              minHeight: isMobile ? '40px' : '44px',
               background: 'rgba(255, 255, 255, 0.85)',
               backdropFilter: 'blur(24px) saturate(190%)',
               WebkitBackdropFilter: 'blur(24px) saturate(190%)',
               border: '1.5px solid rgba(34, 197, 94, 0.35)',
-              padding: isMobile ? '11px 18px' : '14px 22px',
+              padding: isMobile ? '8px 12px' : '10px 18px',
               pointerEvents: 'auto',
-              cursor: 'default',
+              cursor: isMobile ? 'pointer' : 'default',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -287,17 +288,9 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              return false;
-            }}
-            onMouseDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              return false;
-            }}
-            onMouseUp={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              return false;
+              if (isMobile) {
+                window.dispatchEvent(new Event('trigger-pwa-install'));
+              }
             }}
           >
             {/* Soft pulse glow background */}
@@ -327,7 +320,9 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
                   pointerEvents: 'none',
                 }}
               >
-                roots of change
+                {isMobile
+                  ? (i18n.language === 'uz' ? "App-ni o'rnatish" : i18n.language === 'ru' ? "Скачать App" : "Install App")
+                  : "roots of change"}
               </span>
 
               {/* Shimmer effect */}
@@ -353,28 +348,8 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 };
 
 // Polyfill for requestIdleCallback
-// Type definitions for requestIdleCallback
-interface IdleDeadline {
-  didTimeout: boolean;
-  timeRemaining(): number;
-}
-
-type IdleRequestCallback = (deadline: IdleDeadline) => void;
-
-interface IdleRequestOptions {
-  timeout?: number;
-}
-
-declare global {
-  interface Window {
-    requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
-    cancelIdleCallback?: (handle?: number) => void;
-  }
-}
-
-if (typeof window !== 'undefined' && !window.requestIdleCallback) {
-  window.requestIdleCallback = (callback: IdleRequestCallback, options?: IdleRequestOptions) => {
-    const timeout = options?.timeout || 0;
+if (typeof window !== 'undefined' && !(window as any).requestIdleCallback) {
+  (window as any).requestIdleCallback = (callback: any, options?: any) => {
     const start = Date.now();
     return window.setTimeout(() => {
       callback({
@@ -384,7 +359,7 @@ if (typeof window !== 'undefined' && !window.requestIdleCallback) {
     }, 1);
   };
 
-  window.cancelIdleCallback = (id?: number) => {
+  (window as any).cancelIdleCallback = (id?: number) => {
     if (typeof id === 'number') clearTimeout(id);
   };
 }
