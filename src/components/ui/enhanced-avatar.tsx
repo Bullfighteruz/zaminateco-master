@@ -58,26 +58,18 @@ export const EnhancedAvatar: React.FC<EnhancedAvatarProps> = ({
     <div className="relative inline-block">
       {/* Profile Frame */}
       {profileFrame && profileFrame !== 'default' && (
-        <motion.div 
+        <div 
           className={cn(
             "absolute inset-0 rounded-full p-1",
             `bg-gradient-to-r ${frameGradient}`
           )}
-          animate={{
-            rotate: [0, 360]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "linear"
-          }}
         >
           <div className="w-full h-full bg-white rounded-full" />
-        </motion.div>
+        </div>
       )}
       
       {/* Avatar Container */}
-      <motion.div
+      <div
         className={cn(
           'relative flex items-center justify-center transition-all duration-300',
           !noBackground && 'rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white shadow-lg',
@@ -86,11 +78,6 @@ export const EnhancedAvatar: React.FC<EnhancedAvatarProps> = ({
           glowColor !== 'none' && !noBackground && `shadow-lg ${glowColors[glowColor]}`,
           className
         )}
-        whileHover={{ 
-          scale: 1.05,
-          boxShadow: glowColor !== 'none' ? '0 0 20px rgba(34, 197, 94, 0.4)' : undefined
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
         style={{
           zIndex: 10,
           position: 'relative'
@@ -98,20 +85,11 @@ export const EnhancedAvatar: React.FC<EnhancedAvatarProps> = ({
       >
         {/* Glow Effect */}
         {glowColor !== 'none' && (
-          <motion.div
+          <div
             className={cn(
-              'absolute inset-0 rounded-full blur-md opacity-50',
+              'absolute inset-0 rounded-full blur-md opacity-35',
               `bg-${glowColor}-400`
             )}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
           />
         )}
         
@@ -124,22 +102,11 @@ export const EnhancedAvatar: React.FC<EnhancedAvatarProps> = ({
         
         {/* Crown for special users */}
         {showCrown && (
-          <motion.div
-            className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1 shadow-md border border-yellow-300"
-            animate={{
-              rotate: [0, 10, -10, 0],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
+          <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1 shadow-md border border-yellow-300">
             <Crown className="h-2 w-2 text-yellow-800" />
-          </motion.div>
+          </div>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 };

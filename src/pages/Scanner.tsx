@@ -477,9 +477,9 @@ export default function Scanner() {
                     <div className="flex flex-col gap-3 w-full max-w-[240px] relative z-10 mt-2">
                       <button
                         onClick={() => fileInputRef.current?.click()}
-                        className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-[0_8px_30px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 active:scale-95 transition-all duration-200"
+                        className="w-full h-12 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2 active:scale-95 transition-all duration-200"
                       >
-                        <Camera className="h-5 w-5" /> {t('scanner.takePhoto')}
+                        <Camera className="h-4.5 w-4.5" /> {t('scanner.takePhoto')}
                       </button>
                       <button
                         onClick={() => {
@@ -489,7 +489,7 @@ export default function Scanner() {
                             fileInputRef.current.setAttribute('capture', 'environment');
                           }
                         }}
-                        className="w-full h-12 rounded-2xl border border-white/10 bg-white/5 text-slate-300 font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/10 active:scale-95 transition-all duration-200"
+                        className="w-full h-11 rounded-xl border border-white/10 bg-white/5 text-slate-300 font-bold text-xs tracking-wider uppercase flex items-center justify-center gap-2 hover:bg-white/10 hover:text-white active:scale-95 transition-all duration-200"
                       >
                         <ImageIcon className="h-4 w-4" /> {t('scanner.uploadPhoto')}
                       </button>
@@ -511,12 +511,12 @@ export default function Scanner() {
                         <div className="absolute inset-0 pointer-events-none">
                           {!smartSortActive && (
                             <>
-                              <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400 rounded-tl-xl" />
-                              <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400 rounded-tr-xl" />
-                              <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400 rounded-bl-xl" />
-                              <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400 rounded-br-xl" />
+                              <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400/50 rounded-tl-xl" />
+                              <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400/50 rounded-tr-xl" />
+                              <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400/50 rounded-bl-xl" />
+                              <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400/50 rounded-br-xl" />
                               <motion.div
-                                className="absolute left-8 right-8 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(52,211,153,0.5)]"
+                                className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent shadow-[0_0_10px_rgba(52,211,153,0.3)]"
                                 animate={{ top: ['15%', '85%', '15%'] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                               />
@@ -541,48 +541,77 @@ export default function Scanner() {
                       )}
                     </div>
 
+                    {/* Mode Dial Selector */}
+                    <div className="flex justify-center items-center gap-6 text-[10px] font-black uppercase tracking-widest text-slate-500 mt-2 select-none">
+                      <button
+                        onClick={() => setSmartSortActive(false)}
+                        className={cn(
+                          "transition-all duration-300 relative py-1 px-1",
+                          !smartSortActive ? "text-emerald-400 font-bold" : "hover:text-slate-300"
+                        )}
+                      >
+                        Standard AI Scan
+                        {!smartSortActive && (
+                          <motion.div 
+                            layoutId="activeModeUnderline"
+                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-400 rounded-full"
+                          />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => setSmartSortActive(true)}
+                        className={cn(
+                          "transition-all duration-300 relative py-1 px-1 flex items-center gap-1",
+                          smartSortActive ? "text-violet-400 font-bold" : "hover:text-slate-300"
+                        )}
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        Real-time AR
+                        {smartSortActive && (
+                          <motion.div 
+                            layoutId="activeModeUnderline"
+                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-violet-400 rounded-full"
+                          />
+                        )}
+                      </button>
+                    </div>
+
                     {/* Camera controls */}
-                    <div className="flex items-center justify-center gap-4">
-                      <Button
+                    <div className="flex items-center justify-center gap-8 mt-2">
+                      <button
                         onClick={() => fileInputRef.current?.click()}
-                        variant="outline"
-                        size="icon"
-                        className="h-12 w-12 rounded-full border-white/10 bg-slate-900/60 backdrop-blur-md text-white hover:bg-slate-800/80 active:scale-95 transition-all"
+                        className="h-12 w-12 rounded-full border border-white/10 bg-slate-900/60 backdrop-blur-xl text-slate-300 hover:text-white hover:border-white/20 active:scale-95 transition-all flex items-center justify-center shadow-lg hover:shadow-white/5"
                       >
                         <ImageIcon className="h-5 w-5" />
-                      </Button>
+                      </button>
                       
                       <button
                         onClick={capturePhoto}
                         disabled={!cameraReady}
-                        className="h-18 w-18 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 border-4 border-white/20 shadow-[0_8px_30px_rgba(16,185,129,0.4)] hover:scale-105 active:scale-95 transition-transform disabled:opacity-40 disabled:hover:scale-100 flex items-center justify-center"
+                        className="h-20 w-20 rounded-full border-2 border-white/20 flex items-center justify-center p-1.5 transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.03)',
+                        }}
                       >
-                        <div className="h-8 w-8 rounded-full border-2 border-white/80" />
+                        <div 
+                          className={cn(
+                            "h-full w-full rounded-full transition-all duration-300 flex items-center justify-center",
+                            smartSortActive 
+                              ? "bg-gradient-to-tr from-violet-500 to-fuchsia-600 shadow-[0_0_20px_rgba(139,92,246,0.4)]" 
+                              : "bg-gradient-to-tr from-emerald-400 to-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+                          )}
+                        >
+                          <div className="h-7 w-7 rounded-full border-2 border-white/90" />
+                        </div>
                       </button>
 
-                      <Button
+                      <button
                         onClick={flipCamera}
-                        variant="outline"
-                        size="icon"
-                        className="h-12 w-12 rounded-full border-white/10 bg-slate-900/60 backdrop-blur-md text-white hover:bg-slate-800/80 active:scale-95 transition-all"
+                        className="h-12 w-12 rounded-full border border-white/10 bg-slate-900/60 backdrop-blur-xl text-slate-300 hover:text-white hover:border-white/20 active:scale-95 transition-all flex items-center justify-center shadow-lg hover:shadow-white/5"
                       >
                         <SwitchCamera className="h-5 w-5" />
-                      </Button>
+                      </button>
                     </div>
-
-                    {/* Smart Sort Toggle */}
-                    <button
-                      onClick={() => setSmartSortActive(!smartSortActive)}
-                      className={cn(
-                        "w-full h-11 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all border",
-                        smartSortActive
-                          ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white border-violet-400/30 shadow-lg shadow-violet-500/20"
-                          : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white"
-                      )}
-                    >
-                      <Sparkles className="h-4 w-4" />
-                      {smartSortActive ? 'Smart Sort: ON' : 'Smart Sort: Real-time ML'}
-                    </button>
                   </>
                 )}
               </motion.div>
@@ -620,14 +649,14 @@ export default function Scanner() {
                 </div>
 
                 {/* Scan Mode Toggle */}
-                <div className="flex items-center gap-2 bg-slate-900/60 backdrop-blur-xl border border-white/5 rounded-2xl p-1.5">
+                <div className="flex items-center gap-2 bg-slate-950/40 backdrop-blur-xl border border-white/5 rounded-[1rem] p-1">
                   <button
                     onClick={() => setScanMode('cloud')}
                     className={cn(
-                      "flex-1 h-10 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all",
+                      "flex-1 h-9 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300",
                       scanMode === 'cloud'
-                        ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg"
-                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                        ? "bg-emerald-400 text-slate-950 shadow-md"
+                        : "text-slate-400 hover:text-slate-200"
                     )}
                   >
                     <Zap className="h-3.5 w-3.5" /> AI Cloud
@@ -635,10 +664,10 @@ export default function Scanner() {
                   <button
                     onClick={() => setScanMode('offline')}
                     className={cn(
-                      "flex-1 h-10 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all",
+                      "flex-1 h-9 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300",
                       scanMode === 'offline'
-                        ? "bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg"
-                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                        ? "bg-violet-400 text-slate-950 shadow-md"
+                        : "text-slate-400 hover:text-slate-200"
                     )}
                   >
                     <Sparkles className="h-3.5 w-3.5" /> Offline ML
@@ -647,29 +676,28 @@ export default function Scanner() {
                 </div>
 
                 <div className="flex gap-4">
-                  <Button 
+                  <button 
                     onClick={resetScanner} 
-                    variant="outline" 
-                    className="flex-1 h-13 rounded-2xl border-white/10 bg-white/5 text-white hover:bg-white/10 active:scale-95 transition-all"
+                    className="flex-1 h-12 rounded-xl border border-white/10 bg-white/5 text-slate-300 text-xs font-bold tracking-wider uppercase hover:bg-white/10 hover:text-white active:scale-95 transition-all flex items-center justify-center gap-2"
                   >
-                    <RotateCcw className="h-4 w-4 mr-2" /> {t('scanner.retake')}
-                  </Button>
-                  <Button 
+                    <RotateCcw className="h-4 w-4" /> {t('scanner.retake')}
+                  </button>
+                  <button 
                     onClick={scanMode === 'cloud' ? analyzeImage : analyzeWithML} 
                     disabled={scanMode === 'offline' && mlModelLoading}
                     className={cn(
-                      "flex-1 h-13 rounded-2xl font-bold shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all",
+                      "flex-1 h-12 rounded-xl font-bold text-xs tracking-wider uppercase active:scale-95 transition-all flex items-center justify-center gap-2 border-none",
                       scanMode === 'cloud'
-                        ? "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white"
-                        : "bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400 text-white"
+                        ? "bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-lg shadow-emerald-500/10"
+                        : "bg-violet-400 hover:bg-violet-300 text-slate-950 shadow-lg shadow-violet-500/10"
                     )}
                   >
                     {scanMode === 'cloud' ? (
-                      <><Zap className="h-4 w-4 mr-2" /> {t('scanner.analyze')}</>
+                      <><Zap className="h-4 w-4" /> {t('scanner.analyze')}</>
                     ) : (
-                      <><Sparkles className="h-4 w-4 mr-2" /> ML Scan</>
+                      <><Sparkles className="h-4 w-4" /> ML Scan</>
                     )}
-                  </Button>
+                  </button>
                 </div>
               </motion.div>
             )}
@@ -745,7 +773,9 @@ export default function Scanner() {
                     )}
                     <div className="space-y-0.5 text-left">
                       <div className="text-[10px] font-black uppercase tracking-wider">
-                        {verificationStatus === 'Verified' ? 'GPS Verification: Passed' : 'GPS Verification: Mismatch'}
+                        {verificationStatus === 'Verified' 
+                          ? t('scanner.gpsPassed', { defaultValue: 'GPS Verification: Passed' }) 
+                          : t('scanner.gpsMismatch', { defaultValue: 'GPS Verification: Mismatch' })}
                       </div>
                       <p className="text-[10px] opacity-90 leading-tight">
                         {antiFraudMessage}
@@ -769,7 +799,9 @@ export default function Scanner() {
                         <div key={idx} className="bg-white/5 border border-white/5 rounded-2xl p-3 flex items-start justify-between gap-3">
                           <div className="space-y-1 flex-1">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs font-black text-white">{item.quantity} × {item.name}</span>
+                              <span className="text-xs font-black text-white">
+                                {item.quantity} × {t(`scanner.items.${item.name.replace(/\s+/g, '')}`, { defaultValue: item.name })}
+                              </span>
                               <span className={cn("text-[9px] font-bold px-2 py-0.5 rounded-full border", color.bg, color.text, color.border)}>
                                 {t(`scanner.wasteTypes.${item.wasteType}`, { defaultValue: item.wasteType })}
                               </span>
@@ -778,8 +810,8 @@ export default function Scanner() {
                               </span>
                             </div>
                             {item.instructions && (
-                              <p className="text-[10px] text-slate-400 leading-normal flex items-start gap-1">
-                                <span className="text-emerald-400/80">•</span> {item.instructions}
+                              <p className="text-[10px] text-slate-400 leading-normal flex items-start gap-1 text-left">
+                                <span className="text-emerald-400/80">•</span> {t(`scanner.instructions.${item.wasteType}`, { defaultValue: item.instructions })}
                               </p>
                             )}
                           </div>
@@ -921,20 +953,17 @@ export default function Scanner() {
                 {/* 5. DYNAMIC FLOW ACTIONS */}
                 <div className="flex flex-col gap-3">
                   <Link to="/vote" className="w-full">
-                    <Button className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold text-sm shadow-[0_8px_30px_rgba(16,185,129,0.3)] active:scale-95 transition-all">
+                    <button className="w-full h-12 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-lg shadow-emerald-500/10 active:scale-95 transition-all flex items-center justify-center gap-2 border-none">
                       {t('scanner.btnDropoff')}
-                    </Button>
+                    </button>
                   </Link>
 
-                  <div className="flex gap-3">
-                    <Button 
-                      onClick={resetScanner} 
-                      variant="outline" 
-                      className="flex-1 h-12 rounded-2xl border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
-                    >
-                      {t('scanner.btnScanMore')}
-                    </Button>
-                  </div>
+                  <button 
+                    onClick={resetScanner} 
+                    className="w-full h-11 rounded-xl border border-white/10 bg-white/5 text-slate-300 font-bold text-xs tracking-wider uppercase hover:bg-white/10 hover:text-white active:scale-95 transition-all flex items-center justify-center gap-2"
+                  >
+                    {t('scanner.btnScanMore')}
+                  </button>
                 </div>
 
               </motion.div>

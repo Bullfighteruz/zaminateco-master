@@ -44,7 +44,13 @@ const LABEL_TO_WASTE: Record<string, string> = {
   'measuring cup': 'Plastic', 'mixing bowl': 'Plastic', 'strainer': 'Plastic',
   'ladle': 'Plastic', 'spatula': 'Plastic', 'soap dispenser': 'Plastic',
   'lotion': 'Plastic', 'sunscreen': 'Plastic', 'shampoo': 'Plastic',
-  'spray can': 'Plastic', 'pill bottle': 'Plastic',
+  'spray can': 'Plastic', 'pill bottle': 'Plastic', 'hairbrush': 'Plastic',
+  'comb': 'Plastic', 'toothbrush': 'Plastic', 'pen': 'Plastic', 'marker': 'Plastic',
+  'toy': 'Plastic', 'lego': 'Plastic', 'plastic cup': 'Plastic', 'plastic plate': 'Plastic',
+  'plastic straw': 'Plastic', 'straw': 'Plastic', 'funnel': 'Plastic', 'tub': 'Plastic',
+  'cassette': 'Plastic', 'shampoo bottle': 'Plastic', 'cosmetic bottle': 'Plastic',
+  'detergent bottle': 'Plastic', 'plastic container': 'Plastic', 'plastic spoon': 'Plastic',
+  'plastic fork': 'Plastic', 'plastic knife': 'Plastic', 'plastic hanger': 'Plastic',
   
   // Metal items
   'can opener': 'Metal', 'beer glass': 'Metal', 'tin can': 'Metal',
@@ -54,14 +60,23 @@ const LABEL_TO_WASTE: Record<string, string> = {
   'wrench': 'Metal', 'hammer': 'Metal', 'screwdriver': 'Metal',
   'plunger': 'Metal', 'corkscrew': 'Metal', 'bottle opener': 'Metal',
   'thimble': 'Metal', 'combination lock': 'Metal', 'padlock': 'Metal',
-  'key': 'Metal', 'whistle': 'Metal', 'bell': 'Metal',
+  'key': 'Metal', 'whistle': 'Metal', 'bell': 'Metal', 'soda can': 'Metal',
+  'aluminum can': 'Metal', 'beer can': 'Metal', 'tin foil': 'Metal', 'aluminum foil': 'Metal',
+  'baking sheet': 'Metal', 'paperclip': 'Metal', 'staple': 'Metal', 'wire hanger': 'Metal',
+  'copper wire': 'Metal', 'canned food': 'Metal', 'pot': 'Metal', 'pan': 'Metal',
+  'kettle': 'Metal', 'colander': 'Metal', 'cutlery': 'Metal', 'metal spoon': 'Metal',
+  'metal fork': 'Metal', 'metal knife': 'Metal', 'cork': 'Metal', 'crown cap': 'Metal',
+  'scissors': 'Metal', 'zipper': 'Metal', 'hardware': 'Metal', 'pliers': 'Metal',
   
   // Glass items
   'wine bottle': 'Glass', 'beer bottle': 'Glass', 'vase': 'Glass',
   'wine glass': 'Glass', 'cocktail shaker': 'Glass', 'perfume': 'Glass',
   'jar': 'Glass', 'lamp': 'Glass', 'light bulb': 'Glass',
   'hourglass': 'Glass', 'magnifying glass': 'Glass', 'window': 'Glass',
-  'mirror': 'Glass',
+  'mirror': 'Glass', 'glass bottle': 'Glass', 'milk bottle': 'Glass',
+  'soda glass': 'Glass', 'tumbler': 'Glass', 'beaker': 'Glass', 'lens': 'Glass',
+  'glass jar': 'Glass', 'decanter': 'Glass', 'flute': 'Glass', 'chalice': 'Glass',
+  'mug': 'Glass', 'goblet glass': 'Glass',
   
   // Paper items
   'envelope': 'Paper', 'book': 'Paper', 'notebook': 'Paper',
@@ -69,11 +84,22 @@ const LABEL_TO_WASTE: Record<string, string> = {
   'cardboard': 'Paper', 'toilet tissue': 'Paper', 'paper towel': 'Paper',
   'packet': 'Paper', 'carton': 'Paper', 'binder': 'Paper',
   'folder': 'Paper', 'menu': 'Paper', 'receipt': 'Paper',
+  'cardboard box': 'Paper', 'milk carton': 'Paper', 'juice box': 'Paper',
+  'paper plate': 'Paper', 'paper cup': 'Paper', 'paper bag': 'Paper',
+  'tissue': 'Paper', 'toilet paper': 'Paper', 'napkin': 'Paper',
+  'card': 'Paper', 'postcard': 'Paper', 'wrapping paper': 'Paper',
+  'box': 'Paper', 'shoe box': 'Paper', 'packaging': 'Paper', 'brochure': 'Paper',
+  'flyer': 'Paper', 'poster': 'Paper', 'diary': 'Paper', 'calendar': 'Paper',
   
   // Rubber items
   'tire': 'Rubber', 'rubber eraser': 'Rubber', 'boot': 'Rubber',
   'sandal': 'Rubber', 'flip-flop': 'Rubber', 'running shoe': 'Rubber',
   'rubber band': 'Rubber', 'balloon': 'Rubber', 'glove': 'Rubber',
+  'doormat': 'Rubber', 'tile': 'Rubber', 'conveyor belt': 'Rubber',
+  'paving': 'Rubber', 'asphalt': 'Rubber', 'rubber boot': 'Rubber',
+  'rain boot': 'Rubber', 'slipper': 'Rubber', 'rubber glove': 'Rubber',
+  'latex glove': 'Rubber', 'yoga mat': 'Rubber', 'seal': 'Rubber',
+  'gasket': 'Rubber', 'hose': 'Rubber', 'garden hose': 'Rubber',
   
   // Organic items
   'banana': 'Organic', 'apple': 'Organic', 'orange': 'Organic',
@@ -86,6 +112,16 @@ const LABEL_TO_WASTE: Record<string, string> = {
   'french loaf': 'Organic', 'ice cream': 'Organic', 'chocolate': 'Organic',
   'dough': 'Organic', 'espresso': 'Organic', 'eggnog': 'Organic',
   'leaf': 'Organic', 'flower': 'Organic', 'tree': 'Organic',
+  'banana peel': 'Organic', 'apple core': 'Organic', 'orange peel': 'Organic',
+  'lemon peel': 'Organic', 'potato peel': 'Organic', 'eggshell': 'Organic',
+  'bread': 'Organic', 'crust': 'Organic', 'coffee ground': 'Organic',
+  'tea bag': 'Organic', 'nut shell': 'Organic', 'rice': 'Organic',
+  'pasta': 'Organic', 'meat': 'Organic', 'bone': 'Organic',
+  'chicken bone': 'Organic', 'fish bone': 'Organic', 'cabbage': 'Organic',
+  'carrot': 'Organic', 'tomato': 'Organic', 'onion': 'Organic',
+  'lettuce': 'Organic', 'spinach': 'Organic', 'garlic': 'Organic',
+  'ginger': 'Organic', 'potato veg': 'Organic', 'fruit': 'Organic',
+  'vegetable': 'Organic',
   
   // E-waste items
   'cellphone': 'E-waste', 'laptop': 'E-waste', 'desktop computer': 'E-waste',
@@ -96,6 +132,15 @@ const LABEL_TO_WASTE: Record<string, string> = {
   'speaker': 'E-waste', 'radio': 'E-waste', 'headphone': 'E-waste',
   'battery': 'E-waste', 'power plug': 'E-waste', 'switch': 'E-waste',
   'calculator': 'E-waste', 'digital clock': 'E-waste', 'digital watch': 'E-waste',
+  'cell phone': 'E-waste', 'smartphone': 'E-waste', 'tablet': 'E-waste',
+  'ipad': 'E-waste', 'charger': 'E-waste', 'charging cable': 'E-waste',
+  'power bank': 'E-waste', 'aa battery': 'E-waste', 'aaa battery': 'E-waste',
+  'lithium battery': 'E-waste', 'earbuds': 'E-waste', 'router': 'E-waste',
+  'smartwatch': 'E-waste', 'video camera': 'E-waste', 'projector': 'E-waste',
+  'microphone': 'E-waste', 'controller': 'E-waste', 'flash drive': 'E-waste',
+  'usb drive': 'E-waste', 'sd card': 'E-waste', 'hair dryer': 'E-waste',
+  'toaster': 'E-waste', 'microwave': 'E-waste', 'blender': 'E-waste',
+  'coffee maker': 'E-waste', 'fan': 'E-waste',
   
   // Textile items
   'jean': 'Textile', 'sock': 'Textile', 'stocking': 'Textile',
@@ -106,6 +151,15 @@ const LABEL_TO_WASTE: Record<string, string> = {
   'handkerchief': 'Textile', 'curtain': 'Textile', 'sleeping bag': 'Textile',
   'backpack': 'Textile', 'purse': 'Textile', 'wallet': 'Textile',
   'blanket': 'Textile', 'quilt': 'Textile', 'pillow': 'Textile',
+  'shirt': 'Textile', 'pants': 'Textile', 'trousers': 'Textile',
+  'shorts': 'Textile', 'skirt': 'Textile', 'dress': 'Textile',
+  'jacket': 'Textile', 'coat': 'Textile', 'sweater': 'Textile',
+  'hoodie': 'Textile', 'underwear': 'Textile', 'bra': 'Textile',
+  'hat': 'Textile', 'cap': 'Textile', 'scarf': 'Textile',
+  'belt': 'Textile', 'tie': 'Textile', 'bedsheet': 'Textile',
+  'pillowcase': 'Textile', 'rug': 'Textile', 'carpet': 'Textile',
+  'handbag': 'Textile', 'tote bag': 'Textile', 'canvas bag': 'Textile',
+  'shoe': 'Textile', 'sneaker': 'Textile',
 };
 
 // Category details
@@ -219,18 +273,15 @@ export async function loadClassifierModel(): Promise<boolean> {
       await tf.ready();
       
       const mobilenet = await import('@tensorflow-models/mobilenet');
-      mobilenetModel = await mobilenet.load({
+      const mobilenetModule = (mobilenet as any).default || mobilenet;
+      mobilenetModel = await mobilenetModule.load({
         version: 2,
         alpha: 1.0, // Full-size model for better accuracy
       });
       
-      if (import.meta.env.DEV) {
-        console.log('[WasteClassifier] MobileNet v2 loaded successfully');
-      }
-    } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('[WasteClassifier] Failed to load model:', error);
-      }
+      console.log('[WasteClassifier] MobileNet v2 loaded successfully');
+    } catch (error: any) {
+      console.error('[WasteClassifier] Failed to load model:', error);
       mobilenetModel = null;
     } finally {
       _isModelLoading = false;
@@ -325,10 +376,8 @@ export async function classifyWasteImage(
       isOffline: true,
       modelReady: true,
     };
-  } catch (error) {
-    if (import.meta.env.DEV) {
-      console.error('[WasteClassifier] Classification error:', error);
-    }
+  } catch (error: any) {
+    console.error('[WasteClassifier] Classification error:', error);
     return createFallbackResult(startTime);
   }
 }

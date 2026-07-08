@@ -1,7 +1,8 @@
-import { Trophy, Star, Zap } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { calculateLevel, getLevelTitle, calculateProgress, getPointsForNextLevel } from '@/lib/gameSystem';
+import { calculateLevel, LEVEL_CONFIG } from '@/lib/userData';
+import { getLevelTitle } from '@/lib/gameSystem';
 
 interface GameLevelProps {
   ecoPoints: number;
@@ -11,8 +12,12 @@ interface GameLevelProps {
 export default function GameLevel({ ecoPoints, showDetails = false }: GameLevelProps) {
   const level = calculateLevel(ecoPoints);
   const title = getLevelTitle(level);
-  const progress = calculateProgress(ecoPoints);
-  const nextLevelPoints = getPointsForNextLevel(level);
+  const maxLevel = LEVEL_CONFIG.maxLevel;
+
+  // Progress within the current level (1000 pts per level)
+  const pointsInCurrentLevel = ecoPoints % LEVEL_CONFIG.pointsPerLevel;
+  const progress = (pointsInCurrentLevel / LEVEL_CONFIG.pointsPerLevel) * 100;
+  const pointsToNext = LEVEL_CONFIG.pointsPerLevel - pointsInCurrentLevel;
   
   return (
     <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg p-4 text-white">
@@ -36,7 +41,7 @@ export default function GameLevel({ ecoPoints, showDetails = false }: GameLevelP
         </Badge>
       </div>
       
-      {showDetails && level < 50 && (
+      {showDetails && level < maxLevel && (
         <div className="space-y-2">
           <div className="flex justify-between text-sm opacity-90">
             <span>Progress to Level {level + 1}</span>
@@ -44,12 +49,12 @@ export default function GameLevel({ ecoPoints, showDetails = false }: GameLevelP
           </div>
           <Progress value={progress} className="h-2 bg-white/20" />
           <p className="text-xs opacity-75">
-            {nextLevelPoints - ecoPoints} points to next level
+            {pointsToNext} points to next level
           </p>
         </div>
       )}
       
-      {level >= 50 && showDetails && (
+      {level >= maxLevel && showDetails && (
         <div className="flex items-center justify-center mt-2">
           <Star className="h-4 w-4 mr-1" />
           <span className="text-sm font-medium">Maximum Level Reached!</span>

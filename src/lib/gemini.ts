@@ -69,7 +69,7 @@ Ensure the translation is natural, clean, and accurate.`;
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
 
     // Strip the data URL prefix if present
     const base64Data = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
@@ -175,6 +175,31 @@ You are an expert in ALL of the following areas and must provide detailed, accur
 7. Pilot schools program: Active in 5 Tashkent schools (School #45 in Chilonzor District) where students learn recycling and create paths and playgrounds from waste.
 8. If asked about the CEO/Founder of ZAMINAT.eco: founded by Sukhrobjon Rikhsiboev, a 24-year-old entrepreneur, marketing & operations leader (6+ years leading teams and AI integrations), BBA graduate of Amity University Tashkent. He leads the company focusing on strategic direction and green tech initiatives.
 
+## ZAMINAT KIDS ECO-EDUCATION INITIATIVE
+
+### 📱 EcoKids Educational App (ZAMINAT Kids App)
+- **Target Audience:** Kids aged 4-14 in Uzbekistan, teaching recycling and green habits in class or at home.
+- **3D Design Tool:** Children design eco-tiles, desks, curbs, benches, and flower planters. The top designs are physically manufactured for local schools and parks in Uzbekistan with the kid's name engraved on the final product!
+- **Interactive Mini-Worlds:** Level tasks based on waste sorting (sorting plastic/rubber) and recycling loop simulations (e.g. tires to safety tiles, plastic to composite bricks). Minecraft-inspired episodes introduce local environmental issues.
+- **Eco-Portfolio:** Saves kid's designs, exports certificates and project cards for school exhibitions.
+- **Gamification:** Earn EcoPoints, collect badges, and climb classroom/school leaderboards. AR (Augmented Reality) module allows kids to visualize turning waste into products.
+- **Safety:** Ad-free, anonymous child profiles, requires parental consent to publish designs.
+- **Impact Goals:** 10,000–20,000 children in 200+ schools, 100+ physical school playground installations in year one.
+
+### 🎬 EcoKids Animated Series (ZAMINAT Kids Cartoon)
+- **Visual Style:** Pixar Bright Soft Realism (soft shapes, large eyes, warm lighting, SSS materials, Uzbek cultural pattern elements).
+- **Core Theme:** The city is sick ➜ children heal it ➜ the city wakes up. Balances technology, nature, and community.
+- **Main Characters (7):**
+  1. **Росток (Rostok / Sprout):** The spirit of nature. A droplet-shaped character with leaves and Young Wood stem. Starts small, grows into a massive city symbol.
+  2. **Эко (Eco):** The brain and logic. Rounded square body made of recycled HDPE plastic with LED status lights and tentacle arms. Transforms from a strict machine into a hero and friend.
+  3. **Рубби (Rubbi):** The muscle and humor. Round, bouncy EPDM rubber character. Child-like, laughs, makes errors but is incredibly kind.
+  4. **Сора (Sora):** The teenage human protagonist and leader. Wears an engineering vest. Inquisitive, logical, soft but resilient.
+  5. **ЗАМИ-Бот (ZAMI-Bot):** Strict neighborhood bot that learns empathy. Helps children navigate eco-challenges and coordinates community actions.
+  6. **Биби (Bibi):** Creative, quiet artist girl who uses designs to transform the city.
+  7. **Свалочный Дух (Svalochniy Duh / Landfill Spirit):** Season 1 antagonist. Represents Earth's pain, seeking to be heard.
+- **Secondary Characters:** Bahtiyor-buva (wise elder with chapan and tubeteika), Munisa-apa (art teacher), Kamola-apa (principal), local shopkeeper, volunteers.
+- **Locations:** EcoKids HQ (School), local Mahalla, Sora's Lab, Park "Nur", Chorsu market, industrial zone.
+
 ## RESPONSE RULES
 - Answer in Uzbek, Russian, or English — always match the user's input language.
 - Provide detailed, comprehensive answers with structure (headings, bullet points, numbered lists).
@@ -223,7 +248,7 @@ export async function getEcoCoachResponse(
 ): Promise<string> {
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey || apiKey === 'your-api-key-here') {
-    return "Demo Mode: Hello! I'm your ZAMINAT EcoCoach. Please configure the Gemini API key to chat with me live.";
+    return "Demo Mode: Hello! I'm Zami Bot, your ZAMINAT AI Advisor. Please configure the Gemini API key to chat with me live.";
   }
 
   // Rate limit check
@@ -270,7 +295,7 @@ You are texting with a registered user of ZAMINAT.eco. Use these details to pers
     }
 
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-flash-latest',
       systemInstruction: dynamicSystemInstruction
     });
 
@@ -311,7 +336,7 @@ export async function getPlannerOptimization(
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-flash-latest',
       systemInstruction: PLANNER_SYSTEM_INSTRUCTION
     });
 

@@ -31,8 +31,8 @@ export default function AICoreSection() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
 
   const features = [
-    { key: 'ecoscan', icon: Camera, badgeKey: 'tagPrototype' as const, screenIndex: 0, launchPath: '/scanner' },
-    { key: 'ecocoach', icon: MessageSquare, badgeKey: 'tagConcept' as const, screenIndex: 1, launchPath: '/coach' },
+    { key: 'ecoscan', icon: Camera, badgeKey: 'tagLive' as const, screenIndex: 0, launchPath: '/scanner' },
+    { key: 'ecocoach', icon: MessageSquare, badgeKey: 'tagLive' as const, screenIndex: 1, launchPath: '/coach' },
     { key: 'impact', icon: Cpu, badgeKey: 'tagPrototype' as const, screenIndex: 2 },
     { key: 'fraud', icon: ShieldCheck, badgeKey: 'tagUpcoming' as const, screenIndex: 3 },
     { key: 'kids', icon: Smile, badgeKey: 'tagDesign' as const, screenIndex: 4 },

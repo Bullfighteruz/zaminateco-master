@@ -34,8 +34,8 @@ const stories = [
   {
     id: 1,
     emoji: '🎉',
-    image: '/images/community_16119903.webp',
-    iconPath: '/images/community_16119903.webp',
+    image: '/images/zaminat-pilot-program.png',
+    iconPath: '/images/zaminat-pilot-program.png',
     badgeType: 'update',
     titleKey: 'stories.pilotProgram.title',
     descriptionKey: 'stories.pilotProgram.description',
@@ -47,8 +47,8 @@ const stories = [
   {
     id: 2,
     emoji: '🏫',
-    image: '/images/school.webp',
-    iconPath: '/images/Future of Plastic.webp',
+    image: '/images/recycling-future.png',
+    iconPath: '/images/recycling-future.png',
     badgeType: 'successStory',
     titleKey: 'stories.futureRecycling.title',
     descriptionKey: 'stories.futureRecycling.description',
@@ -60,8 +60,8 @@ const stories = [
   {
     id: 3,
     emoji: '🎤',
-    image: '/images/community_16119903.webp',
-    iconPath: '/images/Malika.webp',
+    image: '/images/eco-education-classroom.png',
+    iconPath: '/images/eco-education-classroom.png',
     badgeType: 'education',
     titleKey: 'stories.educationalPrograms.title',
     descriptionKey: 'stories.educationalPrograms.description',
@@ -88,7 +88,7 @@ const communityStories = [
     environmentalImpactKey: 'stories.mahallTransformation.environmentalImpact',
     impactDescriptionKey: 'stories.mahallTransformation.impactDescription',
     emojis: ['🏗️', '♻️', '🏞️'],
-    images: ['/images/art-tiles.webp', '/images/ECOBUSSTOP.webp', '/images/forest_10089053.webp'],
+    images: ['/images/landfill-cleanup.png', '/images/playground-recycled.png', '/images/community-celebration.png'],
     likesKey: 'stories.mahallTransformation.likes',
     commentsKey: 'stories.mahallTransformation.comments',
     hashtags: ['#transformation', '#playground']
@@ -105,7 +105,7 @@ const communityStories = [
     dateKey: 'stories.teachingKids.date',
     locationKey: 'stories.teachingKids.location',
     emojis: ['👨‍👩‍👧‍👦', '📚', '🌱'],
-    images: ['/images/community_16119903.webp', '/images/book_649180.webp', '/images/plant-a-tree_6675353.webp'],
+    images: ['/images/kids-eco-education.png', '/images/kids-planting-trees.png', '/images/eco-workshop-kids.png'],
     likesKey: 'stories.teachingKids.likes',
     commentsKey: 'stories.teachingKids.comments',
     hashtags: ['#education', '#children']
@@ -228,6 +228,70 @@ export default function EcoStories() {
   const { t } = useTranslation(['stories', 'translation']);
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedVideo, setSelectedVideo] = useState<typeof videos[0] | null>(null);
+  const [selectedStory, setSelectedStory] = useState<{ type: 'featured' | 'community'; data: any } | null>(null);
+
+  const fullArticles: Record<string, { title: string; subtitle: string; content: string[]; location?: string; impact?: string }> = {
+    'featured-1': {
+      title: "ZAMINAT.eco Launches Pilot Program in Tashkent Schools",
+      subtitle: "The ecological movement begins its journey with plastic and rubber recycling initiatives, setting up a green future for the youth.",
+      content: [
+        "We are proud to announce the official launch of the ZAMINAT.eco school recycling pilot program in Tashkent. This initiative marks a major milestone in our mission to transform waste management across Uzbekistan, starting with the next generation.",
+        "In cooperation with local educational authorities, ZAMINAT.eco has installed specialized color-coded recycling stations at five pioneering schools in Tashkent, including School #45 in the Chilonzor district. The stations feature blue bins clearly labeled 'PLASTIK' and yellow bins labeled 'REZINA' (rubber).",
+        "Students are actively participating in sorting plastic bottles and old tires. Rather than just collecting waste, children are learning sorting algorithms and circular economy principles. The collected materials are transported to our state-of-the-art facility, where they are shredded, melted, and molded into durable eco-friendly rubber safety tiles and outdoor benches for schoolyards.",
+        "In the first month alone, students diverted over 1,250 kg of plastic and rubber waste from landfills. This pilot program is proving that with simple changes and direct engagement, communities can build sustainable environments together."
+      ],
+      location: "Tashkent, Uzbekistan",
+      impact: "1,250kg plastic & rubber recycled"
+    },
+    'featured-2': {
+      title: "The Future of Plastic and Rubber Recycling in Uzbekistan",
+      subtitle: "How ZAMINAT.eco plans to transform waste management across the country through high-tech processing plants and circular economy models.",
+      content: [
+        "As urban centers in Uzbekistan expand, the challenge of municipal solid waste becomes increasingly pressing. ZAMINAT.eco is stepping up to address this by introducing advanced, automated recycling infrastructure tailored specifically for plastic and rubber waste.",
+        "Located in the industrial zones of Tashkent, our recycling facility uses state-of-the-art sorting and processing lines. Here, post-consumer plastic waste is cleaned, pelletized, and combined with processed rubber crumb derived from scrap tires.",
+        "Through high-pressure molding, this combination is transformed into extremely durable tiles, pavers, and benches. These products are weather-resistant, non-toxic, and highly suitable for Tashkent's summer heat and cold winters. They find immediate utility in residential parks and school playgrounds.",
+        "Our long-term roadmap aims to expand this model to all major regional centers of Uzbekistan by 2027. By showing that recycled plastic products can compete directly with traditional concrete and wood, ZAMINAT.eco is redefining sustainable construction in Central Asia."
+      ],
+      location: "Tashkent industrial zone",
+      impact: "Zero waste facility target by 2027"
+    },
+    'featured-3': {
+      title: "Educational Programs: Teaching the Next Generation",
+      subtitle: "How we're educating children about the importance of plastic and rubber recycling through interactive curricula and smart gamification.",
+      content: [
+        "True change starts with education. ZAMINAT.eco's dedicated curriculum team has launched a comprehensive series of classroom workshops across Tashkent elementary and middle schools.",
+        "Led by experienced environmental educators, these workshops are highly interactive. Instead of just lecturing, instructors show children real samples of recycled plastic lumber, rubber tiles, and raw materials. Kids can touch and see the physical result of their recycling efforts.",
+        "The curriculum is supported by the ZAMI Bot, a smart companion that gamifies eco-habits. By checking their recycling metrics in the app, students can earn points, level up, and win prizes for their school.",
+        "Educators believe that teaching children early about sustainability creates lifelong green habits. ZAMINAT.eco plans to bring this interactive curriculum to over 100 schools by the end of this academic year."
+      ],
+      location: "Tashkent, Uzbekistan",
+      impact: "Over 5,000 students educated"
+    },
+    'community-1': {
+      title: "From Landfill to Playground: Our Mahalla's Transformation",
+      subtitle: "How a local community in Sergeli District cleaned up an illegal dump site and built a beautiful playground using recycled materials.",
+      content: [
+        "Six months ago, our mahalla in Sergeli District had a terrible waste problem. An empty plot of land had slowly turned into an illegal landfill, filled with piles of plastic, old tires, and construction debris.",
+        "Determined to make a change, we partnered with ZAMINAT.eco. Over three weekends, more than 80 mahalla volunteers—including elders and children—joined forces for a massive clean-up drive. We collected over 1,250 kg of plastic and rubber waste.",
+        "ZAMINAT.eco took this waste, processed it, and returned it to us in the form of colorful rubber safety tiles and outdoor benches. Together with playground equipment, we built a beautiful, safe play space for our children.",
+        "Today, the site that once was a landfill is now a lively playground where kids play safely. It stands as a testament to the power of community action and recycling."
+      ],
+      location: "Sergeli District, Tashkent",
+      impact: "1,250kg of waste recycled into a playground"
+    },
+    'community-2': {
+      title: "Teaching Kids: Educating the Young Minds",
+      subtitle: "Educating young children about the value of plastic and rubber recycling through classroom workshops and outdoor activities.",
+      content: [
+        "Teaching the next generation about the environment is the most important investment we can make. In our school, we've integrated ZAMINAT.eco's interactive lessons directly into the science curriculum.",
+        "Students learn the science of recycling, how plastic is cataloged, and how rubber can be processed. We also do practical sorting workshops where kids bring plastic bottles from home.",
+        "We've combined classroom lessons with tree-planting events. In our school yard, students have planted 15 new shade trees, surrounding them with ZAMINAT eco-tiles.",
+        "The enthusiasm from children has been incredible. They are now teaching their parents about recycling, creating a ripple effect of green awareness throughout the whole neighborhood."
+      ],
+      location: "Yunusabad District, Tashkent",
+      impact: "15 trees planted & regular recycling classes"
+    }
+  };
 
   // SEO Management
   useSEO({
@@ -519,15 +583,16 @@ export default function EcoStories() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.5, delay: index * 0.05 }}
-                      className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-200/40 transition-all duration-500 overflow-hidden flex flex-col md:flex-row"
+                      onClick={() => setSelectedStory({ type: 'featured', data: story })}
+                      className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-200/40 transition-all duration-500 overflow-hidden flex flex-col md:flex-row cursor-pointer"
                     >
-                      {/* Left icon path container */}
-                      <div className="relative w-full md:w-64 md:shrink-0 bg-slate-50 flex items-center justify-center p-6 sm:p-8 overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 group-hover:scale-105 transition-transform duration-700" />
+                      {/* Left image container */}
+                      <div className="relative w-full md:w-64 md:shrink-0 bg-slate-100 overflow-hidden aspect-video md:aspect-auto min-h-[160px] md:min-h-0">
+                        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
                         <img 
-                          src={story.iconPath || story.image || story.emoji} 
+                          src={story.image || story.iconPath || story.emoji} 
                           alt={t(story.titleKey, { ns: 'stories' })} 
-                          className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 object-contain filter drop-shadow-md group-hover:scale-108 group-hover:rotate-1 transition-all duration-500 ease-out" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
                           loading="lazy"
                         />
                       </div>
@@ -567,6 +632,10 @@ export default function EcoStories() {
                           <Button 
                             variant="outline" 
                             size="sm" 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedStory({ type: 'featured', data: story });
+                            }}
                             className="text-xs font-bold rounded-full border-slate-200 hover:text-emerald-700 hover:border-emerald-600/40 hover:bg-emerald-50/20 px-5 transition-all shadow-sm"
                           >
                             {t('buttons.readMore', { ns: 'stories' })}
@@ -586,7 +655,8 @@ export default function EcoStories() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.5, delay: index * 0.05 }}
-                      className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden p-6 sm:p-8 space-y-6"
+                      onClick={() => setSelectedStory({ type: 'community', data: story })}
+                      className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-200/40 transition-all duration-500 overflow-hidden p-6 sm:p-8 space-y-6 cursor-pointer"
                     >
                       <div className="flex items-start justify-between flex-wrap gap-4">
                         <div className="flex items-center space-x-3.5">
@@ -657,11 +727,7 @@ export default function EcoStories() {
                                   loading="lazy"
                                 />
                                 <div className="absolute inset-0 bg-black/5 group-hover/img:bg-black/0 transition-colors" />
-                                {story.emojis && story.emojis[idx] && (
-                                  <span className="absolute bottom-2 right-2 bg-white/85 backdrop-blur-sm shadow px-2 py-0.5 rounded-lg text-sm">
-                                    {story.emojis[idx]}
-                                  </span>
-                                )}
+
                               </div>
                             ))}
                           </div>
@@ -902,6 +968,149 @@ export default function EcoStories() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Dynamic Story / Blog Post Modal */}
+      <Dialog open={selectedStory !== null} onOpenChange={(open) => { if (!open) setSelectedStory(null); }}>
+        <DialogContent className="max-w-[760px] w-[95%] p-0 overflow-y-auto max-h-[90vh] border border-slate-150 bg-white rounded-3xl shadow-2xl z-50">
+          {selectedStory && (() => {
+            const isFeatured = selectedStory.type === 'featured';
+            const story = selectedStory.data;
+            const articleKey = `${selectedStory.type}-${story.id}`;
+            const article = fullArticles[articleKey] || {
+              title: t(story.titleKey, { ns: 'stories' }),
+              subtitle: t(story.descriptionKey, { ns: 'stories' }),
+              content: [t(story.descriptionKey, { ns: 'stories' })]
+            };
+            
+            // Get cover image(s)
+            const images = isFeatured ? [story.image] : (story.images || []);
+            const mainImage = images[0] || '/logo.webp';
+
+            return (
+              <div className="flex flex-col text-left">
+                {/* Header Cover Image */}
+                <div className="relative w-full aspect-video md:aspect-[21/9] bg-slate-100 overflow-hidden">
+                  <img 
+                    src={mainImage} 
+                    alt={article.title} 
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
+                    <Badge className={`text-[9px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider border ${
+                      isFeatured ? getBadgeStyle(story.badgeType) : 'bg-blue-500/25 text-blue-300 border-blue-500/30'
+                    }`}>
+                      {isFeatured ? t(`badges.${story.badgeType}`, { ns: 'stories' }) : t('badges.communityStory', { ns: 'stories' })}
+                    </Badge>
+                    <h2 className="font-extrabold text-lg sm:text-2xl lg:text-3xl text-white tracking-tight leading-tight">
+                      {article.title}
+                    </h2>
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 space-y-6">
+                  {/* Meta Row: Author, Date, Location */}
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="h-10 w-10 border border-slate-100 shadow-sm">
+                        {story.avatarImage ? (
+                          <img src={story.avatarImage} alt="Avatar" className="w-full h-full object-cover rounded-full" />
+                        ) : (
+                          <AvatarFallback className="bg-gradient-to-br from-emerald-100 to-teal-50 text-emerald-800 text-xs font-bold uppercase">
+                            {isFeatured ? (t(story.authorKey, { ns: 'stories' }) || 'ZE').slice(0, 2) : story.avatar}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                      <div className="text-xs">
+                        <span className="block font-bold text-slate-800">{isFeatured ? t(story.authorKey, { ns: 'stories' }) : t(story.nameKey, { ns: 'stories' })}</span>
+                        <span className="block text-slate-400 text-[10px] mt-0.5">{isFeatured ? t(story.dateKey, { ns: 'stories' }) : t(story.dateKey, { ns: 'stories' })}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 text-xs">
+                      {article.location && (
+                        <span className="flex items-center gap-1 bg-slate-50 text-slate-600 px-3 py-1 rounded-full border border-slate-100 font-medium">
+                          <MapPin className="h-3.5 w-3.5 text-slate-450" />
+                          {article.location}
+                        </span>
+                      )}
+                      {story.readTimeKey && (
+                        <span className="flex items-center gap-1 bg-slate-50 text-slate-600 px-3 py-1 rounded-full border border-slate-100 font-medium">
+                          <Calendar className="h-3.5 w-3.5 text-slate-450" />
+                          {t(story.readTimeKey, { ns: 'stories' })} {t('readTime.minRead', { ns: 'stories' })}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Subtitle */}
+                  <p className="text-slate-600 font-semibold text-sm sm:text-base leading-relaxed italic border-l-2 border-emerald-500 pl-4 bg-emerald-50/20 py-1.5 rounded-r-lg">
+                    {article.subtitle}
+                  </p>
+
+                  {/* Environmental Impact highlight */}
+                  {(story.environmentalImpactKey || article.impact) && (
+                    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 p-4 rounded-2xl shadow-sm flex items-start gap-3">
+                      <span className="text-lg shrink-0">🌱</span>
+                      <div className="space-y-0.5">
+                        <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Environmental Impact</div>
+                        <div className="text-sm text-emerald-950 font-medium leading-relaxed">
+                          {isFeatured 
+                            ? article.impact 
+                            : `${t(story.environmentalImpactKey, { ns: 'stories' })} ${t(story.impactDescriptionKey, { ns: 'stories' })}`
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Article Content */}
+                  <div className="space-y-4 text-slate-700 text-sm sm:text-base leading-relaxed font-light">
+                    {article.content.map((p, i) => (
+                      <p key={i}>{p}</p>
+                    ))}
+                  </div>
+
+                  {/* Additional Images (if any, e.g. for community stories) */}
+                  {!isFeatured && images.length > 1 && (
+                    <div className="space-y-3">
+                      <h4 className="font-extrabold text-sm text-slate-800 uppercase tracking-wider">Gallery</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {images.slice(1).map((img, i) => (
+                          <div key={i} className="aspect-video rounded-xl overflow-hidden shadow-sm border border-slate-100 bg-slate-50">
+                            <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover hover:scale-103 transition-transform duration-500" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Footer actions */}
+                  <div className="pt-6 border-t border-slate-100 flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex items-center space-x-6 text-xs sm:text-sm text-slate-400 font-semibold">
+                      <button className="flex items-center space-x-1.5 hover:text-red-500 transition-colors group/react">
+                        <Heart className="h-4.5 w-4.5 text-slate-350 group-hover/react:text-red-500 fill-transparent group-hover/react:fill-red-500 transition-all" />
+                        <span>{story.likesKey ? t(story.likesKey, { ns: 'stories' }) : '150'}</span>
+                      </button>
+                      <button className="flex items-center space-x-1.5 hover:text-emerald-600 transition-colors group/react">
+                        <MessageCircle className="h-4.5 w-4.5 text-slate-350 group-hover/react:text-emerald-600 transition-all" />
+                        <span>{story.commentsKey ? t(story.commentsKey, { ns: 'stories' }) : '24'}</span>
+                      </button>
+                    </div>
+
+                    <Button 
+                      onClick={() => setSelectedStory(null)}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full px-6 text-xs h-9"
+                    >
+                      Close Article
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
         </DialogContent>
       </Dialog>
 

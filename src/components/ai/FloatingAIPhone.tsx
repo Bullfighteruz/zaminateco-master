@@ -14,7 +14,7 @@ interface FloatingAIPhoneProps {
  */
 const AI_SCREENS = [
   { src: '/images/ai-screens/eco-scan.jpg', label: 'AI EcoScan' },
-  { src: '/images/ai-screens/eco-coach.jpg', label: 'AI EcoCoach' },
+  { src: '/images/ai-screens/eco-coach.jpg', label: 'ZAMI AI Advisor' },
   { src: '/images/ai-screens/impact-engine.jpg', label: 'AI Impact Engine' },
   { src: '/images/ai-screens/anti-fraud.jpg', label: 'AI Anti-Fraud' },
   { src: '/images/ai-screens/ecokids-tutor.jpg', label: 'AI EcoKids Tutor' },

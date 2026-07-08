@@ -47,16 +47,12 @@ export default function SmartSortingOverlay({
   const { i18n } = useTranslation();
   const [predictions, setPredictions] = useState<WasteClassification[]>([]);
   const [topPrediction, setTopPrediction] = useState<WasteClassification | null>(null);
-  const [fps, setFps] = useState(0);
   const [modelLoading, setModelLoading] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(isModelReady());
   const [showLabels, setShowLabels] = useState(true);
   const [scanCount, setScanCount] = useState(0);
   
-  const animFrameRef = useRef<number>(0);
-  const lastClassifyTime = useRef<number>(0);
   const isClassifying = useRef<boolean>(false);
-  const fpsCounter = useRef<number[]>([]);
 
   // Load model on activation
   useEffect(() => {
@@ -66,61 +62,51 @@ export default function SmartSortingOverlay({
         setModelLoaded(ready);
         setModelLoading(false);
       });
+    } else if (isActive && isModelReady()) {
+      setModelLoaded(true);
     }
   }, [isActive]);
 
-  // Real-time classification loop
-  const classifyFrame = useCallback(async () => {
-    if (!isActive || !videoRef.current || isClassifying.current || !isModelReady()) {
-      return;
-    }
-
-    const now = performance.now();
-    // Throttle to ~2 FPS (every 500ms)
-    if (now - lastClassifyTime.current < 500) {
-      return;
-    }
-
-    isClassifying.current = true;
-    lastClassifyTime.current = now;
-
-    try {
-      const result = await classifyWasteImage(videoRef.current);
-      
-      if (result.modelReady) {
-        setPredictions(result.predictions.slice(0, 4));
-        setTopPrediction(result.topPrediction);
-        setScanCount(prev => prev + 1);
-
-        // Track FPS
-        fpsCounter.current.push(now);
-        fpsCounter.current = fpsCounter.current.filter(t => now - t < 1000);
-        setFps(fpsCounter.current.length);
-      }
-    } catch (error) {
-      // Silently continue
-    } finally {
-      isClassifying.current = false;
-    }
-  }, [isActive, videoRef]);
-
-  // Animation loop
+  // Clean up predictions when overlay turns off
   useEffect(() => {
-    if (!isActive) return;
+    if (!isActive) {
+      setPredictions([]);
+      setTopPrediction(null);
+    }
+  }, [isActive]);
 
-    const loop = () => {
-      classifyFrame();
-      animFrameRef.current = requestAnimationFrame(loop);
+  // Real-time classification interval loop (throttled to ~1.2s to prevent overheating)
+  useEffect(() => {
+    if (!isActive || !modelLoaded) return;
+
+    let intervalId: any = null;
+
+    const performScan = async () => {
+      if (!videoRef.current || isClassifying.current) return;
+      isClassifying.current = true;
+      try {
+        const result = await classifyWasteImage(videoRef.current);
+        if (result.modelReady) {
+          setPredictions(result.predictions.slice(0, 4));
+          setTopPrediction(result.topPrediction);
+          setScanCount(prev => prev + 1);
+        }
+      } catch (err) {
+        // Silently catch errors
+      } finally {
+        isClassifying.current = false;
+      }
     };
 
-    animFrameRef.current = requestAnimationFrame(loop);
+    // Run first scan after 800ms buffer to let camera stabilize
+    const initialTimeout = setTimeout(performScan, 800);
+    intervalId = setInterval(performScan, 1200);
 
     return () => {
-      if (animFrameRef.current) {
-        cancelAnimationFrame(animFrameRef.current);
-      }
+      clearTimeout(initialTimeout);
+      clearInterval(intervalId);
     };
-  }, [isActive, classifyFrame]);
+  }, [isActive, modelLoaded, videoRef]);
 
   if (!isActive) return null;
 
@@ -134,16 +120,13 @@ export default function SmartSortingOverlay({
       <div className="absolute top-0 left-0 right-0 pointer-events-auto">
         <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-b from-slate-950/90 to-transparent">
           <div className="flex items-center gap-2">
-            <div className={cn(
-              "h-2 w-2 rounded-full",
-              modelLoaded ? "bg-emerald-400 animate-pulse" : "bg-amber-400"
-            )} />
-            <span className="text-[10px] font-black uppercase tracking-wider text-white/80">
-              Smart Sort
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/90">
+              Smart Sort Mode
             </span>
             {modelLoaded && (
-              <span className="text-[9px] font-bold text-emerald-400/70 bg-emerald-500/10 px-1.5 py-0.5 rounded">
-                {fps} FPS • {scanCount} scans
+              <span className="text-[8px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded-full flex items-center gap-1">
+                <span className="h-1 w-1 rounded-full bg-emerald-400 animate-pulse" />
+                ACTIVE
               </span>
             )}
           </div>

@@ -392,48 +392,27 @@ export default function Index() {
 
         {/* Main Content - Mobile Optimized */}
         <div className={cn("space-y-mobile", isMobile ? "p-2 space-y-2.5" : "p-2 sm:p-4 space-y-3 sm:space-y-6")}>
-          {/* Welcome Back Section - Mobile Optimized */}
+          {/* Welcome Back Section - Redesigned as a Premium World-Class Workspace Header */}
           <motion.section 
-            className="text-white overflow-hidden relative shadow-xl rounded-xl"
+            className="text-white overflow-hidden relative shadow-xl rounded-3xl border border-white/10 bg-slate-950/15 backdrop-blur-2xl"
             style={{
               background: displayBackground
             }}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
           >
-            {/* Animated background elements */}
-            <motion.div 
-              className="absolute top-0 right-0 w-16 h-16 sm:w-32 sm:h-32 bg-white/10 rounded-full"
-              animate={{ 
-                x: [25, 35, 25],
-                y: [-25, -35, -25],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ duration: 6, repeat: Infinity }}
-            />
-            <motion.div 
-              className="absolute bottom-0 left-0 w-12 h-12 sm:w-24 sm:h-24 bg-white/5 rounded-full"
-              animate={{ 
-                x: [-15, -25, -15],
-                y: [15, 25, 15],
-                scale: [1, 0.9, 1]
-              }}
-              transition={{ duration: 8, repeat: Infinity }}
-            />
+            {/* Elegant glass refraction overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none" />
             
-            <div className={cn("relative z-10 welcome-mobile", isMobile ? "p-2.5" : "p-3 sm:p-6")}>
-              {/* Welcome Header - Mobile Optimized */}
-              <div className={cn("text-center w-full", isMobile ? "mb-2" : "mb-3 sm:mb-4")}>
-                <h3 className={cn("font-semibold welcome-title-mobile", isMobile ? "text-xs" : "text-sm sm:text-xl")}>
-                  {t('welcomeBackUser')}, <span className="text-yellow-300">{displayName}</span>!
-                </h3>
-                <p className={cn("text-white/80 mt-0.5 text-center welcome-subtitle-mobile", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{t('continueImpactMessage')}</p>
-              </div>
-
-              <div className={cn("flex items-start justify-between", isMobile ? "mb-2" : "mb-3 sm:mb-4")}>
-                <div className={cn("flex items-center", isMobile ? "space-x-1.5" : "space-x-2 sm:space-x-4")}>
-                  <div className="relative">
+            <div className={cn("relative z-10 text-left", isMobile ? "p-4 space-y-4" : "p-6 sm:p-8 space-y-6")}>
+              
+              {/* Header Grid: Identity on Left, Stats on Right (Desktop Layout) */}
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                
+                {/* Left Side: Profile Identity */}
+                <div className="flex items-center gap-4 flex-1 min-w-0">
+                  <div className="relative flex-shrink-0">
                     <EnhancedAvatar
                       emoji={displayAvatar}
                       image={getAvatarImage(displayAvatar)}
@@ -444,279 +423,157 @@ export default function Index() {
                       noBackground={true}
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h2 className={cn("font-bold user-name-mobile truncate", isMobile ? "text-xs" : "text-sm sm:text-xl")}>{displayName}</h2>
-                    <p className={cn("text-white/80 user-role-mobile", isMobile ? "text-[10px]" : "text-xs sm:text-sm")}>{t('climateHero')}</p>
-                    <div className={cn("flex items-center text-white/70 user-info-mobile", isMobile ? "space-x-1.5 mt-0.5 text-[9px]" : "space-x-2 sm:space-x-3 mt-1 sm:mt-2 text-xs")}>
-                      <div className="flex items-center truncate">
-                        <MapPin className={cn("mr-0.5 flex-shrink-0", isMobile ? "h-2 w-2" : "h-2 w-2 sm:h-3 sm:w-3")} />
+                  
+                  <div className="space-y-1 flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] font-extrabold uppercase tracking-widest text-white/60">
+                        {t('welcomeBackUser', { defaultValue: 'Welcome Back' })}
+                      </span>
+                    </div>
+                    <h2 className={cn("font-semibold text-white tracking-tight truncate", isMobile ? "text-base" : "text-xl sm:text-2xl")}>
+                      {displayName}
+                    </h2>
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-white/85">
+                      <span className="font-medium bg-white/10 px-2 py-0.5 rounded-md backdrop-blur-sm border border-white/5">
+                        {t('climateHero', { defaultValue: 'Climate Hero' })}
+                      </span>
+                      <div className="flex items-center gap-1 opacity-75">
+                        <MapPin className="h-3 w-3 flex-shrink-0" />
                         <span className="truncate">{USER_DATA.location}</span>
                       </div>
-                      <div className="flex items-center truncate">
-                        <School className={cn("mr-0.5 flex-shrink-0", isMobile ? "h-2 w-2" : "h-2 w-2 sm:h-3 sm:w-3")} />
+                      <div className="flex items-center gap-1 opacity-75">
+                        <School className="h-3 w-3 flex-shrink-0" />
                         <span className="truncate">{USER_DATA.school}</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  className={cn("text-white hover:bg-white/20 p-0 flex-shrink-0", isMobile ? "h-7 w-7" : "h-6 w-6 sm:h-10 sm:w-10")}
-                  onClick={() => setIsSettingsOpen(true)}
-                >
-                  <Settings className={cn(isMobile ? "h-3 w-3" : "h-3 w-3 sm:h-4 sm:w-4")} />
-                </Button>
-              </div>
 
-              {/* Coins and Points - Icon-Focused Creative Design */}
-              <div className={cn("grid grid-cols-2", isMobile ? "gap-1.5 mb-1.5" : "gap-2 sm:gap-4 mb-3 sm:mb-4")}>
-                {/* Eco Coins Card - Golden Theme */}
-                <motion.div 
-                  className={cn(
-                    "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
-                    "bg-white/10 border-white/25 hover:bg-white/15 hover:border-yellow-400/40",
-                    isMobile ? "p-2.5" : "p-3.5 sm:p-5"
-                  )}
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  {/* Decorative glow effect */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
+                {/* Right Side: Quick Stats Bento Cards */}
+                <div className="grid grid-cols-2 gap-3 lg:w-[380px] w-full flex-shrink-0">
                   
-                  <div className="relative z-10 flex items-center justify-between gap-3">
-                    <div className="flex-1 min-w-0 text-left">
-                      <span className={cn(
-                        "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
-                        isMobile ? "text-[8px]" : "text-[10px]"
-                      )}>
+                  {/* Eco Coins Indicator */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3 shadow-sm backdrop-blur-md transition-all hover:bg-white/10 hover:border-white/15">
+                    <div className="space-y-0.5 text-left">
+                      <span className="text-[9px] font-bold text-white/50 block uppercase tracking-wider">
                         {t('ecoCoinsLabel')}
                       </span>
-                      <div className={cn(
-                        "font-extrabold bg-gradient-to-r from-yellow-100 via-yellow-200 to-amber-200 bg-clip-text text-transparent drop-shadow-sm",
-                        isMobile ? "text-sm" : "text-lg sm:text-2xl"
-                      )}>
+                      <div className="text-xl font-bold font-mono tracking-tight text-yellow-300">
                         {displayEcoCoins}
                       </div>
                     </div>
-                    
-                    {/* Icon Container */}
-                    <div className="p-2 rounded-xl bg-yellow-400/10 text-yellow-300 border border-yellow-400/20 shadow-sm flex-shrink-0">
-                      <Coins className={cn(isMobile ? "h-5 w-5" : "h-7 w-7")} />
+                    <div className="p-2 rounded-xl bg-yellow-400/10 text-yellow-300 border border-yellow-400/20 flex-shrink-0">
+                      <Coins className="h-5 w-5" />
                     </div>
                   </div>
-                </motion.div>
 
-                {/* Eco Points Card - Blue/Cyan Theme */}
-                <motion.div 
-                  className={cn(
-                    "relative overflow-hidden rounded-xl border shadow-lg backdrop-blur-md transition-all duration-300",
-                    "bg-white/10 border-white/25 hover:bg-white/15 hover:border-emerald-400/40",
-                    isMobile ? "p-2.5" : "p-3.5 sm:p-5"
-                  )}
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  {/* Decorative glow effect */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
-                  
-                  <div className="relative z-10 flex items-center justify-between gap-3">
-                    <div className="flex-1 min-w-0 text-left">
-                      <span className={cn(
-                        "font-semibold text-white/70 block uppercase tracking-wider mb-0.5",
-                        isMobile ? "text-[8px]" : "text-[10px]"
-                      )}>
+                  {/* Eco Points Indicator */}
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3 shadow-sm backdrop-blur-md transition-all hover:bg-white/10 hover:border-white/15">
+                    <div className="space-y-0.5 text-left">
+                      <span className="text-[9px] font-bold text-white/50 block uppercase tracking-wider">
                         {t('ecoPointsLabel')}
                       </span>
-                      <div className={cn(
-                        "font-extrabold bg-gradient-to-r from-emerald-100 via-emerald-200 to-teal-200 bg-clip-text text-transparent drop-shadow-sm",
-                        isMobile ? "text-sm" : "text-lg sm:text-2xl"
-                      )}>
+                      <div className="text-xl font-bold font-mono tracking-tight text-white">
                         {displayEcoPoints.toLocaleString()}
                       </div>
                     </div>
-                    
-                    {/* Icon Container */}
-                    <div className="p-2 rounded-xl bg-emerald-400/10 text-emerald-200 border border-emerald-400/20 shadow-sm flex-shrink-0">
-                      <Star className={cn("text-emerald-200 fill-emerald-200/20", isMobile ? "h-5 w-5" : "h-7 w-7")} />
+                    <div className="p-2 rounded-xl bg-emerald-450/10 text-emerald-300 border border-emerald-450/20 flex-shrink-0">
+                      <Star className="text-emerald-350 fill-emerald-350/20 h-5 w-5" />
                     </div>
                   </div>
-                </motion.div>
+
+                </div>
+
+                {/* Top Corner Config Settings Button */}
+                <Button 
+                  variant="ghost" 
+                  className="absolute top-4 right-4 text-white/60 hover:text-white hover:bg-white/10 p-2 rounded-xl h-9 w-9 flex-shrink-0 border border-white/5 backdrop-blur-sm"
+                  onClick={() => setIsSettingsOpen(true)}
+                >
+                  <Settings className="h-4 w-4" />
+                </Button>
+
               </div>
 
-              {/* Level Progress - Connected to Profile Page */}
+              {/* Bottom Row: Level Progress Card */}
               <Link to="/profile" className="block">
                 <motion.div 
-                  className={cn(
-                    "bg-white/10 backdrop-blur-md rounded-xl text-white border border-white/20 shadow-lg cursor-pointer",
-                    isMobile ? "p-2" : "p-4"
-                  )}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/15 backdrop-blur-md rounded-2xl p-5 shadow-lg cursor-pointer transition-all space-y-4"
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.99 }}
                 >
-                  <div className={cn(
-                    "flex flex-col sm:flex-row sm:items-center sm:justify-between",
-                    isMobile ? "mb-1.5" : "mb-4"
-                  )}>
-                    <div className={cn("flex items-center flex-1", isMobile ? "mb-1.5" : "mb-3 sm:mb-0")}>
-                      <motion.div 
-                        className={cn("flex items-center justify-center", isMobile ? "mr-1.5" : "mr-3")}
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.6 }}
-                      >
-                        <Trophy className={cn(
-                          "text-yellow-300",
-                          isMobile ? "h-5 w-5" : "h-6 w-6"
-                        )} />
-                      </motion.div>
-                      <div className="min-w-0 flex-1">
-                        <div className={cn("flex items-center justify-between", isMobile ? "mb-0.5" : "mb-1")}>
-                          <p className={cn(
-                            "opacity-90 font-medium",
-                            isMobile ? "text-[10px] leading-tight" : "text-sm"
-                          )}>
-                            {t('levelFifteen')} {currentLevel}
-                          </p>
-                          <Badge className={cn(
-                            "bg-gradient-to-r from-white/20 to-white/10 text-white border-white/30 backdrop-blur-sm shadow-lg",
-                            isMobile ? "text-[9px] px-1.5 py-0.5" : "text-xs px-3 py-1.5"
-                          )}>
-                            <Sparkles className={cn(isMobile ? "h-2 w-2 mr-0.5" : "h-3 w-3 mr-1")} />
-                            {displayEcoPoints.toLocaleString()} {t('pts', { ns: 'profile' })}
-                          </Badge>
-                        </div>
-                        <p className={cn(
-                          "font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent",
-                          isMobile ? "text-xs leading-tight" : "text-base"
-                        )}>
-                          {t('sustainabilityExpert')}
-                        </p>
+                  {/* Progress Header Info */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-yellow-400/10 text-yellow-300 border border-yellow-400/20 flex-shrink-0">
+                        <Trophy className="h-4 w-4" />
                       </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-semibold text-white">
+                            {t('levelFifteen', { defaultValue: 'Level' })} {currentLevel}
+                          </span>
+                          <span className="text-[9px] font-bold bg-white/10 text-white/80 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                            {t('sustainabilityExpert', { defaultValue: 'Sustainability Expert' })}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 self-start sm:self-auto">
+                      <Sparkles className="h-3 w-3 text-yellow-300" />
+                      <span className="text-xs font-bold font-mono tracking-tight">
+                        {displayEcoPoints.toLocaleString()} {t('pts', { ns: 'profile' })}
+                      </span>
                     </div>
                   </div>
                   
-                  <div className={cn(isMobile ? "space-y-1" : "space-y-3")}>
-                    <div className={cn(
-                      "flex justify-between opacity-90 font-medium",
-                      isMobile ? "text-[9px] leading-tight" : "text-xs"
-                    )}>
-                      <span className="truncate mr-1">Progress to Level {currentLevel + 1}</span>
-                      <span className="flex-shrink-0">{Math.round(levelProgress)}%</span>
-                    </div>
+                  {/* Progress Bar Container */}
+                  <div className="space-y-1.5">
                     
-                    {/* Elegant Liquid Wave Progress Bar - Same as Profile Page */}
-                    <div className="relative">
-                      {/* Glassmorphism Track Background */}
-                      <div className={cn(
-                        "relative rounded-full overflow-hidden",
-                        "bg-white/5 backdrop-blur-sm border border-white/10",
-                        isMobile ? "h-2.5" : "h-4"
-                      )}
-                      style={{
-                        boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.1), 0 1px 3px rgba(0,0,0,0.1)',
-                      }}
+                    {/* Track */}
+                    <div className="relative rounded-full overflow-hidden h-3 bg-white/5 border border-white/10 shadow-inner">
+                      {/* Fluid Emerald/Teal Progress Fill */}
+                      <motion.div
+                        className="h-full rounded-full relative"
+                        variants={progressVariants}
+                        initial="initial"
+                        animate="animate"
+                        custom={levelProgress}
+                        style={{
+                          background: `linear-gradient(90deg, #34d399 0%, #2dd4bf 50%, #06b6d4 100%)`,
+                          boxShadow: '0 0 8px rgba(45, 212, 191, 0.4)'
+                        }}
                       >
-                        {/* Progress Fill with Liquid Wave Effect */}
+                        {/* Shimmer overlay wave */}
                         <motion.div
-                          className="relative h-full rounded-full overflow-hidden"
-                          variants={progressVariants}
-                          initial="initial"
-                          animate="animate"
-                          custom={levelProgress}
-                          style={{
-                            background: `linear-gradient(90deg, 
-                              #facc15 0%,
-                              #fb923c ${levelProgress * 0.5}%,
-                              #f87171 ${levelProgress}%
-                            )`,
-                            filter: `drop-shadow(0 0 ${2 + (levelProgress / 100) * 4}px rgba(251, 146, 60, 0.6))`,
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                          animate={{
+                            x: ['-100%', '100%'],
                           }}
-                        >
-                          {/* Animated Liquid Wave Layer 1 */}
-                          <motion.div
-                            className="absolute inset-0"
-                            style={{
-                              background: `linear-gradient(90deg, 
-                                transparent 0%,
-                                rgba(255, 255, 255, 0.3) 30%,
-                                rgba(255, 255, 255, 0.5) 50%,
-                                rgba(255, 255, 255, 0.3) 70%,
-                                transparent 100%
-                              )`,
-                              clipPath: `polygon(0% 0%, ${levelProgress}% 0%, ${levelProgress}% 100%, 0% 100%)`,
-                            }}
-                            animate={{
-                              x: ['-100%', '100%'],
-                            }}
-                            transition={{
-                              duration: 3,
-                              repeat: Infinity,
-                              ease: "linear",
-                              repeatDelay: 0
-                            }}
-                          />
-                          
-                          {/* Animated Liquid Wave Layer 2 - slower */}
-                          <motion.div
-                            className="absolute inset-0"
-                            style={{
-                              background: `linear-gradient(90deg, 
-                                transparent 0%,
-                                rgba(255, 255, 255, 0.2) 40%,
-                                rgba(255, 255, 255, 0.4) 60%,
-                                rgba(255, 255, 255, 0.2) 80%,
-                                transparent 100%
-                              )`,
-                              clipPath: `polygon(0% 0%, ${levelProgress}% 0%, ${levelProgress}% 100%, 0% 100%)`,
-                            }}
-                            animate={{
-                              x: ['-100%', '100%'],
-                            }}
-                            transition={{
-                              duration: 4,
-                              repeat: Infinity,
-                              ease: "linear",
-                              repeatDelay: 0.5
-                            }}
-                          />
-                          
-                          {/* Shimmer Effect at Progress Edge */}
-                          <motion.div
-                            className="absolute top-0 bottom-0 right-0"
-                            style={{
-                              width: '20px',
-                              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)',
-                              filter: 'blur(4px)',
-                              left: `${levelProgress}%`,
-                              transform: 'translateX(-50%)',
-                            }}
-                            animate={{
-                              opacity: [0.3, 0.8, 0.3],
-                              scaleX: [0.8, 1.2, 0.8],
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
-                        </motion.div>
-                      </div>
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear"
+                          }}
+                        />
+                      </motion.div>
                     </div>
-                    
-                    <motion.p 
-                      className={cn(
-                        "opacity-80 font-medium",
-                        isMobile ? "text-[9px] leading-tight mt-0.5" : "text-xs mt-1"
-                      )}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1 }}
-                    >
-                      <span className="text-yellow-200">{pointsToNext}</span> points to next level
-                    </motion.p>
+
+                    {/* Footer Labels */}
+                    <div className="flex justify-between items-baseline text-[10px] text-white/60 font-medium">
+                      <span>
+                        <span className="text-yellow-200 font-bold">{pointsToNext}</span> points to Level {currentLevel + 1}
+                      </span>
+                      <span className="font-semibold text-white/85">
+                        {Math.round(levelProgress)}% Complete
+                      </span>
+                    </div>
+
                   </div>
                 </motion.div>
               </Link>
+
             </div>
           </motion.section>
 
@@ -751,7 +608,7 @@ export default function Index() {
                     </div>
                   </div>
                   <div className={cn("flex-1 flex flex-col", isMobile ? "space-y-0.5" : "space-y-0.5 sm:space-y-1")}>
-                    <p className={cn("font-bold text-gray-900 leading-tight impact-value-mobile", isMobile ? "text-sm" : "text-lg sm:text-xl")}>2.5Kkg</p>
+                    <p className={cn("font-bold text-gray-900 leading-tight impact-value-mobile", isMobile ? "text-sm" : "text-lg sm:text-xl")}>2,500 kg</p>
                     <p className={cn("font-medium text-gray-700 leading-tight break-words hyphens-auto impact-title-mobile", isMobile ? "text-[10px]" : "text-xs")}>{t('plasticRubberRecycledTitle')}</p>
                     <p className={cn("text-gray-500 leading-relaxed break-words hyphens-auto mt-auto impact-description-mobile", isMobile ? "text-[9px]" : "text-xs")}>{t('transformedIntoEcoTiles')}</p>
                   </div>

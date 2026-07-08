@@ -36,12 +36,12 @@ interface AvatarSelectorProps {
 
 // Mock user progress data - in real app this would come from props or context
 const USER_PROGRESS = {
-  level: 8,
-  coins: 1250,
-  wasteCollected: 47.3,
+  level: 15,
+  ecoCoins: 250,
+  wasteCollected: 85.5,
   eventsAttended: 12,
-  badgesEarned: 6,
-  referrals: 3
+  badgesEarned: 8,
+  referrals: 5
 };
 
 const AVATARS: Avatar[] = [

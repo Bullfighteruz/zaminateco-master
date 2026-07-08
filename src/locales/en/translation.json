@@ -1165,6 +1165,35 @@
       "Textile": "Textile",
       "Mixed": "Mixed",
       "Unknown": "Unknown"
+    },
+    "gpsSuccess": "GPS match verified. Rewards instantly credited!",
+    "gpsWarning": "GPS mismatch: marked as Pending verification.",
+    "gpsPassed": "GPS Verification: Passed",
+    "gpsMismatch": "GPS Verification: Mismatch",
+    "items": {
+      "Unidentifieditem": "Unidentified item",
+      "Plasticwaste": "Plastic waste",
+      "Metalwaste": "Metal waste",
+      "Glasswaste": "Glass waste",
+      "Paperwaste": "Paper waste",
+      "Rubberwaste": "Rubber waste",
+      "Organicwaste": "Organic waste",
+      "E-wastewaste": "E-waste",
+      "Textilewaste": "Textile waste",
+      "Mixedwaste": "Mixed waste",
+      "Unknownwaste": "Unknown waste"
+    },
+    "instructions": {
+      "Plastic": "Rinse containers, remove caps, flatten bottles. Remove labels if possible.",
+      "Metal": "Rinse cans, remove labels. Flatten aluminum cans. Separate ferrous and non-ferrous.",
+      "Glass": "Rinse thoroughly. Separate by color (clear, green, brown). Remove lids and caps.",
+      "Paper": "Keep dry and clean. Flatten cardboard boxes. Remove plastic windows from envelopes.",
+      "Rubber": "Separate tires from rims. Clean rubber items. Remove non-rubber parts.",
+      "Organic": "Compostable waste only. Remove packaging. Cut large pieces for faster decomposition.",
+      "E-waste": "Remove batteries separately. Do not break screens. Bring to designated e-waste points.",
+      "Textile": "Wash and dry items. Separate wearable from non-wearable. Bundle with string.",
+      "Mixed": "Needs manual sorting. Separate different material types before recycling.",
+      "Unknown": "Cannot identify material. Please bring to an EcoPoint for manual assessment."
     }
   },
   "ai": {
@@ -1177,6 +1206,7 @@
     "tagUpcoming": "Upcoming AI features",
     "tagPrototype": "Prototype Logic",
     "tagDesign": "Designed for Next EcoApp Version",
+    "tagLive": "Ready & Live",
     "disclaimer": "ZAMINAT AI Core is designed to become the intelligence layer of our Waste-to-Life ecosystem — helping identify recyclable materials, guide citizens, verify reports, calculate impact and support future production planning.",
     "trustTitle": "Scalable Infrastructure Planning",
     "pitchTitle": "AI-Powered Waste-to-Life Infrastructure",
@@ -1186,11 +1216,11 @@
     "features": {
       "ecoscan": {
         "title": "AI EcoScan",
-        "desc": "Recognizes plastic, rubber and recyclable materials from photos using computer vision. Instantly classifies waste type, estimates weight, and shows the nearest collection point with estimated Eco Coin rewards."
+        "desc": "Ready-to-use computer vision system that instantly identifies plastic, rubber and other recyclables from photos. Classifies waste type, estimates volume, and maps nearest collection routes with live Eco Coin rewards."
       },
       "ecocoach": {
-        "title": "AI EcoCoach",
-        "desc": "A multilingual AI assistant that guides citizens in Uzbek, Russian and English. Answers sorting questions, recommends nearby EcoPoints, and provides personalized recycling tips based on your location and activity history."
+        "title": "ZAMI AI Advisor",
+        "desc": "An advanced multilingual AI assistant that guides citizens in Uzbek, Russian, and English. Fully ready to use and integrated with AI EcoScan: answers recycling queries, recommends collection points, and provides customized ecological tips."
       },
       "impact": {
         "title": "AI Impact Engine",
@@ -1213,7 +1243,7 @@
       "citizen": {
         "title": "Citizen Layer",
         "desc": "Enables user-friendly waste recognition and guidance.",
-        "items": ["AI EcoCoach Assistant", "EcoScan Image Scanner", "Personalized Green Activities"]
+        "items": ["ZAMI AI Advisor", "AI EcoScan Scanner", "Personalized Green Activities"]
       },
       "trust": {
         "title": "Trust Layer",
@@ -1229,7 +1259,7 @@
     "roadmap": {
       "phase1": {
         "title": "Phase 1 — MVP Intelligence",
-        "items": ["AI EcoCoach conversational guidance", "EcoScan prototype recognition", "Impact calculator algorithms", "Automated report templates"]
+        "items": ["ZAMI AI Advisor conversational guidance", "AI EcoScan real-time recognition", "Impact calculator algorithms", "Automated report templates"]
       },
       "phase2": {
         "title": "Phase 2 — Trust & Engagement",
@@ -1265,8 +1295,8 @@
       "accuracySub": "Material Recognition"
     },
     "pitchModules": {
-      "ecoscan": { "desc": "Computer vision material recognition — classifies waste type, estimates weight, and maps to nearest collection point." },
-      "ecocoach": { "desc": "Multilingual AI assistant (UZ/RU/EN) — answers sorting questions, recommends EcoPoints, provides personalized guidance." },
+      "ecoscan": { "desc": "Ready-to-use computer vision recognition — instantly classifies waste types, predicts weight, and identifies nearby collection points." },
+      "ecocoach": { "desc": "Production-ready multilingual AI advisor (UZ/RU/EN) — provides sorting guides, EcoPoint navigation, and custom action planning." },
       "impact": { "desc": "Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value." },
       "fraud": { "desc": "Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions." },
       "kids": { "desc": "Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood." },

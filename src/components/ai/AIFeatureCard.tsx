@@ -9,7 +9,7 @@ interface AIFeatureCardProps {
   title: string;
   description: string;
   icon: LucideIcon;
-  badgeKey: 'tagConcept' | 'tagPlanned' | 'tagUpcoming' | 'tagPrototype' | 'tagDesign';
+  badgeKey: 'tagConcept' | 'tagPlanned' | 'tagUpcoming' | 'tagPrototype' | 'tagDesign' | 'tagLive';
   index: number;
   isActive?: boolean;
   launchPath?: string;
