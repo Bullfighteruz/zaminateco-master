@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 
-const SOURCE_LOGO = path.resolve('public/images/Logo.webp');
+const SOURCE_LOGO = path.resolve('public/logo.webp');
 const PUBLIC_DIR = path.resolve('public');
 
 console.log('Source Logo path:', SOURCE_LOGO);
