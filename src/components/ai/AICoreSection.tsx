@@ -85,9 +85,9 @@ export default function AICoreSection() {
         <CardContent className={cn("relative z-10", isMobile ? "p-3 space-y-4" : "p-6 lg:p-8 space-y-5")}>
           
           {/* ─── HERO ZONE: Header + Phone + Feature Cards ─── */}
-          <div className={cn("grid gap-5", isMobile ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-12 lg:gap-6")}>
+          <div className={cn("grid gap-5 items-start", isMobile ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-12 lg:gap-6")}>
             
-            {/* LEFT COLUMN — stretches to match phone height, grouped with professional vertical gaps */}
+            {/* LEFT COLUMN — fits naturally to content, grouped with professional vertical gaps */}
             <div className="lg:col-span-7 text-left flex flex-col justify-start gap-4 sm:gap-6">
 
               {/* TOP: Section Header + CTAs */}
@@ -155,9 +155,9 @@ export default function AICoreSection() {
                 </div>
               </div>
 
-              {/* BOTTOM: Disclaimer — pushed to bottom of left column dynamically */}
+              {/* BOTTOM: Disclaimer — sits naturally next to feature grid */}
               <p className={cn(
-                "text-slate-400 leading-relaxed mt-auto pt-4 border-t border-slate-100/50",
+                "text-slate-400 leading-relaxed mt-2 pt-4 border-t border-slate-100/50",
                 isMobile ? "text-[9px]" : "text-[11px]"
               )}>
                 {t('ai.disclaimer')}
