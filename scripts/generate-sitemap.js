@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const BASE_URL = 'https://zaminat.eco';
+const BASE_URL = 'https://zaminat.uz';
 const OUTPUT_FILE = path.join(__dirname, '..', 'public', 'sitemap.xml');
 
 // Static pages with their priorities and change frequencies

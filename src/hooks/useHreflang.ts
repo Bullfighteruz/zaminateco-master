@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const SUPPORTED_LANGUAGES = ['en', 'ru', 'uz'] as const;
-const BASE_URL = 'https://zaminat.eco';
+const BASE_URL = 'https://zaminat.uz';
 
 /**
  * Generate hreflang URL based on routing structure
