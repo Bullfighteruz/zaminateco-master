@@ -488,7 +488,7 @@ export default function FloatingCoachWidget() {
             <img
               src="/images/ai-screens/Zami-bot-avatar.jpg"
               alt="Zami Bot"
-              className="h-14 w-14 rounded-full object-cover ring-2 ring-white/80 shadow-lg"
+              className="h-14 w-14 rounded-full object-cover border-2 border-white/80 shadow-lg"
             />
           )}
         </button>
