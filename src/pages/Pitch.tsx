@@ -1029,14 +1029,15 @@ export default function Pitch() {
                 </h3>
                 <div className={cn("grid gap-3", isMobile ? "grid-cols-1" : "grid-cols-2")}>
                   {[
-                    { icon: Camera, titleKey: 'ai.features.ecoscan.title', descKey: 'ai.pitchModules.ecoscan.desc', status: 'Prototype', color: 'emerald' },
-                    { icon: MessageSquare, titleKey: 'ai.features.ecocoach.title', descKey: 'ai.pitchModules.ecocoach.desc', status: 'Concept', color: 'blue' },
+                    { icon: Camera, titleKey: 'ai.features.ecoscan.title', descKey: 'ai.pitchModules.ecoscan.desc', status: 'Live', color: 'green' },
+                    { icon: MessageSquare, titleKey: 'ai.features.ecocoach.title', descKey: 'ai.pitchModules.ecocoach.desc', status: 'Live', color: 'green' },
                     { icon: Cpu, titleKey: 'ai.features.impact.title', descKey: 'ai.pitchModules.impact.desc', status: 'Prototype', color: 'emerald' },
                     { icon: ShieldCheck, titleKey: 'ai.features.fraud.title', descKey: 'ai.pitchModules.fraud.desc', status: 'Upcoming', color: 'amber' },
                     { icon: Smile, titleKey: 'ai.features.kids.title', descKey: 'ai.pitchModules.kids.desc', status: 'Design', color: 'violet' },
                     { icon: Factory, titleKey: 'ai.features.planner.title', descKey: 'ai.pitchModules.planner.desc', status: 'Planned', color: 'slate' },
                   ].map((module, idx) => {
                     const statusColors: Record<string, string> = {
+                      'Live': 'bg-green-600',
                       'Prototype': 'bg-emerald-500',
                       'Concept': 'bg-blue-500',
                       'Upcoming': 'bg-amber-500',

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import Layout from '@/components/Layout';
 import { getEcoCoachResponse } from '@/lib/gemini';
 import { loadUserProgress } from '@/lib/userProgress';
+import { getAvatarImage } from '@/lib/avatarImages';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
@@ -30,7 +31,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
   const flushList = () => {
     if (listItems.length > 0) {
       elements.push(
-        <ul key={`ul-${elements.length}`} className="space-y-1 my-1.5 pl-0.5">
+        <ul key={`ul-${elements.length}`} className="space-y-1.5 my-2 pl-4 list-disc text-slate-200">
           {listItems}
         </ul>
       );
@@ -39,10 +40,30 @@ function renderMarkdown(text: string): React.ReactNode[] {
   };
 
   const renderInline = (content: string, lineIdx: number): React.ReactNode[] => {
-    const parts = content.split(/(\*\*[^*]+\*\*)/g);
+    const regex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g;
+    const parts = content.split(regex);
+    
     return parts.map((part, i) => {
+      if (part.startsWith('***') && part.endsWith('***')) {
+        return (
+          <strong key={`${lineIdx}-bi-${i}`} className="font-extrabold italic text-white">
+            {part.slice(3, -3).replace(/\*/g, '')}
+          </strong>
+        );
+      }
       if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={`${lineIdx}-b-${i}`} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
+        return (
+          <strong key={`${lineIdx}-b-${i}`} className="font-bold text-white">
+            {part.slice(2, -2).replace(/\*/g, '')}
+          </strong>
+        );
+      }
+      if (part.startsWith('*') && part.endsWith('*')) {
+        return (
+          <em key={`${lineIdx}-i-${i}`} className="italic text-slate-300">
+            {part.slice(1, -1)}
+          </em>
+        );
       }
       return <span key={`${lineIdx}-t-${i}`}>{part}</span>;
     });
@@ -51,12 +72,17 @@ function renderMarkdown(text: string): React.ReactNode[] {
   lines.forEach((line, lineIdx) => {
     const trimmed = line.trim();
 
-    // Heading lines (### or ##)
+    if (trimmed === '---') {
+      flushList();
+      elements.push(<hr key={`hr-${lineIdx}`} className="my-3 border-white/10" />);
+      return;
+    }
+
     if (trimmed.startsWith('### ')) {
       flushList();
       elements.push(
-        <h4 key={`h-${lineIdx}`} className="text-[13px] font-bold text-emerald-300 mt-3 mb-1 tracking-wide">
-          {trimmed.slice(4)}
+        <h4 key={`h-${lineIdx}`} className="text-xs font-black text-emerald-300 mt-3 mb-1.5 tracking-wider uppercase">
+          {renderInline(trimmed.slice(4), lineIdx)}
         </h4>
       );
       return;
@@ -64,49 +90,53 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (trimmed.startsWith('## ')) {
       flushList();
       elements.push(
-        <h3 key={`h-${lineIdx}`} className="text-sm font-bold text-emerald-200 mt-3 mb-1">
-          {trimmed.slice(3)}
+        <h3 key={`h-${lineIdx}`} className="text-sm font-black text-emerald-200 mt-4 mb-2 tracking-wide">
+          {renderInline(trimmed.slice(3), lineIdx)}
         </h3>
       );
       return;
     }
+    if (trimmed.startsWith('# ')) {
+      flushList();
+      elements.push(
+        <h2 key={`h-${lineIdx}`} className="text-base font-black text-white mt-4 mb-2 tracking-wide">
+          {renderInline(trimmed.slice(2), lineIdx)}
+        </h2>
+      );
+      return;
+    }
 
-    // Bullet lines
     const bulletMatch = trimmed.match(/^[-•*]\s+(.*)/);
     if (bulletMatch) {
       listItems.push(
-        <li key={`li-${lineIdx}`} className="flex items-start gap-2 text-slate-200">
-          <span className="text-emerald-400/70 mt-[3px] text-[10px] select-none">●</span>
-          <span className="flex-1">{renderInline(bulletMatch[1], lineIdx)}</span>
+        <li key={`li-${lineIdx}`} className="text-slate-200 leading-relaxed text-left">
+          {renderInline(bulletMatch[1], lineIdx)}
         </li>
       );
       return;
     }
 
-    // Numbered lines (e.g. "1. Something")
     const numMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
     if (numMatch) {
       flushList();
       elements.push(
-        <div key={`num-${lineIdx}`} className="flex items-start gap-2 my-0.5 text-slate-200">
-          <span className="text-emerald-400/60 text-[11px] font-bold mt-[2px] min-w-[16px]">{numMatch[1]}.</span>
-          <span className="flex-1">{renderInline(numMatch[2], lineIdx)}</span>
+        <div key={`num-${lineIdx}`} className="flex items-start gap-2 my-1 text-slate-200">
+          <span className="text-emerald-400 font-extrabold text-xs mt-[1px] min-w-[16px]">{numMatch[1]}.</span>
+          <span className="flex-1 text-left">{renderInline(numMatch[2], lineIdx)}</span>
         </div>
       );
       return;
     }
 
-    // Empty line
     if (!trimmed) {
       flushList();
-      elements.push(<div key={`sp-${lineIdx}`} className="h-1.5" />);
+      elements.push(<div key={`sp-${lineIdx}`} className="h-2" />);
       return;
     }
 
-    // Regular paragraph
     flushList();
     elements.push(
-      <p key={`p-${lineIdx}`} className="text-slate-200 my-0.5">
+      <p key={`p-${lineIdx}`} className="text-slate-200 my-1 text-left">
         {renderInline(trimmed, lineIdx)}
       </p>
     );
@@ -145,6 +175,17 @@ function saveCoachMessages(messages: Message[]) {
 export default function EcoCoach() {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
+  
+  const [userProgress, setUserProgress] = useState(() => loadUserProgress());
+
+  // Listen to local progress updates
+  useEffect(() => {
+    const handleUpdate = () => {
+      setUserProgress(loadUserProgress());
+    };
+    window.addEventListener('userProgressUpdated', handleUpdate);
+    return () => window.removeEventListener('userProgressUpdated', handleUpdate);
+  }, []);
 
   const getWelcomeText = (lang: string) =>
     lang === 'uz'
@@ -354,10 +395,20 @@ export default function EcoCoach() {
 
                   {/* User avatar placeholder */}
                   {message.role === 'user' && (
-                    <div className="h-7 w-7 rounded-full bg-emerald-600/20 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 mb-5">
-                      <span className="text-[10px] font-bold text-emerald-400">
-                        {(user?.displayName || 'U').charAt(0).toUpperCase()}
-                      </span>
+                    <div className="h-7 w-7 rounded-full overflow-hidden flex-shrink-0 mb-5 flex items-center justify-center">
+                      {userProgress?.activeAvatar && getAvatarImage(userProgress.activeAvatar) ? (
+                        <img 
+                          src={getAvatarImage(userProgress.activeAvatar)} 
+                          alt="User Avatar" 
+                          className="h-full w-full object-cover" 
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-emerald-600/20 border border-emerald-500/20 flex items-center justify-center rounded-full">
+                          <span className="text-[10px] font-bold text-emerald-400">
+                            {(userProgress?.name || user?.displayName || 'U').charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </motion.div>

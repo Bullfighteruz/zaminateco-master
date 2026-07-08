@@ -17,42 +17,127 @@ interface Message {
 
 const STORAGE_KEY = 'zami_bot_chat';
 
-/** Parse simple markdown (bold, bullet points, line breaks) into React elements */
+/** Parse simple markdown (bold, bullet points, headers, lists) into React elements */
 function renderMarkdown(text: string): React.ReactNode[] {
   const lines = text.split('\n');
   const elements: React.ReactNode[] = [];
+  let listItems: React.ReactNode[] = [];
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      elements.push(
+        <ul key={`ul-${elements.length}`} className="space-y-1.5 my-2 pl-4 list-disc text-slate-200">
+          {listItems}
+        </ul>
+      );
+      listItems = [];
+    }
+  };
+
+  const renderInline = (content: string, lineIdx: number): React.ReactNode[] => {
+    const regex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g;
+    const parts = content.split(regex);
+    
+    return parts.map((part, i) => {
+      if (part.startsWith('***') && part.endsWith('***')) {
+        return (
+          <strong key={`${lineIdx}-bi-${i}`} className="font-extrabold italic text-white">
+            {part.slice(3, -3).replace(/\*/g, '')}
+          </strong>
+        );
+      }
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={`${lineIdx}-b-${i}`} className="font-bold text-white">
+            {part.slice(2, -2).replace(/\*/g, '')}
+          </strong>
+        );
+      }
+      if (part.startsWith('*') && part.endsWith('*')) {
+        return (
+          <em key={`${lineIdx}-i-${i}`} className="italic text-slate-300">
+            {part.slice(1, -1)}
+          </em>
+        );
+      }
+      return <span key={`${lineIdx}-t-${i}`}>{part}</span>;
+    });
+  };
 
   lines.forEach((line, lineIdx) => {
-    if (lineIdx > 0) {
-      elements.push(<br key={`br-${lineIdx}`} />);
+    const trimmed = line.trim();
+
+    if (trimmed === '---') {
+      flushList();
+      elements.push(<hr key={`hr-${lineIdx}`} className="my-3 border-white/10" />);
+      return;
     }
 
-    // Detect bullet lines
-    const bulletMatch = line.match(/^(\s*[-•*]\s+)(.*)/);
-    const content = bulletMatch ? bulletMatch[2] : line;
-    const isBullet = !!bulletMatch;
-
-    // Split by **bold** markers
-    const parts = content.split(/(\*\*[^*]+\*\*)/g);
-    const rendered = parts.map((part, partIdx) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={`${lineIdx}-${partIdx}`} className="font-semibold">{part.slice(2, -2)}</strong>;
-      }
-      return <span key={`${lineIdx}-${partIdx}`}>{part}</span>;
-    });
-
-    if (isBullet) {
+    if (trimmed.startsWith('### ')) {
+      flushList();
       elements.push(
-        <span key={`bullet-${lineIdx}`} className="flex items-start gap-1.5 mt-0.5">
-          <span className="text-emerald-400 mt-px select-none">•</span>
-          <span>{rendered}</span>
-        </span>
+        <h4 key={`h-${lineIdx}`} className="text-xs font-black text-emerald-300 mt-3 mb-1.5 tracking-wider uppercase">
+          {renderInline(trimmed.slice(4), lineIdx)}
+        </h4>
       );
-    } else {
-      elements.push(...rendered);
+      return;
     }
+    if (trimmed.startsWith('## ')) {
+      flushList();
+      elements.push(
+        <h3 key={`h-${lineIdx}`} className="text-sm font-black text-emerald-200 mt-4 mb-2 tracking-wide">
+          {renderInline(trimmed.slice(3), lineIdx)}
+        </h3>
+      );
+      return;
+    }
+    if (trimmed.startsWith('# ')) {
+      flushList();
+      elements.push(
+        <h2 key={`h-${lineIdx}`} className="text-base font-black text-white mt-4 mb-2 tracking-wide">
+          {renderInline(trimmed.slice(2), lineIdx)}
+        </h2>
+      );
+      return;
+    }
+
+    const bulletMatch = trimmed.match(/^[-•*]\s+(.*)/);
+    if (bulletMatch) {
+      listItems.push(
+        <li key={`li-${lineIdx}`} className="text-slate-200 leading-relaxed text-left">
+          {renderInline(bulletMatch[1], lineIdx)}
+        </li>
+      );
+      return;
+    }
+
+    const numMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
+    if (numMatch) {
+      flushList();
+      elements.push(
+        <div key={`num-${lineIdx}`} className="flex items-start gap-2 my-1 text-slate-200">
+          <span className="text-emerald-400 font-extrabold text-xs mt-[1px] min-w-[16px]">{numMatch[1]}.</span>
+          <span className="flex-1 text-left">{renderInline(numMatch[2], lineIdx)}</span>
+        </div>
+      );
+      return;
+    }
+
+    if (!trimmed) {
+      flushList();
+      elements.push(<div key={`sp-${lineIdx}`} className="h-2" />);
+      return;
+    }
+
+    flushList();
+    elements.push(
+      <p key={`p-${lineIdx}`} className="text-slate-200 my-1 text-left">
+        {renderInline(trimmed, lineIdx)}
+      </p>
+    );
   });
 
+  flushList();
   return elements;
 }
 
@@ -293,7 +378,7 @@ export default function FloatingCoachWidget() {
                   <div className={cn(
                     "max-w-[80%] rounded-xl px-3 py-2 text-xs leading-relaxed shadow",
                     m.role === 'user'
-                      ? "bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-tr-none text-right font-medium"
+                      ? "bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-tr-none text-left font-medium"
                       : "bg-slate-950 border border-white/5 text-slate-100 rounded-tl-none text-left"
                   )}>
                     {m.role === 'model' ? renderMarkdown(m.text) : m.text}

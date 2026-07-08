@@ -1165,6 +1165,35 @@
       "Textile": "To'qimachilik",
       "Mixed": "Aralash",
       "Unknown": "Noma'lum"
+    },
+    "gpsSuccess": "GPS tekshiruvi: Muvaffaqiyatli yakunlandi. Mukofotlar hisoblandi!",
+    "gpsWarning": "GPS nomuvofiqligi: tekshirish tasdiqlanishi kutilmoqda deb belgilandi.",
+    "gpsPassed": "GPS tekshiruvi: O'tildi",
+    "gpsMismatch": "GPS tekshiruvi: Nomuvofiqlik",
+    "items": {
+      "Unidentifieditem": "Noma'lum buyum",
+      "Plasticwaste": "Plastik chiqindilar",
+      "Metalwaste": "Metall chiqindilar",
+      "Glasswaste": "Shisha chiqindilar",
+      "Paperwaste": "Qog'oz chiqindilar",
+      "Rubberwaste": "Rezina chiqindilar",
+      "Organicwaste": "Organik chiqindilar",
+      "E-wastewaste": "Elektron chiqindilar",
+      "Textilewaste": "To'qimachilik chiqindilari",
+      "Mixedwaste": "Aralash chiqindilar",
+      "Unknownwaste": "Noma'lum chiqindilar"
+    },
+    "instructions": {
+      "Plastic": "Idishlarni yuving, qopqoqlarni echib, shishalarni ezib tashlang. Iloji bo'lsa yorliqlarni olib tashlang.",
+      "Metal": "Bonkalarni yuving va yorliqlarni olib tashlang. Alyuminiy bonkalarni ezing. Qora va rangli metallarni ajrating.",
+      "Glass": "Yaxshilab yuving. Rangiga qarab ajrating (tiniq, yashil, jigarrang). Qopqoqlarni echib oling.",
+      "Paper": "Quruq va toza holda saqlang. Karton qutilarni tekislang. Konvertlardan plastik oynachalarni olib tashlang.",
+      "Rubber": "Shinalarni disklardan ajrating. Rezina buyumlarni tozalang. Rezina bo'lmagan qismlarni olib tashlang.",
+      "Organic": "Faqat kompost qilinadigan chiqindilar. Qadoqlarni olib tashlang. Tezroq parchalanishi uchun katta qismlarni maydalang.",
+      "E-waste": "Batareyalarni alohida ajrating. Ekranlarni sindirmang. Elektron chiqindilarni maxsus qabul qilish punktlariga olib boring.",
+      "Textile": "Kiyimlarni yuving va quriting. Kiyishga yaroqlilari va yaroqsizlarini ajrating. Ip bilan bog'lang.",
+      "Mixed": "Qo'lda saralash talab qilinadi. Qayta ishlashdan oldin turli xil materiallarni ajrating.",
+      "Unknown": "Materialni aniqlab bo'lmadi. Iltimos, qo'lda baholash uchun EcoPoint-ga olib boring."
     }
   },
   "ai": {
@@ -1177,6 +1206,7 @@
     "tagUpcoming": "Kelgusi SI funksiyalari",
     "tagPrototype": "Prototip mantiqi",
     "tagDesign": "EcoApp keyingi versiyasi uchun mo'ljallangan",
+    "tagLive": "Tayyor va faol",
     "disclaimer": "ZAMINAT AI Core bizning Chiqindi-Hayotga ekotizimimizning intellektual yadrosi bo'lishi uchun mo'ljallangan — u qayta ishlanadigan materiallarni aniqlashga, fuqarolarga yo'l ko'rsatishga, hisobotlarni tekshirishga, ta'sirni hisoblashga va kelajakda ishlab chiqarishni rejalashtirishga yordam beradi.",
     "trustTitle": "Kengaytiriladigan infratuzilmani rejalashtirish",
     "pitchTitle": "Sun'iy intellektga asoslangan Chiqindi-Hayotga infratuzilmasi",
@@ -1186,11 +1216,11 @@
     "features": {
       "ecoscan": {
         "title": "AI EcoScan",
-        "desc": "Fotosuratlardan plastik, rezina og'irliklar va qayta ishlanadigan materiallarni kompyuter ko'rish texnologiyasi yordamida aniqlaydi. Chiqindi turini tezda tasniflaydi, og'irligini taxmin qiladi va eng yaqin yig'ish punktini Eko Koin mukofotlari bilan ko'rsatadi."
+        "desc": "Fotosuratlardan plastik, rezina va qayta ishlanadigan materiallarni darhol aniqlaydigan kompyuter ko'rish tizimi. Chiqindi turini tasniflaydi, og'irligini taxmin qiladi va Eko Koin mukofotlari bilan eng yaqin punktni ko'rsatadi."
       },
       "ecocoach": {
-        "title": "AI EcoCoach",
-        "desc": "O'zbek, rus va ingliz tillarida fuqarolarga yo'l-yo'riq ko'rsatuvchi ko'p tilli AI yordamchi. Saralash bo'yicha savollarga javob beradi, yaqin EcoPoint'larni tavsiya qiladi va joylashuvingiz hamda faoliyat tarixingiz asosida shaxsiy maslahatlar beradi."
+        "title": "ZAMI AI Maslahatchi",
+        "desc": "O'zbek, rus va ingliz tillarida fuqarolarga yo'nalish beruvchi ilg'or ko'p tilli AI yordamchi. AI EcoScan bilan to'liq birlashtirilgan holda saralash savollariga javob beradi, yaqin EcoPoint'larni tavsiya etadi va shaxsiy maslahatlar beradi."
       },
       "impact": {
         "title": "AI Impact Engine",
@@ -1213,7 +1243,7 @@
       "citizen": {
         "title": "Fuqaro qatlami",
         "desc": "Foydalanuvchilarga qulay chiqindilarni aniqlash va yo'naltirish imkonini beradi.",
-        "items": ["AI EcoCoach yordamchisi", "EcoScan rasm skaneri", "Shaxsiylashtirilgan yashil faoliyatlar"]
+        "items": ["ZAMI AI Maslahatchi", "AI EcoScan rasm skaneri", "Shaxsiylashtirilgan yashil faoliyatlar"]
       },
       "trust": {
         "title": "Ishonch qatlami",
@@ -1229,7 +1259,7 @@
     "roadmap": {
       "phase1": {
         "title": "1-bosqich — MVP intellekti",
-        "items": ["AI EcoCoach suhbatdosh yo'riqnomasi", "EcoScan prototip tasniflagichi", "Ta'sir kalkulyatori algoritmlari", "Avtomatlashtirilgan hisobot shablonlari"]
+        "items": ["ZAMI AI Maslahatchi suhbatdosh yo'riqnomasi", "AI EcoScan real vaqtda aniqlashi", "Ta'sir kalkulyatori algoritmlari", "Avtomatlashtirilgan hisobot shablonlari"]
       },
       "phase2": {
         "title": "2-bosqich — Ishonch va faollik",
@@ -1265,8 +1295,8 @@
       "accuracySub": "Material aniqlash"
     },
     "pitchModules": {
-      "ecoscan": { "desc": "Kompyuter ko'rish bilan materialni aniqlash — chiqindi turini tasniflaydi, og'irligini baholaydi va eng yaqin yig'ish nuqtasini ko'rsatadi." },
-      "ecocoach": { "desc": "Ko'p tilli AI yordamchi (O'Z/RU/EN) — saralash savollariga javob beradi, EcoPoint'larni tavsiya qiladi, shaxsiy maslahatlar beradi." },
+      "ecoscan": { "desc": "Amaldagi kompyuter ko'rish tizimi — chiqindi turini tasniflaydi, og'irligini baholaydi va yig'ish punktlarini xaritada ko'rsatadi." },
+      "ecocoach": { "desc": "Tizimda ishlaydigan ko'p tilli AI maslahatchi (O'Z/RU/EN) — saralash bo'yicha savollarga javob beradi, EcoPoint'larni tavsiya qiladi." },
       "impact": { "desc": "Real vaqtda ta'sir hisoblash — qayta ishlash ma'lumotlarini o'lchanadigan natijalarga aylantiradi: tejalgan CO₂, yaratilgan mahsulotlar." },
       "fraud": { "desc": "Ko'p qatlamli tekshiruv — GPS tekshiruvi, fotosurat haqiqiyligi, vaqt tahlili, barcha topshiriqlar uchun anomaliyalarni aniqlash." },
       "kids": { "desc": "O'yinlashtirilgan ekologik ta'lim — saralash vazifalari, viktorinalar, bolalikdan odatlarni shakllantirish uchun yutuqlar tizimi." },
