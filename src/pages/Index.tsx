@@ -128,23 +128,23 @@ export default function Index() {
       "@graph": [
         {
           "@type": "Organization",
-          "@id": "https://zaminat.eco/#organization",
-          "name": "ZAMINAT.eco",
-          "url": "https://zaminat.eco",
-          "logo": "https://zaminat.eco/logo.webp",
+          "@id": "https://zaminat.uz/#organization",
+          "name": "ZAMINAT.uz",
+          "url": "https://zaminat.uz",
+          "logo": "https://zaminat.uz/logo.webp",
           "sameAs": [
             "https://github.com/Bullfighteruz/zaminateco-master"
           ]
         },
         {
           "@type": "SoftwareApplication",
-          "@id": "https://zaminat.eco/#software",
+          "@id": "https://zaminat.uz/#software",
           "name": "ZAMINAT AI Core",
           "applicationCategory": "GreenTechApplication",
           "operatingSystem": "All",
-          "description": "ZAMINAT AI Core is the intelligence layer of ZAMINAT.eco, helping identify recyclable materials, guide citizens, verify reports, calculate impact and support scalable Waste-to-Life infrastructure.",
+          "description": "ZAMINAT AI Core is the intelligence layer of ZAMINAT.uz, helping identify recyclable materials, guide citizens, verify reports, calculate impact and support scalable Waste-to-Life infrastructure.",
           "publisher": {
-            "@id": "https://zaminat.eco/#organization"
+            "@id": "https://zaminat.uz/#organization"
           }
         }
       ]

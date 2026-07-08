@@ -14,4 +14,4 @@ Disallow: /*?*sort*
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://zaminat.eco/sitemap.xml
+Sitemap: https://zaminat.uz/sitemap.xml

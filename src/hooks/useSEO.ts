@@ -68,14 +68,14 @@ function removeMetaTags(selector: string) {
 export function useSEO({
   title,
   description,
-  image = '/logo.webp',
+  image = '/og-image.png',
   url,
   type = 'website',
   keywords,
   noindex = false,
 }: SEOParams) {
   const location = useLocation();
-  const baseUrl = 'https://zaminat.eco';
+  const baseUrl = 'https://zaminat.uz';
   const fullTitle = `${title} | ZAMINAT.eco`;
   const canonicalUrl = url || `${baseUrl}${location.pathname}${location.search}`;
 
