@@ -340,19 +340,25 @@ export default function FloatingCoachWidget() {
             initial={{ opacity: 0, y: 32, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 32, scale: 0.95 }}
-            className="w-[calc(100vw-2rem)] sm:w-[380px] md:w-[420px] max-h-[calc(100vh-10rem)] sm:max-h-[560px] h-[560px] bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
+            className="w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-slate-950/90 backdrop-blur-3xl border border-white/[0.08] rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3 flex items-center justify-between">
+            {/* Header - World Class Integrated Glass Design */}
+            <div className="bg-slate-900/40 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-white/[0.06]">
               <div className="flex items-center gap-2.5">
-                <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-7 w-7 rounded-full object-cover ring-2 ring-white/30" />
-                <span className="text-xs font-bold tracking-wide text-white">Zami Bot</span>
+                <div className="relative">
+                  <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-8 w-8 rounded-full object-cover border border-white/10" />
+                  <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-slate-950 animate-pulse" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-slate-100 tracking-wide">Zami AI Assistant</span>
+                  <span className="text-[9px] text-emerald-400 font-semibold tracking-wide">Online & Ready</span>
+                </div>
               </div>
               <div className="flex items-center gap-1">
                 {messages.length > 1 && (
                   <button
                     onClick={clearChat}
-                    className="text-white/60 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-all"
+                    className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-white/5 transition-all"
                     title="Clear chat"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -361,21 +367,21 @@ export default function FloatingCoachWidget() {
                 <Link 
                   to="/coach" 
                   onClick={() => setIsOpen(false)}
-                  className="text-[10px] bg-white/10 hover:bg-white/20 text-white font-extrabold px-2 py-0.5 rounded-lg mr-1.5 flex items-center gap-0.5 transition-all"
+                  className="text-[10px] bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-bold px-2.5 py-1 rounded-lg mr-1 flex items-center gap-1 transition-all border border-emerald-500/15"
                 >
                   {i18n.language === 'uz' ? 'To\'liq' : i18n.language === 'ru' ? 'Полный экран' : 'Full Page'} <ArrowRight className="h-3 w-3" />
                 </Link>
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-all"
+                  className="text-slate-400 hover:text-slate-200 p-1.5 rounded-lg hover:bg-white/5 transition-all"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-3.5 space-y-3 scrollbar-thin">
+            {/* Messages - Sleek Custom Scrollbar */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin bg-gradient-to-b from-transparent to-slate-950/20">
               {messages.map((m) => (
                 <motion.div 
                   key={m.id}
@@ -383,7 +389,7 @@ export default function FloatingCoachWidget() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className={cn(
-                    "flex w-full items-start gap-2",
+                    "flex w-full items-start gap-2.5",
                     m.role === 'user' ? "justify-end" : "justify-start"
                   )}
                 >
@@ -391,10 +397,10 @@ export default function FloatingCoachWidget() {
                     <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10 flex-shrink-0" />
                   )}
                   <div className={cn(
-                    "max-w-[80%] rounded-xl px-3 py-2 text-xs leading-relaxed shadow",
+                    "max-w-[80%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed shadow-sm",
                     m.role === 'user'
-                      ? "bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-tr-none text-left font-medium"
-                      : "bg-slate-950 border border-white/5 text-slate-100 rounded-tl-none text-left"
+                      ? "bg-emerald-600/15 border border-emerald-500/20 text-emerald-100 rounded-tr-none text-left font-medium"
+                      : "bg-white/[0.04] border border-white/[0.08] text-slate-200 rounded-tl-none text-left"
                   )}>
                     {m.role === 'model' ? renderMarkdown(m.text) : m.text}
                   </div>
@@ -402,25 +408,25 @@ export default function FloatingCoachWidget() {
               ))}
 
               {isTyping && (
-                <div className="flex w-full items-start gap-2 justify-start">
+                <div className="flex w-full items-start gap-2.5 justify-start">
                   <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10 flex-shrink-0" />
-                  <div className="bg-slate-950 border border-white/5 rounded-xl rounded-tl-none px-3 py-2 flex items-center gap-1">
-                    <span className="w-1 h-1 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                    <span className="w-1 h-1 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                    <span className="w-1 h-1 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+                  <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl rounded-tl-none px-3.5 py-2.5 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-emerald-400/80 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                    <span className="w-1.5 h-1.5 bg-emerald-400/80 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                    <span className="w-1.5 h-1.5 bg-emerald-400/80 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
                   </div>
                 </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Form */}
+            {/* Input Form - Seamless Sleek Overlay */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendMessage(inputText);
               }}
-              className="bg-slate-950/80 border-t border-white/5 p-2 flex items-center gap-1.5"
+              className="bg-slate-950/60 border-t border-white/[0.06] p-3 flex items-center gap-2"
             >
               <Input
                 ref={inputRef}
@@ -428,13 +434,13 @@ export default function FloatingCoachWidget() {
                 onChange={(e) => setInputText(e.target.value)}
                 maxLength={2000}
                 placeholder={i18n.language === 'uz' ? "Yozing..." : i18n.language === 'ru' ? "Напишите..." : "Type here..."}
-                className="flex-1 bg-slate-900 border-white/5 text-white placeholder-slate-500 h-9 px-2 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="flex-1 bg-white/[0.03] border border-white/[0.08] hover:border-white/20 focus:border-emerald-500/50 text-white placeholder-slate-500 h-10 px-3.5 rounded-xl text-xs transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:bg-white/[0.05]"
               />
               <Button
                 type="submit"
                 disabled={!inputText.trim() || isTyping}
                 size="icon"
-                className="h-9 w-9 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-bold"
+                className="h-10 w-10 rounded-xl bg-emerald-500 text-slate-950 hover:bg-emerald-400 hover:scale-105 active:scale-95 transition-all flex items-center justify-center shadow-lg shadow-emerald-500/10"
               >
                 <Send className="h-3.5 w-3.5" />
               </Button>
@@ -457,19 +463,19 @@ export default function FloatingCoachWidget() {
             >
               <button
                 onClick={() => { setShowCta(false); setIsOpen(true); }}
-                className="relative bg-white/95 backdrop-blur-md border border-slate-200/60 text-slate-800 text-[10px] font-semibold leading-relaxed pl-2.5 pr-6 py-1.5 rounded-xl shadow-md hover:shadow-lg hover:border-emerald-400/50 transition-all duration-200 max-w-[145px] cursor-pointer text-left"
+                className="relative bg-slate-950/95 backdrop-blur-md border border-white/10 text-slate-200 text-[10px] font-semibold leading-relaxed pl-3 pr-7 py-2 rounded-xl shadow-lg hover:shadow-xl hover:border-emerald-400/50 transition-all duration-200 max-w-[170px] cursor-pointer text-left"
               >
                 {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
                 {/* Dismiss X */}
                 <span
                   onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
-                  className="absolute top-1 right-1.5 text-slate-400 hover:text-slate-600 text-[10px] leading-none cursor-pointer"
+                  className="absolute top-1 right-1.5 text-slate-400 hover:text-slate-200 text-[10px] leading-none cursor-pointer"
                 >
                   ✕
                 </span>
                 {/* Triangle pointer */}
-                <span className="absolute top-1/2 -translate-y-1/2 -right-[5px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[5px] border-l-white/95" />
-                <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[5px] border-l-slate-200/60" style={{ zIndex: -1 }} />
+                <span className="absolute top-1/2 -translate-y-1/2 -right-[5px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[5px] border-l-slate-950/95" />
+                <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[5px] border-l-white/10" style={{ zIndex: -1 }} />
               </button>
             </motion.div>
           )}
