@@ -8,6 +8,7 @@ import { getEcoCoachResponse } from '@/lib/gemini';
 import { loadUserProgress } from '@/lib/userProgress';
 import { useLocation, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Message {
   id: string;
@@ -184,6 +185,7 @@ export default function FloatingCoachWidget() {
   const [showCta, setShowCta] = useState(true);
   const ctaCycleCount = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isMobile = useIsMobile();
 
   const ctaMessages: Record<string, string[]> = useMemo(() => ({
     en: [
@@ -323,11 +325,11 @@ export default function FloatingCoachWidget() {
   if (location.pathname === '/coach') return null;
 
   return (
-    // bottom position: clears the floating nav bar (72px) + 12px gap + device home indicator
+    // bottom position: clears the floating nav bar (72px) + device home indicator + sits higher on mobile to avoid level card overlap
     <div
       className="fixed right-4 z-[45] flex flex-col items-end pointer-events-auto select-none"
       style={{
-        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 88px)',
+        bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 145px)' : '24px',
       }}
     >
       
@@ -375,8 +377,11 @@ export default function FloatingCoachWidget() {
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-3.5 space-y-3 scrollbar-thin">
               {messages.map((m) => (
-                <div 
+                <motion.div 
                   key={m.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
                   className={cn(
                     "flex w-full items-start gap-2",
                     m.role === 'user' ? "justify-end" : "justify-start"
@@ -393,7 +398,7 @@ export default function FloatingCoachWidget() {
                   )}>
                     {m.role === 'model' ? renderMarkdown(m.text) : m.text}
                   </div>
-                </div>
+                </motion.div>
               ))}
 
               {isTyping && (
@@ -441,24 +446,33 @@ export default function FloatingCoachWidget() {
       {/* Toggle Button + CTA */}
       <div className="flex items-center gap-2.5">
         {/* CTA Speech Bubble */}
-        {!isOpen && showCta && (
-          <button
-            onClick={() => { setShowCta(false); setIsOpen(true); }}
-            className="relative bg-white border border-gray-200/80 text-gray-700 text-[11px] font-medium leading-snug pl-3 pr-7 py-2 rounded-xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-200 max-w-[160px] sm:max-w-[200px] cursor-pointer"
-          >
-            {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
-            {/* Dismiss X */}
-            <span
-              onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
-              className="absolute top-1 right-1.5 text-gray-300 hover:text-gray-500 text-[10px] leading-none cursor-pointer"
+        <AnimatePresence>
+          {!isOpen && showCta && (
+            <motion.div
+              initial={{ opacity: 0, y: 12, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              ✕
-            </span>
-            {/* Triangle pointer */}
-            <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-white" />
-            <span className="absolute top-1/2 -translate-y-1/2 -right-[7px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-gray-200/80" style={{ zIndex: -1 }} />
-          </button>
-        )}
+              <button
+                onClick={() => { setShowCta(false); setIsOpen(true); }}
+                className="relative bg-white border border-gray-200/80 text-gray-700 text-[11px] font-medium leading-snug pl-3 pr-7 py-2 rounded-xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-200 max-w-[160px] sm:max-w-[200px] cursor-pointer"
+              >
+                {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
+                {/* Dismiss X */}
+                <span
+                  onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
+                  className="absolute top-1 right-1.5 text-gray-300 hover:text-gray-500 text-[10px] leading-none cursor-pointer"
+                >
+                  ✕
+                </span>
+                {/* Triangle pointer */}
+                <span className="absolute top-1/2 -translate-y-1/2 -right-[6px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-white" />
+                <span className="absolute top-1/2 -translate-y-1/2 -right-[7px] w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-gray-200/80" style={{ zIndex: -1 }} />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Avatar Button */}
         <button

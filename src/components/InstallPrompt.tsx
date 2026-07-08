@@ -70,23 +70,16 @@ export default function InstallPrompt() {
     setIsIOS(ios);
 
     if (ios) {
-      if (shouldShow) {
-        const timer = setTimeout(() => {
-          setShowPrompt(true);
-        }, 4000);
-        return () => {
-          clearTimeout(timer);
-          window.removeEventListener('trigger-pwa-install', handleTriggerInstall);
-        };
-      }
+      // Auto-trigger disabled to delete PWA suggestions
+      return () => {
+        window.removeEventListener('trigger-pwa-install', handleTriggerInstall);
+      };
     } else {
       // Android / Desktop PWA prompt listener
       const handleBeforeInstallPrompt = (e: Event) => {
         e.preventDefault();
         setDeferredPrompt(e);
-        if (shouldShow) {
-          setShowPrompt(true);
-        }
+        // Auto-trigger disabled to delete PWA suggestions
       };
 
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
