@@ -87,17 +87,17 @@ export default function AICoreSection() {
           {/* ─── HERO ZONE: Header + Phone + Feature Cards ─── */}
           <div className={cn("grid gap-5", isMobile ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-12 lg:gap-6")}>
             
-            {/* LEFT COLUMN — stretches to match phone height */}
-            <div className="lg:col-span-7 text-left flex flex-col justify-between gap-4">
+            {/* LEFT COLUMN — stretches to match phone height, grouped with professional vertical gaps */}
+            <div className="lg:col-span-7 text-left flex flex-col justify-start gap-4 sm:gap-6">
 
               {/* TOP: Section Header + CTAs */}
-              <div className={cn("space-y-2", isMobile ? "" : "")}>
+              <div className="space-y-2.5">
                 <h2 className={cn(
                   "font-black text-gray-900 tracking-tight leading-tight",
                   isMobile ? "text-xl" : "text-2xl lg:text-3xl"
                 )}>
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-600">
-                    ZAMINAT AI Core
+                     ZAMINAT AI Core
                   </span>
                 </h2>
                 <p className={cn(
@@ -108,8 +108,8 @@ export default function AICoreSection() {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Link to="/pitch">
-                    <Button size="sm" variant="outline" className="border-emerald-200 text-emerald-800 font-bold text-xs px-4 py-1.5 hover:bg-emerald-50 rounded-xl">
-                      {t('ai.viewPitch')}
+                    <Button size="sm" className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs px-4.5 py-2 shadow-sm rounded-xl gap-1.5 transition-all hover:-translate-y-0.5 shadow-emerald-500/10">
+                      {t('ai.viewPitch')} <ArrowRight className="h-3 w-3" />
                     </Button>
                   </Link>
                 </div>
@@ -128,7 +128,7 @@ export default function AICoreSection() {
                   "text-emerald-600/80 font-bold uppercase tracking-widest",
                   isMobile ? "text-[9px]" : "text-[10px]"
                 )}>
-                  {t('ai.intelligenceLayers')}
+                  {t('ai.intelLayers')}
                 </p>
                 <div 
                   ref={cardsContainerRef}
@@ -155,9 +155,9 @@ export default function AICoreSection() {
                 </div>
               </div>
 
-              {/* BOTTOM: Disclaimer — pushed to bottom */}
+              {/* BOTTOM: Disclaimer — pushed to bottom of left column dynamically */}
               <p className={cn(
-                "text-slate-400 leading-relaxed",
+                "text-slate-400 leading-relaxed mt-auto pt-4 border-t border-slate-100/50",
                 isMobile ? "text-[9px]" : "text-[11px]"
               )}>
                 {t('ai.disclaimer')}
