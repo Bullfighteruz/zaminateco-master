@@ -319,7 +319,7 @@ export default function FloatingCoachWidget() {
   if (location.pathname === '/coach') return null;
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-4 z-[9999] flex flex-col items-end pointer-events-auto select-none">
+    <div className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] md:bottom-6 right-4 z-[9999] flex flex-col items-end pointer-events-auto select-none">
       
       {/* Floating Chat Panel */}
       <AnimatePresence>
