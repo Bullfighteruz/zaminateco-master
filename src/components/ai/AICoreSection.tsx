@@ -70,7 +70,7 @@ export default function AICoreSection() {
 
   return (
     <section id="ai-core-section" className="scroll-mt-20 w-full relative z-10">
-      <Card className="border border-gray-200/50 shadow-xl bg-white/70 backdrop-blur-md overflow-hidden rounded-3xl relative">
+      <Card className="border border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.03)] bg-white/80 backdrop-blur-xl overflow-hidden rounded-3xl relative">
         {/* Top pattern accent */}
         <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-gray-50/50">
           <UzbekPattern className="w-full h-full text-emerald-600/30" />
