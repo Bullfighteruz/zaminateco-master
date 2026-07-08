@@ -391,7 +391,7 @@ export default function FloatingCoachWidget() {
                   )}
                 >
                   {m.role === 'model' && (
-                    <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-6.5 w-6.5 rounded-full object-cover border border-zinc-800 flex-shrink-0" />
+                    <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-8 w-8 rounded-full object-cover border border-zinc-800 flex-shrink-0" />
                   )}
                   <div className={cn(
                     "max-w-[80%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed",
@@ -406,7 +406,7 @@ export default function FloatingCoachWidget() {
 
               {isTyping && (
                 <div className="flex w-full items-start gap-3 justify-start">
-                  <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-6.5 w-6.5 rounded-full object-cover border border-zinc-800 flex-shrink-0" />
+                  <img src="/images/ai-screens/Zami-bot-avatar.jpg" alt="Zami Bot" className="h-8 w-8 rounded-full object-cover border border-zinc-800 flex-shrink-0" />
                   <div className="bg-zinc-900 border border-zinc-850/50 rounded-2xl rounded-tl-none px-3.5 py-2.5 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-emerald-400/80 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
                     <span className="w-1.5 h-1.5 bg-emerald-400/80 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
