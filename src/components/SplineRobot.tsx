@@ -320,7 +320,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
                   pointerEvents: 'none',
                 }}
               >
-                {i18n.language === 'uz' ? "App-ni o'rnatish" : i18n.language === 'ru' ? "Скачать App" : "Install App"}
+                {i18n.language === 'uz' ? "O'zgarish ildizlari" : i18n.language === 'ru' ? "Корни перемен" : "Roots Of Change"}
               </span>
 
               {/* Shimmer effect */}
