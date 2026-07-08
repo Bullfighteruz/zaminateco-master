@@ -327,7 +327,7 @@ export default function FloatingCoachWidget() {
   return (
     // bottom position: standard float position on mobile, clearing the bottom navigation bar beautifully
     <div
-      className="fixed right-4 z-[45] flex flex-col items-end pointer-events-auto select-none"
+      className="fixed right-4 z-[9999] flex flex-col items-end pointer-events-auto select-none"
       style={{
         bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 90px)' : '24px',
       }}
