@@ -1,11 +1,12 @@
 {
+  "discoverOur": "Discover Our",
   "title": "EcoHub",
-  "subtitle": "Community stories, educational content, and latest news about plastic and rubber recycling in Uzbekistan.",
+  "subtitle": "Community stories, educational content, and latest news about plastic and circular economy in Uzbekistan.",
   "filters": {
-    "allContent": "All Content",
-    "communityStories": "Community Stories",
-    "education": "Education: Teach communities about plastic and rubber recycling",
-    "newsUpdates": "News & Updates"
+    "allContent": "All",
+    "communityStories": "Community",
+    "education": "Education",
+    "newsUpdates": "News"
   },
   "sections": {
     "featuredContent": "Featured Content"
@@ -108,6 +109,16 @@
     "description": "Share your environmental journey and learn from the ZAMINAT community. Together, we're building a sustainable future through plastic and rubber recycling."
   },
   "common": {
-    "by": "by"
+    "by": "by",
+    "likesCount": "likes",
+    "viewComments": "View all {{count}} comments",
+    "environmentalImpact": "Environmental Impact",
+    "addComment": "Add a comment...",
+    "post": "Post",
+    "postSaved": "Post saved",
+    "postUnsaved": "Removed from saved",
+    "linkCopied": "Link copied to clipboard",
+    "comments": "Comments",
+    "reply": "Reply"
   }
 }

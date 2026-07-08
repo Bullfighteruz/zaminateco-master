@@ -73,6 +73,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import Layout from '@/components/Layout';
 import { toast } from 'sonner';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { USER_DATA, calculateLevel, calculateLevelProgress, formatWasteAmount } from '@/lib/userData';
 import { getUserNameData, saveUserName } from '@/utils/userName';
 import { EnhancedAvatar } from '@/components/ui/enhanced-avatar';
@@ -1449,10 +1450,9 @@ const Profile: React.FC = () => {
                           {/* Progress Fill with Liquid Wave Effect */}
                           <motion.div
                             className="relative h-full rounded-full overflow-hidden"
-                            variants={progressVariants}
-                            initial="initial"
-                            animate="animate"
-                            custom={levelProgress}
+                            initial={{ width: 0 }}
+                            animate={{ width: `${levelProgress}%` }}
+                            transition={{ duration: 1.2, ease: "easeOut" }}
                             style={{
                               background: `linear-gradient(90deg, 
                                 #facc15 0%,
@@ -1462,53 +1462,33 @@ const Profile: React.FC = () => {
                               filter: `drop-shadow(0 0 ${2 + (levelProgress / 100) * 4}px rgba(251, 146, 60, 0.6))`,
                             }}
                           >
-                            {/* Animated Liquid Wave Layer 1 */}
-                            <motion.div
-                              className="absolute inset-0"
-                              style={{
-                                background: `linear-gradient(90deg, 
-                                  transparent 0%,
-                                  rgba(255, 255, 255, 0.3) 30%,
-                                  rgba(255, 255, 255, 0.5) 50%,
-                                  rgba(255, 255, 255, 0.3) 70%,
-                                  transparent 100%
-                                )`,
-                                clipPath: `polygon(0% 0%, ${levelProgress}% 0%, ${levelProgress}% 100%, 0% 100%)`,
-                              }}
-                              animate={{
-                                x: ['-100%', '100%'],
-                              }}
-                              transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                ease: "linear",
-                                repeatDelay: 0
-                              }}
-                            />
-                            
-                            {/* Animated Liquid Wave Layer 2 - slower */}
-                            <motion.div
-                              className="absolute inset-0"
-                              style={{
-                                background: `linear-gradient(90deg, 
-                                  transparent 0%,
-                                  rgba(255, 255, 255, 0.2) 40%,
-                                  rgba(255, 255, 255, 0.4) 60%,
-                                  rgba(255, 255, 255, 0.2) 80%,
-                                  transparent 100%
-                                )`,
-                                clipPath: `polygon(0% 0%, ${levelProgress}% 0%, ${levelProgress}% 100%, 0% 100%)`,
-                              }}
-                              animate={{
-                                x: ['-100%', '100%'],
-                              }}
-                              transition={{
-                                duration: 4,
-                                repeat: Infinity,
-                                ease: "linear",
-                                repeatDelay: 0.5
-                              }}
-                            />
+                             {/* Animated Liquid Wave Layer 1 */}
+                             <div
+                               className="absolute inset-0 wave-layer-1"
+                               style={{
+                                 background: `linear-gradient(90deg, 
+                                   transparent 0%,
+                                   rgba(255, 255, 255, 0.3) 30%,
+                                   rgba(255, 255, 255, 0.5) 50%,
+                                   rgba(255, 255, 255, 0.3) 70%,
+                                   transparent 100%
+                                 )`
+                               }}
+                             />
+                             
+                             {/* Animated Liquid Wave Layer 2 - slower */}
+                             <div
+                               className="absolute inset-0 wave-layer-2"
+                               style={{
+                                 background: `linear-gradient(90deg, 
+                                   transparent 0%,
+                                   rgba(255, 255, 255, 0.2) 40%,
+                                   rgba(255, 255, 255, 0.4) 60%,
+                                   rgba(255, 255, 255, 0.2) 80%,
+                                   transparent 100%
+                                 )`
+                               }}
+                             />
                             
                             {/* Shimmer Effect at Progress Edge */}
                             <motion.div

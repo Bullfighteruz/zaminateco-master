@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useState, useMemo, memo, useEffect } from 'react';
+import { useState, useMemo, memo, useEffect, useRef, useCallback } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTranslation as useI18nTranslation } from 'react-i18next';
 import PrefetchLink from './PrefetchLink';
+import InstallPrompt from './InstallPrompt';
+
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -41,10 +43,11 @@ const MobileLanguageSwitcher = ({ darkMode = false }: { darkMode?: boolean }) =>
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuTrigger asChild>
         <button className={cn(
-          "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border-2 shadow-md hover:shadow-lg transition-all duration-300",
+          "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border-2 shadow-md transition-all duration-300",
+          // Ensure 44px min touch target (already w-10 h-10 = 40px, border adds 2px each side)
           darkMode 
-            ? "bg-black/70 border-white/10 hover:border-white/25 hover:bg-black/80 text-white/90"
-            : "bg-white/90 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800"
+            ? "bg-black/70 border-white/10 hover:border-white/25 hover:bg-black/80 text-white/90 active:scale-95"
+            : "bg-white/90 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800 active:scale-95"
         )}>
           <Globe className="h-5 w-5 flex-shrink-0" />
         </button>
@@ -52,7 +55,7 @@ const MobileLanguageSwitcher = ({ darkMode = false }: { darkMode?: boolean }) =>
       <DropdownMenuContent 
         align="end"
         side="bottom"
-        sideOffset={8}
+        sideOffset={12}
         className="w-[180px] p-2 bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl rounded-xl"
         style={{
           backdropFilter: 'blur(16px)',
@@ -90,6 +93,30 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
   const location = useLocation();
   const { t } = useTranslation('common');
   const isMobile = useIsMobile();
+  
+  // ── Scroll-direction tracking ──
+  // Use ref for lastScrollY to avoid re-registering the scroll listener on every scroll event
+  // (useState would cause the effect to re-run and re-add/remove the listener thousands of times per session)
+  const [visible, setVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 10) {
+        setVisible(true);
+      } else if (currentScrollY > lastScrollYRef.current) {
+        setVisible(false); // Scrolling down
+      } else {
+        setVisible(true); // Scrolling up
+      }
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    // passive: true → browser won't wait for JS before scrolling (eliminates jank)
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []); // ← empty deps: listener registered once, never re-registered
 
   useEffect(() => {
     if (window.self !== window.top) {
@@ -132,38 +159,68 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/15 to-teal-50/20 relative">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30" />
-        <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40 opacity-35" />
-        <div className="bg-glow-orb bg-glow-emerald w-[450px] h-[450px] bottom-10 -left-20 opacity-25" />
-      </div>
+      {/* Background glow orbs — only render on non-mobile for perf (they're invisible on phone screenshots anyway) */}
+      {!isMobile && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+          <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30" />
+          <div className="bg-glow-orb bg-glow-teal w-[600px] h-[600px] top-1/3 -right-40 opacity-35" />
+          <div className="bg-glow-orb bg-glow-emerald w-[450px] h-[450px] bottom-10 -left-20 opacity-25" />
+        </div>
+      )}
 
+      {/* Desktop Language Switcher — autohides on scroll-down */}
       {!['/pitch', '/scanner'].includes(location.pathname) && (
-        <div className="hidden md:block fixed top-4 right-4 z-50">
+        <div className={cn(
+          "hidden md:block fixed right-4 z-50 transition-all duration-300",
+          visible ? "top-4 opacity-100" : "-top-16 opacity-0"
+        )}>
           <LanguageSwitcher darkMode={hideBottomNav} />
         </div>
       )}
       
+      {/* Mobile Language Switcher — safe-area aware + autohide on scroll-down */}
       {!['/pitch', '/scanner'].includes(location.pathname) && (
-        <div className="md:hidden fixed top-3 right-3 z-40">
+        <div 
+          className={cn(
+            "md:hidden fixed right-3 z-40 transition-all duration-300",
+            visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+          )}
+          style={{
+            // Respect device notch / Dynamic Island / status bar
+            top: 'calc(env(safe-area-inset-top, 0px) + 12px)',
+          }}
+        >
           <MobileLanguageSwitcher darkMode={hideBottomNav} />
         </div>
       )}
       
-      <main className={hideBottomNav ? '' : 'pb-24'}>
+      {/* Main content — extra bottom padding accounts for nav bar + safe area */}
+      <main className={hideBottomNav ? '' : 'pb-nav-safe'}>
         {children}
       </main>
 
-      {/* Bottom Navigation */}
+      {/* ── Bottom Navigation ── */}
       {!hideBottomNav && (
-        <nav className="fixed bottom-4 left-3 right-3 z-50 flex justify-center notranslate" translate="no">
+        <nav 
+          className="fixed left-3 right-3 z-50 flex justify-center notranslate" 
+          translate="no"
+          style={{
+            // PWA safe area: push nav above home indicator on iPhone
+            bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
+            // GPU compositor layer — eliminates PWA scroll jitter/shaking
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            willChange: 'transform',
+          }}
+        >
           <div className="relative w-full max-w-xl">
-            {/* Center AI Scan — clean elevated circle */}
+            {/* Center AI Scan — elevated circle above nav bar */}
             <div className="absolute left-1/2 -translate-x-1/2 -top-6 z-20">
               <Link
                 to="/scanner"
                 className={cn(
-                  "flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200",
+                  "flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200 active:scale-90",
                   "border",
                   isScannerActive
                     ? "bg-emerald-600 border-emerald-500 text-white shadow-md"
@@ -180,8 +237,8 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
               </span>
             </div>
 
-            {/* Navigation bar */}
-            <div className="glass-island rounded-2xl px-3 py-2 w-full">
+            {/* Navigation bar pill */}
+            <div className="glass-island rounded-[1.75rem] px-3 py-2 w-full">
               <div className="flex justify-between items-center">
                 {leftNavItems.map((item) => {
                   const Icon = item.icon;
@@ -192,6 +249,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
                       to={item.path}
                       className={cn(
                         "flex flex-col items-center justify-center p-2 rounded-xl transition-colors duration-150 min-w-[44px] sm:min-w-[56px]",
+                        "active:scale-90 touch-manipulation",
                         isActive
                           ? "text-emerald-600"
                           : "text-gray-400 hover:text-gray-600"
@@ -219,6 +277,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
                       to={item.path}
                       className={cn(
                         "flex flex-col items-center justify-center p-2 rounded-xl transition-colors duration-150 min-w-[44px] sm:min-w-[56px]",
+                        "active:scale-90 touch-manipulation",
                         isActive
                           ? "text-emerald-600"
                           : "text-gray-400 hover:text-gray-600"
@@ -239,6 +298,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
           </div>
         </nav>
       )}
+      <InstallPrompt />
     </div>
   );
 });

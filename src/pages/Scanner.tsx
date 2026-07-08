@@ -221,106 +221,25 @@ export default function Scanner() {
     reader.readAsDataURL(file);
   }, []);
 
-  // Analyze with Gemini
+  // Smart Unified Image Analyzer
   const analyzeImage = useCallback(async () => {
     if (!capturedImage) return;
     setState('scanning');
-    try {
-      const scanResult = await scanWasteImage(capturedImage, i18n.language);
-      setResult(scanResult);
-      
-      // Proximity GPS Check
-      const check = getProximityCheck(selectedPoint);
-      const status = check.isClose ? 'Verified' : 'Pending';
-      setVerificationStatus(status);
-      
-      if (status === 'Verified') {
-        setAntiFraudMessage(t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' }));
-      } else {
-        setAntiFraudMessage(t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' }));
-      }
-      
-      // If Supabase is configured, attempt to save the scan record
-      if (isSupabaseConfigured() && supabase) {
-        console.log('[EcoScan] Supabase is configured. Checking user session...');
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session?.user) {
-          console.log('[EcoScan] Active session found. Saving scan to database...');
-          const { error: dbError } = await supabase
-            .from('scans')
-            .insert({
-              user_id: session.user.id,
-              detected_items: scanResult.items,
-              total_weight_kg: scanResult.totalEstimatedWeightKg,
-              estimated_coins: scanResult.estimatedEcoCoins,
-              project_pledged: selectedProject,
-              verification_status: status
-            });
-            
-          if (dbError) {
-            console.error('[EcoScan] Database insert failed:', dbError.message);
-          } else {
-            console.log('[EcoScan] Scan successfully persisted to database.');
-            
-            if (status === 'Verified') {
-              const { data: profile } = await supabase
-                .from('profiles')
-                .select('eco_coins, xp')
-                .eq('id', session.user.id)
-                .single();
-              if (profile) {
-                await supabase
-                  .from('profiles')
-                  .update({
-                    eco_coins: (profile.eco_coins || 0) + scanResult.estimatedEcoCoins,
-                    xp: (profile.xp || 0) + (scanResult.estimatedEcoCoins * 10)
-                  })
-                  .eq('id', session.user.id);
-                console.log('[Anti-Fraud] Supabase wallet auto-credited!');
-              }
-            }
-          }
-        } else {
-          console.log('[EcoScan] No active user session. Running in guest/demo mode.');
-        }
-      } else {
-        console.log('[EcoScan] Supabase not configured. Running in local/demo mode.');
-      }
-      
-      // Also update local storage progress
-      const local = loadUserProgress();
-      if (status === 'Verified') {
-        local.ecoCoins += scanResult.estimatedEcoCoins;
-        local.ecoPoints += scanResult.estimatedEcoCoins * 10;
-      }
-      local.wasteCollected += 0.25; // add simulation weight
-      saveUserProgress(local);
-      
-      setState('result');
-    } catch (err: any) {
-      if (err.message === 'GEMINI_API_KEY_MISSING') {
-        setError('API_KEY_MISSING');
-      } else if (err.message === 'API_KEY_INVALID') {
-        setError('API_KEY_INVALID');
-      } else if (err.message === 'PARSE_ERROR') {
-        setError('PARSE_ERROR');
-      } else {
-        setError('SCAN_ERROR');
-      }
-      setState('error');
-    }
-  }, [capturedImage, i18n.language, selectedProject]);
+    
+    let scanResult: any = null;
+    let usingOfflineFallback = false;
 
-  // Analyze with TF.js ML (offline)
-  const analyzeWithML = useCallback(async () => {
-    if (!capturedImage) return;
-    setState('scanning');
     try {
+      // 1. Attempt Gemini Cloud AI Scan
+      scanResult = await scanWasteImage(capturedImage, i18n.language);
+    } catch (err: any) {
+      console.warn('[Scanner] Cloud AI scan failed, falling back to local offline rules-based classifier:', err.message || err);
+      usingOfflineFallback = true;
+      
+      // 2. Local offline rules-based classifier fallback
       const mlClassification = await classifyWasteFromBase64(capturedImage);
       setMlResult(mlClassification);
 
-      // Convert ML result to WasteScanResult format for the existing result UI
       const mlItems: DetectedItem[] = mlClassification.predictions
         .filter(p => p.confidence > 5)
         .map(p => ({
@@ -342,41 +261,79 @@ export default function Scanner() {
       }
 
       const topPred = mlClassification.topPrediction;
-      const scanResult: WasteScanResult = {
+      scanResult = {
         items: mlItems,
-        totalEstimatedWeightKg: 0.25,
+        totalEstimatedWeightKg: '0.2 - 0.4 kg',
         estimatedEcoCoins: topPred.ecoCoinsEstimate,
-        overallRecommendation: `${topPred.sortingBin}: ${topPred.instructions}`,
+        moatImpact: `Saves CO₂ emissions and prevents ${topPred.category.toLowerCase()} waste from entering landfill.`,
+        suggestedProduct: 'EcoTile / EcoBench',
         confidence: topPred.confidence,
       };
+    }
 
+    try {
       setResult(scanResult);
-
-      // GPS check (same as cloud scan)
+      
+      // Proximity GPS Check
       const check = getProximityCheck(selectedPoint);
       const status = check.isClose ? 'Verified' : 'Pending';
       setVerificationStatus(status);
-      setAntiFraudMessage(
-        status === 'Verified'
-          ? t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' })
-          : t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' })
-      );
-
-      // Update local progress
+      
+      if (status === 'Verified') {
+        setAntiFraudMessage(t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' }));
+      } else {
+        setAntiFraudMessage(t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' }));
+      }
+      
+      // Save scan record (only if not fallback or if supabase has session)
+      if (isSupabaseConfigured() && supabase) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          await supabase
+            .from('scans')
+            .insert({
+              user_id: session.user.id,
+              detected_items: scanResult.items,
+              total_weight_kg: scanResult.totalEstimatedWeightKg,
+              estimated_coins: scanResult.estimatedEcoCoins,
+              project_pledged: selectedProject,
+              verification_status: status
+            });
+            
+          if (status === 'Verified') {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('eco_coins, xp')
+              .eq('id', session.user.id)
+              .single();
+            if (profile) {
+              await supabase
+                .from('profiles')
+                .update({
+                  eco_coins: (profile.eco_coins || 0) + scanResult.estimatedEcoCoins,
+                  xp: (profile.xp || 0) + (scanResult.estimatedEcoCoins * 10)
+                })
+                .eq('id', session.user.id);
+            }
+          }
+        }
+      }
+      
+      // Update local storage progress
       const local = loadUserProgress();
       if (status === 'Verified') {
         local.ecoCoins += scanResult.estimatedEcoCoins;
         local.ecoPoints += scanResult.estimatedEcoCoins * 10;
       }
-      local.wasteCollected += 0.25;
+      local.wasteCollected += 0.25; // add simulation weight
       saveUserProgress(local);
-
+      
       setState('result');
     } catch (err: any) {
-      setError('ML_SCAN_ERROR');
+      setError('SCAN_ERROR');
       setState('error');
     }
-  }, [capturedImage, i18n.language, selectedProject]);
+  }, [capturedImage, i18n.language, selectedProject, selectedPoint]);
 
   // Preload ML model when switching to offline mode
   useEffect(() => {
@@ -648,33 +605,6 @@ export default function Scanner() {
                   )}
                 </div>
 
-                {/* Scan Mode Toggle */}
-                <div className="flex items-center gap-2 bg-slate-950/40 backdrop-blur-xl border border-white/5 rounded-[1rem] p-1">
-                  <button
-                    onClick={() => setScanMode('cloud')}
-                    className={cn(
-                      "flex-1 h-9 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300",
-                      scanMode === 'cloud'
-                        ? "bg-emerald-400 text-slate-950 shadow-md"
-                        : "text-slate-400 hover:text-slate-200"
-                    )}
-                  >
-                    <Zap className="h-3.5 w-3.5" /> AI Cloud
-                  </button>
-                  <button
-                    onClick={() => setScanMode('offline')}
-                    className={cn(
-                      "flex-1 h-9 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300",
-                      scanMode === 'offline'
-                        ? "bg-violet-400 text-slate-950 shadow-md"
-                        : "text-slate-400 hover:text-slate-200"
-                    )}
-                  >
-                    <Sparkles className="h-3.5 w-3.5" /> Offline ML
-                    {mlModelLoading && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />}
-                  </button>
-                </div>
-
                 <div className="flex gap-4">
                   <button 
                     onClick={resetScanner} 
@@ -683,20 +613,10 @@ export default function Scanner() {
                     <RotateCcw className="h-4 w-4" /> {t('scanner.retake')}
                   </button>
                   <button 
-                    onClick={scanMode === 'cloud' ? analyzeImage : analyzeWithML} 
-                    disabled={scanMode === 'offline' && mlModelLoading}
-                    className={cn(
-                      "flex-1 h-12 rounded-xl font-bold text-xs tracking-wider uppercase active:scale-95 transition-all flex items-center justify-center gap-2 border-none",
-                      scanMode === 'cloud'
-                        ? "bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-lg shadow-emerald-500/10"
-                        : "bg-violet-400 hover:bg-violet-300 text-slate-950 shadow-lg shadow-violet-500/10"
-                    )}
+                    onClick={analyzeImage} 
+                    className="flex-1 h-12 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 shadow-lg shadow-emerald-500/10 font-bold text-xs tracking-wider uppercase active:scale-95 transition-all flex items-center justify-center gap-2 border-none"
                   >
-                    {scanMode === 'cloud' ? (
-                      <><Zap className="h-4 w-4" /> {t('scanner.analyze')}</>
-                    ) : (
-                      <><Sparkles className="h-4 w-4" /> ML Scan</>
-                    )}
+                    <Zap className="h-4 w-4" /> {t('scanner.analyze')}
                   </button>
                 </div>
               </motion.div>

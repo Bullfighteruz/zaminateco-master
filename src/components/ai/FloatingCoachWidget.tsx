@@ -183,6 +183,7 @@ export default function FloatingCoachWidget() {
   const [ctaIndex, setCtaIndex] = useState(0);
   const [showCta, setShowCta] = useState(true);
   const ctaCycleCount = useRef(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const ctaMessages: Record<string, string[]> = useMemo(() => ({
     en: [
@@ -270,6 +271,9 @@ export default function FloatingCoachWidget() {
     setMessages(prev => [...prev, userMessage]);
     setInputText('');
     setIsTyping(true);
+    // Re-focus the input after sending — prevents iOS keyboard from dismissing
+    // Use a microtask delay so React has re-rendered first
+    setTimeout(() => inputRef.current?.focus(), 50);
 
     try {
       const history = messages
@@ -319,7 +323,13 @@ export default function FloatingCoachWidget() {
   if (location.pathname === '/coach') return null;
 
   return (
-    <div className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] md:bottom-6 right-4 z-[9999] flex flex-col items-end pointer-events-auto select-none">
+    // bottom position: clears the floating nav bar (72px) + 12px gap + device home indicator
+    <div
+      className="fixed right-4 z-[45] flex flex-col items-end pointer-events-auto select-none"
+      style={{
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 88px)',
+      }}
+    >
       
       {/* Floating Chat Panel */}
       <AnimatePresence>
@@ -328,7 +338,7 @@ export default function FloatingCoachWidget() {
             initial={{ opacity: 0, y: 32, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 32, scale: 0.95 }}
-            className="w-[380px] sm:w-[420px] h-[560px] bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
+            className="w-[calc(100vw-2rem)] sm:w-[380px] md:w-[420px] max-h-[calc(100vh-10rem)] sm:max-h-[560px] h-[560px] bg-slate-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3 flex items-center justify-between">
@@ -408,6 +418,7 @@ export default function FloatingCoachWidget() {
               className="bg-slate-950/80 border-t border-white/5 p-2 flex items-center gap-1.5"
             >
               <Input
+                ref={inputRef}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 maxLength={2000}
@@ -433,7 +444,7 @@ export default function FloatingCoachWidget() {
         {!isOpen && showCta && (
           <button
             onClick={() => { setShowCta(false); setIsOpen(true); }}
-            className="relative bg-white border border-gray-200/80 text-gray-700 text-[11px] font-medium leading-snug pl-3 pr-7 py-2 rounded-xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-200 max-w-[200px] cursor-pointer"
+            className="relative bg-white border border-gray-200/80 text-gray-700 text-[11px] font-medium leading-snug pl-3 pr-7 py-2 rounded-xl shadow-sm hover:shadow-md hover:border-emerald-300 transition-all duration-200 max-w-[160px] sm:max-w-[200px] cursor-pointer"
           >
             {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
             {/* Dismiss X */}
