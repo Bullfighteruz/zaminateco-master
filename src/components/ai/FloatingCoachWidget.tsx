@@ -460,7 +460,13 @@ export default function FloatingCoachWidget() {
             >
               <button
                 onClick={() => { setShowCta(false); setIsOpen(true); }}
-                className="relative bg-white/95 backdrop-blur-md border border-slate-200/50 text-slate-800 text-[10px] font-semibold leading-relaxed pl-3 pr-7 py-2 rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.1)] hover:border-emerald-400/50 transition-all duration-200 max-w-[170px] cursor-pointer text-left"
+                className="relative text-slate-800 text-[10px] font-semibold leading-relaxed pl-3.5 pr-7 py-2 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] hover:border-white/50 transition-all duration-200 max-w-[170px] cursor-pointer text-left"
+                style={{ 
+                  background: 'rgba(255, 255, 255, 0.22)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.35)',
+                }}
               >
                 {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
                 {/* Dismiss X */}
@@ -478,17 +484,18 @@ export default function FloatingCoachWidget() {
         {/* Avatar Button */}
         <button
           onClick={() => setIsOpen(prev => !prev)}
-          className="h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0"
+          className={cn(
+            "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0 border-2 overflow-hidden",
+            isOpen ? "bg-slate-800 border-white/10" : "bg-zinc-900 border-white/80"
+          )}
         >
           {isOpen ? (
-            <div className="h-14 w-14 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center">
-              <X className="h-5 w-5 text-white" />
-            </div>
+            <X className="h-5 w-5 text-white" />
           ) : (
             <img
               src="/images/ai-screens/Zami-bot-avatar.jpg"
               alt="Zami Bot"
-              className="h-14 w-14 rounded-full object-cover border-2 border-white/80 shadow-lg"
+              className="h-full w-full object-cover"
             />
           )}
         </button>

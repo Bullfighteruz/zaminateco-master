@@ -107,11 +107,6 @@ export default function AICoreSection() {
                   {t('ai.subtitle')}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <Link to="/actions">
-                    <Button size="sm" className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs px-4 py-1.5 shadow-sm rounded-xl gap-1.5">
-                      {t('ai.exploreApp')} <ArrowRight className="h-3 w-3" />
-                    </Button>
-                  </Link>
                   <Link to="/pitch">
                     <Button size="sm" variant="outline" className="border-emerald-200 text-emerald-800 font-bold text-xs px-4 py-1.5 hover:bg-emerald-50 rounded-xl">
                       {t('ai.viewPitch')}
