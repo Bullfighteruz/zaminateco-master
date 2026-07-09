@@ -23,15 +23,29 @@ const COACH_STORAGE_KEY = 'zami_bot_chat';
 const BOT_AVATAR = '/images/ai-screens/Zami-bot-avatar.jpg';
 
 // ── Markdown renderer ──────────────────────────────────────────────
-function renderMarkdown(text: string): React.ReactNode[] {
+function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {
   const lines = text.split('\n');
   const elements: React.ReactNode[] = [];
   let listItems: React.ReactNode[] = [];
 
+  const isUser = role === 'user';
+  const listColor = isUser ? 'text-slate-100' : 'text-slate-600';
+  const listTextColor = isUser ? 'text-slate-200 leading-relaxed text-left' : 'text-slate-600 leading-relaxed text-left';
+  const boldColor = isUser ? 'text-white font-bold' : 'text-slate-900 font-bold';
+  const boldItalicColor = isUser ? 'text-white font-extrabold italic' : 'text-slate-900 font-extrabold italic';
+  const italicColor = isUser ? 'text-slate-200 italic' : 'text-slate-500 italic';
+  const hrColor = isUser ? 'border-white/10' : 'border-slate-150';
+  const h4Color = isUser ? 'text-emerald-300' : 'text-emerald-700';
+  const h3Color = isUser ? 'text-emerald-200' : 'text-emerald-600';
+  const h2Color = isUser ? 'text-white' : 'text-slate-900';
+  const numColor = isUser ? 'flex items-start gap-2 my-1 text-slate-200' : 'flex items-start gap-2 my-1 text-slate-600';
+  const numIndexColor = isUser ? 'text-emerald-400 font-extrabold text-xs mt-[1px] min-w-[16px]' : 'text-emerald-650 font-extrabold text-xs mt-[1px] min-w-[16px]';
+  const paragraphColor = isUser ? 'text-slate-200 my-1 text-left' : 'text-slate-600 my-1 text-left';
+
   const flushList = () => {
     if (listItems.length > 0) {
       elements.push(
-        <ul key={`ul-${elements.length}`} className="space-y-1.5 my-2 pl-4 list-disc text-slate-200">
+        <ul key={`ul-${elements.length}`} className={cn("space-y-1.5 my-2 pl-4 list-disc", listColor)}>
           {listItems}
         </ul>
       );
@@ -46,21 +60,21 @@ function renderMarkdown(text: string): React.ReactNode[] {
     return parts.map((part, i) => {
       if (part.startsWith('***') && part.endsWith('***')) {
         return (
-          <strong key={`${lineIdx}-bi-${i}`} className="font-extrabold italic text-white">
+          <strong key={`${lineIdx}-bi-${i}`} className={boldItalicColor}>
             {part.slice(3, -3).replace(/\*/g, '')}
           </strong>
         );
       }
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={`${lineIdx}-b-${i}`} className="font-bold text-white">
+          <strong key={`${lineIdx}-b-${i}`} className={boldColor}>
             {part.slice(2, -2).replace(/\*/g, '')}
           </strong>
         );
       }
       if (part.startsWith('*') && part.endsWith('*')) {
         return (
-          <em key={`${lineIdx}-i-${i}`} className="italic text-slate-300">
+          <em key={`${lineIdx}-i-${i}`} className={italicColor}>
             {part.slice(1, -1)}
           </em>
         );
@@ -74,14 +88,14 @@ function renderMarkdown(text: string): React.ReactNode[] {
 
     if (trimmed === '---') {
       flushList();
-      elements.push(<hr key={`hr-${lineIdx}`} className="my-3 border-white/10" />);
+      elements.push(<hr key={`hr-${lineIdx}`} className={cn("my-3", hrColor)} />);
       return;
     }
 
     if (trimmed.startsWith('### ')) {
       flushList();
       elements.push(
-        <h4 key={`h-${lineIdx}`} className="text-xs font-black text-emerald-300 mt-3 mb-1.5 tracking-wider uppercase">
+        <h4 key={`h-${lineIdx}`} className={cn("text-xs font-black mt-3 mb-1.5 tracking-wider uppercase", h4Color)}>
           {renderInline(trimmed.slice(4), lineIdx)}
         </h4>
       );
@@ -90,7 +104,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (trimmed.startsWith('## ')) {
       flushList();
       elements.push(
-        <h3 key={`h-${lineIdx}`} className="text-sm font-black text-emerald-200 mt-4 mb-2 tracking-wide">
+        <h3 key={`h-${lineIdx}`} className={cn("text-sm font-black mt-4 mb-2 tracking-wide", h3Color)}>
           {renderInline(trimmed.slice(3), lineIdx)}
         </h3>
       );
@@ -99,7 +113,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (trimmed.startsWith('# ')) {
       flushList();
       elements.push(
-        <h2 key={`h-${lineIdx}`} className="text-base font-black text-white mt-4 mb-2 tracking-wide">
+        <h2 key={`h-${lineIdx}`} className={cn("text-base font-black mt-4 mb-2 tracking-wide", h2Color)}>
           {renderInline(trimmed.slice(2), lineIdx)}
         </h2>
       );
@@ -109,7 +123,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     const bulletMatch = trimmed.match(/^[-•*]\s+(.*)/);
     if (bulletMatch) {
       listItems.push(
-        <li key={`li-${lineIdx}`} className="text-slate-200 leading-relaxed text-left">
+        <li key={`li-${lineIdx}`} className={listTextColor}>
           {renderInline(bulletMatch[1], lineIdx)}
         </li>
       );
@@ -120,8 +134,8 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (numMatch) {
       flushList();
       elements.push(
-        <div key={`num-${lineIdx}`} className="flex items-start gap-2 my-1 text-slate-200">
-          <span className="text-emerald-400 font-extrabold text-xs mt-[1px] min-w-[16px]">{numMatch[1]}.</span>
+        <div key={`num-${lineIdx}`} className={numColor}>
+          <span className={numIndexColor}>{numMatch[1]}.</span>
           <span className="flex-1 text-left">{renderInline(numMatch[2], lineIdx)}</span>
         </div>
       );
@@ -136,7 +150,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
 
     flushList();
     elements.push(
-      <p key={`p-${lineIdx}`} className="text-slate-200 my-1 text-left">
+      <p key={`p-${lineIdx}`} className={paragraphColor}>
         {renderInline(trimmed, lineIdx)}
       </p>
     );
@@ -310,19 +324,19 @@ export default function EcoCoach() {
   return (
     <Layout hideBottomNav={true}>
       {/* Full-screen fixed chat container */}
-      <div className="fixed inset-0 flex flex-col bg-[#0c1117]">
+      <div className="fixed inset-0 flex flex-col bg-slate-50">
         {/* Subtle ambient texture */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-emerald-600/[0.04] rounded-full blur-[120px]" />
-          <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-teal-600/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-emerald-600/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-teal-600/[0.02] rounded-full blur-[120px]" />
         </div>
 
         {/* ─── Header ─── */}
-        <header className="relative z-20 flex-shrink-0 border-b border-white/[0.06]">
+        <header className="relative z-20 flex-shrink-0 border-b border-slate-100 bg-white shadow-sm">
           <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
             <button
               onClick={() => window.history.back()}
-              className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="text-xs font-medium hidden sm:inline">{t('scanner.back', { defaultValue: 'Back' })}</span>
@@ -332,11 +346,11 @@ export default function EcoCoach() {
               <img
                 src={BOT_AVATAR}
                 alt="Zami Bot"
-                className="h-8 w-8 rounded-full object-cover ring-2 ring-emerald-500/30"
+                className="h-8 w-8 rounded-full object-cover ring-2 ring-emerald-500/20"
               />
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-white leading-tight">Zami Bot</span>
-                <span className="text-[10px] text-emerald-400/80 font-medium leading-tight">
+                <span className="text-sm font-bold text-slate-800 leading-tight">Zami Bot</span>
+                <span className="text-[10px] text-emerald-600/80 font-bold leading-tight">
                   {i18n.language === 'uz' ? 'Onlayn' : i18n.language === 'ru' ? 'Онлайн' : 'Online'}
                 </span>
               </div>
@@ -344,7 +358,7 @@ export default function EcoCoach() {
 
             <button
               onClick={clearChat}
-              className="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-white/[0.04] transition-colors"
+              className="p-2 rounded-lg text-slate-400 hover:text-red-500 hover:bg-slate-50 transition-colors"
               title="Clear chat"
             >
               <Trash2 className="h-4 w-4" />
@@ -353,7 +367,7 @@ export default function EcoCoach() {
         </header>
 
         {/* ─── Messages ─── */}
-        <div className="flex-1 overflow-y-auto relative z-10">
+        <div className="flex-1 overflow-y-auto relative z-10 bg-slate-50/50">
           <div className="max-w-2xl mx-auto px-4 py-6 space-y-5">
             <AnimatePresence initial={false}>
               {messages.map((message) => (
@@ -372,22 +386,22 @@ export default function EcoCoach() {
                     <img
                       src={BOT_AVATAR}
                       alt="Zami Bot"
-                      className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10 flex-shrink-0 mb-5"
+                      className="h-7 w-7 rounded-full object-cover border border-slate-200 flex-shrink-0 mb-5"
                     />
                   )}
 
                   <div className="flex flex-col max-w-[82%] sm:max-w-[75%]">
                     <div className={cn(
-                      "rounded-2xl px-4 py-3 text-[13px] leading-[1.65]",
+                      "rounded-2xl px-4 py-3 text-[13px] leading-[1.65] shadow-[0_1px_2px_rgba(0,0,0,0.01)]",
                       message.role === 'user'
-                        ? "bg-emerald-600 text-white rounded-br-md"
-                        : "bg-white/[0.05] border border-white/[0.06] text-slate-200 rounded-bl-md"
+                        ? "bg-gradient-to-tr from-emerald-600 to-teal-500 text-white rounded-br-none shadow-[0_4px_12px_rgba(16,185,129,0.12)]"
+                        : "bg-white border border-slate-200/60 text-slate-700 rounded-bl-none"
                     )}>
-                      {message.role === 'model' ? renderMarkdown(message.text) : message.text}
+                      {message.role === 'model' ? renderMarkdown(message.text, 'model') : message.text}
                     </div>
                     <span className={cn(
                       "text-[10px] mt-1 px-1 font-light",
-                      message.role === 'user' ? "text-slate-500 text-right" : "text-slate-600 text-left"
+                      message.role === 'user' ? "text-slate-400 text-right" : "text-slate-400 text-left"
                     )}>
                       {formatTime(message.timestamp)}
                     </span>
@@ -400,11 +414,11 @@ export default function EcoCoach() {
                         <img 
                           src={getAvatarImage(userProgress.activeAvatar)} 
                           alt="User Avatar" 
-                          className="h-full w-full object-cover" 
+                          className="h-full w-full object-cover border border-slate-200 rounded-full" 
                         />
                       ) : (
-                        <div className="h-full w-full bg-emerald-600/20 border border-emerald-500/20 flex items-center justify-center rounded-full">
-                          <span className="text-[10px] font-bold text-emerald-400">
+                        <div className="h-full w-full bg-emerald-50 border border-emerald-100 flex items-center justify-center rounded-full">
+                          <span className="text-[10px] font-bold text-emerald-600">
                             {(userProgress?.name || user?.displayName || 'U').charAt(0).toUpperCase()}
                           </span>
                         </div>
@@ -425,12 +439,12 @@ export default function EcoCoach() {
                   <img
                     src={BOT_AVATAR}
                     alt="Zami Bot"
-                    className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10 flex-shrink-0 mb-5"
+                    className="h-7 w-7 rounded-full object-cover border border-slate-200 flex-shrink-0 mb-5"
                   />
-                  <div className="bg-white/[0.05] border border-white/[0.06] rounded-2xl rounded-bl-md px-5 py-3.5 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
-                    <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+                  <div className="bg-white border border-slate-200/60 rounded-2xl rounded-bl-none px-5 py-3.5 flex items-center gap-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                    <span className="w-1.5 h-1.5 bg-emerald-500/70 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+                    <span className="w-1.5 h-1.5 bg-emerald-500/70 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
+                    <span className="w-1.5 h-1.5 bg-emerald-500/70 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
                   </div>
                 </motion.div>
               )}
@@ -440,7 +454,7 @@ export default function EcoCoach() {
         </div>
 
         {/* ─── Footer: Suggestions + Input ─── */}
-        <footer className="relative z-20 flex-shrink-0 border-t border-white/[0.06] bg-[#0c1117]/90 backdrop-blur-xl">
+        <footer className="relative z-20 flex-shrink-0 border-t border-slate-100 bg-white/95 backdrop-blur-md">
           <div className="max-w-2xl mx-auto px-4 py-3 space-y-3">
             {/* Quick suggestions — only when conversation just started */}
             {messages.length <= 1 && (
@@ -449,7 +463,7 @@ export default function EcoCoach() {
                   <button
                     key={i}
                     onClick={() => handleSendMessage(s)}
-                    className="text-[11px] font-medium px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-400 hover:text-white hover:bg-white/[0.08] hover:border-emerald-500/20 transition-all"
+                    className="text-[11px] font-bold px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200/60 text-slate-500 hover:text-slate-800 hover:bg-slate-100 hover:border-slate-350 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
                   >
                     {s}
                   </button>
@@ -472,14 +486,14 @@ export default function EcoCoach() {
                     : i18n.language === 'ru' ? "Напишите вопрос..."
                     : "Type your message..."
                   }
-                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-slate-500 h-11 px-4 text-[13px] focus-visible:ring-1 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-0 focus-visible:border-emerald-500/30 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 h-11 px-4 text-[13px] focus-visible:ring-1 focus-visible:ring-emerald-500/20 focus-visible:ring-offset-0 focus-visible:border-emerald-500/30 focus:bg-white transition-all"
                 />
               </div>
               <Button
                 type="submit"
                 disabled={!inputText.trim() || isTyping}
                 size="icon"
-                className="h-11 w-11 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition-colors disabled:opacity-30 disabled:bg-slate-700 flex-shrink-0"
+                className="h-11 w-11 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-all disabled:bg-slate-100 disabled:text-slate-400 flex-shrink-0 active:scale-95 shadow-md shadow-emerald-500/10"
               >
                 <Send className="h-4 w-4" />
               </Button>
