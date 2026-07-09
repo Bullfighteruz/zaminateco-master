@@ -19,15 +19,29 @@ interface Message {
 const STORAGE_KEY = 'zami_bot_chat';
 
 /** Parse simple markdown (bold, bullet points, headers, lists) into React elements */
-function renderMarkdown(text: string): React.ReactNode[] {
+function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {
   const lines = text.split('\n');
   const elements: React.ReactNode[] = [];
   let listItems: React.ReactNode[] = [];
 
+  const isUser = role === 'user';
+  const listColor = isUser ? 'text-slate-100' : 'text-slate-600';
+  const listTextColor = isUser ? 'text-slate-200 leading-relaxed text-left' : 'text-slate-600 leading-relaxed text-left';
+  const boldColor = isUser ? 'text-white font-bold' : 'text-slate-900 font-bold';
+  const boldItalicColor = isUser ? 'text-white font-extrabold italic' : 'text-slate-900 font-extrabold italic';
+  const italicColor = isUser ? 'text-slate-200 italic' : 'text-slate-500 italic';
+  const hrColor = isUser ? 'border-white/10' : 'border-slate-150';
+  const h4Color = isUser ? 'text-emerald-300' : 'text-emerald-700';
+  const h3Color = isUser ? 'text-emerald-200' : 'text-emerald-600';
+  const h2Color = isUser ? 'text-white' : 'text-slate-900';
+  const numColor = isUser ? 'flex items-start gap-2 my-1 text-slate-200' : 'flex items-start gap-2 my-1 text-slate-600';
+  const numIndexColor = isUser ? 'text-emerald-400 font-extrabold text-xs mt-[1px] min-w-[16px]' : 'text-emerald-600 font-extrabold text-xs mt-[1px] min-w-[16px]';
+  const paragraphColor = isUser ? 'text-slate-200 my-1 text-left' : 'text-slate-600 my-1 text-left';
+
   const flushList = () => {
     if (listItems.length > 0) {
       elements.push(
-        <ul key={`ul-${elements.length}`} className="space-y-1.5 my-2 pl-4 list-disc text-slate-200">
+        <ul key={`ul-${elements.length}`} className={cn("space-y-1.5 my-2 pl-4 list-disc", listColor)}>
           {listItems}
         </ul>
       );
@@ -42,21 +56,21 @@ function renderMarkdown(text: string): React.ReactNode[] {
     return parts.map((part, i) => {
       if (part.startsWith('***') && part.endsWith('***')) {
         return (
-          <strong key={`${lineIdx}-bi-${i}`} className="font-extrabold italic text-white">
+          <strong key={`${lineIdx}-bi-${i}`} className={boldItalicColor}>
             {part.slice(3, -3).replace(/\*/g, '')}
           </strong>
         );
       }
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={`${lineIdx}-b-${i}`} className="font-bold text-white">
+          <strong key={`${lineIdx}-b-${i}`} className={boldColor}>
             {part.slice(2, -2).replace(/\*/g, '')}
           </strong>
         );
       }
       if (part.startsWith('*') && part.endsWith('*')) {
         return (
-          <em key={`${lineIdx}-i-${i}`} className="italic text-slate-300">
+          <em key={`${lineIdx}-i-${i}`} className={italicColor}>
             {part.slice(1, -1)}
           </em>
         );
@@ -70,14 +84,14 @@ function renderMarkdown(text: string): React.ReactNode[] {
 
     if (trimmed === '---') {
       flushList();
-      elements.push(<hr key={`hr-${lineIdx}`} className="my-3 border-white/10" />);
+      elements.push(<hr key={`hr-${lineIdx}`} className={cn("my-3", hrColor)} />);
       return;
     }
 
     if (trimmed.startsWith('### ')) {
       flushList();
       elements.push(
-        <h4 key={`h-${lineIdx}`} className="text-xs font-black text-emerald-300 mt-3 mb-1.5 tracking-wider uppercase">
+        <h4 key={`h-${lineIdx}`} className={cn("text-xs font-black mt-3 mb-1.5 tracking-wider uppercase", h4Color)}>
           {renderInline(trimmed.slice(4), lineIdx)}
         </h4>
       );
@@ -86,7 +100,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (trimmed.startsWith('## ')) {
       flushList();
       elements.push(
-        <h3 key={`h-${lineIdx}`} className="text-sm font-black text-emerald-200 mt-4 mb-2 tracking-wide">
+        <h3 key={`h-${lineIdx}`} className={cn("text-sm font-black mt-4 mb-2 tracking-wide", h3Color)}>
           {renderInline(trimmed.slice(3), lineIdx)}
         </h3>
       );
@@ -95,7 +109,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (trimmed.startsWith('# ')) {
       flushList();
       elements.push(
-        <h2 key={`h-${lineIdx}`} className="text-base font-black text-white mt-4 mb-2 tracking-wide">
+        <h2 key={`h-${lineIdx}`} className={cn("text-base font-black mt-4 mb-2 tracking-wide", h2Color)}>
           {renderInline(trimmed.slice(2), lineIdx)}
         </h2>
       );
@@ -105,7 +119,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     const bulletMatch = trimmed.match(/^[-•*]\s+(.*)/);
     if (bulletMatch) {
       listItems.push(
-        <li key={`li-${lineIdx}`} className="text-slate-200 leading-relaxed text-left">
+        <li key={`li-${lineIdx}`} className={listTextColor}>
           {renderInline(bulletMatch[1], lineIdx)}
         </li>
       );
@@ -116,8 +130,8 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (numMatch) {
       flushList();
       elements.push(
-        <div key={`num-${lineIdx}`} className="flex items-start gap-2 my-1 text-slate-200">
-          <span className="text-emerald-400 font-extrabold text-xs mt-[1px] min-w-[16px]">{numMatch[1]}.</span>
+        <div key={`num-${lineIdx}`} className={numColor}>
+          <span className={numIndexColor}>{numMatch[1]}.</span>
           <span className="flex-1 text-left">{renderInline(numMatch[2], lineIdx)}</span>
         </div>
       );
@@ -132,7 +146,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
 
     flushList();
     elements.push(
-      <p key={`p-${lineIdx}`} className="text-slate-200 my-1 text-left">
+      <p key={`p-${lineIdx}`} className={paragraphColor}>
         {renderInline(trimmed, lineIdx)}
       </p>
     );
