@@ -134,10 +134,31 @@ export default defineConfig(({ mode }) => ({
     // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
-        // Let Vite decide chunking to avoid missing React runtime in production
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('leaflet') || id.includes('react-leaflet')) {
+              return 'vendor-maps';
+            }
+            if (id.includes('recharts') || id.includes('d3-')) {
+              return 'vendor-charts';
+            }
+            if (id.includes('pptxgenjs')) {
+              return 'vendor-pptx';
+            }
+            if (id.includes('@supabase') || id.includes('websocket')) {
+              return 'vendor-db';
+            }
+            if (id.includes('framer-motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+          }
+        }
       },
     },
     // Disable source maps in production build
