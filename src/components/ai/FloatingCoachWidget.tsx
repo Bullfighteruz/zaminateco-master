@@ -321,8 +321,8 @@ export default function FloatingCoachWidget() {
     saveMessages(freshMessages);
   };
 
-  // Don't show this widget on the main EcoCoach page
-  if (location.pathname === '/coach') return null;
+  // Don't show this widget on full-screen / scanner / pitch pages
+  if (['/coach', '/scanner', '/pitch', '/pitch-live'].includes(location.pathname)) return null;
 
   return (
     // bottom position: standard float position on mobile, clearing the bottom navigation bar beautifully

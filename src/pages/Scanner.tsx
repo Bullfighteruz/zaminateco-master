@@ -21,7 +21,6 @@ import { apiClient } from '@/lib/api-client';
 import { loadUserProgress, saveUserProgress } from '@/lib/userProgress';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
-import SmartSortingOverlay from '@/components/ai/SmartSortingOverlay';
 
 type ScanState = 'camera' | 'preview' | 'scanning' | 'result' | 'error';
 
@@ -75,9 +74,6 @@ export default function Scanner() {
   const [mlResult, setMlResult] = useState<ClassifierResult | null>(null);
   const [mlModelLoading, setMlModelLoading] = useState(false);
   const [mlModelReady, setMlModelReady] = useState(isModelReady());
-
-  // Smart Sorting overlay
-  const [smartSortActive, setSmartSortActive] = useState(false);
 
   // 1. Fetch points and locate user
   useEffect(() => {
@@ -466,28 +462,18 @@ export default function Scanner() {
                       {/* Scanning overlay */}
                       {cameraReady && (
                         <div className="absolute inset-0 pointer-events-none">
-                          {!smartSortActive && (
-                            <>
-                              <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400/50 rounded-tl-xl" />
-                              <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400/50 rounded-tr-xl" />
-                              <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400/50 rounded-bl-xl" />
-                              <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400/50 rounded-br-xl" />
-                              <motion.div
-                                className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent shadow-[0_0_10px_rgba(52,211,153,0.3)]"
-                                animate={{ top: ['15%', '85%', '15%'] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                              />
-                            </>
-                          )}
+                          <div className="absolute top-6 left-6 w-10 h-10 border-t-2 border-l-2 border-emerald-400/50 rounded-tl-xl" />
+                          <div className="absolute top-6 right-6 w-10 h-10 border-t-2 border-r-2 border-emerald-400/50 rounded-tr-xl" />
+                          <div className="absolute bottom-6 left-6 w-10 h-10 border-b-2 border-l-2 border-emerald-400/50 rounded-bl-xl" />
+                          <div className="absolute bottom-6 right-6 w-10 h-10 border-b-2 border-r-2 border-emerald-400/50 rounded-br-xl" />
+                          <motion.div
+                            className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent shadow-[0_0_10px_rgba(52,211,153,0.3)]"
+                            animate={{ top: ['15%', '85%', '15%'] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                          />
                         </div>
                       )}
 
-                      {/* Smart Sorting ML Overlay */}
-                      <SmartSortingOverlay
-                        videoRef={videoRef}
-                        isActive={smartSortActive}
-                        onClose={() => setSmartSortActive(false)}
-                      />
                       {!cameraReady && (
                         <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
                           <div className="text-center space-y-2">
@@ -498,43 +484,8 @@ export default function Scanner() {
                       )}
                     </div>
 
-                    {/* Mode Dial Selector */}
-                    <div className="flex justify-center items-center gap-6 text-[10px] font-black uppercase tracking-widest text-slate-500 mt-2 select-none">
-                      <button
-                        onClick={() => setSmartSortActive(false)}
-                        className={cn(
-                          "transition-all duration-300 relative py-1 px-1",
-                          !smartSortActive ? "text-emerald-400 font-bold" : "hover:text-slate-300"
-                        )}
-                      >
-                        Standard AI Scan
-                        {!smartSortActive && (
-                          <motion.div 
-                            layoutId="activeModeUnderline"
-                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-400 rounded-full"
-                          />
-                        )}
-                      </button>
-                      <button
-                        onClick={() => setSmartSortActive(true)}
-                        className={cn(
-                          "transition-all duration-300 relative py-1 px-1 flex items-center gap-1",
-                          smartSortActive ? "text-violet-400 font-bold" : "hover:text-slate-300"
-                        )}
-                      >
-                        <Sparkles className="h-3 w-3" />
-                        Real-time AR
-                        {smartSortActive && (
-                          <motion.div 
-                            layoutId="activeModeUnderline"
-                            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-violet-400 rounded-full"
-                          />
-                        )}
-                      </button>
-                    </div>
-
                     {/* Camera controls */}
-                    <div className="flex items-center justify-center gap-8 mt-2">
+                    <div className="flex items-center justify-center gap-8 mt-6">
                       <button
                         onClick={() => fileInputRef.current?.click()}
                         className="h-12 w-12 rounded-full border border-white/10 bg-slate-900/60 backdrop-blur-xl text-slate-300 hover:text-white hover:border-white/20 active:scale-95 transition-all flex items-center justify-center shadow-lg hover:shadow-white/5"
@@ -550,14 +501,7 @@ export default function Scanner() {
                           background: 'rgba(255, 255, 255, 0.03)',
                         }}
                       >
-                        <div 
-                          className={cn(
-                            "h-full w-full rounded-full transition-all duration-300 flex items-center justify-center",
-                            smartSortActive 
-                              ? "bg-gradient-to-tr from-violet-500 to-fuchsia-600 shadow-[0_0_20px_rgba(139,92,246,0.4)]" 
-                              : "bg-gradient-to-tr from-emerald-400 to-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]"
-                          )}
-                        >
+                        <div className="h-full w-full rounded-full transition-all duration-300 flex items-center justify-center bg-gradient-to-tr from-emerald-400 to-teal-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]">
                           <div className="h-7 w-7 rounded-full border-2 border-white/90" />
                         </div>
                       </button>
