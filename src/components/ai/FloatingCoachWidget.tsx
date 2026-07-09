@@ -343,7 +343,7 @@ export default function FloatingCoachWidget() {
   return (
     // bottom position: standard float position on mobile, clearing the bottom navigation bar beautifully
     <div
-      className="fixed right-4 z-[9999] flex flex-col items-end pointer-events-auto select-none"
+      className="fixed right-4 z-[9999] flex flex-col items-end pointer-events-none select-none"
       style={{
         bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 90px)' : '24px',
       }}
@@ -357,7 +357,7 @@ export default function FloatingCoachWidget() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-white border border-slate-200/80 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2 relative"
+            className="absolute bottom-16 right-0 sm:right-1 w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-white border border-slate-200/80 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden relative z-20 pointer-events-auto"
           >
             {/* Top pattern accent */}
             <div className="absolute top-0 left-0 right-0 h-[3px] overflow-hidden bg-emerald-50 z-20">
@@ -481,11 +481,11 @@ export default function FloatingCoachWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.95 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="mb-2.5 mr-1 z-10"
+            className="absolute bottom-16 right-1 z-10 pointer-events-auto w-max"
           >
             <button
               onClick={() => { setShowCta(false); setIsOpen(true); }}
-              className="relative text-slate-800 text-[10px] font-bold leading-relaxed px-3.5 py-2 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-white/50 transition-all duration-200 max-w-[170px] cursor-pointer text-left"
+              className="relative text-slate-800 text-[10px] font-bold leading-relaxed px-3.5 py-2 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-white/50 transition-all duration-200 w-[160px] cursor-pointer text-left"
               style={{ 
                 background: 'rgba(255, 255, 255, 0.22)',
                 backdropFilter: 'blur(20px)',
@@ -516,7 +516,7 @@ export default function FloatingCoachWidget() {
       <button
         onClick={() => setIsOpen(prev => !prev)}
         className={cn(
-          "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0 border-2 overflow-hidden mr-1",
+          "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0 border-2 overflow-hidden mr-1 pointer-events-auto",
           isOpen ? "bg-white border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300" : "bg-white border-white shadow-[0_4px_24px_rgba(16,185,129,0.15)]"
         )}
       >
