@@ -447,59 +447,63 @@ export default function FloatingCoachWidget() {
       </AnimatePresence>
 
       {/* Toggle Button + CTA */}
-      <div className="flex items-center gap-2.5">
-        {/* CTA Speech Bubble - Minimalistic design with glassmorphism style */}
-        <AnimatePresence>
-          {!isOpen && showCta && (
-            <motion.div
-              initial={{ opacity: 0, x: -8, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -4, scale: 0.95 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="mr-3 mb-1"
+      {/* CTA Speech Bubble - Centered directly above the chatbot button */}
+      <AnimatePresence>
+        {!isOpen && showCta && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="mb-2.5 mr-1 z-10"
+          >
+            <button
+              onClick={() => { setShowCta(false); setIsOpen(true); }}
+              className="relative text-slate-800 text-[10px] font-bold leading-relaxed px-3.5 py-2 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-white/50 transition-all duration-200 max-w-[170px] cursor-pointer text-left"
+              style={{ 
+                background: 'rgba(255, 255, 255, 0.22)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.35)',
+              }}
             >
-              <button
-                onClick={() => { setShowCta(false); setIsOpen(true); }}
-                className="relative text-slate-800 text-[10px] font-semibold leading-relaxed pl-3.5 pr-7 py-2 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] hover:border-white/50 transition-all duration-200 max-w-[170px] cursor-pointer text-left"
-                style={{ 
-                  background: 'rgba(255, 255, 255, 0.22)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.35)',
-                }}
+              {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
+              {/* Dismiss X - Modern round badge */}
+              <span
+                onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
+                className="absolute -top-1.5 -right-1.5 bg-slate-900/10 hover:bg-slate-900/20 text-slate-700 h-4 w-4 rounded-full flex items-center justify-center text-[8px] font-bold cursor-pointer shadow-sm transition-colors"
               >
-                {(ctaMessages[i18n.language] || ctaMessages.en)[ctaIndex]}
-                {/* Dismiss X */}
-                <span
-                  onClick={(e) => { e.stopPropagation(); setShowCta(false); }}
-                  className="absolute top-1 right-1.5 text-slate-400 hover:text-slate-600 text-[10px] leading-none cursor-pointer"
-                >
-                  ✕
-                </span>
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                ✕
+              </span>
+              
+              {/* Pointer triangle pointing DOWN towards the avatar */}
+              <span 
+                className="absolute bottom-[-5px] right-[23px] w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px]" 
+                style={{ borderTopColor: 'rgba(255, 255, 255, 0.35)' }}
+              />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* Avatar Button */}
-        <button
-          onClick={() => setIsOpen(prev => !prev)}
-          className={cn(
-            "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0 border-2 overflow-hidden",
-            isOpen ? "bg-slate-800 border-white/10" : "bg-zinc-900 border-white/80"
-          )}
-        >
-          {isOpen ? (
-            <X className="h-5 w-5 text-white" />
-          ) : (
-            <img
-              src="/images/ai-screens/Zami-bot-avatar.jpg"
-              alt="Zami Bot"
-              className="h-full w-full object-cover"
-            />
-          )}
-        </button>
-      </div>
+      {/* Avatar Button */}
+      <button
+        onClick={() => setIsOpen(prev => !prev)}
+        className={cn(
+          "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0 border-2 overflow-hidden mr-1",
+          isOpen ? "bg-slate-800 border-white/10" : "bg-zinc-900 border-white/80"
+        )}
+      >
+        {isOpen ? (
+          <X className="h-5 w-5 text-white" />
+        ) : (
+          <img
+            src="/images/ai-screens/Zami-bot-avatar.jpg"
+            alt="Zami Bot"
+            className="h-full w-full object-cover"
+          />
+        )}
+      </button>
 
     </div>
   );
