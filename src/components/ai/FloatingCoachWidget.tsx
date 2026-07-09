@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getEcoCoachResponse } from '@/lib/gemini';
 import { loadUserProgress } from '@/lib/userProgress';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -178,6 +178,7 @@ function getWelcomeText(lang: string): string {
 export default function FloatingCoachWidget() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -340,7 +341,8 @@ export default function FloatingCoachWidget() {
             initial={{ opacity: 0, y: 32, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 32, scale: 0.95 }}
-            className="w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-zinc-950 border border-zinc-900 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2 animate-in fade-in slide-in-from-bottom-4 duration-300"
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-zinc-950 border border-zinc-900 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
           >
             {/* Header - Premium Minimalist Design */}
             <div className="px-5 py-4 flex items-center justify-between border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-md">
@@ -349,7 +351,7 @@ export default function FloatingCoachWidget() {
                   <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="absolute h-2.5 w-2.5 rounded-full bg-emerald-500/30 animate-ping" />
                 </div>
-                <span className="text-xs font-semibold text-zinc-100 tracking-wide">Zami Coach</span>
+                <span className="text-xs font-semibold text-zinc-100 tracking-wide">Zami Bot</span>
               </div>
               <div className="flex items-center gap-1.5">
                 {messages.length > 1 && (
@@ -361,13 +363,17 @@ export default function FloatingCoachWidget() {
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 )}
-                <Link 
-                  to="/coach" 
-                  onClick={() => setIsOpen(false)}
+                <button 
+                  onClick={() => {
+                    setIsOpen(false);
+                    setTimeout(() => {
+                      navigate('/coach');
+                    }, 250);
+                  }}
                   className="text-[10px] bg-zinc-900 hover:bg-zinc-800 text-zinc-300 font-semibold px-2.5 py-1 rounded-lg mr-1.5 transition-all border border-zinc-800"
                 >
                   {i18n.language === 'uz' ? 'To\'liq' : i18n.language === 'ru' ? 'Экран' : 'Full'}
-                </Link>
+                </button>
                 <button 
                   onClick={() => setIsOpen(false)}
                   className="text-zinc-500 hover:text-zinc-300 p-1.5 rounded-lg hover:bg-zinc-900 transition-colors"
