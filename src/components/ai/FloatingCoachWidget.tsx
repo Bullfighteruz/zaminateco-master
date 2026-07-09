@@ -9,6 +9,7 @@ import { loadUserProgress } from '@/lib/userProgress';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { UzbekPattern } from '@/components/EcoIcons';
 
 interface Message {
   id: string;
@@ -356,10 +357,15 @@ export default function FloatingCoachWidget() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-white border border-slate-200/80 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2"
+            className="w-[calc(100vw-2rem)] sm:w-[390px] md:w-[410px] max-h-[calc(100vh-8.5rem)] h-[550px] bg-white border border-slate-200/80 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col overflow-hidden mb-4 mr-0 sm:mr-2 relative"
           >
+            {/* Top pattern accent */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] overflow-hidden bg-emerald-50 z-20">
+              <UzbekPattern className="w-full h-full text-emerald-600/30" />
+            </div>
+
             {/* Header - Premium Minimalist Light-Emerald Design */}
-            <div className="px-5 py-4 flex items-center justify-between border-b border-slate-100 bg-white">
+            <div className="px-5 pt-5 pb-4 flex items-center justify-between border-b border-slate-100 bg-white relative z-10">
               <div className="flex items-center gap-3">
                 <div className="relative flex items-center justify-center">
                   <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -511,11 +517,11 @@ export default function FloatingCoachWidget() {
         onClick={() => setIsOpen(prev => !prev)}
         className={cn(
           "h-14 w-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 select-none relative hover:shadow-xl flex-shrink-0 border-2 overflow-hidden mr-1",
-          isOpen ? "bg-slate-800 border-white/10" : "bg-zinc-900 border-white/80"
+          isOpen ? "bg-white border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300" : "bg-white border-white shadow-[0_4px_24px_rgba(16,185,129,0.15)]"
         )}
       >
         {isOpen ? (
-          <X className="h-5 w-5 text-white" />
+          <X className="h-5 w-5 text-slate-500" />
         ) : (
           <img
             src="/images/ai-screens/Zami-bot-avatar.jpg"
