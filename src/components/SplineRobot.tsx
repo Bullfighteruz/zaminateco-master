@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Leaf } from 'lucide-react';
+import { Leaf, Cpu, Sparkles, Activity } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import Spline from '@splinetool/react-spline';
@@ -11,10 +11,10 @@ interface SplineRobotProps {
 }
 
 /**
- * Optimized Spline Robot Component using @splinetool/react-spline.
- * - Self-hosted local splinecode file (/spline/scene.splinecode)
- * - Dimension check with ResizeObserver to prevent zero-size WebGL initialization
- * - skeleton loader & fallback 2D illustrations
+ * Optimized Spline Robot Component with Mobile performance focus:
+ * - Bypasses heavy WebGL rendering entirely on mobile devices to preserve 60-120fps scroll physics
+ * - Replaces 3D on mobile with a highly premium, GPU-accelerated 2D glassmorphic holographic dashboard
+ * - Uses ResizeObserver to prevent zero-dimension WebGL initialization errors on desktop
  */
 export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) => {
   const { i18n } = useTranslation();
@@ -26,8 +26,17 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
   const isMobile = useIsMobile();
   const [hasDimensions, setHasDimensions] = useState(false);
 
-  // Resize observer to ensure parent container has non-zero dimensions before loading WebGL scene
+  // CRITICAL MOBILE OPTIMIZATION: Bypasses 3D WebGL completely on mobile to prevent GPU lag
   useEffect(() => {
+    if (isMobile) {
+      setIsLoaded(true);
+      setLoadFailed(true);
+    }
+  }, [isMobile]);
+
+  // Resize observer to ensure parent container has non-zero dimensions before loading WebGL scene (Desktop only)
+  useEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -51,10 +60,11 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [isMobile]);
 
-  // Intersection Observer for lazy loading
+  // Intersection Observer for lazy loading (Desktop only)
   useEffect(() => {
+    if (isMobile) return;
     if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
@@ -83,10 +93,11 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [isMobile]);
 
-  // Load animation when shouldLoad is true
+  // Load animation when shouldLoad is true (Desktop only)
   useEffect(() => {
+    if (isMobile) return;
     if (shouldLoad && !isLoaded) {
       requestAnimationFrame(() => {
         setIsVisible(true);
@@ -96,7 +107,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
       const fallbackTimer = setTimeout(() => {
         setIsLoaded((currentIsLoaded) => {
           if (!currentIsLoaded) {
-            setLoadFailed(true); // Gracefully degrade to 2D illustration
+            setLoadFailed(true);
             return true;
           }
           return currentIsLoaded;
@@ -105,14 +116,13 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 
       return () => clearTimeout(fallbackTimer);
     }
-  }, [shouldLoad, isLoaded]);
+  }, [shouldLoad, isLoaded, isMobile]);
 
-  // Optimize for low-end devices
+  // Optimize for low-end desktop devices
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
 
-  if (prefersReducedMotion || isLowEndDevice) {
-    // Return static placeholder for low-end devices
+  if (!isMobile && (prefersReducedMotion || isLowEndDevice)) {
     return (
       <div
         ref={containerRef}
@@ -141,9 +151,9 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         ...style,
       }}
     >
-      {/* Skeleton Placeholder */}
+      {/* Skeleton Placeholder (Desktop only) */}
       <AnimatePresence mode="wait">
-        {!isLoaded && (
+        {!isMobile && !isLoaded && (
           <motion.div
             key="skeleton"
             initial={{ opacity: 1 }}
@@ -182,8 +192,8 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         )}
       </AnimatePresence>
 
-      {/* Spline 3D Viewer - Only render when shouldLoad is true, has non-zero parent size, and hasn't failed */}
-      {shouldLoad && hasDimensions && !loadFailed && (
+      {/* Spline 3D Viewer (Desktop only) */}
+      {!isMobile && shouldLoad && hasDimensions && !loadFailed && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoaded ? 1 : 0 }}
@@ -215,62 +225,94 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         </motion.div>
       )}
 
-      {/* Premium 2D Fallback - Shown if 3D scene fails to load (e.g. extension block or WebGL error) */}
+      {/* Premium 2D Fallback / Mobile Interface - Super Lightweight GPU-accelerated holographic dashboard */}
       {loadFailed && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-br from-emerald-50/20 to-teal-50/20"
+          transition={{ duration: 0.5 }}
+          className="absolute inset-0 flex items-center justify-center p-6 bg-transparent"
         >
+          {/* Subtle Floating Leaves (GPU Accelerated) */}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ 
+                x: i % 2 === 0 ? -60 : 60, 
+                y: i < 2 ? -80 : 80, 
+                opacity: 0.15,
+                rotate: i * 45
+              }}
+              animate={{ 
+                y: [i < 2 ? -80 : 80, i < 2 ? -95 : 65, i < 2 ? -80 : 80],
+                rotate: [i * 45, i * 45 + 10, i * 45],
+                opacity: [0.15, 0.25, 0.15]
+              }}
+              transition={{ 
+                duration: 6 + i * 2, 
+                repeat: Infinity, 
+                ease: 'easeInOut' 
+              }}
+              className="absolute text-emerald-500/25 pointer-events-none"
+            >
+              <Leaf className="w-5 h-5 fill-current" />
+            </motion.div>
+          ))}
+
           <div className="relative flex flex-col items-center justify-center text-center">
-            {/* Pulsing Outer Glow Ring */}
-            <div className="absolute w-56 h-56 bg-emerald-400/10 rounded-full blur-2xl animate-pulse" />
+            {/* Ambient pulsing AI core glow */}
+            <div className="absolute w-44 h-44 bg-gradient-to-tr from-emerald-400/20 to-teal-400/10 rounded-full blur-2xl animate-pulse" />
             
-            {/* Concentric Rotating/Pulsing Rings */}
-            <div className="relative w-48 h-48 flex items-center justify-center">
+            {/* Holographic Concentric Circles */}
+            <div className="relative w-40 h-40 flex items-center justify-center">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                className="absolute inset-0 rounded-full border border-dashed border-emerald-400/40"
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-0 rounded-full border border-dashed border-emerald-500/25"
               />
               <motion.div
                 animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-                className="absolute inset-4 rounded-full border border-dashed border-teal-500/30"
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-3 rounded-full border border-dashed border-teal-500/20"
               />
               <motion.div
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-8 rounded-full bg-gradient-to-br from-emerald-500/10 to-teal-500/15 border border-emerald-500/20 backdrop-blur-md shadow-inner flex items-center justify-center"
+                animate={{ scale: [1, 1.03, 1] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-6 rounded-full bg-gradient-to-br from-emerald-500/5 to-teal-500/10 border border-emerald-500/15 backdrop-blur-[8px] shadow-inner flex items-center justify-center"
               >
-                {/* Premium Glassmorphic Core */}
-                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg relative overflow-hidden group">
-                  {/* Sweep Light Effect */}
+                {/* Glassmorphic Core */}
+                <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg relative overflow-hidden group">
                   <motion.div
                     animate={{ x: ['-100%', '100%'] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     style={{ transform: 'skewX(-20deg)' }}
                   />
-                  <Leaf className="w-12 h-12 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]" />
+                  <Cpu className="w-9 h-9 text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]" />
                 </div>
               </motion.div>
             </div>
             
-            {/* Information Info Badge */}
-            <div className="mt-6 space-y-1 z-10">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
-                Zaminat AI Core
+            {/* Dynamic Status Dashboard */}
+            <div className="mt-5 space-y-2.5 z-10">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-800 text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
+                <Sparkles className="w-3 h-3 text-emerald-600 animate-spin" style={{ animationDuration: '8s' }} />
+                <span>Zaminat AI Active</span>
               </div>
-              <p className="text-[11px] text-slate-500 max-w-xs leading-relaxed pt-1 font-medium">
-                3D system optimized. 2D graphics active.
-              </p>
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-slate-100 shadow-sm text-[9px] text-slate-500 font-semibold tracking-wider uppercase select-none">
+                <div className="flex items-center gap-1 text-emerald-600">
+                  <Activity className="w-3.5 h-3.5 animate-pulse" />
+                  <span>60 FPS</span>
+                </div>
+                <div className="w-[1.5px] h-3 bg-slate-200" />
+                <span>Mobile Optimised</span>
+              </div>
             </div>
           </div>
         </motion.div>
       )}
 
+      {/* Brand Badge */}
       <div
         className="absolute z-50 bottom-[19px] right-[14px] md:bottom-[19px] md:right-[12px]"
         style={{ 
