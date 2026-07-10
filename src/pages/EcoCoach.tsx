@@ -486,7 +486,7 @@ export default function EcoCoach() {
                     : i18n.language === 'ru' ? "Напишите вопрос..."
                     : "Type your message..."
                   }
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 h-11 px-4 text-[13px] focus-visible:ring-1 focus-visible:ring-emerald-500/20 focus-visible:ring-offset-0 focus-visible:border-emerald-500/30 focus:bg-white transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 h-11 px-4 text-base md:text-[13px] focus-visible:ring-1 focus-visible:ring-emerald-500/20 focus-visible:ring-offset-0 focus-visible:border-emerald-500/30 focus:bg-white transition-all"
                 />
               </div>
               <Button
