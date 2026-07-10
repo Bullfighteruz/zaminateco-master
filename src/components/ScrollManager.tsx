@@ -7,75 +7,74 @@ const STORAGE_KEY = 'zaminat_scroll_positions';
  * ScrollManager handles two behaviors:
  * 
  * 1. **Route changes (PUSH/REPLACE)**: Scrolls to top instantly.
- *    Back/forward (POP) is left to the browser's native restoration.
- * 
- * 2. **Page refresh**: Saves scroll position per pathname into sessionStorage
- *    on beforeunload, then restores it after the app mounts.
- *    This fixes the common SPA issue where React hydration + lazy content
- *    loading causes layout shifts that defeat the browser's native
- *    scroll restoration.
+ * 2. **Browser Back/Forward (POP)**: Manually restores scroll position across
+ *    multiple frames to handle dynamic SPA content load and layout hydration shifts.
  */
 export default function ScrollManager() {
   const location = useLocation();
   const navigationType = useNavigationType();
-  const hasRestoredRef = useRef(false);
 
-  // ── Save scroll position before page unload ──
+  // ── 1. Save scroll position on scroll ──
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      try {
-        const positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
-        positions[location.pathname] = window.scrollY;
-        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
-      } catch {
-        // Silently fail if sessionStorage is full/unavailable
-      }
+    let timeoutId: number;
+
+    const handleScroll = () => {
+      // Debounce saving to sessionStorage to avoid performance overhead during scrolling
+      clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        try {
+          const positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
+          positions[location.pathname + location.search] = window.scrollY;
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(positions));
+        } catch (e) {
+          // Ignore storage errors
+        }
+      }, 150);
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [location.pathname]);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, [location.pathname, location.search]);
 
-  // ── Restore scroll position on initial load (page refresh) ──
+  // ── 2. Handle scroll restoration on route changes ──
   useEffect(() => {
-    if (hasRestoredRef.current) return;
-    hasRestoredRef.current = true;
-
-    try {
-      const positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
-      const savedY = positions[location.pathname];
-
-      if (savedY && savedY > 0) {
-        // Disable browser's built-in scroll restoration so it doesn't fight us
-        if ('scrollRestoration' in history) {
-          history.scrollRestoration = 'manual';
-        }
-
-        // Wait for the initial render + images/layout to stabilize,
-        // then restore scroll position
-        const restore = () => {
-          window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
-        };
-
-        // Try immediately, then again after a short delay to handle
-        // lazy-loaded components that shift layout
-        requestAnimationFrame(() => {
-          restore();
-          setTimeout(restore, 100);
-          setTimeout(restore, 300);
-        });
-      }
-    } catch {
-      // Silently fail
+    // Disable browser's built-in scroll restoration to prevent fighting
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
     }
-  }, []);
 
-  // ── Scroll to top on route PUSH/REPLACE ──
-  useEffect(() => {
+    const currentKey = location.pathname + location.search;
+
     if (navigationType === 'POP') {
-      return;
+      // Going BACK or FORWARD: restore previous position
+      try {
+        const positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}');
+        const savedY = positions[currentKey];
+
+        if (savedY !== undefined && savedY > 0) {
+          const restore = () => {
+            window.scrollTo({ top: savedY, left: 0, behavior: 'instant' as any });
+          };
+
+          // Restore scroll across multiple frames to accommodate lazy-loaded images/content
+          requestAnimationFrame(() => {
+            restore();
+            setTimeout(restore, 50);
+            setTimeout(restore, 150);
+            setTimeout(restore, 350);
+            setTimeout(restore, 600); // final catch-all for heavy layout adjustments
+          });
+          return;
+        }
+      } catch (e) {
+        // Fallback to top
+      }
     }
 
+    // Default: scroll to top for PUSH or if no saved position exists
     requestAnimationFrame(() => {
       window.scrollTo({
         top: 0,
@@ -83,7 +82,7 @@ export default function ScrollManager() {
         behavior: 'auto',
       });
     });
-  }, [location.pathname, navigationType]);
+  }, [location.pathname, location.search, navigationType]);
 
   return null;
 }
