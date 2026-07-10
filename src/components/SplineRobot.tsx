@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+import Spline from '@splinetool/react-spline';
 
 interface SplineRobotProps {
   className?: string;
@@ -10,23 +11,18 @@ interface SplineRobotProps {
 }
 
 /**
- * Optimized Spline Robot Component with:
- * - Lazy loading with Intersection Observer
- * - Preloading strategy
- * - Skeleton placeholder
- * - Performance optimizations
- * - Progressive enhancement
+ * Optimized Spline Robot Component using @splinetool/react-spline.
+ * - Self-hosted local splinecode file (/spline/scene.splinecode)
+ * - Dimension check with ResizeObserver to prevent zero-size WebGL initialization
+ * - skeleton loader & fallback 2D illustrations
  */
 export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) => {
   const { i18n } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
-  const [isIntersecting, setIsIntersecting] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const iframeRef = useRef<HTMLElement>(null);
-  const preloadLinkRef = useRef<HTMLLinkElement | null>(null);
   const isMobile = useIsMobile();
   const [hasDimensions, setHasDimensions] = useState(false);
 
@@ -57,42 +53,6 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     };
   }, []);
 
-  // Preload Spline scene file in the background (low priority)
-  useEffect(() => {
-    // Create preload link for DNS prefetch and preconnect
-    const preconnect = document.createElement('link');
-    preconnect.rel = 'preconnect';
-    preconnect.href = 'https://prod.spline.design';
-    document.head.appendChild(preconnect);
-
-    const dnsPrefetch = document.createElement('link');
-    dnsPrefetch.rel = 'dns-prefetch';
-    dnsPrefetch.href = 'https://prod.spline.design';
-    document.head.appendChild(dnsPrefetch);
-
-    // Preload scene asset after a short delay (non-blocking)
-    const preloadTimer = setTimeout(() => {
-      if (!shouldLoad && !isLoaded) {
-        const preloadLink = document.createElement('link');
-        preloadLink.rel = 'preload';
-        preloadLink.href = 'https://prod.spline.design/YnRWMili7tld67PU/scene.splinecode';
-        preloadLink.as = 'fetch';
-        preloadLink.crossOrigin = 'anonymous';
-        document.head.appendChild(preloadLink);
-        preloadLinkRef.current = preloadLink;
-      }
-    }, 2000); // Wait 2 seconds before preloading
-
-    return () => {
-      clearTimeout(preloadTimer);
-      if (preconnect.parentNode) preconnect.parentNode.removeChild(preconnect);
-      if (dnsPrefetch.parentNode) dnsPrefetch.parentNode.removeChild(dnsPrefetch);
-      if (preloadLinkRef.current && preloadLinkRef.current.parentNode) {
-        preloadLinkRef.current.parentNode.removeChild(preloadLinkRef.current);
-      }
-    };
-  }, [shouldLoad, isLoaded]);
-
   // Intersection Observer for lazy loading
   useEffect(() => {
     if (!containerRef.current) return;
@@ -101,7 +61,6 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsIntersecting(true);
             // Delay loading slightly to ensure smooth initial render
             requestIdleCallback(
               () => {
@@ -126,50 +85,26 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     };
   }, []);
 
-  // Load iframe when shouldLoad is true
+  // Load animation when shouldLoad is true
   useEffect(() => {
     if (shouldLoad && !isLoaded) {
-      // Use requestAnimationFrame to ensure smooth loading
       requestAnimationFrame(() => {
         setIsVisible(true);
       });
+
+      // Fallback load trigger after 4.5 seconds if WebGL is completely blocked or crashes
+      const fallbackTimer = setTimeout(() => {
+        setIsLoaded((currentIsLoaded) => {
+          if (!currentIsLoaded) {
+            setLoadFailed(true); // Gracefully degrade to 2D illustration
+            return true;
+          }
+          return currentIsLoaded;
+        });
+      }, 4500);
+
+      return () => clearTimeout(fallbackTimer);
     }
-  }, [shouldLoad, isLoaded]);
-
-  // Listen for spline-viewer load-complete event
-  useEffect(() => {
-    const viewer = iframeRef.current;
-    if (!viewer) return;
-
-    const handleLoadComplete = () => {
-      setIsLoaded(true);
-      setLoadFailed(false);
-    };
-
-    const handleLoadError = () => {
-      setLoadFailed(true);
-      setIsLoaded(true);
-    };
-
-    viewer.addEventListener('load-complete', handleLoadComplete);
-    viewer.addEventListener('load-error', handleLoadError);
-
-    // Fallback load trigger after 1 second (in case event isn't supported or fails due to extension blocks)
-    const fallbackTimer = setTimeout(() => {
-      setIsLoaded((currentIsLoaded) => {
-        if (!currentIsLoaded) {
-          setLoadFailed(true); // Gracefully degrade to 2D illustration
-          return true;
-        }
-        return currentIsLoaded;
-      });
-    }, 1000);
-
-    return () => {
-      viewer.removeEventListener('load-complete', handleLoadComplete);
-      viewer.removeEventListener('load-error', handleLoadError);
-      clearTimeout(fallbackTimer);
-    };
   }, [shouldLoad, isLoaded]);
 
   // Optimize for low-end devices
@@ -214,7 +149,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50"
+            className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-50/40 to-teal-50/40"
             style={{ zIndex: 2 }}
           >
             <motion.div
@@ -259,9 +194,17 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
             willChange: 'opacity',
           }}
         >
-          <spline-viewer
-            ref={iframeRef as any}
-            url="/spline/scene.splinecode"
+          <Spline
+            scene="/spline/scene.splinecode"
+            onLoad={() => {
+              setIsLoaded(true);
+              setLoadFailed(false);
+            }}
+            onError={(err) => {
+              console.error("Spline load error:", err);
+              setLoadFailed(true);
+              setIsLoaded(true);
+            }}
             style={{
               width: '100%',
               height: '100%',
@@ -458,4 +401,3 @@ if (typeof window !== 'undefined' && !(window as any).requestIdleCallback) {
     if (typeof id === 'number') clearTimeout(id);
   };
 }
-
