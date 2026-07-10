@@ -96,8 +96,8 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
   const isMobile = useIsMobile();
   
   // ── Scroll-direction tracking (hysteresis-based) ──
-  // Shared hook: requires net 8px of scroll before toggling, uses rAF coalescing.
-  const visible = useScrollDirection(8);
+  // Requires larger threshold on mobile to ignore touch tremors.
+  const visible = useScrollDirection(isMobile ? 40 : 25);
 
   useEffect(() => {
     if (window.self !== window.top) {

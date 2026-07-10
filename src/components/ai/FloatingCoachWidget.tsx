@@ -203,7 +203,7 @@ export default function FloatingCoachWidget() {
   const ctaCycleCount = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
-  const navVisible = useScrollDirection(8);
+  const navVisible = useScrollDirection(isMobile ? 40 : 25);
 
   const ctaMessages: Record<string, string[]> = useMemo(() => ({
     en: [
