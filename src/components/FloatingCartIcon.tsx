@@ -16,6 +16,9 @@ const FloatingCartIcon: React.FC = () => {
   const bottomOffset = isMobile ? 80 : 20; // 80px above bottom on mobile, 20px on desktop
   const rightOffset = isMobile ? 16 : 24; // 16px from right on mobile, 24px on desktop
 
+  const [visible, setVisible] = React.useState(true);
+  const lastScrollYRef = React.useRef(0);
+
   // Expose ref to global scope for animation targeting
   // IMPORTANT: All hooks must be called before any early returns
   useEffect(() => {
@@ -23,6 +26,23 @@ const FloatingCartIcon: React.FC = () => {
       // Add a data attribute for easier selection
       iconRef.current.setAttribute('data-floating-cart-icon', 'true');
     }
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 10) {
+        setVisible(true);
+      } else if (currentScrollY > lastScrollYRef.current) {
+        setVisible(false); // Scrolling down
+      } else {
+        setVisible(true); // Scrolling up
+      }
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Only show if cart has items AND cart is not open
@@ -40,7 +60,7 @@ const FloatingCartIcon: React.FC = () => {
         whileTap={{ scale: 0.92 }}
         onClick={() => setIsCartOpen(true)}
         className={cn(
-          "fixed z-[60] rounded-full shadow-2xl transition-all duration-300",
+          "fixed z-[60] rounded-full shadow-2xl",
           "bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500",
           "hover:from-green-600 hover:via-emerald-600 hover:to-teal-600",
           "flex items-center justify-center",
@@ -48,11 +68,14 @@ const FloatingCartIcon: React.FC = () => {
           "backdrop-blur-sm",
           isMobile 
             ? "h-14 w-14" 
-            : "h-16 w-16"
+            : "h-16 w-16",
+          (!visible && isMobile) ? "translate-y-[calc(100%+90px)] opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
         )}
         style={{
           bottom: `${bottomOffset}px`,
           right: `${rightOffset}px`,
+          willChange: 'transform, opacity',
+          transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           boxShadow: '0 10px 25px -5px rgba(34, 197, 94, 0.4), 0 8px 10px -6px rgba(34, 197, 94, 0.2)',
         }}
         aria-label="Open shopping cart"

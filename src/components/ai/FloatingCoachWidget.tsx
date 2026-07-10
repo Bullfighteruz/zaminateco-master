@@ -202,6 +202,25 @@ export default function FloatingCoachWidget() {
   const ctaCycleCount = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
+  const [visible, setVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 10) {
+        setVisible(true);
+      } else if (currentScrollY > lastScrollYRef.current) {
+        setVisible(false); // Scrolling down
+      } else {
+        setVisible(true); // Scrolling up
+      }
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const ctaMessages: Record<string, string[]> = useMemo(() => ({
     en: [
@@ -343,9 +362,16 @@ export default function FloatingCoachWidget() {
   return (
     // bottom position: standard float position on mobile, clearing the bottom navigation bar beautifully
     <div
-      className="fixed right-4 z-[9999] flex flex-col items-end pointer-events-none select-none"
+      className={cn(
+        "fixed right-4 z-[9999] flex flex-col items-end pointer-events-none select-none",
+        (!isOpen && isMobile && !visible) 
+          ? "translate-y-[calc(100%+90px)] opacity-0 pointer-events-none" 
+          : "translate-y-0 opacity-100"
+      )}
       style={{
         bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 90px)' : '24px',
+        willChange: 'transform, opacity',
+        transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       
