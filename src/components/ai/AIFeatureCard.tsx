@@ -77,10 +77,10 @@ export default function AIFeatureCard({ title, description, icon: Icon, badgeKey
               <Link 
                 to={launchPath}
                 className={cn(
-                  "inline-flex items-center gap-1 text-[10px] uppercase tracking-wider transition-all duration-300",
+                  "inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-300",
                   isActive 
-                    ? "font-black text-emerald-600 translate-x-1" 
-                    : "font-bold text-slate-400/80 hover:text-slate-500"
+                    ? "text-emerald-600 translate-x-1" 
+                    : "text-slate-400/80 hover:text-slate-500"
                 )}
                 onClick={(e) => e.stopPropagation()}
               >

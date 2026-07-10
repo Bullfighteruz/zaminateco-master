@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import PhoneMockup from '../pitch/PhoneMockup';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -253,59 +254,65 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
       </div>
 
       {/* World-Class Lightbox Modal (Click to zoom to full size) */}
-      <AnimatePresence>
-        {isLightboxOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] flex items-center justify-center bg-slate-950/85 backdrop-blur-2xl p-4 cursor-zoom-out"
-            onClick={() => setIsLightboxOpen(false)}
-          >
-            {/* Close button */}
-            <button 
-              className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10 flex items-center justify-center z-50 cursor-pointer"
-              onClick={(e) => { e.stopPropagation(); setIsLightboxOpen(false); }}
-            >
-              <X className="h-5 w-5" />
-            </button>
-
-            {/* Lightbox content: Large, high-resolution mockup */}
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {isLightboxOpen && (
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative max-h-[90vh] max-w-[90vw] flex flex-col items-center select-none"
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the phone itself
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[999999] flex items-center justify-center bg-slate-950/85 backdrop-blur-2xl p-4 cursor-zoom-out"
+              onClick={() => {
+                setIsLightboxOpen(false);
+                setLightboxIndex(null);
+              }}
             >
-              <PhoneMockup width={isMobile ? 290 : 420}>
-                <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
-                  <img
-                    src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
-                    alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'top center',
-                      display: 'block',
-                      imageRendering: 'high-quality',
-                      WebkitImageRendering: '-webkit-optimize-contrast',
-                    }}
-                    draggable={false}
-                  />
+              {/* Close button */}
+              <button 
+                className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10 flex items-center justify-center z-50 cursor-pointer"
+                onClick={(e) => { e.stopPropagation(); setIsLightboxOpen(false); setLightboxIndex(null); }}
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              {/* Lightbox content: Large, high-resolution mockup */}
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="relative max-h-[90vh] max-w-[90vw] flex flex-col items-center select-none"
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the phone itself
+              >
+                <PhoneMockup width={isMobile ? 290 : 420}>
+                  <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+                    <img
+                      src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
+                      alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'top center',
+                        display: 'block',
+                        imageRendering: 'high-quality',
+                        WebkitImageRendering: '-webkit-optimize-contrast',
+                      }}
+                      draggable={false}
+                    />
+                  </div>
+                </PhoneMockup>
+                
+                {/* Caption */}
+                <div className="mt-4 px-6 py-2 rounded-full bg-white/10 border border-white/5 text-xs text-white/90 font-bold backdrop-blur-md uppercase tracking-wider shadow-xl">
+                  {AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label} (Full Resolution)
                 </div>
-              </PhoneMockup>
-              
-              {/* Caption */}
-              <div className="mt-4 px-6 py-2 rounded-full bg-white/10 border border-white/5 text-xs text-white/90 font-bold backdrop-blur-md uppercase tracking-wider shadow-xl">
-                {AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label} (Full Resolution)
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }

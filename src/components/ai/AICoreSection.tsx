@@ -27,6 +27,7 @@ export default function AICoreSection() {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [activeScreenIndex, setActiveScreenIndex] = useState<number>(0);
+  const [isHoveredByMouse, setIsHoveredByMouse] = useState(false);
 
   const cardsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +42,8 @@ export default function AICoreSection() {
 
   // Scroll-driven phone transitions - optimized for slow, smooth transitions over a larger scroll window
   const handleScroll = useCallback(() => {
+    if (isHoveredByMouse) return; // Prioritize hover interactions over scroll tracking to prevent wiggling
+
     const container = cardsContainerRef.current;
     if (!container) return;
 
@@ -60,7 +63,7 @@ export default function AICoreSection() {
     const newIndex = Math.min(numCards - 1, Math.max(0, Math.floor(progress * numCards)));
     
     setActiveScreenIndex(prev => prev !== newIndex ? newIndex : prev);
-  }, [features.length]);
+  }, [features.length, isHoveredByMouse]);
 
   useEffect(() => {
     if (isMobile) return;
@@ -133,6 +136,8 @@ export default function AICoreSection() {
                 </p>
                 <div 
                   ref={cardsContainerRef}
+                  onMouseEnter={() => setIsHoveredByMouse(true)}
+                  onMouseLeave={() => setIsHoveredByMouse(false)}
                   className={cn("grid gap-2", isMobile ? "grid-cols-1" : "grid-cols-2")}
                 >
                   {features.map((feature, idx) => (
