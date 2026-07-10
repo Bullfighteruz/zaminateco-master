@@ -15,8 +15,7 @@
 }
 
 /* Reduce repaints for hover effects */
-.hover-effect,
-.transition-all {
+.hover-effect {
   will-change: transform, opacity;
 }
 

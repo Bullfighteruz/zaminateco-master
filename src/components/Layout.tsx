@@ -4,7 +4,8 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useState, useMemo, memo, useEffect, useRef, useCallback } from 'react';
+import { useState, useMemo, memo, useEffect } from 'react';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -94,29 +95,9 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
   const { t } = useTranslation('common');
   const isMobile = useIsMobile();
   
-  // ── Scroll-direction tracking ──
-  // Use ref for lastScrollY to avoid re-registering the scroll listener on every scroll event
-  // (useState would cause the effect to re-run and re-add/remove the listener thousands of times per session)
-  const [visible, setVisible] = useState(true);
-  const lastScrollYRef = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < 10) {
-        setVisible(true);
-      } else if (currentScrollY > lastScrollYRef.current) {
-        setVisible(false); // Scrolling down
-      } else {
-        setVisible(true); // Scrolling up
-      }
-      lastScrollYRef.current = currentScrollY;
-    };
-
-    // passive: true → browser won't wait for JS before scrolling (eliminates jank)
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []); // ← empty deps: listener registered once, never re-registered
+  // ── Scroll-direction tracking (hysteresis-based) ──
+  // Shared hook: requires net 8px of scroll before toggling, uses rAF coalescing.
+  const visible = useScrollDirection(8);
 
   useEffect(() => {
     if (window.self !== window.top) {
@@ -170,10 +151,15 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
 
       {/* Desktop Language Switcher — autohides on scroll-down */}
       {!['/pitch', '/scanner'].includes(location.pathname) && (
-        <div className={cn(
-          "hidden md:block fixed right-4 z-50 transition-all duration-300",
-          visible ? "top-4 opacity-100" : "-top-16 opacity-0"
-        )}>
+        <div
+          className="hidden md:block fixed right-4 top-4 z-50"
+          style={{
+            transform: visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, -80px, 0)',
+            opacity: visible ? 1 : 0,
+            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
+            willChange: 'transform, opacity',
+          }}
+        >
           <LanguageSwitcher darkMode={hideBottomNav} />
         </div>
       )}
@@ -181,13 +167,14 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       {/* Mobile Language Switcher — safe-area aware + autohide on scroll-down */}
       {!['/pitch', '/scanner'].includes(location.pathname) && (
         <div 
-          className={cn(
-            "md:hidden fixed right-3 z-40 transition-all duration-300",
-            visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-          )}
+          className="md:hidden fixed right-3 z-40"
           style={{
-            // Respect device notch / Dynamic Island / status bar
             top: 'calc(env(safe-area-inset-top, 0px) + 12px)',
+            transform: visible ? 'translate3d(0, 0, 0) scale(1)' : 'translate3d(0, -12px, 0) scale(0.95)',
+            opacity: visible ? 1 : 0,
+            pointerEvents: visible ? 'auto' as const : 'none' as const,
+            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
+            willChange: 'transform, opacity',
           }}
         >
           <MobileLanguageSwitcher darkMode={hideBottomNav} />
@@ -202,20 +189,16 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       {/* ── Bottom Navigation ── */}
       {!hideBottomNav && (
         <nav 
-          className={cn(
-            "fixed left-3 right-3 z-50 flex justify-center notranslate",
-            visible ? "translate-y-0 opacity-100" : "translate-y-[calc(100%+24px)] opacity-0 pointer-events-none"
-          )}
+          className="fixed left-3 right-3 z-50 flex justify-center notranslate" 
           translate="no"
           style={{
-            // PWA safe area: push nav above home indicator on iPhone
             bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-            // GPU compositor layer — eliminates PWA scroll jitter/shaking
-            transform: 'translate3d(0, 0, 0)',
+            // GPU-composited slide: translate off-screen when hidden, smooth return when visible
+            transform: visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, calc(100% + 24px), 0)',
+            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            willChange: 'transform, opacity',
-            transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            willChange: 'transform',
           }}
         >
           <div className="relative w-full max-w-xl">
