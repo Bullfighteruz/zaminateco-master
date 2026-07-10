@@ -233,7 +233,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         >
           <spline-viewer
             ref={iframeRef as any}
-            url="https://prod.spline.design/YnRWMili7tld67PU/scene.splinecode"
+            url="/spline/scene.splinecode"
             style={{
               width: '100%',
               height: '100%',
