@@ -457,7 +457,7 @@ export default function FloatingCoachWidget() {
                 onChange={(e) => setInputText(e.target.value)}
                 maxLength={2000}
                 placeholder={i18n.language === 'uz' ? "Yozing..." : i18n.language === 'ru' ? "Напишите..." : "Type here..."}
-                className="flex-1 bg-slate-50 border border-slate-200 hover:border-slate-350 focus:border-emerald-500/50 focus:bg-white text-slate-800 placeholder-slate-400 h-10 px-3.5 rounded-xl text-xs transition-all focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="flex-1 bg-slate-50 border border-slate-200 hover:border-slate-350 focus:border-emerald-500/50 focus:bg-white text-slate-800 placeholder-slate-400 h-10 px-3.5 rounded-xl text-base md:text-xs transition-all focus-visible:ring-0 focus-visible:ring-offset-0"
               />
               <Button
                 type="submit"

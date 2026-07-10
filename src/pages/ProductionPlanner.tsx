@@ -463,7 +463,7 @@ export default function ProductionPlanner() {
                       value={optimizerPrompt}
                       onChange={(e) => setOptimizerPrompt(e.target.value)}
                       placeholder={i18n.language === 'uz' ? "Logistika optimallashtirish bo'yicha so'rov..." : i18n.language === 'ru' ? "Запрос по оптимизации логистики..." : "Describe scheduling query..."}
-                      className="flex-1 bg-transparent border-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-white placeholder-slate-650 h-10 px-3 text-xs sm:text-sm font-medium"
+                      className="flex-1 bg-transparent border-0 ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-white placeholder-slate-650 h-10 px-3 text-base md:text-xs font-medium"
                     />
                     <Button
                       type="submit"
