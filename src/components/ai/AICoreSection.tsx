@@ -115,12 +115,7 @@ export default function AICoreSection() {
                 </div>
               </div>
 
-              {/* Mobile phone inline */}
-              {isMobile && (
-                <div className="w-full flex justify-center py-1">
-                  <FloatingAIPhone activeIndex={activeScreenIndex} />
-                </div>
-              )}
+
 
               {/* MIDDLE: Feature Cards 2×3 grid — grows to fill available space */}
               <div className="flex flex-col gap-1.5">
