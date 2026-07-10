@@ -64,9 +64,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     };
   }, [shouldLoad, isLoaded]);
 
-  // Intersection Observer for lazy loading (load once, keep alive)
-  // The hero is always near the top — re-downloading a 15MB WebGL scene
-  // on every scroll would be far worse than keeping it in memory.
+  // Intersection Observer for lazy loading
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -76,16 +74,12 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
           if (entry.isIntersecting) {
             setIsIntersecting(true);
             // Delay loading slightly to ensure smooth initial render
-            if (typeof (window as any).requestIdleCallback === 'function') {
-              (window as any).requestIdleCallback(
-                () => { setShouldLoad(true); },
-                { timeout: 1000 }
-              );
-            } else {
-              setShouldLoad(true);
-            }
-            // Stop observing once triggered — we load once and keep alive
-            observer.disconnect();
+            requestIdleCallback(
+              () => {
+                setShouldLoad(true);
+              },
+              { timeout: 1000 }
+            );
           }
         });
       },
