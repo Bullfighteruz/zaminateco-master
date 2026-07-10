@@ -189,7 +189,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
           transition={{ duration: 0.5 }}
           className="absolute inset-0 w-full h-full"
           style={{
-            pointerEvents: isMobile ? 'none' : 'auto', // Avoid touch scroll interception on mobile
+            pointerEvents: 'auto', // Keep it interactive on both mobile and desktop
             willChange: 'opacity',
           }}
         >

@@ -889,3 +889,56 @@ textarea:focus-visible {
 .wave-layer-2 {
   animation: wave-flow-1 4.5s infinite linear;
 }
+
+/* Custom styling for native range input to match Shadcn Slider perfectly */
+.custom-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #e4e4e7; /* zinc-200 */
+  border-radius: 9999px;
+  outline: none;
+}
+
+.custom-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #10b981; /* emerald-500 */
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+.custom-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background-color: #f0fdf4; /* emerald-50 */
+}
+
+.custom-range-slider::-webkit-slider-thumb:active {
+  transform: scale(0.95);
+  background-color: #d1fae5; /* emerald-100 */
+}
+
+.custom-range-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #10b981;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.1s;
+}
+
+.custom-range-slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  background-color: #f0fdf4;
+}
+
+.custom-range-slider::-moz-range-thumb:active {
+  transform: scale(0.95);
+  background-color: #d1fae5;
+}
