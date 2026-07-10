@@ -13,12 +13,12 @@ interface FloatingAIPhoneProps {
  * with no compression or resizing applied.
  */
 const AI_SCREENS = [
-  { src: '/images/ai-screens/eco-scan.jpg', label: 'AI EcoScan' },
-  { src: '/images/ai-screens/eco-coach.jpg', label: 'ZAMI AI Advisor' },
-  { src: '/images/ai-screens/impact-engine.jpg', label: 'AI Impact Engine' },
-  { src: '/images/ai-screens/anti-fraud.jpg', label: 'AI Anti-Fraud' },
-  { src: '/images/ai-screens/ecokids-tutor.jpg', label: 'AI EcoKids Tutor' },
-  { src: '/images/ai-screens/production-planner.jpg', label: 'AI Production Planner' },
+  { src: '/images/ai-screens/eco-scan.png?v=3', label: 'AI EcoScan' },
+  { src: '/images/ai-screens/eco-coach.png?v=3', label: 'ZAMI AI Advisor' },
+  { src: '/images/ai-screens/impact-engine.jpg?v=3', label: 'AI Impact Engine' },
+  { src: '/images/ai-screens/anti-fraud.jpg?v=3', label: 'AI Anti-Fraud' },
+  { src: '/images/ai-screens/ecokids-tutor.jpg?v=3', label: 'AI EcoKids Tutor' },
+  { src: '/images/ai-screens/production-planner.jpg?v=3', label: 'AI Production Planner' },
 ];
 
 /**
@@ -38,7 +38,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(new Array(AI_SCREENS.length).fill(false));
 
   const activeIndex = propActiveIndex !== undefined ? propActiveIndex : internalIndex;
-  const phoneWidth = isMobile ? 260 : 320;
+  const phoneWidth = isMobile ? 260 : 370;
 
   // Preload all images eagerly on mount (same pattern as pitch page)
   useEffect(() => {
