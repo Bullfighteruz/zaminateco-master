@@ -300,7 +300,6 @@ select {
   }
 }
 
-/* Spline 3D iframe optimizations - Complete transparency overlay with performance enhancements */
 .spline-iframe-container {
   will-change: transform, opacity;
   transform: translateZ(0);
@@ -310,12 +309,8 @@ select {
   background: transparent !important;
   background-color: transparent !important;
   overflow: hidden;
-  /* GPU acceleration */
-  contain: layout style paint;
   /* Optimize rendering */
   isolation: isolate;
-  /* Reduce repaints */
-  content-visibility: auto;
 }
 
 .spline-iframe-container iframe {
@@ -329,10 +324,6 @@ select {
   mix-blend-mode: normal;
   /* Force complete transparency */
   opacity: 1;
-  /* Performance optimizations */
-  contain: strict;
-  /* Reduce layout shifts */
-  content-visibility: auto;
   /* Optimize for smooth animations */
   transform-style: preserve-3d;
 }
