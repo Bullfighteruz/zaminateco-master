@@ -202,7 +202,10 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       {/* ── Bottom Navigation ── */}
       {!hideBottomNav && (
         <nav 
-          className="fixed left-3 right-3 z-50 flex justify-center notranslate" 
+          className={cn(
+            "fixed left-3 right-3 z-50 flex justify-center notranslate",
+            visible ? "translate-y-0 opacity-100" : "translate-y-[calc(100%+24px)] opacity-0 pointer-events-none"
+          )}
           translate="no"
           style={{
             // PWA safe area: push nav above home indicator on iPhone
@@ -211,7 +214,8 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
             transform: 'translate3d(0, 0, 0)',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            willChange: 'transform',
+            willChange: 'transform, opacity',
+            transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <div className="relative w-full max-w-xl">
