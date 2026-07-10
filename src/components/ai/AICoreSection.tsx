@@ -41,39 +41,56 @@ export default function AICoreSection() {
     { key: 'planner', icon: Factory, badgeKey: 'tagPlanned' as const, screenIndex: 5, launchPath: '/planner' }
   ];
 
-  // IntersectionObserver to change phone mockup screen as cards scroll through focal center
+  // Stable ref so the scroll handler can read the latest hover state
+  // without stale closures or needing to re-attach the listener.
+  const isMouseInContainerRef = useRef(isMouseInContainer);
+  useEffect(() => { isMouseInContainerRef.current = isMouseInContainer; }, [isMouseInContainer]);
+
+  // Scroll-position-progress: map how far the viewport center has traveled
+  // through the cards container to one of 6 sequential screen indices.
+  // This replaces IntersectionObserver which can't handle a 2-column grid
+  // (paired cards enter the viewport simultaneously and one always gets skipped).
   useEffect(() => {
     if (isMobile) return;
 
-    const observerOptions = {
-      root: null, // viewport
-      rootMargin: '-30% 0px -30% 0px', // focal center window (40% of viewport height)
-      threshold: 0.2
+    let rafId: number | null = null;
+    const TOTAL_SCREENS = features.length; // 6
+
+    const handleScroll = () => {
+      if (rafId !== null) return; // already scheduled
+
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+
+        // Don't override hover-driven selection
+        if (isMouseInContainerRef.current) return;
+
+        const container = cardsContainerRef.current;
+        if (!container) return;
+
+        const rect = container.getBoundingClientRect();
+        const viewportCenter = window.innerHeight / 2;
+
+        // progress: 0 = viewport center at top of container, 1 = at bottom
+        const progress = (viewportCenter - rect.top) / rect.height;
+
+        // Only act when the container is roughly in view
+        if (progress < -0.3 || progress > 1.3) return;
+
+        const clamped = Math.max(0, Math.min(0.999, progress));
+        const idx = Math.floor(clamped * TOTAL_SCREENS);
+        setActiveScreenIndex(Math.max(0, Math.min(TOTAL_SCREENS - 1, idx)));
+      });
     };
 
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      // Prioritize active hover focus over scroll changes
-      if (isMouseInContainer) return;
-
-      const intersecting = entries.find(entry => entry.isIntersecting);
-      if (intersecting) {
-        const indexStr = intersecting.target.getAttribute('data-feature-index');
-        if (indexStr !== null) {
-          setActiveScreenIndex(parseInt(indexStr, 10));
-        }
-      }
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-
-    cardRefs.current.forEach(card => {
-      if (card) observer.observe(card);
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // set initial state
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [isMouseInContainer, isMobile]);
+  }, [isMobile]);
 
   return (
     <section id="ai-core-section" className="scroll-mt-20 w-full relative z-10">
