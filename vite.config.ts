@@ -73,7 +73,7 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
     // Ensure proper module resolution
-    dedupe: ['react', 'react-dom'],
+    dedupe: ['react', 'react-dom', 'three'],
   },
   server: {
     host: '0.0.0.0', // Allow access from network (mobile devices)

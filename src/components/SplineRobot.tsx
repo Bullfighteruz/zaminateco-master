@@ -26,17 +26,8 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
   const isMobile = useIsMobile();
   const [hasDimensions, setHasDimensions] = useState(false);
 
-  // CRITICAL MOBILE OPTIMIZATION: Bypasses 3D WebGL completely on mobile to prevent GPU lag
+  // Resize observer to ensure parent container has non-zero dimensions before loading WebGL scene
   useEffect(() => {
-    if (isMobile) {
-      setIsLoaded(true);
-      setLoadFailed(true);
-    }
-  }, [isMobile]);
-
-  // Resize observer to ensure parent container has non-zero dimensions before loading WebGL scene (Desktop only)
-  useEffect(() => {
-    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -60,11 +51,10 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     return () => {
       observer.disconnect();
     };
-  }, [isMobile]);
+  }, []);
 
-  // Intersection Observer for lazy loading (Desktop only)
+  // Intersection Observer for lazy loading
   useEffect(() => {
-    if (isMobile) return;
     if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
@@ -93,11 +83,10 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     return () => {
       observer.disconnect();
     };
-  }, [isMobile]);
+  }, []);
 
-  // Load animation when shouldLoad is true (Desktop only)
+  // Load animation when shouldLoad is true
   useEffect(() => {
-    if (isMobile) return;
     if (shouldLoad && !isLoaded) {
       requestAnimationFrame(() => {
         setIsVisible(true);
@@ -116,13 +105,13 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 
       return () => clearTimeout(fallbackTimer);
     }
-  }, [shouldLoad, isLoaded, isMobile]);
+  }, [shouldLoad, isLoaded]);
 
-  // Optimize for low-end desktop devices
+  // Optimize for low-spec devices (keep 2D fallback on old/low-spec devices to avoid crashes)
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
 
-  if (!isMobile && (prefersReducedMotion || isLowEndDevice)) {
+  if (prefersReducedMotion || isLowEndDevice) {
     return (
       <div
         ref={containerRef}
@@ -151,9 +140,9 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         ...style,
       }}
     >
-      {/* Skeleton Placeholder (Desktop only) */}
+      {/* Skeleton Placeholder */}
       <AnimatePresence mode="wait">
-        {!isMobile && !isLoaded && (
+        {!isLoaded && (
           <motion.div
             key="skeleton"
             initial={{ opacity: 1 }}
@@ -192,15 +181,15 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         )}
       </AnimatePresence>
 
-      {/* Spline 3D Viewer (Desktop only) */}
-      {!isMobile && shouldLoad && hasDimensions && !loadFailed && (
+      {/* Spline 3D Viewer */}
+      {shouldLoad && hasDimensions && !loadFailed && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoaded ? 1 : 0 }}
           transition={{ duration: 0.5 }}
           className="absolute inset-0 w-full h-full"
           style={{
-            pointerEvents: 'auto',
+            pointerEvents: isMobile ? 'none' : 'auto', // Avoid touch scroll interception on mobile
             willChange: 'opacity',
           }}
         >
