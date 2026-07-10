@@ -285,15 +285,34 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the phone itself
               >
                 <PhoneMockup width={isMobile ? 290 : 420}>
-                  <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
+                  <div 
+                    className="phone-screen-scroll relative w-full h-full overflow-y-auto overflow-x-hidden"
+                    style={{
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Embedded custom scrollbar style */}
+                    <style>{`
+                      .phone-screen-scroll::-webkit-scrollbar {
+                        width: 4px;
+                      }
+                      .phone-screen-scroll::-webkit-scrollbar-track {
+                        background: transparent;
+                      }
+                      .phone-screen-scroll::-webkit-scrollbar-thumb {
+                        background: rgba(16, 185, 129, 0.45);
+                        border-radius: 9999px;
+                      }
+                      .phone-screen-scroll::-webkit-scrollbar-thumb:hover {
+                        background: rgba(16, 185, 129, 0.7);
+                      }
+                    `}</style>
                     <img
                       src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
                       alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
                       style={{
                         width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'top center',
+                        height: 'auto',
                         display: 'block',
                         imageRendering: 'high-quality',
                         WebkitImageRendering: '-webkit-optimize-contrast',
@@ -306,6 +325,12 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
                 {/* Caption */}
                 <div className="mt-4 px-6 py-2 rounded-full bg-white/10 border border-white/5 text-xs text-white/90 font-bold backdrop-blur-md uppercase tracking-wider shadow-xl">
                   {AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label} (Full Resolution)
+                </div>
+
+                {/* Interactive Tip */}
+                <div className="mt-2 text-[10px] text-emerald-400/90 font-bold tracking-wide flex items-center gap-1.5 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  SCROLL SCREEN TO EXPLORE FULL INTERFACE
                 </div>
               </motion.div>
             </motion.div>
