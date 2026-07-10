@@ -23,6 +23,7 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
   const [isLoaded, setIsLoaded] = useState(false);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLElement>(null);
   const preloadLinkRef = useRef<HTMLLinkElement | null>(null);
@@ -114,19 +115,28 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 
     const handleLoadComplete = () => {
       setIsLoaded(true);
+      setLoadFailed(false);
+    };
+
+    const handleLoadError = () => {
+      setLoadFailed(true);
+      setIsLoaded(true);
     };
 
     viewer.addEventListener('load-complete', handleLoadComplete);
+    viewer.addEventListener('load-error', handleLoadError);
 
     // Fallback load trigger after 4 seconds (in case event isn't supported or fails)
     const fallbackTimer = setTimeout(() => {
       if (!isLoaded) {
         setIsLoaded(true);
+        setLoadFailed(true); // Gracefully degrade to 2D illustration
       }
     }, 4000);
 
     return () => {
       viewer.removeEventListener('load-complete', handleLoadComplete);
+      viewer.removeEventListener('load-error', handleLoadError);
       clearTimeout(fallbackTimer);
     };
   }, [shouldLoad, isLoaded]);
@@ -206,8 +216,8 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         )}
       </AnimatePresence>
 
-      {/* Spline 3D Viewer - Only render when shouldLoad is true */}
-      {shouldLoad && (
+      {/* Spline 3D Viewer - Only render when shouldLoad is true and hasn't failed */}
+      {shouldLoad && !loadFailed && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoaded ? 1 : 0 }}
@@ -228,6 +238,62 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
               background: 'transparent',
             }}
           />
+        </motion.div>
+      )}
+
+      {/* Premium 2D Fallback - Shown if 3D scene fails to load (e.g. extension block or WebGL error) */}
+      {loadFailed && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="absolute inset-0 flex items-center justify-center p-6 bg-gradient-to-br from-emerald-50/20 to-teal-50/20"
+        >
+          <div className="relative flex flex-col items-center justify-center text-center">
+            {/* Pulsing Outer Glow Ring */}
+            <div className="absolute w-56 h-56 bg-emerald-400/10 rounded-full blur-2xl animate-pulse" />
+            
+            {/* Concentric Rotating/Pulsing Rings */}
+            <div className="relative w-48 h-48 flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-0 rounded-full border border-dashed border-emerald-400/40"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-4 rounded-full border border-dashed border-teal-500/30"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-8 rounded-full bg-gradient-to-br from-emerald-500/10 to-teal-500/15 border border-emerald-500/20 backdrop-blur-md shadow-inner flex items-center justify-center"
+              >
+                {/* Premium Glassmorphic Core */}
+                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg relative overflow-hidden group">
+                  {/* Sweep Light Effect */}
+                  <motion.div
+                    animate={{ x: ['-100%', '100%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                    style={{ transform: 'skewX(-20deg)' }}
+                  />
+                  <Leaf className="w-12 h-12 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]" />
+                </div>
+              </motion.div>
+            </div>
+            
+            {/* Information Info Badge */}
+            <div className="mt-6 space-y-1 z-10">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-800 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
+                Zaminat AI Core
+              </div>
+              <p className="text-[11px] text-slate-500 max-w-xs leading-relaxed pt-1 font-medium">
+                3D system optimized. 2D graphics active.
+              </p>
+            </div>
+          </div>
         </motion.div>
       )}
 
