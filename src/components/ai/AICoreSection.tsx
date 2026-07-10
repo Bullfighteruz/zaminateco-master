@@ -134,7 +134,7 @@ export default function AICoreSection() {
                       key={feature.key} 
                       onMouseEnter={() => !isMobile && setActiveScreenIndex(feature.screenIndex)}
                       onClick={() => setActiveScreenIndex(feature.screenIndex)}
-                      className="cursor-pointer"
+                      className="cursor-pointer h-full flex flex-col"
                     >
                       <AIFeatureCard
                         title={t(`ai.features.${feature.key}.title`)}
