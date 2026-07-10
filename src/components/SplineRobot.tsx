@@ -28,6 +28,34 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
   const iframeRef = useRef<HTMLElement>(null);
   const preloadLinkRef = useRef<HTMLLinkElement | null>(null);
   const isMobile = useIsMobile();
+  const [hasDimensions, setHasDimensions] = useState(false);
+
+  // Resize observer to ensure parent container has non-zero dimensions before loading WebGL scene
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      setHasDimensions(true);
+      return;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          setHasDimensions(true);
+          observer.disconnect();
+        }
+      }
+    });
+
+    observer.observe(container);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   // Preload Spline scene file in the background (low priority)
   useEffect(() => {
@@ -219,8 +247,8 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
         )}
       </AnimatePresence>
 
-      {/* Spline 3D Viewer - Only render when shouldLoad is true and hasn't failed */}
-      {shouldLoad && !loadFailed && (
+      {/* Spline 3D Viewer - Only render when shouldLoad is true, has non-zero parent size, and hasn't failed */}
+      {shouldLoad && hasDimensions && !loadFailed && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoaded ? 1 : 0 }}
