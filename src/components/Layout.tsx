@@ -193,12 +193,12 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
           translate="no"
           style={{
             bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-            // GPU-composited slide: translate off-screen when hidden, smooth return when visible
-            transform: visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, calc(100% + 24px), 0)',
-            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+            // Statically pinned on mobile to avoid clashes with dynamic browser bars; autohide on desktop
+            transform: isMobile ? 'translate3d(0, 0, 0)' : (visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, calc(100% + 24px), 0)'),
+            transition: isMobile ? 'none' : 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            willChange: 'transform',
+            willChange: isMobile ? 'auto' : 'transform',
           }}
         >
           <div className="relative w-full max-w-xl">
