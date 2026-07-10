@@ -430,3 +430,34 @@
   width: 200px;
   height: 200px;
 }
+
+/* ─── PWA Standalone & Fullscreen Optimizations ─── */
+@media all and (display-mode: standalone) {
+  /* Prevent top content from going under the notch/status-bar on notched phones */
+  .min-h-screen > div:not([class*="bg-glow"]):first-of-type,
+  .min-h-screen > section:first-of-type,
+  .min-h-screen > header:first-of-type,
+  .hero-mobile,
+  .pwa-top-header,
+  header {
+    padding-top: calc(env(safe-area-inset-top, 24px) + 12px) !important;
+  }
+
+  /* Protect container content from display corner cutoffs */
+  .container,
+  .pwa-side-safe,
+  .px-2,
+  .px-3,
+  .px-4,
+  .p-4 {
+    padding-left: max(16px, env(safe-area-inset-left, 16px)) !important;
+    padding-right: max(16px, env(safe-area-inset-right, 16px)) !important;
+  }
+
+  /* Push any absolute bottom-positioned indicators above the PWA home indicator */
+  .fixed.bottom-0,
+  .fixed.bottom-4,
+  .mobile-nav {
+    padding-bottom: calc(env(safe-area-inset-bottom, 16px) + 8px) !important;
+  }
+}
