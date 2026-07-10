@@ -7,9 +7,6 @@ import { VitePWA } from "vite-plugin-pwa";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
-    viteSourceLocator({
-      prefix: "mgx",
-    }),
     react(),
     VitePWA({
       registerType: 'autoUpdate',
