@@ -8,6 +8,7 @@ import { X, ZoomIn } from 'lucide-react';
 
 interface FloatingAIPhoneProps {
   activeIndex?: number;
+  setActiveIndex?: (index: number) => void;
 }
 
 /**
@@ -27,7 +28,7 @@ const AI_SCREENS = [
 /**
  * Premium phone mockup for the AI Core section.
  */
-export default function FloatingAIPhone({ activeIndex: propActiveIndex }: FloatingAIPhoneProps) {
+export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiveIndex }: FloatingAIPhoneProps) {
   const isMobile = useIsMobile();
   const [internalIndex, setInternalIndex] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(new Array(AI_SCREENS.length).fill(false));
@@ -204,7 +205,13 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
             <div
               key={idx}
               role="button"
-              onClick={() => setInternalIndex(idx)}
+              onClick={() => {
+                if (setActiveIndex) {
+                  setActiveIndex(idx);
+                } else {
+                  setInternalIndex(idx);
+                }
+              }}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300 cursor-pointer min-h-0 min-w-0",
                 activeIndex === idx 
@@ -309,7 +316,13 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
           <div
             key={idx}
             role="button"
-            onClick={() => setInternalIndex(idx)}
+            onClick={() => {
+              if (setActiveIndex) {
+                setActiveIndex(idx);
+              } else {
+                setInternalIndex(idx);
+              }
+            }}
             className={cn(
               "h-1.5 rounded-full transition-all duration-300 cursor-pointer min-h-0 min-w-0",
               activeIndex === idx 
