@@ -73,17 +73,15 @@ export default function AIFeatureCard({ title, description, icon: Icon, badgeKey
           </p>
           
           {launchPath && (
-            <div 
-              className={cn(
-                "pt-2 transition-all duration-200 ease-out",
-                isActive 
-                  ? "opacity-100 translate-y-0 pointer-events-auto" 
-                  : "opacity-0 -translate-y-1 pointer-events-none"
-              )}
-            >
+            <div className="pt-2">
               <Link 
                 to={launchPath}
-                className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-600 hover:text-emerald-700 transition-colors uppercase tracking-wider"
+                className={cn(
+                  "inline-flex items-center gap-1 text-[10px] uppercase tracking-wider transition-all duration-300",
+                  isActive 
+                    ? "font-black text-emerald-600 translate-x-1" 
+                    : "font-bold text-slate-400/80 hover:text-slate-500"
+                )}
                 onClick={(e) => e.stopPropagation()}
               >
                 {t('tryLiveDemo', { defaultValue: 'Try Live Demo' })} →
