@@ -14,20 +14,45 @@ import { useState, useEffect, useRef } from 'react';
 export function useScrollDirection(threshold = 8): boolean {
   const [visible, setVisible] = useState(true);
   const lastScrollYRef = useRef(0);
+  const lastInnerHeightRef = useRef(typeof window !== 'undefined' ? window.innerHeight : 0);
   const scrollDeltaRef = useRef(0);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    // Set initial values
+    lastScrollYRef.current = window.scrollY;
+    lastInnerHeightRef.current = window.innerHeight;
+
     const handleScroll = () => {
       if (rafRef.current !== null) return; // already queued
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
+        
         const currentScrollY = window.scrollY;
+        const currentInnerHeight = window.innerHeight;
+        
+        // 1. Detect dynamic mobile address bar resize (avoid jump)
+        if (currentInnerHeight !== lastInnerHeightRef.current) {
+          lastInnerHeightRef.current = currentInnerHeight;
+          lastScrollYRef.current = currentScrollY;
+          return;
+        }
+
         const delta = currentScrollY - lastScrollYRef.current;
         lastScrollYRef.current = currentScrollY;
 
+        // 2. Overscroll boundaries check (Elastic bounce on iOS)
+        const maxScrollY = document.documentElement.scrollHeight - currentInnerHeight;
+        
         // Always visible near the top of the page
-        if (currentScrollY < 10) {
+        if (currentScrollY <= 10) {
+          scrollDeltaRef.current = 0;
+          setVisible(true);
+          return;
+        }
+
+        // Always visible near the bottom of the page
+        if (currentScrollY >= maxScrollY - 10) {
           scrollDeltaRef.current = 0;
           setVisible(true);
           return;
@@ -43,6 +68,7 @@ export function useScrollDirection(threshold = 8): boolean {
           scrollDeltaRef.current += delta;
         }
 
+        // Apply hysteresis threshold
         if (scrollDeltaRef.current > threshold) {
           setVisible(false);
           scrollDeltaRef.current = 0;
