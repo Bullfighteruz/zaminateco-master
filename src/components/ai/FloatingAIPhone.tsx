@@ -96,8 +96,8 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
                       objectFit: 'cover',
                       objectPosition: 'top center',
                       display: 'block',
-                      imageRendering: 'auto',
-                      backfaceVisibility: 'hidden',
+                      imageRendering: 'high-quality',
+                      WebkitImageRendering: '-webkit-optimize-contrast',
                     }}
                     draggable={false}
                   />
@@ -178,8 +178,8 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
                     objectFit: 'cover',
                     objectPosition: 'top center',
                     display: 'block',
-                    imageRendering: 'auto',
-                    backfaceVisibility: 'hidden',
+                    imageRendering: 'high-quality',
+                    WebkitImageRendering: '-webkit-optimize-contrast',
                   }}
                   draggable={false}
                 />
