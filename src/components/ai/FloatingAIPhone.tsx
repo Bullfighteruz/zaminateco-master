@@ -35,11 +35,50 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [zoomScale, setZoomScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   const handleWheel = (e: React.WheelEvent) => {
     const direction = e.deltaY < 0 ? 1 : -1;
     const step = 0.08;
     setZoomScale(prev => Math.max(0.5, Math.min(3.0, prev + direction * step)));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setPosition({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const resetZoomAndPan = () => {
+    setZoomScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    setLightboxIndex(null);
+    resetZoomAndPan();
   };
 
   const activeIndex = propActiveIndex !== undefined ? propActiveIndex : internalIndex;
@@ -269,16 +308,12 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[999999] flex items-center justify-center bg-slate-950/90 backdrop-blur-2xl p-4 cursor-zoom-out"
-              onClick={() => {
-                setIsLightboxOpen(false);
-                setLightboxIndex(null);
-                setZoomScale(1);
-              }}
+              onClick={closeLightbox}
             >
               {/* Close button */}
               <button 
                 className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10 flex items-center justify-center z-50 cursor-pointer"
-                onClick={(e) => { e.stopPropagation(); setIsLightboxOpen(false); setLightboxIndex(null); setZoomScale(1); }}
+                onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -305,7 +340,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
                 </button>
                 <div className="w-[1px] h-4 bg-white/10" />
                 <button 
-                  onClick={() => setZoomScale(1)}
+                  onClick={resetZoomAndPan}
                   className="hover:text-emerald-400 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   Reset
@@ -314,29 +349,24 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
 
               {/* Image Viewport Scroll Container */}
               <div 
-                className="relative max-h-[85vh] max-w-[85vw] overflow-auto select-none rounded-2xl border border-white/10 shadow-2xl bg-[#0c0d14] phone-screen-scroll"
+                className={cn(
+                  "relative max-h-[85vh] max-w-[85vw] overflow-hidden select-none rounded-2xl border border-white/10 shadow-2xl bg-[#0c0d14]",
+                  isDragging ? "cursor-grabbing" : "cursor-grab"
+                )}
                 onWheel={handleWheel}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Custom scrollbar inside viewport */}
-                <style>{`
-                  .phone-screen-scroll::-webkit-scrollbar {
-                    width: 6px;
-                    height: 6px;
-                  }
-                  .phone-screen-scroll::-webkit-scrollbar-track {
-                    background: transparent;
-                  }
-                  .phone-screen-scroll::-webkit-scrollbar-thumb {
-                    background: rgba(16, 185, 129, 0.4);
-                    border-radius: 9999px;
-                  }
-                  .phone-screen-scroll::-webkit-scrollbar-thumb:hover {
-                    background: rgba(16, 185, 129, 0.75);
-                  }
-                `}</style>
-
-                <div className="p-6 flex items-center justify-center min-w-max min-h-max">
+                <div 
+                  className="p-12 flex items-center justify-center pointer-events-none select-none"
+                  style={{
+                    transform: `translate(${position.x}px, ${position.y}px)`,
+                    transition: isDragging ? 'none' : 'transform 0.15s ease-out',
+                  }}
+                >
                   <img
                     src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
                     alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
