@@ -34,6 +34,13 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
   const [isHovered, setIsHovered] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [zoomScale, setZoomScale] = useState(1);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    const direction = e.deltaY < 0 ? 1 : -1;
+    const step = 0.08;
+    setZoomScale(prev => Math.max(0.5, Math.min(3.0, prev + direction * step)));
+  };
 
   const activeIndex = propActiveIndex !== undefined ? propActiveIndex : internalIndex;
   const phoneWidth = isMobile ? 260 : 370;
@@ -261,78 +268,91 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[999999] flex items-center justify-center bg-slate-950/85 backdrop-blur-2xl p-4 cursor-zoom-out"
+              className="fixed inset-0 z-[999999] flex items-center justify-center bg-slate-950/90 backdrop-blur-2xl p-4 cursor-zoom-out"
               onClick={() => {
                 setIsLightboxOpen(false);
                 setLightboxIndex(null);
+                setZoomScale(1);
               }}
             >
               {/* Close button */}
               <button 
                 className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10 flex items-center justify-center z-50 cursor-pointer"
-                onClick={(e) => { e.stopPropagation(); setIsLightboxOpen(false); setLightboxIndex(null); }}
+                onClick={(e) => { e.stopPropagation(); setIsLightboxOpen(false); setLightboxIndex(null); setZoomScale(1); }}
               >
                 <X className="h-5 w-5" />
               </button>
 
-              {/* Lightbox content: Large, high-resolution mockup */}
-              <motion.div
-                initial={{ scale: 0.9, y: 20 }}
-                animate={{ scale: 1, y: 0 }}
-                exit={{ scale: 0.9, y: 20 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="relative max-h-[90vh] max-w-[90vw] flex flex-col items-center select-none"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the phone itself
+              {/* Zoom Controls Overlay */}
+              <div 
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-slate-900/80 border border-white/10 rounded-full px-5 py-2.5 backdrop-blur-md shadow-2xl z-50 text-white select-none"
+                onClick={(e) => e.stopPropagation()}
               >
-                <PhoneMockup width={isMobile ? 290 : 420}>
-                  <div 
-                    className="phone-screen-scroll relative w-full h-full overflow-y-auto overflow-x-hidden"
-                    style={{
-                      position: 'relative',
-                    }}
-                  >
-                    {/* Embedded custom scrollbar style */}
-                    <style>{`
-                      .phone-screen-scroll::-webkit-scrollbar {
-                        width: 4px;
-                      }
-                      .phone-screen-scroll::-webkit-scrollbar-track {
-                        background: transparent;
-                      }
-                      .phone-screen-scroll::-webkit-scrollbar-thumb {
-                        background: rgba(16, 185, 129, 0.45);
-                        border-radius: 9999px;
-                      }
-                      .phone-screen-scroll::-webkit-scrollbar-thumb:hover {
-                        background: rgba(16, 185, 129, 0.7);
-                      }
-                    `}</style>
-                    <img
-                      src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
-                      alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block',
-                        imageRendering: 'high-quality',
-                        WebkitImageRendering: '-webkit-optimize-contrast',
-                      }}
-                      draggable={false}
-                    />
-                  </div>
-                </PhoneMockup>
-                
-                {/* Caption */}
-                <div className="mt-4 px-6 py-2 rounded-full bg-white/10 border border-white/5 text-xs text-white/90 font-bold backdrop-blur-md uppercase tracking-wider shadow-xl">
-                  {AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label} (Full Resolution)
-                </div>
+                <button 
+                  onClick={() => setZoomScale(prev => Math.max(0.5, prev - 0.2))}
+                  className="hover:text-emerald-400 p-1.5 transition-colors text-xs font-bold cursor-pointer"
+                >
+                  Zoom -
+                </button>
+                <span className="text-xs font-mono font-bold tracking-wider bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-md border border-emerald-500/20">
+                  {Math.round(zoomScale * 100)}%
+                </span>
+                <button 
+                  onClick={() => setZoomScale(prev => Math.min(3.0, prev + 0.2))}
+                  className="hover:text-emerald-400 p-1.5 transition-colors text-xs font-bold cursor-pointer"
+                >
+                  Zoom +
+                </button>
+                <div className="w-[1px] h-4 bg-white/10" />
+                <button 
+                  onClick={() => setZoomScale(1)}
+                  className="hover:text-emerald-400 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  Reset
+                </button>
+              </div>
 
-                {/* Interactive Tip */}
-                <div className="mt-2 text-[10px] text-emerald-400/90 font-bold tracking-wide flex items-center gap-1.5 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  SCROLL SCREEN TO EXPLORE FULL INTERFACE
+              {/* Image Viewport Scroll Container */}
+              <div 
+                className="relative max-h-[85vh] max-w-[85vw] overflow-auto select-none rounded-2xl border border-white/10 shadow-2xl bg-[#0c0d14] phone-screen-scroll"
+                onWheel={handleWheel}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Custom scrollbar inside viewport */}
+                <style>{`
+                  .phone-screen-scroll::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                  }
+                  .phone-screen-scroll::-webkit-scrollbar-track {
+                    background: transparent;
+                  }
+                  .phone-screen-scroll::-webkit-scrollbar-thumb {
+                    background: rgba(16, 185, 129, 0.4);
+                    border-radius: 9999px;
+                  }
+                  .phone-screen-scroll::-webkit-scrollbar-thumb:hover {
+                    background: rgba(16, 185, 129, 0.75);
+                  }
+                `}</style>
+
+                <div className="p-6 flex items-center justify-center min-w-max min-h-max">
+                  <img
+                    src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
+                    alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
+                    style={{
+                      width: `${Math.round((isMobile ? 290 : 440) * zoomScale)}px`,
+                      height: 'auto',
+                      borderRadius: '12px',
+                      boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.7)',
+                      imageRendering: 'high-quality',
+                      WebkitImageRendering: '-webkit-optimize-contrast',
+                      transition: 'width 0.15s ease-out'
+                    }}
+                    draggable={false}
+                  />
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>,
