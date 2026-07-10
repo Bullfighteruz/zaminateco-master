@@ -69,7 +69,7 @@ Ensure the translation is natural, clean, and accurate.`;
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
 
     // Strip the data URL prefix if present
     const base64Data = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
@@ -295,7 +295,7 @@ You are texting with a registered user of ZAMINAT.eco. Use these details to pers
     }
 
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.1-flash-lite',
       systemInstruction: dynamicSystemInstruction
     });
 
@@ -336,7 +336,7 @@ export async function getPlannerOptimization(
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.1-flash-lite',
       systemInstruction: PLANNER_SYSTEM_INSTRUCTION
     });
 
