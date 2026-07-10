@@ -39,20 +39,26 @@ export default function AICoreSection() {
     { key: 'planner', icon: Factory, badgeKey: 'tagPlanned' as const, screenIndex: 5, launchPath: '/planner' }
   ];
 
-  // Scroll-driven phone transitions
+  // Scroll-driven phone transitions - optimized for slow, smooth transitions over a larger scroll window
   const handleScroll = useCallback(() => {
     const container = cardsContainerRef.current;
     if (!container) return;
 
     const rect = container.getBoundingClientRect();
-    const viewportCenter = window.innerHeight * 0.5;
-    const scrolled = viewportCenter - rect.top;
-    const total = rect.height;
-    if (total <= 0) return;
+    const windowHeight = window.innerHeight;
+    
+    // Start tracking when the top of the section enters the bottom 75% of viewport
+    const startOffset = windowHeight * 0.75;
+    // End tracking when the bottom of the section leaves the top 25% of viewport
+    const endOffset = -rect.height + (windowHeight * 0.25);
+    
+    const totalDistance = startOffset - endOffset;
+    if (totalDistance <= 0) return;
 
-    const progress = Math.max(0, Math.min(1, scrolled / total));
+    const progress = Math.max(0, Math.min(1, (startOffset - rect.top) / totalDistance));
     const numCards = features.length;
     const newIndex = Math.min(numCards - 1, Math.max(0, Math.floor(progress * numCards)));
+    
     setActiveScreenIndex(prev => prev !== newIndex ? newIndex : prev);
   }, [features.length]);
 
