@@ -64,11 +64,11 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     };
   }, [shouldLoad, isLoaded]);
 
-  // Intersection Observer for lazy loading and active unmounting
+  // Intersection Observer for lazy loading (load once, keep alive)
+  // The hero is always near the top — re-downloading a 15MB WebGL scene
+  // on every scroll would be far worse than keeping it in memory.
   useEffect(() => {
     if (!containerRef.current) return;
-
-    let idleCallbackId: number | null = null;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -76,34 +76,22 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
           if (entry.isIntersecting) {
             setIsIntersecting(true);
             // Delay loading slightly to ensure smooth initial render
-            if ((window as any).requestIdleCallback) {
-              idleCallbackId = (window as any).requestIdleCallback(
-                () => {
-                  setShouldLoad(true);
-                },
+            if (typeof (window as any).requestIdleCallback === 'function') {
+              (window as any).requestIdleCallback(
+                () => { setShouldLoad(true); },
                 { timeout: 1000 }
               );
             } else {
               setShouldLoad(true);
             }
-          } else {
-            // Unload WebGL instance when out of view to release GPU and thread resources
-            setIsIntersecting(false);
-            setShouldLoad(false);
-            setIsLoaded(false);
-            setIsVisible(false);
-            
-            // Cancel any pending idle loading callback
-            if (idleCallbackId && (window as any).cancelIdleCallback) {
-              (window as any).cancelIdleCallback(idleCallbackId);
-              idleCallbackId = null;
-            }
+            // Stop observing once triggered — we load once and keep alive
+            observer.disconnect();
           }
         });
       },
       {
         root: null,
-        rootMargin: '200px', // Load 200px before visible, unload 200px after leaving
+        rootMargin: '200px', // Start loading 200px before visible
         threshold: 0.01,
       }
     );
@@ -112,9 +100,6 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 
     return () => {
       observer.disconnect();
-      if (idleCallbackId && (window as any).cancelIdleCallback) {
-        (window as any).cancelIdleCallback(idleCallbackId);
-      }
     };
   }, []);
 
