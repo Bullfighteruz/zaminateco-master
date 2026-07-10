@@ -242,7 +242,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
         className="transition-all duration-500 ease-out cursor-zoom-in relative z-10 select-none"
         style={{
           transform: isHovered 
-            ? 'scale(1.15) translate3d(0, -12px, 0)' 
+            ? 'scale(1.22) translate3d(0, -16px, 0)' 
             : 'scale(1) translate3d(0, 0, 0)',
           filter: isHovered 
             ? 'drop-shadow(0 25px 30px rgba(0,0,0,0.18))' 
