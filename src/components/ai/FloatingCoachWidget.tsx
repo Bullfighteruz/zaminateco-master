@@ -347,12 +347,6 @@ export default function FloatingCoachWidget() {
       className="fixed right-4 z-[9999] flex flex-col items-end pointer-events-none select-none"
       style={{
         bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 90px)' : '24px',
-        // Slide down with the nav bar when hidden on mobile; stay put on desktop
-        transform: isMobile && !navVisible && !isOpen
-          ? 'translate3d(0, calc(100% + 24px), 0)'
-          : 'translate3d(0, 0, 0)',
-        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-        willChange: 'transform',
       }}
     >
       
