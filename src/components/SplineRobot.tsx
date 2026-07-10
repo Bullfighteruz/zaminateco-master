@@ -64,9 +64,11 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     };
   }, [shouldLoad, isLoaded]);
 
-  // Intersection Observer for lazy loading
+  // Intersection Observer for lazy loading and active unmounting
   useEffect(() => {
     if (!containerRef.current) return;
+
+    let idleCallbackId: number | null = null;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -74,18 +76,34 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
           if (entry.isIntersecting) {
             setIsIntersecting(true);
             // Delay loading slightly to ensure smooth initial render
-            requestIdleCallback(
-              () => {
-                setShouldLoad(true);
-              },
-              { timeout: 1000 }
-            );
+            if ((window as any).requestIdleCallback) {
+              idleCallbackId = (window as any).requestIdleCallback(
+                () => {
+                  setShouldLoad(true);
+                },
+                { timeout: 1000 }
+              );
+            } else {
+              setShouldLoad(true);
+            }
+          } else {
+            // Unload WebGL instance when out of view to release GPU and thread resources
+            setIsIntersecting(false);
+            setShouldLoad(false);
+            setIsLoaded(false);
+            setIsVisible(false);
+            
+            // Cancel any pending idle loading callback
+            if (idleCallbackId && (window as any).cancelIdleCallback) {
+              (window as any).cancelIdleCallback(idleCallbackId);
+              idleCallbackId = null;
+            }
           }
         });
       },
       {
         root: null,
-        rootMargin: '200px', // Start loading 200px before visible
+        rootMargin: '200px', // Load 200px before visible, unload 200px after leaving
         threshold: 0.01,
       }
     );
@@ -94,6 +112,9 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
 
     return () => {
       observer.disconnect();
+      if (idleCallbackId && (window as any).cancelIdleCallback) {
+        (window as any).cancelIdleCallback(idleCallbackId);
+      }
     };
   }, []);
 
