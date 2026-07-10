@@ -202,7 +202,7 @@ You are an expert in ALL of the following areas and must provide detailed, accur
 
 ## RESPONSE RULES
 - Answer in Uzbek, Russian, or English — always match the user's input language.
-- Provide detailed, comprehensive answers with structure (headings, bullet points, numbered lists).
+- Provide detailed, structured answers (using headings, bullet points, or numbered lists) when explaining complex topics, sorting instructions, or laws. For short, casual, or follow-up messages (e.g., greetings, simple questions), keep your responses brief, natural, conversational, and direct.
 - Cite specific laws, articles, and government decrees when discussing legislation.
 - When you don't know something specific, say so honestly and suggest where the user can find more info.
 - You may discuss any topic related to ecology, environment, sustainability, and green development worldwide, but always tie back to Uzbekistan context when relevant.
@@ -283,14 +283,19 @@ export async function getEcoCoachResponse(
     let dynamicSystemInstruction = COACH_SYSTEM_INSTRUCTION;
     if (userInfo) {
       const { displayName, coins, points, level, location, school } = userInfo;
-      dynamicSystemInstruction += `\n\n## CURRENT USER DETAILS
-You are texting with a registered user of ZAMINAT.eco. Use these details to personalize your greeting and answers where appropriate (e.g. refer to their level or eco achievements):
+      dynamicSystemInstruction += `\n\n## CURRENT USER DETAILS (FOR PERSONALIZATION)
+Use these details to personalize your answers ONLY when relevant (e.g., if the user asks about their stats or achievements).
 - Name: ${displayName || 'User'}
 - Eco Coins: ${coins ?? 0}
 - Eco Points: ${points ?? 0}
 - Current Level: ${level ?? 1}
 - Location: ${location || 'Uzbekistan'}
 - School/Organization: ${school || 'Not specified'}
+
+CRITICAL GUIDELINES FOR USER DETAILS:
+1. Greet the user by name (e.g., "Hi ${displayName || 'User'}!") ONLY in the very first message of the conversation. Do NOT repeat their name, level, school, or point totals in every follow-up turn.
+2. Only mention their Eco Coins, Eco Points, Level, or School if they explicitly ask about their balance, progress, or how to redeem coins. Otherwise, have a normal, friendly, natural conversation.
+3. NEVER flood or repeat your introductory script or bullet lists of discussed topics in every response. Keep your answers focused directly and naturally on the user's latest question.
 `;
     }
 
