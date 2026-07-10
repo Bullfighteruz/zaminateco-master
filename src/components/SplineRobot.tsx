@@ -126,13 +126,16 @@ export const SplineRobot: React.FC<SplineRobotProps> = ({ className, style }) =>
     viewer.addEventListener('load-complete', handleLoadComplete);
     viewer.addEventListener('load-error', handleLoadError);
 
-    // Fallback load trigger after 4 seconds (in case event isn't supported or fails)
+    // Fallback load trigger after 1 second (in case event isn't supported or fails due to extension blocks)
     const fallbackTimer = setTimeout(() => {
-      if (!isLoaded) {
-        setIsLoaded(true);
-        setLoadFailed(true); // Gracefully degrade to 2D illustration
-      }
-    }, 4000);
+      setIsLoaded((currentIsLoaded) => {
+        if (!currentIsLoaded) {
+          setLoadFailed(true); // Gracefully degrade to 2D illustration
+          return true;
+        }
+        return currentIsLoaded;
+      });
+    }, 1000);
 
     return () => {
       viewer.removeEventListener('load-complete', handleLoadComplete);
