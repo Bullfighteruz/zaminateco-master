@@ -241,8 +241,16 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
       <div 
         className="transition-all duration-500 ease-out cursor-zoom-in relative z-10 select-none"
         style={{
-          transform: isHovered ? 'scale(1.15) translateY(-12px)' : 'scale(1) translateY(0)',
-          filter: isHovered ? 'drop-shadow(0 25px 30px rgba(0,0,0,0.18))' : 'drop-shadow(0 8px 16px rgba(0,0,0,0.06))',
+          transform: isHovered 
+            ? 'scale(1.15) translate3d(0, -12px, 0)' 
+            : 'scale(1) translate3d(0, 0, 0)',
+          filter: isHovered 
+            ? 'drop-shadow(0 25px 30px rgba(0,0,0,0.18))' 
+            : 'drop-shadow(0 8px 16px rgba(0,0,0,0.06))',
+          willChange: 'transform, filter',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          transformStyle: 'preserve-3d',
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -276,6 +284,10 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
                       display: 'block',
                       imageRendering: 'high-quality',
                       WebkitImageRendering: '-webkit-optimize-contrast',
+                      willChange: 'transform',
+                      transform: 'translate3d(0, 0, 0)',
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
                     }}
                     draggable={false}
                   />
