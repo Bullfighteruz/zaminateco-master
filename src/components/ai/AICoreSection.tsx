@@ -62,26 +62,41 @@ export default function AICoreSection() {
             <div className="lg:col-span-7 text-left flex flex-col justify-start gap-4 sm:gap-6">
 
               {/* TOP: Section Header + CTAs */}
-              <div className="space-y-2.5">
-                <h2 className={cn(
-                  "font-black text-gray-900 tracking-tight leading-tight",
-                  isMobile ? "text-xl" : "text-2xl lg:text-3xl"
-                )}>
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-600">
-                     ZAMINAT AI Core
+              <div className="space-y-3.5">
+                {/* Micro-badge */}
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/[0.06] border border-emerald-500/15 text-emerald-800 text-[10px] font-black uppercase tracking-widest shadow-sm select-none">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
                   </span>
+                  Zaminat Intelligence
+                </div>
+
+                <h2 className={cn(
+                  "font-black text-gray-900 tracking-tight leading-none",
+                  isMobile ? "text-2xl" : "text-3xl lg:text-4xl"
+                )}>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-950 via-emerald-800 to-teal-600">
+                    ZAMINAT AI Core
+                  </span>
+                  <span className="text-teal-500 font-black">.</span>
+                  <span className="text-xs font-bold text-slate-400 align-super ml-1">v2.1</span>
                 </h2>
+                
                 <p className={cn(
-                  "text-slate-700 font-semibold leading-relaxed",
-                  isMobile ? "text-xs" : "text-sm lg:text-base"
+                  "text-slate-600 font-semibold leading-relaxed max-w-xl",
+                  isMobile ? "text-xs" : "text-sm lg:text-[15px]"
                 )}>
                   {t('ai.subtitle')}
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  <Link to="/pitch">
-                    <Button size="sm" className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs px-4.5 py-2 shadow-sm rounded-xl gap-1.5 transition-all hover:-translate-y-0.5 shadow-emerald-500/10">
-                      {t('ai.viewPitch')} <ArrowRight className="h-3 w-3" />
-                    </Button>
+
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <Link to="/pitch" className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 hover:shadow-emerald-500/25 hover:scale-[1.02] active:scale-95 flex items-center gap-2">
+                    {/* Sliding Shine Sweep Effect */}
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    
+                    <span>{t('ai.viewPitch')}</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
               </div>
