@@ -27,8 +27,10 @@ export default function AICoreSection() {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [activeScreenIndex, setActiveScreenIndex] = useState<number>(0);
-
+  const [isMouseInContainer, setIsMouseInContainer] = useState(false);
+  
   const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const features = [
     { key: 'ecoscan', icon: Camera, badgeKey: 'tagLive' as const, screenIndex: 0, launchPath: '/scanner' },
@@ -38,6 +40,40 @@ export default function AICoreSection() {
     { key: 'kids', icon: Smile, badgeKey: 'tagDesign' as const, screenIndex: 4 },
     { key: 'planner', icon: Factory, badgeKey: 'tagPlanned' as const, screenIndex: 5, launchPath: '/planner' }
   ];
+
+  // IntersectionObserver to change phone mockup screen as cards scroll through focal center
+  useEffect(() => {
+    if (isMobile) return;
+
+    const observerOptions = {
+      root: null, // viewport
+      rootMargin: '-30% 0px -30% 0px', // focal center window (40% of viewport height)
+      threshold: 0.2
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      // Prioritize active hover focus over scroll changes
+      if (isMouseInContainer) return;
+
+      const intersecting = entries.find(entry => entry.isIntersecting);
+      if (intersecting) {
+        const indexStr = intersecting.target.getAttribute('data-feature-index');
+        if (indexStr !== null) {
+          setActiveScreenIndex(parseInt(indexStr, 10));
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+
+    cardRefs.current.forEach(card => {
+      if (card) observer.observe(card);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isMouseInContainer, isMobile]);
 
   return (
     <section id="ai-core-section" className="scroll-mt-20 w-full relative z-10">
@@ -113,12 +149,19 @@ export default function AICoreSection() {
                 </p>
                 <div 
                   ref={cardsContainerRef}
+                  onMouseEnter={() => setIsMouseInContainer(true)}
+                  onMouseLeave={() => setIsMouseInContainer(false)}
                   className={cn("grid gap-2", isMobile ? "grid-cols-1" : "grid-cols-2")}
                 >
                   {features.map((feature, idx) => (
                     <div 
-                      key={feature.key} 
-                      onMouseEnter={() => !isMobile && setActiveScreenIndex(feature.screenIndex)}
+                      key={feature.key}
+                      ref={el => { cardRefs.current[idx] = el; }}
+                      data-feature-index={idx}
+                      onMouseEnter={() => {
+                        setIsMouseInContainer(true);
+                        if (!isMobile) setActiveScreenIndex(feature.screenIndex);
+                      }}
                       onClick={() => setActiveScreenIndex(feature.screenIndex)}
                       className="cursor-pointer h-full flex flex-col"
                     >
