@@ -35,31 +35,49 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [zoomScale, setZoomScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [scrollStart, setScrollStart] = useState({ left: 0, top: 0 });
+  const viewportRef = React.useRef<HTMLDivElement>(null);
 
-  const handleWheel = (e: React.WheelEvent) => {
-    const direction = e.deltaY < 0 ? 1 : -1;
-    const step = 0.08;
-    setZoomScale(prev => Math.max(0.5, Math.min(3.0, prev + direction * step)));
-  };
+  // Wheel listener with passive: false to allow e.preventDefault()
+  useEffect(() => {
+    const container = viewportRef.current;
+    if (!container) return;
+
+    const onWheelEvent = (e: WheelEvent) => {
+      e.preventDefault();
+      const direction = e.deltaY < 0 ? 1 : -1;
+      const step = 0.08;
+      setZoomScale(prev => Math.max(0.5, Math.min(3.0, prev + direction * step)));
+    };
+
+    container.addEventListener('wheel', onWheelEvent, { passive: false });
+    return () => {
+      container.removeEventListener('wheel', onWheelEvent);
+    };
+  }, [isLightboxOpen]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return; // Only left click drags
     e.preventDefault();
+    const container = viewportRef.current;
+    if (!container) return;
+
     setIsDragging(true);
-    setDragStart({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y
-    });
+    setDragStart({ x: e.clientX, y: e.clientY });
+    setScrollStart({ left: container.scrollLeft, top: container.scrollTop });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    setPosition({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y
-    });
+    const container = viewportRef.current;
+    if (!container) return;
+
+    const dx = e.clientX - dragStart.x;
+    const dy = e.clientY - dragStart.y;
+    container.scrollLeft = scrollStart.left - dx;
+    container.scrollTop = scrollStart.top - dy;
   };
 
   const handleMouseUp = () => {
@@ -72,7 +90,11 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
 
   const resetZoomAndPan = () => {
     setZoomScale(1);
-    setPosition({ x: 0, y: 0 });
+    const container = viewportRef.current;
+    if (container) {
+      container.scrollLeft = 0;
+      container.scrollTop = 0;
+    }
   };
 
   const closeLightbox = () => {
@@ -349,35 +371,56 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
 
               {/* Image Viewport Scroll Container */}
               <div 
+                ref={viewportRef}
                 className={cn(
-                  "relative max-h-[85vh] max-w-[85vw] overflow-hidden select-none rounded-2xl border border-white/10 shadow-2xl bg-[#0c0d14]",
+                  "relative max-h-[85vh] max-w-[85vw] overflow-auto select-none rounded-2xl border border-white/10 shadow-2xl bg-[#0c0d14] phone-screen-scroll",
                   isDragging ? "cursor-grabbing" : "cursor-grab"
                 )}
-                onWheel={handleWheel}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
                 onClick={(e) => e.stopPropagation()}
               >
+                {/* Custom scrollbar inside viewport */}
+                <style>{`
+                  .phone-screen-scroll::-webkit-scrollbar {
+                    width: 6px;
+                    height: 6px;
+                  }
+                  .phone-screen-scroll::-webkit-scrollbar-track {
+                    background: transparent;
+                  }
+                  .phone-screen-scroll::-webkit-scrollbar-thumb {
+                    background: rgba(16, 185, 129, 0.4);
+                    border-radius: 9999px;
+                  }
+                  .phone-screen-scroll::-webkit-scrollbar-thumb:hover {
+                    background: rgba(16, 185, 129, 0.75);
+                  }
+                `}</style>
+
                 <div 
-                  className="p-12 flex items-center justify-center pointer-events-none select-none"
+                  className="flex p-12 min-w-full min-h-full"
                   style={{
-                    transform: `translate(${position.x}px, ${position.y}px)`,
-                    transition: isDragging ? 'none' : 'transform 0.15s ease-out',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   <img
                     src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
                     alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
                     style={{
+                      margin: 'auto', // Centers it when small, allows scrolling when large!
                       width: `${Math.round((isMobile ? 290 : 440) * zoomScale)}px`,
                       height: 'auto',
                       borderRadius: '12px',
                       boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.7)',
                       imageRendering: 'high-quality',
                       WebkitImageRendering: '-webkit-optimize-contrast',
-                      transition: 'width 0.15s ease-out'
+                      transition: 'width 0.15s ease-out',
+                      pointerEvents: 'none' // Prevents default browser drag-to-desktop action
                     }}
                     draggable={false}
                   />
