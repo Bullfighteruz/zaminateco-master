@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Slider } from '@/components/ui/slider';
 import { 
   Recycle, 
   TrendingUp, 
@@ -148,14 +147,15 @@ export default function AIImpactPreview() {
                     {wasteKg.toLocaleString()} kg
                   </span>
                 </div>
-                <div className="px-1.5">
-                  <Slider
+                <div className="px-1.5 py-1">
+                  <input
+                    type="range"
                     min={50}
                     max={2000}
                     step={25}
-                    value={[wasteKg]}
-                    onValueChange={(val) => setWasteKg(val[0])}
-                    className="text-emerald-500 cursor-pointer"
+                    value={wasteKg}
+                    onChange={(e) => setWasteKg(Number(e.target.value))}
+                    className="custom-range-slider"
                   />
                 </div>
                 <div className="flex justify-between text-[8px] text-slate-400 font-bold uppercase tracking-wider px-0.5">
