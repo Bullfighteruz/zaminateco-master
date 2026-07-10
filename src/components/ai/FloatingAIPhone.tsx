@@ -32,9 +32,22 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
   const [imagesLoaded, setImagesLoaded] = useState<boolean[]>(new Array(AI_SCREENS.length).fill(false));
   const [isHovered, setIsHovered] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const activeIndex = propActiveIndex !== undefined ? propActiveIndex : internalIndex;
   const phoneWidth = isMobile ? 260 : 370;
+
+  // Prevent background page scrolling when the lightbox is open
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isLightboxOpen]);
 
   // Preload all images eagerly on mount (same pattern as pitch page)
   useEffect(() => {
@@ -157,7 +170,10 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => setIsLightboxOpen(true)}
+        onClick={() => {
+          setLightboxIndex(activeIndex);
+          setIsLightboxOpen(true);
+        }}
       >
         <PhoneMockup width={phoneWidth}>
           <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
@@ -266,8 +282,8 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
               <PhoneMockup width={isMobile ? 290 : 420}>
                 <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
                   <img
-                    src={AI_SCREENS[activeIndex].src}
-                    alt={AI_SCREENS[activeIndex].label}
+                    src={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].src}
+                    alt={AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -284,7 +300,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex }: Floati
               
               {/* Caption */}
               <div className="mt-4 px-6 py-2 rounded-full bg-white/10 border border-white/5 text-xs text-white/90 font-bold backdrop-blur-md uppercase tracking-wider shadow-xl">
-                {AI_SCREENS[activeIndex].label} (Full Resolution)
+                {AI_SCREENS[lightboxIndex !== null ? lightboxIndex : activeIndex].label} (Full Resolution)
               </div>
             </motion.div>
           </motion.div>
