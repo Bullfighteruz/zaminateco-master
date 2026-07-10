@@ -72,8 +72,15 @@ export default function AIFeatureCard({ title, description, icon: Icon, badgeKey
             {description}
           </p>
           
-          {launchPath && isActive && (
-            <div className="pt-2">
+          {launchPath && (
+            <div 
+              className={cn(
+                "pt-2 transition-all duration-200 ease-out",
+                isActive 
+                  ? "opacity-100 translate-y-0 pointer-events-auto" 
+                  : "opacity-0 -translate-y-1 pointer-events-none"
+              )}
+            >
               <Link 
                 to={launchPath}
                 className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-600 hover:text-emerald-700 transition-colors uppercase tracking-wider"
