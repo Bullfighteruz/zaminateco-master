@@ -27,68 +27,8 @@ export default function AICoreSection() {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [activeScreenIndex, setActiveScreenIndex] = useState<number>(0);
-  const [isHoveredByMouse, setIsHoveredByMouse] = useState(false);
 
   const cardsContainerRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = useCallback(() => {
-    if (isHoveredByMouse || isMobile) return;
-
-    const container = cardsContainerRef.current;
-    if (!container) return;
-
-    const cardElements = container.children;
-    if (cardElements.length < 6) return;
-
-    const viewportCenter = window.innerHeight / 2;
-
-    // Row vertical centers (Row 0: cards 0,1; Row 1: cards 2,3; Row 2: cards 4,5)
-    const rowCenters = [
-      (cardElements[0].getBoundingClientRect().top + cardElements[0].getBoundingClientRect().bottom) / 2,
-      (cardElements[2].getBoundingClientRect().top + cardElements[2].getBoundingClientRect().bottom) / 2,
-      (cardElements[4].getBoundingClientRect().top + cardElements[4].getBoundingClientRect().bottom) / 2,
-    ];
-
-    let closestRow = 0;
-    let minDistance = Infinity;
-    rowCenters.forEach((center, idx) => {
-      const distance = Math.abs(center - viewportCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestRow = idx;
-      }
-    });
-
-    setActiveScreenIndex(prev => {
-      if (closestRow === 0) {
-        return (prev === 0 || prev === 1) ? prev : 0;
-      } else if (closestRow === 1) {
-        return (prev === 2 || prev === 3) ? prev : 2;
-      } else {
-        return (prev === 4 || prev === 5) ? prev : 5;
-      }
-    });
-  }, [isHoveredByMouse, isMobile]);
-
-  useEffect(() => {
-    if (isMobile) return;
-    let rafId: number | null = null;
-    const onScroll = () => {
-      if (rafId !== null) return;
-      rafId = requestAnimationFrame(() => {
-        handleScroll();
-        rafId = null;
-      });
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (rafId !== null) cancelAnimationFrame(rafId);
-    };
-  }, [handleScroll, isMobile]);
 
   const features = [
     { key: 'ecoscan', icon: Camera, badgeKey: 'tagLive' as const, screenIndex: 0, launchPath: '/scanner' },
@@ -173,8 +113,6 @@ export default function AICoreSection() {
                 </p>
                 <div 
                   ref={cardsContainerRef}
-                  onMouseEnter={() => setIsHoveredByMouse(true)}
-                  onMouseLeave={() => setIsHoveredByMouse(false)}
                   className={cn("grid gap-2", isMobile ? "grid-cols-1" : "grid-cols-2")}
                 >
                   {features.map((feature, idx) => (
@@ -210,7 +148,7 @@ export default function AICoreSection() {
             {/* RIGHT COLUMN: Sticky Phone (Desktop only) */}
             <div className="hidden lg:flex lg:col-span-5 relative justify-center">
               <div className="sticky top-24 flex flex-col items-center gap-2 py-1">
-                <FloatingAIPhone activeIndex={activeScreenIndex} />
+                <FloatingAIPhone activeIndex={activeScreenIndex} setActiveIndex={setActiveScreenIndex} />
                 <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium select-none animate-pulse">
                   <MousePointerClick className="h-3 w-3" />
                   <span>{t('ai.hoverExplore')}</span>
