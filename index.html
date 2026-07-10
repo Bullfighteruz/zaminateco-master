@@ -112,9 +112,6 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"></noscript>
   
-  <!-- Spline 3D Viewer - Script -->
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.97/build/spline-viewer.js"></script>
-  
   <!-- Security -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
@@ -123,11 +120,11 @@
     default-src 'self';
     worker-src 'self' blob:;
     child-src 'self' blob:;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://*.spline.design;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://*.spline.design chrome-extension: moz-extension:;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' data: https://fonts.gstatic.com https://*.spline.design https://unpkg.com;
-    img-src 'self' data: blob: https: http:;
-    connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co wss://*.supabase.co https://*.spline.design https://fonts.gstatic.com https://fonts.googleapis.com https://unpkg.com https://api.qrserver.com https://tfhub.dev https://storage.googleapis.com https://www.kaggle.com https://kaggle.com;
+    img-src 'self' data: blob: https: http: chrome-extension:;
+    connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co wss://*.supabase.co https://*.spline.design https://fonts.gstatic.com https://fonts.googleapis.com https://unpkg.com https://api.qrserver.com https://tfhub.dev https://storage.googleapis.com https://www.kaggle.com https://kaggle.com chrome-extension:;
     frame-src 'self' https://*.spline.design;
     media-src 'self' blob: data:;
     object-src 'none';
