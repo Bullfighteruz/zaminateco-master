@@ -1525,11 +1525,11 @@ export default function Pitch() {
                       </h4>
                       {/* Visual budget split bar */}
                       <div className="flex h-2.5 rounded-full overflow-hidden gap-0.5 bg-white/10 p-0.5">
-                        <div className="bg-emerald-400 rounded-full" style={{ width: '75%' }} title="Equipment (75%)" />
-                        <div className="bg-teal-400 rounded-full" style={{ width: '11%' }} title="Facility Adaptation (11%)" />
-                        <div className="bg-amber-400 rounded-full" style={{ width: '5%' }} title="Raw Materials (5%)" />
-                        <div className="bg-sky-400 rounded-full" style={{ width: '4%' }} title="Certification (4%)" />
-                        <div className="bg-indigo-400 rounded-full" style={{ width: '5%' }} title="Digital & Marketing (5%)" />
+                        <div className="bg-emerald-400 rounded-full" style={{ width: '67%' }} title="Equipment (67%)" />
+                        <div className="bg-teal-400 rounded-full" style={{ width: '17%' }} title="Facility Adaptation (17%)" />
+                        <div className="bg-amber-400 rounded-full" style={{ width: '4%' }} title="Raw Materials (4%)" />
+                        <div className="bg-sky-400 rounded-full" style={{ width: '3%' }} title="Certification (3%)" />
+                        <div className="bg-indigo-400 rounded-full" style={{ width: '9%' }} title="Digital & Marketing (9%)" />
                       </div>
 
                       {/* Items */}
