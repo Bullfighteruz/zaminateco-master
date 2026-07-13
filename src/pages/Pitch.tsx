@@ -1527,9 +1527,9 @@ export default function Pitch() {
                       <div className="flex h-2.5 rounded-full overflow-hidden gap-0.5 bg-white/10 p-0.5">
                         <div className="bg-emerald-400 rounded-full" style={{ width: '67%' }} title="Equipment (67%)" />
                         <div className="bg-teal-400 rounded-full" style={{ width: '17%' }} title="Facility Adaptation (17%)" />
+                        <div className="bg-indigo-400 rounded-full" style={{ width: '9%' }} title="Digital & Marketing (9%)" />
                         <div className="bg-amber-400 rounded-full" style={{ width: '4%' }} title="Raw Materials (4%)" />
                         <div className="bg-sky-400 rounded-full" style={{ width: '3%' }} title="Certification (3%)" />
-                        <div className="bg-indigo-400 rounded-full" style={{ width: '9%' }} title="Digital & Marketing (9%)" />
                       </div>
 
                       {/* Items */}
@@ -1537,9 +1537,9 @@ export default function Pitch() {
                         {[
                           { color: 'bg-emerald-400', text: t('pitch.ask.fund1') },
                           { color: 'bg-teal-400', text: t('pitch.ask.fund2') },
+                          { color: 'bg-indigo-400', text: t('pitch.ask.fund5') },
                           { color: 'bg-amber-400', text: t('pitch.ask.fund3') },
                           { color: 'bg-sky-400', text: t('pitch.ask.fund4') },
-                          { color: 'bg-indigo-400', text: t('pitch.ask.fund5') },
                         ].map((item, idx) => (
                           <div key={idx} className="flex items-center gap-2">
                             <div className={cn("w-2.5 h-2.5 rounded flex-shrink-0", item.color)} />
