@@ -41,10 +41,13 @@ export default function AICoreSection() {
     { key: 'planner', icon: Factory, badgeKey: 'tagPlanned' as const, screenIndex: 5, launchPath: '/planner' }
   ];
 
-  // Stable ref so the scroll handler can read the latest hover state
+  // Stable refs so the scroll handler can read current states
   // without stale closures or needing to re-attach the listener.
   const isMouseInContainerRef = useRef(isMouseInContainer);
   useEffect(() => { isMouseInContainerRef.current = isMouseInContainer; }, [isMouseInContainer]);
+
+  const activeScreenIndexRef = useRef(activeScreenIndex);
+  useEffect(() => { activeScreenIndexRef.current = activeScreenIndex; }, [activeScreenIndex]);
 
   // Scroll-position-progress: map how far the viewport center has traveled
   // through the cards container to one of 6 sequential screen indices.
@@ -79,7 +82,11 @@ export default function AICoreSection() {
 
         const clamped = Math.max(0, Math.min(0.999, progress));
         const idx = Math.floor(clamped * TOTAL_SCREENS);
-        setActiveScreenIndex(Math.max(0, Math.min(TOTAL_SCREENS - 1, idx)));
+        const targetIdx = Math.max(0, Math.min(TOTAL_SCREENS - 1, idx));
+
+        if (targetIdx !== activeScreenIndexRef.current) {
+          setActiveScreenIndex(targetIdx);
+        }
       });
     };
 
