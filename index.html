@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YTCSTZQ9HR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YTCSTZQ9HR');
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link rel="icon" href="/logo.webp" type="image/webp">
@@ -104,9 +113,13 @@
   <!-- Performance - Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
   <link rel="dns-prefetch" href="https://my.spline.design">
   <link rel="dns-prefetch" href="https://api.qrserver.com">
   <link rel="dns-prefetch" href="https://www.google.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
   
   <!-- Font Optimization -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -120,11 +133,11 @@
     default-src 'self';
     worker-src 'self' blob:;
     child-src 'self' blob:;
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://*.spline.design chrome-extension: moz-extension:;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://*.spline.design https://www.googletagmanager.com chrome-extension: moz-extension:;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' data: https://fonts.gstatic.com https://*.spline.design https://unpkg.com;
-    img-src 'self' data: blob: https: http: chrome-extension:;
-    connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co wss://*.supabase.co https://*.spline.design https://fonts.gstatic.com https://fonts.googleapis.com https://unpkg.com https://api.qrserver.com https://tfhub.dev https://storage.googleapis.com https://www.kaggle.com https://kaggle.com chrome-extension:;
+    img-src 'self' data: blob: https: http: chrome-extension: https://www.google-analytics.com https://www.googletagmanager.com;
+    connect-src 'self' https://generativelanguage.googleapis.com https://*.supabase.co wss://*.supabase.co https://*.spline.design https://fonts.gstatic.com https://fonts.googleapis.com https://unpkg.com https://api.qrserver.com https://tfhub.dev https://storage.googleapis.com https://www.kaggle.com https://kaggle.com https://www.google-analytics.com https://*.google-analytics.com chrome-extension:;
     frame-src 'self' https://*.spline.design;
     media-src 'self' blob: data:;
     object-src 'none';
