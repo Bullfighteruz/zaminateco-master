@@ -740,18 +740,20 @@
     },
     "title": "Investor Pitch Deck",
     "hero": {
-      "title": "Where Waste Ends —\nLife Begins",
-      "subtitle": "A full-cycle Waste-to-Life infrastructure platform from Uzbekistan. Plastic + Tire Waste → Infrastructure Products + Digital Transparency + Education",
+      "title": "Where Waste Ends —\nAI-Powered Life Begins",
+      "subtitle": "Uzbekistan's first AI-powered Waste-to-Life infrastructure platform. Plastic + Tire Waste → ZAMINAT AI Core → Infrastructure Products + Digital Transparency + Education",
       "stage": "Pre-Seed Stage",
       "established": "Est. 2025",
       "location": "Tashkent, Uzbekistan",
+      "aiPowered": "AI-Powered",
       "founderMission": "Founder-Led Mission",
-      "founderMissionText": "Waste should not be the end of a material's life. In Uzbekistan, plastic and old tires can become school yards, parks, jobs, and green infrastructure.",
+      "founderMissionText": "Waste should not be the end of a material's life. With AI-powered recognition, community coaching, and real-time impact tracking, we are transforming Uzbekistan's plastic and old tires into school yards, parks, jobs, and green infrastructure.",
       "founderMissionRu": "Отходы не должны быть финалом материала."
     },
     "chain": {
       "waste": "Waste",
       "material": "Material",
+      "ai": "AI",
       "product": "Product",
       "revenue": "Revenue",
       "impact": "Impact"
@@ -790,9 +792,9 @@
           "desc": "Recycled rubber and plastic become market-ready products: safety tiles, composite tiles, curbs, public-space elements and Art Tiles."
         },
         "digital": {
-          "title": "Digital Transparency Platform",
-          "subtitle": "Trust and participation layer",
-          "desc": "EcoApp makes collection, participation, voting, rewards and impact reporting visible for citizens, schools, mahallas, partners and investors."
+          "title": "ZAMINAT AI Core & Digital Platform",
+          "subtitle": "AI intelligence + trust + participation layer",
+          "desc": "ZAMINAT AI Core powers the ecosystem: AI EcoScan identifies waste from photos, ZAMI AI Advisor guides citizens in 3 languages, Impact Engine calculates real results — while the EcoApp makes collection, voting, rewards and impact visible for everyone."
         },
         "education": {
           "title": "EcoKids Education",
@@ -1019,13 +1021,13 @@
           ]
         },
         "digital": {
-          "title": "6. Digital & Education Layer",
+          "title": "6. ZAMINAT AI Core & Digital Platform",
           "items": [
-            "Web MVP and investor pitch-demo route prepared",
-            "EcoApp concept prepared",
-            "EcoKids concept prepared",
-            "EcoMap, EcoVote, EcoActions, EcoWallet and Impact Dashboard logic prepared",
-            "Digital transparency and education model developed"
+            "ZAMINAT AI Core live in production: AI EcoScan (waste recognition) + ZAMI AI Advisor (multilingual coaching)",
+            "Powered by Google Gemini 3.1 — real-time computer vision and conversational AI",
+            "EcoApp web MVP built and investor pitch-demo route prepared",
+            "EcoKids concept prepared with 7-character animated series and app design",
+            "EcoMap, EcoVote, EcoActions, EcoWallet and Impact Dashboard logic prepared"
           ]
         },
         "investment": {
@@ -1082,7 +1084,7 @@
       "fund2": "17% ($75,000) — Facility adaptation and installation",
       "fund3": "4% ($20,000) — Raw materials and consumables",
       "fund4": "3% ($15,000) — Certification and testing roadmap",
-      "fund5": "9% ($40,000) — Digital platform (AI Core & EcoApp), marketing and demo projects",
+      "fund5": "9% ($40,000) — ZAMINAT AI Core scaling, EcoApp development, marketing and demo projects",
       "facilityTitle": "Facility Strategy",
       "facilityDesc": "We are not building a factory from scratch in phase one. We will launch a lean pilot production workshop inside a leased or strategic partner industrial facility. This reduces CAPEX, accelerates launch, and allows us to validate production, certification, first sales and B2B/B2G demand before scaling.",
       "partnerTitle": "Strategic Partner Advantage",
@@ -1209,8 +1211,8 @@
     "tagLive": "Ready & Live",
     "disclaimer": "ZAMINAT AI Core is designed to become the intelligence layer of our Waste-to-Life ecosystem — helping identify recyclable materials, guide citizens, verify reports, calculate impact and support future production planning.",
     "trustTitle": "Scalable Infrastructure Planning",
-    "pitchTitle": "AI-Powered Waste-to-Life Infrastructure",
-    "pitchSubtitle": "ZAMINAT AI Core turns environmental activity into verified data, measurable impact and scalable infrastructure planning.",
+    "pitchTitle": "ZAMINAT AI Core — Live & Scaling",
+    "pitchSubtitle": "2 AI modules are live in production (AI EcoScan + ZAMI AI Advisor). ZAMINAT AI Core turns environmental activity into verified data, measurable impact and scalable infrastructure planning — powered by Google Gemini 3.1.",
     "roadmapTitle": "AI Core Implementation Roadmap",
     "roadmapSubtitle": "Staged rollout to scale operations, secure data, and drive ecological value.",
     "features": {
@@ -1286,17 +1288,17 @@
     "modulesTitle": "6 Intelligence Modules",
     "metrics": {
       "modules": "AI Modules",
-      "modulesSub": "In Development",
+      "modulesSub": "2 Live · 4 Developing",
       "languages": "Languages",
       "languagesSub": "UZ · RU · EN",
       "processing": "Processing",
-      "processingSub": "Edge + Cloud",
+      "processingSub": "Gemini 3.1 · Cloud",
       "accuracy": "Target Accuracy",
       "accuracySub": "Material Recognition"
     },
     "pitchModules": {
-      "ecoscan": { "desc": "Ready-to-use computer vision recognition — instantly classifies waste types, predicts weight, and identifies nearby collection points." },
-      "ecocoach": { "desc": "Production-ready multilingual AI advisor (UZ/RU/EN) — provides sorting guides, EcoPoint navigation, and custom action planning." },
+      "ecoscan": { "desc": "Live in production — Gemini 3.1 computer vision instantly classifies waste types, predicts weight, estimates Eco Coins, and maps nearest collection points." },
+      "ecocoach": { "desc": "Live in production — multilingual AI advisor (UZ/RU/EN) powered by Gemini 3.1. Guides sorting, recommends collection points, and provides personalized eco-coaching." },
       "impact": { "desc": "Real-time impact calculation — converts recycling data into measurable outputs: CO₂ saved, products created, community value." },
       "fraud": { "desc": "Multi-layer verification — GPS validation, photo integrity, timestamp analysis, anomaly detection for all submissions." },
       "kids": { "desc": "Gamified environmental education — sorting challenges, quizzes, achievement system to build habits from childhood." },

@@ -769,7 +769,7 @@ export default function Pitch() {
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-2 mt-6">
-              {[t('pitch.hero.location'), t('pitch.hero.stage'), t('pitch.hero.established')].map(tag => (
+              {[t('pitch.hero.location'), t('pitch.hero.stage'), t('pitch.hero.established'), t('pitch.hero.aiPowered')].map(tag => (
                 <Badge key={tag} className="bg-white/15 text-white border-white/20 backdrop-blur-sm px-3 py-1 text-xs font-semibold">
                   {tag}
                 </Badge>
@@ -781,6 +781,7 @@ export default function Pitch() {
               {[
                 t('pitch.chain.waste'),
                 t('pitch.chain.material'),
+                t('pitch.chain.ai'),
                 t('pitch.chain.product'),
                 t('pitch.chain.revenue'),
                 t('pitch.chain.impact')
@@ -789,7 +790,7 @@ export default function Pitch() {
                   <span className="px-3 py-1.5 bg-white/10 border border-white/15 rounded-lg text-xs font-bold">
                     {step}
                   </span>
-                  {i < 4 && <ChevronRight className="h-4 w-4 opacity-40" />}
+                  {i < 5 && <ChevronRight className="h-4 w-4 opacity-40" />}
                 </React.Fragment>
               ))}
             </motion.div>
@@ -1009,10 +1010,10 @@ export default function Pitch() {
               {/* Key Metrics Bar */}
               <div className={cn("grid gap-3 text-center", isMobile ? "grid-cols-2" : "grid-cols-4")}>
                 {[
-                  { value: '6', labelKey: 'ai.metrics.modules', subKey: 'ai.metrics.modulesSub' },
+                  { value: '2 Live + 4', labelKey: 'ai.metrics.modules', subKey: 'ai.metrics.modulesSub' },
                   { value: '3', labelKey: 'ai.metrics.languages', subKey: 'ai.metrics.languagesSub' },
-                  { value: 'Real-time', labelKey: 'ai.metrics.processing', subKey: 'ai.metrics.processingSub' },
-                  { value: '92%', labelKey: 'ai.metrics.accuracy', subKey: 'ai.metrics.accuracySub' },
+                  { value: 'Gemini 3.1', labelKey: 'ai.metrics.processing', subKey: 'ai.metrics.processingSub' },
+                  { value: '95%+', labelKey: 'ai.metrics.accuracy', subKey: 'ai.metrics.accuracySub' },
                 ].map((stat, i) => (
                   <div key={i} className="bg-gradient-to-b from-emerald-50/60 to-white border border-emerald-100/50 rounded-2xl p-3 sm:p-4">
                     <div className="text-lg sm:text-xl font-black text-emerald-700">{stat.value}</div>
