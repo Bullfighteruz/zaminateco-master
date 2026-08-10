@@ -57,7 +57,7 @@ export class LocalizationService {
     if (!project) return null;
 
     // Projects might have translations stored in metadata
-    const metadata = project.metadata as any;
+    const metadata = (project as any)?.metadata;
     if (metadata?.translations?.[language]) {
       return {
         title: metadata.translations[language].title || project.title,
@@ -86,7 +86,7 @@ export class LocalizationService {
 
     if (!event) return null;
 
-    const metadata = event.metadata as any;
+    const metadata = (event as any)?.metadata;
     if (metadata?.translations?.[language]) {
       return {
         title: metadata.translations[language].title || event.title,
@@ -114,7 +114,7 @@ export class LocalizationService {
 
     if (!point) return null;
 
-    const metadata = point.metadata as any;
+    const metadata = (point as any)?.metadata;
     if (metadata?.translations?.[language]) {
       return {
         name: metadata.translations[language].name || point.name,
@@ -186,8 +186,8 @@ export class LocalizationService {
       },
     });
 
-    if (user?.settings?.languagePreference) {
-      return user.settings.languagePreference as SupportedLanguage;
+    if (user?.settings?.languagePref) {
+      return user.settings.languagePref as SupportedLanguage;
     }
 
     if (user?.language) {

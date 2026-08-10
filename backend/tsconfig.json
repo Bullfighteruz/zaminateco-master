@@ -24,6 +24,25 @@
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/auth",
+    "src/events",
+    "src/guards",
+    "src/leaderboard",
+    "src/locations",
+    "src/news",
+    "src/notifications",
+    "src/payments",
+    "src/points",
+    "src/projects",
+    "src/security",
+    "src/shop",
+    "src/stories",
+    "src/users",
+    "src/waste-logs"
+  ]
 }
-
