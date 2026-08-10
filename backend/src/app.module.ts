@@ -17,6 +17,7 @@ import { WasteLogsModule } from './waste-logs/waste-logs.module';
 // import { ModerationModule } from './moderation/moderation.module';
 // import { NotificationsModule } from './notifications/notifications.module';
 import { LocalizationModule } from './localization/localization.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { LocalizationModule } from './localization/localization.module';
     // ModerationModule, // Temporarily disabled - missing @nestjs/axios
     // NotificationsModule, // Temporarily disabled - missing @nestjs/axios
     LocalizationModule,
+    AiModule,
   ],
 })
 export class AppModule {}
