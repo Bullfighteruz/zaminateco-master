@@ -68,7 +68,7 @@ function removeMetaTags(selector: string) {
 export function useSEO({
   title,
   description,
-  image = '/og-image.avif',
+  image = '/og-image.jpeg',
   url,
   type = 'website',
   keywords,
