@@ -52,7 +52,7 @@ function getImageFiles(dirPath) {
     }
     
     const files = fs.readdirSync(dirPath);
-    const imageExtensions = ['.webp'];
+    const imageExtensions = ['.avif', '.webp', '.jpg', '.png'];
     
     return files
       .filter(file => {
