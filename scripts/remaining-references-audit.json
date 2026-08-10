@@ -1,0 +1,373 @@
+[
+  {
+    "file": "backend/src/moderation/moderation.service.ts",
+    "line": 191,
+    "referencedAsset": ".png",
+    "lineText": "const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "backend/src/moderation/moderation.service.ts",
+    "line": 191,
+    "referencedAsset": ".jpg",
+    "lineText": "const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "backend/src/moderation/moderation.service.ts",
+    "line": 191,
+    "referencedAsset": ".jpeg",
+    "lineText": "const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "backend/src/upload/upload.service.ts",
+    "line": 23,
+    "referencedAsset": "    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.jpg",
+    "lineText": "const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.jpg`;",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "backend/src/upload/upload.service.ts",
+    "line": 35,
+    "referencedAsset": "    await image.jpeg",
+    "lineText": "await image.jpeg({ quality: 85 }).toFile(filepath);",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 26,
+    "referencedAsset": "/apple-touch-icon.png",
+    "lineText": "<link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 27,
+    "referencedAsset": "/apple-touch-icon-180x180.png",
+    "lineText": "<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon-180x180.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 28,
+    "referencedAsset": "/apple-touch-icon-167x167.png",
+    "lineText": "<link rel=\"apple-touch-icon\" sizes=\"167x167\" href=\"/apple-touch-icon-167x167.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 29,
+    "referencedAsset": "/apple-touch-icon-152x152.png",
+    "lineText": "<link rel=\"apple-touch-icon\" sizes=\"152x152\" href=\"/apple-touch-icon-152x152.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 30,
+    "referencedAsset": "/apple-touch-icon-120x120.png",
+    "lineText": "<link rel=\"apple-touch-icon\" sizes=\"120x120\" href=\"/apple-touch-icon-120x120.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 33,
+    "referencedAsset": "/splash-1290x2796.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1290x2796.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 34,
+    "referencedAsset": "/splash-1179x2556.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1179x2556.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 35,
+    "referencedAsset": "/splash-1170x2532.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1170x2532.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 36,
+    "referencedAsset": "/splash-1125x2436.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1125x2436.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 37,
+    "referencedAsset": "/splash-1242x2688.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1242x2688.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 38,
+    "referencedAsset": "/splash-828x1792.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-828x1792.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 39,
+    "referencedAsset": "/splash-750x1334.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-750x1334.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 40,
+    "referencedAsset": "/splash-640x1136.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-640x1136.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 42,
+    "referencedAsset": "/splash-2048x2732.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-2048x2732.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 43,
+    "referencedAsset": "/splash-1668x2388.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-1668x2388.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 44,
+    "referencedAsset": "/splash-1640x2360.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-1640x2360.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 45,
+    "referencedAsset": "/splash-1536x2048.png",
+    "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-1536x2048.png\" />",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 61,
+    "referencedAsset": "https://zaminat.uz/og-image.jpeg",
+    "lineText": "<meta property=\"og:image\" content=\"https://zaminat.uz/og-image.jpeg\" />",
+    "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
+  },
+  {
+    "file": "index.html",
+    "line": 73,
+    "referencedAsset": "https://zaminat.uz/og-image.jpeg",
+    "lineText": "<meta name=\"twitter:image\" content=\"https://zaminat.uz/og-image.jpeg\" />",
+    "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
+  },
+  {
+    "file": "src/components/InteractiveMap.tsx",
+    "line": 1038,
+    "referencedAsset": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "lineText": "url=\"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\"",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/components/ui/ProfessionalImage.tsx",
+    "line": 122,
+    "referencedAsset": "image-400w.jpg 400w, image-800w.jpg 800w, image-1200w.jpg",
+    "lineText": "// \"image-400w.jpg 400w, image-800w.jpg 800w, image-1200w.jpg 1200w\"",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/hooks/useSEO.ts",
+    "line": 63,
+    "referencedAsset": "/images/shop-preview.jpg",
+    "lineText": "*   image: '/images/shop-preview.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/hooks/useSEO.ts",
+    "line": 71,
+    "referencedAsset": "/og-image.jpeg",
+    "lineText": "image = '/og-image.jpeg',",
+    "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
+  },
+  {
+    "file": "src/lib/mockData.ts",
+    "line": 62,
+    "referencedAsset": "/images/New Playground for School.jpg",
+    "lineText": "image: '/images/New Playground for School.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/lib/mockData.ts",
+    "line": 77,
+    "referencedAsset": "/images/eco-park-benches.jpg",
+    "lineText": "image: '/images/eco-park-benches.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/lib/mockData.ts",
+    "line": 92,
+    "referencedAsset": "/images/kindergarten-garden-path.jpg",
+    "lineText": "image: '/images/kindergarten-garden-path.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/lib/productImageLoader.ts",
+    "line": 27,
+    "referencedAsset": ")[0]}.jpg",
+    "lineText": "`${basePath}/${folderName.split('-')[0]}.jpg`,",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/lib/productImageLoader.ts",
+    "line": 28,
+    "referencedAsset": "      `${basePath}/main.jpg",
+    "lineText": "`${basePath}/main.jpg`,",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/lib/productImageLoader.ts",
+    "line": 29,
+    "referencedAsset": "      `${basePath}/hero.jpg",
+    "lineText": "`${basePath}/hero.jpg`,",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 127,
+    "referencedAsset": "https://img.youtube.com/vi/f6U_rK1-jWM/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/f6U_rK1-jWM/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 139,
+    "referencedAsset": "https://img.youtube.com/vi/92y0oClestY/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/92y0oClestY/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 151,
+    "referencedAsset": "https://img.youtube.com/vi/MgSB_vJjKGg/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/MgSB_vJjKGg/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 163,
+    "referencedAsset": "https://img.youtube.com/vi/zhaxX4Pl3ME/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/zhaxX4Pl3ME/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 175,
+    "referencedAsset": "https://img.youtube.com/vi/8UGAjoiKmio/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/8UGAjoiKmio/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 187,
+    "referencedAsset": "https://img.youtube.com/vi/a2e8CqGXMJE/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/a2e8CqGXMJE/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 199,
+    "referencedAsset": "https://img.youtube.com/vi/8q3chEM1GNQ/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/8q3chEM1GNQ/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 211,
+    "referencedAsset": "https://img.youtube.com/vi/JdAvQThA26Y/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/JdAvQThA26Y/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/EcoStories.tsx",
+    "line": 223,
+    "referencedAsset": "https://img.youtube.com/vi/NmNCxsrOFhU/hqdefault.jpg",
+    "lineText": "thumbnail: 'https://img.youtube.com/vi/NmNCxsrOFhU/hqdefault.jpg',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/Pitch.tsx",
+    "line": 1589,
+    "referencedAsset": "/images/pitch-qr.png",
+    "lineText": "<img src=\"/images/pitch-qr.png\" alt=\"Scan to open Pitch Deck\" className=\"w-full h-full object-contain\" />",
+    "reason": "THIRD_PARTY_REQUIRED (QR code scanner accuracy)"
+  },
+  {
+    "file": "src/pages/PitchLive.tsx",
+    "line": 319,
+    "referencedAsset": "/images/pitch-qr.png",
+    "lineText": "<img src=\"/images/pitch-qr.png\" alt=\"QR\" className=\"w-full h-full object-contain\" />",
+    "reason": "THIRD_PARTY_REQUIRED (QR code scanner accuracy)"
+  },
+  {
+    "file": "src/pages/Shop.tsx",
+    "line": 619,
+    "referencedAsset": "/images/shop-preview.jpg",
+    "lineText": "image: '/images/shop-preview.jpg', // Update with actual shop preview image",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/SocialMissionShop.tsx",
+    "line": 163,
+    "referencedAsset": "// - construction.png",
+    "lineText": "// - construction.png (lowercase)",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "src/pages/SocialMissionShop.tsx",
+    "line": 164,
+    "referencedAsset": "// - recreation.png",
+    "lineText": "// - recreation.png (lowercase)",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "vite.config.ts",
+    "line": 26,
+    "referencedAsset": "/apple-touch-icon-120x120.png",
+    "lineText": "src: '/apple-touch-icon-120x120.png',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "vite.config.ts",
+    "line": 31,
+    "referencedAsset": "/apple-touch-icon-180x180.png",
+    "lineText": "src: '/apple-touch-icon-180x180.png',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "vite.config.ts",
+    "line": 36,
+    "referencedAsset": "/pwa-icon-192.png",
+    "lineText": "src: '/pwa-icon-192.png',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "vite.config.ts",
+    "line": 41,
+    "referencedAsset": "/pwa-icon-512.png",
+    "lineText": "src: '/pwa-icon-512.png',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "vite.config.ts",
+    "line": 47,
+    "referencedAsset": "/pwa-icon-512-maskable.png",
+    "lineText": "src: '/pwa-icon-512-maskable.png',",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  }
+]
