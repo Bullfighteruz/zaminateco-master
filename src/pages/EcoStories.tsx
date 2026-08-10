@@ -40,8 +40,8 @@ const stories = [
   {
     id: 1,
     emoji: '🎉',
-    image: '/images/zaminat-pilot-program.png',
-    iconPath: '/images/zaminat-pilot-program.png',
+    image: '/images/zaminat-pilot-program.avif',
+    iconPath: '/images/zaminat-pilot-program.avif',
     badgeType: 'update',
     titleKey: 'stories.pilotProgram.title',
     descriptionKey: 'stories.pilotProgram.description',
@@ -53,8 +53,8 @@ const stories = [
   {
     id: 2,
     emoji: '🏫',
-    image: '/images/recycling-future.png',
-    iconPath: '/images/recycling-future.png',
+    image: '/images/recycling-future.avif',
+    iconPath: '/images/recycling-future.avif',
     badgeType: 'successStory',
     titleKey: 'stories.futureRecycling.title',
     descriptionKey: 'stories.futureRecycling.description',
@@ -66,8 +66,8 @@ const stories = [
   {
     id: 3,
     emoji: '🎤',
-    image: '/images/eco-education-classroom.png',
-    iconPath: '/images/eco-education-classroom.png',
+    image: '/images/eco-education-classroom.avif',
+    iconPath: '/images/eco-education-classroom.avif',
     badgeType: 'education',
     titleKey: 'stories.educationalPrograms.title',
     descriptionKey: 'stories.educationalPrograms.description',
@@ -94,7 +94,7 @@ const communityStories = [
     environmentalImpactKey: 'stories.mahallTransformation.environmentalImpact',
     impactDescriptionKey: 'stories.mahallTransformation.impactDescription',
     emojis: ['🏗️', '♻️', '🏞️'],
-    images: ['/images/landfill-cleanup.png', '/images/playground-recycled.png', '/images/community-celebration.png'],
+    images: ['/images/landfill-cleanup.avif', '/images/playground-recycled.avif', '/images/community-celebration.avif'],
     likesKey: 'stories.mahallTransformation.likes',
     commentsKey: 'stories.mahallTransformation.comments',
     hashtags: ['#transformation', '#playground']
@@ -111,7 +111,7 @@ const communityStories = [
     dateKey: 'stories.teachingKids.date',
     locationKey: 'stories.teachingKids.location',
     emojis: ['👨‍👩‍👧‍👦', '📚', '🌱'],
-    images: ['/images/kids-eco-education.png', '/images/kids-planting-trees.png', '/images/eco-workshop-kids.png'],
+    images: ['/images/kids-eco-education.avif', '/images/kids-planting-trees.avif', '/images/eco-workshop-kids.avif'],
     likesKey: 'stories.teachingKids.likes',
     commentsKey: 'stories.teachingKids.comments',
     hashtags: ['#education', '#children']

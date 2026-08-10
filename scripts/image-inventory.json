@@ -1,0 +1,2132 @@
+[
+  {
+    "relPath": "Anti-Fraud.jpg",
+    "fileName": "Anti-Fraud.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1144201,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "eco-coach.jpg",
+    "fileName": "eco-coach.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1196581,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "eco-scan.jpg",
+    "fileName": "eco-scan.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1384956,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "ecokids-tutor.jpg",
+    "fileName": "ecokids-tutor.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1767272,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "Impact-engine.jpg",
+    "fileName": "Impact-engine.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1292025,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "pitch-qr.png",
+    "fileName": "pitch-qr.png",
+    "ext": ".png",
+    "sizeBytes": 14722,
+    "width": 410,
+    "height": 410,
+    "hasAlpha": false,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx",
+      "src/pages/PitchLive.tsx"
+    ],
+    "category": "L. THIRD_PARTY_REQUIRED"
+  },
+  {
+    "relPath": "Production-Planner.jpg",
+    "fileName": "Production-Planner.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1167797,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/apple-touch-icon-120x120.png",
+    "fileName": "apple-touch-icon-120x120.png",
+    "ext": ".png",
+    "sizeBytes": 25881,
+    "width": 120,
+    "height": 120,
+    "hasAlpha": true,
+    "referenceCount": 4,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json",
+      "vite.config.ts"
+    ],
+    "category": "H. APPLE_TOUCH_ICON"
+  },
+  {
+    "relPath": "public/apple-touch-icon-152x152.png",
+    "fileName": "apple-touch-icon-152x152.png",
+    "ext": ".png",
+    "sizeBytes": 39089,
+    "width": 152,
+    "height": 152,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "H. APPLE_TOUCH_ICON"
+  },
+  {
+    "relPath": "public/apple-touch-icon-167x167.png",
+    "fileName": "apple-touch-icon-167x167.png",
+    "ext": ".png",
+    "sizeBytes": 45776,
+    "width": 167,
+    "height": 167,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "H. APPLE_TOUCH_ICON"
+  },
+  {
+    "relPath": "public/apple-touch-icon-180x180.png",
+    "fileName": "apple-touch-icon-180x180.png",
+    "ext": ".png",
+    "sizeBytes": 51798,
+    "width": 180,
+    "height": 180,
+    "hasAlpha": true,
+    "referenceCount": 4,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json",
+      "vite.config.ts"
+    ],
+    "category": "H. APPLE_TOUCH_ICON"
+  },
+  {
+    "relPath": "public/apple-touch-icon.png",
+    "fileName": "apple-touch-icon.png",
+    "ext": ".png",
+    "sizeBytes": 51798,
+    "width": 180,
+    "height": 180,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "H. APPLE_TOUCH_ICON"
+  },
+  {
+    "relPath": "public/assets/qr-instagram.jpg",
+    "fileName": "qr-instagram.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 158245,
+    "width": 856,
+    "height": 1482,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "L. THIRD_PARTY_REQUIRED"
+  },
+  {
+    "relPath": "public/assets/qr-telegram-ru.jpg",
+    "fileName": "qr-telegram-ru.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 669672,
+    "width": 1170,
+    "height": 2532,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "L. THIRD_PARTY_REQUIRED"
+  },
+  {
+    "relPath": "public/assets/qr-telegram-uz.jpg",
+    "fileName": "qr-telegram-uz.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 640131,
+    "width": 1170,
+    "height": 2532,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "L. THIRD_PARTY_REQUIRED"
+  },
+  {
+    "relPath": "public/images/ai-screens/anti-fraud.jpg",
+    "fileName": "anti-fraud.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1144201,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/ai-screens/eco-coach.png",
+    "fileName": "eco-coach.png",
+    "ext": ".png",
+    "sizeBytes": 650847,
+    "width": 1284,
+    "height": 2778,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/ai-screens/eco-scan.png",
+    "fileName": "eco-scan.png",
+    "ext": ".png",
+    "sizeBytes": 1558909,
+    "width": 1284,
+    "height": 2778,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/ai-screens/ecokids-tutor.jpg",
+    "fileName": "ecokids-tutor.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1719413,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/ai-screens/impact-engine.jpg",
+    "fileName": "impact-engine.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1292025,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/ai-screens/production-planner.jpg",
+    "fileName": "production-planner.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1167186,
+    "width": 1183,
+    "height": 2560,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingAIPhone.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/ai-screens/Zami-bot-avatar.jpg",
+    "fileName": "Zami-bot-avatar.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 5576303,
+    "width": 3582,
+    "height": 3582,
+    "hasAlpha": false,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/components/ai/FloatingCoachWidget.tsx",
+      "src/pages/EcoCoach.tsx"
+    ],
+    "category": "B. UI_IMAGE"
+  },
+  {
+    "relPath": "public/images/community-celebration.png",
+    "fileName": "community-celebration.png",
+    "ext": ".png",
+    "sizeBytes": 1082442,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/eco-education-classroom.png",
+    "fileName": "eco-education-classroom.png",
+    "ext": ".png",
+    "sizeBytes": 847074,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/eco-workshop-kids.png",
+    "fileName": "eco-workshop-kids.png",
+    "ext": ".png",
+    "sizeBytes": 1097540,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/kids-eco-education.png",
+    "fileName": "kids-eco-education.png",
+    "ext": ".png",
+    "sizeBytes": 964353,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/kids-planting-trees.png",
+    "fileName": "kids-planting-trees.png",
+    "ext": ".png",
+    "sizeBytes": 1041371,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/landfill-cleanup.png",
+    "fileName": "landfill-cleanup.png",
+    "ext": ".png",
+    "sizeBytes": 1264757,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/og-image.png",
+    "fileName": "og-image.png",
+    "ext": ".png",
+    "sizeBytes": 538895,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "index.html",
+      "scripts/image-inventory.json"
+    ],
+    "category": "E. OPEN_GRAPH_SOCIAL"
+  },
+  {
+    "relPath": "public/images/pitch-ask-bg.jpg",
+    "fileName": "pitch-ask-bg.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 192086,
+    "width": 1024,
+    "height": 764,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/pitch-hero-bg.jpg",
+    "fileName": "pitch-hero-bg.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 2054636,
+    "width": 2752,
+    "height": 1536,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/pitch-qr.png",
+    "fileName": "pitch-qr.png",
+    "ext": ".png",
+    "sizeBytes": 14722,
+    "width": 410,
+    "height": 410,
+    "hasAlpha": false,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx",
+      "src/pages/PitchLive.tsx"
+    ],
+    "category": "L. THIRD_PARTY_REQUIRED"
+  },
+  {
+    "relPath": "public/images/playground-recycled.png",
+    "fileName": "playground-recycled.png",
+    "ext": ".png",
+    "sizeBytes": 1069067,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/recycling-future.png",
+    "fileName": "recycling-future.png",
+    "ext": ".png",
+    "sizeBytes": 1028602,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/images/zaminat-official-logo.jpg",
+    "fileName": "zaminat-official-logo.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 156043,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "D. LOGO_BRAND"
+  },
+  {
+    "relPath": "public/images/zaminat-pilot-program.png",
+    "fileName": "zaminat-pilot-program.png",
+    "ext": ".png",
+    "sizeBytes": 837912,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/EcoStories.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "public/logo-hq.jpg",
+    "fileName": "logo-hq.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 156043,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "D. LOGO_BRAND"
+  },
+  {
+    "relPath": "public/og-image.jpeg",
+    "fileName": "og-image.jpeg",
+    "ext": ".jpeg",
+    "sizeBytes": 647547,
+    "width": 4096,
+    "height": 4096,
+    "hasAlpha": false,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "E. OPEN_GRAPH_SOCIAL"
+  },
+  {
+    "relPath": "public/og-image.png",
+    "fileName": "og-image.png",
+    "ext": ".png",
+    "sizeBytes": 538895,
+    "width": 1024,
+    "height": 1024,
+    "hasAlpha": false,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "index.html",
+      "scripts/image-inventory.json"
+    ],
+    "category": "E. OPEN_GRAPH_SOCIAL"
+  },
+  {
+    "relPath": "public/pwa-icon-192.png",
+    "fileName": "pwa-icon-192.png",
+    "ext": ".png",
+    "sizeBytes": 58005,
+    "width": 192,
+    "height": 192,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json",
+      "vite.config.ts"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/pwa-icon-512-maskable.png",
+    "fileName": "pwa-icon-512-maskable.png",
+    "ext": ".png",
+    "sizeBytes": 134266,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json",
+      "vite.config.ts"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/pwa-icon-512.png",
+    "fileName": "pwa-icon-512.png",
+    "ext": ".png",
+    "sizeBytes": 343197,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json",
+      "vite.config.ts"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1125x2436.png",
+    "fileName": "splash-1125x2436.png",
+    "ext": ".png",
+    "sizeBytes": 103485,
+    "width": 1125,
+    "height": 2436,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1170x2532.png",
+    "fileName": "splash-1170x2532.png",
+    "ext": ".png",
+    "sizeBytes": 111428,
+    "width": 1170,
+    "height": 2532,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1179x2556.png",
+    "fileName": "splash-1179x2556.png",
+    "ext": ".png",
+    "sizeBytes": 113251,
+    "width": 1179,
+    "height": 2556,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1242x2688.png",
+    "fileName": "splash-1242x2688.png",
+    "ext": ".png",
+    "sizeBytes": 123410,
+    "width": 1242,
+    "height": 2688,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1290x2796.png",
+    "fileName": "splash-1290x2796.png",
+    "ext": ".png",
+    "sizeBytes": 129674,
+    "width": 1290,
+    "height": 2796,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1536x2048.png",
+    "fileName": "splash-1536x2048.png",
+    "ext": ".png",
+    "sizeBytes": 170821,
+    "width": 1536,
+    "height": 2048,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1640x2360.png",
+    "fileName": "splash-1640x2360.png",
+    "ext": ".png",
+    "sizeBytes": 192746,
+    "width": 1640,
+    "height": 2360,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-1668x2388.png",
+    "fileName": "splash-1668x2388.png",
+    "ext": ".png",
+    "sizeBytes": 198864,
+    "width": 1668,
+    "height": 2388,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-2048x2732.png",
+    "fileName": "splash-2048x2732.png",
+    "ext": ".png",
+    "sizeBytes": 292159,
+    "width": 2048,
+    "height": 2732,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-640x1136.png",
+    "fileName": "splash-640x1136.png",
+    "ext": ".png",
+    "sizeBytes": 38244,
+    "width": 640,
+    "height": 1136,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-750x1334.png",
+    "fileName": "splash-750x1334.png",
+    "ext": ".png",
+    "sizeBytes": 51074,
+    "width": 750,
+    "height": 1334,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "public/splash-828x1792.png",
+    "fileName": "splash-828x1792.png",
+    "ext": ".png",
+    "sizeBytes": 61112,
+    "width": 828,
+    "height": 1792,
+    "hasAlpha": true,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "index.html",
+      "scripts/generate-pwa-icons.js",
+      "scripts/image-inventory.json"
+    ],
+    "category": "F. PWA_ICON"
+  },
+  {
+    "relPath": "svg/Active Points.png",
+    "fileName": "Active Points.png",
+    "ext": ".png",
+    "sizeBytes": 42580,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/art-tiles.png",
+    "fileName": "art-tiles.png",
+    "ext": ".png",
+    "sizeBytes": 21329,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "PROFESSIONAL_IMAGE_OPTIMIZATION_COMPLETE.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/Azamat Elchibekov.jpg",
+    "fileName": "Azamat Elchibekov.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 35984,
+    "width": 531,
+    "height": 531,
+    "hasAlpha": false,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx",
+      "src/pages/Team.tsx"
+    ],
+    "category": "M. USER_GENERATED_OR_RUNTIME"
+  },
+  {
+    "relPath": "svg/badges.png",
+    "fileName": "badges.png",
+    "ext": ".png",
+    "sizeBytes": 49139,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/balanced_3590523.png",
+    "fileName": "balanced_3590523.png",
+    "ext": ".png",
+    "sizeBytes": 31664,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/book_649180.png",
+    "fileName": "book_649180.png",
+    "ext": ".png",
+    "sizeBytes": 20940,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/bus-stop_7646037.png",
+    "fileName": "bus-stop_7646037.png",
+    "ext": ".png",
+    "sizeBytes": 22296,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Children's Souvenirs.png",
+    "fileName": "Children's Souvenirs.png",
+    "ext": ".png",
+    "sizeBytes": 23964,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Chilonzor Mahalla.png",
+    "fileName": "Chilonzor Mahalla.png",
+    "ext": ".png",
+    "sizeBytes": 17607,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Climate Warrior.png",
+    "fileName": "Climate Warrior.png",
+    "ext": ".png",
+    "sizeBytes": 52333,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Community Impact.png",
+    "fileName": "Community Impact.png",
+    "ext": ".png",
+    "sizeBytes": 15835,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/community_16119903.png",
+    "fileName": "community_16119903.png",
+    "ext": ".png",
+    "sizeBytes": 39794,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/compost_13285420.png",
+    "fileName": "compost_13285420.png",
+    "ext": ".png",
+    "sizeBytes": 22638,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/contact-us.png",
+    "fileName": "contact-us.png",
+    "ext": ".png",
+    "sizeBytes": 20761,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Earth Guardian.png",
+    "fileName": "Earth Guardian.png",
+    "ext": ".png",
+    "sizeBytes": 40874,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Eco Bench.png",
+    "fileName": "Eco Bench.png",
+    "ext": ".png",
+    "sizeBytes": 20145,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/eco coins.png",
+    "fileName": "eco coins.png",
+    "ext": ".png",
+    "sizeBytes": 64054,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "WEBSITE_AUDIT_REPORT.md"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Eco Education Kit.png",
+    "fileName": "Eco Education Kit.png",
+    "ext": ".png",
+    "sizeBytes": 31265,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Eco Star.png",
+    "fileName": "Eco Star.png",
+    "ext": ".png",
+    "sizeBytes": 61540,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/eco-bag.png",
+    "fileName": "eco-bag.png",
+    "ext": ".png",
+    "sizeBytes": 19597,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/eco-bag_10158203.png",
+    "fileName": "eco-bag_10158203.png",
+    "ext": ".png",
+    "sizeBytes": 29335,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/eco-points.png",
+    "fileName": "eco-points.png",
+    "ext": ".png",
+    "sizeBytes": 42483,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/ECOBIKE RACK.png",
+    "fileName": "ECOBIKE RACK.png",
+    "ext": ".png",
+    "sizeBytes": 41597,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/EcoBrick.png",
+    "fileName": "EcoBrick.png",
+    "ext": ".png",
+    "sizeBytes": 8995,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/ECOBUSSTOP.png",
+    "fileName": "ECOBUSSTOP.png",
+    "ext": ".png",
+    "sizeBytes": 21195,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/ecologist_15371685.png",
+    "fileName": "ecologist_15371685.png",
+    "ext": ".png",
+    "sizeBytes": 37223,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/eco_points_7986841.png",
+    "fileName": "eco_points_7986841.png",
+    "ext": ".png",
+    "sizeBytes": 25269,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Energy Saver.png",
+    "fileName": "Energy Saver.png",
+    "ext": ".png",
+    "sizeBytes": 24947,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/EPDM Tiles.png",
+    "fileName": "EPDM Tiles.png",
+    "ext": ".png",
+    "sizeBytes": 19131,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/EPDM-free Tiles.png",
+    "fileName": "EPDM-free Tiles.png",
+    "ext": ".png",
+    "sizeBytes": 19590,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/event.png",
+    "fileName": "event.png",
+    "ext": ".png",
+    "sizeBytes": 20967,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/forest_10089053.png",
+    "fileName": "forest_10089053.png",
+    "ext": ".png",
+    "sizeBytes": 26137,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Furniture.png",
+    "fileName": "Furniture.png",
+    "ext": ".png",
+    "sizeBytes": 21343,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/SocialMissionShop.tsx"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/Future Visionary.png",
+    "fileName": "Future Visionary.png",
+    "ext": ".png",
+    "sizeBytes": 41511,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Garden Planter.png",
+    "fileName": "Garden Planter.png",
+    "ext": ".png",
+    "sizeBytes": 15912,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/green-city_5994274.png",
+    "fileName": "green-city_5994274.png",
+    "ext": ".png",
+    "sizeBytes": 35831,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/green-sprout_3340168.png",
+    "fileName": "green-sprout_3340168.png",
+    "ext": ".png",
+    "sizeBytes": 24128,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Home Decor Set.png",
+    "fileName": "Home Decor Set.png",
+    "ext": ".png",
+    "sizeBytes": 22461,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Infrastructure.png",
+    "fileName": "Infrastructure.png",
+    "ext": ".png",
+    "sizeBytes": 11925,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/SocialMissionShop.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/JAHONGIR NORMATOV.jpg",
+    "fileName": "JAHONGIR NORMATOV.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 82840,
+    "width": 999,
+    "height": 960,
+    "hasAlpha": false,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx",
+      "src/pages/Team.tsx"
+    ],
+    "category": "M. USER_GENERATED_OR_RUNTIME"
+  },
+  {
+    "relPath": "svg/Khondamir Alibekov.jpg",
+    "fileName": "Khondamir Alibekov.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 36680,
+    "width": 531,
+    "height": 531,
+    "hasAlpha": false,
+    "referenceCount": 3,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx",
+      "src/pages/Team.tsx"
+    ],
+    "category": "M. USER_GENERATED_OR_RUNTIME"
+  },
+  {
+    "relPath": "svg/kindergarden.png",
+    "fileName": "kindergarden.png",
+    "ext": ".png",
+    "sizeBytes": 33777,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Leaf Guardian.png",
+    "fileName": "Leaf Guardian.png",
+    "ext": ".png",
+    "sizeBytes": 40260,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/level-up_9443850.png",
+    "fileName": "level-up_9443850.png",
+    "ext": ".png",
+    "sizeBytes": 11543,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/location_5174778.png",
+    "fileName": "location_5174778.png",
+    "ext": ".png",
+    "sizeBytes": 43358,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Meet Like-minded People.png",
+    "fileName": "Meet Like-minded People.png",
+    "ext": ".png",
+    "sizeBytes": 62800,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/meet-the-team_15916616.png",
+    "fileName": "meet-the-team_15916616.png",
+    "ext": ".png",
+    "sizeBytes": 18753,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/meeting_10618037.png",
+    "fileName": "meeting_10618037.png",
+    "ext": ".png",
+    "sizeBytes": 43257,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Nature Lover.png",
+    "fileName": "Nature Lover.png",
+    "ext": ".png",
+    "sizeBytes": 34535,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/online-gaming_3098878.png",
+    "fileName": "online-gaming_3098878.png",
+    "ext": ".png",
+    "sizeBytes": 45182,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/park.png",
+    "fileName": "park.png",
+    "ext": ".png",
+    "sizeBytes": 22682,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/partners_7967044.png",
+    "fileName": "partners_7967044.png",
+    "ext": ".png",
+    "sizeBytes": 43386,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/plant-a-tree_6675353.png",
+    "fileName": "plant-a-tree_6675353.png",
+    "ext": ".png",
+    "sizeBytes": 18570,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/playground.png",
+    "fileName": "playground.png",
+    "ext": ".png",
+    "sizeBytes": 12909,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/SocialMissionShop.tsx"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Active Points.png",
+    "fileName": "Active Points.png",
+    "ext": ".png",
+    "sizeBytes": 42580,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/badges.png",
+    "fileName": "badges.png",
+    "ext": ".png",
+    "sizeBytes": 49139,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Children's Souvenirs.png",
+    "fileName": "Children's Souvenirs.png",
+    "ext": ".png",
+    "sizeBytes": 23964,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Chilonzor Mahalla.png",
+    "fileName": "Chilonzor Mahalla.png",
+    "ext": ".png",
+    "sizeBytes": 17607,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Climate Warrior.png",
+    "fileName": "Climate Warrior.png",
+    "ext": ".png",
+    "sizeBytes": 52333,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Earth Guardian.png",
+    "fileName": "Earth Guardian.png",
+    "ext": ".png",
+    "sizeBytes": 40874,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/eco coins.png",
+    "fileName": "eco coins.png",
+    "ext": ".png",
+    "sizeBytes": 64054,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "WEBSITE_AUDIT_REPORT.md"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Eco Education Kit.png",
+    "fileName": "Eco Education Kit.png",
+    "ext": ".png",
+    "sizeBytes": 31265,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Eco Star.png",
+    "fileName": "Eco Star.png",
+    "ext": ".png",
+    "sizeBytes": 61540,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/eco-bag.png",
+    "fileName": "eco-bag.png",
+    "ext": ".png",
+    "sizeBytes": 19597,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/ecologist_15371685.png",
+    "fileName": "ecologist_15371685.png",
+    "ext": ".png",
+    "sizeBytes": 37223,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/eco_points_7986841.png",
+    "fileName": "eco_points_7986841.png",
+    "ext": ".png",
+    "sizeBytes": 25269,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Future Visionary.png",
+    "fileName": "Future Visionary.png",
+    "ext": ".png",
+    "sizeBytes": 41511,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/meeting_10618037.png",
+    "fileName": "meeting_10618037.png",
+    "ext": ".png",
+    "sizeBytes": 43257,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Nature Lover.png",
+    "fileName": "Nature Lover.png",
+    "ext": ".png",
+    "sizeBytes": 34535,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/online-gaming_3098878.png",
+    "fileName": "online-gaming_3098878.png",
+    "ext": ".png",
+    "sizeBytes": 45182,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/plant-a-tree_6675353.png",
+    "fileName": "plant-a-tree_6675353.png",
+    "ext": ".png",
+    "sizeBytes": 18570,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/real-estate_4171873.png",
+    "fileName": "real-estate_4171873.png",
+    "ext": ".png",
+    "sizeBytes": 18885,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Recycling Hero.png",
+    "fileName": "Recycling Hero.png",
+    "ext": ".png",
+    "sizeBytes": 27296,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/school.png",
+    "fileName": "school.png",
+    "ext": ".png",
+    "sizeBytes": 21929,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Solar Champion.png",
+    "fileName": "Solar Champion.png",
+    "ext": ".png",
+    "sizeBytes": 20259,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/sustainable-future_2293652.png",
+    "fileName": "sustainable-future_2293652.png",
+    "ext": ".png",
+    "sizeBytes": 41423,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Tree Protector.png",
+    "fileName": "Tree Protector.png",
+    "ext": ".png",
+    "sizeBytes": 46638,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Profile icons/Water Saver.png",
+    "fileName": "Water Saver.png",
+    "ext": ".png",
+    "sizeBytes": 36836,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/real-estate_4171873.png",
+    "fileName": "real-estate_4171873.png",
+    "ext": ".png",
+    "sizeBytes": 18885,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Recycling Hero.png",
+    "fileName": "Recycling Hero.png",
+    "ext": ".png",
+    "sizeBytes": 27296,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/school.png",
+    "fileName": "school.png",
+    "ext": ".png",
+    "sizeBytes": 21929,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Solar Champion.png",
+    "fileName": "Solar Champion.png",
+    "ext": ".png",
+    "sizeBytes": 20259,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Sukhrobjon Rikhsiboev.jpg",
+    "fileName": "Sukhrobjon Rikhsiboev.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 71973,
+    "width": 1000,
+    "height": 1000,
+    "hasAlpha": false,
+    "referenceCount": 4,
+    "referencingFiles": [
+      "scripts/image-inventory.json",
+      "src/pages/Pitch.tsx",
+      "src/pages/PitchLive.tsx",
+      "src/pages/Team.tsx"
+    ],
+    "category": "M. USER_GENERATED_OR_RUNTIME"
+  },
+  {
+    "relPath": "svg/sustainable-future_2293652.png",
+    "fileName": "sustainable-future_2293652.png",
+    "ext": ".png",
+    "sizeBytes": 41423,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Tree Protector.png",
+    "fileName": "Tree Protector.png",
+    "ext": ".png",
+    "sizeBytes": 46638,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/vote_15269306.png",
+    "fileName": "vote_15269306.png",
+    "ext": ".png",
+    "sizeBytes": 32631,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 2,
+    "referencingFiles": [
+      "EMOJI_TO_IMAGE_MIGRATION.md",
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/warehouse_10753075.png",
+    "fileName": "warehouse_10753075.png",
+    "ext": ".png",
+    "sizeBytes": 26589,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Waste Bin.png",
+    "fileName": "Waste Bin.png",
+    "ext": ".png",
+    "sizeBytes": 19029,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "C. PRODUCT_IMAGE"
+  },
+  {
+    "relPath": "svg/Waste Collected.png",
+    "fileName": "Waste Collected.png",
+    "ext": ".png",
+    "sizeBytes": 43646,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Water Saver.png",
+    "fileName": "Water Saver.png",
+    "ext": ".png",
+    "sizeBytes": 36836,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  },
+  {
+    "relPath": "svg/Yunusobod District.png",
+    "fileName": "Yunusobod District.png",
+    "ext": ".png",
+    "sizeBytes": 10632,
+    "width": 512,
+    "height": 512,
+    "hasAlpha": true,
+    "referenceCount": 1,
+    "referencingFiles": [
+      "scripts/image-inventory.json"
+    ],
+    "category": "A. CONTENT_IMAGE"
+  }
+]

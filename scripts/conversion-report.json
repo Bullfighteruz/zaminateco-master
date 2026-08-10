@@ -1,0 +1,1207 @@
+{
+  "totalAssets": 145,
+  "convertedCount": 117,
+  "retainedCount": 28,
+  "failedCount": 0,
+  "totalOriginalBytes": 35828025,
+  "totalAvifBytes": 6674863,
+  "bytesSaved": 29153162,
+  "percentageSaved": "81.4%",
+  "convertedDetails": [
+    {
+      "relPath": "Anti-Fraud.jpg",
+      "relAvifPath": "Anti-Fraud.avif",
+      "origSizeBytes": 1144201,
+      "avifSizeBytes": 161029,
+      "bytesSaved": 983172,
+      "percentageSaved": "85.9%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "eco-coach.jpg",
+      "relAvifPath": "eco-coach.avif",
+      "origSizeBytes": 1196581,
+      "avifSizeBytes": 168222,
+      "bytesSaved": 1028359,
+      "percentageSaved": "85.9%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "eco-scan.jpg",
+      "relAvifPath": "eco-scan.avif",
+      "origSizeBytes": 1384956,
+      "avifSizeBytes": 214801,
+      "bytesSaved": 1170155,
+      "percentageSaved": "84.5%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "ecokids-tutor.jpg",
+      "relAvifPath": "ecokids-tutor.avif",
+      "origSizeBytes": 1767272,
+      "avifSizeBytes": 291518,
+      "bytesSaved": 1475754,
+      "percentageSaved": "83.5%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "Impact-engine.jpg",
+      "relAvifPath": "Impact-engine.avif",
+      "origSizeBytes": 1292025,
+      "avifSizeBytes": 178529,
+      "bytesSaved": 1113496,
+      "percentageSaved": "86.2%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "Production-Planner.jpg",
+      "relAvifPath": "Production-Planner.avif",
+      "origSizeBytes": 1167797,
+      "avifSizeBytes": 164283,
+      "bytesSaved": 1003514,
+      "percentageSaved": "85.9%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/anti-fraud.jpg",
+      "relAvifPath": "public/images/ai-screens/anti-fraud.avif",
+      "origSizeBytes": 1144201,
+      "avifSizeBytes": 161029,
+      "bytesSaved": 983172,
+      "percentageSaved": "85.9%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/eco-coach.png",
+      "relAvifPath": "public/images/ai-screens/eco-coach.avif",
+      "origSizeBytes": 650847,
+      "avifSizeBytes": 152417,
+      "bytesSaved": 498430,
+      "percentageSaved": "76.6%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/eco-scan.png",
+      "relAvifPath": "public/images/ai-screens/eco-scan.avif",
+      "origSizeBytes": 1558909,
+      "avifSizeBytes": 162280,
+      "bytesSaved": 1396629,
+      "percentageSaved": "89.6%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/ecokids-tutor.jpg",
+      "relAvifPath": "public/images/ai-screens/ecokids-tutor.avif",
+      "origSizeBytes": 1719413,
+      "avifSizeBytes": 278365,
+      "bytesSaved": 1441048,
+      "percentageSaved": "83.8%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/impact-engine.jpg",
+      "relAvifPath": "public/images/ai-screens/impact-engine.avif",
+      "origSizeBytes": 1292025,
+      "avifSizeBytes": 178529,
+      "bytesSaved": 1113496,
+      "percentageSaved": "86.2%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/production-planner.jpg",
+      "relAvifPath": "public/images/ai-screens/production-planner.avif",
+      "origSizeBytes": 1167186,
+      "avifSizeBytes": 161522,
+      "bytesSaved": 1005664,
+      "percentageSaved": "86.2%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/ai-screens/Zami-bot-avatar.jpg",
+      "relAvifPath": "public/images/ai-screens/Zami-bot-avatar.avif",
+      "origSizeBytes": 5576303,
+      "avifSizeBytes": 580385,
+      "bytesSaved": 4995918,
+      "percentageSaved": "89.6%",
+      "category": "B. UI_IMAGE"
+    },
+    {
+      "relPath": "public/images/community-celebration.png",
+      "relAvifPath": "public/images/community-celebration.avif",
+      "origSizeBytes": 1082442,
+      "avifSizeBytes": 263231,
+      "bytesSaved": 819211,
+      "percentageSaved": "75.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/eco-education-classroom.png",
+      "relAvifPath": "public/images/eco-education-classroom.avif",
+      "origSizeBytes": 847074,
+      "avifSizeBytes": 153337,
+      "bytesSaved": 693737,
+      "percentageSaved": "81.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/eco-workshop-kids.png",
+      "relAvifPath": "public/images/eco-workshop-kids.avif",
+      "origSizeBytes": 1097540,
+      "avifSizeBytes": 257926,
+      "bytesSaved": 839614,
+      "percentageSaved": "76.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/kids-eco-education.png",
+      "relAvifPath": "public/images/kids-eco-education.avif",
+      "origSizeBytes": 964353,
+      "avifSizeBytes": 209727,
+      "bytesSaved": 754626,
+      "percentageSaved": "78.3%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/kids-planting-trees.png",
+      "relAvifPath": "public/images/kids-planting-trees.avif",
+      "origSizeBytes": 1041371,
+      "avifSizeBytes": 244391,
+      "bytesSaved": 796980,
+      "percentageSaved": "76.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/landfill-cleanup.png",
+      "relAvifPath": "public/images/landfill-cleanup.avif",
+      "origSizeBytes": 1264757,
+      "avifSizeBytes": 375099,
+      "bytesSaved": 889658,
+      "percentageSaved": "70.3%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/pitch-ask-bg.jpg",
+      "relAvifPath": "public/images/pitch-ask-bg.avif",
+      "origSizeBytes": 192086,
+      "avifSizeBytes": 96681,
+      "bytesSaved": 95405,
+      "percentageSaved": "49.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/pitch-hero-bg.jpg",
+      "relAvifPath": "public/images/pitch-hero-bg.avif",
+      "origSizeBytes": 2054636,
+      "avifSizeBytes": 206919,
+      "bytesSaved": 1847717,
+      "percentageSaved": "89.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/playground-recycled.png",
+      "relAvifPath": "public/images/playground-recycled.avif",
+      "origSizeBytes": 1069067,
+      "avifSizeBytes": 267360,
+      "bytesSaved": 801707,
+      "percentageSaved": "75.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/recycling-future.png",
+      "relAvifPath": "public/images/recycling-future.avif",
+      "origSizeBytes": 1028602,
+      "avifSizeBytes": 226930,
+      "bytesSaved": 801672,
+      "percentageSaved": "77.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/images/zaminat-official-logo.jpg",
+      "relAvifPath": "public/images/zaminat-official-logo.avif",
+      "origSizeBytes": 156043,
+      "avifSizeBytes": 118969,
+      "bytesSaved": 37074,
+      "percentageSaved": "23.8%",
+      "category": "D. LOGO_BRAND"
+    },
+    {
+      "relPath": "public/images/zaminat-pilot-program.png",
+      "relAvifPath": "public/images/zaminat-pilot-program.avif",
+      "origSizeBytes": 837912,
+      "avifSizeBytes": 194442,
+      "bytesSaved": 643470,
+      "percentageSaved": "76.8%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "public/logo-hq.jpg",
+      "relAvifPath": "public/logo-hq.avif",
+      "origSizeBytes": 156043,
+      "avifSizeBytes": 118969,
+      "bytesSaved": 37074,
+      "percentageSaved": "23.8%",
+      "category": "D. LOGO_BRAND"
+    },
+    {
+      "relPath": "svg/Active Points.png",
+      "relAvifPath": "svg/Active Points.avif",
+      "origSizeBytes": 42580,
+      "avifSizeBytes": 13054,
+      "bytesSaved": 29526,
+      "percentageSaved": "69.3%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/art-tiles.png",
+      "relAvifPath": "svg/art-tiles.avif",
+      "origSizeBytes": 21329,
+      "avifSizeBytes": 8073,
+      "bytesSaved": 13256,
+      "percentageSaved": "62.2%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/Azamat Elchibekov.jpg",
+      "relAvifPath": "svg/Azamat Elchibekov.avif",
+      "origSizeBytes": 35984,
+      "avifSizeBytes": 17504,
+      "bytesSaved": 18480,
+      "percentageSaved": "51.4%",
+      "category": "M. USER_GENERATED_OR_RUNTIME"
+    },
+    {
+      "relPath": "svg/badges.png",
+      "relAvifPath": "svg/badges.avif",
+      "origSizeBytes": 49139,
+      "avifSizeBytes": 13795,
+      "bytesSaved": 35344,
+      "percentageSaved": "71.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/balanced_3590523.png",
+      "relAvifPath": "svg/balanced_3590523.avif",
+      "origSizeBytes": 31664,
+      "avifSizeBytes": 11480,
+      "bytesSaved": 20184,
+      "percentageSaved": "63.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/book_649180.png",
+      "relAvifPath": "svg/book_649180.avif",
+      "origSizeBytes": 20940,
+      "avifSizeBytes": 10682,
+      "bytesSaved": 10258,
+      "percentageSaved": "49.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/bus-stop_7646037.png",
+      "relAvifPath": "svg/bus-stop_7646037.avif",
+      "origSizeBytes": 22296,
+      "avifSizeBytes": 8303,
+      "bytesSaved": 13993,
+      "percentageSaved": "62.8%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Children's Souvenirs.png",
+      "relAvifPath": "svg/Children's Souvenirs.avif",
+      "origSizeBytes": 23964,
+      "avifSizeBytes": 8049,
+      "bytesSaved": 15915,
+      "percentageSaved": "66.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Chilonzor Mahalla.png",
+      "relAvifPath": "svg/Chilonzor Mahalla.avif",
+      "origSizeBytes": 17607,
+      "avifSizeBytes": 6529,
+      "bytesSaved": 11078,
+      "percentageSaved": "62.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Climate Warrior.png",
+      "relAvifPath": "svg/Climate Warrior.avif",
+      "origSizeBytes": 52333,
+      "avifSizeBytes": 15701,
+      "bytesSaved": 36632,
+      "percentageSaved": "70.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Community Impact.png",
+      "relAvifPath": "svg/Community Impact.avif",
+      "origSizeBytes": 15835,
+      "avifSizeBytes": 6548,
+      "bytesSaved": 9287,
+      "percentageSaved": "58.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/community_16119903.png",
+      "relAvifPath": "svg/community_16119903.avif",
+      "origSizeBytes": 39794,
+      "avifSizeBytes": 12562,
+      "bytesSaved": 27232,
+      "percentageSaved": "68.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/compost_13285420.png",
+      "relAvifPath": "svg/compost_13285420.avif",
+      "origSizeBytes": 22638,
+      "avifSizeBytes": 5696,
+      "bytesSaved": 16942,
+      "percentageSaved": "74.8%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/contact-us.png",
+      "relAvifPath": "svg/contact-us.avif",
+      "origSizeBytes": 20761,
+      "avifSizeBytes": 7706,
+      "bytesSaved": 13055,
+      "percentageSaved": "62.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Earth Guardian.png",
+      "relAvifPath": "svg/Earth Guardian.avif",
+      "origSizeBytes": 40874,
+      "avifSizeBytes": 12663,
+      "bytesSaved": 28211,
+      "percentageSaved": "69.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Eco Bench.png",
+      "relAvifPath": "svg/Eco Bench.avif",
+      "origSizeBytes": 20145,
+      "avifSizeBytes": 8573,
+      "bytesSaved": 11572,
+      "percentageSaved": "57.4%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/eco coins.png",
+      "relAvifPath": "svg/eco coins.avif",
+      "origSizeBytes": 64054,
+      "avifSizeBytes": 16508,
+      "bytesSaved": 47546,
+      "percentageSaved": "74.2%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Eco Education Kit.png",
+      "relAvifPath": "svg/Eco Education Kit.avif",
+      "origSizeBytes": 31265,
+      "avifSizeBytes": 9198,
+      "bytesSaved": 22067,
+      "percentageSaved": "70.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Eco Star.png",
+      "relAvifPath": "svg/Eco Star.avif",
+      "origSizeBytes": 61540,
+      "avifSizeBytes": 20537,
+      "bytesSaved": 41003,
+      "percentageSaved": "66.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/eco-bag.png",
+      "relAvifPath": "svg/eco-bag.avif",
+      "origSizeBytes": 19597,
+      "avifSizeBytes": 7100,
+      "bytesSaved": 12497,
+      "percentageSaved": "63.8%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/eco-bag_10158203.png",
+      "relAvifPath": "svg/eco-bag_10158203.avif",
+      "origSizeBytes": 29335,
+      "avifSizeBytes": 9479,
+      "bytesSaved": 19856,
+      "percentageSaved": "67.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/eco-points.png",
+      "relAvifPath": "svg/eco-points.avif",
+      "origSizeBytes": 42483,
+      "avifSizeBytes": 12382,
+      "bytesSaved": 30101,
+      "percentageSaved": "70.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/ECOBIKE RACK.png",
+      "relAvifPath": "svg/ECOBIKE RACK.avif",
+      "origSizeBytes": 41597,
+      "avifSizeBytes": 13897,
+      "bytesSaved": 27700,
+      "percentageSaved": "66.6%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/EcoBrick.png",
+      "relAvifPath": "svg/EcoBrick.avif",
+      "origSizeBytes": 8995,
+      "avifSizeBytes": 4035,
+      "bytesSaved": 4960,
+      "percentageSaved": "55.1%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/ECOBUSSTOP.png",
+      "relAvifPath": "svg/ECOBUSSTOP.avif",
+      "origSizeBytes": 21195,
+      "avifSizeBytes": 9260,
+      "bytesSaved": 11935,
+      "percentageSaved": "56.3%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/ecologist_15371685.png",
+      "relAvifPath": "svg/ecologist_15371685.avif",
+      "origSizeBytes": 37223,
+      "avifSizeBytes": 11686,
+      "bytesSaved": 25537,
+      "percentageSaved": "68.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/eco_points_7986841.png",
+      "relAvifPath": "svg/eco_points_7986841.avif",
+      "origSizeBytes": 25269,
+      "avifSizeBytes": 8705,
+      "bytesSaved": 16564,
+      "percentageSaved": "65.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Energy Saver.png",
+      "relAvifPath": "svg/Energy Saver.avif",
+      "origSizeBytes": 24947,
+      "avifSizeBytes": 9836,
+      "bytesSaved": 15111,
+      "percentageSaved": "60.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/EPDM Tiles.png",
+      "relAvifPath": "svg/EPDM Tiles.avif",
+      "origSizeBytes": 19131,
+      "avifSizeBytes": 9482,
+      "bytesSaved": 9649,
+      "percentageSaved": "50.4%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/EPDM-free Tiles.png",
+      "relAvifPath": "svg/EPDM-free Tiles.avif",
+      "origSizeBytes": 19590,
+      "avifSizeBytes": 9365,
+      "bytesSaved": 10225,
+      "percentageSaved": "52.2%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/event.png",
+      "relAvifPath": "svg/event.avif",
+      "origSizeBytes": 20967,
+      "avifSizeBytes": 5998,
+      "bytesSaved": 14969,
+      "percentageSaved": "71.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/forest_10089053.png",
+      "relAvifPath": "svg/forest_10089053.avif",
+      "origSizeBytes": 26137,
+      "avifSizeBytes": 8813,
+      "bytesSaved": 17324,
+      "percentageSaved": "66.3%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Furniture.png",
+      "relAvifPath": "svg/Furniture.avif",
+      "origSizeBytes": 21343,
+      "avifSizeBytes": 7035,
+      "bytesSaved": 14308,
+      "percentageSaved": "67.0%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/Future Visionary.png",
+      "relAvifPath": "svg/Future Visionary.avif",
+      "origSizeBytes": 41511,
+      "avifSizeBytes": 13090,
+      "bytesSaved": 28421,
+      "percentageSaved": "68.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Garden Planter.png",
+      "relAvifPath": "svg/Garden Planter.avif",
+      "origSizeBytes": 15912,
+      "avifSizeBytes": 6591,
+      "bytesSaved": 9321,
+      "percentageSaved": "58.6%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/green-city_5994274.png",
+      "relAvifPath": "svg/green-city_5994274.avif",
+      "origSizeBytes": 35831,
+      "avifSizeBytes": 10588,
+      "bytesSaved": 25243,
+      "percentageSaved": "70.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/green-sprout_3340168.png",
+      "relAvifPath": "svg/green-sprout_3340168.avif",
+      "origSizeBytes": 24128,
+      "avifSizeBytes": 7937,
+      "bytesSaved": 16191,
+      "percentageSaved": "67.1%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Home Decor Set.png",
+      "relAvifPath": "svg/Home Decor Set.avif",
+      "origSizeBytes": 22461,
+      "avifSizeBytes": 8380,
+      "bytesSaved": 14081,
+      "percentageSaved": "62.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Infrastructure.png",
+      "relAvifPath": "svg/Infrastructure.avif",
+      "origSizeBytes": 11925,
+      "avifSizeBytes": 5911,
+      "bytesSaved": 6014,
+      "percentageSaved": "50.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/JAHONGIR NORMATOV.jpg",
+      "relAvifPath": "svg/JAHONGIR NORMATOV.avif",
+      "origSizeBytes": 82840,
+      "avifSizeBytes": 66866,
+      "bytesSaved": 15974,
+      "percentageSaved": "19.3%",
+      "category": "M. USER_GENERATED_OR_RUNTIME"
+    },
+    {
+      "relPath": "svg/Khondamir Alibekov.jpg",
+      "relAvifPath": "svg/Khondamir Alibekov.avif",
+      "origSizeBytes": 36680,
+      "avifSizeBytes": 28133,
+      "bytesSaved": 8547,
+      "percentageSaved": "23.3%",
+      "category": "M. USER_GENERATED_OR_RUNTIME"
+    },
+    {
+      "relPath": "svg/kindergarden.png",
+      "relAvifPath": "svg/kindergarden.avif",
+      "origSizeBytes": 33777,
+      "avifSizeBytes": 10276,
+      "bytesSaved": 23501,
+      "percentageSaved": "69.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Leaf Guardian.png",
+      "relAvifPath": "svg/Leaf Guardian.avif",
+      "origSizeBytes": 40260,
+      "avifSizeBytes": 12080,
+      "bytesSaved": 28180,
+      "percentageSaved": "70.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/level-up_9443850.png",
+      "relAvifPath": "svg/level-up_9443850.avif",
+      "origSizeBytes": 11543,
+      "avifSizeBytes": 5348,
+      "bytesSaved": 6195,
+      "percentageSaved": "53.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/location_5174778.png",
+      "relAvifPath": "svg/location_5174778.avif",
+      "origSizeBytes": 43358,
+      "avifSizeBytes": 14453,
+      "bytesSaved": 28905,
+      "percentageSaved": "66.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Meet Like-minded People.png",
+      "relAvifPath": "svg/Meet Like-minded People.avif",
+      "origSizeBytes": 62800,
+      "avifSizeBytes": 18163,
+      "bytesSaved": 44637,
+      "percentageSaved": "71.1%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/meet-the-team_15916616.png",
+      "relAvifPath": "svg/meet-the-team_15916616.avif",
+      "origSizeBytes": 18753,
+      "avifSizeBytes": 6560,
+      "bytesSaved": 12193,
+      "percentageSaved": "65.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/meeting_10618037.png",
+      "relAvifPath": "svg/meeting_10618037.avif",
+      "origSizeBytes": 43257,
+      "avifSizeBytes": 15602,
+      "bytesSaved": 27655,
+      "percentageSaved": "63.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Nature Lover.png",
+      "relAvifPath": "svg/Nature Lover.avif",
+      "origSizeBytes": 34535,
+      "avifSizeBytes": 11147,
+      "bytesSaved": 23388,
+      "percentageSaved": "67.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/online-gaming_3098878.png",
+      "relAvifPath": "svg/online-gaming_3098878.avif",
+      "origSizeBytes": 45182,
+      "avifSizeBytes": 14706,
+      "bytesSaved": 30476,
+      "percentageSaved": "67.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/park.png",
+      "relAvifPath": "svg/park.avif",
+      "origSizeBytes": 22682,
+      "avifSizeBytes": 9308,
+      "bytesSaved": 13374,
+      "percentageSaved": "59.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/partners_7967044.png",
+      "relAvifPath": "svg/partners_7967044.avif",
+      "origSizeBytes": 43386,
+      "avifSizeBytes": 14087,
+      "bytesSaved": 29299,
+      "percentageSaved": "67.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/plant-a-tree_6675353.png",
+      "relAvifPath": "svg/plant-a-tree_6675353.avif",
+      "origSizeBytes": 18570,
+      "avifSizeBytes": 7527,
+      "bytesSaved": 11043,
+      "percentageSaved": "59.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/playground.png",
+      "relAvifPath": "svg/playground.avif",
+      "origSizeBytes": 12909,
+      "avifSizeBytes": 4978,
+      "bytesSaved": 7931,
+      "percentageSaved": "61.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Active Points.png",
+      "relAvifPath": "svg/Profile icons/Active Points.avif",
+      "origSizeBytes": 42580,
+      "avifSizeBytes": 13054,
+      "bytesSaved": 29526,
+      "percentageSaved": "69.3%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/badges.png",
+      "relAvifPath": "svg/Profile icons/badges.avif",
+      "origSizeBytes": 49139,
+      "avifSizeBytes": 13795,
+      "bytesSaved": 35344,
+      "percentageSaved": "71.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Children's Souvenirs.png",
+      "relAvifPath": "svg/Profile icons/Children's Souvenirs.avif",
+      "origSizeBytes": 23964,
+      "avifSizeBytes": 8049,
+      "bytesSaved": 15915,
+      "percentageSaved": "66.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Chilonzor Mahalla.png",
+      "relAvifPath": "svg/Profile icons/Chilonzor Mahalla.avif",
+      "origSizeBytes": 17607,
+      "avifSizeBytes": 6529,
+      "bytesSaved": 11078,
+      "percentageSaved": "62.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Climate Warrior.png",
+      "relAvifPath": "svg/Profile icons/Climate Warrior.avif",
+      "origSizeBytes": 52333,
+      "avifSizeBytes": 15701,
+      "bytesSaved": 36632,
+      "percentageSaved": "70.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Earth Guardian.png",
+      "relAvifPath": "svg/Profile icons/Earth Guardian.avif",
+      "origSizeBytes": 40874,
+      "avifSizeBytes": 12663,
+      "bytesSaved": 28211,
+      "percentageSaved": "69.0%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/eco coins.png",
+      "relAvifPath": "svg/Profile icons/eco coins.avif",
+      "origSizeBytes": 64054,
+      "avifSizeBytes": 16508,
+      "bytesSaved": 47546,
+      "percentageSaved": "74.2%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Eco Education Kit.png",
+      "relAvifPath": "svg/Profile icons/Eco Education Kit.avif",
+      "origSizeBytes": 31265,
+      "avifSizeBytes": 9198,
+      "bytesSaved": 22067,
+      "percentageSaved": "70.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Eco Star.png",
+      "relAvifPath": "svg/Profile icons/Eco Star.avif",
+      "origSizeBytes": 61540,
+      "avifSizeBytes": 20537,
+      "bytesSaved": 41003,
+      "percentageSaved": "66.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/eco-bag.png",
+      "relAvifPath": "svg/Profile icons/eco-bag.avif",
+      "origSizeBytes": 19597,
+      "avifSizeBytes": 7100,
+      "bytesSaved": 12497,
+      "percentageSaved": "63.8%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/ecologist_15371685.png",
+      "relAvifPath": "svg/Profile icons/ecologist_15371685.avif",
+      "origSizeBytes": 37223,
+      "avifSizeBytes": 11686,
+      "bytesSaved": 25537,
+      "percentageSaved": "68.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/eco_points_7986841.png",
+      "relAvifPath": "svg/Profile icons/eco_points_7986841.avif",
+      "origSizeBytes": 25269,
+      "avifSizeBytes": 8705,
+      "bytesSaved": 16564,
+      "percentageSaved": "65.6%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Future Visionary.png",
+      "relAvifPath": "svg/Profile icons/Future Visionary.avif",
+      "origSizeBytes": 41511,
+      "avifSizeBytes": 13090,
+      "bytesSaved": 28421,
+      "percentageSaved": "68.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/meeting_10618037.png",
+      "relAvifPath": "svg/Profile icons/meeting_10618037.avif",
+      "origSizeBytes": 43257,
+      "avifSizeBytes": 15602,
+      "bytesSaved": 27655,
+      "percentageSaved": "63.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Nature Lover.png",
+      "relAvifPath": "svg/Profile icons/Nature Lover.avif",
+      "origSizeBytes": 34535,
+      "avifSizeBytes": 11147,
+      "bytesSaved": 23388,
+      "percentageSaved": "67.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/online-gaming_3098878.png",
+      "relAvifPath": "svg/Profile icons/online-gaming_3098878.avif",
+      "origSizeBytes": 45182,
+      "avifSizeBytes": 14706,
+      "bytesSaved": 30476,
+      "percentageSaved": "67.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/plant-a-tree_6675353.png",
+      "relAvifPath": "svg/Profile icons/plant-a-tree_6675353.avif",
+      "origSizeBytes": 18570,
+      "avifSizeBytes": 7527,
+      "bytesSaved": 11043,
+      "percentageSaved": "59.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/real-estate_4171873.png",
+      "relAvifPath": "svg/Profile icons/real-estate_4171873.avif",
+      "origSizeBytes": 18885,
+      "avifSizeBytes": 8900,
+      "bytesSaved": 9985,
+      "percentageSaved": "52.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Recycling Hero.png",
+      "relAvifPath": "svg/Profile icons/Recycling Hero.avif",
+      "origSizeBytes": 27296,
+      "avifSizeBytes": 9959,
+      "bytesSaved": 17337,
+      "percentageSaved": "63.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/school.png",
+      "relAvifPath": "svg/Profile icons/school.avif",
+      "origSizeBytes": 21929,
+      "avifSizeBytes": 7254,
+      "bytesSaved": 14675,
+      "percentageSaved": "66.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Solar Champion.png",
+      "relAvifPath": "svg/Profile icons/Solar Champion.avif",
+      "origSizeBytes": 20259,
+      "avifSizeBytes": 8629,
+      "bytesSaved": 11630,
+      "percentageSaved": "57.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/sustainable-future_2293652.png",
+      "relAvifPath": "svg/Profile icons/sustainable-future_2293652.avif",
+      "origSizeBytes": 41423,
+      "avifSizeBytes": 12955,
+      "bytesSaved": 28468,
+      "percentageSaved": "68.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Tree Protector.png",
+      "relAvifPath": "svg/Profile icons/Tree Protector.avif",
+      "origSizeBytes": 46638,
+      "avifSizeBytes": 12064,
+      "bytesSaved": 34574,
+      "percentageSaved": "74.1%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Profile icons/Water Saver.png",
+      "relAvifPath": "svg/Profile icons/Water Saver.avif",
+      "origSizeBytes": 36836,
+      "avifSizeBytes": 12010,
+      "bytesSaved": 24826,
+      "percentageSaved": "67.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/real-estate_4171873.png",
+      "relAvifPath": "svg/real-estate_4171873.avif",
+      "origSizeBytes": 18885,
+      "avifSizeBytes": 8900,
+      "bytesSaved": 9985,
+      "percentageSaved": "52.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Recycling Hero.png",
+      "relAvifPath": "svg/Recycling Hero.avif",
+      "origSizeBytes": 27296,
+      "avifSizeBytes": 9959,
+      "bytesSaved": 17337,
+      "percentageSaved": "63.5%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/school.png",
+      "relAvifPath": "svg/school.avif",
+      "origSizeBytes": 21929,
+      "avifSizeBytes": 7254,
+      "bytesSaved": 14675,
+      "percentageSaved": "66.9%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Solar Champion.png",
+      "relAvifPath": "svg/Solar Champion.avif",
+      "origSizeBytes": 20259,
+      "avifSizeBytes": 8629,
+      "bytesSaved": 11630,
+      "percentageSaved": "57.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Sukhrobjon Rikhsiboev.jpg",
+      "relAvifPath": "svg/Sukhrobjon Rikhsiboev.avif",
+      "origSizeBytes": 71973,
+      "avifSizeBytes": 60009,
+      "bytesSaved": 11964,
+      "percentageSaved": "16.6%",
+      "category": "M. USER_GENERATED_OR_RUNTIME"
+    },
+    {
+      "relPath": "svg/sustainable-future_2293652.png",
+      "relAvifPath": "svg/sustainable-future_2293652.avif",
+      "origSizeBytes": 41423,
+      "avifSizeBytes": 12955,
+      "bytesSaved": 28468,
+      "percentageSaved": "68.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Tree Protector.png",
+      "relAvifPath": "svg/Tree Protector.avif",
+      "origSizeBytes": 46638,
+      "avifSizeBytes": 12064,
+      "bytesSaved": 34574,
+      "percentageSaved": "74.1%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/vote_15269306.png",
+      "relAvifPath": "svg/vote_15269306.avif",
+      "origSizeBytes": 32631,
+      "avifSizeBytes": 10695,
+      "bytesSaved": 21936,
+      "percentageSaved": "67.2%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/warehouse_10753075.png",
+      "relAvifPath": "svg/warehouse_10753075.avif",
+      "origSizeBytes": 26589,
+      "avifSizeBytes": 8586,
+      "bytesSaved": 18003,
+      "percentageSaved": "67.7%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Waste Bin.png",
+      "relAvifPath": "svg/Waste Bin.avif",
+      "origSizeBytes": 19029,
+      "avifSizeBytes": 6154,
+      "bytesSaved": 12875,
+      "percentageSaved": "67.7%",
+      "category": "C. PRODUCT_IMAGE"
+    },
+    {
+      "relPath": "svg/Waste Collected.png",
+      "relAvifPath": "svg/Waste Collected.avif",
+      "origSizeBytes": 43646,
+      "avifSizeBytes": 16858,
+      "bytesSaved": 26788,
+      "percentageSaved": "61.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Water Saver.png",
+      "relAvifPath": "svg/Water Saver.avif",
+      "origSizeBytes": 36836,
+      "avifSizeBytes": 12010,
+      "bytesSaved": 24826,
+      "percentageSaved": "67.4%",
+      "category": "A. CONTENT_IMAGE"
+    },
+    {
+      "relPath": "svg/Yunusobod District.png",
+      "relAvifPath": "svg/Yunusobod District.avif",
+      "origSizeBytes": 10632,
+      "avifSizeBytes": 4567,
+      "bytesSaved": 6065,
+      "percentageSaved": "57.0%",
+      "category": "A. CONTENT_IMAGE"
+    }
+  ],
+  "retainedDetails": [
+    {
+      "relPath": "pitch-qr.png",
+      "category": "L. THIRD_PARTY_REQUIRED",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/apple-touch-icon-120x120.png",
+      "category": "H. APPLE_TOUCH_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/apple-touch-icon-152x152.png",
+      "category": "H. APPLE_TOUCH_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/apple-touch-icon-167x167.png",
+      "category": "H. APPLE_TOUCH_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/apple-touch-icon-180x180.png",
+      "category": "H. APPLE_TOUCH_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/apple-touch-icon.png",
+      "category": "H. APPLE_TOUCH_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/assets/qr-instagram.jpg",
+      "category": "L. THIRD_PARTY_REQUIRED",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/assets/qr-telegram-ru.jpg",
+      "category": "L. THIRD_PARTY_REQUIRED",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/assets/qr-telegram-uz.jpg",
+      "category": "L. THIRD_PARTY_REQUIRED",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/images/og-image.png",
+      "category": "E. OPEN_GRAPH_SOCIAL",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/images/pitch-qr.png",
+      "category": "L. THIRD_PARTY_REQUIRED",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/og-image.jpeg",
+      "category": "E. OPEN_GRAPH_SOCIAL",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/og-image.png",
+      "category": "E. OPEN_GRAPH_SOCIAL",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/pwa-icon-192.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/pwa-icon-512-maskable.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/pwa-icon-512.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1125x2436.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1170x2532.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1179x2556.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1242x2688.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1290x2796.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1536x2048.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1640x2360.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-1668x2388.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-2048x2732.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-640x1136.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-750x1334.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    },
+    {
+      "relPath": "public/splash-828x1792.png",
+      "category": "F. PWA_ICON",
+      "reason": "Required for platform/social/PWA compatibility"
+    }
+  ]
+}
