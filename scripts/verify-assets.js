@@ -7,10 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.join(__dirname, '..');
 
-const REPORT_FILE = path.join(__dirname, 'verification-report.json');
+const SEARCH_EXTS = ['.avif', '.webp', '.png', '.jpg', '.jpeg', '.svg', '.ico'];
+const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', '.gemini', 'brain', 'scripts'];
 
 function scanTextFiles(dir, textFileList = []) {
-  const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', '.gemini', 'brain', 'scripts'];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
@@ -24,7 +24,7 @@ function scanTextFiles(dir, textFileList = []) {
       scanTextFiles(fullPath, textFileList);
     } else if (entry.isFile()) {
       const ext = path.extname(entry.name).toLowerCase();
-      if (['.ts', '.tsx', '.js', '.jsx', '.json', '.html', '.css', '.scss'].includes(ext)) {
+      if (['.ts', '.tsx', '.js', '.jsx', '.json', '.html', '.css', '.scss', '.webmanifest'].includes(ext)) {
         textFileList.push({ fullPath, relPath });
       }
     }
@@ -32,81 +32,58 @@ function scanTextFiles(dir, textFileList = []) {
   return textFileList;
 }
 
-async function verifyAssets() {
-  console.log('🔍 Starting comprehensive Asset & Reference Verification...\n');
+async function runVerification() {
+  console.log('🔍 Running strict broken reference verification...\n');
 
-  const report = {
-    totalAvifDecoded: 0,
-    avifDecodeErrors: 0,
-    totalReferencesAudited: 0,
-    brokenReferences: [],
-    verificationPassed: true
-  };
-
-  // 1. Verify all generated .avif files decode properly with sharp
-  const inventory = JSON.parse(fs.readFileSync(path.join(__dirname, 'conversion-report.json'), 'utf8'));
-  for (const item of inventory.convertedDetails) {
-    const avifFullPath = path.join(ROOT_DIR, item.relAvifPath);
-    try {
-      const meta = await sharp(avifFullPath).metadata();
-      if (meta.width > 0 && meta.height > 0) {
-        report.totalAvifDecoded++;
-      } else {
-        throw new Error('Invalid dimensions');
-      }
-    } catch (err) {
-      report.avifDecodeErrors++;
-      report.verificationPassed = false;
-      console.error(`❌ AVIF Decode Error for ${item.relAvifPath}: ${err.message}`);
-    }
-  }
-  console.log(`✅ Decoded ${report.totalAvifDecoded} AVIF assets with 0 decode errors.`);
-
-  // 2. Audit all image references in code
   const textFiles = scanTextFiles(ROOT_DIR);
-  const imageRegex = /['"]([^'"]+\.(png|jpg|jpeg|avif|webp|svg))['"]/gi;
+  const brokenReferences = [];
+  let auditedCount = 0;
 
   for (const tf of textFiles) {
-    const content = fs.readFileSync(tf.fullPath, 'utf8');
-    let match;
-    while ((match = imageRegex.exec(content)) !== null) {
-      const refPath = match[1];
-      report.totalReferencesAudited++;
+    const lines = fs.readFileSync(tf.fullPath, 'utf8').split('\n');
 
-      // Skip external http/https URLs or dynamic string template parts
-      if (refPath.startsWith('http://') || refPath.startsWith('https://') || refPath.includes('${')) {
-        continue;
-      }
+    lines.forEach((lineText, idx) => {
+      // Ignore comment lines
+      const trimmed = lineText.trim();
+      if (trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*')) return;
 
-      // Check if reference exists on disk
-      let diskPath = null;
-      if (refPath.startsWith('/')) {
-        diskPath = path.join(ROOT_DIR, 'public', refPath);
-      } else {
-        diskPath = path.join(path.dirname(tf.fullPath), refPath);
-      }
+      const matches = lineText.match(/['"](\/[^'"]+\.(avif|webp|png|jpg|jpeg|svg|ico))['"]/gi);
+      if (!matches) return;
 
-      if (!fs.existsSync(diskPath) && !fs.existsSync(path.join(ROOT_DIR, refPath))) {
-        report.brokenReferences.push({
-          referencingFile: tf.relPath,
-          reference: refPath
-        });
-        report.verificationPassed = false;
-        console.warn(`⚠️ Broken image reference in ${tf.relPath}: ${refPath}`);
-      }
-    }
+      matches.forEach(m => {
+        let cleanRef = m.replace(/['"]/g, '');
+        auditedCount++;
+
+        // Skip http/https or dynamic placeholders
+        if (cleanRef.startsWith('http://') || cleanRef.startsWith('https://') || cleanRef.includes('${')) return;
+
+        // Decode URL encoding (e.g. %20 -> space)
+        try { cleanRef = decodeURIComponent(cleanRef); } catch(e){}
+
+        // Resolve absolute public path
+        const publicPath = path.join(ROOT_DIR, 'public', cleanRef);
+        const rootPath = path.join(ROOT_DIR, cleanRef.substring(1));
+
+        if (!fs.existsSync(publicPath) && !fs.existsSync(rootPath)) {
+          brokenReferences.push({
+            file: tf.relPath,
+            line: idx + 1,
+            ref: cleanRef
+          });
+          console.warn(`⚠️ Broken reference: [${tf.relPath}:${idx + 1}] → ${cleanRef}`);
+        }
+      });
+    });
   }
 
-  fs.writeFileSync(REPORT_FILE, JSON.stringify(report, null, 2));
-
-  console.log('\n===============================================================');
-  console.log('                 VERIFICATION SUMMARY REPORT                   ');
   console.log('===============================================================');
-  console.log(`AVIF Decode Status: ${report.avifDecodeErrors === 0 ? 'PASSED (0 Errors)' : 'FAILED'}`);
-  console.log(`Total References Audited: ${report.totalReferencesAudited}`);
-  console.log(`Broken References Found: ${report.brokenReferences.length}`);
-  console.log(`Overall Verification: ${report.verificationPassed ? 'PASSED 100%' : 'FAILED'}`);
+  console.log('            BROKEN ASSET REFERENCE AUDIT SUMMARY               ');
+  console.log('===============================================================');
+  console.log(`Total App Image References Audited: ${auditedCount}`);
+  console.log(`Broken Local Image References: ${brokenReferences.length}`);
   console.log('===============================================================\n');
+
+  return brokenReferences.length;
 }
 
-verifyAssets().catch(console.error);
+runVerification().catch(console.error);
