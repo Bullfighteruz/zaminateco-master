@@ -36,133 +36,147 @@
   },
   {
     "file": "index.html",
-    "line": 26,
+    "line": 16,
+    "referencedAsset": "/favicon-32x32.png",
+    "lineText": "<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/favicon-32x32.png\">",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 17,
+    "referencedAsset": "/favicon-16x16.png",
+    "lineText": "<link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/favicon-16x16.png\">",
+    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+  },
+  {
+    "file": "index.html",
+    "line": 28,
     "referencedAsset": "/apple-touch-icon.png",
     "lineText": "<link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 27,
+    "line": 29,
     "referencedAsset": "/apple-touch-icon-180x180.png",
     "lineText": "<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon-180x180.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 28,
+    "line": 30,
     "referencedAsset": "/apple-touch-icon-167x167.png",
     "lineText": "<link rel=\"apple-touch-icon\" sizes=\"167x167\" href=\"/apple-touch-icon-167x167.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 29,
+    "line": 31,
     "referencedAsset": "/apple-touch-icon-152x152.png",
     "lineText": "<link rel=\"apple-touch-icon\" sizes=\"152x152\" href=\"/apple-touch-icon-152x152.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 30,
+    "line": 32,
     "referencedAsset": "/apple-touch-icon-120x120.png",
     "lineText": "<link rel=\"apple-touch-icon\" sizes=\"120x120\" href=\"/apple-touch-icon-120x120.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 33,
+    "line": 35,
     "referencedAsset": "/splash-1290x2796.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1290x2796.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 34,
+    "line": 36,
     "referencedAsset": "/splash-1179x2556.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1179x2556.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 35,
+    "line": 37,
     "referencedAsset": "/splash-1170x2532.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1170x2532.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 36,
+    "line": 38,
     "referencedAsset": "/splash-1125x2436.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1125x2436.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 37,
+    "line": 39,
     "referencedAsset": "/splash-1242x2688.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)\" href=\"/splash-1242x2688.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 38,
+    "line": 40,
     "referencedAsset": "/splash-828x1792.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-828x1792.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 39,
+    "line": 41,
     "referencedAsset": "/splash-750x1334.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-750x1334.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 40,
+    "line": 42,
     "referencedAsset": "/splash-640x1136.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-640x1136.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 42,
+    "line": 44,
     "referencedAsset": "/splash-2048x2732.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-2048x2732.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 43,
+    "line": 45,
     "referencedAsset": "/splash-1668x2388.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-1668x2388.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 44,
+    "line": 46,
     "referencedAsset": "/splash-1640x2360.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-1640x2360.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 45,
+    "line": 47,
     "referencedAsset": "/splash-1536x2048.png",
     "lineText": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)\" href=\"/splash-1536x2048.png\" />",
     "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "index.html",
-    "line": 61,
+    "line": 63,
     "referencedAsset": "https://zaminat.uz/og-image.jpeg",
     "lineText": "<meta property=\"og:image\" content=\"https://zaminat.uz/og-image.jpeg\" />",
     "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
   },
   {
     "file": "index.html",
-    "line": 73,
+    "line": 75,
     "referencedAsset": "https://zaminat.uz/og-image.jpeg",
     "lineText": "<meta name=\"twitter:image\" content=\"https://zaminat.uz/og-image.jpeg\" />",
     "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
@@ -194,27 +208,6 @@
     "referencedAsset": "/og-image.jpeg",
     "lineText": "image = '/og-image.jpeg',",
     "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
-  },
-  {
-    "file": "src/lib/mockData.ts",
-    "line": 62,
-    "referencedAsset": "/images/New Playground for School.jpg",
-    "lineText": "image: '/images/New Playground for School.jpg',",
-    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
-  },
-  {
-    "file": "src/lib/mockData.ts",
-    "line": 77,
-    "referencedAsset": "/images/eco-park-benches.jpg",
-    "lineText": "image: '/images/eco-park-benches.jpg',",
-    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
-  },
-  {
-    "file": "src/lib/mockData.ts",
-    "line": 92,
-    "referencedAsset": "/images/kindergarten-garden-path.jpg",
-    "lineText": "image: '/images/kindergarten-garden-path.jpg',",
-    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
   },
   {
     "file": "src/lib/productImageLoader.ts",
@@ -317,9 +310,9 @@
   {
     "file": "src/pages/Shop.tsx",
     "line": 619,
-    "referencedAsset": "/images/shop-preview.jpg",
-    "lineText": "image: '/images/shop-preview.jpg', // Update with actual shop preview image",
-    "reason": "EXPLICIT_FALLBACK / SYSTEM_SPEC"
+    "referencedAsset": "/og-image.jpeg",
+    "lineText": "image: '/og-image.jpeg',",
+    "reason": "OPEN_GRAPH_SOCIAL (Social crawler JPEG/PNG compatibility)"
   },
   {
     "file": "src/pages/SocialMissionShop.tsx",
