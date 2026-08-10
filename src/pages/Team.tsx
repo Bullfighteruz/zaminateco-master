@@ -10,10 +10,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import '../styles/mobile-responsive.css';
 import { contactHelpers } from '@/utils/mailto';
-import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
-import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
-import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.jpg';
-import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
+import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
+import azamatPhoto from '../../svg/Azamat Elchibekov.avif';
+import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.avif';
+import khondamirPhoto from '../../svg/Khondamir Alibekov.avif';
 
 // Animation variants
 const containerVariants = {

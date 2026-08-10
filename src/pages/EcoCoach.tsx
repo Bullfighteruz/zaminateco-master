@@ -20,7 +20,7 @@ interface Message {
 }
 
 const COACH_STORAGE_KEY = 'zami_bot_chat';
-const BOT_AVATAR = '/images/ai-screens/Zami-bot-avatar.jpg';
+const BOT_AVATAR = '/images/ai-screens/Zami-bot-avatar.avif';
 
 // ── Markdown renderer ──────────────────────────────────────────────
 function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {

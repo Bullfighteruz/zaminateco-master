@@ -19,10 +19,10 @@ import { useNavigate } from 'react-router-dom';
 import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
 import AIWorkflowDiagram from '@/components/ai/AIWorkflowDiagram';
 import AIEcosystemTabs from '@/components/ai/AIEcosystemTabs';
-import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
-import azamatPhoto from '../../svg/Azamat Elchibekov.jpg';
-import khondamirPhoto from '../../svg/Khondamir Alibekov.jpg';
-import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.jpg';
+import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
+import azamatPhoto from '../../svg/Azamat Elchibekov.avif';
+import khondamirPhoto from '../../svg/Khondamir Alibekov.avif';
+import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.avif';
 
 /* ────────────────────────────── Data ────────────────────────────── */
 
@@ -741,7 +741,7 @@ export default function Pitch() {
         <section
           id="pitch-hero"
           className="relative overflow-hidden bg-cover bg-center bg-no-repeat text-white"
-          style={{ backgroundImage: "url('/images/pitch-hero-bg.jpg')" }}
+          style={{ backgroundImage: "url('/images/pitch-hero-bg.avif')" }}
         >
           <div className="absolute inset-0 bg-emerald-950/45" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
@@ -1451,7 +1451,7 @@ export default function Pitch() {
             <motion.div variants={fadeUp}>
               <Card 
                 className="border-0 shadow-2xl text-white overflow-hidden relative bg-cover bg-center bg-no-repeat rounded-3xl"
-                style={{ backgroundImage: "url('/images/pitch-ask-bg.jpg')" }}
+                style={{ backgroundImage: "url('/images/pitch-ask-bg.avif')" }}
               >
                 <div className="absolute inset-0 bg-emerald-950/85" />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />

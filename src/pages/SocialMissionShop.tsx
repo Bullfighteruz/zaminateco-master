@@ -162,9 +162,9 @@ const productData: ProductItem[] = [
 // Note: Icon files exist in public/images/ folder:
 // - construction.png (lowercase)
 // - recreation.png (lowercase)
-// - Furniture.png
-// - Infrastructure.png
-// - playground.png
+// - Furniture.avif
+// - Infrastructure.avif
+// - playground.avif
 // IMPORTANT: englishName and iconImage are used for consistent icons across languages
 type CategoryItem = {
   emoji?: string;

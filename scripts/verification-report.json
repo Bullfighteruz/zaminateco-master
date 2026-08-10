@@ -1,0 +1,368 @@
+{
+  "totalAvifDecoded": 117,
+  "avifDecodeErrors": 0,
+  "totalReferencesAudited": 567,
+  "brokenReferences": [
+    {
+      "referencingFile": "src/hooks/useSEO.ts",
+      "reference": "/images/shop-preview.jpg"
+    },
+    {
+      "referencingFile": "src/lib/emojiToImage.tsx",
+      "reference": "s Souvenirs.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Active Points.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "art-tiles.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "badges.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "balanced_3590523.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Bobur.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "book_649180.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "bus-stop_7646037.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "s Souvenirs.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Chilonzor Mahalla.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Climate Warrior.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Community Impact.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "community_16119903.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "compost_13285420.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "construction.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "contact-us.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "delivery.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Earth Guardian.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Eco Bench.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "eco coins.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Eco Education Kit.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Eco Farmer.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Eco Star.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "eco_points_7986841.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "eco-bag_10158203.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "eco-bag.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "eco-points.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "ECOBIKE RACK.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "EcoBrick.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "ECOBUSSTOP.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "ecologist_15371685.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Energy Saver.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "EPDM Tiles.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "EPDM-free Tiles.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "event.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "forest_10089053.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Furniture.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Future of Plastic.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Future Visionary.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "gaming.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Garden Planter.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Green Sprout.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "green-city_5994274.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "green-sprout_3340168.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Home Decor Set.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Infrastructure.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "kindergarden.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Leaf Guardian.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "level-up_9443850.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "level.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "location_5174778.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Malika.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Meet Like-minded People.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "meet-the-team_15916616.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "meeting_10618037.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Nature Lover.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "New Playground for School.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "online-gaming_3098878.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "park.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "partners_7967044.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "plant-a-tree_6675353.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Plastic Recycling.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Plastic.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "playground.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "real-estate_4171873.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "recreation.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Recycling Hero.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "River Cleanup.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "school.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Solar Champion.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "sustainable-future_2293652.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Tree Protector.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "vote_15269306.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "warehouse_10753075.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Waste Bin.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Waste Collected.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Water Saver.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "Yunusobod District.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "/images/Plastic.webp"
+    },
+    {
+      "referencingFile": "src/lib/iconMatcher.ts",
+      "reference": "/images/Plastic.webp"
+    },
+    {
+      "referencingFile": "src/lib/mockData.ts",
+      "reference": "/images/New Playground for School.jpg"
+    },
+    {
+      "referencingFile": "src/lib/mockData.ts",
+      "reference": "/images/eco-park-benches.jpg"
+    },
+    {
+      "referencingFile": "src/lib/mockData.ts",
+      "reference": "/images/kindergarten-garden-path.jpg"
+    },
+    {
+      "referencingFile": "src/lib/productImages.ts",
+      "reference": "/images/eco-bench-page/Eco%20Bench-first.webp"
+    },
+    {
+      "referencingFile": "src/lib/productImages.ts",
+      "reference": "/images/epdm-tiles-page/EPDM%20Rubber%20Ecotiles.webp"
+    },
+    {
+      "referencingFile": "src/pages/Profile.tsx",
+      "reference": "s Souvenirs.webp"
+    },
+    {
+      "referencingFile": "src/pages/Shop.tsx",
+      "reference": "/images/shop-preview.jpg"
+    },
+    {
+      "referencingFile": "vite.config.ts",
+      "reference": "favicon.svg"
+    },
+    {
+      "referencingFile": "vite.config.ts",
+      "reference": "logo.webp"
+    }
+  ],
+  "verificationPassed": false
+}

@@ -8,7 +8,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { contactHelpers } from '@/utils/mailto';
-import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.jpg';
+import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
 
 /* ────────────────── Constants ────────────────── */
 const TOTAL_SLIDES = 6;

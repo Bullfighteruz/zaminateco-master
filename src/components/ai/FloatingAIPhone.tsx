@@ -17,12 +17,12 @@ interface FloatingAIPhoneProps {
  * with no compression or resizing applied.
  */
 const AI_SCREENS = [
-  { src: '/images/ai-screens/eco-scan.png?v=4', label: 'AI EcoScan' },
-  { src: '/images/ai-screens/eco-coach.png?v=4', label: 'ZAMI AI Advisor' },
-  { src: '/images/ai-screens/impact-engine.jpg?v=4', label: 'AI Impact Engine' },
-  { src: '/images/ai-screens/anti-fraud.jpg?v=4', label: 'AI Anti-Fraud' },
-  { src: '/images/ai-screens/ecokids-tutor.jpg?v=4', label: 'AI EcoKids Tutor' },
-  { src: '/images/ai-screens/production-planner.jpg?v=4', label: 'AI Production Planner' },
+  { src: '/images/ai-screens/eco-scan.avif?v=4', label: 'AI EcoScan' },
+  { src: '/images/ai-screens/eco-coach.avif?v=4', label: 'ZAMI AI Advisor' },
+  { src: '/images/ai-screens/impact-engine.avif?v=4', label: 'AI Impact Engine' },
+  { src: '/images/ai-screens/anti-fraud.avif?v=4', label: 'AI Anti-Fraud' },
+  { src: '/images/ai-screens/ecokids-tutor.avif?v=4', label: 'AI EcoKids Tutor' },
+  { src: '/images/ai-screens/production-planner.avif?v=4', label: 'AI Production Planner' },
 ];
 
 /**
