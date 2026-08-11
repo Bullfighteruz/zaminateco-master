@@ -1,9 +1,13 @@
 import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import { ChatDto } from './dto/chat.dto';
 import { ScanDto } from './dto/scan.dto';
 import { PlannerDto } from './dto/planner.dto';
+
+export const AI_CHAT_MODEL = 'gemini-3.5-flash-lite';
+export const AI_SCAN_MODEL = 'gemini-3.6-flash';
+export const AI_PLANNER_MODEL = 'gemini-3.6-flash';
 
 const SCAN_PROMPT = `You are ZAMINAT AI EcoScan — the intelligence gateway for the ZAMINAT Waste-to-Life platform in Uzbekistan.
 
@@ -66,23 +70,25 @@ export class AiService {
     const dynamicPrompt = `${SCAN_PROMPT}\n\nCRITICAL: You MUST write "name", "instructions", "moatImpact" and "suggestedProduct" in ${targetLang}.`;
 
     try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
+      const ai = new GoogleGenAI({ apiKey });
 
       const base64Data = dto.imageBase64.includes(',') ? dto.imageBase64.split(',')[1] : dto.imageBase64;
       const mimeType = dto.mimeType || 'image/jpeg';
 
-      const result = await model.generateContent([
-        dynamicPrompt,
-        {
-          inlineData: {
-            mimeType,
-            data: base64Data,
+      const response = await ai.models.generateContent({
+        model: AI_SCAN_MODEL,
+        contents: [
+          dynamicPrompt,
+          {
+            inlineData: {
+              mimeType,
+              data: base64Data,
+            },
           },
-        },
-      ]);
+        ],
+      });
 
-      const text = result.response.text().trim();
+      const text = (response.text || '').trim();
       let jsonStr = text;
       const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (jsonMatch) {
@@ -116,7 +122,7 @@ export class AiService {
   async chatCoach(dto: ChatDto) {
     const apiKey = this.getApiKey();
     try {
-      const genAI = new GoogleGenerativeAI(apiKey);
+      const ai = new GoogleGenAI({ apiKey });
       let systemInstruction = COACH_SYSTEM_INSTRUCTION;
 
       if (dto.userInfo) {
@@ -124,19 +130,25 @@ export class AiService {
         systemInstruction += `\n\nUSER CONTEXT: Name: ${displayName || 'User'}, Coins: ${coins || 0}, Points: ${points || 0}, Level: ${level || 1}, Location: ${location || 'Uzbekistan'}, School: ${school || 'General'}`;
       }
 
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-3.1-flash-lite',
-        systemInstruction,
-      });
-
       const safeHistory = (dto.history || []).slice(-20).map(h => ({
-        role: h.role,
+        role: h.role === 'user' ? 'user' : 'model',
         parts: h.parts.map(p => ({ text: p.text.slice(0, 2000) })),
       }));
 
-      const chat = model.startChat({ history: safeHistory });
-      const result = await chat.sendMessage(dto.message.slice(0, 2000));
-      return { response: result.response.text() };
+      const contents = [
+        ...safeHistory,
+        { role: 'user', parts: [{ text: dto.message.slice(0, 2000) }] },
+      ];
+
+      const response = await ai.models.generateContent({
+        model: AI_CHAT_MODEL,
+        config: {
+          systemInstruction,
+        },
+        contents,
+      });
+
+      return { response: response.text || '' };
     } catch (err: any) {
       this.logger.error('chatCoach error:', err.message);
       throw new HttpException('AI_PROVIDER_ERROR', HttpStatus.BAD_GATEWAY);
@@ -146,15 +158,18 @@ export class AiService {
   async optimizePlanner(dto: PlannerDto) {
     const apiKey = this.getApiKey();
     try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-3.1-flash-lite',
-        systemInstruction: PLANNER_SYSTEM_INSTRUCTION,
+      const ai = new GoogleGenAI({ apiKey });
+      const prompt = `Current Stock: Plastic/PET: ${dto.currentStock.plastic || 0} kg, Rubber: ${dto.currentStock.rubber || 0} kg, Paper: ${dto.currentStock.paper || 0} kg. User Request: ${dto.query.slice(0, 1000)}`;
+
+      const response = await ai.models.generateContent({
+        model: AI_PLANNER_MODEL,
+        config: {
+          systemInstruction: PLANNER_SYSTEM_INSTRUCTION,
+        },
+        contents: prompt,
       });
 
-      const prompt = `Current Stock: Plastic/PET: ${dto.currentStock.plastic || 0} kg, Rubber: ${dto.currentStock.rubber || 0} kg, Paper: ${dto.currentStock.paper || 0} kg. User Request: ${dto.query.slice(0, 1000)}`;
-      const result = await model.generateContent(prompt);
-      return { response: result.response.text() };
+      return { response: response.text || '' };
     } catch (err: any) {
       this.logger.error('optimizePlanner error:', err.message);
       throw new HttpException('AI_PROVIDER_ERROR', HttpStatus.BAD_GATEWAY);
