@@ -60,10 +60,6 @@ export default defineConfig(({ mode }) => ({
             handler: 'CacheFirst',
             options: { cacheName: 'google-fonts', expiration: { maxEntries: 20, maxAgeSeconds: 365 * 24 * 60 * 60 } },
           },
-          {
-            urlPattern: /^https:\/\/generativelanguage\.googleapis\.com\/.*/i,
-            handler: 'NetworkOnly',
-          },
         ],
       },
     }),
