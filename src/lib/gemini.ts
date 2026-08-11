@@ -35,6 +35,47 @@ function sanitizeInput(input: string, maxLength = 2000): string {
 }
 
 /**
+ * Client-side image compression helper for EcoScan photos.
+ * - Resizes large photos so max longest dimension <= 1600px
+ * - Compresses JPEG quality to 0.8 (aims for <= 1.5MB binary / ~2MB Base64)
+ */
+export function compressImage(dataUrl: string, maxDimension = 1600, quality = 0.8): Promise<string> {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined' || !dataUrl.startsWith('data:image')) {
+      return resolve(dataUrl);
+    }
+    const img = new Image();
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxDimension || height > maxDimension) {
+        if (width > height) {
+          height = Math.round((height * maxDimension) / width);
+          width = maxDimension;
+        } else {
+          width = Math.round((width * maxDimension) / height);
+          height = maxDimension;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        return resolve(dataUrl);
+      }
+      ctx.drawImage(img, 0, 0, width, height);
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+      resolve(compressedDataUrl);
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+/**
  * AI EcoScan — Calls ZAMINAT Backend AI Scanner Endpoint
  */
 export async function scanWasteImage(
@@ -42,9 +83,21 @@ export async function scanWasteImage(
   lang: string = 'en',
   mimeType: string = 'image/jpeg'
 ): Promise<WasteScanResult> {
-  const cleanBase64 = imageBase64.includes(',') ? imageBase64.split(',')[1] : imageBase64;
+  let formattedDataUrl = imageBase64;
+  if (!formattedDataUrl.startsWith('data:image')) {
+    formattedDataUrl = `data:${mimeType};base64,${imageBase64}`;
+  }
+
+  let compressedDataUrl = formattedDataUrl;
+  try {
+    compressedDataUrl = await compressImage(formattedDataUrl, 1600, 0.8);
+  } catch (e) {
+    // If canvas compression fails, proceed with raw input
+  }
+
+  const cleanBase64 = compressedDataUrl.includes(',') ? compressedDataUrl.split(',')[1] : compressedDataUrl;
   
-  if (cleanBase64.length > 15 * 1024 * 1024) {
+  if (cleanBase64.length > 4 * 1024 * 1024) {
     throw new Error('IMAGE_TOO_LARGE');
   }
 
@@ -55,7 +108,7 @@ export async function scanWasteImage(
       body: JSON.stringify({
         imageBase64: cleanBase64,
         lang,
-        mimeType
+        mimeType: 'image/jpeg'
       })
     });
 
@@ -178,17 +231,14 @@ export async function getPlannerOptimization(
   query: string,
   currentStock: { plastic: number; rubber: number; paper: number }
 ): Promise<string> {
+  const safeQuery = sanitizeInput(query);
   try {
     const res = await fetch(`${API_BASE_URL}/ai/planner`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        query: sanitizeInput(query, 1000),
-        currentStock: {
-          plastic: Number(currentStock.plastic) || 0,
-          rubber: Number(currentStock.rubber) || 0,
-          paper: Number(currentStock.paper) || 0
-        }
+        query: safeQuery,
+        currentStock
       })
     });
 
@@ -197,8 +247,11 @@ export async function getPlannerOptimization(
     }
 
     const data = await res.json();
-    return data.response || "Production plan generated.";
+    return data.response || data.message || "Production plan generated.";
   } catch (err: any) {
-    return "Optimized Batch Plan: Based on current stock, we recommend starting a 3-day production run. Day 1: PET sorting & washing; Day 2: Rubber shredding for EcoTiles; Day 3: Composite molding.";
+    if (import.meta.env.DEV) {
+      console.warn('[Planner] Backend AI planner call offline, serving client response');
+    }
+    return "Optimized Production Schedule: Allocate PET plastic for 10 EcoBenches and rubber for 50 sqm of EcoTiles.";
   }
 }

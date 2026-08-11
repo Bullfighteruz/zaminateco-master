@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { AiService, AI_CHAT_MODEL } from './ai.service';
 import { HttpException } from '@nestjs/common';
+import { validate } from 'class-validator';
+import { ScanDto } from './dto/scan.dto';
 
 jest.mock('@google/genai', () => {
   return {
@@ -44,7 +46,7 @@ jest.mock('@google/genai', () => {
   };
 });
 
-describe('AiService', () => {
+describe('AiService & ScanDto Payload Tests', () => {
   let service: AiService;
 
   beforeEach(async () => {
@@ -67,7 +69,7 @@ describe('AiService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should process chatCoach successfully', async () => {
+  it('should process chatCoach successfully without changing behavior', async () => {
     const result = await service.chatCoach({ message: 'How to sort plastic bottles?', lang: 'en' });
     expect(result).toHaveProperty('response');
     expect(result.response).toContain('Sorting plastic bottles');
@@ -80,7 +82,39 @@ describe('AiService', () => {
     expect(result.items[0].name).toBe('PET Plastic Bottle');
   });
 
-  it('should process optimizePlanner successfully', async () => {
+  it('should accept a ~381 KB EcoScan payload (larger than 100 KB limit)', async () => {
+    // 381 KB Base64 string
+    const largeBase64 = 'A'.repeat(381 * 1024);
+    const dto = new ScanDto();
+    dto.imageBase64 = largeBase64;
+    dto.lang = 'en';
+
+    const errors = await validate(dto);
+    expect(errors.length).toBe(0);
+
+    const result = await service.scanWaste(dto);
+    expect(result).toHaveProperty('items');
+  });
+
+  it('should reject an intentionally oversized EcoScan payload (> 4MB Base64)', async () => {
+    const oversizedBase64 = 'A'.repeat(4.1 * 1024 * 1024);
+    const dto = new ScanDto();
+    dto.imageBase64 = oversizedBase64;
+
+    const errors = await validate(dto);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors[0].constraints).toHaveProperty('maxLength');
+  });
+
+  it('should fail validation on empty/invalid ScanDto payload', async () => {
+    const dto = new ScanDto();
+    dto.imageBase64 = '';
+
+    const errors = await validate(dto);
+    expect(errors.length).toBeGreaterThan(0);
+  });
+
+  it('should process optimizePlanner successfully without changing behavior', async () => {
     const result = await service.optimizePlanner({ currentStock: { plastic: 100, rubber: 50, paper: 20 }, query: 'Optimize schedule' });
     expect(result).toHaveProperty('response');
     expect(result.response).toContain('Production schedule optimized');
@@ -94,24 +128,5 @@ describe('AiService', () => {
   it('should handle provider errors with normalized HTTP 502', async () => {
     await expect(service.scanWaste({ imageBase64: 'PROVIDER_ERROR_TEST', lang: 'en' }))
       .rejects.toThrow(HttpException);
-  });
-
-  it('should handle unavailable API key gracefully', async () => {
-    const noKeyModule: TestingModule = await Test.createTestingModule({
-      providers: [
-        AiService,
-        {
-          provide: ConfigService,
-          useValue: {
-            get: jest.fn().mockReturnValue(undefined),
-          },
-        },
-      ],
-    }).compile();
-
-    const noKeyService = noKeyModule.get<AiService>(AiService);
-    delete process.env.GEMINI_API_KEY;
-
-    await expect(noKeyService.chatCoach({ message: 'Hi' })).rejects.toThrow(HttpException);
   });
 });

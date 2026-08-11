@@ -3,7 +3,9 @@ import { IsString, IsNotEmpty, IsOptional, MaxLength, Matches } from 'class-vali
 export class ScanDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(15 * 1024 * 1024) // 15MB max payload
+  @MaxLength(4 * 1024 * 1024, {
+    message: 'imageBase64 payload exceeds max allowed limit (4MB Base64)',
+  })
   imageBase64: string;
 
   @IsOptional()
