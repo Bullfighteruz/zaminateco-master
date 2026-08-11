@@ -59,6 +59,18 @@ export class AiService {
     return key;
   }
 
+  private logProviderError(operation: string, model: string, err: any) {
+    const sanitized = {
+      operation,
+      model,
+      errorName: err?.name || 'Error',
+      errorStatus: err?.status || err?.statusCode || 500,
+      errorCode: err?.code || 'UNKNOWN_ERROR',
+      errorMessage: err?.message ? String(err.message).replace(/key=[^&\s]+/gi, 'key=[REDACTED]') : 'No error message provided',
+    };
+    this.logger.error(`[AI_PROVIDER_ERROR] ${JSON.stringify(sanitized)}`);
+  }
+
   async scanWaste(dto: ScanDto) {
     const apiKey = this.getApiKey();
     const langNames: Record<string, string> = {
@@ -111,10 +123,11 @@ export class AiService {
         confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 90,
       };
     } catch (err: any) {
-      this.logger.error('scanWaste error:', err.message);
       if (err instanceof SyntaxError) {
+        this.logger.warn(`[AI_SCAN] Malformed JSON response: ${err.message}`);
         throw new HttpException('INVALID_MODEL_OUTPUT', HttpStatus.UNPROCESSABLE_ENTITY);
       }
+      this.logProviderError('scanWaste', AI_SCAN_MODEL, err);
       throw new HttpException('AI_PROVIDER_ERROR', HttpStatus.BAD_GATEWAY);
     }
   }
@@ -150,7 +163,7 @@ export class AiService {
 
       return { response: response.text || '' };
     } catch (err: any) {
-      this.logger.error('chatCoach error:', err.message);
+      this.logProviderError('chatCoach', AI_CHAT_MODEL, err);
       throw new HttpException('AI_PROVIDER_ERROR', HttpStatus.BAD_GATEWAY);
     }
   }
@@ -171,7 +184,7 @@ export class AiService {
 
       return { response: response.text || '' };
     } catch (err: any) {
-      this.logger.error('optimizePlanner error:', err.message);
+      this.logProviderError('optimizePlanner', AI_PLANNER_MODEL, err);
       throw new HttpException('AI_PROVIDER_ERROR', HttpStatus.BAD_GATEWAY);
     }
   }
