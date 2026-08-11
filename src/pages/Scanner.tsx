@@ -221,54 +221,24 @@ export default function Scanner() {
   const analyzeImage = useCallback(async () => {
     if (!capturedImage) return;
     setState('scanning');
+    setError('');
     
-    let scanResult: any = null;
-    let usingOfflineFallback = false;
+    let scanResult: WasteScanResult | null = null;
 
     try {
-      // 1. Attempt Gemini Cloud AI Scan
+      // Attempt Real Backend AI EcoScan Call
       scanResult = await scanWasteImage(capturedImage, i18n.language);
     } catch (err: any) {
-      console.warn('[Scanner] Cloud AI scan failed, falling back to local offline rules-based classifier:', err.message || err);
-      usingOfflineFallback = true;
-      
-      // 2. Local offline rules-based classifier fallback
-      const mlClassification = await classifyWasteFromBase64(capturedImage);
-      setMlResult(mlClassification);
-
-      const mlItems: DetectedItem[] = mlClassification.predictions
-        .filter(p => p.confidence > 5)
-        .map(p => ({
-          name: p.category + ' waste',
-          quantity: 1,
-          wasteType: p.category,
-          status: p.confidence > 50 ? 'Accepted' as const : 'Needs sorting' as const,
-          instructions: p.instructions,
-        }));
-
-      if (mlItems.length === 0) {
-        mlItems.push({
-          name: 'Unidentified item',
-          quantity: 1,
-          wasteType: 'Unknown',
-          status: 'Needs sorting',
-          instructions: 'Please bring to an EcoPoint for manual assessment.',
-        });
-      }
-
-      const topPred = mlClassification.topPrediction;
-      scanResult = {
-        items: mlItems,
-        totalEstimatedWeightKg: '0.2 - 0.4 kg',
-        estimatedEcoCoins: topPred.ecoCoinsEstimate,
-        moatImpact: `Saves CO₂ emissions and prevents ${topPred.category.toLowerCase()} waste from entering landfill.`,
-        suggestedProduct: 'EcoTile / EcoBench',
-        confidence: topPred.confidence,
-      };
+      console.warn('[Scanner] EcoScan API call failed:', err.message || err);
+      setResult(null);
+      setError(err.message || 'SCAN_ERROR');
+      setState('error');
+      return;
     }
 
     try {
       setResult(scanResult);
+      setState('result');
       
       // Proximity GPS Check
       const check = getProximityCheck(selectedPoint);
@@ -281,8 +251,8 @@ export default function Scanner() {
         setAntiFraudMessage(t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' }));
       }
       
-      // Save scan record (only if not fallback or if supabase has session)
-      if (isSupabaseConfigured() && supabase) {
+      // Save scan record
+      if (isSupabaseConfigured() && supabase && scanResult) {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
           await supabase
@@ -299,22 +269,20 @@ export default function Scanner() {
           if (status === 'Verified') {
             const { data: profile } = await supabase
               .from('profiles')
-              .select('eco_coins, xp')
+              .select('ecopoints')
               .eq('id', session.user.id)
               .single();
+              
             if (profile) {
               await supabase
                 .from('profiles')
-                .update({
-                  eco_coins: (profile.eco_coins || 0) + scanResult.estimatedEcoCoins,
-                  xp: (profile.xp || 0) + (scanResult.estimatedEcoCoins * 10)
-                })
+                .update({ ecopoints: (profile.ecopoints || 0) + scanResult.estimatedEcoCoins })
                 .eq('id', session.user.id);
             }
           }
         }
       }
-      
+
       // Update local storage progress
       const local = loadUserProgress();
       if (status === 'Verified') {

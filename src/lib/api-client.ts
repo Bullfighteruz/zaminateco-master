@@ -12,9 +12,17 @@ interface ApiResponse<T> {
 type ApiData = Record<string, unknown>;
 type ApiDataArray = Record<string, unknown>[];
 
+import { getApiBaseUrl } from './gemini';
+
 // Check if we are running in Dev/Prod
-const DEFAULT_API_URL = import.meta.env.DEV ? 'http://localhost:3000/api/v1' : '';
-const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_URL);
+const getSafeApiBaseUrl = (): string => {
+  try {
+    return getApiBaseUrl();
+  } catch (e) {
+    return '';
+  }
+};
+const API_BASE_URL = getSafeApiBaseUrl();
 
 // We consider backend available if either a standard REST URL is set OR Supabase is configured!
 export const IS_BACKEND_AVAILABLE = isSupabaseConfigured() || !!import.meta.env.VITE_API_URL;
