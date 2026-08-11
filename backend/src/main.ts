@@ -2,18 +2,18 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
 import * as compression from 'compression';
-import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
-  // Body parser limits for EcoScan images
-  app.use(json({ limit: '3mb' }));
-  app.use(urlencoded({ limit: '3mb', extended: true }));
+  // Official NestJS body parser configuration for EcoScan compressed payloads (3MB JSON limit)
+  app.useBodyParser('json', { limit: '3mb' });
+  app.useBodyParser('urlencoded', { limit: '3mb', extended: true });
 
   // Security
   app.use(helmet());

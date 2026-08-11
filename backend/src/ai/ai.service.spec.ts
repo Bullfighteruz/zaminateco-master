@@ -46,7 +46,7 @@ jest.mock('@google/genai', () => {
   };
 });
 
-describe('AiService & ScanDto Payload Tests', () => {
+describe('AiService & ScanDto Payload Unit Tests', () => {
   let service: AiService;
 
   beforeEach(async () => {
@@ -82,8 +82,7 @@ describe('AiService & ScanDto Payload Tests', () => {
     expect(result.items[0].name).toBe('PET Plastic Bottle');
   });
 
-  it('should accept a ~381 KB EcoScan payload (larger than 100 KB limit)', async () => {
-    // 381 KB Base64 string
+  it('should accept a ~381 KB EcoScan payload', async () => {
     const largeBase64 = 'A'.repeat(381 * 1024);
     const dto = new ScanDto();
     dto.imageBase64 = largeBase64;
@@ -96,8 +95,8 @@ describe('AiService & ScanDto Payload Tests', () => {
     expect(result).toHaveProperty('items');
   });
 
-  it('should reject an intentionally oversized EcoScan payload (> 4MB Base64)', async () => {
-    const oversizedBase64 = 'A'.repeat(4.1 * 1024 * 1024);
+  it('should reject an oversized Base64 string (>2.5M chars / ~2.38MB) at DTO validation layer', async () => {
+    const oversizedBase64 = 'A'.repeat(2500001);
     const dto = new ScanDto();
     dto.imageBase64 = oversizedBase64;
 

@@ -3,8 +3,8 @@ import { IsString, IsNotEmpty, IsOptional, MaxLength, Matches } from 'class-vali
 export class ScanDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(4 * 1024 * 1024, {
-    message: 'imageBase64 payload exceeds max allowed limit (4MB Base64)',
+  @MaxLength(2500000, {
+    message: 'imageBase64 payload exceeds max allowed limit (2.5M Base64 characters / ~1.8MB binary)',
   })
   imageBase64: string;
 
