@@ -24,12 +24,24 @@ export interface EcoUserInfo {
   school?: string;
 }
 
-// Base API URL configuration for backend proxy calls
-const DEFAULT_API_URL = import.meta.env.DEV ? 'http://localhost:3000/api/v1' : '/api/v1';
-const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_URL).replace(/\/$/, '');
-
 // Hard client-side Base64 string maximum length: 2,097,152 chars (~1.5 MB binary image)
 export const MAX_ALLOWED_BASE64_LENGTH = 2097152;
+
+/**
+ * Resolves API Base URL safely.
+ * - In DEV mode: Allows fallback to 'http://localhost:3000/api/v1' if VITE_API_URL is omitted.
+ * - In PROD mode: Requires VITE_API_URL. If absent, throws CONFIGURATION_ERROR (fails closed).
+ */
+export function getApiBaseUrl(): string {
+  const envUrl = import.meta.env.VITE_API_URL?.trim();
+  if (envUrl) {
+    return envUrl.replace(/\/$/, '');
+  }
+  if (import.meta.env.DEV) {
+    return 'http://localhost:3000/api/v1';
+  }
+  throw new Error('API_CONFIG_MISSING');
+}
 
 // Sanitize user input: trim, limit length, strip control characters
 function sanitizeInput(input: string, maxLength = 2000): string {
@@ -147,75 +159,47 @@ export async function scanWasteImage(
     throw new Error('IMAGE_TOO_LARGE');
   }
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/ai/scan`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        imageBase64: cleanBase64,
-        lang,
-        mimeType: 'image/jpeg'
-      })
-    });
+  const baseUrl = getApiBaseUrl();
+  const endpointUrl = `${baseUrl}/ai/scan`;
 
-    if (!res.ok) {
-      const errJson = await res.json().catch(() => ({}));
-      if (res.status === 503 || errJson.message === 'AI_PROVIDER_UNAVAILABLE') {
-        throw new Error('GEMINI_API_KEY_MISSING');
-      }
-      throw new Error(errJson.message || 'SCAN_ERROR');
-    }
+  const res = await fetch(endpointUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      imageBase64: cleanBase64,
+      lang,
+      mimeType: 'image/jpeg'
+    })
+  });
 
-    const data = await res.json();
-    return {
-      items: Array.isArray(data.items) ? data.items.map((item: any) => ({
-        name: item.name || 'Unidentified item',
-        quantity: typeof item.quantity === 'number' ? item.quantity : 1,
-        wasteType: item.wasteType || 'Unknown',
-        status: ['Accepted', 'Needs sorting', 'Not accepted', 'Needs cleaning'].includes(item.status)
-          ? item.status 
-          : 'Accepted',
-        instructions: item.instructions || '',
-      })) : [],
-      totalEstimatedWeightKg: data.totalEstimatedWeightKg || '0.2 - 0.5 kg',
-      estimatedEcoCoins: typeof data.estimatedEcoCoins === 'number' ? data.estimatedEcoCoins : 10,
-      moatImpact: data.moatImpact || 'Prevents landfill waste and reduces carbon footprint.',
-      suggestedProduct: data.suggestedProduct || 'EcoTile / EcoBench',
-      confidence: typeof data.confidence === 'number' ? data.confidence : 92,
-    };
-  } catch (err: any) {
-    if (import.meta.env.DEV) {
-      console.warn('[EcoScan] Backend connection warning, using secure local fallback:', err.message);
+  if (!res.ok) {
+    const errJson = await res.json().catch(() => ({}));
+    if (res.status === 503 || errJson.message === 'AI_PROVIDER_UNAVAILABLE') {
+      throw new Error('GEMINI_API_KEY_MISSING');
     }
-    
-    if (err.message === 'GEMINI_API_KEY_MISSING' || err.message === 'IMAGE_TOO_LARGE') {
-      throw err;
+    if (res.status === 404) {
+      throw new Error('SCAN_ENDPOINT_NOT_FOUND');
     }
-
-    // Client fallback mock response when backend REST server is offline in standalone static preview
-    const isUz = lang.startsWith('uz');
-    const isRu = lang.startsWith('ru');
-    return {
-      items: [
-        {
-          name: isUz ? 'PET Plastik Butilka' : isRu ? 'ПЭТ Пластиковая Бутылка' : 'PET Plastic Bottle',
-          quantity: 2,
-          wasteType: 'Plastic',
-          status: 'Accepted',
-          instructions: isUz ? 'Yuvib tashlang va g\'ijimlang' : isRu ? 'Промойте и сожмите' : 'Rinse container and crush',
-        }
-      ],
-      totalEstimatedWeightKg: '0.2 - 0.4 kg',
-      estimatedEcoCoins: 15,
-      moatImpact: isUz 
-        ? '0.4 kg CO₂ chiqarilishining oldini oladi va poligonga tushmaydi.' 
-        : isRu 
-        ? 'Предотвращает 0.4 кг выбросов CO₂ и попадание на свалку.' 
-        : 'Prevents 0.4 kg CO₂ emissions and landfill waste.',
-      suggestedProduct: 'EcoTile / EcoBench',
-      confidence: 94,
-    };
+    throw new Error(errJson.message || 'SCAN_ERROR');
   }
+
+  const data = await res.json();
+  return {
+    items: Array.isArray(data.items) ? data.items.map((item: any) => ({
+      name: item.name || 'Unidentified item',
+      quantity: typeof item.quantity === 'number' ? item.quantity : 1,
+      wasteType: item.wasteType || 'Unknown',
+      status: ['Accepted', 'Needs sorting', 'Not accepted', 'Needs cleaning'].includes(item.status)
+        ? item.status 
+        : 'Accepted',
+      instructions: item.instructions || '',
+    })) : [],
+    totalEstimatedWeightKg: data.totalEstimatedWeightKg || '0.2 - 0.5 kg',
+    estimatedEcoCoins: typeof data.estimatedEcoCoins === 'number' ? data.estimatedEcoCoins : 10,
+    moatImpact: data.moatImpact || 'Prevents landfill waste and reduces carbon footprint.',
+    suggestedProduct: data.suggestedProduct || 'EcoTile / EcoBench',
+    confidence: typeof data.confidence === 'number' ? data.confidence : 92,
+  };
 }
 
 /**
@@ -236,38 +220,25 @@ export async function getEcoCoachResponse(
       : "Please type your question.";
   }
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/ai/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: safeMessage,
-        history: history.slice(-20),
-        lang,
-        userInfo
-      })
-    });
+  const baseUrl = getApiBaseUrl();
 
-    if (!res.ok) {
-      throw new Error('CHAT_ERROR');
-    }
+  const res = await fetch(`${baseUrl}/ai/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message: safeMessage,
+      history: history.slice(-20),
+      lang,
+      userInfo
+    })
+  });
 
-    const data = await res.json();
-    return data.response || data.message || "Zami Bot: Response generated.";
-  } catch (err: any) {
-    if (import.meta.env.DEV) {
-      console.warn('[EcoCoach] Backend AI chat call offline, serving client response');
-    }
-
-    // Natural eco guidance fallback response
-    if (lang === 'uz') {
-      return "ZAMI Bot: Salom! Men ZAMINAT.eco AI yordamchisiman. Chiqindilarni saralash, EcoPoints to'plash va ekologik mahsulotlar haqida savollaringiz bo'lsa, berishingiz mumkin.";
-    } else if (lang === 'ru') {
-      return "ZAMI Bot: Здравствуйте! Я ИИ-консультант ZAMINAT.eco. Задавайте вопросы о сортировке отходов, эко-баллах и переработке.";
-    } else {
-      return "ZAMI Bot: Hello! I'm ZAMINAT.eco AI advisor. Ask me anything about waste sorting, eco-points, and recycling initiatives in Uzbekistan!";
-    }
+  if (!res.ok) {
+    throw new Error('CHAT_ERROR');
   }
+
+  const data = await res.json();
+  return data.response || data.message || "Zami Bot: Response generated.";
 }
 
 /**
@@ -278,26 +249,21 @@ export async function getPlannerOptimization(
   currentStock: { plastic: number; rubber: number; paper: number }
 ): Promise<string> {
   const safeQuery = sanitizeInput(query);
-  try {
-    const res = await fetch(`${API_BASE_URL}/ai/planner`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: safeQuery,
-        currentStock
-      })
-    });
+  const baseUrl = getApiBaseUrl();
 
-    if (!res.ok) {
-      throw new Error('PLANNER_ERROR');
-    }
+  const res = await fetch(`${baseUrl}/ai/planner`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: safeQuery,
+      currentStock
+    })
+  });
 
-    const data = await res.json();
-    return data.response || data.message || "Production plan generated.";
-  } catch (err: any) {
-    if (import.meta.env.DEV) {
-      console.warn('[Planner] Backend AI planner call offline, serving client response');
-    }
-    return "Optimized Production Schedule: Allocate PET plastic for 10 EcoBenches and rubber for 50 sqm of EcoTiles.";
+  if (!res.ok) {
+    throw new Error('PLANNER_ERROR');
   }
+
+  const data = await res.json();
+  return data.response || data.message || "Production plan generated.";
 }
