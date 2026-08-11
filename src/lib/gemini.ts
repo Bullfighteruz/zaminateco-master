@@ -28,6 +28,9 @@ export interface EcoUserInfo {
 const DEFAULT_API_URL = import.meta.env.DEV ? 'http://localhost:3000/api/v1' : '/api/v1';
 const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_URL).replace(/\/$/, '');
 
+// Hard client-side Base64 string maximum length: 2,097,152 chars (~1.5 MB binary image)
+export const MAX_ALLOWED_BASE64_LENGTH = 2097152;
+
 // Sanitize user input: trim, limit length, strip control characters
 function sanitizeInput(input: string, maxLength = 2000): string {
   const cleaned = input.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u200B-\u200F\u2028-\u202F\uFEFF]/g, '');
@@ -35,42 +38,83 @@ function sanitizeInput(input: string, maxLength = 2000): string {
 }
 
 /**
- * Client-side image compression helper for EcoScan photos.
- * - Resizes large photos so max longest dimension <= 1600px
- * - Compresses JPEG quality to 0.8 (aims for <= 1.5MB binary / ~2MB Base64)
+ * Progressive client-side image compression helper for EcoScan photos.
+ * - Enforces strict maximum target: <= 2,097,152 Base64 chars (~1.5 MB binary image)
+ * - Multi-pass reduction: systematically scales dimensions (1600 -> 1200 -> 800 -> 600)
+ *   and quality steps (0.8 -> 0.6 -> 0.4 -> 0.2) until payload is within limit
+ * - Preserves aspect ratio at all times
+ * - Throws IMAGE_TOO_LARGE if image cannot be compressed below MAX_ALLOWED_BASE64_LENGTH
  */
-export function compressImage(dataUrl: string, maxDimension = 1600, quality = 0.8): Promise<string> {
-  return new Promise((resolve) => {
+export function compressImage(
+  dataUrl: string,
+  initialMaxDimension = 1600,
+  initialQuality = 0.8
+): Promise<string> {
+  return new Promise((resolve, reject) => {
     if (typeof window === 'undefined' || !dataUrl.startsWith('data:image')) {
+      const cleanLen = dataUrl.includes(',') ? dataUrl.split(',')[1].length : dataUrl.length;
+      if (cleanLen > MAX_ALLOWED_BASE64_LENGTH) {
+        return reject(new Error('IMAGE_TOO_LARGE'));
+      }
       return resolve(dataUrl);
     }
+
     const img = new Image();
     img.onload = () => {
-      let width = img.width;
-      let height = img.height;
+      const origWidth = img.width;
+      const origHeight = img.height;
 
-      if (width > maxDimension || height > maxDimension) {
-        if (width > height) {
-          height = Math.round((height * maxDimension) / width);
-          width = maxDimension;
-        } else {
-          width = Math.round((width * maxDimension) / height);
-          height = maxDimension;
+      const dimensionSteps = [initialMaxDimension, 1200, 800, 600];
+      const qualitySteps = [initialQuality, 0.6, 0.4, 0.2];
+
+      let bestOutput = '';
+
+      for (const maxDim of dimensionSteps) {
+        let width = origWidth;
+        let height = origHeight;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) continue;
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        for (const q of qualitySteps) {
+          const encoded = canvas.toDataURL('image/jpeg', q);
+          const rawBase64 = encoded.includes(',') ? encoded.split(',')[1] : encoded;
+
+          if (rawBase64.length <= MAX_ALLOWED_BASE64_LENGTH) {
+            return resolve(encoded);
+          }
+
+          if (!bestOutput || rawBase64.length < bestOutput.length) {
+            bestOutput = encoded;
+          }
         }
       }
 
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        return resolve(dataUrl);
+      // If even aggressive multi-pass compression cannot reduce image below limit
+      const finalRaw = bestOutput.includes(',') ? bestOutput.split(',')[1] : bestOutput;
+      if (finalRaw.length > MAX_ALLOWED_BASE64_LENGTH) {
+        return reject(new Error('IMAGE_TOO_LARGE'));
       }
-      ctx.drawImage(img, 0, 0, width, height);
-      const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
-      resolve(compressedDataUrl);
+
+      resolve(bestOutput);
     };
-    img.onerror = () => resolve(dataUrl);
+
+    img.onerror = () => reject(new Error('IMAGE_PROCESSING_FAILED'));
     img.src = dataUrl;
   });
 }
@@ -91,13 +135,15 @@ export async function scanWasteImage(
   let compressedDataUrl = formattedDataUrl;
   try {
     compressedDataUrl = await compressImage(formattedDataUrl, 1600, 0.8);
-  } catch (e) {
-    // If canvas compression fails, proceed with raw input
+  } catch (err: any) {
+    if (err.message === 'IMAGE_TOO_LARGE') {
+      throw err;
+    }
   }
 
   const cleanBase64 = compressedDataUrl.includes(',') ? compressedDataUrl.split(',')[1] : compressedDataUrl;
   
-  if (cleanBase64.length > 4 * 1024 * 1024) {
+  if (cleanBase64.length > MAX_ALLOWED_BASE64_LENGTH) {
     throw new Error('IMAGE_TOO_LARGE');
   }
 
