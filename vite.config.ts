@@ -175,7 +175,7 @@ export default defineConfig(({ mode }) => ({
       'framer-motion',
       'lucide-react',
       '@tanstack/react-query',
-      'lodash.debounce',
+      'cmdk > lodash.debounce',
     ],
     // Exclude large dependencies from pre-bundling if needed
     exclude: ['@splinetool/react-spline'], // Load Spline on demand
