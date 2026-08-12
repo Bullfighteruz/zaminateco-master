@@ -164,6 +164,17 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
   return elements;
 }
 
+function formatTime(isoString?: string): string {
+  if (!isoString) return '';
+  try {
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return '';
+  }
+}
+
 // ── Persistence ────────────────────────────────────────────────────
 function loadCoachMessages(): Message[] | null {
   try {
@@ -173,6 +184,9 @@ function loadCoachMessages(): Message[] | null {
       if (Array.isArray(parsed) && parsed.length > 0) {
         return parsed.map(m => ({
           ...m,
+          text: typeof m.text === 'string'
+            ? m.text
+            : (m.text && typeof m.text === 'object' && typeof (m.text as any).text === 'string' ? (m.text as any).text : String(m.text || '')),
           timestamp: m.timestamp && !isNaN(new Date(m.timestamp).getTime())
             ? m.timestamp
             : new Date().toISOString()
