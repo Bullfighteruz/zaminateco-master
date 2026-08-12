@@ -204,8 +204,8 @@ export async function scanWasteImage(
 
 export interface EcoCoachResponse {
   text: string;
-  searchUsed?: boolean;
-  sources?: Array<{ title: string; url: string }>;
+  searchUsed: boolean;
+  sources: Array<{ title: string; url: string }>;
 }
 
 /**
@@ -245,13 +245,25 @@ export async function getEcoCoachResponse(
   }
 
   const data = await res.json();
-  let text = (data.response || data.message || "Response generated.").trim();
+  const rawText = typeof data?.response === 'string'
+    ? data.response
+    : typeof data?.message === 'string'
+    ? data.message
+    : 'Response generated.';
+
+  let text = rawText.trim();
   text = text.replace(/^(?:zami\s*bot|zami_bot|zamibot|bot)\s*[:\-]\s*/i, '').trim();
 
+  const safeSources = Array.isArray(data?.sources)
+    ? data.sources
+        .filter((s: any): s is { title: string; url: string } => Boolean(s && typeof s.title === 'string' && typeof s.url === 'string'))
+        .map((s: any) => ({ title: String(s.title), url: String(s.url) }))
+    : [];
+
   return {
-    text,
-    searchUsed: Boolean(data.searchUsed),
-    sources: Array.isArray(data.sources) ? data.sources : [],
+    text: text || 'Response generated.',
+    searchUsed: Boolean(data?.searchUsed),
+    sources: safeSources,
   };
 }
 

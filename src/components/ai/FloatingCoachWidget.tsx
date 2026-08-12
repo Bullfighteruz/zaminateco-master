@@ -24,7 +24,8 @@ const STORAGE_KEY = 'zami_bot_chat';
 
 /** Parse simple markdown (bold, bullet points, headers, lists) into React elements */
 function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {
-  const lines = text.split('\n');
+  const safeText = typeof text === 'string' ? text : String(text || '');
+  const lines = safeText.split('\n');
   const elements: React.ReactNode[] = [];
   let listItems: React.ReactNode[] = [];
 
@@ -54,8 +55,9 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
   };
 
   const renderInline = (content: string, lineIdx: number): React.ReactNode[] => {
+    const safeContent = typeof content === 'string' ? content : String(content || '');
     const regex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g;
-    const parts = content.split(regex);
+    const parts = safeContent.split(regex);
     
     return parts.map((part, i) => {
       if (part.startsWith('***') && part.endsWith('***')) {
@@ -299,10 +301,10 @@ export default function FloatingCoachWidget() {
 
     try {
       const history = messages
-        .filter(m => m.id !== 'welcome')
+        .filter(m => m.id !== 'welcome' && typeof m.text === 'string' && m.text.trim().length > 0)
         .map(m => ({
           role: m.role,
-          parts: [{ text: m.text }]
+          parts: [{ text: typeof m.text === 'string' ? m.text : String(m.text || '') }]
         }));
 
       const progress = loadUserProgress();
@@ -316,11 +318,14 @@ export default function FloatingCoachWidget() {
       } : undefined;
 
       const reply = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
-      
+      const responseText = typeof reply?.text === 'string' ? reply.text : String(reply?.text || '');
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: reply
+        text: responseText,
+        searchUsed: Boolean(reply?.searchUsed),
+        sources: Array.isArray(reply?.sources) ? reply.sources : [],
       };
 
       setMessages(prev => [...prev, botMessage]);
