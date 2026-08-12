@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Send, ArrowLeft, Trash2 } from 'lucide-react';
+import { Send, ArrowLeft, Trash2, Globe, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Layout from '@/components/Layout';
@@ -17,6 +17,8 @@ interface Message {
   role: 'user' | 'model';
   text: string;
   timestamp: string;
+  searchUsed?: boolean;
+  sources?: Array<{ title: string; url: string }>;
 }
 
 const COACH_STORAGE_KEY = 'zami_bot_chat';
@@ -285,12 +287,14 @@ export default function EcoCoach() {
         school: "School #45, Chilonzor District",
       } : undefined;
 
-      const replyText = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
+      const botResponse = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
       
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: replyText,
+        text: botResponse.text,
+        searchUsed: botResponse.searchUsed,
+        sources: botResponse.sources,
         timestamp: new Date().toISOString()
       }]);
     } catch {
@@ -398,6 +402,28 @@ export default function EcoCoach() {
                         : "bg-white border border-slate-200/60 text-slate-700 rounded-bl-none"
                     )}>
                       {message.role === 'model' ? renderMarkdown(message.text, 'model') : message.text}
+                      {message.role === 'model' && message.searchUsed && message.sources && message.sources.length > 0 && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-100 flex flex-col gap-1 text-[11px]">
+                          <span className="font-semibold text-slate-500 flex items-center gap-1">
+                            <Globe className="h-3 w-3 text-emerald-600" />
+                            {i18n.language === 'uz' ? 'Manbalar:' : i18n.language === 'ru' ? 'Источники:' : 'Sources:'}
+                          </span>
+                          <div className="flex flex-wrap gap-1.5 mt-0.5">
+                            {message.sources.map((src, idx) => (
+                              <a
+                                key={idx}
+                                href={src.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 font-medium transition-colors border border-slate-200/60 max-w-[200px] truncate"
+                              >
+                                <ExternalLink className="h-2.5 w-2.5 flex-shrink-0" />
+                                <span className="truncate">{src.title}</span>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <span className={cn(
                       "text-[10px] mt-1 px-1 font-light",

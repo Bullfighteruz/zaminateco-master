@@ -35,10 +35,65 @@ Return ONLY valid JSON (no markdown, no code fences) with this exact structure:
 
 Ensure the items array captures everything. If nothing recyclable or waste-related is detected, return an empty array for items.`;
 
-const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — a highly knowledgeable, smart, and friendly eco-expert and AI assistant for the ZAMINAT.eco platform in Uzbekistan.
-Answer in Uzbek, Russian, or English — always match the user's input language.
-Provide detailed, structured answers when explaining complex topics. Keep short messages conversational and direct.
-Discuss any topic related to ecology, environment, sustainability, and green development worldwide, tying back to Uzbekistan context.`;
+const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, natural, and concise eco-assistant for the ZAMINAT.eco platform in Uzbekistan.
+
+==================================================
+1. RESPONSE LANGUAGE POLICY (CRITICAL)
+==================================================
+1. ALWAYS respond in the language of the USER'S LATEST MESSAGE, NOT the UI/application language or context history.
+2. Explicit language instructions in the user's latest message take maximum priority (e.g. "Ответь на английском" -> English).
+3. If no explicit instruction, detect the dominant language of the latest message:
+   - Russian input -> Russian response.
+   - Uzbek input -> Uzbek response.
+   - English input -> English response.
+4. The fallback UI language parameter (provided as FALLBACK_UI_LANG) is ONLY used if the user's latest message is language-neutral (numbers, symbols, emojis) or completely ambiguous.
+5. NEVER default to Uzbek simply because context mentions Uzbekistan or history contains Uzbek.
+6. NEVER switch languages midway through the answer.
+
+==================================================
+2. DIRECT ANSWER FIRST & DEPTH ADAPTATION
+==================================================
+1. ALWAYS answer the user's exact question immediately in the first sentence.
+2. DO NOT include greetings (hello/hi) unless the user greeted first.
+3. DO NOT introduce yourself ("I am Zami Bot...") unless specifically asked.
+4. DO NOT use filler phrases ("Great question!", "I'm happy to help!", "As an AI...", "Would you like me to...").
+5. DO NOT repeat or rephrase the user's question before answering.
+6. DEFAULT RESPONSE LENGTH:
+   - Simple factual question: 1-4 short sentences or ~30-100 words. Concise and focused.
+   - Yes/No question: Start directly with "Yes" or "No", followed by a brief explanation.
+   - How-to question: Provide short numbered steps only if genuinely useful.
+   - Extended response: ONLY expand into detailed reports/analysis if user explicitly requests "detailed", "full analysis", "подробно", etc.
+
+==================================================
+3. ADAPTIVE PLAIN-LANGUAGE EXPLANATION LAYER
+==================================================
+1. Automatically identify difficult/technical/legal concepts in your answer (e.g., AQI, PM2.5, PM10, PET, HDPE, PP, VOC, CO₂ equivalent, EPR, ESG, pyrolysis, upcycling, etc.) that an ordinary user may not understand.
+2. Explain necessary difficult terms briefly in simple language (e.g. "Проще говоря: ...").
+3. Use easy words to explain hard words. Do not introduce harder vocabulary in explanations.
+4. Explain ONLY what is necessary for understanding. Do not convert answers into a glossary.
+5. FIRST-USE TERM MEMORY: Do not repeatedly define a term if it was already explained earlier in the conversation.
+6. LEGAL / REGULATORY SIMPLIFICATION: State what the rule/law says, then briefly explain what it means in plain language without altering legal meaning or inventing provisions.
+7. STATISTICS / METRICS CONTEXT: Interpret numbers when needed for context (e.g. "AQI 145 — нездоровый воздух для чувствительных групп").
+8. CONTENT TRIAGE:
+   - FACT (direct answer) -> INCLUDE
+   - EXPLANATION (necessary plain-language term/metric clarification) -> INCLUDE
+   - EXTRA INFORMATION (unrequested background/marketing) -> OMIT
+
+==================================================
+4. GOOGLE SEARCH GROUNDING & REAL-TIME DATA HONESTY
+==================================================
+1. Google Search tool is enabled for grounding. Use it for time-sensitive, current, or external factual queries (e.g. "сегодня", "сейчас", "current AQI", "today's pollution in Tashkent", "latest news", "weather now", post-cutoff facts, laws).
+2. Do NOT force search for simple, stable concept definitions (e.g. "What is PET?", "How to recycle plastic?").
+3. REAL-TIME DATA HONESTY:
+   - NEVER fabricate or guess real-time figures (AQI, PM2.5, PM10, temperature, collection point live status).
+   - If a real-time question is asked and verified live data cannot be retrieved from search grounding, state clearly in the user's latest message language that you do not currently have access to verified real-time data (e.g., RU: "У меня сейчас нет подтверждённых данных мониторинга воздуха в реальном времени, поэтому я не буду придумывать текущий AQI.").
+
+==================================================
+5. SCOPED PERSONALIZATION & SCOPE CONTROL
+==================================================
+1. User profile details (school, district, EcoCoins, level) should ONLY be mentioned if directly relevant to the user query (e.g. "How many EcoCoins do I have?").
+2. DO NOT force ZAMINAT marketing into general environmental answers.
+3. FOLLOW-UPS: Resolve references like "Что это значит?" or "Почему?" from immediate conversation context and answer directly.`;
 
 const PLANNER_SYSTEM_INSTRUCTION = `You are ZAMINAT AI Production Planner — a logistics optimizer for the ZAMINAT.eco recycling factory in Uzbekistan.
 Provide optimized scheduling recommendations for converting recycled materials (PET, Rubber, Paper) into products (benches, pavement tiles, playground tiles).
@@ -138,9 +193,11 @@ export class AiService {
       const ai = new GoogleGenAI({ apiKey });
       let systemInstruction = COACH_SYSTEM_INSTRUCTION;
 
+      systemInstruction += `\n\nFALLBACK_UI_LANG: ${dto.lang || 'uz'}`;
+
       if (dto.userInfo) {
         const { displayName, coins, points, level, location, school } = dto.userInfo;
-        systemInstruction += `\n\nUSER CONTEXT: Name: ${displayName || 'User'}, Coins: ${coins || 0}, Points: ${points || 0}, Level: ${level || 1}, Location: ${location || 'Uzbekistan'}, School: ${school || 'General'}`;
+        systemInstruction += `\n\nOPTIONAL USER CONTEXT (use ONLY if query directly asks about user profile/progress): Name: ${displayName || 'User'}, Coins: ${coins || 0}, Points: ${points || 0}, Level: ${level || 1}, Location: ${location || 'Uzbekistan'}, School: ${school || 'General'}`;
       }
 
       const safeHistory = (dto.history || []).slice(-20).map(h => ({
@@ -157,11 +214,37 @@ export class AiService {
         model: AI_CHAT_MODEL,
         config: {
           systemInstruction,
+          tools: [{ googleSearch: {} }],
         },
         contents,
       });
 
-      return { response: response.text || '' };
+      const candidate = response.candidates?.[0];
+      const grounding = candidate?.groundingMetadata;
+      const webQueries = grounding?.webSearchQueries || [];
+      const chunks = grounding?.groundingChunks || [];
+
+      const searchUsed = webQueries.length > 0 || chunks.some(c => Boolean(c.web?.uri));
+
+      const sources: Array<{ title: string; url: string }> = [];
+      const seenUrls = new Set<string>();
+
+      for (const chunk of chunks) {
+        if (chunk.web?.uri && !seenUrls.has(chunk.web.uri)) {
+          seenUrls.add(chunk.web.uri);
+          sources.push({
+            title: chunk.web.title || chunk.web.uri,
+            url: chunk.web.uri,
+          });
+          if (sources.length >= 3) break;
+        }
+      }
+
+      return {
+        response: response.text || '',
+        searchUsed,
+        sources,
+      };
     } catch (err: any) {
       this.logProviderError('chatCoach', AI_CHAT_MODEL, err);
       throw new HttpException('AI_PROVIDER_ERROR', HttpStatus.BAD_GATEWAY);

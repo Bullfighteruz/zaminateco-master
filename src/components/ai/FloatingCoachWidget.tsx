@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { X, Send, Trash2, ArrowRight } from 'lucide-react';
+import { X, Send, Trash2, ArrowRight, Globe, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getEcoCoachResponse } from '@/lib/gemini';
@@ -16,6 +16,8 @@ interface Message {
   id: string;
   role: 'user' | 'model';
   text: string;
+  searchUsed?: boolean;
+  sources?: Array<{ title: string; url: string }>;
 }
 
 const STORAGE_KEY = 'zami_bot_chat';
@@ -427,6 +429,28 @@ export default function FloatingCoachWidget() {
                       : "bg-white border border-slate-200/60 text-slate-700 rounded-tl-none text-left"
                   )}>
                     {m.role === 'model' ? renderMarkdown(m.text) : m.text}
+                    {m.role === 'model' && m.searchUsed && m.sources && m.sources.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-slate-100 flex flex-col gap-1 text-[10px]">
+                        <span className="font-semibold text-slate-500 flex items-center gap-1">
+                          <Globe className="h-3 w-3 text-emerald-600" />
+                          {i18n.language === 'uz' ? 'Manbalar:' : i18n.language === 'ru' ? 'Источники:' : 'Sources:'}
+                        </span>
+                        <div className="flex flex-wrap gap-1 mt-0.5">
+                          {m.sources.map((src, idx) => (
+                            <a
+                              key={idx}
+                              href={src.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 font-medium transition-colors border border-slate-200/60 max-w-[160px] truncate"
+                            >
+                              <ExternalLink className="h-2 w-2 flex-shrink-0" />
+                              <span className="truncate">{src.title}</span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}

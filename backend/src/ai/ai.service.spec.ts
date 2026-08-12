@@ -22,7 +22,20 @@ jest.mock('@google/genai', () => {
             }
 
             if (params.model === AI_CHAT_MODEL) {
-              return { text: 'Sorting plastic bottles reduces landfill waste.' };
+              const isGroundingTest = paramStr.includes('GROUNDING_TEST');
+              return {
+                text: 'Sorting plastic bottles reduces landfill waste.',
+                candidates: [
+                  {
+                    groundingMetadata: isGroundingTest ? {
+                      webSearchQueries: ['air pollution Tashkent today'],
+                      groundingChunks: [
+                        { web: { title: 'Air Quality Tashkent', uri: 'https://iqair.com/uzbekistan/tashkent' } }
+                      ]
+                    } : undefined
+                  }
+                ]
+              };
             }
 
             if (paramStr.includes('Current Stock:')) {
@@ -69,10 +82,20 @@ describe('AiService & ScanDto Payload Unit Tests', () => {
     expect(service).toBeDefined();
   });
 
-  it('should process chatCoach successfully without changing behavior', async () => {
+  it('should process chatCoach successfully and return searchUsed and sources properties', async () => {
     const result = await service.chatCoach({ message: 'How to sort plastic bottles?', lang: 'en' });
     expect(result).toHaveProperty('response');
     expect(result.response).toContain('Sorting plastic bottles');
+    expect(result).toHaveProperty('searchUsed', false);
+    expect(result).toHaveProperty('sources', []);
+  });
+
+  it('should extract grounding metadata when search is used in chatCoach', async () => {
+    const result = await service.chatCoach({ message: 'GROUNDING_TEST air pollution Tashkent today', lang: 'ru' });
+    expect(result.searchUsed).toBe(true);
+    expect(result.sources).toEqual([
+      { title: 'Air Quality Tashkent', url: 'https://iqair.com/uzbekistan/tashkent' }
+    ]);
   });
 
   it('should process scanWaste successfully', async () => {

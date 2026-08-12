@@ -202,6 +202,12 @@ export async function scanWasteImage(
   };
 }
 
+export interface EcoCoachResponse {
+  text: string;
+  searchUsed?: boolean;
+  sources?: Array<{ title: string; url: string }>;
+}
+
 /**
  * AI EcoCoach / Zami Bot Chat — Calls ZAMINAT Backend AI Chat Endpoint
  */
@@ -210,14 +216,15 @@ export async function getEcoCoachResponse(
   history: { role: 'user' | 'model'; parts: { text: string }[] }[] = [],
   lang: string = 'uz',
   userInfo?: EcoUserInfo
-): Promise<string> {
+): Promise<EcoCoachResponse> {
   const safeMessage = sanitizeInput(message);
   if (!safeMessage) {
-    return lang === 'uz'
+    const text = lang === 'uz'
       ? "Iltimos, savolingizni yozing."
       : lang === 'ru'
       ? "Пожалуйста, напишите ваш вопрос."
       : "Please type your question.";
+    return { text, searchUsed: false, sources: [] };
   }
 
   const baseUrl = getApiBaseUrl();
@@ -238,7 +245,11 @@ export async function getEcoCoachResponse(
   }
 
   const data = await res.json();
-  return data.response || data.message || "Zami Bot: Response generated.";
+  return {
+    text: data.response || data.message || "Zami Bot: Response generated.",
+    searchUsed: Boolean(data.searchUsed),
+    sources: Array.isArray(data.sources) ? data.sources : [],
+  };
 }
 
 /**
