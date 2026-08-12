@@ -219,14 +219,18 @@ export class AiService {
         systemInstruction += `\n\nOPTIONAL USER CONTEXT (use ONLY if query directly asks about user profile/progress): Name: ${displayName || 'User'}, Coins: ${coins || 0}, Points: ${points || 0}, Level: ${level || 1}, Location: ${location || 'Uzbekistan'}, School: ${school || 'General'}`;
       }
 
-      const safeHistory = (dto.history || []).slice(-20).map(h => ({
-        role: h.role === 'user' ? 'user' : 'model',
-        parts: h.parts.map(p => ({ text: p.text.slice(0, 2000) })),
-      }));
+      const safeHistory = Array.isArray(dto.history)
+        ? dto.history.slice(-20).map(h => ({
+            role: h?.role === 'user' ? 'user' : 'model',
+            parts: Array.isArray(h?.parts)
+              ? h.parts.map(p => ({ text: (p?.text || '').slice(0, 2000) }))
+              : [],
+          }))
+        : [];
 
       const contents = [
         ...safeHistory,
-        { role: 'user', parts: [{ text: dto.message.slice(0, 2000) }] },
+        { role: 'user', parts: [{ text: (dto.message || '').slice(0, 2000) }] },
       ];
 
       const response = await ai.models.generateContent({
@@ -238,22 +242,28 @@ export class AiService {
         contents,
       });
 
-      const candidate = response.candidates?.[0];
+      const candidates = Array.isArray(response.candidates) ? response.candidates : [];
+      const candidate = candidates[0];
       const grounding = candidate?.groundingMetadata;
-      const webQueries = grounding?.webSearchQueries || [];
-      const chunks = grounding?.groundingChunks || [];
+      const webQueries = Array.isArray(grounding?.webSearchQueries)
+        ? grounding.webSearchQueries
+        : [];
+      const chunks = Array.isArray(grounding?.groundingChunks)
+        ? grounding.groundingChunks
+        : [];
 
-      const searchUsed = webQueries.length > 0 || chunks.some(c => Boolean(c.web?.uri));
+      const searchUsed = webQueries.length > 0 || chunks.some(c => Boolean(c?.web?.uri));
 
       const sources: Array<{ title: string; url: string }> = [];
       const seenUrls = new Set<string>();
 
       for (const chunk of chunks) {
-        if (chunk.web?.uri && !seenUrls.has(chunk.web.uri)) {
-          seenUrls.add(chunk.web.uri);
+        const uri = chunk?.web?.uri;
+        if (uri && !seenUrls.has(uri)) {
+          seenUrls.add(uri);
           sources.push({
-            title: chunk.web.title || chunk.web.uri,
-            url: chunk.web.uri,
+            title: chunk?.web?.title || uri,
+            url: uri,
           });
           if (sources.length >= 3) break;
         }
