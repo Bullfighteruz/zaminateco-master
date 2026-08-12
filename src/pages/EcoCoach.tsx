@@ -290,8 +290,11 @@ export default function EcoCoach() {
 
     try {
       const history = messages
-        .filter(m => m.id !== 'welcome' && typeof m.text === 'string' && m.text.trim().length > 0)
-        .map(m => ({ role: m.role, parts: [{ text: typeof m.text === 'string' ? m.text : String(m.text || '') }] }));
+        .filter(m => m.id !== 'welcome' && m.id !== userMessage.id && typeof m.text === 'string' && m.text.trim().length > 0)
+        .map(m => ({
+          role: m.role === 'user' ? 'user' : 'model',
+          parts: [{ text: typeof m.text === 'string' ? m.text : String(m.text || '') }]
+        }));
 
       const progress = loadUserProgress();
       const userInfo = progress ? {

@@ -228,18 +228,42 @@ export class AiService {
         systemInstruction += `\n\nOPTIONAL USER CONTEXT (use ONLY if query directly asks about user profile/progress): Name: ${displayName || 'User'}, Coins: ${coins || 0}, Points: ${points || 0}, Level: ${level || 1}, Location: ${location || 'Uzbekistan'}, School: ${school || 'General'}`;
       }
 
-      const safeHistory = Array.isArray(dto.history)
-        ? dto.history.slice(-20).map(h => ({
-            role: h?.role === 'user' ? 'user' : 'model',
-            parts: Array.isArray(h?.parts)
-              ? h.parts.map(p => ({ text: (p?.text || '').slice(0, 2000) }))
-              : [],
-          }))
+      const currentMsgText = (dto.message || '').trim();
+
+      let safeHistory = Array.isArray(dto.history)
+        ? dto.history
+            .map(h => ({
+              role: h?.role === 'user' ? 'user' : 'model',
+              parts: Array.isArray(h?.parts)
+                ? h.parts
+                    .filter(p => p && typeof p.text === 'string' && p.text.trim().length > 0)
+                    .map(p => ({ text: p.text.slice(0, 2000) }))
+                : [],
+            }))
+            .filter(h => h.parts.length > 0)
         : [];
+
+      // Exclude duplicate of current message from history tail if present
+      if (safeHistory.length > 0 && currentMsgText) {
+        const lastTurn = safeHistory[safeHistory.length - 1];
+        if (lastTurn.role === 'user' && lastTurn.parts[0]?.text?.trim() === currentMsgText) {
+          safeHistory = safeHistory.slice(0, -1);
+        }
+      }
+
+      // Bound history window to last 20 turns
+      if (safeHistory.length > 20) {
+        safeHistory = safeHistory.slice(-20);
+      }
+
+      // Gemini multi-turn requirements: history must start with a 'user' turn
+      if (safeHistory.length > 0 && safeHistory[0].role === 'model') {
+        safeHistory = safeHistory.slice(1);
+      }
 
       const contents = [
         ...safeHistory,
-        { role: 'user', parts: [{ text: (dto.message || '').slice(0, 2000) }] },
+        { role: 'user', parts: [{ text: currentMsgText.slice(0, 2000) }] },
       ];
 
       const response = await ai.models.generateContent({
