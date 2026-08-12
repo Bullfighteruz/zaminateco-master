@@ -11,17 +11,8 @@ import { getAvatarImage } from '@/lib/avatarImages';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
+import { useZamiConversation, Message } from '@/contexts/ZamiConversationContext';
 
-interface Message {
-  id: string;
-  role: 'user' | 'model';
-  text: string;
-  timestamp: string;
-  searchUsed?: boolean;
-  sources?: Array<{ title: string; url: string }>;
-}
-
-const COACH_STORAGE_KEY = 'zami_bot_chat';
 const BOT_AVATAR = '/images/ai-screens/Zami-bot-avatar.avif';
 
 // ── Markdown renderer ──────────────────────────────────────────────
@@ -92,33 +83,35 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
 
     if (trimmed === '---') {
       flushList();
-      elements.push(<hr key={`hr-${lineIdx}`} className={cn("my-3", hrColor)} />);
+      elements.push(<hr key={`hr-${lineIdx}`} className={cn("my-2", hrColor)} />);
+      return;
+    }
+
+    if (trimmed.startsWith('#### ')) {
+      flushList();
+      elements.push(
+        <h4 key={`h4-${lineIdx}`} className={cn("font-bold text-sm mt-3 mb-1 text-left", h4Color)}>
+          {renderInline(trimmed.slice(5), lineIdx)}
+        </h4>
+      );
       return;
     }
 
     if (trimmed.startsWith('### ')) {
       flushList();
       elements.push(
-        <h4 key={`h-${lineIdx}`} className={cn("text-xs font-black mt-3 mb-1.5 tracking-wider uppercase", h4Color)}>
+        <h3 key={`h3-${lineIdx}`} className={cn("font-bold text-sm mt-3 mb-1 text-left", h3Color)}>
           {renderInline(trimmed.slice(4), lineIdx)}
-        </h4>
-      );
-      return;
-    }
-    if (trimmed.startsWith('## ')) {
-      flushList();
-      elements.push(
-        <h3 key={`h-${lineIdx}`} className={cn("text-sm font-black mt-4 mb-2 tracking-wide", h3Color)}>
-          {renderInline(trimmed.slice(3), lineIdx)}
         </h3>
       );
       return;
     }
-    if (trimmed.startsWith('# ')) {
+
+    if (trimmed.startsWith('## ')) {
       flushList();
       elements.push(
-        <h2 key={`h-${lineIdx}`} className={cn("text-base font-black mt-4 mb-2 tracking-wide", h2Color)}>
-          {renderInline(trimmed.slice(2), lineIdx)}
+        <h2 key={`h2-${lineIdx}`} className={cn("font-bold text-base mt-3 mb-1 text-left", h2Color)}>
+          {renderInline(trimmed.slice(3), lineIdx)}
         </h2>
       );
       return;
@@ -175,40 +168,16 @@ function formatTime(isoString?: string): string {
   }
 }
 
-// ── Persistence ────────────────────────────────────────────────────
-function loadCoachMessages(): Message[] | null {
-  try {
-    const stored = localStorage.getItem(COACH_STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed.map(m => ({
-          ...m,
-          text: typeof m.text === 'string'
-            ? m.text
-            : (m.text && typeof m.text === 'object' && typeof (m.text as any).text === 'string' ? (m.text as any).text : String(m.text || '')),
-          timestamp: m.timestamp && !isNaN(new Date(m.timestamp).getTime())
-            ? m.timestamp
-            : new Date().toISOString()
-        }));
-      }
-    }
-  } catch { /* ignore */ }
-  return null;
-}
-
-function saveCoachMessages(messages: Message[]) {
-  try {
-    localStorage.setItem(COACH_STORAGE_KEY, JSON.stringify(messages.slice(-50)));
-  } catch { /* localStorage full */ }
-}
-
 // ── Component ──────────────────────────────────────────────────────
 export default function EcoCoach() {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
+  const { messages, isTyping, sendMessage, clearConversation } = useZamiConversation();
   
   const [userProgress, setUserProgress] = useState(() => loadUserProgress());
+  const [inputText, setInputText] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Listen to local progress updates
   useEffect(() => {
@@ -218,28 +187,6 @@ export default function EcoCoach() {
     window.addEventListener('userProgressUpdated', handleUpdate);
     return () => window.removeEventListener('userProgressUpdated', handleUpdate);
   }, []);
-
-  const getWelcomeText = (lang: string) =>
-    lang === 'uz'
-      ? "Salom! Men Zami Bot yordamchisiman. Chiqindilarni saralash, qayta ishlash, yaqin atrofdagi EcoPointlarni topish va eko-loyihalarimiz haqida savolingiz bo'lsa, yozib qoldiring!"
-      : lang === 'ru'
-      ? "Привет! Я помощник Zami Bot. Задайте любой вопрос о сортировке отходов, переработке, поиске ближайших EcoPoints или о наших эко-проектах!"
-      : "Hello! I'm Zami Bot. Ask me anything about waste sorting, recycling, finding nearby EcoPoints, or our eco-projects!";
-
-  const [messages, setMessages] = useState<Message[]>(() => {
-    const saved = loadCoachMessages();
-    if (saved) return saved;
-    return [{
-      id: 'welcome',
-      role: 'model',
-      text: getWelcomeText(i18n.language),
-      timestamp: new Date().toISOString()
-    }];
-  });
-  const [inputText, setInputText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const suggestions = useMemo(() => {
     if (i18n.language === 'uz') return [
@@ -262,82 +209,19 @@ export default function EcoCoach() {
     ];
   }, [i18n.language]);
 
-  useEffect(() => { saveCoachMessages(messages); }, [messages]);
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  useEffect(() => {
-    setMessages(prev => prev.map(m =>
-      m.id === 'welcome' ? { ...m, text: getWelcomeText(i18n.language) } : m
-    ));
-  }, [i18n.language]);
-
   const handleSendMessage = async (textToSend: string) => {
     if (!textToSend.trim()) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      text: textToSend,
-      timestamp: new Date().toISOString()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
     setInputText('');
-    setIsTyping(true);
-
-    try {
-      const history = messages
-        .filter(m => m.id !== 'welcome' && m.id !== userMessage.id && typeof m.text === 'string' && m.text.trim().length > 0)
-        .map(m => ({
-          role: m.role === 'user' ? 'user' : 'model',
-          parts: [{ text: typeof m.text === 'string' ? m.text : String(m.text || '') }]
-        }));
-
-      const progress = loadUserProgress();
-      const userInfo = progress ? {
-        displayName: progress.name,
-        coins: progress.ecoCoins,
-        points: progress.ecoPoints,
-        level: progress.level,
-        location: "Uzbekistan",
-        school: "School #45, Chilonzor District",
-      } : undefined;
-
-      const botResponse = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
-      const responseText = typeof botResponse?.text === 'string' ? botResponse.text : String(botResponse?.text || '');
-
-      setMessages(prev => [...prev, {
-        id: (Date.now() + 1).toString(),
-        role: 'model',
-        text: responseText,
-        searchUsed: Boolean(botResponse?.searchUsed),
-        sources: Array.isArray(botResponse?.sources) ? botResponse.sources : [],
-        timestamp: new Date().toISOString()
-      }]);
-    } catch {
-      toast.error("Failed to get response");
-    } finally {
-      setIsTyping(false);
-      inputRef.current?.focus();
-    }
+    await sendMessage(textToSend);
+    inputRef.current?.focus();
   };
 
   const clearChat = () => {
-    const freshMessages: Message[] = [{
-      id: 'welcome',
-      role: 'model',
-      text: i18n.language === 'uz'
-        ? "Chat tozalandi. Sizga yana qanday yordam bera olaman?"
-        : i18n.language === 'ru'
-        ? "История очищена. Чем я могу ещё помочь?"
-        : "Chat cleared. How else can I assist you today?",
-      timestamp: new Date().toISOString()
-    }];
-    setMessages(freshMessages);
-    saveCoachMessages(freshMessages);
+    clearConversation();
   };
 
   const formatTime = (ts: string) => {

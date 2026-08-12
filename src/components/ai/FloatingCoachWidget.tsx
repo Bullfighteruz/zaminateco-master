@@ -4,23 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { X, Send, Trash2, ArrowRight, Globe, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { getEcoCoachResponse } from '@/lib/gemini';
-import { loadUserProgress } from '@/lib/userProgress';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { UzbekPattern } from '@/components/EcoIcons';
-
-interface Message {
-  id: string;
-  role: 'user' | 'model';
-  text: string;
-  searchUsed?: boolean;
-  sources?: Array<{ title: string; url: string }>;
-}
-
-const STORAGE_KEY = 'zami_bot_chat';
+import { useZamiConversation, Message } from '@/contexts/ZamiConversationContext';
 
 /** Parse simple markdown (bold, bullet points, headers, lists) into React elements */
 function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {
@@ -90,33 +79,35 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
 
     if (trimmed === '---') {
       flushList();
-      elements.push(<hr key={`hr-${lineIdx}`} className={cn("my-3", hrColor)} />);
+      elements.push(<hr key={`hr-${lineIdx}`} className={cn("my-2", hrColor)} />);
+      return;
+    }
+
+    if (trimmed.startsWith('#### ')) {
+      flushList();
+      elements.push(
+        <h4 key={`h4-${lineIdx}`} className={cn("font-bold text-xs uppercase tracking-wider mt-2 mb-1 text-left", h4Color)}>
+          {renderInline(trimmed.slice(5), lineIdx)}
+        </h4>
+      );
       return;
     }
 
     if (trimmed.startsWith('### ')) {
       flushList();
       elements.push(
-        <h4 key={`h-${lineIdx}`} className={cn("text-xs font-black mt-3 mb-1.5 tracking-wider uppercase", h4Color)}>
+        <h3 key={`h3-${lineIdx}`} className={cn("font-bold text-xs uppercase tracking-wider mt-2 mb-1 text-left", h3Color)}>
           {renderInline(trimmed.slice(4), lineIdx)}
-        </h4>
-      );
-      return;
-    }
-    if (trimmed.startsWith('## ')) {
-      flushList();
-      elements.push(
-        <h3 key={`h-${lineIdx}`} className={cn("text-sm font-black mt-4 mb-2 tracking-wide", h3Color)}>
-          {renderInline(trimmed.slice(3), lineIdx)}
         </h3>
       );
       return;
     }
-    if (trimmed.startsWith('# ')) {
+
+    if (trimmed.startsWith('## ')) {
       flushList();
       elements.push(
-        <h2 key={`h-${lineIdx}`} className={cn("text-base font-black mt-4 mb-2 tracking-wide", h2Color)}>
-          {renderInline(trimmed.slice(2), lineIdx)}
+        <h2 key={`h2-${lineIdx}`} className={cn("font-bold text-sm mt-2 mb-1 text-left", h2Color)}>
+          {renderInline(trimmed.slice(3), lineIdx)}
         </h2>
       );
       return;
@@ -146,7 +137,7 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
 
     if (!trimmed) {
       flushList();
-      elements.push(<div key={`sp-${lineIdx}`} className="h-2" />);
+      elements.push(<div key={`sp-${lineIdx}`} className="h-1.5" />);
       return;
     }
 
@@ -162,52 +153,21 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
   return elements;
 }
 
-function loadMessages(): Message[] | null {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
-      }
-    }
-  } catch {
-    // ignore parse errors
-  }
-  return null;
-}
-
-function saveMessages(messages: Message[]) {
-  try {
-    // Save only the last 50 messages to keep localStorage lean
-    const toSave = messages.slice(-50);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-  } catch {
-    // localStorage full or unavailable
-  }
-}
-
-function getWelcomeText(lang: string): string {
-  return lang === 'uz'
-    ? "Salom! Men Zami Bot yordamchisiman. Sizga qayta ishlash yoki platforma bo'yicha qanday yordam bera olaman?"
-    : lang === 'ru'
-    ? "Привет! Я помощник Zami Bot. Чем могу помочь вам по сортировке или работе платформы?"
-    : "Hello! I'm Zami Bot. How can I help you today with sorting or recycling?";
-}
-
 export default function FloatingCoachWidget() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const { messages, isTyping, sendMessage, clearConversation } = useZamiConversation();
+
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const [ctaIndex, setCtaIndex] = useState(0);
   const [showCta, setShowCta] = useState(true);
   const ctaCycleCount = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
   const navVisible = useScrollDirection(isMobile ? 40 : 25);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const ctaMessages: Record<string, string[]> = useMemo(() => ({
     en: [
@@ -250,100 +210,21 @@ export default function FloatingCoachWidget() {
     return () => clearInterval(interval);
   }, [isOpen, showCta, i18n.language, ctaMessages]);
 
-  const defaultMessages: Message[] = useMemo(() => [{
-    id: 'welcome',
-    role: 'model' as const,
-    text: getWelcomeText(i18n.language)
-  }], []);
-
-  const [messages, setMessages] = useState<Message[]>(() => {
-    return loadMessages() || defaultMessages;
-  });
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Save messages to localStorage whenever they change
-  useEffect(() => {
-    saveMessages(messages);
-  }, [messages]);
-
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [isOpen, messages, isTyping]);
 
-  // Update welcome message text when language changes
-  useEffect(() => {
-    setMessages(prev => prev.map(m => {
-      if (m.id === 'welcome') {
-        return { ...m, text: getWelcomeText(i18n.language) };
-      }
-      return m;
-    }));
-  }, [i18n.language]);
-
   const handleSendMessage = async (textToSend: string) => {
     if (!textToSend.trim()) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      text: textToSend
-    };
-
-    setMessages(prev => [...prev, userMessage]);
     setInputText('');
-    setIsTyping(true);
-    // Re-focus the input after sending — prevents iOS keyboard from dismissing
-    // Use a microtask delay so React has re-rendered first
     setTimeout(() => inputRef.current?.focus(), 50);
-
-    try {
-      const history = messages
-        .filter(m => m.id !== 'welcome' && m.id !== userMessage.id && typeof m.text === 'string' && m.text.trim().length > 0)
-        .map(m => ({
-          role: m.role === 'user' ? 'user' : 'model',
-          parts: [{ text: typeof m.text === 'string' ? m.text : String(m.text || '') }]
-        }));
-
-      const progress = loadUserProgress();
-      const userInfo = progress ? {
-        displayName: progress.name,
-        coins: progress.ecoCoins,
-        points: progress.ecoPoints,
-        level: progress.level,
-        location: "Uzbekistan",
-        school: "School #45, Chilonzor District",
-      } : undefined;
-
-      const reply = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
-      const responseText = typeof reply?.text === 'string' ? reply.text : String(reply?.text || '');
-
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'model',
-        text: responseText,
-        searchUsed: Boolean(reply?.searchUsed),
-        sources: Array.isArray(reply?.sources) ? reply.sources : [],
-      };
-
-      setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
-      if (import.meta.env.DEV) console.error(error);
-    } finally {
-      setIsTyping(false);
-    }
+    await sendMessage(textToSend);
   };
 
   const clearChat = () => {
-    const freshMessages = [{
-      id: 'welcome',
-      role: 'model' as const,
-      text: getWelcomeText(i18n.language)
-    }];
-    setMessages(freshMessages);
-    saveMessages(freshMessages);
+    clearConversation();
   };
 
   // Don't show this widget on full-screen / scanner / pitch pages
