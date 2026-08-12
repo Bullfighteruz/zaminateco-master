@@ -22,6 +22,30 @@ jest.mock('@google/genai', () => {
             }
 
             if (params.model === AI_CHAT_MODEL) {
+              if (paramStr.includes('NO_METADATA_TEST')) {
+                return {
+                  text: 'Response with candidate but no groundingMetadata.',
+                  candidates: [{ groundingMetadata: undefined }],
+                };
+              }
+              if (paramStr.includes('NO_CHUNKS_TEST')) {
+                return {
+                  text: 'Response with metadata but undefined groundingChunks.',
+                  candidates: [{ groundingMetadata: { webSearchQueries: ['test query'] } }],
+                };
+              }
+              if (paramStr.includes('NO_QUERIES_TEST')) {
+                return {
+                  text: 'Response with metadata but undefined webSearchQueries.',
+                  candidates: [{ groundingMetadata: { groundingChunks: [{ web: { uri: 'https://example.com', title: 'Example' } }] } }],
+                };
+              }
+              if (paramStr.includes('EMPTY_CHUNKS_TEST')) {
+                return {
+                  text: 'Response with empty groundingChunks.',
+                  candidates: [{ groundingMetadata: { groundingChunks: [] } }],
+                };
+              }
               const isGroundingTest = paramStr.includes('GROUNDING_TEST');
               return {
                 text: 'Sorting plastic bottles reduces landfill waste.',
@@ -96,6 +120,55 @@ describe('AiService & ScanDto Payload Unit Tests', () => {
     expect(result.sources).toEqual([
       { title: 'Air Quality Tashkent', url: 'https://iqair.com/uzbekistan/tashkent' }
     ]);
+  });
+
+  it('should succeed when Gemini candidate has NO groundingMetadata', async () => {
+    const result = await service.chatCoach({ message: 'NO_METADATA_TEST query', lang: 'en' });
+    expect(result.response).toContain('no groundingMetadata');
+    expect(result.searchUsed).toBe(false);
+    expect(result.sources).toEqual([]);
+  });
+
+  it('should succeed when groundingMetadata exists but groundingChunks is undefined', async () => {
+    const result = await service.chatCoach({ message: 'NO_CHUNKS_TEST query', lang: 'en' });
+    expect(result.response).toContain('undefined groundingChunks');
+    expect(result.searchUsed).toBe(true);
+    expect(result.sources).toEqual([]);
+  });
+
+  it('should succeed when groundingMetadata exists but webSearchQueries is undefined', async () => {
+    const result = await service.chatCoach({ message: 'NO_QUERIES_TEST query', lang: 'en' });
+    expect(result.response).toContain('undefined webSearchQueries');
+    expect(result.searchUsed).toBe(true);
+    expect(result.sources).toEqual([{ title: 'Example', url: 'https://example.com' }]);
+  });
+
+  it('should succeed when groundingChunks is empty array', async () => {
+    const result = await service.chatCoach({ message: 'EMPTY_CHUNKS_TEST query', lang: 'en' });
+    expect(result.response).toContain('empty groundingChunks');
+    expect(result.searchUsed).toBe(false);
+    expect(result.sources).toEqual([]);
+  });
+
+  it('should respond concisely to simple greeting hey without exception', async () => {
+    const result = await service.chatCoach({ message: 'hey', lang: 'en' });
+    expect(result).toHaveProperty('response');
+    expect(result.searchUsed).toBe(false);
+  });
+
+  it('should respond to stable query Что такое PET? without exception', async () => {
+    const result = await service.chatCoach({ message: 'Что такое PET?', lang: 'ru' });
+    expect(result).toHaveProperty('response');
+    expect(result.searchUsed).toBe(false);
+  });
+
+  it('should handle history entries with undefined parts without exception', async () => {
+    const result = await service.chatCoach({
+      message: 'Hello after bad history',
+      lang: 'en',
+      history: [{ role: 'user' } as any, { role: 'model', parts: undefined } as any]
+    });
+    expect(result).toHaveProperty('response');
   });
 
   it('should process private telemetry data boundary request cleanly', async () => {
