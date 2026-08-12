@@ -349,7 +349,7 @@ export default function EcoCoach() {
                       ) : (
                         <div className="h-full w-full bg-emerald-50 border border-emerald-100 flex items-center justify-center rounded-full">
                           <span className="text-[10px] font-bold text-emerald-600">
-                            {(userProgress?.name || user?.firstName || 'U').charAt(0).toUpperCase()}
+                            {(userProgress?.name || (user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : null) || user?.email || 'U').charAt(0).toUpperCase()}
                           </span>
                         </div>
                       )}
