@@ -8,6 +8,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import { CartProvider } from './contexts/CartContext';
+import { ZamiConversationProvider } from './contexts/ZamiConversationContext';
 import LightweightLoader from './components/LightweightLoader';
 import WelcomeModal from './components/WelcomeModal';
 import FloatingCoachWidget from './components/ai/FloatingCoachWidget';
@@ -52,42 +53,44 @@ const App = () => (
     <TooltipProvider>
       <ErrorBoundary>
         <CartProvider>
-          <Toaster />
-          <BrowserRouter
-            future={{
-              v7_startTransition: true,
-              v7_relativeSplatPath: true,
-            }}
-          >
+          <ZamiConversationProvider>
+            <Toaster />
+            <BrowserRouter
+              future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+              }}
+            >
               <RouterErrorBoundary>
-              <ScrollManager />
-              <WelcomeModal />
-              <FloatingCoachWidget />
-              <Suspense fallback={<LightweightLoader />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/vote" element={<EcoVote />} />
-                  <Route path="/actions" element={<EcoActions />} />
-                  <Route path="/shop" element={<Shop />} />
-                  <Route path="/shop-legacy" element={<SocialMissionShop />} />
-                  <Route path="/stories" element={<EcoStories />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/partners" element={<Partners />} />
-                  <Route path="/team" element={<Team />} />
-                  <Route path="/contacts" element={<Contacts />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/pitch" element={<Pitch />} />
-                  <Route path="/pitch-live" element={<PitchLive />} />
-                  <Route path="/scanner" element={<Scanner />} />
-                  <Route path="/coach" element={<EcoCoach />} />
-                  <Route path="/planner" element={<ProductionPlanner />} />
-                  <Route path="/analytics" element={<Analytics />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </RouterErrorBoundary>
-          </BrowserRouter>
+                <ScrollManager />
+                <WelcomeModal />
+                <FloatingCoachWidget />
+                <Suspense fallback={<LightweightLoader />}>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/vote" element={<EcoVote />} />
+                    <Route path="/actions" element={<EcoActions />} />
+                    <Route path="/shop" element={<Shop />} />
+                    <Route path="/shop-legacy" element={<SocialMissionShop />} />
+                    <Route path="/stories" element={<EcoStories />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/partners" element={<Partners />} />
+                    <Route path="/team" element={<Team />} />
+                    <Route path="/contacts" element={<Contacts />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/pitch" element={<Pitch />} />
+                    <Route path="/pitch-live" element={<PitchLive />} />
+                    <Route path="/scanner" element={<Scanner />} />
+                    <Route path="/coach" element={<EcoCoach />} />
+                    <Route path="/planner" element={<ProductionPlanner />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+              </RouterErrorBoundary>
+            </BrowserRouter>
+          </ZamiConversationProvider>
         </CartProvider>
       </ErrorBoundary>
     </TooltipProvider>
