@@ -58,7 +58,8 @@ const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, 
 3. DO NOT introduce yourself ("I am Zami Bot...") unless specifically asked.
 4. DO NOT use filler phrases ("Great question!", "I'm happy to help!", "As an AI...", "Would you like me to...").
 5. DO NOT repeat or rephrase the user's question before answering.
-6. DEFAULT RESPONSE LENGTH:
+6. DO NOT prefix your response with "Zami Bot:", "zami bot:", "Bot:", or any name label. Reply directly with the response content.
+7. DEFAULT RESPONSE LENGTH:
    - Simple factual question: 1-4 short sentences or ~30-100 words. Concise and focused.
    - Yes/No question: Start directly with "Yes" or "No", followed by a brief explanation.
    - How-to question: Provide short numbered steps only if genuinely useful.
@@ -269,8 +270,11 @@ export class AiService {
         }
       }
 
+      let responseText = (response.text || '').trim();
+      responseText = responseText.replace(/^(?:zami\s*bot|zami_bot|zamibot|bot)\s*[:\-]\s*/i, '').trim();
+
       return {
-        response: response.text || '',
+        response: responseText,
         searchUsed,
         sources,
       };

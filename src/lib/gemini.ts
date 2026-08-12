@@ -245,8 +245,11 @@ export async function getEcoCoachResponse(
   }
 
   const data = await res.json();
+  let text = (data.response || data.message || "Response generated.").trim();
+  text = text.replace(/^(?:zami\s*bot|zami_bot|zamibot|bot)\s*[:\-]\s*/i, '').trim();
+
   return {
-    text: data.response || data.message || "Zami Bot: Response generated.",
+    text,
     searchUsed: Boolean(data.searchUsed),
     sources: Array.isArray(data.sources) ? data.sources : [],
   };
