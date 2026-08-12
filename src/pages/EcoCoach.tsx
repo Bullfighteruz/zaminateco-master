@@ -26,7 +26,8 @@ const BOT_AVATAR = '/images/ai-screens/Zami-bot-avatar.avif';
 
 // ── Markdown renderer ──────────────────────────────────────────────
 function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {
-  const lines = text.split('\n');
+  const safeText = typeof text === 'string' ? text : String(text || '');
+  const lines = safeText.split('\n');
   const elements: React.ReactNode[] = [];
   let listItems: React.ReactNode[] = [];
 
@@ -56,8 +57,9 @@ function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.R
   };
 
   const renderInline = (content: string, lineIdx: number): React.ReactNode[] => {
+    const safeContent = typeof content === 'string' ? content : String(content || '');
     const regex = /(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g;
-    const parts = content.split(regex);
+    const parts = safeContent.split(regex);
     
     return parts.map((part, i) => {
       if (part.startsWith('***') && part.endsWith('***')) {
@@ -274,8 +276,8 @@ export default function EcoCoach() {
 
     try {
       const history = messages
-        .filter(m => m.id !== 'welcome')
-        .map(m => ({ role: m.role, parts: [{ text: m.text }] }));
+        .filter(m => m.id !== 'welcome' && typeof m.text === 'string' && m.text.trim().length > 0)
+        .map(m => ({ role: m.role, parts: [{ text: typeof m.text === 'string' ? m.text : String(m.text || '') }] }));
 
       const progress = loadUserProgress();
       const userInfo = progress ? {
@@ -288,13 +290,14 @@ export default function EcoCoach() {
       } : undefined;
 
       const botResponse = await getEcoCoachResponse(textToSend, history, i18n.language, userInfo);
-      
+      const responseText = typeof botResponse?.text === 'string' ? botResponse.text : String(botResponse?.text || '');
+
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: botResponse.text,
-        searchUsed: botResponse.searchUsed,
-        sources: botResponse.sources,
+        text: responseText,
+        searchUsed: Boolean(botResponse?.searchUsed),
+        sources: Array.isArray(botResponse?.sources) ? botResponse.sources : [],
         timestamp: new Date().toISOString()
       }]);
     } catch {
