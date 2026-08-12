@@ -98,6 +98,17 @@ describe('AiService & ScanDto Payload Unit Tests', () => {
     ]);
   });
 
+  it('should process private telemetry data boundary request cleanly', async () => {
+    const result = await service.chatCoach({ message: 'what is the current latency of ZAMINAT Kids production backend?', lang: 'en' });
+    expect(result).toHaveProperty('response');
+    expect(result).toHaveProperty('searchUsed');
+  });
+
+  it('should process user challenge prompt cleanly', async () => {
+    const result = await service.chatCoach({ message: 'where you get that info? you are liar', lang: 'en' });
+    expect(result).toHaveProperty('response');
+  });
+
   it('should process scanWaste successfully', async () => {
     const result = await service.scanWaste({ imageBase64: 'data:image/jpeg;base64,dummy', lang: 'en' });
     expect(result).toHaveProperty('items');
