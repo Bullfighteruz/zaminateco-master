@@ -8,6 +8,7 @@ WORKDIR /app
 # Copy package descriptors
 COPY package*.json ./
 COPY tsconfig*.json ./
+COPY prisma ./prisma
 
 # Install dependencies including devDependencies for ts-node / typescript
 RUN npm ci
