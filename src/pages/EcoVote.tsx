@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Vote, 
-  Heart, 
-  MapPin, 
-  Calendar, 
-  Users, 
-  DollarSign, 
+import {
+  Vote,
+  Heart,
+  MapPin,
+  Calendar,
+  Users,
+  DollarSign,
   Trophy,
   Target,
   CheckCircle,
@@ -43,6 +43,8 @@ import { toast } from 'sonner';
 import DonationDialog from '../components/DonationDialog';
 import { apiClient, IS_BACKEND_AVAILABLE } from '../lib/api-client';
 import AnimatedCounter from '../components/AnimatedCounter';
+import { useSEO } from '../hooks/useSEO';
+import { useHreflang } from '../hooks/useHreflang';
 
 // Types for completed projects
 interface TimelineItem {
@@ -167,11 +169,11 @@ const pulseVariants = {
 
 interface CompletedProjectCardProps {
   project: CompletedProject;
-  setLightboxImage: React.Dispatch<React.SetStateAction<{ 
-    src: string; 
-    title: string; 
-    images?: string[]; 
-    activeIndex?: number; 
+  setLightboxImage: React.Dispatch<React.SetStateAction<{
+    src: string;
+    title: string;
+    images?: string[];
+    activeIndex?: number;
   } | null>>;
 }
 
@@ -192,26 +194,26 @@ const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCar
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
             {/* Left Column: Premium Interactive Before/After Image */}
             <div className="md:col-span-4 w-full">
-              <div 
+              <div
                 className="relative aspect-video md:aspect-square w-full rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200/40 cursor-pointer group"
                 onClick={() => {
                   const currentSrc = activeImageTab === 'after' ? project.image : project.beforeAfter.before;
                   const activeIndex = project.gallery.indexOf(currentSrc);
-                  setLightboxImage({ 
-                    src: currentSrc, 
+                  setLightboxImage({
+                    src: currentSrc,
                     title: `${project.title} (${activeImageTab === 'after' ? t('translation:after', { defaultValue: 'After' }) : t('translation:before', { defaultValue: 'Before' })})`,
                     images: project.gallery,
                     activeIndex: activeIndex !== -1 ? activeIndex : 0
                   });
                 }}
               >
-                <img 
-                  src={activeImageTab === 'after' ? project.image : project.beforeAfter.before} 
-                  alt={project.title} 
+                <img
+                  src={activeImageTab === 'after' ? project.image : project.beforeAfter.before}
+                  alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />
-                
+
                 {/* Micro Camera Indicator overlay */}
                 <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Camera className="w-4 h-4" />
@@ -219,21 +221,21 @@ const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCar
 
                 {/* Before/After Toggle Pill */}
                 <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md p-0.5 rounded-full flex gap-0.5 shadow-sm border border-slate-200/50">
-                  <button 
+                  <button
                     onClick={(e) => { e.stopPropagation(); setActiveImageTab('before'); }}
                     className={`px-3 py-1 rounded-full text-[10px] font-extrabold transition-all uppercase tracking-wider ${
-                      activeImageTab === 'before' 
-                        ? 'bg-slate-800 text-white' 
+                      activeImageTab === 'before'
+                        ? 'bg-slate-800 text-white'
                         : 'text-slate-500 hover:text-slate-800'
                     }`}
                   >
                     {t('translation:before', { defaultValue: 'Before' })}
                   </button>
-                  <button 
+                  <button
                     onClick={(e) => { e.stopPropagation(); setActiveImageTab('after'); }}
                     className={`px-3 py-1 rounded-full text-[10px] font-extrabold transition-all uppercase tracking-wider ${
-                      activeImageTab === 'after' 
-                        ? 'bg-emerald-600 text-white' 
+                      activeImageTab === 'after'
+                        ? 'bg-emerald-600 text-white'
                         : 'text-slate-500 hover:text-emerald-700'
                     }`}
                   >
@@ -256,12 +258,12 @@ const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCar
                     {project.location}
                   </span>
                 </div>
-                
+
                 <h4 className="font-extrabold text-slate-800 text-lg sm:text-xl md:text-2xl mb-2 flex items-center gap-2">
                   <span>{project.title}</span>
                   <Sparkles className="h-4 w-4 text-amber-500 animate-pulse flex-shrink-0" />
                 </h4>
-                
+
                 <p className="text-slate-600 text-sm leading-relaxed mb-4">
                   {project.description}
                 </p>
@@ -297,12 +299,12 @@ const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCar
                 {project.gallery.map((imgSrc, idx) => {
                   const isBefore = imgSrc.includes('before');
                   return (
-                    <motion.div 
+                    <motion.div
                       key={idx}
                       className="w-10 h-10 rounded-xl overflow-hidden border border-slate-200/60 flex-shrink-0 cursor-pointer shadow-sm relative group/thumb"
                       whileHover={{ scale: 1.08 }}
-                      onClick={() => setLightboxImage({ 
-                        src: imgSrc, 
+                      onClick={() => setLightboxImage({
+                        src: imgSrc,
                         title: `${project.title} (${isBefore ? t('translation:before', { defaultValue: 'Before' }) : t('translation:after', { defaultValue: 'After' })})`,
                         images: project.gallery,
                         activeIndex: idx
@@ -407,6 +409,12 @@ const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCar
 
 function EcoVote() {
   const { t } = useTranslation();
+  useSEO({
+    title: t('voteTitle', { defaultValue: 'EcoVote — Community Action' }),
+    description: t('voteSubtitle', { defaultValue: 'Vote for environmental initiatives and allocate community resources for impactful ecological projects.' }),
+  });
+  useHreflang();
+
   const [activeTab, setActiveTab] = useState('active');
   const [selectedProject, setSelectedProject] = useState<VotingProject | null>(null);
   const [isPlaying, setIsPlaying] = useState<Record<string, boolean>>({});
@@ -414,11 +422,11 @@ function EcoVote() {
   const [selectedProjectForDonation, setSelectedProjectForDonation] = useState<VotingProject | null>(null);
   const [projects, setProjects] = useState<VotingProject[]>(votingProjects);
   const [loading, setLoading] = useState(true);
-  const [lightboxImage, setLightboxImage] = useState<{ 
-    src: string; 
-    title: string; 
-    images?: string[]; 
-    activeIndex?: number; 
+  const [lightboxImage, setLightboxImage] = useState<{
+    src: string;
+    title: string;
+    images?: string[];
+    activeIndex?: number;
   } | null>(null);
   const backendNoticeShownRef = useRef(false);
 
@@ -426,12 +434,12 @@ function EcoVote() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!lightboxImage || !lightboxImage.images || lightboxImage.activeIndex === undefined) return;
-      
+
       if (e.key === 'ArrowLeft') {
         const newIndex = (lightboxImage.activeIndex - 1 + lightboxImage.images.length) % lightboxImage.images.length;
         const newSrc = lightboxImage.images[newIndex];
         const isBefore = newSrc.includes('before');
-        const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+        const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] +
           (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
         setLightboxImage({
           ...lightboxImage,
@@ -443,7 +451,7 @@ function EcoVote() {
         const newIndex = (lightboxImage.activeIndex + 1) % lightboxImage.images.length;
         const newSrc = lightboxImage.images[newIndex];
         const isBefore = newSrc.includes('before');
-        const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+        const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] +
           (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
         setLightboxImage({
           ...lightboxImage,
@@ -479,7 +487,7 @@ function EcoVote() {
         setLoading(true);
         const status = activeTab === 'active' ? 'ACTIVE' : 'COMPLETED';
         const backendProjects = await apiClient.getProjects(status, 'votes');
-        
+
         if (backendProjects && Array.isArray(backendProjects) && backendProjects.length > 0) {
           // Transform backend data to match frontend format
           const transformedProjects: VotingProject[] = backendProjects.map((p: BackendProject) => ({
@@ -595,7 +603,7 @@ function EcoVote() {
     return projects.map(project => {
       const projectTitle = getTranslatedTitle(project);
       const projectCategory = project.category;
-      
+
       // High-quality WebP image paths for specific project IDs
       let imagePath = project.image;
       if (project.id === '1') {
@@ -605,20 +613,20 @@ function EcoVote() {
       } else if (project.id === '3') {
         imagePath = '/images/kindergarten-garden-path.webp';
       }
-      
+
       // Try to match icon based on title first, then category, then original title
       let iconPath = getIconForProductOrCategory(projectTitle, project.image);
-      
+
       // If title matching didn't work well, try category
       if (iconPath === project.image || !iconPath.startsWith('/images/')) {
         iconPath = getIconForProductOrCategory(projectCategory, project.image);
       }
-      
+
       // If still not found, try original title
       if (iconPath === project.image || !iconPath.startsWith('/images/')) {
         iconPath = getIconForProductOrCategory(project.title, project.image);
       }
-      
+
       return {
         ...project,
         image: imagePath,
@@ -643,7 +651,7 @@ function EcoVote() {
   });
 
   const activeProjects = translatedProjects.filter(p => p.status === 'active');
-  
+
   const completedProjects: CompletedProject[] = [
     {
       id: 'completed-1',
@@ -699,22 +707,23 @@ function EcoVote() {
       views: 8930,
       shares: 156
     }
-  ];  return (
+  ];
+  return (
     <Layout title={t('ecoVote')}>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/15 uzbek-pattern">
         {/* ── Premium Hero Banner ── */}
         <div className="relative overflow-hidden">
           {/* Rich gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900" />
-          
+
           {/* Mesh gradient overlays */}
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/20 rounded-full blur-[120px] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-400/15 rounded-full blur-[100px] pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-600/10 rounded-full blur-[80px] pointer-events-none" />
-          
+
           {/* Subtle pattern overlay */}
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
-          
+
           {/* Floating animated decorative elements */}
           <motion.div
             className="absolute top-8 left-[10%] text-emerald-400/20 pointer-events-none"
@@ -744,7 +753,7 @@ function EcoVote() {
           >
             <Leaf className="h-7 w-7" />
           </motion.div>
-          
+
           {/* Hero Content */}
           <div className="relative z-10 pt-10 pb-16 px-4 sm:px-6 lg:px-8 text-center">
             <div className="max-w-4xl mx-auto">
@@ -764,7 +773,7 @@ function EcoVote() {
                 </span>
               </motion.div>
 
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
@@ -772,7 +781,7 @@ function EcoVote() {
               >
                 {t('democraticVoting')}
               </motion.h1>
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
@@ -780,9 +789,9 @@ function EcoVote() {
               >
                 {t('votingDescription')}
               </motion.p>
-              
+
               {/* Premium Stats Grid */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
@@ -835,7 +844,7 @@ function EcoVote() {
               </motion.div>
             </div>
           </div>
-          
+
           {/* Bottom curved edge */}
           <div className="absolute bottom-0 left-0 right-0">
             <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto" preserveAspectRatio="none">
@@ -847,7 +856,7 @@ function EcoVote() {
 
         <div className="p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto">
           {/* Segmented Tab Toggles */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-center"
@@ -900,19 +909,19 @@ function EcoVote() {
                     >
                       <Card className="glass-card glass-card-hover group/card rounded-3xl overflow-hidden flex flex-col w-full relative">
                         {/* Image banner with overlays */}
-                        <div 
+                        <div
                           className="relative aspect-video w-full overflow-hidden cursor-pointer group"
                           onClick={() => setLightboxImage({ src: project.image, title: project.title })}
                         >
-                          <img 
-                            src={project.image} 
-                            alt={project.title} 
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" 
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
                             loading="lazy"
                           />
                           {/* Gradient overlay */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
-                          
+
                           <div className="absolute top-4 left-4 flex gap-2">
                             <Badge className="bg-white/95 backdrop-blur-md text-emerald-800 border-0 shadow-sm font-semibold uppercase tracking-wider text-[10px]">
                               {project.category}
@@ -921,7 +930,7 @@ function EcoVote() {
                           <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg">
                             #{index + 1}
                           </div>
-                          
+
                           {/* Bottom image stats overlay */}
                           <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                             <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
@@ -944,7 +953,7 @@ function EcoVote() {
                             <h4 className="font-extrabold text-slate-800 text-lg sm:text-xl line-clamp-1">
                               {project.title}
                             </h4>
-                            
+
                             <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
                               {project.description}
                             </p>
@@ -981,8 +990,8 @@ function EcoVote() {
                                     {((project.currentVotes / project.totalVotes) * 100).toFixed(1)}%
                                   </span>
                                 </div>
-                                <Progress 
-                                  value={(project.currentVotes / project.totalVotes) * 100} 
+                                <Progress
+                                  value={(project.currentVotes / project.totalVotes) * 100}
                                   className="h-2 bg-emerald-100/60 rounded-full"
                                 />
                               </div>
@@ -999,8 +1008,8 @@ function EcoVote() {
                                       {formatCurrency(project.donationRaised)} / {formatCurrency(project.donationTarget)}
                                     </span>
                                   </div>
-                                  <Progress 
-                                    value={(project.donationRaised / project.donationTarget) * 100} 
+                                  <Progress
+                                    value={(project.donationRaised / project.donationTarget) * 100}
                                     className="h-2 bg-teal-100/60 rounded-full"
                                   />
                                 </div>
@@ -1021,7 +1030,7 @@ function EcoVote() {
 
                             {/* Action Buttons */}
                             <div className="flex gap-3 pt-2">
-                              <Button 
+                              <Button
                                 className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3.5 shadow-md hover:shadow-lg transition-all duration-300 text-xs sm:text-sm rounded-xl"
                                 onClick={async () => {
                                   if (!IS_BACKEND_AVAILABLE) {
@@ -1064,9 +1073,9 @@ function EcoVote() {
                                 <Vote className="h-4 w-4 mr-1.5" />
                                 {t('voteNow')}
                               </Button>
-                              
-                              <Button 
-                                variant="outline" 
+
+                              <Button
+                                variant="outline"
                                 className="flex-1 border border-emerald-600/30 text-emerald-700 hover:bg-emerald-50/50 font-bold py-3.5 shadow-sm transition-all duration-300 text-xs sm:text-sm rounded-xl"
                                 onClick={() => {
                                   setSelectedProjectForDonation(project);
@@ -1168,25 +1177,25 @@ function EcoVote() {
               {/* Subtle light flares */}
               <div className="absolute top-0 left-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
               <div className="absolute bottom-0 right-0 w-80 h-80 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
-              
+
               <CardContent className="relative z-10 p-8 sm:p-12 text-center flex flex-col items-center justify-center max-w-3xl mx-auto space-y-6">
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shadow-inner">
                   <Vote className="w-6 h-6 text-emerald-400" />
                 </div>
-                
+
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
                   {t('makeVoiceHeard')}
                 </h3>
-                
+
                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                   {t('everyVoteHelps')}
                 </p>
-                
+
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <Button 
+                  <Button
                     className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold text-sm sm:text-base px-8 py-5 sm:py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
                     onClick={() => {
                       setActiveTab('active');
@@ -1218,10 +1227,10 @@ function EcoVote() {
             </DialogDescription>
             <div className="relative w-full h-full max-h-[88vh] flex items-center justify-center p-2 group/lightbox">
               {lightboxImage && (
-                <img 
-                  src={lightboxImage.src} 
-                  alt={lightboxImage.title} 
-                  className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl transition-all duration-300" 
+                <img
+                  src={lightboxImage.src}
+                  alt={lightboxImage.title}
+                  className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl transition-all duration-300"
                 />
               )}
 
@@ -1235,7 +1244,7 @@ function EcoVote() {
                       const newIndex = (lightboxImage.activeIndex! - 1 + lightboxImage.images!.length) % lightboxImage.images!.length;
                       const newSrc = lightboxImage.images![newIndex];
                       const isBefore = newSrc.includes('before');
-                      const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+                      const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] +
                         (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
                       setLightboxImage({
                         ...lightboxImage,
@@ -1257,7 +1266,7 @@ function EcoVote() {
                       const newIndex = (lightboxImage.activeIndex! + 1) % lightboxImage.images!.length;
                       const newSrc = lightboxImage.images![newIndex];
                       const isBefore = newSrc.includes('before');
-                      const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] + 
+                      const newTitle = lightboxImage.title.split(' - ')[0].split(' (')[0] +
                         (isBefore ? ` (${t('before', { defaultValue: 'Before' })})` : ` (${t('after', { defaultValue: 'After' })})`);
                       setLightboxImage({
                         ...lightboxImage,

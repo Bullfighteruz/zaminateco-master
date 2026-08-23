@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/hooks/useAuth';
+import { useSEO } from '@/hooks/useSEO';
 import { apiClient, IS_BACKEND_AVAILABLE } from '@/lib/api-client';
 import { cn } from '@/lib/utils';
 import { 
@@ -236,8 +237,6 @@ const NameChangeSection: React.FC<{ onNameUpdated: () => void; t: TFunction }> =
 };
 
 // ─── AUTH SCREEN FOR SIGN IN / REGISTER ───
-import { Mail } from 'lucide-react'; // ensure mail icon is present
-
 const AuthScreen: React.FC<{ onLoginSuccess: () => void; onSkip?: () => void }> = ({ onLoginSuccess, onSkip }) => {
   const { t } = useTranslation();
   const [authTab, setAuthTab] = useState<'signin' | 'signup'>('signin');
@@ -475,6 +474,13 @@ const AuthScreen: React.FC<{ onLoginSuccess: () => void; onSkip?: () => void }> 
 const Profile: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
+
+  useSEO({
+    title: t('profileTitle', { defaultValue: 'My Profile' }),
+    description: 'Personal eco stats, token balance, and impact dashboard',
+    noindex: true,
+  });
+
   const { user, isAuthenticated, loading: authLoading, logout, login, register, checkAuth } = useAuth();
   
   // Load user progress from localStorage or use default

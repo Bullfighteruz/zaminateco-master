@@ -1,53 +1,49 @@
-import { lazy, Suspense, startTransition } from 'react';
-import { Toaster } from '@/components/ui/sonner';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import ScrollManager from './components/ScrollManager';
-import ErrorBoundary from './components/ErrorBoundary';
-import RouterErrorBoundary from './components/RouterErrorBoundary';
-import ProtectedRoute from './components/ProtectedRoute';
-import { CartProvider } from './contexts/CartContext';
-import { ZamiConversationProvider } from './contexts/ZamiConversationContext';
-import LightweightLoader from './components/LightweightLoader';
-import WelcomeModal from './components/WelcomeModal';
-import FloatingCoachWidget from './components/ai/FloatingCoachWidget';
-import './styles/enhanced-mobile.css';
+import React, { Suspense, lazy } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { CartProvider } from "./contexts/CartContext";
+import { ZamiConversationProvider } from "./contexts/ZamiConversationContext";
+import ErrorBoundary from "./components/ErrorBoundary";
+import RouterErrorBoundary from "./components/RouterErrorBoundary";
+import ScrollToTop from "./components/ScrollToTop";
+import LanguageRouteWrapper from "./components/LanguageRouteWrapper";
+import { SuspenseFallback } from "./components/ui/loading-skeleton";
 
-// Optimized QueryClient with better defaults for performance
+// Lazy load pages for optimal bundle splitting
+const Index = lazy(() => import("./pages/Index"));
+const EcoVote = lazy(() => import("./pages/EcoVote"));
+const EcoActions = lazy(() => import("./pages/EcoActions"));
+const Shop = lazy(() => import("./pages/Shop"));
+const ShopLegacy = lazy(() => import("./pages/SocialMissionShop"));
+const EcoStories = lazy(() => import("./pages/EcoStories"));
+const Profile = lazy(() => import("./pages/Profile"));
+const About = lazy(() => import("./pages/About"));
+const Partners = lazy(() => import("./pages/Partners"));
+const Team = lazy(() => import("./pages/Team"));
+const Contacts = lazy(() => import("./pages/Contacts"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const Pitch = lazy(() => import("./pages/Pitch"));
+const PitchLive = lazy(() => import("./pages/PitchLive"));
+const Scanner = lazy(() => import("./pages/Scanner"));
+const EcoCoach = lazy(() => import("./pages/EcoCoach"));
+const ProductionPlanner = lazy(() => import("./pages/ProductionPlanner"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const Founder = lazy(() => import("./pages/Founder"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime in v4)
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      retry: 1,
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
     },
   },
 });
-
-// Lazy load pages with optimized chunking
-// Using webpack magic comments for better chunk names and prefetching hints
-const Index = lazy(() => import(/* webpackChunkName: "index" */ './pages/Index'));
-const About = lazy(() => import(/* webpackChunkName: "about" */ './pages/About'));
-const EcoVote = lazy(() => import(/* webpackChunkName: "vote" */ './pages/EcoVote'));
-const EcoActions = lazy(() => import(/* webpackChunkName: "actions" */ './pages/EcoActions'));
-const Shop = lazy(() => import(/* webpackChunkName: "shop" */ './pages/Shop'));
-const SocialMissionShop = lazy(() => import(/* webpackChunkName: "shop-legacy" */ './pages/SocialMissionShop'));
-const EcoStories = lazy(() => import(/* webpackChunkName: "stories" */ './pages/EcoStories'));
-const Profile = lazy(() => import(/* webpackChunkName: "profile" */ './pages/Profile'));
-const Partners = lazy(() => import(/* webpackChunkName: "partners" */ './pages/Partners'));
-const Team = lazy(() => import(/* webpackChunkName: "team" */ './pages/Team'));
-const Contacts = lazy(() => import(/* webpackChunkName: "contacts" */ './pages/Contacts'));
-const ProductDetail = lazy(() => import(/* webpackChunkName: "product" */ './pages/ProductDetail'));
-const NotFound = lazy(() => import(/* webpackChunkName: "notfound" */ './pages/NotFound'));
-const Pitch = lazy(() => import(/* webpackChunkName: "pitch" */ './pages/Pitch'));
-const PitchLive = lazy(() => import(/* webpackChunkName: "pitch-live" */ './pages/PitchLive'));
-const Scanner = lazy(() => import(/* webpackChunkName: "scanner" */ './pages/Scanner'));
-const EcoCoach = lazy(() => import(/* webpackChunkName: "coach" */ './pages/EcoCoach'));
-const ProductionPlanner = lazy(() => import(/* webpackChunkName: "planner" */ './pages/ProductionPlanner'));
-const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ './pages/Analytics'));
-const Founder = lazy(() => import(/* webpackChunkName: "founder" */ './pages/Founder'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -56,45 +52,70 @@ const App = () => (
         <CartProvider>
           <ZamiConversationProvider>
             <Toaster />
-            <BrowserRouter
-              future={{
-                v7_startTransition: true,
-                v7_relativeSplatPath: true,
-              }}
-            >
+            <Sonner />
+            <BrowserRouter>
               <RouterErrorBoundary>
-                <ScrollManager />
-                <WelcomeModal />
-                <FloatingCoachWidget />
-                <Suspense fallback={<LightweightLoader />}>
+                <ScrollToTop />
+                <Suspense fallback={<SuspenseFallback />}>
                   <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/vote" element={<EcoVote />} />
-                    <Route path="/actions" element={<EcoActions />} />
+                    {/* Multilingual Parent Route: /:lang */}
+                    <Route path="/:lang/founder/sukhrobjon-rikhsiboev" element={<Founder />} />
+                    <Route path="/:lang" element={<LanguageRouteWrapper />}>
+                      <Route index element={<Index />} />
+                      <Route path="about" element={<About />} />
+                      <Route path="team" element={<Team />} />
+                      <Route path="founder/sukhrobjon-rikhsiboev" element={<Founder />} />
+                      <Route path="vote" element={<EcoVote />} />
+                      <Route path="actions" element={<EcoActions />} />
+                      <Route path="shop" element={<Shop />} />
+                      <Route path="shop-legacy" element={<ShopLegacy />} />
+                      <Route path="stories" element={<EcoStories />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="partners" element={<Partners />} />
+                      <Route path="contacts" element={<Contacts />} />
+                      <Route path="product/:id" element={<ProductDetail />} />
+                      <Route path="pitch" element={<Pitch />} />
+                      <Route path="pitch-live" element={<PitchLive />} />
+                      <Route path="scanner" element={<Scanner />} />
+                      <Route path="coach" element={<EcoCoach />} />
+                      <Route path="planner" element={<ProductionPlanner />} />
+                      <Route path="analytics" element={<Analytics />} />
+                      <Route path="map" element={<Navigate to="/actions?mode=collection#collection-map" replace />} />
+                      <Route path="ecomap" element={<Navigate to="/actions?mode=collection#collection-map" replace />} />
+                    </Route>
+
+                    {/* Root URL redirect to default language */}
+                    <Route path="/" element={<Navigate to="/en" replace />} />
+
+                    {/* Legacy Unprefixed Route Redirects to default language */}
+                    <Route path="/about" element={<Navigate to="/en/about" replace />} />
+                    <Route path="/vote" element={<Navigate to="/en/vote" replace />} />
+                    <Route path="/actions" element={<Navigate to="/en/actions" replace />} />
                     <Route path="/map" element={<Navigate to="/actions?mode=collection#collection-map" replace />} />
                     <Route path="/ecomap" element={<Navigate to="/actions?mode=collection#collection-map" replace />} />
-                    <Route path="/shop" element={<Shop />} />
-                    <Route path="/shop-legacy" element={<SocialMissionShop />} />
-                    <Route path="/stories" element={<EcoStories />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/partners" element={<Partners />} />
-                    <Route path="/team" element={<Team />} />
-                    <Route path="/contacts" element={<Contacts />} />
-                    <Route path="/product/:id" element={<ProductDetail />} />
-                    <Route path="/pitch" element={<Pitch />} />
-                    <Route path="/pitch-live" element={<PitchLive />} />
-                    <Route path="/scanner" element={<Scanner />} />
-                    <Route path="/coach" element={<EcoCoach />} />
-                    <Route path="/planner" element={<ProductionPlanner />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    {/* Multilingual Founder Entity Routes & Canonical Aliases */}
-                    <Route path="/:lang/founder/sukhrobjon-rikhsiboev" element={<Founder />} />
+                    <Route path="/shop" element={<Navigate to="/en/shop" replace />} />
+                    <Route path="/shop-legacy" element={<Navigate to="/en/shop-legacy" replace />} />
+                    <Route path="/stories" element={<Navigate to="/en/stories" replace />} />
+                    <Route path="/profile" element={<Navigate to="/en/profile" replace />} />
+                    <Route path="/partners" element={<Navigate to="/en/partners" replace />} />
+                    <Route path="/team" element={<Navigate to="/en/team" replace />} />
+                    <Route path="/contacts" element={<Navigate to="/en/contacts" replace />} />
+                    <Route path="/product/:id" element={<Navigate to="/en/product/:id" replace />} />
+                    <Route path="/pitch" element={<Navigate to="/en/pitch" replace />} />
+                    <Route path="/pitch-live" element={<Navigate to="/en/pitch-live" replace />} />
+                    <Route path="/scanner" element={<Navigate to="/en/scanner" replace />} />
+                    <Route path="/coach" element={<Navigate to="/en/coach" replace />} />
+                    <Route path="/planner" element={<Navigate to="/en/planner" replace />} />
+                    <Route path="/analytics" element={<Navigate to="/en/analytics" replace />} />
+
+                    {/* Multilingual Founder Canonical Aliases */}
                     <Route path="/founder/sukhrobjon-rikhsiboev" element={<Navigate to="/en/founder/sukhrobjon-rikhsiboev" replace />} />
                     <Route path="/founder/suxrobjon-rixsiboyev" element={<Navigate to="/uz/founder/sukhrobjon-rikhsiboev" replace />} />
                     <Route path="/founder/sukhrobjon-rixsiboyev" element={<Navigate to="/en/founder/sukhrobjon-rikhsiboev" replace />} />
                     <Route path="/founder/suxrobjon-rikhsiboev" element={<Navigate to="/ru/founder/sukhrobjon-rikhsiboev" replace />} />
                     <Route path="/founder" element={<Navigate to="/en/founder/sukhrobjon-rikhsiboev" replace />} />
+
+                    {/* Catch-all 404 */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>

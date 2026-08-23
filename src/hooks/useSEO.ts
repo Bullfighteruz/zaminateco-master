@@ -1,13 +1,13 @@
 /**
  * useSEO Hook
- * Manages dynamic SEO meta tags, Open Graph, Twitter Cards, and canonical URLs
- * Updates document title, meta description, OG tags, and canonical URL per page
- * 
- * Industry standard: Used by all major websites for proper SEO
+ * Manages dynamic SEO meta tags, Open Graph, Twitter Cards, canonical URLs, and html lang
+ * Updates document title, meta description, OG tags, og:locale, and canonical URL per page
  */
 
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { normalizeLanguage, buildLocalizedUrl, LANGUAGE_NAMES } from '@/lib/i18nRouting';
 
 export interface SEOParams {
   title: string;
@@ -46,24 +46,7 @@ function updateCanonical(url: string) {
 }
 
 /**
- * Remove meta tags by selector
- */
-function removeMetaTags(selector: string) {
-  document.querySelectorAll(selector).forEach(tag => tag.remove());
-}
-
-/**
  * SEO Hook - Updates all SEO-related meta tags dynamically
- * 
- * @example
- * ```tsx
- * useSEO({
- *   title: 'Shop - Eco Products',
- *   description: 'Browse our eco-friendly products',
- *   image: '/images/shop-preview.jpg',
- *   type: 'website'
- * });
- * ```
  */
 export function useSEO({
   title,
@@ -75,13 +58,17 @@ export function useSEO({
   noindex = false,
 }: SEOParams) {
   const location = useLocation();
+  const { i18n } = useTranslation();
+  const currentLang = normalizeLanguage(i18n.language);
   const baseUrl = 'https://zaminat.uz';
   const fullTitle = `${title} | ZAMINAT.eco`;
-  const canonicalUrl = url || `${baseUrl}${location.pathname}${location.search}`;
+  const canonicalUrl = url || buildLocalizedUrl(location.pathname + location.search, currentLang, baseUrl);
+  const ogLocale = LANGUAGE_NAMES[currentLang]?.locale || 'en_US';
 
   useEffect(() => {
-    // Update document title
+    // Update document title and html lang
     document.title = fullTitle;
+    document.documentElement.lang = currentLang;
 
     // Update meta description
     updateMetaTag('name', 'description', description);
@@ -102,7 +89,7 @@ export function useSEO({
     updateMetaTag('property', 'og:image', image.startsWith('http') ? image : `${baseUrl}${image}`);
     updateMetaTag('property', 'og:image:alt', title);
     updateMetaTag('property', 'og:site_name', 'ZAMINAT.eco');
-    updateMetaTag('property', 'og:locale', 'en_US');
+    updateMetaTag('property', 'og:locale', ogLocale);
 
     // Update Twitter Card tags
     updateMetaTag('name', 'twitter:card', 'summary_large_image');
@@ -113,12 +100,5 @@ export function useSEO({
 
     // Update canonical URL
     updateCanonical(canonicalUrl);
-
-    // Cleanup function (optional, but good practice)
-    return () => {
-      // Don't remove meta tags on unmount - they should persist
-      // Only remove if you want to reset to defaults
-    };
-  }, [title, description, image, canonicalUrl, type, keywords, noindex, fullTitle, baseUrl]);
+  }, [title, description, image, canonicalUrl, type, keywords, noindex, fullTitle, baseUrl, currentLang, ogLocale]);
 }
-

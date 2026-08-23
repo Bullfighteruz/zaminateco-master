@@ -8,6 +8,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { ShoppingBag, Car, Coffee, Utensils, Package, Plane, ExternalLink, Coins, TrendingUp, Users, Gift, Star, X, Info, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import '../styles/mobile-responsive.css';
 import { contactHelpers } from '@/utils/mailto';
@@ -180,6 +183,12 @@ const Partners = () => {
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+
+  useSEO({
+    title: t('partnersTitle', { defaultValue: 'Partners & Collaboration' }),
+    description: t('partnersSubtitle', { defaultValue: 'Collaborate with ZAMINAT.eco to build sustainable industrial supply chains and circular economy partnerships.' }),
+  });
+  useHreflang();
 
   // Safe translation helper with fallbacks
   const safeTranslate = (key: string, defaultValue: string, ns?: string) => {

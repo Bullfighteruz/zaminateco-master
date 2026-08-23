@@ -16,6 +16,9 @@ import azamatPhoto from '../../svg/Azamat Elchibekov.avif';
 import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.avif';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.avif';
 
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
+
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -290,6 +293,12 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
 export default function Team() {
   const { t, i18n } = useTranslation('team');
   const isMobile = useIsMobile();
+
+  useSEO({
+    title: t('team.title', { defaultValue: 'Our Team' }),
+    description: t('team.subtitle', { defaultValue: 'Passionate professionals dedicated to building a sustainable circular future for Uzbekistan.' }),
+  });
+  useHreflang();
 
   // Get team members from translations with proper structure
   const getTeamMembers = (): TeamMember[] => {

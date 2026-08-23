@@ -12,6 +12,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { contactHelpers } from '@/utils/mailto';
 import ScrollImageCarousel from '@/components/ScrollImageCarousel';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 
 // Optimized animation variants with reduced motion support
 const containerVariants = {
@@ -50,6 +52,12 @@ export default function About() {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const shouldReduceMotion = useReducedMotion();
+
+  useSEO({
+    title: t('aboutZaminat', { defaultValue: 'About Us' }),
+    description: t('aboutHeroSubtitle', { defaultValue: 'Transforming waste into valuable resources through AI, community action, and sustainable circular infrastructure.' }),
+  });
+  useHreflang();
 
   const roadmap = [
     { 

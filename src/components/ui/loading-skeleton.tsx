@@ -117,3 +117,13 @@ export function ProfileSkeleton() {
   );
 }
 
+export function SuspenseFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <span className="text-xs font-semibold text-slate-500 tracking-wider uppercase">Loading ZAMINAT...</span>
+      </div>
+    </div>
+  );
+}

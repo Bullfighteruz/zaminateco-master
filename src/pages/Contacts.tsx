@@ -21,6 +21,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { contactHelpers } from '@/utils/mailto';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 import '../styles/mobile-responsive.css';
 
 // Simplified floating elements for mobile
@@ -254,6 +256,12 @@ const SocialCard = ({ social }: { social: { icon: typeof Send, platform: string,
 export default function Contacts() {
   const isMobile = useIsMobile();
   const { t, i18n } = useTranslation('common');
+
+  useSEO({
+    title: t('contacts', { defaultValue: 'Contact Us' }),
+    description: t('contactHeroSubtitle', { defaultValue: 'Get in touch with the ZAMINAT team in Tashkent, Uzbekistan.' }),
+  });
+  useHreflang();
 
   // Contact information - using translations
   const contactInfo = [

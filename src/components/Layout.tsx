@@ -1,5 +1,6 @@
+import React from 'react';
 import { Home, Vote, Calendar, ShoppingBag, BookOpen, User, Globe, ScanLine } from 'lucide-react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -15,7 +16,7 @@ import {
 import { useTranslation as useI18nTranslation } from 'react-i18next';
 import PrefetchLink from './PrefetchLink';
 import InstallPrompt from './InstallPrompt';
-
+import { stripLanguagePrefix, replaceLanguageInPath, normalizeLanguage, type SupportedLanguage } from '@/lib/i18nRouting';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,35 +26,47 @@ interface LayoutProps {
 
 const MobileLanguageSwitcher = ({ darkMode = false }: { darkMode?: boolean }) => {
   const { i18n } = useI18nTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   
-  const languages = [
+  const languages: Array<{ code: SupportedLanguage; flag: string; name: string }> = [
     { code: 'en', flag: '/images/en_flag.webp', name: 'English' },
-    { code: 'uz', flag: '/images/uz_flag.webp', name: 'O\'zbekcha' },
+    { code: 'uz', flag: '/images/uz_flag.webp', name: "O'zbekcha" },
     { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский' }
   ];
   
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLang = normalizeLanguage(i18n.language);
+  const currentLanguage = languages.find(lang => lang.code === currentLang) || languages[0];
 
-  const handleLanguageChange = (languageCode: string) => {
+  const handleLanguageChange = (languageCode: SupportedLanguage) => {
     i18n.changeLanguage(languageCode);
+    const currentFull = location.pathname + location.search + location.hash;
+    const newPath = replaceLanguageInPath(currentFull, languageCode);
+    navigate(newPath, { replace: true });
+    document.documentElement.lang = languageCode;
+    try {
+      localStorage.setItem('i18nextLng', languageCode);
+    } catch {}
     setIsOpen(false);
   };
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuTrigger asChild>
-        <button className={cn(
-          "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border-2 shadow-md transition-all duration-300",
-          // Ensure 44px min touch target (already w-10 h-10 = 40px, border adds 2px each side)
-          darkMode 
-            ? "bg-black/70 border-white/10 hover:border-white/25 hover:bg-black/80 text-white/90 active:scale-95"
-            : "bg-white/90 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800 active:scale-95"
-        )}>
+        <button
+          aria-label={`Select language. Current: ${currentLanguage.name}`}
+          className={cn(
+            "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border-2 shadow-md transition-all duration-300",
+            darkMode
+              ? "bg-black/70 border-white/10 hover:border-white/25 hover:bg-black/80 text-white/90 active:scale-95"
+              : "bg-white/90 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800 active:scale-95"
+          )}
+        >
           <Globe className="h-5 w-5 flex-shrink-0" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent 
+      <DropdownMenuContent
         align="end"
         side="bottom"
         sideOffset={12}
@@ -78,7 +91,7 @@ const MobileLanguageSwitcher = ({ darkMode = false }: { darkMode?: boolean }) =>
             >
               <img
                 src={language.flag}
-                alt={language.name}
+                alt=""
                 className="h-5 w-7 object-cover rounded-sm border border-gray-200"
               />
               <span className="text-sm font-medium">{language.name}</span>
@@ -96,7 +109,6 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
   const isMobile = useIsMobile();
   
   // ── Scroll-direction tracking (hysteresis-based) ──
-  // Requires larger threshold on mobile to ignore touch tremors.
   const visible = useScrollDirection(isMobile ? 40 : 25);
 
   useEffect(() => {
@@ -106,6 +118,8 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       document.documentElement.classList.remove('in-iframe');
     }
   }, []);
+
+  const currentPathWithoutLang = stripLanguagePrefix(location.pathname);
 
   const getMobileLabel = useMemo(() => {
     return (key: string): string => {
@@ -136,11 +150,11 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
     { path: '/profile', icon: User, label: t('profile') },
   ], [t]);
 
-  const isScannerActive = location.pathname === '/scanner';
+  const isScannerActive = currentPathWithoutLang === '/scanner';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/15 to-teal-50/20 relative">
-      {/* Background glow orbs — only render on non-mobile for perf (they're invisible on phone screenshots anyway) */}
+      {/* Background glow orbs */}
       {!isMobile && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
           <div className="bg-glow-orb bg-glow-emerald w-[500px] h-[500px] -top-20 -left-20 opacity-30" />
@@ -149,39 +163,14 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
         </div>
       )}
 
-      {/* Desktop Language Switcher — autohides on scroll-down */}
-      {!['/pitch', '/scanner'].includes(location.pathname) && (
-        <div
-          className="hidden md:block fixed right-4 top-4 z-50"
-          style={{
-            transform: visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, -80px, 0)',
-            opacity: visible ? 1 : 0,
-            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
-            willChange: 'transform, opacity',
-          }}
-        >
-          <LanguageSwitcher darkMode={hideBottomNav} />
-        </div>
-      )}
-      
-      {/* Mobile Language Switcher — safe-area aware + autohide on scroll-down */}
-      {!['/pitch', '/scanner'].includes(location.pathname) && (
-        <div 
-          className="md:hidden fixed right-3 z-40"
-          style={{
-            top: 'calc(env(safe-area-inset-top, 0px) + 12px)',
-            transform: visible ? 'translate3d(0, 0, 0) scale(1)' : 'translate3d(0, -12px, 0) scale(0.95)',
-            opacity: visible ? 1 : 0,
-            pointerEvents: visible ? 'auto' as const : 'none' as const,
-            transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease',
-            willChange: 'transform, opacity',
-          }}
-        >
+      {/* Floating Language Switcher for mobile (top-right) */}
+      {isMobile && (
+        <div className="fixed top-4 right-4 z-40">
           <MobileLanguageSwitcher darkMode={hideBottomNav} />
         </div>
       )}
       
-      {/* Main content — extra bottom padding accounts for nav bar + safe area */}
+      {/* Main content */}
       <main className={hideBottomNav ? '' : 'pb-nav-safe'}>
         {children}
       </main>
@@ -193,7 +182,6 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
           translate="no"
           style={{
             bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-            // Statically pinned on mobile to avoid clashes with dynamic browser bars; autohide on desktop
             transform: isMobile ? 'translate3d(0, 0, 0)' : (visible ? 'translate3d(0, 0, 0)' : 'translate3d(0, calc(100% + 24px), 0)'),
             transition: isMobile ? 'none' : 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
             backfaceVisibility: 'hidden',
@@ -204,7 +192,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
           <div className="relative w-full max-w-xl">
             {/* Center AI Scan — elevated circle above nav bar */}
             <div className="absolute left-1/2 -translate-x-1/2 -top-6 z-20">
-              <Link
+              <PrefetchLink
                 to="/scanner"
                 className={cn(
                   "flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200 active:scale-90",
@@ -215,7 +203,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
                 )}
               >
                 <ScanLine className="h-5.5 w-5.5" strokeWidth={1.8} />
-              </Link>
+              </PrefetchLink>
               <span className={cn(
                 "absolute -bottom-4 left-1/2 -translate-x-1/2 text-[8px] font-semibold tracking-wide whitespace-nowrap",
                 isScannerActive ? "text-emerald-600" : "text-gray-400"
@@ -229,7 +217,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
               <div className="flex justify-between items-center">
                 {leftNavItems.map((item) => {
                   const Icon = item.icon;
-                  const isActive = location.pathname === item.path;
+                  const isActive = currentPathWithoutLang === item.path;
                   return (
                     <PrefetchLink
                       key={item.path}
@@ -257,7 +245,7 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
 
                 {rightNavItems.map((item) => {
                   const Icon = item.icon;
-                  const isActive = location.pathname === item.path;
+                  const isActive = currentPathWithoutLang === item.path;
                   return (
                     <PrefetchLink
                       key={item.path}
@@ -285,7 +273,6 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
           </div>
         </nav>
       )}
-      {/* <InstallPrompt /> — PWA Suggestions disabled as requested */}
     </div>
   );
 });

@@ -1,8 +1,10 @@
+import React from 'react';
 import { Vote, Calendar, ShoppingBag, BookOpen, User, Home, Users, Handshake, Mail, Cpu, Camera } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/hooks/useTranslation';
 import PrefetchLink from './PrefetchLink';
+import { stripLanguagePrefix } from '@/lib/i18nRouting';
 
 const navigationItems = [
   { path: '/', icon: Home, labelKey: 'home' as const },
@@ -23,7 +25,8 @@ const secondaryNavigationItems = [
 
 export default function Navigation() {
   const location = useLocation();
-  const { t, i18n } = useTranslation('common'); // Specify 'common' namespace
+  const { t, i18n } = useTranslation('common');
+  const currentPathWithoutLang = stripLanguagePrefix(location.pathname);
 
   // Helper function to get translation with proper fallback and mobile optimization
   const getTranslation = (key: string, isMobileNav: boolean = false): string => {
@@ -33,7 +36,6 @@ export default function Navigation() {
     if (key === 'scanner') {
       return t('scanner.navLabel', { defaultValue: 'Scanner' });
     }
-    // For mobile navigation, use short versions for longer labels
     if (isMobileNav) {
       const shortKeyMap: Record<string, string> = {
         'ecoActions': 'ecoActionsShort',
@@ -53,10 +55,8 @@ export default function Navigation() {
       }
     }
     
-    // Explicitly get translation from 'common' namespace
     const translation = t(key, { ns: 'common' });
     
-    // If translation is missing or returns the key, use explicit fallbacks
     if (!translation || translation === key) {
       const fallbacks: Record<string, Record<string, string>> = {
         en: { 
@@ -79,7 +79,7 @@ export default function Navigation() {
         }
       };
       const currentLang = i18n.language || 'en';
-      const langKey = currentLang.split('-')[0]; // Get base language (en, ru, uz)
+      const langKey = currentLang.split('-')[0];
       const shortKeyMap: Record<string, string> = {
         'ecoActions': 'ecoActionsShort',
         'home': 'homeShort'
@@ -93,13 +93,13 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Main Bottom Navigation - Pinned to bottom, centered, not full-width */}
+      {/* Main Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-0 mobile-nav pointer-events-none">
         <div className="bg-white border-t border-gray-200 shadow-lg rounded-t-2xl px-3 sm:px-4 py-2.5 pointer-events-auto">
           <div className="flex justify-around items-center gap-0.5 sm:gap-1">
             {navigationItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+              const isActive = currentPathWithoutLang === item.path;
               
               return (
                 <PrefetchLink
@@ -135,7 +135,7 @@ export default function Navigation() {
           <div className="flex flex-col gap-2">
             {secondaryNavigationItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+              const isActive = currentPathWithoutLang === item.path;
               
               return (
                 <PrefetchLink
@@ -163,7 +163,7 @@ export default function Navigation() {
           <div className="flex gap-1">
             {secondaryNavigationItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+              const isActive = currentPathWithoutLang === item.path;
               
               return (
                 <PrefetchLink

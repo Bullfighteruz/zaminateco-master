@@ -1,10 +1,13 @@
 /**
- * Enhanced Link component with automatic route prefetching
+ * Enhanced Link component with automatic route prefetching and localized URL resolution
  * Prefetches route code on hover/focus/touch for faster navigation
+ * Automatically resolves localized target path according to active language
  */
+import React, { useCallback, useRef, useEffect } from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 import { usePrefetchRoute } from '@/hooks/usePrefetchRoute';
-import { useCallback, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getLocalizedPath, normalizeLanguage } from '@/lib/i18nRouting';
 
 interface PrefetchLinkProps extends LinkProps {
   children: React.ReactNode;
@@ -13,8 +16,17 @@ interface PrefetchLinkProps extends LinkProps {
 export default function PrefetchLink({ to, children, ...props }: PrefetchLinkProps) {
   const { handleMouseEnter, handleTouchStart, handleFocus } = usePrefetchRoute();
   const cleanupRef = useRef<(() => void) | null>(null);
+  const { i18n } = useTranslation();
+  const currentLang = normalizeLanguage(i18n.language);
   
-  const path = typeof to === 'string' ? to : to.pathname || '';
+  const localizedTo = typeof to === 'string'
+    ? getLocalizedPath(to, currentLang)
+    : {
+        ...to,
+        pathname: getLocalizedPath(to.pathname || '', currentLang),
+      };
+
+  const path = typeof localizedTo === 'string' ? localizedTo : localizedTo.pathname || '';
 
   // Cleanup on unmount
   useEffect(() => {
@@ -27,7 +39,6 @@ export default function PrefetchLink({ to, children, ...props }: PrefetchLinkPro
 
   const onMouseEnter = useCallback(() => {
     if (path) {
-      // Cleanup previous timeout if exists
       if (cleanupRef.current) {
         cleanupRef.current();
       }
@@ -47,10 +58,9 @@ export default function PrefetchLink({ to, children, ...props }: PrefetchLinkPro
     }
   }, [path, handleFocus]);
 
-  console.log("PrefetchLink rendering to:", to, "type of Link:", typeof Link);
   return (
     <Link
-      to={to}
+      to={localizedTo}
       onMouseEnter={onMouseEnter}
       onTouchStart={onTouchStart}
       onFocus={onFocus}
@@ -60,4 +70,3 @@ export default function PrefetchLink({ to, children, ...props }: PrefetchLinkPro
     </Link>
   );
 }
-

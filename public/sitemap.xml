@@ -1,64 +1,274 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://zaminat.uz/</loc>
+    <loc>https://zaminat.uz/en</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/about</loc>
+    <loc>https://zaminat.uz/ru</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/about" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/about" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/about" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/shop</loc>
+    <loc>https://zaminat.uz/ru/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/about" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/about" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/about" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/about" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/about" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/about" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/shop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/shop" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/shop" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/shop" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/shop" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/vote</loc>
+    <loc>https://zaminat.uz/ru/shop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/shop" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/shop" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/shop" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/shop" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/shop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/shop" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/shop" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/shop" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/shop" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/vote</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/vote" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/vote" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/vote" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/vote" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/actions</loc>
+    <loc>https://zaminat.uz/ru/vote</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/vote" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/vote" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/vote" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/vote" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/stories</loc>
+    <loc>https://zaminat.uz/uz/vote</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/vote" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/vote" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/vote" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/vote" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/partners</loc>
+    <loc>https://zaminat.uz/en/actions</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/actions" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/actions" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/actions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/actions" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/actions</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/actions" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/actions" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/actions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/actions" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/actions</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/actions" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/actions" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/actions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/actions" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/stories</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/stories" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/stories" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/stories" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/stories" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/stories</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/stories" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/stories" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/stories" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/stories" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/stories</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/stories" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/stories" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/stories" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/stories" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/partners</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/partners" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/partners" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/partners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/partners" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/team</loc>
+    <loc>https://zaminat.uz/ru/partners</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/partners" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/partners" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/partners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/partners" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/contacts</loc>
+    <loc>https://zaminat.uz/uz/partners</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/partners" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/partners" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/partners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/partners" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/team</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/team" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/team" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/team" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/team" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/team</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/team" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/team" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/team" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/team" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/team</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/team" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/team" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/team" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/team" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/contacts" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/contacts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/contacts" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/scanner</loc>
+    <loc>https://zaminat.uz/ru/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/contacts" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/contacts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/contacts" />
     <lastmod>2026-08-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/contacts</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/contacts" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/contacts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/contacts" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev</loc>
@@ -91,61 +301,301 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/epdm-rubber-ecotiles</loc>
+    <loc>https://zaminat.uz/en/product/epdm-rubber-ecotiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/epdm-rubber-ecotiles" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/epdm-free-tiles</loc>
+    <loc>https://zaminat.uz/ru/product/epdm-rubber-ecotiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/epdm-rubber-ecotiles" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/ecobrick</loc>
+    <loc>https://zaminat.uz/uz/product/epdm-rubber-ecotiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/epdm-rubber-ecotiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/epdm-rubber-ecotiles" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/waste-bin</loc>
+    <loc>https://zaminat.uz/en/product/epdm-free-tiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/epdm-free-tiles" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/garden-planter</loc>
+    <loc>https://zaminat.uz/ru/product/epdm-free-tiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/epdm-free-tiles" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/eco-bench</loc>
+    <loc>https://zaminat.uz/uz/product/epdm-free-tiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/epdm-free-tiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/epdm-free-tiles" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/ecobike-rack</loc>
+    <loc>https://zaminat.uz/en/product/ecobrick</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobrick" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/ecobusstop</loc>
+    <loc>https://zaminat.uz/ru/product/ecobrick</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobrick" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/playground-block-art-tiles</loc>
+    <loc>https://zaminat.uz/uz/product/ecobrick</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobrick" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobrick" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://zaminat.uz/product/ecostreet-furniture</loc>
+    <loc>https://zaminat.uz/en/product/waste-bin</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/waste-bin" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/waste-bin</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/waste-bin" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/waste-bin</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/waste-bin" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/waste-bin" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/product/garden-planter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/garden-planter" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/garden-planter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/garden-planter" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/garden-planter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/garden-planter" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/garden-planter" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/product/eco-bench</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/eco-bench" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/eco-bench</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/eco-bench" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/eco-bench</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/eco-bench" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/eco-bench" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/product/ecobike-rack</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobike-rack" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/ecobike-rack</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobike-rack" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/ecobike-rack</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobike-rack" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobike-rack" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/product/ecobusstop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobusstop" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/ecobusstop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobusstop" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/ecobusstop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecobusstop" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecobusstop" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/product/playground-block-art-tiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/playground-block-art-tiles" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/playground-block-art-tiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/playground-block-art-tiles" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/playground-block-art-tiles</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/playground-block-art-tiles" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/playground-block-art-tiles" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/product/ecostreet-furniture</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecostreet-furniture" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/product/ecostreet-furniture</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecostreet-furniture" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/product/ecostreet-furniture</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/product/ecostreet-furniture" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/product/ecostreet-furniture" />
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

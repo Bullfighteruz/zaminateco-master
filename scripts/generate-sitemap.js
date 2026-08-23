@@ -1,6 +1,6 @@
 /**
- * Sitemap Generator
- * Generates XML sitemap for all pages, founder entity profiles, and products with hreflang alternates
+ * Sitemap Generator v2 (Multilingual International Architecture)
+ * Generates XML sitemap for all PUBLIC_INDEXABLE routes across EN, RU, UZ with reciprocal hreflang alternates
  * Run: node scripts/generate-sitemap.js
  */
 
@@ -14,61 +14,25 @@ const __dirname = path.dirname(__filename);
 const BASE_URL = 'https://zaminat.uz';
 const OUTPUT_FILE = path.join(__dirname, '..', 'public', 'sitemap.xml');
 
-// Static pages with their priorities and change frequencies
-const STATIC_PAGES = [
-  { path: '/', priority: '1.0', changefreq: 'weekly' },
-  { path: '/about', priority: '0.8', changefreq: 'monthly' },
-  { path: '/shop', priority: '0.9', changefreq: 'daily' },
-  { path: '/vote', priority: '0.8', changefreq: 'weekly' },
-  { path: '/actions', priority: '0.8', changefreq: 'weekly' },
-  { path: '/stories', priority: '0.8', changefreq: 'weekly' },
-  { path: '/partners', priority: '0.7', changefreq: 'monthly' },
-  { path: '/team', priority: '0.7', changefreq: 'monthly' },
-  { path: '/contacts', priority: '0.6', changefreq: 'monthly' },
-  { path: '/scanner', priority: '0.8', changefreq: 'weekly' },
+const LANGUAGES = ['en', 'ru', 'uz'];
+const DEFAULT_LANG = 'en';
+
+// Public indexable base routes (without language prefix)
+// Multilingual Founder URLs: /en/founder/sukhrobjon-rikhsiboev, /ru/founder/sukhrobjon-rikhsiboev, /uz/founder/sukhrobjon-rikhsiboev
+const PUBLIC_INDEXABLE_PAGES = [
+  { subpath: '', priority: '1.0', changefreq: 'weekly' },
+  { subpath: '/about', priority: '0.8', changefreq: 'monthly' },
+  { subpath: '/shop', priority: '0.9', changefreq: 'daily' },
+  { subpath: '/vote', priority: '0.8', changefreq: 'weekly' },
+  { subpath: '/actions', priority: '0.8', changefreq: 'weekly' },
+  { subpath: '/stories', priority: '0.8', changefreq: 'weekly' },
+  { subpath: '/partners', priority: '0.7', changefreq: 'monthly' },
+  { subpath: '/team', priority: '0.7', changefreq: 'monthly' },
+  { subpath: '/contacts', priority: '0.6', changefreq: 'monthly' },
+  { subpath: '/founder/sukhrobjon-rikhsiboev', priority: '0.9', changefreq: 'monthly' },
 ];
 
-// Multilingual Founder Entity Pages
-const FOUNDER_PAGES = [
-  {
-    lang: 'en',
-    path: '/en/founder/sukhrobjon-rikhsiboev',
-    priority: '0.9',
-    changefreq: 'monthly',
-    alternates: [
-      { hreflang: 'en', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'ru', href: `${BASE_URL}/ru/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'uz', href: `${BASE_URL}/uz/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'x-default', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
-    ]
-  },
-  {
-    lang: 'ru',
-    path: '/ru/founder/sukhrobjon-rikhsiboev',
-    priority: '0.9',
-    changefreq: 'monthly',
-    alternates: [
-      { hreflang: 'en', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'ru', href: `${BASE_URL}/ru/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'uz', href: `${BASE_URL}/uz/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'x-default', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
-    ]
-  },
-  {
-    lang: 'uz',
-    path: '/uz/founder/sukhrobjon-rikhsiboev',
-    priority: '0.9',
-    changefreq: 'monthly',
-    alternates: [
-      { hreflang: 'en', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'ru', href: `${BASE_URL}/ru/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'uz', href: `${BASE_URL}/uz/founder/sukhrobjon-rikhsiboev` },
-      { hreflang: 'x-default', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
-    ]
-  }
-];
-
-// Product slugs (from productData.ts)
+// Product slugs
 const PRODUCT_SLUGS = [
   'epdm-rubber-ecotiles',
   'epdm-free-tiles',
@@ -92,34 +56,48 @@ function generateSitemap() {
   const currentDate = getCurrentDate();
   const urls = [];
 
-  // Add static pages
-  STATIC_PAGES.forEach(page => {
-    urls.push({
-      loc: `${BASE_URL}${page.path}`,
-      lastmod: currentDate,
-      changefreq: page.changefreq,
-      priority: page.priority,
+  // Generate entries for public indexable pages
+  PUBLIC_INDEXABLE_PAGES.forEach(page => {
+    const alternates = LANGUAGES.map(lang => ({
+      hreflang: lang,
+      href: `${BASE_URL}/${lang}${page.subpath}`,
+    }));
+    alternates.push({
+      hreflang: 'x-default',
+      href: `${BASE_URL}/${DEFAULT_LANG}${page.subpath}`,
+    });
+
+    LANGUAGES.forEach(lang => {
+      urls.push({
+        loc: `${BASE_URL}/${lang}${page.subpath}`,
+        lastmod: currentDate,
+        changefreq: page.changefreq,
+        priority: page.priority,
+        alternates,
+      });
     });
   });
 
-  // Add founder multilingual entity pages
-  FOUNDER_PAGES.forEach(page => {
-    urls.push({
-      loc: `${BASE_URL}${page.path}`,
-      lastmod: currentDate,
-      changefreq: page.changefreq,
-      priority: page.priority,
-      alternates: page.alternates,
-    });
-  });
-
-  // Add product pages
+  // Generate entries for product pages
   PRODUCT_SLUGS.forEach(slug => {
-    urls.push({
-      loc: `${BASE_URL}/product/${slug}`,
-      lastmod: currentDate,
-      changefreq: 'monthly',
-      priority: '0.8',
+    const subpath = `/product/${slug}`;
+    const alternates = LANGUAGES.map(lang => ({
+      hreflang: lang,
+      href: `${BASE_URL}/${lang}${subpath}`,
+    }));
+    alternates.push({
+      hreflang: 'x-default',
+      href: `${BASE_URL}/${DEFAULT_LANG}${subpath}`,
+    });
+
+    LANGUAGES.forEach(lang => {
+      urls.push({
+        loc: `${BASE_URL}/${lang}${subpath}`,
+        lastmod: currentDate,
+        changefreq: 'monthly',
+        priority: '0.8',
+        alternates,
+      });
     });
   });
 
@@ -143,7 +121,7 @@ function generateSitemap() {
 
   xml += `</urlset>`;
 
-  return xml;
+  return { xml, count: urls.length };
 }
 
 // Escape XML special characters
@@ -158,7 +136,7 @@ function escapeXml(unsafe) {
 
 // Main execution
 try {
-  const sitemap = generateSitemap();
+  const { xml, count } = generateSitemap();
   
   // Ensure public directory exists
   const publicDir = path.dirname(OUTPUT_FILE);
@@ -167,9 +145,9 @@ try {
   }
   
   // Write sitemap
-  fs.writeFileSync(OUTPUT_FILE, sitemap, 'utf8');
-  console.log(`✅ Sitemap generated successfully: ${OUTPUT_FILE}`);
-  console.log(`   Total URLs: ${STATIC_PAGES.length + FOUNDER_PAGES.length + PRODUCT_SLUGS.length}`);
+  fs.writeFileSync(OUTPUT_FILE, xml, 'utf8');
+  console.log(`✅ Multilingual Sitemap v2 generated successfully: ${OUTPUT_FILE}`);
+  console.log(`   Total Indexable Multilingual URLs: ${count}`);
 } catch (error) {
   console.error('❌ Error generating sitemap:', error);
   process.exit(1);

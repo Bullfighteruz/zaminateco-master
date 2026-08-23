@@ -36,6 +36,8 @@ import { Badge } from '../components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../hooks/use-mobile';
+import { useSEO } from '../hooks/useSEO';
+import { useHreflang } from '../hooks/useHreflang';
 import { cn } from '@/lib/utils';
 import { getIconForProductOrCategory } from '@/lib/iconMatcher';
 import { EventCard, type EcoEvent } from '@/components/EventCard';
@@ -312,6 +314,13 @@ const KeyFeaturesSection = () => {
 export default function EcoActions() {
   const { t } = useTranslation(['actions', 'translation']);
   const isMobile = useIsMobile();
+
+  useSEO({
+    title: t('actionsTitle', { defaultValue: 'EcoActions & Collection Map' }),
+    description: t('actionsSubtitle', { defaultValue: 'Discover secondary-material collection points, join ecological events, and make a tangible environmental impact.' }),
+  });
+  useHreflang();
+
   const [searchParams] = useSearchParams();
   const sourceParam = searchParams.get('source');
   const modeParam = searchParams.get('mode');

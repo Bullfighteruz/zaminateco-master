@@ -21,6 +21,7 @@ import { apiClient } from '@/lib/api-client';
 import { loadUserProgress, saveUserProgress } from '@/lib/userProgress';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
+import PrefetchLink from '@/components/PrefetchLink';
 
 type ScanState = 'camera' | 'preview' | 'scanning' | 'result' | 'error';
 
@@ -829,7 +830,7 @@ export default function Scanner() {
 
                 {/* 5. DYNAMIC FLOW ACTIONS */}
                 <div className="flex flex-col gap-3">
-                  <Link
+                  <PrefetchLink
                     to={`/actions?source=ecoscan&mode=collection${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}#collection-map`}
                     className="w-full"
                   >
@@ -837,7 +838,7 @@ export default function Scanner() {
                       <MapPin className="h-4 w-4" />
                       {t('scanner.btnDropoff', { defaultValue: 'Найти ближайший пункт и сдать' })}
                     </button>
-                  </Link>
+                  </PrefetchLink>
 
                   <button 
                     onClick={resetScanner} 

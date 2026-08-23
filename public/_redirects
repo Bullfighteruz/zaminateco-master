@@ -1,4 +1,5 @@
-# Netlify redirects file for SPA routing
+# Netlify redirects file for SPA routing and legacy 301 migrations
+
 # 301 Permanent Redirects for Founder Aliases
 /founder/suxrobjon-rixsiboyev /uz/founder/sukhrobjon-rikhsiboev 301
 /founder/sukhrobjon-rixsiboyev /en/founder/sukhrobjon-rikhsiboev 301
@@ -7,8 +8,23 @@
 /founder /en/founder/sukhrobjon-rikhsiboev 301
 
 # Legacy Map redirects
-/map /actions?mode=collection#collection-map 301
-/ecomap /actions?mode=collection#collection-map 301
+/map /en/actions?mode=collection#collection-map 301
+/ecomap /en/actions?mode=collection#collection-map 301
+
+# Legacy Unprefixed Route Redirects to default language (EN)
+/about /en/about 301
+/team /en/team 301
+/actions /en/actions 301
+/vote /en/vote 301
+/shop /en/shop 301
+/stories /en/stories 301
+/partners /en/partners 301
+/contacts /en/contacts 301
+/scanner /en/scanner 301
+/coach /en/coach 301
+/pitch /en/pitch 301
+/planner /en/planner 301
+/analytics /en/analytics 301
 
 # SPA catch-all fallback
 /* /index.html 200
