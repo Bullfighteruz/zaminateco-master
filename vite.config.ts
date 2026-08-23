@@ -115,6 +115,14 @@ export default defineConfig(({ mode }) => ({
     },
     // Prevent crashes on unhandled errors
     middlewareMode: false,
+    // Proxy /api requests to Render backend during local development
+    proxy: {
+      '/api': {
+        target: 'https://zaminat-backend.onrender.com',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
   },
   // Optimize build performance
   build: {
