@@ -10,6 +10,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { UzbekPattern } from '@/components/EcoIcons';
 import { useZamiConversation, Message } from '@/contexts/ZamiConversationContext';
+import { stripLanguagePrefix, getLocalizedPath, normalizeLanguage } from '@/lib/i18nRouting';
 
 /** Parse simple markdown (bold, bullet points, headers, lists) into React elements */
 function renderMarkdown(text: string, role: 'user' | 'model' = 'model'): React.ReactNode[] {
@@ -190,13 +191,14 @@ export default function FloatingCoachWidget() {
     ],
   }), []);
 
+  const currentLang = normalizeLanguage(i18n.language);
+
   // Cycle CTA messages
   useEffect(() => {
     if (isOpen || !showCta) return;
     const interval = setInterval(() => {
       setCtaIndex(prev => {
-        const lang = i18n.language as string;
-        const msgs = ctaMessages[lang] || ctaMessages.en;
+        const msgs = ctaMessages[currentLang] || ctaMessages.en;
         const next = (prev + 1) % msgs.length;
         if (next === 0) {
           ctaCycleCount.current += 1;
@@ -208,7 +210,7 @@ export default function FloatingCoachWidget() {
       });
     }, 5000);
     return () => clearInterval(interval);
-  }, [isOpen, showCta, i18n.language, ctaMessages]);
+  }, [isOpen, showCta, currentLang, ctaMessages]);
 
   useEffect(() => {
     if (isOpen) {
@@ -227,8 +229,9 @@ export default function FloatingCoachWidget() {
     clearConversation();
   };
 
-  // Don't show this widget on full-screen / scanner / pitch pages
-  if (['/coach', '/scanner', '/pitch', '/pitch-live'].includes(location.pathname)) return null;
+  // Don't show this widget on full-screen / scanner / pitch pages (using normalized route)
+  const currentPathWithoutLang = stripLanguagePrefix(location.pathname);
+  if (['/coach', '/scanner', '/pitch', '/pitch-live'].includes(currentPathWithoutLang)) return null;
 
   return (
     <div
@@ -236,6 +239,7 @@ export default function FloatingCoachWidget() {
       style={{
         bottom: isMobile ? 'calc(env(safe-area-inset-bottom, 0px) + 90px)' : '24px',
       }}
+      data-testid="floating-coach-widget"
     >
       
       {/* Floating Chat Panel */}
@@ -276,12 +280,12 @@ export default function FloatingCoachWidget() {
                   onClick={() => {
                     setIsOpen(false);
                     setTimeout(() => {
-                      navigate('/coach');
+                      navigate(getLocalizedPath('/coach', currentLang));
                     }, 250);
                   }}
                   className="text-[10px] bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold px-2.5 py-1 rounded-lg mr-1.5 transition-all border border-slate-200/60"
                 >
-                  {i18n.language === 'uz' ? 'To\'liq' : i18n.language === 'ru' ? 'Экран' : 'Full'}
+                  {currentLang === 'uz' ? 'To\'liq' : currentLang === 'ru' ? 'Экран' : 'Full'}
                 </button>
                 <button 
                   onClick={() => setIsOpen(false)}

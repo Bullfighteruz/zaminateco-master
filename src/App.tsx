@@ -10,6 +10,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import RouterErrorBoundary from "./components/RouterErrorBoundary";
 import ScrollToTop from "./components/ScrollToTop";
 import LanguageRouteWrapper from "./components/LanguageRouteWrapper";
+import FloatingCoachWidget from "./components/ai/FloatingCoachWidget";
 import { SuspenseFallback } from "./components/ui/loading-skeleton";
 
 // Lazy load pages for optimal bundle splitting
@@ -56,6 +57,7 @@ const App = () => (
             <BrowserRouter>
               <RouterErrorBoundary>
                 <ScrollToTop />
+                <FloatingCoachWidget />
                 <Suspense fallback={<SuspenseFallback />}>
                   <Routes>
                     {/* Multilingual Parent Route: /:lang */}
