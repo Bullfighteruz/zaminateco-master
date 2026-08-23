@@ -62,6 +62,16 @@ type ProductItem = {
 // Category tag types
 type CategoryTag = 'Tiles' | 'Curbs' | 'Bricks' | 'Furniture' | 'Panels' | 'EcoKids' | 'UrbanSound' | 'AquaSave' | 'Art-Tiles' | 'All';
 
+// Category interface for grid
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  icon: string;
+  productCount: number;
+}
+
 // Sort options
 type SortOption = 'newest' | 'popular' | 'price-low' | 'price-high' | 'name';
 

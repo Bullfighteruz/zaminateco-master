@@ -77,7 +77,7 @@ describe('ZAMINAT.eco — Founder Entity SEO & Knowledge Graph Quality Gates', (
 
   it('3. App.tsx contains multilingual routes and canonical alias redirects', () => {
     const appSource = fs.readFileSync(path.join(rootDir, 'src/App.tsx'), 'utf8');
-    assert.ok(appSource.includes('path="/:lang/founder/sukhrobjon-rikhsiboev"'), 'Multilingual founder route exists in App.tsx');
+    assert.ok(appSource.includes('path="founder/sukhrobjon-rikhsiboev"'), 'Multilingual founder route exists in App.tsx');
     assert.ok(appSource.includes('path="/founder/sukhrobjon-rikhsiboev"'), 'Base founder route redirect exists');
     assert.ok(appSource.includes('path="/founder/suxrobjon-rixsiboyev"'), 'Uzbek ASCII alias redirect exists');
     assert.ok(appSource.includes('path="/founder/sukhrobjon-rixsiboyev"'), 'Hybrid ASCII alias redirect exists');

@@ -12,6 +12,7 @@
 /ecomap /en/actions?mode=collection#collection-map 301
 
 # Legacy Unprefixed Route Redirects to default language (EN)
+/ /en 301
 /about /en/about 301
 /team /en/team 301
 /actions /en/actions 301

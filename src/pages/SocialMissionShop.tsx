@@ -16,6 +16,7 @@ import FloatingCartIcon from '../components/FloatingCartIcon';
 import AddToCartAnimation from '../components/AddToCartAnimation';
 import { useAddToCartAnimation } from '../hooks/useAddToCartAnimation';
 import { contactHelpers } from '@/utils/mailto';
+import { productNameToSlug } from '@/utils/slug';
 
 // Sample product data with translation keys
 // IMPORTANT: englishName is used for icon matching to ensure consistency across languages

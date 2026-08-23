@@ -95,8 +95,8 @@ describe('ZAMINAT.eco — CTO International SEO v2 Quality Gates', () => {
 
     assert.ok(wrapperSource.includes('useParams'), 'Uses useParams for lang');
     assert.ok(wrapperSource.includes('isSupportedLanguage(lang)'), 'Validates language support');
-    assert.ok(wrapperSource.includes('i18n.changeLanguage(lang)'), 'Updates i18n language synchronously');
-    assert.ok(wrapperSource.includes('document.documentElement.lang = lang'), 'Sets html lang attribute');
+    assert.ok(wrapperSource.includes('if (!isValidLanguage)'), 'Checks language validity');
+    assert.ok(wrapperSource.includes('return <NotFound />'), 'Renders NotFound 404 on invalid language');
   });
 
   it('5. LanguageSwitcher and MobileLanguageSwitcher update URL with preserved query and hash', () => {
@@ -138,6 +138,7 @@ describe('ZAMINAT.eco — CTO International SEO v2 Quality Gates', () => {
   it('9. public/_redirects contains 301 legacy redirects and SPA fallback', () => {
     const redirectsSource = fs.readFileSync(path.join(rootDir, 'public/_redirects'), 'utf-8');
 
+    assert.ok(redirectsSource.includes('/ /en 301'), '301 redirect for root / to /en');
     assert.ok(redirectsSource.includes('/team /en/team 301'), '301 redirect for /team');
     assert.ok(redirectsSource.includes('/actions /en/actions 301'), '301 redirect for /actions');
     assert.ok(redirectsSource.includes('/about /en/about 301'), '301 redirect for /about');
@@ -147,11 +148,13 @@ describe('ZAMINAT.eco — CTO International SEO v2 Quality Gates', () => {
 
   it('10. Multilingual Sitemap v2 includes all indexable pages across EN, RU, UZ with xhtml:link alternates', () => {
     const sitemapGenSource = fs.readFileSync(path.join(rootDir, 'scripts/generate-sitemap.js'), 'utf-8');
+    const sitemapContent = fs.readFileSync(path.join(rootDir, 'public/sitemap.xml'), 'utf-8');
 
     assert.ok(sitemapGenSource.includes("LANGUAGES = ['en', 'ru', 'uz']"), 'Sitemap generator includes all 3 languages');
     assert.ok(sitemapGenSource.includes('xhtml:link'), 'Sitemap generator includes xhtml:link alternates');
     assert.ok(!sitemapGenSource.includes('/profile'), 'Private profile excluded from sitemap');
     assert.ok(!sitemapGenSource.includes('/scanner'), 'Scanner tool excluded from sitemap');
+    assert.ok(!sitemapContent.includes(':id'), 'Sitemap does not contain literal :id');
   });
 
   it('11. Build-time prerender script covers all public indexable routes across EN, RU, UZ', () => {

@@ -59,7 +59,6 @@ const App = () => (
                 <Suspense fallback={<SuspenseFallback />}>
                   <Routes>
                     {/* Multilingual Parent Route: /:lang */}
-                    <Route path="/:lang/founder/sukhrobjon-rikhsiboev" element={<Founder />} />
                     <Route path="/:lang" element={<LanguageRouteWrapper />}>
                       <Route index element={<Index />} />
                       <Route path="about" element={<About />} />
