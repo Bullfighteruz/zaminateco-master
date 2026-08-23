@@ -1,0 +1,47 @@
+{
+  "caseId": "ECOSCAN-VISION-001",
+  "description": "Regression Case #1: 2 transparent bottles, multiple bottle caps, flexible snack packaging, and 1 black ring-shaped rubber tube.",
+  "fixtureImage": "fixtures/ecoscan-001.jpg",
+  "expectedObjects": [
+    {
+      "family": "bottle",
+      "material": "PET / Rigid Plastic",
+      "minQuantity": 2,
+      "maxQuantity": 2
+    },
+    {
+      "family": "cap",
+      "material": "Rigid Plastic",
+      "minQuantity": 5,
+      "maxQuantity": 15
+    },
+    {
+      "family": "wrapper",
+      "material": "Mixed / Flexible Packaging",
+      "minQuantity": 2,
+      "maxQuantity": 6
+    },
+    {
+      "family": "rubber inner tube / ring",
+      "material": "Rubber",
+      "minQuantity": 1,
+      "maxQuantity": 1,
+      "uncertaintyExpected": true
+    }
+  ],
+  "forbiddenClassifications": [
+    "Автомобильная шина",
+    "Automobile tire",
+    "Avtomobil shinasi",
+    "Car tire"
+  ],
+  "weightSanity": {
+    "minPlausibleKg": 0.3,
+    "maxPlausibleKg": 1.5,
+    "implausibleHighKg": 2.5
+  },
+  "confidenceSanity": {
+    "maxAllowedWithRubberAmbiguity": 85
+  },
+  "ecoCoins": 0
+}

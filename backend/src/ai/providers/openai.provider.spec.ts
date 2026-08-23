@@ -303,7 +303,7 @@ describe('OpenAIProvider Multi-Turn Context & GPT-5.6 Responses API Unit Tests',
       expect(result.items[0].name).toBe('PET Plastic Bottle');
       expect(result.items[0].wasteType).toBe('Plastic');
       expect(result.items[0].status).toBe('Accepted');
-      expect(result.estimatedEcoCoins).toBe(20);
+      expect(result.estimatedEcoCoins).toBe(0);
       expect(result.confidence).toBe(95);
 
       // Verify GPT-5.6 parameter compatibility

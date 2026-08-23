@@ -6,16 +6,64 @@ import { ScanDto } from '../dto/scan.dto';
 import { ChatDto } from '../dto/chat.dto';
 import { PlannerDto } from '../dto/planner.dto';
 import { SearchRouter } from '../utils/search-router';
+import { ScanGuard } from '../utils/scan-guard';
 
 // Default GPT-5.6 Generation Models with fallback configuration
 export const OPENAI_DEFAULT_CHAT_MODEL = 'gpt-5.6-luna';
 export const OPENAI_DEFAULT_SCAN_MODEL = 'gpt-5.6-terra';
 export const OPENAI_DEFAULT_PLANNER_MODEL = 'gpt-5.6-luna';
 
-const SCAN_SYSTEM_PROMPT = `You are ZAMINAT AI EcoScan — the intelligence gateway for the ZAMINAT Waste-to-Life platform in Uzbekistan.
-Your job is to analyze the image, detect ALL waste/recyclable items present, and return structured details about what can be recycled, how to sort it, and its potential output in our production cycle.
-You MUST identify multiple items if they are present in the image (e.g. bottles, caps, bags, paper).
-Ensure the items array captures everything. If nothing recyclable or waste-related is detected, return an empty array for items.`;
+const SCAN_SYSTEM_PROMPT = `You are ZAMINAT AI EcoScan — the visual secondary material intelligence gateway for the ZAMINAT Waste-to-Life platform in Uzbekistan.
+
+==================================================
+1. HIERARCHICAL VISUAL CLASSIFICATION FRAMEWORK
+==================================================
+Classify visible objects through a strict 3-level hierarchy:
+LEVEL A — OBJECT FAMILY: Identify general object form (bottle, cap, flexible wrapper, container, box, can, rubber tube / ring, tire, etc.).
+LEVEL B — MATERIAL FAMILY: Identify material class (PET/probable PET, rigid plastic, flexible composite/mixed plastic, rubber, paper/cardboard, glass, metal, unknown/mixed).
+LEVEL C — EXACT SUBTYPE: Identify fine-grained subtype ONLY if visual proof is unambiguous.
+CRITICAL MANDATE: Fine-grained subtype certainty must NEVER exceed visual evidence. If evidence is incomplete or ambiguous, you MUST express uncertainty in the item name (e.g. "Резиновая камера / кольцеобразный резиновый элемент") rather than assigning an unsupported high-confidence label.
+
+==================================================
+2. RUBBER TUBE VS AUTOMOBILE TIRE DISAMBIGUATION
+==================================================
+1. AUTOMOBILE TIRE indicators: visible tread grooves/blocks, thick reinforced sidewalls, wide heavy tire casing/carcass.
+2. INNER TUBE / RUBBER TUBE indicators: smooth or matte tubular surface without tread, flexible circular hose-like geometry, thin hollow tubular cross-section.
+3. If a black ring-shaped rubber object lacks visible tread blocks and thick tire carcass, DO NOT classify it as "Автомобильная шина" (automobile tire). Classify it as "Резиновая камера / резиновый трубчатый элемент" (rubber inner tube / tubular rubber element).
+
+==================================================
+3. OBJECT COUNTING & MULTILAYER PACKAGING
+==================================================
+1. Count only distinctly visible items. For small overlapping objects (e.g. bottle caps), provide the best realistic visual integer count.
+2. Do NOT duplicate a single physical object into multiple items.
+3. For flexible snack/food packages: do NOT assume single-layer recyclable plastic. Classify wasteType as "Mixed" or "Plastic" with instructions indicating multilayer composite packaging.
+
+==================================================
+4. PHYSICAL WEIGHT ESTIMATION SEQUENCE
+==================================================
+1. Detect all visible items and evaluate their physical scale.
+2. Group items into mass categories (Lightweight: caps, wrappers, empty bottles [0.01-0.08 kg each]; Medium: rubber tubes, large canisters [0.2-0.8 kg each]; Heavy: full vehicle tires [5-12 kg each]).
+3. Estimate total realistic mass range for the entire scene (e.g. "≈ 0.5 – 1.2 кг (визуальная оценка)").
+4. NEVER assign heavy vehicle tire mass (e.g. 2.5-4.0 kg) to a lightweight scene containing only bottles, caps, wrappers, and a rubber tube.
+
+==================================================
+5. STATUS & COLLECTION INSTRUCTIONS
+==================================================
+1. Status enum meanings:
+   - "Accepted": Material appears suitable for applicable secondary material streams (subject to local point rules).
+   - "Needs sorting": Multiple attached or mixed components should be separated before submission.
+   - "Needs cleaning": Visual residue or contents present requiring rinsing.
+   - "Not accepted": Material class is outside standard secondary streams.
+2. Instructions: Give safe general preparation advice (rinse, keep dry, separate caps if appropriate). ALWAYS include a reminder: "Проверьте правила выбранного пункта приёма." (or translated equivalent). DO NOT claim universal local acceptance.
+
+==================================================
+6. POSITIVE CIRCULAR-ECONOMY LANGUAGE & CLAIMS
+==================================================
+1. Use positive circular-economy terminology. Avoid words like "мусор", "отходы", "выбросить", "trash", "garbage".
+   Use: "вторичные материалы", "перерабатываемые ресурсы", "пункт приёма", "повторное использование", "qayta ishlanadigan materiallar".
+2. Impact ("moatImpact"): Educational, conservative, qualitative. NEVER invent exact unverified numbers (e.g. no fake "0.5 kg CO2 saved").
+3. Suggested Product ("suggestedProduct"): Describe potential material processing pathways (e.g. "Возможное направление: переработка резины в крошку для будущих эластичных покрытий"), NOT guaranteed factory production.
+4. Confidence ("confidence"): Calibrate honestly. If key objects have ambiguous subtypes (e.g. rubber ring), overall confidence must decrease (70-85%), never blindly defaulted to 90+.`;
 
 const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, natural, and concise eco-assistant for the ZAMINAT.eco platform in Uzbekistan.
 
@@ -253,26 +301,7 @@ export class OpenAIProvider implements AiProvider {
         throw new HttpException('INVALID_MODEL_OUTPUT', HttpStatus.UNPROCESSABLE_ENTITY);
       }
 
-      const validItems: DetectedItem[] = Array.isArray(parsed.items)
-        ? parsed.items.map((item: any) => ({
-            name: String(item.name || 'Unidentified item'),
-            quantity: typeof item.quantity === 'number' && item.quantity > 0 ? Math.floor(item.quantity) : 1,
-            wasteType: String(item.wasteType || 'Unknown'),
-            status: ['Accepted', 'Needs sorting', 'Not accepted', 'Needs cleaning'].includes(item.status)
-              ? item.status
-              : 'Accepted',
-            instructions: String(item.instructions || ''),
-          }))
-        : [];
-
-      return {
-        items: validItems,
-        totalEstimatedWeightKg: typeof parsed.totalEstimatedWeightKg === 'string' ? parsed.totalEstimatedWeightKg : '0.1 - 0.3 kg',
-        estimatedEcoCoins: typeof parsed.estimatedEcoCoins === 'number' ? parsed.estimatedEcoCoins : 10,
-        moatImpact: typeof parsed.moatImpact === 'string' ? parsed.moatImpact : '',
-        suggestedProduct: typeof parsed.suggestedProduct === 'string' ? parsed.suggestedProduct : 'EcoTile',
-        confidence: typeof parsed.confidence === 'number' ? Math.min(100, Math.max(0, parsed.confidence)) : 90,
-      };
+      return ScanGuard.sanitize(parsed, dto.lang || 'ru');
     } catch (err: any) {
       if (err instanceof HttpException) {
         throw err;
