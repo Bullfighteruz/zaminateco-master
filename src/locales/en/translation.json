@@ -1141,14 +1141,17 @@
     "detectedCount": "Detected {{count}} items",
     "detectedItems": "Detected Items",
     "pendingWallet": "Pending Reward",
-    "walletAwaiting": "Awaiting drop-off verification",
+    "walletAwaiting": "Rewards are credited only after confirmed material handoff at a collection point.",
     "materialWeight": "Estimated Weight",
     "productOutputPrefix": "Potential output:",
     "nearestPoint": "Nearest Collection Point",
+    "noVerifiedPointsTitle": "No verified collection points nearby yet",
+    "noVerifiedPointsDesc": "ZAMINAT is expanding its verified partner network. Only confirmed locations that genuinely accept the selected materials will appear on the map.",
+    "openEcoMap": "Open EcoMap",
     "linkProject": "Support a Project (EcoVote)",
     "nearbyEvent": "Nearby EcoAction",
     "btnDropoff": "Find Nearest EcoPoint & Deliver",
-    "btnScanMore": "Scan More Items",
+    "btnScanMore": "Scan More Materials",
     "noItemsFound": "No items detected. Try photographing from a different angle.",
     "status": {
       "Accepted": "Accepted",
@@ -1315,5 +1318,10 @@
       "lockin": "Platform Lock-in",
       "lockinDesc": "AI modules are deeply integrated across EcoApp, making switching costs prohibitively high."
     }
+  },
+  "ecomap": {
+    "noVerifiedPointsTitle": "No verified collection points nearby yet",
+    "noVerifiedPointsDesc": "ZAMINAT is expanding its verified partner network. Only confirmed locations that genuinely accept the selected materials will appear on the map.",
+    "materialFilterNotice": "Searching collection points for materials: {{materials}}"
   }
 }

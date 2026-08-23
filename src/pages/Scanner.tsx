@@ -5,7 +5,7 @@ import {
   Camera, RotateCcw, Zap, Leaf, Coins, ShieldCheck,
   AlertTriangle, X, SwitchCamera, ImageIcon, ArrowLeft,
   CheckCircle2, MapPin, Wallet, Sparkles, Navigation as NavIcon,
-  Vote, Calendar as CalendarIcon, Info, Weight, Barcode
+  Vote, Calendar as CalendarIcon, Info, Weight, Barcode, ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -77,15 +77,21 @@ export default function Scanner() {
 
   // 1. Fetch points and locate user
   useEffect(() => {
-    // Get points
+    // Get points (only verified points returned)
     apiClient.getCollectionPoints()
       .then((points) => {
-        setCollectionPoints(points);
-        if (points.length > 0) {
-          setSelectedPoint(points[0]); // default
+        setCollectionPoints(points || []);
+        if (points && points.length > 0) {
+          setSelectedPoint(points[0]);
+        } else {
+          setSelectedPoint(null);
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.warn('[Scanner] Failed to load collection points:', err);
+        setCollectionPoints([]);
+        setSelectedPoint(null);
+      });
 
     // Get GPS coords
     if (navigator.geolocation) {
@@ -107,13 +113,15 @@ export default function Scanner() {
 
   // 2. Haversine distance proximity calculator
   const getProximityCheck = useCallback((point: any) => {
-    if (!userCoords || !point) return { distance: null, isClose: false };
+    if (!userCoords || !point || (!point.latitude && !point.lat)) return { distance: null, isClose: false };
+    const pLat = point.latitude || point.lat;
+    const pLng = point.longitude || point.lng;
     const R = 6371; // Earth radius in km
-    const dLat = (point.latitude - userCoords.lat) * Math.PI / 180;
-    const dLon = (point.longitude - userCoords.lng) * Math.PI / 180;
+    const dLat = (pLat - userCoords.lat) * Math.PI / 180;
+    const dLon = (pLng - userCoords.lng) * Math.PI / 180;
     const a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(userCoords.lat * Math.PI / 180) * Math.cos(point.latitude * Math.PI / 180) * 
+      Math.cos(userCoords.lat * Math.PI / 180) * Math.cos(pLat * Math.PI / 180) *
       Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distanceKm = R * c;
@@ -140,6 +148,8 @@ export default function Scanner() {
       });
       setSelectedPoint(nearest);
       console.log('[Anti-Fraud] Auto-selected nearest EcoPoint:', nearest.name);
+    } else {
+      setSelectedPoint(null);
     }
   }, [userCoords, collectionPoints, getProximityCheck]);
 
@@ -240,15 +250,20 @@ export default function Scanner() {
       setResult(scanResult);
       setState('result');
       
-      // Proximity GPS Check
-      const check = getProximityCheck(selectedPoint);
-      const status = check.isClose ? 'Verified' : 'Pending';
-      setVerificationStatus(status);
-      
-      if (status === 'Verified') {
-        setAntiFraudMessage(t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' }));
+      // Proximity GPS Check (only if a real verified point is present)
+      if (selectedPoint) {
+        const check = getProximityCheck(selectedPoint);
+        const status = check.isClose ? 'Verified' : 'Pending';
+        setVerificationStatus(status);
+
+        if (status === 'Verified') {
+          setAntiFraudMessage(t('scanner.gpsSuccess', { defaultValue: 'GPS match verified. Rewards instantly credited!' }));
+        } else {
+          setAntiFraudMessage(t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' }));
+        }
       } else {
-        setAntiFraudMessage(t('scanner.gpsWarning', { defaultValue: 'GPS mismatch: marked as Pending verification.' }));
+        setVerificationStatus('Pending');
+        setAntiFraudMessage('');
       }
       
       // Save scan record
@@ -327,6 +342,16 @@ export default function Scanner() {
   const flipCamera = useCallback(() => {
     setFacingMode(prev => prev === 'environment' ? 'user' : 'environment');
   }, []);
+
+  // Extract unique detected material categories for material-aware EcoMap entry
+  const detectedMaterials = useMemo(() => {
+    if (!result?.items) return [];
+    const set = new Set<string>();
+    result.items.forEach(i => {
+      if (i.wasteType && i.wasteType !== 'Unknown') set.add(i.wasteType);
+    });
+    return Array.from(set);
+  }, [result]);
 
   return (
     <Layout hideBottomNav={true}>
@@ -591,7 +616,7 @@ export default function Scanner() {
                 </div>
 
                 {/* Anti-Fraud Validation Badge */}
-                {antiFraudMessage && (
+                {antiFraudMessage && selectedPoint && (
                   <div className={cn(
                     "rounded-2xl p-3 border flex items-start gap-2.5 shadow-lg",
                     verificationStatus === 'Verified'
@@ -665,7 +690,7 @@ export default function Scanner() {
                       <span className="text-[9px] font-extrabold uppercase tracking-wider">{t('scanner.pendingWallet')}</span>
                     </div>
                     <div className="text-lg font-black text-amber-400">+{result.estimatedEcoCoins}</div>
-                    <p className="text-[9px] text-amber-500/70 leading-snug">{t('scanner.walletAwaiting')}</p>
+                    <p className="text-[9px] text-amber-500/70 leading-snug">{t('scanner.walletAwaiting', { defaultValue: 'Начисляется только после подтверждённой передачи материала в пункте приёма.' })}</p>
                   </div>
 
                   {/* Impact Engine Card */}
@@ -691,33 +716,53 @@ export default function Scanner() {
 
                  {/* 3. ECOMAP INTEGRATION */}
                  <div className="bg-slate-900/80 backdrop-blur-2xl rounded-3xl p-4 border border-white/5 space-y-3">
-                   <div className="flex items-start justify-between">
-                     <div className="space-y-1 text-left">
+                   <div className="flex items-start justify-between gap-3">
+                     <div className="space-y-1 text-left flex-1">
                        <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                         <MapPin className="h-4 w-4 text-emerald-400" />
-                         {t('scanner.nearestPoint', { defaultValue: 'Nearest Collection Point' })}
+                         <MapPin className="h-4 w-4 text-emerald-400 flex-shrink-0" />
+                         {selectedPoint
+                           ? t('scanner.nearestPoint', { defaultValue: 'Ближайший пункт сбора' })
+                           : t('scanner.noVerifiedPointsTitle', { defaultValue: 'Подтверждённых пунктов приёма рядом пока нет' })}
                        </h4>
-                       <p className="text-[10px] font-semibold text-slate-300">
-                         {selectedPoint ? selectedPoint.name : 'Yunusobod EcoPoint'}
-                         {selectedPoint && userCoords && (
-                           <span className="text-emerald-400 ml-1.5 font-extrabold">
-                             ({getProximityCheck(selectedPoint).distance?.toFixed(2)} km)
-                           </span>
-                         )}
-                       </p>
-                       <p className="text-[9px] text-slate-400">
-                         Accepts: {selectedPoint ? selectedPoint.accepted_materials : 'PET, HDPE, PP, Paper'}
-                       </p>
+                       {selectedPoint ? (
+                         <>
+                           <p className="text-[10px] font-semibold text-slate-300">
+                             {selectedPoint.name}
+                             {userCoords && (
+                               <span className="text-emerald-400 ml-1.5 font-extrabold">
+                                 ({getProximityCheck(selectedPoint).distance?.toFixed(2)} km)
+                               </span>
+                             )}
+                           </p>
+                           <p className="text-[9px] text-slate-400">
+                             {selectedPoint.accepted_materials || selectedPoint.type}
+                           </p>
+                         </>
+                       ) : (
+                         <p className="text-[10px] text-slate-400 leading-relaxed">
+                           {t('scanner.noVerifiedPointsDesc', {
+                             defaultValue: 'ZAMINAT развивает сеть партнёрских пунктов. На карте будут отображаться только проверенные места, которые действительно принимают выбранные материалы.'
+                           })}
+                         </p>
+                       )}
                      </div>
-                     {selectedPoint && (
-                       <a 
-                         href={`https://maps.google.com/?q=${selectedPoint.latitude},${selectedPoint.longitude}`} 
-                         target="_blank" 
+                     {selectedPoint ? (
+                       <a
+                         href={`https://maps.google.com/?q=${selectedPoint.latitude || selectedPoint.lat},${selectedPoint.longitude || selectedPoint.lng}`}
+                         target="_blank"
                          rel="noopener noreferrer"
-                         className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors"
+                         className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white transition-colors flex-shrink-0"
                        >
                          <NavIcon className="h-4 w-4" />
                        </a>
+                     ) : (
+                       <Link
+                         to={`/map?source=ecoscan${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}`}
+                         className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 transition-colors flex-shrink-0"
+                         title={t('scanner.openEcoMap', { defaultValue: 'Открыть EcoMap' })}
+                       >
+                         <ExternalLink className="h-4 w-4" />
+                       </Link>
                      )}
                    </div>
                  </div>
@@ -784,9 +829,13 @@ export default function Scanner() {
 
                 {/* 5. DYNAMIC FLOW ACTIONS */}
                 <div className="flex flex-col gap-3">
-                  <Link to="/vote" className="w-full">
+                  <Link
+                    to={`/map?source=ecoscan${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}`}
+                    className="w-full"
+                  >
                     <button className="w-full h-12 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-lg shadow-emerald-500/10 active:scale-95 transition-all flex items-center justify-center gap-2 border-none">
-                      {t('scanner.btnDropoff')}
+                      <MapPin className="h-4 w-4" />
+                      {t('scanner.btnDropoff', { defaultValue: 'Найти ближайший пункт и сдать' })}
                     </button>
                   </Link>
 
@@ -794,7 +843,7 @@ export default function Scanner() {
                     onClick={resetScanner} 
                     className="w-full h-11 rounded-xl border border-white/10 bg-white/5 text-slate-300 font-bold text-xs tracking-wider uppercase hover:bg-white/10 hover:text-white active:scale-95 transition-all flex items-center justify-center gap-2"
                   >
-                    {t('scanner.btnScanMore')}
+                    {t('scanner.btnScanMore', { defaultValue: 'Сканировать другие материалы' })}
                   </button>
                 </div>
 

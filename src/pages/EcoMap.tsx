@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Filter, Navigation, MapPin, Recycle, ExternalLink, Info, CheckCircle2, Clock, Users, Sparkles, TrendingUp, Zap, Award } from 'lucide-react';
 import Layout from '@/components/Layout';
 import EcoCounter from '@/components/EcoCounter';
@@ -7,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
-import { getCollectionPoints } from '@/lib/collectionData';
+import { getCollectionPoints, CollectionPointItem } from '@/lib/collectionData';
 import { getIconForProductOrCategory } from '@/lib/iconMatcher';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
@@ -15,75 +16,30 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../styles/mobile-responsive.css';
 
-// Collection point coordinates in Tashkent, Uzbekistan
-const COLLECTION_POINTS = [
-  {
-    id: 1,
-    name: 'Tashkent Central Park',
-    lat: 41.3111,
-    lng: 69.2797,
-    type: 'mixed',
-    address: 'Central Park, Tashkent',
-    hours: '8:00 AM - 8:00 PM',
-    capacity: 'High'
-  },
-  {
-    id: 2,
-    name: 'Chilonzor Mahalla',
-    lat: 41.2683,
-    lng: 69.2031,
-    type: 'plastic',
-    address: 'Chilonzor District, Tashkent',
-    hours: '9:00 AM - 7:00 PM',
-    capacity: 'Medium'
-  },
-  {
-    id: 3,
-    name: 'Yunusobod District',
-    lat: 41.3500,
-    lng: 69.2833,
-    type: 'tires',
-    address: 'Yunusobod District, Tashkent',
-    hours: '8:00 AM - 9:00 PM',
-    capacity: 'High'
-  }
-];
-
 export default function EcoMap() {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const [searchParams] = useSearchParams();
+  const source = searchParams.get('source');
+  const materialsParam = searchParams.get('materials');
+
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [filterType, setFilterType] = useState<'all' | 'plastic' | 'tires' | 'mixed'>('all');
   
-  // Get translated collection points
-  const rawCollectionPoints = getCollectionPoints(t);
+  // Get authoritative verified collection points
+  const rawCollectionPoints = useMemo(() => getCollectionPoints(t), [t]);
   
-  // Map of collection point IDs to their original English names (for consistent icon matching)
-  const englishNames: Record<number, string> = {
-    1: 'Tashkent Central Park',
-    2: 'Chilonzor Mahalla',
-    3: 'Yunusobod District'
-  };
-  
-  // Get collection points with dynamically matched icons - use English names for consistency
+  // Get collection points with dynamically matched icons
   const collectionPoints = useMemo(() => {
     return rawCollectionPoints.map(point => {
-      // Use original English name for icon matching (language-independent)
-      const englishName = englishNames[point.id] || point.name;
-      
-      // Try to match icon based on English name first
-      let iconPath = getIconForProductOrCategory(englishName, point.image);
-      
-      // If name matching returned the fallback (original image), try type matching
+      let iconPath = getIconForProductOrCategory(point.name, point.image);
       if (iconPath === point.image) {
         const typeMatched = getIconForProductOrCategory(point.type, point.image);
         if (typeMatched !== point.image && typeMatched.startsWith('/images/')) {
           iconPath = typeMatched;
         }
       }
-      
-      // Ensure we have a valid path
       if (!iconPath || !iconPath.startsWith('/images/')) {
         iconPath = point.type === 'plastic' 
           ? '/images/compost_13285420.webp' 
@@ -91,14 +47,9 @@ export default function EcoMap() {
           ? '/images/ECOBUSSTOP.webp' 
           : '/images/park.webp';
       }
-      
-      // Get coordinates for this point
-      const coordinates = COLLECTION_POINTS.find(cp => cp.id === point.id);
-      
       return {
         ...point,
         iconPath,
-        coordinates
       };
     });
   }, [rawCollectionPoints]);
@@ -111,8 +62,8 @@ export default function EcoMap() {
 
   // Handle navigation to point
   const handleNavigate = (pointId: number) => {
-    const point = COLLECTION_POINTS.find(p => p.id === pointId);
-    if (point) {
+    const point = collectionPoints.find(p => p.id === pointId);
+    if (point && point.lat && point.lng) {
       const url = `https://www.google.com/maps/dir/?api=1&destination=${point.lat.toString()},${point.lng.toString()}`;
       window.open(url, '_blank');
       toast.success(t('openingNavigation', { defaultValue: 'Opening navigation...' }));
@@ -382,22 +333,19 @@ export default function EcoMap() {
             </CardHeader>
             <CardContent className="p-0">
               <InteractiveMap
-                points={filteredPoints.map(point => {
-                  const coord = COLLECTION_POINTS.find(cp => cp.id === point.id);
-                  return {
-                    id: point.id,
-                    name: point.name,
-                    lat: coord?.lat || 41.2995,
-                    lng: coord?.lng || 69.2401,
-                    type: point.type as 'plastic' | 'tires' | 'mixed',
-                    address: coord?.address || point.name,
-                    hours: coord?.hours || '8:00 AM - 8:00 PM',
-                    capacity: coord?.capacity || 'Medium',
-                    collected: point.collected,
-                    distance: point.distance,
-                    iconPath: point.iconPath
-                  };
-                })}
+                points={filteredPoints.map(point => ({
+                  id: point.id,
+                  name: point.name,
+                  lat: point.lat || 41.2995,
+                  lng: point.lng || 69.2401,
+                  type: point.type as 'plastic' | 'tires' | 'mixed',
+                  address: point.address || point.name,
+                  hours: point.hours || '',
+                  capacity: point.capacity || '',
+                  collected: point.collected,
+                  distance: point.distance,
+                  iconPath: point.iconPath
+                }))}
                 center={{ lat: 41.2995, lng: 69.2401 }}
                 zoom={12}
                 height={isMobile ? '400px' : '650px'}
@@ -442,9 +390,30 @@ export default function EcoMap() {
               "space-y-3",
               isMobile ? "p-3" : "p-6"
             )}>
-              {filteredPoints.map((point, index) => {
-                const coordinates = COLLECTION_POINTS.find(cp => cp.id === point.id);
-                const isSelected = selectedPoint === point.id;
+              {filteredPoints.length === 0 ? (
+                <div className="text-center py-10 px-4 space-y-4">
+                  <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 w-fit mx-auto text-emerald-600">
+                    <MapPin className="h-8 w-8 stroke-[1.5]" />
+                  </div>
+                  <div className="space-y-1.5 max-w-md mx-auto">
+                    <h3 className="font-bold text-gray-900 text-base">
+                      {t('ecomap.noVerifiedPointsTitle', { defaultValue: 'Подтверждённых пунктов приёма рядом пока нет' })}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed">
+                      {t('ecomap.noVerifiedPointsDesc', {
+                        defaultValue: 'ZAMINAT развивает сеть партнёрских пунктов. На карте будут отображаться только проверенные места, которые действительно принимают выбранные материалы.'
+                      })}
+                    </p>
+                  </div>
+                  {materialsParam && (
+                    <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200 text-xs px-3 py-1">
+                      {t('ecomap.materialFilterNotice', { defaultValue: 'Поиск пунктов для материалов: {{materials}}', materials: materialsParam })}
+                    </Badge>
+                  )}
+                </div>
+              ) : (
+                filteredPoints.map((point, index) => {
+                  const isSelected = selectedPoint === point.id;
                 
                 return (
                   <motion.div
@@ -519,7 +488,7 @@ export default function EcoMap() {
                               <div className="flex items-center gap-1.5 text-gray-600 mb-2">
                                 <MapPin className={cn(isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
                                 <span className={cn(isMobile ? "text-xs" : "text-sm")}>
-                                  {coordinates?.address || point.name}
+                                  {point.address || point.name}
                                 </span>
                               </div>
                             </div>
@@ -551,7 +520,7 @@ export default function EcoMap() {
                                 {point.collected} {t('kg')}
                               </Badge>
                             )}
-                            {coordinates && point.distance && (
+                            {point.distance && (
                               <Badge variant="outline" className={cn(
                                 "font-medium",
                                 isMobile ? "text-[10px] px-1.5 py-0.5" : "text-xs px-2 py-1"
@@ -566,13 +535,13 @@ export default function EcoMap() {
                             <div className="flex items-center gap-1.5">
                               <Clock className={cn(isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
                               <span className={cn(isMobile ? "text-[10px]" : "text-xs")}>
-                                {coordinates?.hours || '8:00 AM - 8:00 PM'}
+                                {point.hours || '8:00 AM - 8:00 PM'}
                               </span>
                             </div>
                             <div className="flex items-center gap-1.5">
                               <Award className={cn(isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
                               <span className={cn(isMobile ? "text-[10px]" : "text-xs")}>
-                                {coordinates?.capacity || 'Medium'} {t('capacity', { defaultValue: 'Capacity' })}
+                                {point.capacity || 'Medium'} {t('capacity', { defaultValue: 'Capacity' })}
                               </span>
                             </div>
                           </div>

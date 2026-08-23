@@ -1139,14 +1139,17 @@
     "detectedCount": "{{count}} ta ob'ekt aniqlandi",
     "detectedItems": "Aniqlangan ob'ektlar",
     "pendingWallet": "Kutilayotgan mukofot",
-    "walletAwaiting": "Yig'ish nuqtasida tasdiqlangach hisoblanadi",
+    "walletAwaiting": "Mukofot faqat material qabul qilish punktida tasdiqlangandan so'ng beriladi.",
     "materialWeight": "Taxminiy og'irlik",
     "productOutputPrefix": "Ishlab chiqariladi:",
     "nearestPoint": "Eng yaqin yig'ish nuqtasi",
+    "noVerifiedPointsTitle": "Yaqin-atrofda tasdiqlangan qabul punktlari hozircha mavjud emas",
+    "noVerifiedPointsDesc": "ZAMINAT hamkorlik punktlari tarmog'ini rivojlantirmoqda. Xaritada faqat tanlangan materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar ko'rsatiladi.",
+    "openEcoMap": "EcoMap-ni ochish",
     "linkProject": "Loyihani qo'llab-quvvatlash (EcoVote)",
     "nearbyEvent": "Yaqin atrofdagi eko-aksiya",
     "btnDropoff": "Eng yaqin nuqtani topish va topshirish",
-    "btnScanMore": "Boshqa chiqindilarni skanerlash",
+    "btnScanMore": "Boshqa materiallarni skanerlash",
     "noItemsFound": "Chiqindilar aniqlanmadi. Boshqa tomondan suratga olib ko'ring.",
     "status": {
       "Accepted": "Qabul qilinadi",
@@ -1313,5 +1316,10 @@
       "lockin": "Platforma qulflash",
       "lockinDesc": "AI modullari EcoApp bo'ylab chuqur integratsiyalangan, bu esa o'tish xarajatlarini yuqori qiladi."
     }
+  },
+  "ecomap": {
+    "noVerifiedPointsTitle": "Yaqin-atrofda tasdiqlangan qabul punktlari hozircha mavjud emas",
+    "noVerifiedPointsDesc": "ZAMINAT hamkorlik punktlari tarmog'ini rivojlantirmoqda. Xaritada faqat tanlangan materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar ko'rsatiladi.",
+    "materialFilterNotice": "Materiallar bo'yicha punktlarni qidirish: {{materials}}"
   }
 }

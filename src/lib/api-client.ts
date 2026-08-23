@@ -445,22 +445,25 @@ class ApiClient {
     if (isSupabaseConfigured() && supabase) {
       const { data, error } = await supabase
         .from('eco_points')
-        .select('*');
+        .select('*')
+        .eq('is_verified', true);
 
-      if (error) throw new Error(error.message);
-
-      return data.map(p => ({
-        id: p.id,
-        name: p.name,
-        latitude: p.latitude,
-        longitude: p.longitude,
-        type: p.accepted_materials?.[0]?.toLowerCase() || 'mixed',
-        totalCollected: p.total_collected,
-        lastUpdated: new Date(p.created_at),
-        isActive: p.is_active
-      }));
+      if (!error && data) {
+        return data.map(p => ({
+          id: p.id,
+          name: p.name,
+          latitude: p.latitude,
+          longitude: p.longitude,
+          type: p.accepted_materials?.[0]?.toLowerCase() || 'mixed',
+          totalCollected: p.total_collected,
+          lastUpdated: new Date(p.created_at),
+          isActive: p.is_active,
+          isVerified: p.is_verified
+        }));
+      }
     }
-    return collectionPoints;
+    // Only verified collection points are returned (empty in production until physical locations exist)
+    return [];
   }
 
   // ==========================================

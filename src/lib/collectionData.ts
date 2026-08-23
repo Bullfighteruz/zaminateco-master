@@ -1,32 +1,27 @@
-export const getCollectionPoints = (t: (key: string) => string) => [
-  {
-    id: 1,
-    name: t('tashkentCentralPark'),
-    type: 'mixed',
-    collected: '1250.5',
-    status: 'active',
-    distance: '2.3',
-    emoji: '🗂️',
-    image: '/images/park.webp'
-  },
-  {
-    id: 2,
-    name: t('chilonzorMahalla'),
-    type: 'plastic',
-    collected: '890.2',
-    status: 'active',
-    distance: '2.3',
-    emoji: '♻️',
-    image: '/images/compost_13285420.webp'
-  },
-  {
-    id: 3,
-    name: t('yunusobodDistrict'),
-    type: 'tires',
-    collected: '456.8',
-    status: 'active',
-    distance: '2.3',
-    emoji: '🛞',
-    image: '/images/ECOBUSSTOP.webp'
-  }
-];
+export interface CollectionPointItem {
+  id: number;
+  name: string;
+  type: 'plastic' | 'tires' | 'mixed';
+  collected?: string;
+  status?: string;
+  distance?: string;
+  emoji?: string;
+  image?: string;
+  isVerified?: boolean;
+  lat?: number;
+  lng?: number;
+  address?: string;
+  hours?: string;
+  capacity?: string;
+}
+
+/**
+ * Authoritative collection points dataset.
+ * In production, only verified points with isVerified: true are exposed.
+ * Currently empty until physical partner collection infrastructure is formally verified.
+ */
+export const VERIFIED_COLLECTION_POINTS: CollectionPointItem[] = [];
+
+export const getCollectionPoints = (_t?: (key: string) => string): CollectionPointItem[] => {
+  return VERIFIED_COLLECTION_POINTS.filter(point => point.isVerified === true);
+};
