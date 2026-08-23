@@ -1323,11 +1323,33 @@
     "materialFilterNotice": "Materiallar bo'yicha punktlarni qidirish: {{materials}}"
   },
   "actions": {
-    "collectionPointsTitle": "Ikkilamchi xomashyoni qabul qilish punktlari",
-    "collectionPointsDesc": "Toshkentdagi tasdiqlangan ikkilamchi xomashyo va materiallarni qabul qilish punktlari",
+    "collectionPointsTitle": "Qabul punktlari va rivojlanish tarmog'i",
+    "collectionPointsDesc": "Tasdiqlangan qabul punktlari va ZAMINAT tasdiqlangan rivojlanish tarmog'i",
     "collectionModeNotice": "Qabul punktlarini qidirish rejimi",
     "searchingForMaterials": "Materiallar bo'yicha punktlarni qidirish: {{materials}}",
     "noVerifiedPointsForMaterialsTitle": "Tanlangan materiallar uchun tasdiqlangan qabul punktlari hozircha mavjud emas",
-    "noVerifiedPointsForMaterialsDesc": "ZAMINAT hamkorlik punktlari tarmog'ini rivojlantirmoqda. Bu yerda faqat tanlangan materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar paydo bo'ladi."
+    "noVerifiedPointsForMaterialsDesc": "ZAMINAT hamkorlik punktlari tarmog'ini rivojlantirmoqda. Bu yerda faqat tanlangan materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar paydo bo'ladi.",
+    "filterAll": "Barchasi",
+    "filterVerified": "Tasdiqlangan",
+    "filterNetwork": "Rivojlanish tarmog'i",
+    "filterActions": "Eko-aksiyalar",
+    "verifiedPoint": "Tasdiqlangan",
+    "verifiedOperating": "Tasdiqlangan",
+    "plannedPoint": "Rejalashtirilgan nuqta",
+    "notOperationalYet": "Hali ishga tushmagan",
+    "candidateZone": "Ko'rib chiqilayotgan zona",
+    "underReview": "O'rganish bosqichida",
+    "plannedRolloutNotice": "Manzil ZAMINAT tarmog'ini rivojlantirish rejasiga kiritilgan.",
+    "candidateStudyNotice": "Chiqindilar hosil bo'lishi zichligini dastlabki tahlil qilish zonasi.",
+    "noCommitmentNotice": "Yakuniy qaror kelishuv natijalari asosida qabul qilinadi.",
+    "estimatedLaunch": "Taxminiy ishga tushirish",
+    "targetMaterials": "Rejalashtirilgan materiallar",
+    "dropoffUnavailable": "Qabul qilish hali boshlanmagan (rejalashtirilgan)",
+    "zoneUnderReview": "Zona ko'rib chiqilmoqda",
+    "seePlannedNetwork": "ZAMINAT rejalashtirilgan tarmog'ini ko'rish",
+    "verifiedCount": "Tasdiqlangan",
+    "networkCount": "Rivojlanishda",
+    "actionsCount": "Eko-aksiyalar",
+    "locationNotOperationalNotice": "Ushbu punkt hali xomashyo qabul qilish uchun ochiq emas."
   }
 }

@@ -15,8 +15,13 @@ interface MapPoint {
   name: string;
   lat: number;
   lng: number;
-  type: 'plastic' | 'tires' | 'mixed' | 'cleanup' | 'education' | 'recycling' | 'awareness';
+  type: 'plastic' | 'tires' | 'mixed' | 'metal' | 'paper' | 'glass' | 'cleanup' | 'education' | 'recycling' | 'awareness';
   address: string;
+  status?: 'verified' | 'planned' | 'candidate';
+  district?: string;
+  targetMaterials?: string[];
+  estimatedLaunch?: string;
+  isOperational?: boolean;
   hours?: string;
   capacity?: string;
   collected?: string;
@@ -50,7 +55,7 @@ const getCollectionPointIconPath = (type: 'plastic' | 'tires' | 'mixed', name: s
   if (name.toLowerCase().includes('yunusobod')) {
     return '/images/Yunusobod District.webp';
   }
-  
+
   // Fallback to type-based icons
   switch (type) {
     case 'plastic':
@@ -66,23 +71,36 @@ const getCollectionPointIconPath = (type: 'plastic' | 'tires' | 'mixed', name: s
 
 // Create icon for collection points with text label and category badge
 const createCollectionPointIcon = (
-  type: 'plastic' | 'tires' | 'mixed',
+  type: 'plastic' | 'tires' | 'mixed' | 'metal' | 'paper' | 'glass',
   name: string,
   isMobile: boolean = false,
-  collectionLabel: string = 'Collection'
+  status: 'verified' | 'planned' | 'candidate' = 'verified',
+  statusLabel?: string
 ) => {
   const size = isMobile ? 36 : 44;
-  const labelSize = isMobile ? 28 : 32;
   const iconSize = isMobile ? 24 : 28;
-  const categoryBadgeHeight = isMobile ? 18 : 20;
-  
-  const color = 
-    type === 'plastic' ? '#22c55e' :
-    type === 'tires' ? '#3b82f6' :
-    '#a855f7';
 
-  const iconPath = getCollectionPointIconPath(type, name);
-  
+  let badgeBg = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+  let badgeBorder = '1.5px solid white';
+  let badgeShadow = '0 2px 8px rgba(16, 185, 129, 0.4)';
+  let defaultLabel = 'Verified';
+  let color = type === 'plastic' ? '#22c55e' : type === 'tires' ? '#3b82f6' : '#a855f7';
+
+  if (status === 'planned') {
+    badgeBg = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+    badgeShadow = '0 2px 8px rgba(245, 158, 11, 0.4)';
+    defaultLabel = 'Planned';
+    color = '#f59e0b';
+  } else if (status === 'candidate') {
+    badgeBg = 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)';
+    badgeShadow = '0 2px 8px rgba(99, 102, 241, 0.4)';
+    defaultLabel = 'Candidate';
+    color = '#6366f1';
+  }
+
+  const labelText = statusLabel || defaultLabel;
+  const iconPath = getCollectionPointIconPath(type as any, name);
+
   const iconHtml = `
     <div style="
       display: flex;
@@ -92,7 +110,7 @@ const createCollectionPointIcon = (
     ">
       <!-- Category Badge -->
       <div style="
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        background: ${badgeBg};
         color: white;
         padding: ${isMobile ? '2px 8px' : '3px 10px'};
         border-radius: 12px;
@@ -100,14 +118,14 @@ const createCollectionPointIcon = (
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-        border: 1.5px solid white;
+        box-shadow: ${badgeShadow};
+        border: ${badgeBorder};
         margin-bottom: 4px;
         white-space: nowrap;
         z-index: 3;
         position: relative;
-      ">${collectionLabel}</div>
-      
+      ">${labelText}</div>
+
       <!-- Marker Icon -->
       <div style="
         width: ${size}px;
@@ -123,8 +141,8 @@ const createCollectionPointIcon = (
         z-index: 2;
         overflow: hidden;
       ">
-        <img 
-          src="${iconPath}" 
+        <img
+          src="${iconPath}"
           alt="${name}"
           style="
             width: ${iconSize}px;
@@ -135,18 +153,18 @@ const createCollectionPointIcon = (
           onerror="this.onerror=null; this.style.display='none';"
         />
       </div>
-      
+
       <!-- Location Name Label -->
       <div style="
         margin-top: 3px;
-        background: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         padding: ${isMobile ? '2px 6px' : '3px 8px'};
         border-radius: 4px;
         box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         font-size: ${isMobile ? '8px' : '9px'};
-        font-weight: 500;
+        font-weight: 600;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         color: #1f2937;
         letter-spacing: 0.01em;
@@ -188,7 +206,7 @@ const getActionLocationIconPath = (type: 'cleanup' | 'education' | 'recycling' |
   if (name.toLowerCase().includes('awareness') || name.toLowerCase().includes('walk') || name.toLowerCase().includes('olmazor')) {
     return '/images/community_16119903.webp';
   }
-  
+
   // Fallback to type-based icons
   switch (type) {
     case 'cleanup':
@@ -215,17 +233,17 @@ const createActionLocationIcon = (
   const labelSize = isMobile ? 28 : 32;
   const iconSize = isMobile ? 24 : 28;
   const categoryBadgeHeight = isMobile ? 18 : 20;
-  
+
   const colorMap = {
     cleanup: '#06b6d4',      // cyan for river/water
     education: '#8b5cf6',    // purple for school
     recycling: '#10b981',    // green for recycling
     awareness: '#f59e0b'     // amber for awareness
   };
-  
+
   const color = colorMap[type];
   const iconPath = getActionLocationIconPath(type, name);
-  
+
   const iconHtml = `
     <div style="
       display: flex;
@@ -250,7 +268,7 @@ const createActionLocationIcon = (
         z-index: 3;
         position: relative;
       ">${eventLabel}</div>
-      
+
       <!-- Marker Icon -->
       <div style="
         width: ${size}px;
@@ -266,8 +284,8 @@ const createActionLocationIcon = (
         z-index: 2;
         overflow: hidden;
       ">
-        <img 
-          src="${iconPath}" 
+        <img
+          src="${iconPath}"
           alt="${name}"
           style="
             width: ${iconSize}px;
@@ -278,7 +296,7 @@ const createActionLocationIcon = (
           onerror="this.onerror=null; this.style.display='none';"
         />
       </div>
-      
+
       <!-- Location Name Label -->
       <div style="
         margin-top: 3px;
@@ -319,7 +337,7 @@ const createActionLocationIcon = (
 // Component to handle map view updates
 function MapViewUpdater({ center, zoom }: { center: [number, number]; zoom: number }) {
   const map = useMap();
-  
+
   useEffect(() => {
     map.setView(center, zoom);
   }, [map, center, zoom]);
@@ -328,10 +346,10 @@ function MapViewUpdater({ center, zoom }: { center: [number, number]; zoom: numb
 }
 
 // Custom Popup Content Component
-const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (point: MapPoint) => void }> = ({ 
-  point, 
+const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (point: MapPoint) => void }> = ({
+  point,
   isMobile,
-  onNavigate 
+  onNavigate
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const [tipsOpen, setTipsOpen] = useState(false);
@@ -352,7 +370,7 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
   const getLocationSummary = () => {
     switch (point.type) {
       case 'plastic':
-        return t('plasticCollectionSummary', { 
+        return t('plasticCollectionSummary', {
           ns: 'translation',
           defaultValue: 'Drop off clean plastic waste for recycling into eco-tiles and sustainable infrastructure.'
         });
@@ -417,6 +435,10 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
 
   const tips = getRecyclingTips();
 
+  const isVerified = point.status === 'verified';
+  const isPlanned = point.status === 'planned';
+  const isCandidate = point.status === 'candidate';
+
   return (
     <div className={cn(
       "p-3 min-w-[280px] max-w-[320px]",
@@ -441,44 +463,115 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
             </p>
           </div>
         </div>
-        
+
         {/* Badges */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-1.5 flex-wrap">
           <Badge className={cn(
             point.type === 'plastic' ? 'bg-green-100 text-green-800' :
             point.type === 'tires' ? 'bg-blue-100 text-blue-800' :
             'bg-purple-100 text-purple-800',
-            isMobile ? "text-xs px-2 py-1" : "text-sm px-2.5 py-1"
+            isMobile ? "text-xs px-2 py-0.5" : "text-xs px-2.5 py-0.5"
           )}>
             {getTranslatedType()}
           </Badge>
-          <Badge variant="outline" className={cn(
-            "bg-green-50 text-green-800 border-green-200",
-            isMobile ? "text-xs px-2 py-1" : "text-sm px-2.5 py-1"
-          )}>
-            {t('active', { ns: 'translation', defaultValue: 'Active' })}
-          </Badge>
-        </div>
-        
-        {/* Quick Info - Always Visible */}
-        <div className={cn(
-          "flex items-center gap-3 text-gray-600 py-2 border-y border-gray-200",
-          isMobile ? "text-xs" : "text-sm"
-        )}>
-          <div className="flex items-center gap-1.5">
-            <Clock className={cn("flex-shrink-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
-            <span>{point.hours}</span>
-          </div>
-          {point.collected && (
-            <div className="flex items-center gap-1.5">
-              <Recycle className={cn("flex-shrink-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
-              <span className="font-semibold text-green-700">{point.collected}kg</span>
-            </div>
+
+          {isVerified && (
+            <Badge variant="outline" className={cn(
+              "bg-emerald-50 text-emerald-800 border-emerald-300 font-semibold",
+              isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
+            )}>
+              {t('actions.verifiedOperating', { ns: 'actions', defaultValue: 'Подтверждён' })}
+            </Badge>
+          )}
+
+          {isPlanned && (
+            <>
+              <Badge className={cn(
+                "bg-amber-500 text-white font-bold",
+                isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
+              )}>
+                {t('actions.plannedPoint', { ns: 'actions', defaultValue: 'Планируемая точка' })}
+              </Badge>
+              <Badge variant="outline" className={cn(
+                "bg-rose-50 text-rose-800 border-rose-200 font-semibold",
+                isMobile ? "text-[9px] px-1.5 py-0.5" : "text-[10px] px-2 py-0.5"
+              )}>
+                {t('actions.notOperationalYet', { ns: 'actions', defaultValue: 'Ещё не работает' })}
+              </Badge>
+            </>
+          )}
+
+          {isCandidate && (
+            <>
+              <Badge className={cn(
+                "bg-indigo-600 text-white font-bold",
+                isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
+              )}>
+                {t('actions.candidateZone', { ns: 'actions', defaultValue: 'Рассматриваемая зона' })}
+              </Badge>
+              <Badge variant="outline" className={cn(
+                "bg-slate-100 text-slate-700 border-slate-300 font-medium",
+                isMobile ? "text-[9px] px-1.5 py-0.5" : "text-[10px] px-2 py-0.5"
+              )}>
+                {t('actions.underReview', { ns: 'actions', defaultValue: 'Изучение спроса' })}
+              </Badge>
+            </>
           )}
         </div>
-        
-        {/* Collapsible Tips Section */}
-        {tips.length > 0 && (
+
+        {/* Planned / Candidate Notice Box */}
+        {isPlanned && (
+          <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-950 text-xs space-y-1">
+            <p className="font-semibold text-amber-900 leading-tight">
+              {t('actions.plannedRolloutNotice', { ns: 'actions', defaultValue: 'Локация утверждена в плане развития сети ZAMINAT.' })}
+            </p>
+            {point.estimatedLaunch && (
+              <p className="text-[11px] text-amber-800">
+                <span className="font-medium">{t('actions.estimatedLaunch', { ns: 'actions', defaultValue: 'Ориентировочный запуск' })}:</span> {point.estimatedLaunch}
+              </p>
+            )}
+            {point.targetMaterials && point.targetMaterials.length > 0 && (
+              <p className="text-[11px] text-amber-800">
+                <span className="font-medium">{t('actions.targetMaterials', { ns: 'actions', defaultValue: 'Планируемые материалы' })}:</span> {point.targetMaterials.join(', ')}
+              </p>
+            )}
+          </div>
+        )}
+
+        {isCandidate && (
+          <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-950 text-xs space-y-1">
+            <p className="font-semibold text-indigo-950 leading-tight">
+              {t('actions.candidateStudyNotice', { ns: 'actions', defaultValue: 'Зона предварительного анализа плотности образования отходов.' })}
+            </p>
+            <p className="text-[11px] text-indigo-800 leading-tight">
+              {t('actions.noCommitmentNotice', { ns: 'actions', defaultValue: 'Окончательное решение принимается по результатам согласования.' })}
+            </p>
+          </div>
+        )}
+
+        {/* Quick Info for Verified Operating Points */}
+        {isVerified && (
+          <div className={cn(
+            "flex items-center gap-3 text-gray-600 py-2 border-y border-gray-200",
+            isMobile ? "text-xs" : "text-sm"
+          )}>
+            {point.hours && (
+              <div className="flex items-center gap-1.5">
+                <Clock className={cn("flex-shrink-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
+                <span>{point.hours}</span>
+              </div>
+            )}
+            {point.collected && (
+              <div className="flex items-center gap-1.5">
+                <Recycle className={cn("flex-shrink-0", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
+                <span className="font-semibold text-green-700">{point.collected}kg</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Collapsible Tips Section for Verified Points */}
+        {isVerified && tips.length > 0 && (
           <Collapsible open={tipsOpen} onOpenChange={setTipsOpen}>
             <CollapsibleTrigger className="w-full">
               <div className="flex items-center justify-between w-full p-2 rounded-lg bg-amber-50/50 border border-amber-200 hover:bg-amber-50 transition-colors">
@@ -512,35 +605,46 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
             </CollapsibleContent>
           </Collapsible>
         )}
-        
+
         {/* Action Buttons */}
         <div className="flex gap-2 pt-1">
-          <Button
-            size="sm"
-            onClick={() => onNavigate(point)}
-            className={cn(
-              "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white",
-              isMobile ? "h-9 text-sm px-3" : "h-10 text-base px-4"
-            )}
-          >
-            <Navigation className={cn("mr-2", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
-            {t('navigate', { ns: 'translation', defaultValue: 'Navigate' })}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              const url = `https://www.google.com/maps/search/?api=1&query=${point.lat},${point.lng}`;
-              window.open(url, '_blank');
-            }}
-            className={cn(
-              "hover:bg-gray-50",
-              isMobile ? "h-9 w-9 p-0" : "h-10 w-10 p-0"
-            )}
-            title={t('openInGoogleMaps', { ns: 'translation', defaultValue: 'Open in Google Maps' })}
-          >
-            <ExternalLink className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} />
-          </Button>
+          {isVerified ? (
+            <>
+              <Button
+                size="sm"
+                onClick={() => onNavigate(point)}
+                className={cn(
+                  "flex-1 bg-emerald-600 hover:bg-emerald-700 text-white",
+                  isMobile ? "h-9 text-sm px-3" : "h-10 text-base px-4"
+                )}
+              >
+                <Navigation className={cn("mr-2", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
+                {t('navigate', { ns: 'translation', defaultValue: 'Navigate' })}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const url = `https://www.google.com/maps/search/?api=1&query=${point.lat},${point.lng}`;
+                  window.open(url, '_blank');
+                }}
+                className={cn(
+                  "hover:bg-gray-50",
+                  isMobile ? "h-9 w-9 p-0" : "h-10 w-10 p-0"
+                )}
+                title={t('openInGoogleMaps', { ns: 'translation', defaultValue: 'Open in Google Maps' })}
+              >
+                <ExternalLink className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} />
+              </Button>
+            </>
+          ) : (
+            <div className="w-full flex items-center justify-center p-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 text-xs font-semibold">
+              <Info className="h-3.5 w-3.5 mr-1.5 text-slate-500" />
+              {isPlanned
+                ? t('actions.dropoffUnavailable', { ns: 'actions', defaultValue: 'Приём ещё не начат (в планах)' })
+                : t('actions.zoneUnderReview', { ns: 'actions', defaultValue: 'Зона находится на рассмотрении' })}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -548,10 +652,10 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
 };
 
 // Action Location Popup Component
-const ActionLocationPopup: React.FC<{ 
-  point: MapPoint; 
-  isMobile: boolean; 
-  onNavigate: (point: MapPoint) => void 
+const ActionLocationPopup: React.FC<{
+  point: MapPoint;
+  isMobile: boolean;
+  onNavigate: (point: MapPoint) => void
 }> = ({ point, isMobile, onNavigate }) => {
   const { t } = useTranslation(['translation', 'actions']);
   const [tipsOpen, setTipsOpen] = useState(false);
@@ -580,7 +684,7 @@ const ActionLocationPopup: React.FC<{
   const getEventDescription = () => {
     const nameLower = point.name.toLowerCase();
     if (nameLower.includes('chirchiq') || nameLower.includes('river')) {
-      return t('events.riverCleanup.description', { 
+      return t('events.riverCleanup.description', {
         ns: 'actions',
         defaultValue: 'Help clean the Chirchiq River banks from plastic waste and debris while learning about water ecosystem protection.'
       });
@@ -678,7 +782,7 @@ const ActionLocationPopup: React.FC<{
   const getTranslatedEventType = () => {
     const eventType = point.eventType || point.type;
     if (!eventType) return '';
-    
+
     // Check for specific event types first
     if (eventType.toLowerCase().includes('river') || eventType.toLowerCase().includes('cleanup')) {
       if (eventType.toLowerCase().includes('river')) {
@@ -686,7 +790,7 @@ const ActionLocationPopup: React.FC<{
       }
       return t('eventTypeCleanup', { ns: 'translation', defaultValue: 'Cleanup' });
     }
-    
+
     // Map common event types
     switch (eventType.toLowerCase()) {
       case 'cleanup':
@@ -724,7 +828,7 @@ const ActionLocationPopup: React.FC<{
             </p>
           </div>
         </div>
-        
+
         {/* Badges */}
         <div className="flex items-center gap-2 flex-wrap">
           <Badge className={cn(getColor(), isMobile ? "text-xs px-2 py-1" : "text-sm px-2.5 py-1")}>
@@ -735,7 +839,7 @@ const ActionLocationPopup: React.FC<{
             {t('actionLocation', { ns: 'translation', defaultValue: 'Action Location' })}
           </Badge>
         </div>
-        
+
         {/* Collapsible Description */}
         <Collapsible open={detailsOpen} onOpenChange={setDetailsOpen}>
           <CollapsibleTrigger className="w-full">
@@ -782,7 +886,7 @@ const ActionLocationPopup: React.FC<{
             </div>
           </CollapsibleContent>
         </Collapsible>
-        
+
         {/* Collapsible Tips Section */}
         {tips.length > 0 && (
           <Collapsible open={tipsOpen} onOpenChange={setTipsOpen}>
@@ -818,7 +922,7 @@ const ActionLocationPopup: React.FC<{
             </CollapsibleContent>
           </Collapsible>
         )}
-        
+
         {/* Collapsible Impact */}
         {impact && (
           <Collapsible>
@@ -848,7 +952,7 @@ const ActionLocationPopup: React.FC<{
             </CollapsibleContent>
           </Collapsible>
         )}
-        
+
         {/* Action Buttons */}
         <div className="flex gap-2 pt-1">
           <Button
@@ -907,13 +1011,20 @@ export default function InteractiveMap({
   // Collection point marker component
   const CollectionPointMarker: React.FC<{ point: MapPoint }> = ({ point }) => {
     const markerRef = useRef<React.ComponentRef<typeof Marker> | null>(null);
+    const status = point.status || 'verified';
+    const statusLabel =
+      status === 'planned' ? t('actions.plannedPoint', { ns: 'actions', defaultValue: 'Планируется' }) :
+      status === 'candidate' ? t('actions.candidateZone', { ns: 'actions', defaultValue: 'На рассмотрении' }) :
+      t('actions.verifiedPoint', { ns: 'actions', defaultValue: 'Подтверждён' });
+
     const icon = createCollectionPointIcon(
-      point.type as 'plastic' | 'tires' | 'mixed',
+      point.type as any,
       point.name,
       isMobile,
-      t('collection')
+      status,
+      statusLabel
     );
-    
+
     useEffect(() => {
       const marker = markerRef.current?.leafletElement;
       if (!marker) return;
@@ -945,8 +1056,8 @@ export default function InteractiveMap({
           autoPan={true}
           autoPanPadding={[30, 30]}
         >
-          <CustomPopup 
-            point={point} 
+          <CustomPopup
+            point={point}
             isMobile={isMobile}
             onNavigate={handleNavigate}
           />
@@ -964,7 +1075,7 @@ export default function InteractiveMap({
       isMobile,
       t('event')
     );
-    
+
     useEffect(() => {
       const marker = markerRef.current?.leafletElement;
       if (!marker) return;
@@ -996,8 +1107,8 @@ export default function InteractiveMap({
           autoPan={true}
           autoPanPadding={[30, 30]}
         >
-          <ActionLocationPopup 
-            point={point} 
+          <ActionLocationPopup
+            point={point}
             isMobile={isMobile}
             onNavigate={handleNavigate}
           />
@@ -1014,7 +1125,7 @@ export default function InteractiveMap({
           "w-full rounded-lg overflow-hidden relative",
           isMobile ? "h-80" : "h-full"
         )}
-        style={{ 
+        style={{
           height: height === '100%' ? '100%' : height,
           minHeight: isMobile ? '350px' : '500px',
           backgroundColor: '#f8f9fa',
@@ -1120,7 +1231,7 @@ export default function InteractiveMap({
                     'text-purple-600'
                   )} />
                   <p className="text-xs text-gray-700 leading-relaxed">
-                    {selectedPoint.type === 'plastic' 
+                    {selectedPoint.type === 'plastic'
                       ? t('plasticCollectionSummary', { ns: 'translation' })
                       : selectedPoint.type === 'tires'
                       ? t('tiresCollectionSummary', { ns: 'translation' })

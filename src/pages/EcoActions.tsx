@@ -1,15 +1,15 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Search, 
-  Filter, 
-  Calendar, 
-  MapPin, 
-  Users, 
-  Clock, 
-  Award, 
-  Star, 
+import {
+  Search,
+  Filter,
+  Calendar,
+  MapPin,
+  Users,
+  Clock,
+  Award,
+  Star,
   ChevronDown,
   Target,
   Leaf,
@@ -40,7 +40,14 @@ import { cn } from '@/lib/utils';
 import { getIconForProductOrCategory } from '@/lib/iconMatcher';
 import { EventCard, type EcoEvent } from '@/components/EventCard';
 import InteractiveMap from '@/components/InteractiveMap';
-import { getCollectionPoints, CollectionPointItem } from '@/lib/collectionData';
+import {
+  getVerifiedCollectionPoints,
+  getPlannedCollectionPoints,
+  getCandidateCollectionPoints,
+  getNetworkExpansionPoints,
+  getAllCollectionPoints,
+  CollectionPointItem
+} from '@/lib/collectionData';
 import { toast } from 'sonner';
 
 // Animation variants
@@ -118,16 +125,16 @@ const getCurrentDates = () => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  
+
   const nextWeek = new Date(today);
   nextWeek.setDate(nextWeek.getDate() + 7);
-  
+
   const twoWeeks = new Date(today);
   twoWeeks.setDate(twoWeeks.getDate() + 14);
-  
+
   const threeWeeks = new Date(today);
   threeWeeks.setDate(threeWeeks.getDate() + 21);
-  
+
   const oneMonth = new Date(today);
   oneMonth.setDate(oneMonth.getDate() + 30);
 
@@ -145,7 +152,7 @@ const getCurrentDates = () => {
 const KeyFeaturesSection = () => {
   const { t } = useTranslation(['actions', 'translation']);
   const isMobile = useIsMobile();
-  
+
   type Feature = {
     image: string;
     title: string;
@@ -190,7 +197,7 @@ const KeyFeaturesSection = () => {
       iconPath: '/images/Meet Like-minded People.webp'
     }
   ];
-    
+
     return baseFeatures.map((feature: Feature) => {
       let iconPath = feature.iconPath;
 
@@ -232,11 +239,11 @@ const KeyFeaturesSection = () => {
               {t('whyJoinOurEcoActionsDesc', { ns: 'actions' })}
             </p>
           </div>
-          
+
           <div className={cn(
             "grid",
-            isMobile 
-              ? "grid-cols-2 gap-3" 
+            isMobile
+              ? "grid-cols-2 gap-3"
               : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6"
           )}>
             {features.map((feature, index) => (
@@ -256,15 +263,15 @@ const KeyFeaturesSection = () => {
                   isMobile ? "mb-2" : "mb-4"
                 )}>
                   <div className="relative group-hover:scale-110 transition-transform duration-300">
-                    <img 
-                      src={feature.iconPath || feature.image} 
-                      alt={feature.title} 
+                    <img
+                      src={feature.iconPath || feature.image}
+                      alt={feature.title}
                       className={cn(
                         "object-contain flex-shrink-0",
                         isMobile ? "h-12 w-12" : "h-16 w-16 sm:h-20 sm:w-20"
                       )}
-                      style={{ 
-                        minWidth: isMobile ? '48px' : '64px', 
+                      style={{
+                        minWidth: isMobile ? '48px' : '64px',
                         minHeight: isMobile ? '48px' : '64px',
                         maxWidth: 'none',
                         maxHeight: 'none'
@@ -315,7 +322,10 @@ export default function EcoActions() {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [activeTab, setActiveTab] = useState('upcoming');
   const [showMapFilters, setShowMapFilters] = useState(false);
-  const [mapFilterType, setMapFilterType] = useState<'all' | 'plastic' | 'tires' | 'mixed'>('all');
+  const [mapCategoryFilter, setMapCategoryFilter] = useState<'all' | 'verified' | 'network' | 'actions'>(
+    isCollectionMode ? 'verified' : 'all'
+  );
+  const [mapMaterialFilter, setMapMaterialFilter] = useState<'all' | 'plastic' | 'tires' | 'mixed'>('all');
 
   // Auto-scroll to unified collection map if arriving with collection mode or #collection-map
   useEffect(() => {
@@ -477,29 +487,29 @@ export default function EcoActions() {
     return sampleEvents.map(event => {
       const title = t(event.titleKey, { ns: 'actions' });
       const description = t(event.descriptionKey, { ns: 'actions' });
-      
+
       const englishTitle = eventEnglishTitles[event.id] || title;
-      
+
       let iconPath = getIconForProductOrCategory(englishTitle, event.image);
-      
+
       if (iconPath === event.image) {
         const categoryMatched = getIconForProductOrCategory(event.category, event.image);
         if (categoryMatched !== event.image && categoryMatched.startsWith('/images/')) {
           iconPath = categoryMatched;
         }
       }
-      
+
       if (iconPath === event.image) {
         const descMatched = getIconForProductOrCategory(description, event.image);
         if (descMatched !== event.image && descMatched.startsWith('/images/')) {
           iconPath = descMatched;
         }
       }
-      
+
       if (!iconPath || !iconPath.startsWith('/images/')) {
         iconPath = event.image;
       }
-      
+
       return {
         ...event,
         iconPath
@@ -513,14 +523,14 @@ export default function EcoActions() {
       const title = t(event.titleKey, { ns: 'actions' });
       const description = t(event.descriptionKey, { ns: 'actions' });
       const location = t(event.locationKey, { ns: 'actions' });
-      
+
       const matchesSearch = title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           location.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
       const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
       const matchesLocation = selectedLocation === 'all' || location.includes(selectedLocation);
-      const matchesTab = activeTab === 'all' || 
+      const matchesTab = activeTab === 'all' ||
                         (activeTab === 'upcoming' && !event.isJoined) ||
                         (activeTab === 'joined' && event.isJoined);
 
@@ -535,50 +545,58 @@ export default function EcoActions() {
   // Get unique locations
   const locations = [...new Set(eventsWithIcons.map(e => t(e.locationKey, { ns: 'actions' }).split(',')[0].trim()))];
 
-  // Collection Points Integration (Verified locations only)
-  const rawCollectionPoints = useMemo(() => getCollectionPoints(t), [t]);
-  
-  const collectionPoints = useMemo(() => {
-    return rawCollectionPoints.map(point => {
-      let iconPath = getIconForProductOrCategory(point.name, point.image);
-      
-      if (iconPath === point.image) {
-        const typeMatched = getIconForProductOrCategory(point.type, point.image);
-        if (typeMatched !== point.image && typeMatched.startsWith('/images/')) {
-          iconPath = typeMatched;
-        }
-      }
-      
-      if (!iconPath || !iconPath.startsWith('/images/')) {
-        iconPath = point.type === 'plastic' 
-          ? '/images/compost_13285420.webp' 
-          : point.type === 'tires' 
-          ? '/images/ECOBUSSTOP.webp' 
-          : '/images/park.webp';
-      }
-      
-      return {
-        ...point,
-        iconPath,
-      };
-    });
-  }, [rawCollectionPoints]);
+  // Collection Points Integration with three clear states
+  const verifiedPoints = useMemo(() => getVerifiedCollectionPoints(), []);
+  const plannedPoints = useMemo(() => getPlannedCollectionPoints(), []);
+  const candidatePoints = useMemo(() => getCandidateCollectionPoints(), []);
+  const networkPoints = useMemo(() => getNetworkExpansionPoints(), []);
+  const allCollectionPoints = useMemo(() => getAllCollectionPoints(), []);
 
-  const filteredCollectionPoints = useMemo(() => {
-    if (mapFilterType === 'all') return collectionPoints;
-    return collectionPoints.filter(point => point.type === mapFilterType);
-  }, [collectionPoints, mapFilterType]);
+  // Filtered collection points based on mapCategoryFilter and mapMaterialFilter
+  const displayedCollectionPoints = useMemo(() => {
+    let list: CollectionPointItem[] = [];
+    if (mapCategoryFilter === 'verified') {
+      list = verifiedPoints;
+    } else if (mapCategoryFilter === 'network') {
+      list = networkPoints;
+    } else if (mapCategoryFilter === 'all') {
+      list = allCollectionPoints;
+    } else if (mapCategoryFilter === 'actions') {
+      list = [];
+    }
+
+    if (mapMaterialFilter !== 'all') {
+      list = list.filter(p =>
+        p.type === mapMaterialFilter ||
+        p.targetMaterials?.some(m => m.toLowerCase().includes(mapMaterialFilter))
+      );
+    }
+    return list;
+  }, [mapCategoryFilter, mapMaterialFilter, verifiedPoints, networkPoints, allCollectionPoints]);
+
+  const displayedActionLocations = useMemo(() => {
+    if (mapCategoryFilter === 'verified' || mapCategoryFilter === 'network') {
+      return [];
+    }
+    return ACTION_LOCATIONS;
+  }, [mapCategoryFilter]);
 
   const totalCollected = useMemo(() => {
-    return collectionPoints.reduce((sum, point) => {
+    return verifiedPoints.reduce((sum, point) => {
       const collected = parseFloat(point.collected?.replace(/[^0-9.]/g, '') || '0');
       return sum + collected;
     }, 0);
-  }, [collectionPoints]);
+  }, [verifiedPoints]);
 
   const handleNavigateToPoint = (pointId: number) => {
-    const point = collectionPoints.find(p => p.id === pointId);
+    const point = allCollectionPoints.find(p => p.id === pointId);
     if (point && point.lat && point.lng) {
+      if (!point.isOperational) {
+        toast.info(t('actions.locationNotOperationalNotice', {
+          defaultValue: 'Эта точка ещё не открыта для приёма вторсырья.'
+        }));
+        return;
+      }
       const url = `https://www.google.com/maps/dir/?api=1&destination=${point.lat.toString()},${point.lng.toString()}`;
       window.open(url, '_blank');
       toast.success(t('openingNavigation', { ns: 'translation' }));
@@ -597,7 +615,7 @@ export default function EcoActions() {
             className={cn(isMobile ? "space-y-4" : "space-y-6")}
           >
             {/* Hero Section - Unified */}
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className={cn(
                 "relative overflow-hidden rounded-2xl",
@@ -635,13 +653,13 @@ export default function EcoActions() {
                 )}>
                   {t('eventsDescription', { ns: 'translation' })}
                 </p>
-                
+
                 {/* Unified Stats */}
                 <div className={cn(
                   "grid max-w-4xl mx-auto",
                   isMobile ? "grid-cols-2 gap-2" : "grid-cols-4 gap-3"
                 )}>
-                  <motion.div 
+                  <motion.div
                     className={cn(
                       "bg-white/20 backdrop-blur-md rounded-lg border border-white/30",
                       isMobile ? "p-2.5" : "p-4"
@@ -664,7 +682,7 @@ export default function EcoActions() {
                       </div>
                     </div>
                   </motion.div>
-                  <motion.div 
+                  <motion.div
                     className={cn(
                       "bg-white/20 backdrop-blur-md rounded-lg border border-white/30",
                       isMobile ? "p-2.5" : "p-4"
@@ -687,7 +705,7 @@ export default function EcoActions() {
                       </div>
                     </div>
                   </motion.div>
-                  <motion.div 
+                  <motion.div
                     className={cn(
                       "bg-white/20 backdrop-blur-md rounded-lg border border-white/30",
                       isMobile ? "p-2.5" : "p-4"
@@ -700,7 +718,7 @@ export default function EcoActions() {
                         "font-bold text-white leading-tight",
                         isMobile ? "text-base mb-0.5" : "text-3xl mb-1"
                       )}>
-                        {filteredCollectionPoints.length}
+                        {verifiedPoints.length}
                       </div>
                       <div className={cn(
                         "text-white/90 leading-tight",
@@ -710,7 +728,7 @@ export default function EcoActions() {
                       </div>
                     </div>
                   </motion.div>
-                  <motion.div 
+                  <motion.div
                     className={cn(
                       "bg-white/20 backdrop-blur-md rounded-lg border border-white/30",
                       isMobile ? "p-2.5" : "p-4"
@@ -797,50 +815,110 @@ export default function EcoActions() {
                 transition={{ duration: 0.5 }}
                 className="mb-4"
               >
-                <Card className="border-0 shadow-lg bg-white/90 backdrop-blur-sm">
+                <Card className="border-0 shadow-lg bg-white/95 backdrop-blur-md">
                   <CardContent className={cn("p-4", isMobile && "p-3")}>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Button 
-                        variant={showMapFilters ? "default" : "outline"}
-                        size="sm" 
-                        onClick={() => setShowMapFilters(!showMapFilters)}
-                        className={cn(
-                          "flex items-center gap-1.5",
-                          isMobile ? "text-xs h-8 px-2" : "text-sm h-9 px-3"
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      {/* Layer Filter Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
+                        <Button
+                          variant={mapCategoryFilter === 'all' ? 'default' : 'outline'}
+                          size="sm"
+                          onClick={() => setMapCategoryFilter('all')}
+                          className={cn(
+                            mapCategoryFilter === 'all' ? "bg-slate-900 text-white hover:bg-slate-800" : "bg-white",
+                            isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
+                          )}
+                        >
+                          {t('actions.filterAll', { defaultValue: 'Все' })} ({allCollectionPoints.length + ACTION_LOCATIONS.length})
+                        </Button>
+
+                        <Button
+                          variant={mapCategoryFilter === 'verified' ? 'default' : 'outline'}
+                          size="sm"
+                          onClick={() => setMapCategoryFilter('verified')}
+                          className={cn(
+                            mapCategoryFilter === 'verified' ? "bg-emerald-600 text-white hover:bg-emerald-700" : "border-emerald-200 text-emerald-900 bg-emerald-50/40 hover:bg-emerald-50",
+                            isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
+                          )}
+                        >
+                          <CheckCircle className="h-3.5 w-3.5 mr-1 text-emerald-500" />
+                          {t('actions.filterVerified', { defaultValue: 'Подтверждённые' })} ({verifiedPoints.length})
+                        </Button>
+
+                        <Button
+                          variant={mapCategoryFilter === 'network' ? 'default' : 'outline'}
+                          size="sm"
+                          onClick={() => setMapCategoryFilter('network')}
+                          className={cn(
+                            mapCategoryFilter === 'network' ? "bg-amber-600 text-white hover:bg-amber-700" : "border-amber-200 text-amber-900 bg-amber-50/40 hover:bg-amber-50",
+                            isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
+                          )}
+                        >
+                          <Target className="h-3.5 w-3.5 mr-1 text-amber-500" />
+                          {t('actions.filterNetwork', { defaultValue: 'Сеть развития' })} ({networkPoints.length})
+                        </Button>
+
+                        {!isCollectionMode && (
+                          <Button
+                            variant={mapCategoryFilter === 'actions' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => setMapCategoryFilter('actions')}
+                            className={cn(
+                              mapCategoryFilter === 'actions' ? "bg-blue-600 text-white hover:bg-blue-700" : "border-blue-200 text-blue-900 bg-blue-50/40 hover:bg-blue-50",
+                              isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
+                            )}
+                          >
+                            <Activity className="h-3.5 w-3.5 mr-1 text-blue-500" />
+                            {t('actions.filterActions', { defaultValue: 'Эко-акции' })} ({ACTION_LOCATIONS.length})
+                          </Button>
                         )}
-                      >
-                        <Filter className={cn(isMobile ? "h-3 w-3" : "h-4 w-4")} />
-                        {t('filter', { ns: 'translation' })}
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => {
-                          if (navigator.geolocation) {
-                            navigator.geolocation.getCurrentPosition(
-                              (position) => {
-                                const { latitude, longitude } = position.coords;
-                                const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
-                                window.open(url, '_blank');
-                                toast.success(t('locationFound', { ns: 'translation' }));
-                              },
-                              () => {
-                                toast.error(t('locationError', { ns: 'translation' }));
-                              }
-                            );
-                          } else {
-                            toast.error(t('locationNotSupported', { ns: 'translation' }));
-                          }
-                        }}
-                        className={cn(
-                          "flex items-center gap-1.5",
-                          isMobile ? "text-xs h-8 px-2" : "text-sm h-9 px-3"
-                        )}
-                      >
-                        <Navigation className={cn(isMobile ? "h-3 w-3" : "h-4 w-4")} />
-                        {t('myLocation', { ns: 'translation' })}
-                      </Button>
-                      
+                      </div>
+
+                      {/* Material & Utility Filters */}
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant={showMapFilters ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setShowMapFilters(!showMapFilters)}
+                          className={cn(
+                            "flex items-center gap-1.5",
+                            isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3"
+                          )}
+                        >
+                          <Filter className={cn(isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
+                          {t('filter', { ns: 'translation' })}
+                        </Button>
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            if (navigator.geolocation) {
+                              navigator.geolocation.getCurrentPosition(
+                                (position) => {
+                                  const { latitude, longitude } = position.coords;
+                                  const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+                                  window.open(url, '_blank');
+                                  toast.success(t('locationFound', { ns: 'translation' }));
+                                },
+                                () => {
+                                  toast.error(t('locationError', { ns: 'translation' }));
+                                }
+                              );
+                            } else {
+                              toast.error(t('locationNotSupported', { ns: 'translation' }));
+                            }
+                          }}
+                          className={cn(
+                            "flex items-center gap-1.5",
+                            isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3"
+                          )}
+                        >
+                          <Navigation className={cn(isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
+                          {t('myLocation', { ns: 'translation' })}
+                        </Button>
+                      </div>
+
                       <AnimatePresence>
                         {showMapFilters && (
                           <motion.div
@@ -851,32 +929,25 @@ export default function EcoActions() {
                             className="w-full overflow-hidden"
                           >
                             <div className={cn(
-                              "flex flex-wrap gap-2 pt-3 mt-3 border-t border-gray-200",
+                              "flex flex-wrap gap-2 pt-3 mt-2 border-t border-gray-100",
                               isMobile ? "pt-2" : "pt-3"
                             )}>
                               {(['all', 'plastic', 'tires', 'mixed'] as const).map((type) => (
-                                <motion.div
-                                   key={type}
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
+                                <Button
+                                  key={type}
+                                  variant={mapMaterialFilter === type ? 'default' : 'outline'}
+                                  size="sm"
+                                  onClick={() => {
+                                    setMapMaterialFilter(type);
+                                    setShowMapFilters(false);
+                                  }}
+                                  className={cn(
+                                    mapMaterialFilter === type && "bg-emerald-600 text-white shadow-sm",
+                                    isMobile ? "text-[11px] h-7 px-2.5" : "text-xs h-8 px-3"
+                                  )}
                                 >
-                                  <Button
-                                    variant={mapFilterType === type ? 'default' : 'outline'}
-                                    size="sm"
-                                    onClick={() => {
-                                      setMapFilterType(type);
-                                      setShowMapFilters(false);
-                                    }}
-                                    className={cn(
-                                      mapFilterType === type && "shadow-md",
-                                      "active:scale-95",
-                                      isMobile ? "text-xs h-9 px-3 min-w-[44px]" : "text-sm h-8 px-3"
-                                    )}
-                                    style={{ touchAction: 'manipulation' }}
-                                  >
-                                    {type === 'all' ? t('all', { ns: 'translation' }) : t(type, { ns: 'translation' })}
-                                  </Button>
-                                </motion.div>
+                                  {type === 'all' ? t('all', { ns: 'translation' }) : t(type, { ns: 'translation' })}
+                                </Button>
                               ))}
                             </div>
                           </motion.div>
@@ -887,8 +958,7 @@ export default function EcoActions() {
                 </Card>
               </motion.div>
 
-              {/* Interactive Map */}
-              {/* Map and Collection Points Side by Side */}
+              {/* Interactive Map & List Layout */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -902,52 +972,65 @@ export default function EcoActions() {
                 <div className={cn(isMobile ? "w-full" : "lg:col-span-1")}>
                   <Card className="glass-card border shadow-2xl overflow-hidden h-full flex flex-col" style={{ minHeight: isMobile ? '400px' : '600px' }}>
                     <CardHeader className={cn(
-                      "bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white flex-shrink-0",
-                      isMobile ? "p-4" : "p-6"
+                      "bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white flex-shrink-0",
+                      isMobile ? "p-3.5" : "p-5"
                     )}>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-2.5">
                           <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                             <MapPin className={cn("text-white", isMobile ? "h-4 w-4" : "h-5 w-5")} />
                           </div>
-                          <CardTitle className={cn(
-                            "text-white font-bold",
-                            isMobile ? "text-base" : "text-xl"
-                          )}>
-                            {isCollectionMode
-                              ? t('actions.collectionPointsTitle', { defaultValue: 'Пункты приёма вторсырья' })
-                              : t('collectionPointsAndActions', { ns: 'translation' })}
-                          </CardTitle>
+                          <div>
+                            <CardTitle className={cn(
+                              "text-white font-bold",
+                              isMobile ? "text-sm" : "text-lg"
+                            )}>
+                              {isCollectionMode
+                                ? t('actions.collectionPointsTitle', { defaultValue: 'Пункты приёма и сеть развития' })
+                                : t('collectionPointsAndActions', { ns: 'translation' })}
+                            </CardTitle>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm font-medium">
-                            {filteredCollectionPoints.length} {t('points', { ns: 'translation' })}
+
+                        {/* Separate Layer Counts */}
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <Badge className="bg-emerald-500/80 text-white text-[10px] px-2 py-0.5 border-emerald-300/40">
+                            {t('actions.verifiedCount', { defaultValue: 'Подтверждённых' })}: {verifiedPoints.length}
+                          </Badge>
+                          <Badge className="bg-amber-500/80 text-white text-[10px] px-2 py-0.5 border-amber-300/40">
+                            {t('actions.networkCount', { defaultValue: 'В развитии' })}: {networkPoints.length}
                           </Badge>
                           {!isCollectionMode && (
-                            <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm font-medium">
-                              {ACTION_LOCATIONS.length} {t('actions', { ns: 'translation' })}
+                            <Badge className="bg-blue-500/80 text-white text-[10px] px-2 py-0.5 border-blue-300/40">
+                              {t('actions.actionsCount', { defaultValue: 'Эко-акций' })}: {ACTION_LOCATIONS.length}
                             </Badge>
                           )}
                         </div>
                       </div>
                     </CardHeader>
+
                     <CardContent className="p-0 flex-1 flex flex-col" style={{ minHeight: 0 }}>
                       <div className="flex-1 w-full" style={{ minHeight: isMobile ? '350px' : '500px', height: isMobile ? '350px' : '100%' }}>
                         <InteractiveMap
-                          points={filteredCollectionPoints.map(point => ({
+                          points={displayedCollectionPoints.map(point => ({
                             id: point.id,
                             name: point.name,
-                            lat: point.lat || 41.2995,
-                            lng: point.lng || 69.2401,
-                            type: point.type as 'plastic' | 'tires' | 'mixed',
-                            address: point.address || point.name,
-                            hours: point.hours || '',
-                            capacity: point.capacity || '',
+                            lat: point.lat,
+                            lng: point.lng,
+                            type: point.type,
+                            address: point.address || point.district,
+                            status: point.status,
+                            district: point.district,
+                            targetMaterials: point.targetMaterials,
+                            estimatedLaunch: point.estimatedLaunch,
+                            isOperational: point.isOperational,
+                            hours: point.hours,
+                            capacity: point.capacity,
                             collected: point.collected,
                             distance: point.distance,
-                            iconPath: point.iconPath
+                            iconPath: point.image
                           }))}
-                          actionLocations={isCollectionMode ? [] : ACTION_LOCATIONS.map(location => ({
+                          actionLocations={displayedActionLocations.map(location => ({
                             id: location.id,
                             name: location.name,
                             lat: location.lat,
@@ -963,15 +1046,15 @@ export default function EcoActions() {
                           height={isMobile ? '300px' : '100%'}
                           isMobile={isMobile}
                           onPointClick={() => {
-                            // Popup will handle information display
+                            // Popup handles information display
                           }}
                           onNavigate={(point) => {
-                            if (point.id < 100) {
+                            if (point.isOperational) {
                               handleNavigateToPoint(point.id);
                             } else {
-                              const url = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
-                              window.open(url, '_blank');
-                              toast.success(t('openingNavigation', { ns: 'translation' }));
+                              toast.info(t('actions.locationNotOperationalNotice', {
+                                defaultValue: 'Эта локация пока не открыта для сбора.'
+                              }));
                             }
                           }}
                         />
@@ -984,33 +1067,41 @@ export default function EcoActions() {
                 <div className={cn(isMobile ? "w-full" : "lg:col-span-1")}>
                   <Card className="glass-card border shadow-lg h-full flex flex-col">
                     <CardHeader className={cn(
-                      "border-b border-gray-100 flex-shrink-0",
-                      isMobile ? "p-3" : "p-5"
+                      "border-b border-gray-100 flex-shrink-0 bg-slate-50/50",
+                      isMobile ? "p-3" : "p-4"
                     )}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
                           <div className={cn("p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex-shrink-0", isMobile && "p-1.5")}>
-                            <Users className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-5 w-5")} />
+                            <Users className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
                           </div>
-                          <CardTitle className={cn(
-                            "font-bold text-gray-900 truncate",
-                            isMobile ? "text-sm" : "text-lg"
-                          )}>
-                            {t('nearbyCollectionPoints', { ns: 'translation' })}
-                          </CardTitle>
+                          <div>
+                            <CardTitle className={cn(
+                              "font-bold text-gray-900 truncate",
+                              isMobile ? "text-xs" : "text-base"
+                            )}>
+                              {mapCategoryFilter === 'verified'
+                                ? t('actions.filterVerified', { defaultValue: 'Подтверждённые пункты' })
+                                : mapCategoryFilter === 'network'
+                                ? t('actions.filterNetwork', { defaultValue: 'Сеть развития ZAMINAT' })
+                                : t('nearbyCollectionPoints', { ns: 'translation' })}
+                            </CardTitle>
+                          </div>
                         </div>
-                        <Badge variant="outline" className={cn("font-medium flex-shrink-0 ml-2", isMobile && "text-xs px-2 py-0.5")}>
-                          {filteredCollectionPoints.length}
+
+                        <Badge variant="outline" className={cn("font-bold flex-shrink-0 ml-2", isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2.5 py-0.5")}>
+                          {displayedCollectionPoints.length}
                         </Badge>
                       </div>
                     </CardHeader>
+
                     <CardContent className={cn(
                       "space-y-2.5 overflow-y-auto flex-1",
-                      isMobile ? "p-2.5" : "p-5",
+                      isMobile ? "p-2.5" : "p-4",
                       isMobile ? "max-h-[400px]" : "max-h-[500px]"
                     )} style={{ WebkitOverflowScrolling: 'touch' }}>
-                      {filteredCollectionPoints.length === 0 ? (
-                        <div className="text-center py-10 px-4 space-y-4">
+                      {displayedCollectionPoints.length === 0 ? (
+                        <div className="text-center py-8 px-4 space-y-4">
                           <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 w-fit mx-auto text-emerald-600">
                             <MapPin className="h-8 w-8 stroke-[1.5]" />
                           </div>
@@ -1024,116 +1115,139 @@ export default function EcoActions() {
                               })}
                             </p>
                           </div>
+
                           {materialsParam && (
                             <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200 text-xs px-3 py-1">
                               {t('actions.searchingForMaterials', { defaultValue: 'Ищем пункты для материалов: {{materials}}', materials: materialsParam })}
                             </Badge>
                           )}
+
+                          <div className="pt-2">
+                            <Button
+                              size="sm"
+                              onClick={() => setMapCategoryFilter('network')}
+                              className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-md gap-1.5"
+                            >
+                              <Target className="h-3.5 w-3.5" />
+                              {t('actions.seePlannedNetwork', { defaultValue: 'Посмотреть планируемую сеть ZAMINAT' })} ({networkPoints.length})
+                            </Button>
+                          </div>
                         </div>
                       ) : (
-                        filteredCollectionPoints.map((point, index) => (
-                          <motion.div
-                            key={point.id}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ scale: 1.01, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <div 
-                              className={cn(
-                                "glass-card glass-card-hover relative rounded-xl transition-all duration-300 overflow-hidden",
-                                "active:scale-[0.98]",
-                                isMobile ? "p-2.5" : "p-4"
-                              )}
-                              style={{ touchAction: 'manipulation' }}
+                        displayedCollectionPoints.map((point, index) => {
+                          const isVerified = point.status === 'verified';
+                          const isPlanned = point.status === 'planned';
+                          const isCandidate = point.status === 'candidate';
+
+                          return (
+                            <motion.div
+                              key={point.id}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                              whileHover={{ scale: 1.01, y: -2 }}
                             >
-
-                              <div className={cn("flex items-center gap-2.5", isMobile && "gap-2")}>
-                                <div className={cn(
-                                  "rounded-xl flex items-center justify-center flex-shrink-0 shadow-md",
-                                  point.type === 'plastic' ? 'bg-gradient-to-br from-emerald-400 to-emerald-500' :
-                                  point.type === 'tires' ? 'bg-gradient-to-br from-teal-400 to-teal-500' :
-                                  'bg-gradient-to-br from-teal-400 to-emerald-500',
-                                  isMobile ? "w-11 h-11 p-1.5" : "w-14 h-14 p-2.5"
-                                )}>
-                                  <img 
-                                    src={point.iconPath || point.image}
-                                    alt={point.name}
-                                    className="w-full h-full object-contain"
-                                    loading="lazy"
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      const fallback = point.type === 'plastic' 
-                                        ? '/images/compost_13285420.webp' 
-                                        : point.type === 'tires' 
-                                        ? '/images/ECOBUSSTOP.webp' 
-                                        : '/images/park.webp';
-                                      if (target.src !== fallback) {
-                                        target.src = fallback;
-                                      }
-                                    }}
-                                  />
-                                </div>
-
-                                <div className="flex-1 min-w-0">
-                                  <h3 className={cn(
-                                    "font-bold text-gray-900 mb-1",
-                                    isMobile ? "text-xs leading-tight" : "text-base"
+                              <div
+                                className={cn(
+                                  "glass-card relative rounded-xl transition-all duration-300 overflow-hidden border p-3",
+                                  isPlanned && "border-amber-200 bg-amber-50/20",
+                                  isCandidate && "border-indigo-200 bg-indigo-50/20",
+                                  isVerified && "border-emerald-200 bg-white"
+                                )}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <div className={cn(
+                                    "rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm",
+                                    isPlanned ? "bg-gradient-to-br from-amber-400 to-amber-600" :
+                                    isCandidate ? "bg-gradient-to-br from-indigo-400 to-indigo-600" :
+                                    "bg-gradient-to-br from-emerald-400 to-emerald-600",
+                                    isMobile ? "w-10 h-10 p-1.5" : "w-12 h-12 p-2"
                                   )}>
-                                    {point.name}
-                                  </h3>
-                                  <div className="flex items-start gap-1 text-gray-600 mb-1.5">
-                                    <MapPin className={cn("flex-shrink-0 mt-0.5", isMobile ? "h-2.5 w-2.5" : "h-3.5 w-3.5")} />
-                                    <span className={cn("line-clamp-1", isMobile ? "text-[10px] leading-tight" : "text-sm")}>
-                                      {point.address || point.name}
-                                    </span>
+                                    <img
+                                      src={point.image || '/images/compost_13285420.webp'}
+                                      alt={point.name}
+                                      className="w-full h-full object-contain"
+                                      loading="lazy"
+                                    />
                                   </div>
-                                  <div className="flex flex-wrap items-center gap-1.5">
-                                    <Badge className={cn(
-                                      "bg-emerald-100 text-emerald-800 border-emerald-200",
-                                      isMobile ? "text-[9px] px-1 py-0.5" : "text-xs"
-                                    )}>
-                                      {t('active', { ns: 'translation' })}
-                                    </Badge>
-                                    <Badge variant="outline" className={cn(
-                                      "capitalize",
-                                      isMobile ? "text-[9px] px-1 py-0.5" : "text-xs"
-                                    )}>
-                                      {point.type === 'plastic' ? t('plastic', { ns: 'translation' }) : 
-                                       point.type === 'tires' ? t('tires', { ns: 'translation' }) : 
-                                       t('mixed', { ns: 'translation' })}
-                                    </Badge>
-                                    {point.collected && (
-                                      <Badge variant="outline" className={cn(
-                                        isMobile ? "text-[9px] px-1 py-0.5" : "text-xs"
-                                      )}>
-                                        {point.collected} {t('kg', { ns: 'translation' })}
-                                      </Badge>
+
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                                      <h3 className={cn("font-bold text-gray-900", isMobile ? "text-xs" : "text-sm")}>
+                                        {point.name}
+                                      </h3>
+                                    </div>
+
+                                    <div className="flex items-center gap-1 text-gray-600 mb-1.5">
+                                      <MapPin className={cn("flex-shrink-0", isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
+                                      <span className={cn("line-clamp-1", isMobile ? "text-[10px]" : "text-xs")}>
+                                        {point.address || point.district}
+                                      </span>
+                                    </div>
+
+                                    <div className="flex flex-wrap items-center gap-1.5">
+                                      {isVerified && (
+                                        <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 text-[10px] py-0.5">
+                                          {t('actions.verifiedOperating', { defaultValue: 'Подтверждён' })}
+                                        </Badge>
+                                      )}
+                                      {isPlanned && (
+                                        <>
+                                          <Badge className="bg-amber-100 text-amber-900 border-amber-300 text-[10px] py-0.5 font-semibold">
+                                            {t('actions.plannedPoint', { defaultValue: 'Планируемая точка' })}
+                                          </Badge>
+                                          <Badge variant="outline" className="bg-rose-50 text-rose-800 border-rose-200 text-[9px] py-0.5 font-medium">
+                                            {t('actions.notOperationalYet', { defaultValue: 'Ещё не работает' })}
+                                          </Badge>
+                                        </>
+                                      )}
+                                      {isCandidate && (
+                                        <>
+                                          <Badge className="bg-indigo-100 text-indigo-900 border-indigo-300 text-[10px] py-0.5 font-semibold">
+                                            {t('actions.candidateZone', { defaultValue: 'Рассматриваемая зона' })}
+                                          </Badge>
+                                          <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 text-[9px] py-0.5">
+                                            {t('actions.underReview', { defaultValue: 'Изучение спроса' })}
+                                          </Badge>
+                                        </>
+                                      )}
+
+                                      {point.targetMaterials && (
+                                        <Badge variant="outline" className="text-[9px] py-0.5 text-gray-700 bg-white">
+                                          {point.targetMaterials.join(', ')}
+                                        </Badge>
+                                      )}
+                                    </div>
+
+                                    {isPlanned && point.estimatedLaunch && (
+                                      <p className="mt-1.5 text-[10px] text-amber-800 font-medium">
+                                        {t('actions.estimatedLaunch', { defaultValue: 'Ориентировочный запуск' })}: {point.estimatedLaunch}
+                                      </p>
+                                    )}
+
+                                    {isCandidate && point.description && (
+                                      <p className="mt-1.5 text-[10px] text-indigo-900/80 leading-snug">
+                                        {point.description}
+                                      </p>
                                     )}
                                   </div>
-                                </div>
 
-                                <Button 
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleNavigateToPoint(point.id);
-                                  }}
-                                  className={cn(
-                                    "flex-shrink-0 hover:bg-emerald-50 hover:border-emerald-300 active:scale-95",
-                                    isMobile ? "text-[10px] h-9 px-2.5 min-w-[44px]" : "text-sm h-9 px-3"
+                                  {isVerified && (
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => handleNavigateToPoint(point.id)}
+                                      className="flex-shrink-0 hover:bg-emerald-50 hover:border-emerald-300 text-xs h-8 px-2.5"
+                                    >
+                                      <Navigation className="h-3 w-3 mr-1 text-emerald-600" />
+                                      {t('navigate', { ns: 'translation' })}
+                                    </Button>
                                   )}
-                                  style={{ touchAction: 'manipulation' }}
-                                >
-                                  <Navigation className={cn(isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
-                                  {!isMobile && <span className="ml-1">{t('navigate', { ns: 'translation' })}</span>}
-                                </Button>
+                                </div>
                               </div>
-                            </div>
-                          </motion.div>
-                        ))
+                            </motion.div>
+                          );
+                        })
                       )}
                     </CardContent>
                   </Card>
@@ -1277,7 +1391,7 @@ export default function EcoActions() {
                       </Select>
 
                       <motion.div whileHover={{ scale: isMobile ? 1 : 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button 
+                        <Button
                           onClick={() => {
                             setSearchTerm('');
                             setSelectedCategory('all');
@@ -1321,7 +1435,7 @@ export default function EcoActions() {
 
               {/* No results */}
               {filteredEvents.length === 0 && (
-                <motion.div 
+                <motion.div
                   variants={itemVariants}
                   className={cn("text-center", isMobile ? "py-8" : "py-12")}
                 >
