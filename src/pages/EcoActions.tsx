@@ -46,7 +46,9 @@ import {
   getCandidateCollectionPoints,
   getNetworkExpansionPoints,
   getAllCollectionPoints,
-  CollectionPointItem
+  getDistrictIcon,
+  CollectionPointItem,
+  MaterialKey
 } from '@/lib/collectionData';
 import { toast } from 'sonner';
 
@@ -314,6 +316,7 @@ export default function EcoActions() {
   const sourceParam = searchParams.get('source');
   const modeParam = searchParams.get('mode');
   const materialsParam = searchParams.get('materials');
+  const layerParam = searchParams.get('layer');
   const isCollectionMode = modeParam === 'collection' || sourceParam === 'ecoscan';
   const mapSectionRef = useRef<HTMLDivElement>(null);
 
@@ -322,10 +325,19 @@ export default function EcoActions() {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [activeTab, setActiveTab] = useState('upcoming');
   const [showMapFilters, setShowMapFilters] = useState(false);
-  const [mapCategoryFilter, setMapCategoryFilter] = useState<'all' | 'verified' | 'network' | 'actions'>(
-    isCollectionMode ? 'verified' : 'all'
-  );
+  const initialLayer = (layerParam === 'verified' || layerParam === 'network' || layerParam === 'actions' || layerParam === 'all')
+    ? layerParam
+    : 'all';
+  const [mapCategoryFilter, setMapCategoryFilter] = useState<'all' | 'verified' | 'network' | 'actions'>(initialLayer);
   const [mapMaterialFilter, setMapMaterialFilter] = useState<'all' | 'plastic' | 'tires' | 'mixed'>('all');
+
+  const localizedMaterials = useMemo(() => {
+    if (!materialsParam) return '';
+    return materialsParam
+      .split(',')
+      .map(m => t(`materials.${m.trim().toLowerCase()}`, { ns: 'actions', defaultValue: m.trim() }))
+      .join(', ');
+  }, [materialsParam, t]);
 
   // Auto-scroll to unified collection map if arriving with collection mode or #collection-map
   useEffect(() => {
@@ -592,7 +604,7 @@ export default function EcoActions() {
     const point = allCollectionPoints.find(p => p.id === pointId);
     if (point && point.lat && point.lng) {
       if (!point.isOperational) {
-        toast.info(t('actions.locationNotOperationalNotice', {
+        toast.info(t('locationNotOperationalNotice', {
           defaultValue: 'Эта точка ещё не открыта для приёма вторсырья.'
         }));
         return;
@@ -767,13 +779,20 @@ export default function EcoActions() {
                   animate={{ opacity: 1, y: 0 }}
                   className="mb-4 p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex flex-wrap items-center justify-between gap-2 shadow-sm"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <Recycle className="h-5 w-5 text-emerald-600 flex-shrink-0" />
-                    <span className="text-xs font-bold text-emerald-950">
-                      {materialsParam
-                        ? t('actions.searchingForMaterials', { defaultValue: 'Ищем пункты для материалов: {{materials}}', materials: materialsParam })
-                        : t('actions.collectionModeNotice', { defaultValue: 'Режим поиска пунктов приёма вторсырья' })}
-                    </span>
+                    <div className="text-xs font-bold text-emerald-950 space-y-0.5">
+                      <div>
+                        {materialsParam
+                          ? t('ecoScanMaterialsBanner', { defaultValue: 'Материалы из EcoScan: {{materials}}', materials: localizedMaterials })
+                          : t('collectionModeNotice', { defaultValue: 'Режим поиска пунктов приёма вторсырья' })}
+                      </div>
+                      {verifiedPoints.length === 0 && (
+                        <div className="text-[11px] font-normal text-emerald-800">
+                          {t('noVerifiedPointsBanner', { defaultValue: 'Подтверждённых пунктов для этих материалов пока нет.' })}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   {materialsParam && (
                     <Badge className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 border-0">
@@ -794,7 +813,7 @@ export default function EcoActions() {
                     isMobile ? "text-lg" : "text-2xl md:text-3xl"
                   )}>
                     {isCollectionMode
-                      ? t('actions.collectionPointsTitle', { defaultValue: 'Пункты приёма вторсырья' })
+                      ? t('collectionPointsTitle', { defaultValue: 'Пункты приёма вторсырья' })
                       : t('actionLocations', { ns: 'translation' })}
                   </h2>
                 </div>
@@ -803,7 +822,7 @@ export default function EcoActions() {
                   isMobile ? "text-xs px-2" : "text-sm"
                 )}>
                   {isCollectionMode
-                    ? t('actions.collectionPointsDesc', { defaultValue: 'Проверенные пункты приёма вторсырья и материалов в Ташкенте' })
+                    ? t('collectionPointsDesc', { defaultValue: 'Проверенные пункты приёма вторсырья и материалов в Ташкенте' })
                     : t('actionLocationsDesc', { ns: 'translation' })}
                 </p>
               </div>
@@ -829,7 +848,7 @@ export default function EcoActions() {
                             isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
                           )}
                         >
-                          {t('actions.filterAll', { defaultValue: 'Все' })} ({allCollectionPoints.length + ACTION_LOCATIONS.length})
+                          {t('filterAll', { defaultValue: 'Все' })} ({allCollectionPoints.length + ACTION_LOCATIONS.length})
                         </Button>
 
                         <Button
@@ -842,7 +861,7 @@ export default function EcoActions() {
                           )}
                         >
                           <CheckCircle className="h-3.5 w-3.5 mr-1 text-emerald-500" />
-                          {t('actions.filterVerified', { defaultValue: 'Подтверждённые' })} ({verifiedPoints.length})
+                          {t('filterVerified', { defaultValue: 'Подтверждённые' })} ({verifiedPoints.length})
                         </Button>
 
                         <Button
@@ -855,7 +874,7 @@ export default function EcoActions() {
                           )}
                         >
                           <Target className="h-3.5 w-3.5 mr-1 text-amber-500" />
-                          {t('actions.filterNetwork', { defaultValue: 'Сеть развития' })} ({networkPoints.length})
+                          {t('filterNetwork', { defaultValue: 'Сеть развития' })} ({networkPoints.length})
                         </Button>
 
                         {!isCollectionMode && (
@@ -869,7 +888,7 @@ export default function EcoActions() {
                             )}
                           >
                             <Activity className="h-3.5 w-3.5 mr-1 text-blue-500" />
-                            {t('actions.filterActions', { defaultValue: 'Эко-акции' })} ({ACTION_LOCATIONS.length})
+                            {t('filterActions', { defaultValue: 'Эко-акции' })} ({ACTION_LOCATIONS.length})
                           </Button>
                         )}
                       </div>
@@ -986,7 +1005,7 @@ export default function EcoActions() {
                               isMobile ? "text-sm" : "text-lg"
                             )}>
                               {isCollectionMode
-                                ? t('actions.collectionPointsTitle', { defaultValue: 'Пункты приёма и сеть развития' })
+                                ? t('collectionPointsTitle', { defaultValue: 'Пункты приёма и сеть развития' })
                                 : t('collectionPointsAndActions', { ns: 'translation' })}
                             </CardTitle>
                           </div>
@@ -995,17 +1014,17 @@ export default function EcoActions() {
                         {/* Separate Layer Counts */}
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <Badge className="bg-emerald-500/80 text-white text-[10px] px-2 py-0.5 border-emerald-300/40 font-semibold">
-                            {t('actions.verifiedCount', { defaultValue: 'Подтверждённых' })}: {verifiedPoints.length}
+                            {t('verifiedCount', { defaultValue: 'Подтверждённых' })}: {verifiedPoints.length}
                           </Badge>
                           <Badge className="bg-amber-500/80 text-white text-[10px] px-2 py-0.5 border-amber-300/40 font-semibold">
-                            {t('actions.plannedCount', { defaultValue: 'В планах' })}: {plannedPoints.length}
+                            {t('plannedCount', { defaultValue: 'В планах' })}: {plannedPoints.length}
                           </Badge>
                           <Badge className="bg-indigo-500/80 text-white text-[10px] px-2 py-0.5 border-indigo-300/40 font-semibold">
-                            {t('actions.candidateCount', { defaultValue: 'На рассмотрении' })}: {candidatePoints.length}
+                            {t('candidateCount', { defaultValue: 'На рассмотрении' })}: {candidatePoints.length}
                           </Badge>
                           {!isCollectionMode && (
                             <Badge className="bg-blue-500/80 text-white text-[10px] px-2 py-0.5 border-blue-300/40 font-semibold">
-                              {t('actions.actionsCount', { defaultValue: 'Эко-акций' })}: {ACTION_LOCATIONS.length}
+                              {t('actionsCount', { defaultValue: 'Эко-акций' })}: {ACTION_LOCATIONS.length}
                             </Badge>
                           )}
                         </div>
@@ -1017,6 +1036,7 @@ export default function EcoActions() {
                         <InteractiveMap
                           points={displayedCollectionPoints.map(point => ({
                             id: point.id,
+                            districtKey: point.districtKey,
                             name: point.name,
                             lat: point.lat,
                             lng: point.lng,
@@ -1024,6 +1044,7 @@ export default function EcoActions() {
                             address: point.address || point.district,
                             status: point.status,
                             district: point.district,
+                            materialKeys: point.materialKeys,
                             targetMaterials: point.targetMaterials,
                             estimatedLaunch: point.estimatedLaunch,
                             isOperational: point.isOperational,
@@ -1031,7 +1052,7 @@ export default function EcoActions() {
                             capacity: point.capacity,
                             collected: point.collected,
                             distance: point.distance,
-                            iconPath: point.image
+                            iconPath: getDistrictIcon(point.districtKey || point.id)
                           }))}
                           actionLocations={displayedActionLocations.map(location => ({
                             id: location.id,
@@ -1055,7 +1076,7 @@ export default function EcoActions() {
                             if (point.isOperational) {
                               handleNavigateToPoint(point.id);
                             } else {
-                              toast.info(t('actions.locationNotOperationalNotice', {
+                              toast.info(t('locationNotOperationalNotice', {
                                 defaultValue: 'Эта локация пока не открыта для сбора.'
                               }));
                             }
@@ -1084,9 +1105,9 @@ export default function EcoActions() {
                               isMobile ? "text-xs" : "text-base"
                             )}>
                               {mapCategoryFilter === 'verified'
-                                ? t('actions.filterVerified', { defaultValue: 'Подтверждённые пункты' })
+                                ? t('filterVerified', { defaultValue: 'Подтверждённые пункты' })
                                 : mapCategoryFilter === 'network'
-                                ? t('actions.filterNetwork', { defaultValue: 'Сеть развития ZAMINAT' })
+                                ? t('filterNetwork', { defaultValue: 'Сеть развития ZAMINAT' })
                                 : t('nearbyCollectionPoints', { ns: 'translation' })}
                             </CardTitle>
                           </div>
@@ -1110,10 +1131,10 @@ export default function EcoActions() {
                           </div>
                           <div className="space-y-1.5 max-w-md mx-auto">
                             <h3 className="font-bold text-gray-900 text-sm md:text-base">
-                              {t('actions.noVerifiedPointsForMaterialsTitle', { defaultValue: 'Подтверждённых пунктов приёма для выбранных материалов пока нет' })}
+                              {t('noVerifiedPointsForMaterialsTitle', { defaultValue: 'Подтверждённых пунктов приёма для выбранных материалов пока нет' })}
                             </h3>
                             <p className="text-xs text-gray-500 leading-relaxed">
-                              {t('actions.noVerifiedPointsForMaterialsDesc', {
+                              {t('noVerifiedPointsForMaterialsDesc', {
                                 defaultValue: 'ZAMINAT развивает сеть партнёрских пунктов. Здесь появятся только проверенные места, которые действительно принимают выбранные материалы.'
                               })}
                             </p>
@@ -1121,7 +1142,7 @@ export default function EcoActions() {
 
                           {materialsParam && (
                             <Badge variant="outline" className="bg-emerald-50 text-emerald-800 border-emerald-200 text-xs px-3 py-1">
-                              {t('actions.searchingForMaterials', { defaultValue: 'Ищем пункты для материалов: {{materials}}', materials: materialsParam })}
+                              {t('ecoScanMaterialsBanner', { defaultValue: 'Материалы из EcoScan: {{materials}}', materials: localizedMaterials })}
                             </Badge>
                           )}
 
@@ -1132,7 +1153,7 @@ export default function EcoActions() {
                               className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-md gap-1.5"
                             >
                               <Target className="h-3.5 w-3.5" />
-                              {t('actions.seePlannedNetwork', { defaultValue: 'Посмотреть планируемую сеть ZAMINAT' })} ({networkPoints.length})
+                              {t('seePlannedNetwork', { defaultValue: 'Посмотреть планируемую сеть ZAMINAT' })} ({networkPoints.length})
                             </Button>
                           </div>
                         </div>
@@ -1167,8 +1188,8 @@ export default function EcoActions() {
                                     isMobile ? "w-10 h-10 p-1.5" : "w-12 h-12 p-2"
                                   )}>
                                     <img
-                                      src={point.image || '/images/compost_13285420.webp'}
-                                      alt={point.name}
+                                      src={getDistrictIcon(point.districtKey || point.id)}
+                                      alt={point.districtKey ? t(`districts.${point.districtKey}.name`, { ns: 'actions', defaultValue: point.name }) : point.name}
                                       className="w-full h-full object-contain"
                                       loading="lazy"
                                     />
@@ -1177,45 +1198,55 @@ export default function EcoActions() {
                                   <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-1.5 flex-wrap mb-1">
                                       <h3 className={cn("font-bold text-gray-900", isMobile ? "text-xs" : "text-sm")}>
-                                        {point.name}
+                                        {point.districtKey
+                                          ? t(`districts.${point.districtKey}.title`, { ns: 'actions', defaultValue: point.name })
+                                          : point.name}
                                       </h3>
                                     </div>
 
                                     <div className="flex items-center gap-1 text-gray-600 mb-1.5">
                                       <MapPin className={cn("flex-shrink-0", isMobile ? "h-3 w-3" : "h-3.5 w-3.5")} />
                                       <span className={cn("line-clamp-1", isMobile ? "text-[10px]" : "text-xs")}>
-                                        {point.address || point.district}
+                                        {point.districtKey
+                                          ? t(`districts.${point.districtKey}.area`, { ns: 'actions', defaultValue: point.address || point.district })
+                                          : (point.address || point.district)}
                                       </span>
                                     </div>
 
                                     <div className="flex flex-wrap items-center gap-1.5">
                                       {isVerified && (
                                         <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 text-[10px] py-0.5">
-                                          {t('actions.verifiedOperating', { defaultValue: 'Подтверждён' })}
+                                          {t('verifiedOperating', { defaultValue: 'Подтверждён' })}
                                         </Badge>
                                       )}
                                       {isPlanned && (
                                         <>
                                           <Badge className="bg-amber-100 text-amber-900 border-amber-300 text-[10px] py-0.5 font-semibold">
-                                            {t('actions.plannedPoint', { defaultValue: 'Планируемая точка' })}
+                                            {t('plannedPoint', { defaultValue: 'Планируемая точка' })}
                                           </Badge>
                                           <Badge variant="outline" className="bg-rose-50 text-rose-800 border-rose-200 text-[9px] py-0.5 font-medium">
-                                            {t('actions.notOperationalYet', { defaultValue: 'Ещё не работает' })}
+                                            {t('notOperationalYet', { defaultValue: 'Ещё не работает' })}
                                           </Badge>
                                         </>
                                       )}
                                       {isCandidate && (
                                         <>
                                           <Badge className="bg-indigo-100 text-indigo-900 border-indigo-300 text-[10px] py-0.5 font-semibold">
-                                            {t('actions.candidateZone', { defaultValue: 'Рассматриваемая зона' })}
+                                            {t('candidateZone', { defaultValue: 'Рассматриваемая зона' })}
                                           </Badge>
                                           <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 text-[9px] py-0.5">
-                                            {t('actions.underReview', { defaultValue: 'Изучение спроса' })}
+                                            {t('underReview', { defaultValue: 'Изучение возможностей' })}
                                           </Badge>
                                         </>
                                       )}
 
-                                      {point.targetMaterials && (
+                                      {point.materialKeys && point.materialKeys.length > 0 ? (
+                                        point.materialKeys.map(matKey => (
+                                          <Badge key={matKey} variant="outline" className="text-[9px] py-0.5 text-gray-700 bg-white font-medium">
+                                            {t(`materials.${matKey}`, { ns: 'actions', defaultValue: matKey })}
+                                          </Badge>
+                                        ))
+                                      ) : point.targetMaterials && (
                                         <Badge variant="outline" className="text-[9px] py-0.5 text-gray-700 bg-white">
                                           {point.targetMaterials.join(', ')}
                                         </Badge>
@@ -1224,13 +1255,15 @@ export default function EcoActions() {
 
                                     {isPlanned && point.estimatedLaunch && (
                                       <p className="mt-1.5 text-[10px] text-amber-800 font-medium">
-                                        {t('actions.estimatedLaunch', { defaultValue: 'Ориентировочный запуск' })}: {point.estimatedLaunch}
+                                        {t('estimatedLaunch', { defaultValue: 'Ориентировочный запуск' })}: {point.estimatedLaunch}
                                       </p>
                                     )}
 
-                                    {isCandidate && point.description && (
+                                    {isCandidate && (
                                       <p className="mt-1.5 text-[10px] text-indigo-900/80 leading-snug">
-                                        {point.description}
+                                        {point.districtKey
+                                          ? t(`districts.${point.districtKey}.description`, { ns: 'actions', defaultValue: point.description })
+                                          : point.description}
                                       </p>
                                     )}
                                   </div>

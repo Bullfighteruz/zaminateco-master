@@ -141,6 +141,8 @@
   "collectionPointsDesc": "Tasdiqlangan qabul punktlari va ZAMINAT ko'rib chiqayotgan rivojlanish tarmog'i",
   "collectionModeNotice": "Qabul punktlarini qidirish rejimi",
   "searchingForMaterials": "Materiallar bo'yicha punktlarni qidirish: {{materials}}",
+  "ecoScanMaterialsBanner": "EcoScan materiallari: {{materials}}",
+  "noVerifiedPointsBanner": "Ushbu materiallar uchun tasdiqlangan punktlar hozircha yo'q.",
   "noVerifiedPointsForMaterialsTitle": "Tanlangan materiallar uchun tasdiqlangan qabul punktlari hozircha mavjud emas.",
   "noVerifiedPointsForMaterialsDesc": "ZAMINAT hamkorlik tarmog'ini rivojlantirmoqda. Bu yerda faqat materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar paydo bo'ladi.",
   "filterAll": "Barchasi",
@@ -168,5 +170,53 @@
   "candidateCount": "Ko'rib chiqilmoqda",
   "networkCount": "Rivojlanish tarmog'i",
   "actionsCount": "Eko-aksiyalar",
-  "locationNotOperationalNotice": "Ushbu hududda ikkilamchi xomashyo qabuli hali boshlanmagan."
+  "locationNotOperationalNotice": "Ushbu hududda ikkilamchi xomashyo qabuli hali boshlanmagan.",
+  "districts": {
+    "chilonzor": {
+      "name": "Chilonzor tumani",
+      "title": "Chilonzor tumani — tarmoqni rivojlantirish uchun ko‘rib chiqilayotgan hudud",
+      "area": "Chilonzor tumani (rivojlanish zonasi)",
+      "description": "ZAMINAT Chilonzor tumanida ikkilamchi materiallarni yig‘ish tarmog‘ini rivojlantirish imkoniyatlarini o‘rganmoqda. Aniq manzil va ochilish hozircha tasdiqlanmagan."
+    },
+    "yunusobod": {
+      "name": "Yunusobod tumani",
+      "title": "Yunusobod tumani — tarmoqni rivojlantirish uchun ko‘rib chiqilayotgan hudud",
+      "area": "Yunusobod tumani (rivojlanish zonasi)",
+      "description": "ZAMINAT Yunusobod tumanida ikkilamchi materiallarni yig‘ish tarmog‘ini rivojlantirish imkoniyatlarini o‘rganmoqda. Aniq manzil va ochilish hozircha tasdiqlanmagan."
+    },
+    "sergeli": {
+      "name": "Sirg'ali tumani",
+      "title": "Sirg'ali tumani — tarmoqni rivojlantirish uchun ko‘rib chiqilayotgan hudud",
+      "area": "Sirg'ali tumani (rivojlanish zonasi)",
+      "description": "ZAMINAT Sirg'ali tumanida ikkilamchi materiallarni yig‘ish tarmog‘ini rivojlantirish imkoniyatlarini o‘rganmoqda. Aniq manzil va ochilish hozircha tasdiqlanmagan."
+    },
+    "mirzo_ulugbek": {
+      "name": "Mirzo Ulug'bek tumani",
+      "title": "Mirzo Ulug'bek tumani — tarmoqni rivojlantirish uchun ko‘rib chiqilayotgan hudud",
+      "area": "Mirzo Ulug'bek tumani (rivojlanish zonasi)",
+      "description": "ZAMINAT Mirzo Ulug'bek tumanida ikkilamchi materiallarni yig‘ish tarmog‘ini rivojlantirish imkoniyatlarini o‘rganmoqda. Aniq manzil va ochilish hozircha tasdiqlanmagan."
+    },
+    "yakkasaroy": {
+      "name": "Yakkasaroy tumani",
+      "title": "Yakkasaroy tumani — tarmoqni rivojlantirish uchun ko‘rib chiqilayotgan hudud",
+      "area": "Yakkasaroy tumani (rivojlanish zonasi)",
+      "description": "ZAMINAT Yakkasaroy tumanida ikkilamchi materiallarni yig‘ish tarmog‘ini rivojlantirish imkoniyatlarini o‘rganmoqda. Aniq manzil va ochilish hozircha tasdiqlanmagan."
+    },
+    "olmazor": {
+      "name": "Olmazor tumani",
+      "title": "Olmazor tumani — tarmoqni rivojlantirish uchun ko‘rib chiqilayotgan hudud",
+      "area": "Olmazor tumani (rivojlanish zonasi)",
+      "description": "ZAMINAT Olmazor tumanida ikkilamchi materiallarni yig‘ish tarmog‘ini rivojlantirish imkoniyatlarini o‘rganmoqda. Aniq manzil va ochilish hozircha tasdiqlanmagan."
+    }
+  },
+  "materials": {
+    "plastic": "Plastmassa",
+    "rubber": "Rezina",
+    "tires": "Shinalar",
+    "mixed": "Aralash materiallar",
+    "paper": "Qog‘oz",
+    "glass": "Shisha",
+    "metal": "Metall",
+    "textile": "To'qimachilik"
+  }
 }

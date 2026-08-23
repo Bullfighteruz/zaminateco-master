@@ -117,9 +117,12 @@ describe('ZAMINAT.eco — CTO Data Integrity, Factual Network States & Locale Au
 
     // 4. Candidate zones exist with isOperational=false
     assert.ok(collectionDataSource.includes('CANDIDATE_COLLECTION_POINTS: CollectionPointItem[] = ['), 'Candidate zones defined');
-    assert.ok(collectionDataSource.includes("district: 'Chilonzor'"), 'Chilonzor candidate zone exists');
-    assert.ok(collectionDataSource.includes("district: 'Yunusobod'"), 'Yunusobod candidate zone exists');
-    assert.ok(collectionDataSource.includes("district: 'Sergeli'"), 'Sergeli candidate zone exists');
+    assert.ok(collectionDataSource.includes("districtKey: 'chilonzor'"), 'Chilonzor districtKey exists');
+    assert.ok(collectionDataSource.includes("districtKey: 'yunusobod'"), 'Yunusobod districtKey exists');
+    assert.ok(collectionDataSource.includes("districtKey: 'sergeli'"), 'Sergeli districtKey exists');
+    assert.ok(collectionDataSource.includes("districtKey: 'mirzo_ulugbek'"), 'Mirzo Ulugbek districtKey exists');
+    assert.ok(collectionDataSource.includes("districtKey: 'yakkasaroy'"), 'Yakkasaroy districtKey exists');
+    assert.ok(collectionDataSource.includes("districtKey: 'olmazor'"), 'Olmazor districtKey exists');
   });
 
   it('5. EcoActions.tsx displays distinct factual counters', () => {
@@ -148,5 +151,55 @@ describe('ZAMINAT.eco — CTO Data Integrity, Factual Network States & Locale Au
     assert.equal(en.candidateZone, 'Potential network expansion area');
     assert.equal(en.candidateStudyNotice, 'ZAMINAT is evaluating this area for future network development.');
     assert.equal(en.noCommitmentNotice, 'Exact location and opening are not yet confirmed.');
+  });
+
+  it('7. District Icon Deterministic Mapping & Asset Existence', () => {
+    const collectionDataSource = fs.readFileSync(path.join(rootDir, 'src/lib/collectionData.ts'), 'utf-8');
+
+    assert.ok(collectionDataSource.includes("yunusobod: '/images/Yunusobod District.webp'"), 'Yunusobod icon is mapped');
+    assert.ok(collectionDataSource.includes("chilonzor: '/images/Chilonzor Mahalla.webp'"), 'Chilonzor icon is mapped');
+
+    // Check asset files on disk in public/images
+    assert.ok(fs.existsSync(path.join(rootDir, 'public/images/Yunusobod District.webp')), 'Yunusobod District.webp exists on disk');
+    assert.ok(fs.existsSync(path.join(rootDir, 'public/images/Chilonzor Mahalla.webp')), 'Chilonzor Mahalla.webp exists on disk');
+    assert.ok(fs.existsSync(path.join(rootDir, 'public/images/location_5174778.webp')), 'Fallback location icon exists on disk');
+  });
+
+  it('8. All 6 candidate districts localized across RU, UZ, EN without undefined keys', () => {
+    const ru = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/locales/ru/actions-translations.json'), 'utf-8'));
+    const uz = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/locales/uz/actions-translations.json'), 'utf-8'));
+    const en = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/locales/en/actions-translations.json'), 'utf-8'));
+
+    const districts = ['chilonzor', 'yunusobod', 'sergeli', 'mirzo_ulugbek', 'yakkasaroy', 'olmazor'];
+    const fields = ['name', 'title', 'area', 'description'];
+
+    for (const d of districts) {
+      for (const f of fields) {
+        assert.ok(ru.districts?.[d]?.[f], `RU missing districts.${d}.${f}`);
+        assert.ok(uz.districts?.[d]?.[f], `UZ missing districts.${d}.${f}`);
+        assert.ok(en.districts?.[d]?.[f], `EN missing districts.${d}.${f}`);
+      }
+    }
+  });
+
+  it('9. Material labels localized across RU, UZ, EN', () => {
+    const ru = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/locales/ru/actions-translations.json'), 'utf-8'));
+    const uz = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/locales/uz/actions-translations.json'), 'utf-8'));
+    const en = JSON.parse(fs.readFileSync(path.join(rootDir, 'src/locales/en/actions-translations.json'), 'utf-8'));
+
+    const materials = ['plastic', 'rubber', 'tires', 'mixed', 'paper', 'glass', 'metal', 'textile'];
+
+    for (const m of materials) {
+      assert.ok(ru.materials?.[m], `RU missing materials.${m}`);
+      assert.ok(uz.materials?.[m], `UZ missing materials.${m}`);
+      assert.ok(en.materials?.[m], `EN missing materials.${m}`);
+    }
+  });
+
+  it('10. Initial Map filter state defaults to all on mount', () => {
+    const actionsSource = fs.readFileSync(path.join(rootDir, 'src/pages/EcoActions.tsx'), 'utf-8');
+
+    assert.ok(actionsSource.includes("const [mapCategoryFilter, setMapCategoryFilter] = useState<'all' | 'verified' | 'network' | 'actions'>(initialLayer);"), 'Map filter initialized with initialLayer');
+    assert.ok(actionsSource.includes("const initialLayer = (layerParam === 'verified' || layerParam === 'network' || layerParam === 'actions' || layerParam === 'all')\n    ? layerParam\n    : 'all';"), 'initialLayer defaults to all');
   });
 });

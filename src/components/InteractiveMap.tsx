@@ -8,10 +8,12 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { getDistrictIcon, type MaterialKey } from '@/lib/collectionData';
 import 'leaflet/dist/leaflet.css';
 
 interface MapPoint {
   id: number;
+  districtKey?: string;
   name: string;
   lat: number;
   lng: number;
@@ -19,6 +21,7 @@ interface MapPoint {
   address: string;
   status?: 'verified' | 'planned' | 'candidate';
   district?: string;
+  materialKeys?: MaterialKey[];
   targetMaterials?: string[];
   estimatedLaunch?: string;
   isOperational?: boolean;
@@ -43,39 +46,14 @@ interface InteractiveMapProps {
   isMobile?: boolean;
 }
 
-// Get icon path for collection points
-const getCollectionPointIconPath = (type: 'plastic' | 'tires' | 'mixed', name: string): string => {
-  // Check for specific location names first
-  if (name.toLowerCase().includes('tashkent central park') || name.toLowerCase().includes('central park')) {
-    return '/images/park.webp';
-  }
-  if (name.toLowerCase().includes('chilonzor')) {
-    return '/images/Chilonzor Mahalla.webp';
-  }
-  if (name.toLowerCase().includes('yunusobod')) {
-    return '/images/Yunusobod District.webp';
-  }
-
-  // Fallback to type-based icons
-  switch (type) {
-    case 'plastic':
-      return '/images/compost_13285420.webp';
-    case 'tires':
-      return '/images/ECOBUSSTOP.webp';
-    case 'mixed':
-      return '/images/park.webp';
-    default:
-      return '/images/park.webp';
-  }
-};
-
 // Create icon for collection points with text label and category badge
 const createCollectionPointIcon = (
   type: 'plastic' | 'tires' | 'mixed' | 'metal' | 'paper' | 'glass',
-  name: string,
+  displayName: string,
   isMobile: boolean = false,
   status: 'verified' | 'planned' | 'candidate' = 'verified',
-  statusLabel?: string
+  statusLabel?: string,
+  iconSrc?: string
 ) => {
   const size = isMobile ? 36 : 44;
   const iconSize = isMobile ? 24 : 28;
@@ -99,7 +77,7 @@ const createCollectionPointIcon = (
   }
 
   const labelText = statusLabel || defaultLabel;
-  const iconPath = getCollectionPointIconPath(type as any, name);
+  const iconPath = iconSrc || getDistrictIcon(displayName);
 
   const iconHtml = `
     <div style="
@@ -451,7 +429,9 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
             "font-semibold text-gray-900 mb-1.5",
             isMobile ? "text-sm" : "text-base"
           )}>
-            {point.name}
+            {point.districtKey
+              ? t(`districts.${point.districtKey}.title`, { ns: 'actions', defaultValue: point.name })
+              : point.name}
           </h3>
           <div className="flex items-start gap-1.5">
             <MapPin className={cn("flex-shrink-0 mt-0.5 text-gray-500", isMobile ? "h-3.5 w-3.5" : "h-4 w-4")} />
@@ -459,28 +439,38 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
               "text-gray-600 leading-snug",
               isMobile ? "text-xs" : "text-sm"
             )}>
-              {point.address}
+              {point.districtKey
+                ? t(`districts.${point.districtKey}.area`, { ns: 'actions', defaultValue: point.address || point.district })
+                : point.address}
             </p>
           </div>
         </div>
 
         {/* Badges */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <Badge className={cn(
-            point.type === 'plastic' ? 'bg-green-100 text-green-800' :
-            point.type === 'tires' ? 'bg-blue-100 text-blue-800' :
-            'bg-purple-100 text-purple-800',
-            isMobile ? "text-xs px-2 py-0.5" : "text-xs px-2.5 py-0.5"
-          )}>
-            {getTranslatedType()}
-          </Badge>
+          {point.materialKeys && point.materialKeys.length > 0 ? (
+            point.materialKeys.map(matKey => (
+              <Badge key={matKey} variant="outline" className="bg-emerald-50 text-emerald-900 border-emerald-200 text-[10px] px-2 py-0.5 font-medium">
+                {t(`materials.${matKey}`, { ns: 'actions', defaultValue: matKey })}
+              </Badge>
+            ))
+          ) : (
+            <Badge className={cn(
+              point.type === 'plastic' ? 'bg-green-100 text-green-800' :
+              point.type === 'tires' ? 'bg-blue-100 text-blue-800' :
+              'bg-purple-100 text-purple-800',
+              isMobile ? "text-xs px-2 py-0.5" : "text-xs px-2.5 py-0.5"
+            )}>
+              {t(`materials.${point.type}`, { ns: 'actions', defaultValue: getTranslatedType() })}
+            </Badge>
+          )}
 
           {isVerified && (
             <Badge variant="outline" className={cn(
               "bg-emerald-50 text-emerald-800 border-emerald-300 font-semibold",
               isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
             )}>
-              {t('actions.verifiedOperating', { ns: 'actions', defaultValue: 'Подтверждён' })}
+              {t('verifiedOperating', { ns: 'actions', defaultValue: 'Подтверждён' })}
             </Badge>
           )}
 
@@ -490,13 +480,13 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
                 "bg-amber-500 text-white font-bold",
                 isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
               )}>
-                {t('actions.plannedPoint', { ns: 'actions', defaultValue: 'Планируемая точка' })}
+                {t('plannedPoint', { ns: 'actions', defaultValue: 'Планируемая точка' })}
               </Badge>
               <Badge variant="outline" className={cn(
                 "bg-rose-50 text-rose-800 border-rose-200 font-semibold",
                 isMobile ? "text-[9px] px-1.5 py-0.5" : "text-[10px] px-2 py-0.5"
               )}>
-                {t('actions.notOperationalYet', { ns: 'actions', defaultValue: 'Ещё не работает' })}
+                {t('notOperationalYet', { ns: 'actions', defaultValue: 'Ещё не работает' })}
               </Badge>
             </>
           )}
@@ -507,13 +497,13 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
                 "bg-indigo-600 text-white font-bold",
                 isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
               )}>
-                {t('actions.candidateZone', { ns: 'actions', defaultValue: 'Рассматриваемая зона развития сети' })}
+                {t('candidateZone', { ns: 'actions', defaultValue: 'Рассматриваемая зона развития сети' })}
               </Badge>
               <Badge variant="outline" className={cn(
                 "bg-slate-100 text-slate-700 border-slate-300 font-medium",
                 isMobile ? "text-[9px] px-1.5 py-0.5" : "text-[10px] px-2 py-0.5"
               )}>
-                {t('actions.underReview', { ns: 'actions', defaultValue: 'Изучение спроса' })}
+                {t('underReview', { ns: 'actions', defaultValue: 'Изучение возможностей' })}
               </Badge>
             </>
           )}
@@ -523,16 +513,16 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
         {isPlanned && (
           <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-950 text-xs space-y-1">
             <p className="font-semibold text-amber-900 leading-tight">
-              {t('actions.plannedRolloutNotice', { ns: 'actions', defaultValue: 'Локация утверждена в плане развития сети ZAMINAT.' })}
+              {t('plannedRolloutNotice', { ns: 'actions', defaultValue: 'Локация утверждена в плане развития сети ZAMINAT.' })}
             </p>
             {point.estimatedLaunch && (
               <p className="text-[11px] text-amber-800">
-                <span className="font-medium">{t('actions.estimatedLaunch', { ns: 'actions', defaultValue: 'Ориентировочный запуск' })}:</span> {point.estimatedLaunch}
+                <span className="font-medium">{t('estimatedLaunch', { ns: 'actions', defaultValue: 'Ориентировочный запуск' })}:</span> {point.estimatedLaunch}
               </p>
             )}
             {point.targetMaterials && point.targetMaterials.length > 0 && (
               <p className="text-[11px] text-amber-800">
-                <span className="font-medium">{t('actions.targetMaterials', { ns: 'actions', defaultValue: 'Планируемые материалы' })}:</span> {point.targetMaterials.join(', ')}
+                <span className="font-medium">{t('targetMaterials', { ns: 'actions', defaultValue: 'Планируемые материалы' })}:</span> {point.targetMaterials.join(', ')}
               </p>
             )}
           </div>
@@ -541,10 +531,12 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
         {isCandidate && (
           <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-950 text-xs space-y-1.5">
             <p className="font-semibold text-indigo-950 leading-tight">
-              {t('actions.candidateStudyNotice', { ns: 'actions', defaultValue: 'ZAMINAT изучает возможность развития сети в этом районе.' })}
+              {point.districtKey
+                ? t(`districts.${point.districtKey}.description`, { ns: 'actions', defaultValue: t('candidateStudyNotice', { ns: 'actions' }) })
+                : (point.description || t('candidateStudyNotice', { ns: 'actions', defaultValue: 'ZAMINAT изучает возможность развития сети в этом районе.' }))}
             </p>
             <p className="text-[11px] text-indigo-800 leading-tight">
-              {t('actions.noCommitmentNotice', { ns: 'actions', defaultValue: 'Точное местоположение и открытие пока не подтверждены.' })}
+              {t('noCommitmentNotice', { ns: 'actions', defaultValue: 'Точное местоположение и открытие пока не подтверждены.' })}
             </p>
           </div>
         )}
@@ -641,8 +633,8 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
             <div className="w-full flex items-center justify-center p-2 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 text-xs font-semibold">
               <Info className="h-3.5 w-3.5 mr-1.5 text-slate-500" />
               {isPlanned
-                ? t('actions.dropoffUnavailable', { ns: 'actions', defaultValue: 'Приём ещё не начат (в планах)' })
-                : t('actions.zoneUnderReview', { ns: 'actions', defaultValue: 'Зона находится на рассмотрении' })}
+                ? t('dropoffUnavailable', { ns: 'actions', defaultValue: 'Приём ещё не начат (в планах)' })
+                : t('zoneUnderReview', { ns: 'actions', defaultValue: 'Зона находится на рассмотрении' })}
             </div>
           )}
         </div>
@@ -1013,16 +1005,23 @@ export default function InteractiveMap({
     const markerRef = useRef<React.ComponentRef<typeof Marker> | null>(null);
     const status = point.status || 'verified';
     const statusLabel =
-      status === 'planned' ? t('actions.plannedPoint', { ns: 'actions', defaultValue: 'Планируется' }) :
-      status === 'candidate' ? t('actions.candidateZone', { ns: 'actions', defaultValue: 'На рассмотрении' }) :
-      t('actions.verifiedPoint', { ns: 'actions', defaultValue: 'Подтверждён' });
+      status === 'planned' ? t('plannedPoint', { ns: 'actions', defaultValue: 'Планируется' }) :
+      status === 'candidate' ? t('candidateZone', { ns: 'actions', defaultValue: 'На рассмотрении' }) :
+      t('verifiedPoint', { ns: 'actions', defaultValue: 'Подтверждён' });
+
+    const localizedName = point.districtKey
+      ? t(`districts.${point.districtKey}.name`, { ns: 'actions', defaultValue: point.name })
+      : point.name;
+
+    const iconPath = getDistrictIcon(point.districtKey || point.id);
 
     const icon = createCollectionPointIcon(
       point.type as any,
-      point.name,
+      localizedName,
       isMobile,
       status,
-      statusLabel
+      statusLabel,
+      iconPath
     );
 
     useEffect(() => {

@@ -141,6 +141,8 @@
   "collectionPointsDesc": "Verified operating points and ZAMINAT network expansion evaluation areas",
   "collectionModeNotice": "Collection Points Search Mode",
   "searchingForMaterials": "Searching collection points for materials: {{materials}}",
+  "ecoScanMaterialsBanner": "Materials from EcoScan: {{materials}}",
+  "noVerifiedPointsBanner": "No verified collection points for these materials yet.",
   "noVerifiedPointsForMaterialsTitle": "No verified collection points for selected materials yet.",
   "noVerifiedPointsForMaterialsDesc": "ZAMINAT is expanding its partner network. Only verified locations that genuinely accept selected materials will appear here.",
   "filterAll": "All",
@@ -168,5 +170,53 @@
   "candidateCount": "Under Consideration",
   "networkCount": "Expansion Network",
   "actionsCount": "EcoActions",
-  "locationNotOperationalNotice": "Material drop-off is not yet active in this area."
+  "locationNotOperationalNotice": "Material drop-off is not yet active in this area.",
+  "districts": {
+    "chilonzor": {
+      "name": "Chilonzor District",
+      "title": "Chilonzor District — Potential Network Expansion Area",
+      "area": "Chilonzor District (Candidate Area)",
+      "description": "ZAMINAT is evaluating this district for potential future development of its secondary-material collection network. Exact location and opening are not yet confirmed."
+    },
+    "yunusobod": {
+      "name": "Yunusobod District",
+      "title": "Yunusobod District — Potential Network Expansion Area",
+      "area": "Yunusobod District (Candidate Area)",
+      "description": "ZAMINAT is evaluating this district for potential future development of its secondary-material collection network. Exact location and opening are not yet confirmed."
+    },
+    "sergeli": {
+      "name": "Sergeli District",
+      "title": "Sergeli District — Potential Network Expansion Area",
+      "area": "Sergeli District (Candidate Area)",
+      "description": "ZAMINAT is evaluating this district for potential future development of its secondary-material collection network. Exact location and opening are not yet confirmed."
+    },
+    "mirzo_ulugbek": {
+      "name": "Mirzo Ulug'bek District",
+      "title": "Mirzo Ulug'bek District — Potential Network Expansion Area",
+      "area": "Mirzo Ulug'bek District (Candidate Area)",
+      "description": "ZAMINAT is evaluating this district for potential future development of its secondary-material collection network. Exact location and opening are not yet confirmed."
+    },
+    "yakkasaroy": {
+      "name": "Yakkasaroy District",
+      "title": "Yakkasaroy District — Potential Network Expansion Area",
+      "area": "Yakkasaroy District (Candidate Area)",
+      "description": "ZAMINAT is evaluating this district for potential future development of its secondary-material collection network. Exact location and opening are not yet confirmed."
+    },
+    "olmazor": {
+      "name": "Olmazor District",
+      "title": "Olmazor District — Potential Network Expansion Area",
+      "area": "Olmazor District (Candidate Area)",
+      "description": "ZAMINAT is evaluating this district for potential future development of its secondary-material collection network. Exact location and opening are not yet confirmed."
+    }
+  },
+  "materials": {
+    "plastic": "Plastic",
+    "rubber": "Rubber",
+    "tires": "Tires",
+    "mixed": "Mixed materials",
+    "paper": "Paper",
+    "glass": "Glass",
+    "metal": "Metal",
+    "textile": "Textile"
+  }
 }
