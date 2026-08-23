@@ -266,7 +266,7 @@ const specialMappings: Record<string, string> = {
   'future of plastic and rubber recycling': '/images/Future of Plastic.webp',
   'future of plastic': '/images/Future of Plastic.webp',
   'plastic and rubber recycling': '/images/recycling-future.avif',
-  'plastic recycling': '/images/recycling-future.avif',
+  'plastic recycling': '/images/Plastic Recycling.webp',
   'future recycling': '/images/Future of Plastic.webp',
   'educational programs': '/images/book_649180.webp',
   'teaching the next generation': '/images/book_649180.webp',

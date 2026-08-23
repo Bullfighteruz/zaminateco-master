@@ -152,6 +152,16 @@ const getCurrentDates = () => {
   };
 };
 
+// Stable, deterministic event ID to image mapping (language-independent)
+export const ECOACTION_EVENT_IMAGES: Record<number, string> = {
+  1: '/images/book_649180.webp', // Environmental Education Workshop at School #45
+  2: '/images/plant-a-tree_6675353.webp', // Tree Planting Day
+  3: '/images/River Cleanup.webp', // Chirchiq River Cleanup Campaign
+  4: '/images/Plastic Recycling.webp', // Plastic Recycling Drive
+  5: '/images/community_16119903.webp', // Environmental Awareness Walk
+  6: '/images/eco-points.webp' // Waste Audit Workshop
+};
+
 // Key Features Component
 const KeyFeaturesSection = () => {
   const { t } = useTranslation(['actions', 'translation']);
@@ -363,16 +373,6 @@ export default function EcoActions() {
 
   const dates = getCurrentDates();
 
-  // Map of event IDs to their original English titles (for consistent icon matching)
-  const eventEnglishTitles: Record<number, string> = {
-    1: 'School Workshop on Plastic Recycling',
-    2: 'Tree Planting Day',
-    3: 'River Cleanup Event',
-    4: 'Plastic Recycling Drive',
-    5: 'Environmental Awareness Walk',
-    6: 'Waste Audit Workshop'
-  };
-
   // Sample events data with translation keys
   const sampleEvents: EcoEvent[] = [
     {
@@ -393,7 +393,7 @@ export default function EcoActions() {
       whatToBringKey: "events.schoolWorkshop.whatToBring",
       benefitsKey: "events.schoolWorkshop.benefits",
       impactKey: "events.schoolWorkshop.impact",
-      image: '/images/book_649180.webp',
+      image: ECOACTION_EVENT_IMAGES[1] || '/images/book_649180.webp',
       isJoined: false
     },
     {
@@ -414,7 +414,7 @@ export default function EcoActions() {
       whatToBringKey: "events.treePlanting.whatToBring",
       benefitsKey: "events.treePlanting.benefits",
       impactKey: "events.treePlanting.impact",
-      image: '/images/plant-a-tree_6675353.webp',
+      image: ECOACTION_EVENT_IMAGES[2] || '/images/plant-a-tree_6675353.webp',
       isJoined: true
     },
     {
@@ -435,7 +435,7 @@ export default function EcoActions() {
       whatToBringKey: "events.riverCleanup.whatToBring",
       benefitsKey: "events.riverCleanup.benefits",
       impactKey: "events.riverCleanup.impact",
-      image: '/images/forest_10089053.webp',
+      image: ECOACTION_EVENT_IMAGES[3] || '/images/River Cleanup.webp',
       isJoined: false
     },
     {
@@ -456,7 +456,7 @@ export default function EcoActions() {
       whatToBringKey: "events.plasticRecycling.whatToBring",
       benefitsKey: "events.plasticRecycling.benefits",
       impactKey: "events.plasticRecycling.impact",
-      image: '/images/Plastic Recycling.webp',
+      image: ECOACTION_EVENT_IMAGES[4] || '/images/Plastic Recycling.webp',
       isJoined: false
     },
     {
@@ -477,7 +477,7 @@ export default function EcoActions() {
       whatToBringKey: "events.awarenessWalk.whatToBring",
       benefitsKey: "events.awarenessWalk.benefits",
       impactKey: "events.awarenessWalk.impact",
-      image: '/images/community_16119903.webp',
+      image: ECOACTION_EVENT_IMAGES[5] || '/images/community_16119903.webp',
       isJoined: false
     },
     {
@@ -498,45 +498,22 @@ export default function EcoActions() {
       whatToBringKey: "events.wasteAudit.whatToBring",
       benefitsKey: "events.wasteAudit.benefits",
       impactKey: "events.wasteAudit.impact",
-      image: '/images/eco-points.webp',
+      image: ECOACTION_EVENT_IMAGES[6] || '/images/eco-points.webp',
       isJoined: true
     }
   ];
 
-  // Get events with icons - use English titles for consistency across languages
+  // Get events with deterministic, language-independent icons
   const eventsWithIcons = useMemo(() => {
     return sampleEvents.map(event => {
-      const title = t(event.titleKey, { ns: 'actions' });
-      const description = t(event.descriptionKey, { ns: 'actions' });
-
-      const englishTitle = eventEnglishTitles[event.id] || title;
-
-      let iconPath = getIconForProductOrCategory(englishTitle, event.image);
-
-      if (iconPath === event.image) {
-        const categoryMatched = getIconForProductOrCategory(event.category, event.image);
-        if (categoryMatched !== event.image && categoryMatched.startsWith('/images/')) {
-          iconPath = categoryMatched;
-        }
-      }
-
-      if (iconPath === event.image) {
-        const descMatched = getIconForProductOrCategory(description, event.image);
-        if (descMatched !== event.image && descMatched.startsWith('/images/')) {
-          iconPath = descMatched;
-        }
-      }
-
-      if (!iconPath || !iconPath.startsWith('/images/')) {
-        iconPath = event.image;
-      }
+      const iconPath = ECOACTION_EVENT_IMAGES[event.id] || event.image || '/images/art-tiles.webp';
 
       return {
         ...event,
         iconPath
       };
     });
-  }, [t, sampleEvents]);
+  }, [sampleEvents]);
 
   // Filter and sort events
   const filteredEvents = useMemo(() => {
