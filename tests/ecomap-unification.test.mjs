@@ -202,4 +202,32 @@ describe('ZAMINAT.eco — CTO Data Integrity, Factual Network States & Locale Au
     assert.ok(actionsSource.includes("const [mapCategoryFilter, setMapCategoryFilter] = useState<'all' | 'verified' | 'network' | 'actions'>(initialLayer);"), 'Map filter initialized with initialLayer');
     assert.ok(actionsSource.includes("const initialLayer = (layerParam === 'verified' || layerParam === 'network' || layerParam === 'actions' || layerParam === 'all')\n    ? layerParam\n    : 'all';"), 'initialLayer defaults to all');
   });
+
+  it('11. InteractiveMap.tsx has 0 permanent floating badges and 0 permanent text boxes', () => {
+    const mapSource = fs.readFileSync(path.join(rootDir, 'src/components/InteractiveMap.tsx'), 'utf-8');
+
+    // Permanent category badges forbidden
+    assert.ok(!mapSource.includes('<!-- Category Badge -->'), 'No permanent category badge in DivIcon HTML');
+    assert.ok(!mapSource.includes('<!-- Location Name Label -->'), 'No permanent location name label in DivIcon HTML');
+    assert.ok(!mapSource.includes('font-weight: 700;\n        text-transform: uppercase;\n        letter-spacing: 0.5px;'), 'No uppercase category banner styling');
+
+    // Clean DivIcon pins used
+    assert.ok(mapSource.includes('className: \'zaminat-map-marker-pin\''), 'Uses clean zaminat-map-marker-pin');
+    assert.ok(mapSource.includes('className: \'zaminat-action-marker-pin\''), 'Uses clean zaminat-action-marker-pin');
+  });
+
+  it('12. Mobile Bottom Sheet and Desktop Popup support rich interactive detail', () => {
+    const mapSource = fs.readFileSync(path.join(rootDir, 'src/components/InteractiveMap.tsx'), 'utf-8');
+
+    assert.ok(mapSource.includes('selectedPoint && isMobile'), 'Mobile bottom sheet panel rendered when point is selected');
+    assert.ok(mapSource.includes('candidateStudyNotice'), 'Candidate notice rendered in detail view');
+    assert.ok(mapSource.includes('noCommitmentNotice'), 'Non-operational notice rendered in detail view');
+    assert.ok(mapSource.includes('CustomPopup'), 'Desktop Popup component exists');
+  });
+
+  it('13. Filter Bar on EcoActions is horizontally scrollable without mobile clipping', () => {
+    const actionsSource = fs.readFileSync(path.join(rootDir, 'src/pages/EcoActions.tsx'), 'utf-8');
+
+    assert.ok(actionsSource.includes('overflow-x-auto no-scrollbar py-0.5 max-w-full flex-nowrap'), 'Filter bar uses horizontal touch scroll on mobile');
+  });
 });

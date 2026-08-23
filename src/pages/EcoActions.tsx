@@ -835,17 +835,18 @@ export default function EcoActions() {
                 className="mb-4"
               >
                 <Card className="border-0 shadow-lg bg-white/95 backdrop-blur-md">
-                  <CardContent className={cn("p-4", isMobile && "p-3")}>
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      {/* Layer Filter Buttons */}
-                      <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
+                  <CardContent className={cn("p-3.5 sm:p-4")}>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      {/* Layer Filter Buttons - Scrollable Segmented Bar on Mobile */}
+                      <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 max-w-full flex-nowrap">
                         <Button
                           variant={mapCategoryFilter === 'all' ? 'default' : 'outline'}
                           size="sm"
                           onClick={() => setMapCategoryFilter('all')}
                           className={cn(
-                            mapCategoryFilter === 'all' ? "bg-slate-900 text-white hover:bg-slate-800" : "bg-white",
-                            isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
+                            "flex-shrink-0 transition-all font-semibold",
+                            mapCategoryFilter === 'all' ? "bg-slate-900 text-white hover:bg-slate-800 shadow-sm" : "bg-white text-slate-700 hover:bg-slate-50",
+                            isMobile ? "text-[11px] h-8 px-3" : "text-xs h-9 px-3.5"
                           )}
                         >
                           {t('filterAll', { defaultValue: 'Все' })} ({allCollectionPoints.length + ACTION_LOCATIONS.length})
@@ -856,7 +857,8 @@ export default function EcoActions() {
                           size="sm"
                           onClick={() => setMapCategoryFilter('verified')}
                           className={cn(
-                            mapCategoryFilter === 'verified' ? "bg-emerald-600 text-white hover:bg-emerald-700" : "border-emerald-200 text-emerald-900 bg-emerald-50/40 hover:bg-emerald-50",
+                            "flex-shrink-0 transition-all font-semibold",
+                            mapCategoryFilter === 'verified' ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm" : "border-emerald-200 text-emerald-900 bg-emerald-50/40 hover:bg-emerald-50",
                             isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
                           )}
                         >
@@ -869,11 +871,12 @@ export default function EcoActions() {
                           size="sm"
                           onClick={() => setMapCategoryFilter('network')}
                           className={cn(
-                            mapCategoryFilter === 'network' ? "bg-amber-600 text-white hover:bg-amber-700" : "border-amber-200 text-amber-900 bg-amber-50/40 hover:bg-amber-50",
+                            "flex-shrink-0 transition-all font-semibold",
+                            mapCategoryFilter === 'network' ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm" : "border-indigo-200 text-indigo-900 bg-indigo-50/40 hover:bg-indigo-50",
                             isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
                           )}
                         >
-                          <Target className="h-3.5 w-3.5 mr-1 text-amber-500" />
+                          <Target className="h-3.5 w-3.5 mr-1 text-indigo-500" />
                           {t('filterNetwork', { defaultValue: 'Сеть развития' })} ({networkPoints.length})
                         </Button>
 
@@ -883,7 +886,8 @@ export default function EcoActions() {
                             size="sm"
                             onClick={() => setMapCategoryFilter('actions')}
                             className={cn(
-                              mapCategoryFilter === 'actions' ? "bg-blue-600 text-white hover:bg-blue-700" : "border-blue-200 text-blue-900 bg-blue-50/40 hover:bg-blue-50",
+                              "flex-shrink-0 transition-all font-semibold",
+                              mapCategoryFilter === 'actions' ? "bg-blue-600 text-white hover:bg-blue-700 shadow-sm" : "border-blue-200 text-blue-900 bg-blue-50/40 hover:bg-blue-50",
                               isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3.5"
                             )}
                           >
@@ -894,13 +898,13 @@ export default function EcoActions() {
                       </div>
 
                       {/* Material & Utility Filters */}
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-end flex-shrink-0">
                         <Button
                           variant={showMapFilters ? "default" : "outline"}
                           size="sm"
                           onClick={() => setShowMapFilters(!showMapFilters)}
                           className={cn(
-                            "flex items-center gap-1.5",
+                            "flex items-center gap-1.5 font-medium",
                             isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3"
                           )}
                         >
@@ -929,7 +933,7 @@ export default function EcoActions() {
                             }
                           }}
                           className={cn(
-                            "flex items-center gap-1.5",
+                            "flex items-center gap-1.5 font-medium",
                             isMobile ? "text-[11px] h-8 px-2.5" : "text-xs h-9 px-3"
                           )}
                         >
@@ -992,12 +996,12 @@ export default function EcoActions() {
                   <Card className="glass-card border shadow-2xl overflow-hidden h-full flex flex-col" style={{ minHeight: isMobile ? '400px' : '600px' }}>
                     <CardHeader className={cn(
                       "bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white flex-shrink-0",
-                      isMobile ? "p-3.5" : "p-5"
+                      isMobile ? "p-3 space-y-2" : "p-4 sm:p-5"
                     )}>
-                      <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className={cn("flex justify-between gap-2", isMobile ? "flex-col" : "items-center flex-wrap")}>
                         <div className="flex items-center gap-2.5">
-                          <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                            <MapPin className={cn("text-white", isMobile ? "h-4 w-4" : "h-5 w-5")} />
+                          <div className="p-1.5 sm:p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                            <MapPin className={cn("text-white", isMobile ? "h-3.5 w-3.5" : "h-5 w-5")} />
                           </div>
                           <div>
                             <CardTitle className={cn(
