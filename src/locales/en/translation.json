@@ -1323,5 +1323,13 @@
     "noVerifiedPointsTitle": "No verified collection points nearby yet",
     "noVerifiedPointsDesc": "ZAMINAT is expanding its verified partner network. Only confirmed locations that genuinely accept the selected materials will appear on the map.",
     "materialFilterNotice": "Searching collection points for materials: {{materials}}"
+  },
+  "actions": {
+    "collectionPointsTitle": "Recyclable Collection Points",
+    "collectionPointsDesc": "Verified recyclable and material collection points in Tashkent",
+    "collectionModeNotice": "Collection Points Search Mode",
+    "searchingForMaterials": "Searching collection points for materials: {{materials}}",
+    "noVerifiedPointsForMaterialsTitle": "No verified collection points for selected materials yet",
+    "noVerifiedPointsForMaterialsDesc": "ZAMINAT is expanding its partner network. Only verified locations that genuinely accept the selected materials will appear here."
   }
 }

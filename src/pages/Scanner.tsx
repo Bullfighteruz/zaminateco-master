@@ -757,9 +757,9 @@ export default function Scanner() {
                        </a>
                      ) : (
                        <Link
-                         to={`/map?source=ecoscan${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}`}
+                         to={`/actions?source=ecoscan&mode=collection${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}#collection-map`}
                          className="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 transition-colors flex-shrink-0"
-                         title={t('scanner.openEcoMap', { defaultValue: 'Открыть EcoMap' })}
+                         title={t('scanner.openEcoActionsMap', { defaultValue: 'Посмотреть карту' })}
                        >
                          <ExternalLink className="h-4 w-4" />
                        </Link>
@@ -830,7 +830,7 @@ export default function Scanner() {
                 {/* 5. DYNAMIC FLOW ACTIONS */}
                 <div className="flex flex-col gap-3">
                   <Link
-                    to={`/map?source=ecoscan${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}`}
+                    to={`/actions?source=ecoscan&mode=collection${detectedMaterials.length > 0 ? `&materials=${encodeURIComponent(detectedMaterials.join(','))}` : ''}#collection-map`}
                     className="w-full"
                   >
                     <button className="w-full h-12 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-lg shadow-emerald-500/10 active:scale-95 transition-all flex items-center justify-center gap-2 border-none">

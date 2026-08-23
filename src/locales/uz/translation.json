@@ -1321,5 +1321,13 @@
     "noVerifiedPointsTitle": "Yaqin-atrofda tasdiqlangan qabul punktlari hozircha mavjud emas",
     "noVerifiedPointsDesc": "ZAMINAT hamkorlik punktlari tarmog'ini rivojlantirmoqda. Xaritada faqat tanlangan materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar ko'rsatiladi.",
     "materialFilterNotice": "Materiallar bo'yicha punktlarni qidirish: {{materials}}"
+  },
+  "actions": {
+    "collectionPointsTitle": "Ikkilamchi xomashyoni qabul qilish punktlari",
+    "collectionPointsDesc": "Toshkentdagi tasdiqlangan ikkilamchi xomashyo va materiallarni qabul qilish punktlari",
+    "collectionModeNotice": "Qabul punktlarini qidirish rejimi",
+    "searchingForMaterials": "Materiallar bo'yicha punktlarni qidirish: {{materials}}",
+    "noVerifiedPointsForMaterialsTitle": "Tanlangan materiallar uchun tasdiqlangan qabul punktlari hozircha mavjud emas",
+    "noVerifiedPointsForMaterialsDesc": "ZAMINAT hamkorlik punktlari tarmog'ini rivojlantirmoqda. Bu yerda faqat tanlangan materiallarni haqiqatda qabul qiluvchi tasdiqlangan joylar paydo bo'ladi."
   }
 }

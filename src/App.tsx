@@ -2,7 +2,7 @@ import { lazy, Suspense, startTransition } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollManager from './components/ScrollManager';
 import ErrorBoundary from './components/ErrorBoundary';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
@@ -47,7 +47,6 @@ const Scanner = lazy(() => import(/* webpackChunkName: "scanner" */ './pages/Sca
 const EcoCoach = lazy(() => import(/* webpackChunkName: "coach" */ './pages/EcoCoach'));
 const ProductionPlanner = lazy(() => import(/* webpackChunkName: "planner" */ './pages/ProductionPlanner'));
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ './pages/Analytics'));
-const EcoMap = lazy(() => import(/* webpackChunkName: "map" */ './pages/EcoMap'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -72,8 +71,8 @@ const App = () => (
                     <Route path="/about" element={<About />} />
                     <Route path="/vote" element={<EcoVote />} />
                     <Route path="/actions" element={<EcoActions />} />
-                    <Route path="/map" element={<EcoMap />} />
-                    <Route path="/ecomap" element={<EcoMap />} />
+                    <Route path="/map" element={<Navigate to="/actions?mode=collection#collection-map" replace />} />
+                    <Route path="/ecomap" element={<Navigate to="/actions?mode=collection#collection-map" replace />} />
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/shop-legacy" element={<SocialMissionShop />} />
                     <Route path="/stories" element={<EcoStories />} />
