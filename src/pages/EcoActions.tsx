@@ -994,14 +994,17 @@ export default function EcoActions() {
 
                         {/* Separate Layer Counts */}
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <Badge className="bg-emerald-500/80 text-white text-[10px] px-2 py-0.5 border-emerald-300/40">
+                          <Badge className="bg-emerald-500/80 text-white text-[10px] px-2 py-0.5 border-emerald-300/40 font-semibold">
                             {t('actions.verifiedCount', { defaultValue: 'Подтверждённых' })}: {verifiedPoints.length}
                           </Badge>
-                          <Badge className="bg-amber-500/80 text-white text-[10px] px-2 py-0.5 border-amber-300/40">
-                            {t('actions.networkCount', { defaultValue: 'В развитии' })}: {networkPoints.length}
+                          <Badge className="bg-amber-500/80 text-white text-[10px] px-2 py-0.5 border-amber-300/40 font-semibold">
+                            {t('actions.plannedCount', { defaultValue: 'В планах' })}: {plannedPoints.length}
+                          </Badge>
+                          <Badge className="bg-indigo-500/80 text-white text-[10px] px-2 py-0.5 border-indigo-300/40 font-semibold">
+                            {t('actions.candidateCount', { defaultValue: 'На рассмотрении' })}: {candidatePoints.length}
                           </Badge>
                           {!isCollectionMode && (
-                            <Badge className="bg-blue-500/80 text-white text-[10px] px-2 py-0.5 border-blue-300/40">
+                            <Badge className="bg-blue-500/80 text-white text-[10px] px-2 py-0.5 border-blue-300/40 font-semibold">
                               {t('actions.actionsCount', { defaultValue: 'Эко-акций' })}: {ACTION_LOCATIONS.length}
                             </Badge>
                           )}

@@ -507,7 +507,7 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
                 "bg-indigo-600 text-white font-bold",
                 isMobile ? "text-[10px] px-2 py-0.5" : "text-xs px-2 py-0.5"
               )}>
-                {t('actions.candidateZone', { ns: 'actions', defaultValue: 'Рассматриваемая зона' })}
+                {t('actions.candidateZone', { ns: 'actions', defaultValue: 'Рассматриваемая зона развития сети' })}
               </Badge>
               <Badge variant="outline" className={cn(
                 "bg-slate-100 text-slate-700 border-slate-300 font-medium",
@@ -539,12 +539,12 @@ const CustomPopup: React.FC<{ point: MapPoint; isMobile: boolean; onNavigate: (p
         )}
 
         {isCandidate && (
-          <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-950 text-xs space-y-1">
+          <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-950 text-xs space-y-1.5">
             <p className="font-semibold text-indigo-950 leading-tight">
-              {t('actions.candidateStudyNotice', { ns: 'actions', defaultValue: 'Зона предварительного анализа плотности образования отходов.' })}
+              {t('actions.candidateStudyNotice', { ns: 'actions', defaultValue: 'ZAMINAT изучает возможность развития сети в этом районе.' })}
             </p>
             <p className="text-[11px] text-indigo-800 leading-tight">
-              {t('actions.noCommitmentNotice', { ns: 'actions', defaultValue: 'Окончательное решение принимается по результатам согласования.' })}
+              {t('actions.noCommitmentNotice', { ns: 'actions', defaultValue: 'Точное местоположение и открытие пока не подтверждены.' })}
             </p>
           </div>
         )}
