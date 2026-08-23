@@ -2,7 +2,7 @@ services:
   - type: web
     name: zaminat-backend
     runtime: node
-    plan: starter
+    plan: free
     rootDir: backend
     buildCommand: npm ci && npm run build
     startCommand: npm run start:prod
