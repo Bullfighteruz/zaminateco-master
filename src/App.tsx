@@ -47,6 +47,7 @@ const Scanner = lazy(() => import(/* webpackChunkName: "scanner" */ './pages/Sca
 const EcoCoach = lazy(() => import(/* webpackChunkName: "coach" */ './pages/EcoCoach'));
 const ProductionPlanner = lazy(() => import(/* webpackChunkName: "planner" */ './pages/ProductionPlanner'));
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ './pages/Analytics'));
+const EcoMap = lazy(() => import(/* webpackChunkName: "map" */ './pages/EcoMap'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -71,6 +72,8 @@ const App = () => (
                     <Route path="/about" element={<About />} />
                     <Route path="/vote" element={<EcoVote />} />
                     <Route path="/actions" element={<EcoActions />} />
+                    <Route path="/map" element={<EcoMap />} />
+                    <Route path="/ecomap" element={<EcoMap />} />
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/shop-legacy" element={<SocialMissionShop />} />
                     <Route path="/stories" element={<EcoStories />} />
