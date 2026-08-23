@@ -4,12 +4,13 @@
   "packageManager": "pnpm@8.10.0",
   "scripts": {
     "dev": "vite",
-    "build": "npm run generate:images && npm run generate:sitemap && vite build",
+    "build": "npm run generate:images && npm run generate:sitemap && vite build && npm run generate:prerender",
     "lint": "eslint --quiet ./src",
     "preview": "vite preview",
     "generate:images": "node scripts/generate-product-images.js",
     "optimize:video": "node scripts/optimize-video.js",
-    "generate:sitemap": "node scripts/generate-sitemap.js"
+    "generate:sitemap": "node scripts/generate-sitemap.js",
+    "generate:prerender": "node scripts/generate-prerender.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

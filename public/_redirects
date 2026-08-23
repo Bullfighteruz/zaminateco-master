@@ -1,5 +1,14 @@
 # Netlify redirects file for SPA routing
-# This ensures all routes are handled by the client-side router
-# and direct URLs (deep linking) work correctly
+# 301 Permanent Redirects for Founder Aliases
+/founder/suxrobjon-rixsiboyev /uz/founder/sukhrobjon-rikhsiboev 301
+/founder/sukhrobjon-rixsiboyev /en/founder/sukhrobjon-rikhsiboev 301
+/founder/suxrobjon-rikhsiboev /ru/founder/sukhrobjon-rikhsiboev 301
+/founder/sukhrobjon-rikhsiboev /en/founder/sukhrobjon-rikhsiboev 301
+/founder /en/founder/sukhrobjon-rikhsiboev 301
 
+# Legacy Map redirects
+/map /actions?mode=collection#collection-map 301
+/ecomap /actions?mode=collection#collection-map 301
+
+# SPA catch-all fallback
 /* /index.html 200

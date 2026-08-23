@@ -102,7 +102,8 @@
       "coreSkills": "Core Skills",
       "keyAchievements": "Key Achievements",
       "contactButton": "Contact {{name}}",
-      "linkedinProfile": "LinkedIn Profile"
+      "linkedinProfile": "LinkedIn Profile",
+      "viewFounderProfile": "Read Founder Profile"
     }
   }
 }

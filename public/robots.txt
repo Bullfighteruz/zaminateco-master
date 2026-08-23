@@ -1,5 +1,20 @@
 # ZAMINAT.eco Robots.txt
-# Updated: 2024
+# Technical SEO & AI Search Engine Configuration
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: Applebot
+Allow: /
 
 User-agent: *
 Allow: /
@@ -9,9 +24,6 @@ Disallow: /profile/
 Disallow: /*.json$
 Disallow: /*?*filter*
 Disallow: /*?*sort*
-
-# Crawl delay (adjust based on server capacity)
-Crawl-delay: 1
 
 # Sitemap location
 Sitemap: https://zaminat.uz/sitemap.xml

@@ -1,6 +1,6 @@
 /**
  * Sitemap Generator
- * Generates XML sitemap for all pages and products
+ * Generates XML sitemap for all pages, founder entity profiles, and products with hreflang alternates
  * Run: node scripts/generate-sitemap.js
  */
 
@@ -25,6 +25,47 @@ const STATIC_PAGES = [
   { path: '/partners', priority: '0.7', changefreq: 'monthly' },
   { path: '/team', priority: '0.7', changefreq: 'monthly' },
   { path: '/contacts', priority: '0.6', changefreq: 'monthly' },
+  { path: '/scanner', priority: '0.8', changefreq: 'weekly' },
+];
+
+// Multilingual Founder Entity Pages
+const FOUNDER_PAGES = [
+  {
+    lang: 'en',
+    path: '/en/founder/sukhrobjon-rikhsiboev',
+    priority: '0.9',
+    changefreq: 'monthly',
+    alternates: [
+      { hreflang: 'en', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'ru', href: `${BASE_URL}/ru/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'uz', href: `${BASE_URL}/uz/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'x-default', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
+    ]
+  },
+  {
+    lang: 'ru',
+    path: '/ru/founder/sukhrobjon-rikhsiboev',
+    priority: '0.9',
+    changefreq: 'monthly',
+    alternates: [
+      { hreflang: 'en', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'ru', href: `${BASE_URL}/ru/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'uz', href: `${BASE_URL}/uz/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'x-default', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
+    ]
+  },
+  {
+    lang: 'uz',
+    path: '/uz/founder/sukhrobjon-rikhsiboev',
+    priority: '0.9',
+    changefreq: 'monthly',
+    alternates: [
+      { hreflang: 'en', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'ru', href: `${BASE_URL}/ru/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'uz', href: `${BASE_URL}/uz/founder/sukhrobjon-rikhsiboev` },
+      { hreflang: 'x-default', href: `${BASE_URL}/en/founder/sukhrobjon-rikhsiboev` },
+    ]
+  }
 ];
 
 // Product slugs (from productData.ts)
@@ -48,15 +89,27 @@ function getCurrentDate() {
 
 // Generate XML sitemap
 function generateSitemap() {
+  const currentDate = getCurrentDate();
   const urls = [];
 
   // Add static pages
   STATIC_PAGES.forEach(page => {
     urls.push({
       loc: `${BASE_URL}${page.path}`,
-      lastmod: getCurrentDate(),
+      lastmod: currentDate,
       changefreq: page.changefreq,
       priority: page.priority,
+    });
+  });
+
+  // Add founder multilingual entity pages
+  FOUNDER_PAGES.forEach(page => {
+    urls.push({
+      loc: `${BASE_URL}${page.path}`,
+      lastmod: currentDate,
+      changefreq: page.changefreq,
+      priority: page.priority,
+      alternates: page.alternates,
     });
   });
 
@@ -64,7 +117,7 @@ function generateSitemap() {
   PRODUCT_SLUGS.forEach(slug => {
     urls.push({
       loc: `${BASE_URL}/product/${slug}`,
-      lastmod: getCurrentDate(),
+      lastmod: currentDate,
       changefreq: 'monthly',
       priority: '0.8',
     });
@@ -72,11 +125,16 @@ function generateSitemap() {
 
   // Generate XML
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n`;
 
   urls.forEach(url => {
     xml += `  <url>\n`;
     xml += `    <loc>${escapeXml(url.loc)}</loc>\n`;
+    if (url.alternates && url.alternates.length > 0) {
+      url.alternates.forEach(alt => {
+        xml += `    <xhtml:link rel="alternate" hreflang="${escapeXml(alt.hreflang)}" href="${escapeXml(alt.href)}" />\n`;
+      });
+    }
     xml += `    <lastmod>${url.lastmod}</lastmod>\n`;
     xml += `    <changefreq>${url.changefreq}</changefreq>\n`;
     xml += `    <priority>${url.priority}</priority>\n`;
@@ -111,9 +169,8 @@ try {
   // Write sitemap
   fs.writeFileSync(OUTPUT_FILE, sitemap, 'utf8');
   console.log(`✅ Sitemap generated successfully: ${OUTPUT_FILE}`);
-  console.log(`   Total URLs: ${STATIC_PAGES.length + PRODUCT_SLUGS.length}`);
+  console.log(`   Total URLs: ${STATIC_PAGES.length + FOUNDER_PAGES.length + PRODUCT_SLUGS.length}`);
 } catch (error) {
   console.error('❌ Error generating sitemap:', error);
   process.exit(1);
 }
-

@@ -1,0 +1,139 @@
+{
+  "founder": {
+    "meta": {
+      "title": "Sukhrobjon Rikhsiboev | Founder & CEO of ZAMINAT.eco",
+      "description": "Sukhrobjon Rikhsiboev is the Founder & CEO of ZAMINAT.eco, an early-stage ClimateTech and circular economy startup based in Tashkent, Uzbekistan, developing AI EcoScan and Waste-to-Life solutions."
+    },
+    "hero": {
+      "name": "Sukhrobjon Rikhsiboev",
+      "title": "Founder & CEO of ZAMINAT.eco",
+      "tagline": "ClimateTech • Artificial Intelligence • Circular Economy • Uzbekistan",
+      "altNames": "Also written as: Suxrobjon Rixsiboyev / Сухробжон Рихсибоев",
+      "location": "Tashkent, Uzbekistan"
+    },
+    "quickFacts": {
+      "title": "Facts at a Glance",
+      "role": "Role",
+      "roleValue": "Founder & Chief Executive Officer",
+      "organization": "Organization",
+      "organizationValue": "ZAMINAT.eco (Zaminat LLC)",
+      "location": "Location",
+      "locationValue": "Tashkent, Uzbekistan",
+      "status": "Venture Stage",
+      "statusValue": "Early-Stage / Pre-Seed ClimateTech Startup",
+      "education": "Education",
+      "educationValue": "Bachelor of Business Administration (BBA), Amity University Tashkent (2024)",
+      "experience": "Industry Background",
+      "experienceValue": "~6 Years in U.S.-Based Automotive Dealership Operations & Digital Strategy",
+      "workingMVPs": "Live Digital MVPs",
+      "workingMVPsValue": "AI EcoScan Material Classifier & Zami AI Eco-Agent",
+      "architectures": "Developed Architectures",
+      "architecturesValue": "EcoApp Citizen Gamification & EcoKids Educational Curriculum",
+      "legal": "Legal & IP Status",
+      "legalValue": "Registered LLC in Uzbekistan & Registered ZAMINAT Trademark",
+      "accelerator": "Acceleration",
+      "acceleratorValue": "Graduate, U-Enter Green Tech Accelerator"
+    },
+    "about": {
+      "title": "Who is Sukhrobjon Rikhsiboev?",
+      "p1": "Sukhrobjon Rikhsiboev is an entrepreneur, digital strategist, and the Founder and Chief Executive Officer of ZAMINAT.eco, based in Tashkent, Uzbekistan.",
+      "p2": "Combining approximately six years of operational and digital strategy leadership in a U.S.-based automotive dealership environment with a formal degree in Business Administration from Amity University Tashkent (2024), Sukhrobjon focuses on leveraging artificial intelligence, process engineering, and circular economy principles to solve urban environmental challenges in Central Asia.",
+      "p3": "Under his leadership, ZAMINAT has evolved from an initial concept into a structured early-stage ClimateTech venture with working AI prototypes, registered intellectual property, and active community participation initiatives."
+    },
+    "building": {
+      "title": "Building ZAMINAT.eco",
+      "subtitle": "AI-Powered Waste-to-Life Vision & Circular Architecture",
+      "p1": "ZAMINAT was conceived to bridge the gap between digital technology and physical circular material recovery in Uzbekistan. The core 'Waste-to-Life' paradigm focuses on transforming secondary materials—primarily recycled plastics and discarded automotive rubber/tires—into long-lasting urban infrastructure, modular tiles, street furniture, and eco-products.",
+      "digitalMvpTitle": "Working Digital Prototypes (Live MVPs)",
+      "digitalMvpDesc": "ZAMINAT's digital ecosystem currently operates with verified, functional software tools:",
+      "ecoscan": "EcoScan AI: A multi-modal computer vision tool that classifies recyclable waste fractions and guides proper disposal in real time.",
+      "zami": "Zami AI Agent: An intelligent conversational eco-coach assisting citizens with sorting instructions, recycling guidelines, and sustainability tips.",
+      "architecturesTitle": "System Architectures",
+      "architecturesDesc": "The venture has established comprehensive architectures for EcoApp (a gamified citizen action and reward platform) and EcoKids (an interactive ecological curriculum for younger generations).",
+      "physicalRoadmapNote": "Data Transparency Notice: ZAMINAT's current production release is an early-stage digital MVP. Physical municipal collection networks and industrial manufacturing facilities are planned expansion stages on the company's long-term infrastructure roadmap."
+    },
+    "milestones": {
+      "title": "Verified ZAMINAT Milestones",
+      "subtitle": "Documented progress and early-stage achievements",
+      "items": [
+        {
+          "title": "Zaminat LLC Registered",
+          "desc": "Formally registered as a legal corporate entity (Zaminat LLC) in Tashkent, Republic of Uzbekistan."
+        },
+        {
+          "title": "ZAMINAT Trademark Registered",
+          "desc": "Official intellectual property and trademark protection secured for the ZAMINAT brand."
+        },
+        {
+          "title": "U-Enter Green Tech Accelerator Completed",
+          "desc": "Successfully completed the competitive Green Tech acceleration program at U-Enter (Tashkent)."
+        },
+        {
+          "title": "AI EcoScan MVP Launched",
+          "desc": "Developed and deployed a functional browser-based computer vision model for material classification."
+        },
+        {
+          "title": "Zami AI Eco-Agent Deployed",
+          "desc": "Integrated intelligent conversational AI for instant citizen recycling guidance and ecological support."
+        },
+        {
+          "title": "EcoApp & EcoKids Blueprints Completed",
+          "desc": "Designed end-to-end product specifications for gamified citizen engagement and youth eco-education."
+        }
+      ]
+    },
+    "background": {
+      "title": "Professional Background",
+      "p1": "Prior to founding ZAMINAT, Sukhrobjon accumulated approximately six years of intensive professional experience within a high-tempo U.S.-based automotive dealership environment.",
+      "p2": "His responsibilities encompassed cross-functional leadership across digital marketing, technical search engine optimization (SEO), workflow automation using AI tools, business analytics, cybersecurity coordination, IT infrastructure integration, procurement, and process optimization.",
+      "p3": "This operational background provides ZAMINAT with strong discipline in customer lifecycle management, conversion architecture, operational efficiency, and data-backed decision-making."
+    },
+    "education": {
+      "title": "Education & Academic Foundation",
+      "degree": "Bachelor of Business Administration (BBA)",
+      "institution": "Amity University Tashkent",
+      "year": "Class of 2024",
+      "desc": "Curriculum focused on strategic management, international business operations, organizational leadership, and digital technology integration."
+    },
+    "mission": {
+      "title": "Mission for Uzbekistan",
+      "p1": "Sukhrobjon's mission is centered on pragmatic, technology-driven sustainability for Uzbekistan.",
+      "p2": "Rather than relying on abstract rhetoric, ZAMINAT focuses on measurable improvements: encouraging cleaner urban environments, educating youth on environmental stewardship, developing circular recovery channels for high-volume waste streams, and building transparent digital tools that make ecological action accessible to every citizen.",
+      "quote": "Sustainable change in Uzbekistan will not come from theory alone—it requires disciplined execution, intuitive digital tools, and genuine community participation."
+    },
+    "expertise": {
+      "title": "Areas of Expertise",
+      "skills": [
+        "ClimateTech & Circular Economy",
+        "Artificial Intelligence & Machine Vision",
+        "AI Automation & Process Engineering",
+        "Search Engine Optimization (SEO)",
+        "Digital Strategy & Brand Growth",
+        "Business Analytics & Performance Metrics",
+        "Startup Development & Product Architecture",
+        "IT Infrastructure & Systems Integration",
+        "Eco-Education & Community Engagement"
+      ]
+    },
+    "currentWork": {
+      "title": "Explore ZAMINAT Ecosystem",
+      "subtitle": "Discover the modules and tools built under Sukhrobjon's leadership",
+      "links": {
+        "ecosystem": "ZAMINAT Platform Overview",
+        "scanner": "AI EcoScan Material Classifier",
+        "actions": "EcoActions & Network Development Map",
+        "shop": "Social Mission EcoShop Catalog",
+        "stories": "Community Impact & Ecological Stories"
+      }
+    },
+    "externalProfiles": {
+      "title": "Verified Profiles & Official Sources",
+      "subtitle": "Official public references and professional identity links",
+      "linkedinTitle": "LinkedIn Professional Profile",
+      "linkedinDesc": "Verified professional identity and background (sameAs entity signal).",
+      "vismeTitle": "Entrepreneurial Leadership & Digital Strategy",
+      "vismeDesc": "Executive presentation on leadership methodology and digital strategy (subjectOf CreativeWork)."
+    },
+    "lastUpdated": "Last verified & updated: August 2026"
+  }
+}

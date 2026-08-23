@@ -1,0 +1,139 @@
+{
+  "founder": {
+    "meta": {
+      "title": "Sukhrobjon Rikhsiboev | ZAMINAT.eco asoschisi va CEO",
+      "description": "Sukhrobjon Rikhsiboev — Toshkentdagi ZAMINAT.eco ClimateTech va aylanma iqtisodiyot startapi asoschisi va bosh direktori (CEO). AI EcoScan va Waste-to-Life yechimlarini ishlab chiqmoqda."
+    },
+    "hero": {
+      "name": "Sukhrobjon Rikhsiboev",
+      "title": "ZAMINAT.eco asoschisi va CEO",
+      "tagline": "ClimateTech • Sun'iy Intellekt • Aylanma Iqtisodiyot • O'zbekiston",
+      "altNames": "Shuningdek yoziladi: Suxrobjon Rixsiboyev / Сухробжон Рихсибоев",
+      "location": "Toshkent, O'zbekiston"
+    },
+    "quickFacts": {
+      "title": "Asosiy ma'lumotlar",
+      "role": "Lavozim",
+      "roleValue": "Asoschi va Bosh Ijrochi Direktor (CEO)",
+      "organization": "Tashkilot",
+      "organizationValue": "ZAMINAT.eco («Zaminat» MCHJ)",
+      "location": "Joylashuv",
+      "locationValue": "Toshkent, O'zbekiston",
+      "status": "Bosqich",
+      "statusValue": "Boshlang'ich bosqich / Pre-Seed ClimateTech startap",
+      "education": "Ma'lumot",
+      "educationValue": "Biznes boshqaruvi bakalavri (BBA), Amity University Tashkent (2024)",
+      "experience": "Soha tajribasi",
+      "experienceValue": "AQSH avtodilerlik sohasida operatsion boshqaruv va raqamli strategiya bo'yicha ~6 yillik tajriba",
+      "workingMVPs": "Ishlayotgan raqamli MVP",
+      "workingMVPsValue": "AI EcoScan materiallar skaneri va Zami AI eko-maslahatchisi",
+      "architectures": "Ishlab chiqilgan arxitektura",
+      "architecturesValue": "EcoApp geymifikatsiyasi va EcoKids ta'lim dasturi",
+      "legal": "Yuridik maqom",
+      "legalValue": "O'zbekistonda ro'yxatdan o'tgan MCHJ va ZAMINAT tovar belgisi",
+      "accelerator": "Akseleratsiya",
+      "acceleratorValue": "U-Enter Green Tech akseleratori bitiruvchisi"
+    },
+    "about": {
+      "title": "Sukhrobjon Rikhsiboev kim?",
+      "p1": "Sukhrobjon Rikhsiboev — tadbirkor, raqamli strategiya mutaxassisi hamda Toshkentda faoliyat yurituvchi ZAMINAT.eco loyihasining asoschisi va bosh direktori.",
+      "p2": "AQSH avtodilerlik muhitida operatsion boshqaruv va raqamli strategiya bo'yicha qariyb olti yillik tajribani Amity University Tashkent (2024) biznes boshqaruvi diplomi bilan uyg'unlashtirgan holda, Sukhrobjon sun'iy intellekt, jarayonlarni avtomatlashtirish va aylanma iqtisodiyot tamoyillari orqali Markaziy Osiyodagi ekologik muammolarga yechim yaratmoqda.",
+      "p3": "Uning rahbarligida ZAMINAT loyihasi g'oyadan ishlayotgan AI prototiplariga, rasmiy intellektual mulkka va jamoatchilik ishtiroki dasturlariga ega bo'lgan ilk bosqichdagi ClimateTech startapiga aylandi."
+    },
+    "building": {
+      "title": "ZAMINAT.eco loyihasini qurish",
+      "subtitle": "Sun'iy intellektga asoslangan Waste-to-Life va aylanma infratuzilma",
+      "p1": "ZAMINAT O'zbekistonda raqamli texnologiyalar va ikkilamchi xomashyoni qayta ishlashni birlashtirish maqsadida yaratilgan. 'Waste-to-Life' konsepsiyasi ikkilamchi materiallarni — plastik va eskirgan avtomobil shinalarini — uzoq muddatli shahar infratuzilmasi, plitkalar, ko'cha mebellari va ekologik mahsulotlarga aylantirishga qaratilgan.",
+      "digitalMvpTitle": "Ishlayotgan raqamli prototiplar (Live MVP)",
+      "digitalMvpDesc": "ZAMINAT raqamli ekotizimi hozirda amalda ishlayotgan funksional vositalarni o'z ichiga oladi:",
+      "ecoscan": "EcoScan AI: Ikkilamchi materiallarni kompyuter ko'rishi orqali aniqlovchi va to'g'ri saralash bo'yicha ko'rsatma beruvchi AI vositasi.",
+      "zami": "Zami AI Agent: Fuqarolarga qayta ishlash, saralash va ekologik odatlar bo'yicha yordam beruvchi intellektual eko-maslahatchi.",
+      "architecturesTitle": "Tizimli arxitekturalar",
+      "architecturesDesc": "Jamoa tomonidan fuqarolarni jalb qiluvchi EcoApp platformasi va yosh avlod uchun EcoKids interaktiv ekologik ta'lim dasturi arxitekturasi ishlab chiqildi.",
+      "physicalRoadmapNote": "Ma'lumotlar shaffofligi eslatmasi: ZAMINAT platformasining joriy versiyasi dastlabki raqamli MVP hisoblanadi. Shahar bo'ylab qabul qilish punktlari tarmog'i va ishlab chiqarish quvvatlari loyihaning kelgusi rivojlanish xaritasiga kiritilgan."
+    },
+    "milestones": {
+      "title": "Tasdiqlangan ZAMINAT yutuqlari",
+      "subtitle": "Hujjatlashtirilgan taraqqiyot va muhim bosqichlar",
+      "items": [
+        {
+          "title": "«Zaminat» MCHJ ro'yxatdan o'tkazildi",
+          "desc": "Toshkent shahrida (O'zbekiston Respublikasi) rasmiy yuridik shaxs ta'sis etildi."
+        },
+        {
+          "title": "ZAMINAT tovar belgisi ro'yxatdan o'tkazildi",
+          "desc": "Brend va intellektual mulk uchun rasmiy huquqiy himoya ta'minlandi."
+        },
+        {
+          "title": "U-Enter Green Tech akseleratori yakunlandi",
+          "desc": "Toshkentdagi U-Enter markazining Green Tech akseleratsiya dasturi muvaffaqiyatli tamomlandi."
+        },
+        {
+          "title": "AI EcoScan MVP ishga tushirildi",
+          "desc": "Materiallarni vizual aniqlash uchun neyrotarmoq modeli ishlab chiqildi va integratsiya qilindi."
+        },
+        {
+          "title": "Zami AI eko-maslahatchisi integratsiya qilindi",
+          "desc": "Foydalanuvchilarga saralash va ekologiya bo'yicha tavsiyalar beruvchi dialogik AI ishga tushirildi."
+        },
+        {
+          "title": "EcoApp va EcoKids loyihalari ishlab chiqildi",
+          "desc": "Eko-harakatlarni geymifikatsiya qilish va bolalar ta'limi uchun to'liq mahsulot spetsifikatsiyalari yaratildi."
+        }
+      ]
+    },
+    "background": {
+      "title": "Kasbiy tajriba",
+      "p1": "ZAMINAT asos solinishidan avval Sukhrobjon AQSH avtodilerlik muhitida qariyb olti yillik qizg'in professional tajriba orttirdi.",
+      "p2": "Uning mas'uliyat doirasiga raqamli marketing, texnik qidiruv optimallashtirish (SEO), sun'iy intellekt orqali jarayonlarni avtomatlashtirish, biznes-tahlil, kiberxavfsizlik va IT infratuzilmasini muvofiqlashtirish, xaridlar va jarayonlarni optimallashtirish kirdi.",
+      "p3": "Ushbu operatsion tajriba ZAMINAT loyihasiga mijozlar bilan ishlash, konversiya arxitekturasi va ma'lumotlarga asoslangan qarorlar qabul qilishda mustahkam poydevor yaratadi."
+    },
+    "education": {
+      "title": "Ta'lim va akademik poydevor",
+      "degree": "Biznes boshqaruvi bakalavri (BBA)",
+      "institution": "Amity University Tashkent",
+      "year": "2024 yil bitiruvchisi",
+      "desc": "Strategik menejment, xalqaro biznes operatsiyalari, yetakchilik va raqamli texnologiyalar integratsiyasiga ixtisoslashgan."
+    },
+    "mission": {
+      "title": "O'zbekiston uchun maqsad",
+      "p1": "Sukhrobjonning maqsadi O'zbekiston uchun amaliy va texnologik asoslangan barqarorlikni ta'minlashga qaratilgan.",
+      "p2": "Balandparvoz so'zlar o'rniga ZAMINAT aniq natijalarga e'tibor qaratadi: toza shahar muhitini shakllantirish, yosh avlodga ekologik ta'lim berish, ikkilamchi materiallarni qayta ishlashni rivojlantirish va har bir fuqaro uchun qulay raqamli vositalar yaratish.",
+      "quote": "O'zbekistonda barqaror o'zgarishlar faqat nazariya bilan emas — intizomli mehnat, qulay raqamli vositalar va aholining faol ishtiroki bilan amalga oshadi."
+    },
+    "expertise": {
+      "title": "Asosiy mutaxassislik yo'nalishlari",
+      "skills": [
+        "ClimateTech va aylanma iqtisodiyot",
+        "Sun'iy intellekt va kompyuter ko'rishi",
+        "AI orqali jarayonlarni avtomatlashtirish",
+        "Qidiruv tizimlarini optimallashtirish (SEO)",
+        "Raqamli strategiya va brend rivojlantirish",
+        "Biznes-tahlil va samaradorlik ko'rsatkichlari",
+        "Startap boshqaruvi va mahsulot arxitekturasi",
+        "IT tizimlari integratsiyasi",
+        "Eko-ta'lim va jamoatchilik loyihalari"
+      ]
+    },
+    "currentWork": {
+      "title": "ZAMINAT ekotizimini o'rganing",
+      "subtitle": "Sukhrobjon rahbarligida yaratilgan vositalar va modullar bilan tanishing",
+      "links": {
+        "ecosystem": "ZAMINAT platformasi haqida",
+        "scanner": "AI EcoScan materiallar skaneri",
+        "actions": "Eko-aksiyalar va qabul punktlari xaritasi",
+        "shop": "Ijtimoiy do'kon eko-mahsulotlari",
+        "stories": "Ekologik hikoyalar va ta'sir"
+      }
+    },
+    "externalProfiles": {
+      "title": "Rasmiy profillar va manbalar",
+      "subtitle": "Tasdiqlangan havolalar va rasmiy ma'lumotlar",
+      "linkedinTitle": "LinkedIn professional profili",
+      "linkedinDesc": "Tasdiqlangan kasbiy profil va tajriba (sameAs shaxsiy identifikator).",
+      "vismeTitle": "Yetakchilik va raqamli strategiya taqdimoti",
+      "vismeDesc": "Tadbirkorlik yetakchiligi va raqamli strategiya bo'yicha taqdimot (subjectOf CreativeWork)."
+    },
+    "lastUpdated": "Ma'lumotlar yangilangan sana: 2026 yil avgust"
+  }
+}

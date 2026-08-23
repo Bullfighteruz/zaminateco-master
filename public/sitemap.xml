@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://zaminat.uz/</loc>
     <lastmod>2026-08-23</lastmod>
@@ -53,6 +53,42 @@
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/scanner</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/ru/founder/sukhrobjon-rikhsiboev</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://zaminat.uz/uz/founder/sukhrobjon-rikhsiboev</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://zaminat.uz/ru/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="uz" href="https://zaminat.uz/uz/founder/sukhrobjon-rikhsiboev" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://zaminat.uz/en/founder/sukhrobjon-rikhsiboev" />
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://zaminat.uz/product/epdm-rubber-ecotiles</loc>

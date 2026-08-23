@@ -47,6 +47,7 @@ const Scanner = lazy(() => import(/* webpackChunkName: "scanner" */ './pages/Sca
 const EcoCoach = lazy(() => import(/* webpackChunkName: "coach" */ './pages/EcoCoach'));
 const ProductionPlanner = lazy(() => import(/* webpackChunkName: "planner" */ './pages/ProductionPlanner'));
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ './pages/Analytics'));
+const Founder = lazy(() => import(/* webpackChunkName: "founder" */ './pages/Founder'));
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -87,6 +88,13 @@ const App = () => (
                     <Route path="/coach" element={<EcoCoach />} />
                     <Route path="/planner" element={<ProductionPlanner />} />
                     <Route path="/analytics" element={<Analytics />} />
+                    {/* Multilingual Founder Entity Routes & Canonical Aliases */}
+                    <Route path="/:lang/founder/sukhrobjon-rikhsiboev" element={<Founder />} />
+                    <Route path="/founder/sukhrobjon-rikhsiboev" element={<Navigate to="/en/founder/sukhrobjon-rikhsiboev" replace />} />
+                    <Route path="/founder/suxrobjon-rixsiboyev" element={<Navigate to="/uz/founder/sukhrobjon-rikhsiboev" replace />} />
+                    <Route path="/founder/sukhrobjon-rixsiboyev" element={<Navigate to="/en/founder/sukhrobjon-rikhsiboev" replace />} />
+                    <Route path="/founder/suxrobjon-rikhsiboev" element={<Navigate to="/ru/founder/sukhrobjon-rikhsiboev" replace />} />
+                    <Route path="/founder" element={<Navigate to="/en/founder/sukhrobjon-rikhsiboev" replace />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>

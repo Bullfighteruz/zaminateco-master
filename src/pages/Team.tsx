@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Settings, Calculator, Code, Users, Mail, Phone, Star, Award, ExternalLink, Linkedin } from 'lucide-react';
+import { Crown, Settings, Calculator, Code, Users, Mail, Phone, Star, Award, ExternalLink, Linkedin, Compass } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -133,7 +134,17 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
                 "font-bold text-gray-900 transition-colors",
                 isMobile ? "text-sm mb-1" : `text-xl group-hover:text-${member.color}-700`
               )}>
-                {member.name}
+                {member.id === 1 ? (
+                  <Link
+                    to={`/${i18n.language || 'en'}/founder/sukhrobjon-rikhsiboev`}
+                    className="hover:text-emerald-600 hover:underline transition-colors inline-flex items-center gap-1"
+                    title={t('team.labels.viewFounderProfile', { defaultValue: 'Read Founder Profile' })}
+                  >
+                    {member.name}
+                  </Link>
+                ) : (
+                  member.name
+                )}
               </CardTitle>
               <p className={cn(
                 `font-medium text-${member.color}-600`,
@@ -152,6 +163,23 @@ const TeamMemberCard = ({ member }: { member: TeamMember }) => {
         </CardHeader>
 
         <CardContent className={cn(isMobile ? "p-3 space-y-2" : "space-y-4")}>
+          {/* Founder Profile Button for Sukhrobjon */}
+          {member.id === 1 && (
+            <motion.div whileHover={isMobile ? {} : { scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                to={`/${i18n.language || 'en'}/founder/sukhrobjon-rikhsiboev`}
+                className={cn(
+                  "w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold shadow-md hover:from-emerald-700 hover:to-teal-700 transition-all",
+                  isMobile ? "text-xs h-9" : "text-xs h-10"
+                )}
+              >
+                <Compass className="h-3.5 w-3.5" />
+                {t('team.labels.viewFounderProfile', { defaultValue: 'Read Founder Profile' })}
+                <ExternalLink className="h-3 w-3 opacity-80 ml-0.5" />
+              </Link>
+            </motion.div>
+          )}
+
           {/* Contact information - ONLY show if provided */}
           {(member.email || member.phone || member.linkedin) && (
             <div className={cn(isMobile ? "space-y-1" : "space-y-2")}>

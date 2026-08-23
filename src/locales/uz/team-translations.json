@@ -102,7 +102,8 @@
       "coreSkills": "Asosiy ko'nikmalar",
       "keyAchievements": "Asosiy yutuqlar",
       "contactButton": "{{name}} bilan bog'lanish",
-      "linkedinProfile": "LinkedIn profili"
+      "linkedinProfile": "LinkedIn profili",
+      "viewFounderProfile": "Asoschi profili"
     }
   }
 }

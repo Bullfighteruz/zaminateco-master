@@ -31,6 +31,10 @@ import enStories from './locales/en/stories-translations.json';
 import ruStories from './locales/ru/stories-translations.json';
 import uzStories from './locales/uz/stories-translations.json';
 
+import enFounder from './locales/en/founder-translations.json';
+import ruFounder from './locales/ru/founder-translations.json';
+import uzFounder from './locales/uz/founder-translations.json';
+
 const resources = {
   en: {
     translation: enTranslation,
@@ -39,7 +43,8 @@ const resources = {
     profile: enProfile,
     common: enCommon,
     shop: enShop,
-    stories: enStories
+    stories: enStories,
+    founder: enFounder
   },
   ru: {
     translation: ruTranslation,
@@ -48,7 +53,8 @@ const resources = {
     profile: ruProfile,
     common: ruCommon,
     shop: ruShop,
-    stories: ruStories
+    stories: ruStories,
+    founder: ruFounder
   },
   uz: {
     translation: uzTranslation,
@@ -57,7 +63,8 @@ const resources = {
     profile: uzProfile,
     common: uzCommon,
     shop: uzShop,
-    stories: uzStories
+    stories: uzStories,
+    founder: uzFounder
   }
 };
 
@@ -68,7 +75,7 @@ i18n
     resources,
     fallbackLng: 'en',
     defaultNS: 'translation',
-    ns: ['translation', 'common', 'actions', 'profile', 'team', 'shop', 'stories'],
+    ns: ['translation', 'common', 'actions', 'profile', 'team', 'shop', 'stories', 'founder'],
     debug: false,
 
     interpolation: {

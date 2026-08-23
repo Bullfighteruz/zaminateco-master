@@ -18,6 +18,14 @@ const BASE_URL = 'https://zaminat.uz';
  * Your site uses query params or pathname-based routing
  */
 function getHreflangUrl(pathname: string, search: string, lang: string): string {
+  // Check if pathname has a language prefix (e.g., /en/founder/... or /ru/...)
+  const langPrefixMatch = pathname.match(/^\/(en|ru|uz)(\/.*)?$/);
+  if (langPrefixMatch) {
+    const subPath = langPrefixMatch[2] || '';
+    const cleanSearch = search ? search : '';
+    return `${BASE_URL}/${lang}${subPath}${cleanSearch}`;
+  }
+
   // If language is already in URL params, replace it
   const urlParams = new URLSearchParams(search);
   urlParams.set('lang', lang);
