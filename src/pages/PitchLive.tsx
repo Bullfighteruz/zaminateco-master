@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { useSwitchLanguage } from '@/hooks/useSwitchLanguage';
 import { contactHelpers } from '@/utils/mailto';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
 
@@ -30,21 +31,21 @@ const slideVariants = {
 
 /* ────────────────── Language Switcher (minimal) ────────────────── */
 function PitchLangSwitcher() {
-  const { i18n } = useTranslation();
+  const { currentLang, switchLanguage } = useSwitchLanguage();
   const langs = [
     { code: 'en', label: 'EN' },
     { code: 'ru', label: 'RU' },
     { code: 'uz', label: 'UZ' },
   ];
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1 notranslate" translate="no">
       {langs.map(l => (
         <button
           key={l.code}
-          onClick={() => i18n.changeLanguage(l.code)}
+          onClick={() => switchLanguage(l.code)}
           className={cn(
             "px-2 py-1 rounded text-xs font-bold transition-all",
-            i18n.language === l.code
+            currentLang === l.code
               ? "bg-white/20 text-white"
               : "text-white/50 hover:text-white/80"
           )}

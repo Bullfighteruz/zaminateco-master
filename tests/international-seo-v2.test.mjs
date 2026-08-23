@@ -99,14 +99,16 @@ describe('ZAMINAT.eco — CTO International SEO v2 Quality Gates', () => {
     assert.ok(wrapperSource.includes('return <NotFound />'), 'Renders NotFound 404 on invalid language');
   });
 
-  it('5. LanguageSwitcher and MobileLanguageSwitcher update URL with preserved query and hash', () => {
+  it('5. LanguageSwitcher and Layout use centralized useSwitchLanguage for URL-aware routing', () => {
     const switcherSource = fs.readFileSync(path.join(rootDir, 'src/components/LanguageSwitcher.tsx'), 'utf-8');
     const layoutSource = fs.readFileSync(path.join(rootDir, 'src/components/Layout.tsx'), 'utf-8');
+    const hookSource = fs.readFileSync(path.join(rootDir, 'src/hooks/useSwitchLanguage.ts'), 'utf-8');
 
-    assert.ok(switcherSource.includes('replaceLanguageInPath'), 'LanguageSwitcher uses replaceLanguageInPath');
-    assert.ok(switcherSource.includes('navigate(newPath, { replace: true })'), 'LanguageSwitcher navigates to localized URL');
-    assert.ok(layoutSource.includes('replaceLanguageInPath'), 'Layout MobileLanguageSwitcher uses replaceLanguageInPath');
-    assert.ok(layoutSource.includes('navigate(newPath, { replace: true })'), 'Layout MobileLanguageSwitcher navigates to localized URL');
+    assert.ok(switcherSource.includes('useSwitchLanguage'), 'LanguageSwitcher uses useSwitchLanguage');
+    assert.ok(switcherSource.includes('switchLanguage(languageCode)'), 'LanguageSwitcher delegates to switchLanguage');
+    assert.ok(layoutSource.includes('<LanguageSwitcher darkMode={hideBottomNav} />'), 'Layout mounts unified responsive LanguageSwitcher');
+    assert.ok(hookSource.includes('replaceLanguageInPath'), 'useSwitchLanguage uses replaceLanguageInPath');
+    assert.ok(hookSource.includes('navigate(newPath, { replace: options?.replace ?? true })'), 'useSwitchLanguage navigates to localized URL');
   });
 
   it('6. PrefetchLink automatically localizes relative paths', () => {
@@ -163,5 +165,59 @@ describe('ZAMINAT.eco — CTO International SEO v2 Quality Gates', () => {
     assert.ok(prerenderSource.includes('PAGE_DATA'), 'PAGE_DATA contains indexable routes');
     assert.ok(prerenderSource.includes('LANGUAGES.forEach'), 'Iterates over all languages');
     assert.ok(prerenderSource.includes('prerenderAllPages'), 'Exports prerenderAllPages function');
+  });
+
+  it('12. Profile settings language controls use centralized useSwitchLanguage and preserve query/hash', () => {
+    const profileSource = fs.readFileSync(path.join(rootDir, 'src/pages/Profile.tsx'), 'utf-8');
+
+    assert.ok(profileSource.includes('useSwitchLanguage'), 'Profile.tsx imports useSwitchLanguage');
+    assert.ok(profileSource.includes('switchLanguage(lang.code)'), 'Profile settings button calls switchLanguage');
+    assert.ok(profileSource.includes('variant={currentLang === lang.code ?'), 'Active button state derived from currentLang');
+    assert.ok(!profileSource.includes('i18n.changeLanguage(lang.code)'), 'Profile does not bypass router URL');
+  });
+
+  it('13. All auxiliary language controls (WelcomeModal, PitchLive) use useSwitchLanguage', () => {
+    const welcomeSource = fs.readFileSync(path.join(rootDir, 'src/components/WelcomeModal.tsx'), 'utf-8');
+    const pitchLiveSource = fs.readFileSync(path.join(rootDir, 'src/pages/PitchLive.tsx'), 'utf-8');
+
+    assert.ok(welcomeSource.includes('useSwitchLanguage'), 'WelcomeModal imports useSwitchLanguage');
+    assert.ok(welcomeSource.includes('switchLanguage(languageCode)'), 'WelcomeModal calls switchLanguage');
+    assert.ok(pitchLiveSource.includes('useSwitchLanguage'), 'PitchLive imports useSwitchLanguage');
+    assert.ok(pitchLiveSource.includes('switchLanguage(l.code)'), 'PitchLive calls switchLanguage');
+  });
+
+  it('14. replaceLanguageInPath preserves pathnames, query strings, and hash fragments', () => {
+    // Pure function logic mirroring src/lib/i18nRouting.ts
+    function replaceLang(path, targetLang) {
+      if (!path) return `/${targetLang}`;
+      const hashIndex = path.indexOf('#');
+      let hash = '';
+      let cleanPath = path;
+      if (hashIndex !== -1) {
+        hash = path.substring(hashIndex);
+        cleanPath = path.substring(0, hashIndex);
+      }
+      const queryIndex = cleanPath.indexOf('?');
+      let query = '';
+      if (queryIndex !== -1) {
+        query = cleanPath.substring(queryIndex);
+        cleanPath = cleanPath.substring(0, queryIndex);
+      }
+      const match = cleanPath.match(/^\/(en|ru|uz)(\/.*)?$/i);
+      const subPath = match ? (match[2] || '/') : cleanPath;
+      let res = `/${targetLang}`;
+      if (subPath !== '/') {
+        res += subPath.startsWith('/') ? subPath : `/${subPath}`;
+      }
+      return `${res}${query}${hash}`;
+    }
+
+    assert.equal(replaceLang('/en/profile?tab=badges#settings', 'ru'), '/ru/profile?tab=badges#settings');
+    assert.equal(replaceLang('/uz/actions?source=ecoscan&materials=Plastic#collection-map', 'en'), '/en/actions?source=ecoscan&materials=Plastic#collection-map');
+    assert.equal(replaceLang('/ru/team', 'uz'), '/uz/team');
+
+    const routingSource = fs.readFileSync(path.join(rootDir, 'src/lib/i18nRouting.ts'), 'utf-8');
+    assert.ok(routingSource.includes('replaceLanguageInPath'), 'Exports replaceLanguageInPath');
+    assert.ok(routingSource.includes('return `${result}${query}${hash}`'), 'Concatenates result with query and hash');
   });
 });

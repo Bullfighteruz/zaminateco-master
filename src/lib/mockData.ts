@@ -64,9 +64,9 @@ export const votingProjects: VotingProject[] = [
     requiredMaterials: 2500,
     currentVotes: 1847,
     totalVotes: 2500,
-    category: 'school',
+    category: 'school' as const,
     deadline: new Date('2025-12-15'),
-    status: 'active',
+    status: 'active' as const,
     donationTarget: 15000000, // 15M UZS
     donationRaised: 8500000   // 8.5M UZS
   },
@@ -79,9 +79,9 @@ export const votingProjects: VotingProject[] = [
     requiredMaterials: 1200,
     currentVotes: 956,
     totalVotes: 1500,
-    category: 'park',
+    category: 'park' as const,
     deadline: new Date('2025-11-30'),
-    status: 'active',
+    status: 'active' as const,
     donationTarget: 8000000,  // 8M UZS
     donationRaised: 3200000   // 3.2M UZS
   },
@@ -94,9 +94,9 @@ export const votingProjects: VotingProject[] = [
     requiredMaterials: 800,
     currentVotes: 623,
     totalVotes: 1000,
-    category: 'kindergarten',
+    category: 'kindergarten' as const,
     deadline: new Date('2025-11-15'),
-    status: 'active',
+    status: 'active' as const,
     donationTarget: 5000000,  // 5M UZS
     donationRaised: 1800000   // 1.8M UZS
   }

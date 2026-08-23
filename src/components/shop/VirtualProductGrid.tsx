@@ -78,8 +78,8 @@ export default function VirtualProductGrid({
   React.useEffect(() => {
     if (virtualContainerRef && containerRef.current) {
       if (typeof virtualContainerRef === 'function') {
-        virtualContainerRef(containerRef.current);
-      } else if (virtualContainerRef.current !== undefined) {
+        (virtualContainerRef as (node: HTMLDivElement | null) => void)(containerRef.current);
+      } else if (virtualContainerRef && 'current' in virtualContainerRef) {
         (virtualContainerRef as React.MutableRefObject<HTMLDivElement | null>).current = containerRef.current;
       }
     }

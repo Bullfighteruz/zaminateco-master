@@ -13,6 +13,7 @@ export interface TechnicalSpec {
   label: string;
   value: string;
   unit?: string;
+  description?: string;
 }
 
 export interface SustainabilityMetric {

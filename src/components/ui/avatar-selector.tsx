@@ -103,7 +103,7 @@ const AVATARS: Avatar[] = [
     emoji: '♻️', 
     name: 'Recycling Hero', 
     glowColor: 'blue', 
-    unlocked: USER_PROGRESS.coins >= 500,
+    unlocked: USER_PROGRESS.ecoCoins >= 500,
     requirement: { type: 'coins', value: 500, description: 'Earn 500 EcoCoins' },
     rarity: 'rare',
     task: {
@@ -180,7 +180,7 @@ const AVATARS: Avatar[] = [
     emoji: '🔥', 
     name: 'Climate Warrior', 
     glowColor: 'red', 
-    unlocked: USER_PROGRESS.coins >= 1000,
+    unlocked: USER_PROGRESS.ecoCoins >= 1000,
     requirement: { type: 'coins', value: 1000, description: 'Earn 1000 EcoCoins' },
     rarity: 'epic',
     task: {

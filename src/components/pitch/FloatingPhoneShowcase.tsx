@@ -253,8 +253,7 @@ function DesktopFloatingPhone({
                       objectFit: 'cover',
                       objectPosition: 'top center',
                       display: 'block',
-                      imageRendering: 'high-quality',
-                      WebkitImageRendering: '-webkit-optimize-contrast',
+                      imageRendering: '-webkit-optimize-contrast' as any,
                     }}
                     draggable={false}
                   />

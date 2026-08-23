@@ -258,8 +258,7 @@ export default function ScrollImageCarousel({
                 setImageError(prev => new Set([...prev, currentIndex]));
               }}
               style={{
-                imageRendering: 'high-quality',
-                WebkitImageRendering: 'high-quality',
+                imageRendering: '-webkit-optimize-contrast' as any,
                 backgroundColor: 'transparent',
                 display: 'block',
               }}

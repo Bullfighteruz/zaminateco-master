@@ -224,7 +224,7 @@ const createActionLocationIcon = (
 };
 
 // Component to handle map view updates
-function MapViewUpdater({ center, zoom }: { center: [number, number]; zoom: number }) {
+function MapViewUpdater({ center, zoom }: { center: LatLngExpression; zoom: number }) {
   const map = useMap();
 
   useEffect(() => {

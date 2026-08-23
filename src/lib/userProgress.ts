@@ -37,7 +37,7 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  category: 'collection' | 'conservation' | 'community' | 'education' | 'innovation';
+  category: 'collection' | 'conservation' | 'community' | 'education' | 'innovation' | 'milestone';
   difficulty: 'easy' | 'medium' | 'hard' | 'expert';
   estimatedTime: string;
   requirements: {

@@ -7,11 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { replaceLanguageInPath, normalizeLanguage, type SupportedLanguage } from '@/lib/i18nRouting';
+import { useSwitchLanguage } from '@/hooks/useSwitchLanguage';
+import { type SupportedLanguage } from '@/lib/i18nRouting';
 
 const languages: Array<{ code: SupportedLanguage; flag: string; name: string; country: string }> = [
   { code: 'en', flag: '/images/en_flag.webp', name: 'English', country: 'US' },
@@ -31,29 +30,25 @@ const menuItemVariants = {
   exit: { opacity: 0, x: -10 }
 };
 
-export default function LanguageSwitcher({ darkMode = false, compact = false }: { darkMode?: boolean; compact?: boolean }) {
-  const { i18n } = useTranslation();
-  const location = useLocation();
-  const navigate = useNavigate();
+export interface LanguageSwitcherProps {
+  darkMode?: boolean;
+  compact?: boolean;
+  className?: string;
+}
+
+export default function LanguageSwitcher({ darkMode = false, compact = false, className = '' }: LanguageSwitcherProps) {
+  const { currentLang, switchLanguage } = useSwitchLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  
-  const currentLang = normalizeLanguage(i18n.language);
+
   const currentLanguage = languages.find(lang => lang.code === currentLang) || languages[0];
 
   const handleLanguageChange = (languageCode: SupportedLanguage) => {
-    i18n.changeLanguage(languageCode);
-    const currentFull = location.pathname + location.search + location.hash;
-    const newPath = replaceLanguageInPath(currentFull, languageCode);
-    navigate(newPath, { replace: true });
-    document.documentElement.lang = languageCode;
-    try {
-      localStorage.setItem('i18nextLng', languageCode);
-    } catch {}
+    switchLanguage(languageCode);
     setIsOpen(false);
   };
 
   return (
-    <div className="relative z-50">
+    <div className={cn("relative z-50 notranslate", className)} translate="no">
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
         <DropdownMenuTrigger asChild>
           <motion.div
@@ -66,31 +61,31 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
               size="sm"
               aria-label={`Select language. Current: ${currentLanguage.name}`}
               className={cn(
-                "flex items-center gap-2",
+                "flex items-center gap-2 select-none",
                 darkMode ? "bg-black/70 backdrop-blur-md" : "bg-white/95 backdrop-blur-md",
-                darkMode ? "border border-white/10" : "border border-gray-200/50",
-                darkMode ? "hover:border-white/25 hover:bg-black/80" : "hover:border-green-400/60 hover:bg-white",
+                darkMode ? "border border-white/15" : "border border-gray-200/60",
+                darkMode ? "hover:border-white/30 hover:bg-black/85" : "hover:border-emerald-400/60 hover:bg-white",
                 "transition-all duration-300",
                 "shadow-md hover:shadow-lg",
                 darkMode ? "text-white/90 hover:text-white" : "text-gray-800 hover:text-gray-900",
                 "font-bold",
-                compact ? "px-2.5 h-8 text-[11px] rounded-lg" : "px-3 py-2 text-xs",
+                compact ? "px-2.5 h-8 text-[11px] rounded-lg" : "px-3 py-2 text-xs sm:text-sm rounded-xl",
                 "relative overflow-hidden",
                 "group"
               )}
             >
               {/* Animated background gradient */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-green-50/0 via-emerald-50/0 to-teal-50/0"
+                className="absolute inset-0 bg-gradient-to-r from-emerald-50/0 via-teal-50/0 to-green-50/0 pointer-events-none"
                 animate={{
                   background: isOpen
-                    ? "linear-gradient(90deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 50%, rgba(20, 184, 166, 0.1) 100%)"
-                    : "linear-gradient(90deg, rgba(34, 197, 94, 0) 0%, rgba(16, 185, 129, 0) 50%, rgba(20, 184, 166, 0) 100%)"
+                    ? "linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(20, 184, 166, 0.12) 100%)"
+                    : "linear-gradient(90deg, rgba(16, 185, 129, 0) 0%, rgba(20, 184, 166, 0) 100%)"
                 }}
                 transition={{ duration: 0.3 }}
               />
 
-              <div className={cn("relative z-10 flex items-center", compact ? "gap-1.5" : "gap-2.5")}>
+              <div className={cn("relative z-10 flex items-center", compact ? "gap-1.5" : "gap-2")}>
                 {/* Flag icon with smooth transitions */}
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -104,7 +99,7 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                     <motion.img
                       src={currentLanguage.flag}
                       alt=""
-                      className={cn("object-cover rounded-sm shadow-sm border border-gray-200/50", compact ? "h-3.5 w-5" : "h-5 w-7")}
+                      className={cn("object-cover rounded-sm shadow-sm border border-gray-200/50", compact ? "h-3.5 w-5" : "h-4 w-6 sm:h-5 sm:w-7")}
                       variants={flagVariants}
                       whileHover="hover"
                       whileTap="tap"
@@ -119,7 +114,7 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2 }}
-                  className={cn("font-bold tracking-wide hidden sm:inline-block", compact ? "text-[11px]" : "text-sm", darkMode ? "text-white/90" : "text-gray-900")}
+                  className={cn("font-bold tracking-wide", compact ? "text-[11px]" : "text-xs sm:text-sm", darkMode ? "text-white/90" : "text-gray-900")}
                 >
                   {currentLanguage.code.toUpperCase()}
                 </motion.span>
@@ -129,7 +124,7 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                   animate={{ rotate: isOpen ? 180 : 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <ChevronDown className={cn("transition-colors", compact ? "h-3 w-3" : "h-3.5 w-3.5", darkMode ? "text-white/50 group-hover:text-white/80" : "text-gray-600 group-hover:text-green-600")} />
+                  <ChevronDown className={cn("transition-colors", compact ? "h-3 w-3" : "h-3.5 w-3.5", darkMode ? "text-white/50 group-hover:text-white/80" : "text-gray-500 group-hover:text-emerald-600")} />
                 </motion.div>
               </div>
             </Button>
@@ -141,18 +136,21 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
           side="bottom"
           sideOffset={8}
           alignOffset={0}
-          collisionPadding={24}
+          collisionPadding={20}
           avoidCollisions={true}
           className={cn(
-            "w-[200px] p-2",
+            "w-[210px] p-2",
             "bg-white/98 backdrop-blur-xl",
             "border-2 border-gray-200/60",
             "shadow-2xl",
             "rounded-xl",
-            "overflow-hidden"
+            "overflow-hidden",
+            "z-50"
           )}
           style={{
-            maxWidth: 'min(200px, calc(100vw - 2rem))',
+            maxWidth: 'min(210px, calc(100vw - 2rem))',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
           }}
         >
           <AnimatePresence>
@@ -167,7 +165,7 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                   animate="animate"
                   exit="exit"
                   transition={{
-                    delay: index * 0.05,
+                    delay: index * 0.04,
                     duration: 0.2,
                     ease: "easeOut"
                   }}
@@ -176,25 +174,15 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                     onClick={() => handleLanguageChange(language.code)}
                     className={cn(
                       "flex items-center gap-3",
-                      "cursor-pointer p-3 rounded-lg",
+                      "cursor-pointer p-2.5 sm:p-3 rounded-lg",
                       "transition-all duration-200",
                       "relative overflow-hidden",
                       "group/item",
                       isSelected
-                        ? "bg-gradient-to-r from-green-50 to-emerald-50 text-green-800 font-semibold shadow-md border-2 border-green-200/50"
-                        : "hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:text-emerald-800 hover:shadow-sm"
+                        ? "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-900 font-bold shadow-sm border border-emerald-200/60"
+                        : "hover:bg-gradient-to-r hover:from-emerald-50/60 hover:to-teal-50/60 hover:text-emerald-800"
                     )}
                   >
-                    {/* Selected indicator background */}
-                    {isSelected && (
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-green-100/50 to-emerald-100/50"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    )}
-
                     <div className="relative z-10 flex items-center gap-3 w-full">
                       {/* Flag icon with hover animation */}
                       <motion.div
@@ -207,11 +195,11 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                           src={language.flag}
                           alt=""
                           className={cn(
-                            "h-6 w-8 object-cover rounded-md shadow-md",
-                            "border-2 transition-all duration-200",
+                            "h-5 w-7 sm:h-6 sm:w-8 object-cover rounded-md shadow-sm",
+                            "border transition-all duration-200",
                             isSelected
-                              ? "border-green-400 shadow-green-200/50"
-                              : "border-gray-200/60 group-hover/item:border-green-300"
+                              ? "border-emerald-500 shadow-emerald-200/50"
+                              : "border-gray-200 group-hover/item:border-emerald-300"
                           )}
                         />
                       </motion.div>
@@ -219,10 +207,10 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                       {/* Language details */}
                       <div className="flex flex-col flex-1 min-w-0">
                         <span className={cn(
-                          "text-sm font-semibold truncate transition-colors",
+                          "text-xs sm:text-sm font-semibold truncate transition-colors",
                           isSelected
-                            ? "text-green-900 font-bold"
-                            : "text-gray-700 group-hover/item:text-green-700"
+                            ? "text-emerald-950 font-bold"
+                            : "text-gray-700 group-hover/item:text-emerald-700"
                         )}>
                           {language.name}
                         </span>
@@ -239,7 +227,7 @@ export default function LanguageSwitcher({ darkMode = false, compact = false }: 
                           transition={{ type: "spring", stiffness: 500, damping: 25 }}
                           className="flex-shrink-0"
                         >
-                          <div className="h-5 w-5 rounded-full bg-green-500 flex items-center justify-center shadow-sm">
+                          <div className="h-5 w-5 rounded-full bg-emerald-600 flex items-center justify-center shadow-sm">
                             <Check className="h-3 w-3 text-white stroke-[3]" />
                           </div>
                         </motion.div>

@@ -13,6 +13,7 @@ import { Leaf, Sparkles, Globe, User, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { saveUserName, markAsVisited, isFirstVisit } from '@/utils/userName';
 import { useTranslation } from 'react-i18next';
+import { useSwitchLanguage } from '@/hooks/useSwitchLanguage';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +31,8 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
   const [lastName, setLastName] = useState('');
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { currentLang, switchLanguage } = useSwitchLanguage();
 
   const languages = [
     { code: 'en', flag: '/images/en_flag.webp', name: 'English' },
@@ -38,7 +40,7 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
     { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский' }
   ];
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLanguage = languages.find(lang => lang.code === currentLang) || languages[0];
   const displayName = (firstName.trim() || lastName.trim()) ? `${firstName} ${lastName}`.trim() : '';
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function WelcomeModal({ onComplete }: WelcomeModalProps) {
   };
 
   const handleLanguageChange = (languageCode: string) => {
-    i18n.changeLanguage(languageCode);
+    switchLanguage(languageCode);
     setLangMenuOpen(false);
   };
 

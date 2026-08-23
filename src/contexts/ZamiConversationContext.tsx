@@ -100,7 +100,7 @@ export const ZamiConversationProvider: React.FC<{ children: ReactNode }> = ({ ch
     const history = messages
       .filter(m => m.id !== 'welcome' && m.id !== userMessage.id && typeof m.text === 'string' && m.text.trim().length > 0)
       .map(m => ({
-        role: m.role === 'user' ? 'user' : 'model',
+        role: (m.role === 'user' ? 'user' : 'model') as 'user' | 'model',
         parts: [{ text: m.text }]
       }));
 

@@ -77,6 +77,7 @@ import Layout from '@/components/Layout';
 import { toast } from 'sonner';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { USER_DATA, calculateLevel, calculateLevelProgress, formatWasteAmount } from '@/lib/userData';
+import { useSwitchLanguage } from '@/hooks/useSwitchLanguage';
 import { getUserNameData, saveUserName } from '@/utils/userName';
 import { EnhancedAvatar } from '@/components/ui/enhanced-avatar';
 import { EnhancedAvatarSystem } from '@/components/ui/enhanced-avatar-system';
@@ -475,6 +476,7 @@ const AuthScreen: React.FC<{ onLoginSuccess: () => void; onSkip?: () => void }> 
 const Profile: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
+  const { currentLang, switchLanguage } = useSwitchLanguage();
 
   useSEO({
     title: t('profileTitle', { defaultValue: 'My Profile' }),
@@ -2224,11 +2226,11 @@ const Profile: React.FC = () => {
                 ].map((lang) => (
                   <Button
                     key={lang.code}
-                    variant={i18n.language === lang.code ? 'default' : 'outline'}
-                    className={i18n.language === lang.code ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-0 shadow-sm' : 'text-slate-600'}
+                    variant={currentLang === lang.code ? 'default' : 'outline'}
+                    className={currentLang === lang.code ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-0 shadow-sm' : 'text-slate-600'}
                     size="sm"
                     onClick={() => {
-                      i18n.changeLanguage(lang.code);
+                      switchLanguage(lang.code);
                       toast.success(t('languageChanged', { defaultValue: 'Language updated!' }));
                     }}
                   >

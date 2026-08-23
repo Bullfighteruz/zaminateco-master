@@ -85,9 +85,9 @@ export function useAuth() {
       if (response.user) {
         setUser(response.user as User);
         setIsAuthenticated(true);
-        return { success: true, requiresOtp: response.requiresOtp };
+        return { success: true, requiresOtp: (response as any).requiresOtp };
       }
-      return { success: false, requiresOtp: response.requiresOtp };
+      return { success: false, requiresOtp: (response as any).requiresOtp };
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
       return { success: false, error: message };
@@ -109,9 +109,9 @@ export function useAuth() {
       if (response.user) {
         setUser(response.user as User);
         setIsAuthenticated(true);
-        return { success: true, requiresOtp: response.requiresOtp };
+        return { success: true, requiresOtp: (response as any).requiresOtp };
       }
-      return { success: false, requiresOtp: response.requiresOtp };
+      return { success: false, requiresOtp: (response as any).requiresOtp };
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
       return { success: false, error: message };

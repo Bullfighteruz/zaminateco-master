@@ -12,6 +12,7 @@ interface EnhancedAvatarProps {
   className?: string;
   profileFrame?: string; // Add profile frame support
   noBackground?: boolean; // Remove circular background
+  onClick?: () => void;
 }
 
 const sizeClasses = {
@@ -50,12 +51,13 @@ export const EnhancedAvatar: React.FC<EnhancedAvatarProps> = ({
   showCrown = false,
   className,
   profileFrame = 'default',
-  noBackground = false
+  noBackground = false,
+  onClick
 }) => {
   const frameGradient = frameGradients[profileFrame as keyof typeof frameGradients] || frameGradients.default;
   
   return (
-    <div className="relative inline-block">
+    <div className={cn("relative inline-block", onClick && "cursor-pointer")} onClick={onClick}>
       {/* Profile Frame */}
       {profileFrame && profileFrame !== 'default' && (
         <div 

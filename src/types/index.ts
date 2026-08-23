@@ -100,7 +100,7 @@ export interface NewsItem {
   image: string;
   author: string;
   publishedAt: Date;
-  category: 'success-story' | 'education' | 'interview' | 'update';
+  category: 'success-story' | 'education' | 'interview' | 'update' | string;
   readTime: number;
 }
 

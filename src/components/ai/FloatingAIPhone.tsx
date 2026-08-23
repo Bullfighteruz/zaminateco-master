@@ -175,8 +175,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
                       objectFit: 'cover',
                       objectPosition: 'top center',
                       display: 'block',
-                      imageRendering: 'high-quality',
-                      WebkitImageRendering: '-webkit-optimize-contrast',
+                      imageRendering: '-webkit-optimize-contrast' as any,
                     }}
                     draggable={false}
                   />
@@ -282,8 +281,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
                       objectFit: 'cover',
                       objectPosition: 'top center',
                       display: 'block',
-                      imageRendering: 'high-quality',
-                      WebkitImageRendering: '-webkit-optimize-contrast',
+                      imageRendering: '-webkit-optimize-contrast' as any,
                       willChange: 'transform',
                       transform: 'translate3d(0, 0, 0)',
                       backfaceVisibility: 'hidden',
@@ -442,8 +440,7 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
                       height: 'auto',
                       borderRadius: '12px',
                       boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.7)',
-                      imageRendering: 'high-quality',
-                      WebkitImageRendering: '-webkit-optimize-contrast',
+                      imageRendering: '-webkit-optimize-contrast' as any,
                       transition: 'width 0.15s ease-out',
                       pointerEvents: 'none' // Prevents default browser drag-to-desktop action
                     }}

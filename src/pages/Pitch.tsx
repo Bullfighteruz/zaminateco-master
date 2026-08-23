@@ -419,7 +419,7 @@ export default function Pitch() {
   // Helper to get array translations safely
   const getArray = (key: string, defaultVal: string[]): string[] => {
     const val = t(key, { returnObjects: true });
-    return Array.isArray(val) ? val : defaultVal;
+    return Array.isArray(val) ? (val as string[]) : defaultVal;
   };
 
   // Helper to format price based on language

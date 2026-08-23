@@ -178,7 +178,7 @@ interface CompletedProjectCardProps {
 }
 
 const CompletedProjectCard = ({ project, setLightboxImage }: CompletedProjectCardProps) => {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation('common');
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeImageTab, setActiveImageTab] = useState<'after' | 'before'>('after');
 
@@ -1044,7 +1044,7 @@ function EcoVote() {
                                     const status = activeTab === 'active' ? 'ACTIVE' : 'COMPLETED';
                                     const updatedProjects = await apiClient.getProjects(status, 'votes');
                                     if (updatedProjects && Array.isArray(updatedProjects) && updatedProjects.length > 0) {
-                                      const transformedProjects: VotingProject[] = updatedProjects.map((p: Record<string, unknown>) => {
+                                      const transformedProjects: VotingProject[] = updatedProjects.map((p: any) => {
                                         const backendProject = p as unknown as BackendProject;
                                         return {
                                         id: backendProject.id || '',
@@ -1052,8 +1052,8 @@ function EcoVote() {
                                         description: backendProject.description || '',
                                         image: backendProject.imageUrl || '🏫',
                                         location: backendProject.district || backendProject.location || '',
-                                        category: backendProject.category || 'general',
-                                        status: backendProject.status?.toLowerCase() || 'active',
+                                        category: (backendProject.category || 'school') as VotingProject['category'],
+                                        status: (backendProject.status?.toLowerCase() || 'active') as VotingProject['status'],
                                         currentVotes: backendProject.voteCount || 0,
                                         totalVotes: backendProject.targetVotes || 1000,
                                         deadline: backendProject.endDate ? new Date(backendProject.endDate) : new Date(),

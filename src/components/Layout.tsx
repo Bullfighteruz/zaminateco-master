@@ -24,85 +24,6 @@ interface LayoutProps {
   hideBottomNav?: boolean;
 }
 
-const MobileLanguageSwitcher = ({ darkMode = false }: { darkMode?: boolean }) => {
-  const { i18n } = useI18nTranslation();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const languages: Array<{ code: SupportedLanguage; flag: string; name: string }> = [
-    { code: 'en', flag: '/images/en_flag.webp', name: 'English' },
-    { code: 'uz', flag: '/images/uz_flag.webp', name: "O'zbekcha" },
-    { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский' }
-  ];
-  
-  const currentLang = normalizeLanguage(i18n.language);
-  const currentLanguage = languages.find(lang => lang.code === currentLang) || languages[0];
-
-  const handleLanguageChange = (languageCode: SupportedLanguage) => {
-    i18n.changeLanguage(languageCode);
-    const currentFull = location.pathname + location.search + location.hash;
-    const newPath = replaceLanguageInPath(currentFull, languageCode);
-    navigate(newPath, { replace: true });
-    document.documentElement.lang = languageCode;
-    try {
-      localStorage.setItem('i18nextLng', languageCode);
-    } catch {}
-    setIsOpen(false);
-  };
-
-  return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
-      <DropdownMenuTrigger asChild>
-        <button
-          aria-label={`Select language. Current: ${currentLanguage.name}`}
-          className={cn(
-            "flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md border-2 shadow-md transition-all duration-300",
-            darkMode
-              ? "bg-black/70 border-white/10 hover:border-white/25 hover:bg-black/80 text-white/90 active:scale-95"
-              : "bg-white/90 border-gray-200/50 hover:border-green-400/60 hover:bg-white text-gray-800 active:scale-95"
-          )}
-        >
-          <Globe className="h-5 w-5 flex-shrink-0" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        side="bottom"
-        sideOffset={12}
-        className="w-[180px] p-2 bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl rounded-xl"
-        style={{
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-        }}
-      >
-        {languages.map((language) => {
-          const isSelected = currentLanguage.code === language.code;
-          return (
-            <DropdownMenuItem
-              key={language.code}
-              onClick={() => handleLanguageChange(language.code)}
-              className={cn(
-                "flex items-center gap-3 cursor-pointer p-3 rounded-lg transition-all",
-                isSelected
-                  ? "bg-green-50 text-green-800 font-semibold"
-                  : "hover:bg-gray-50"
-              )}
-            >
-              <img
-                src={language.flag}
-                alt=""
-                className="h-5 w-7 object-cover rounded-sm border border-gray-200"
-              />
-              <span className="text-sm font-medium">{language.name}</span>
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
-
 const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutProps) {
   const location = useLocation();
   const { t } = useTranslation('common');
@@ -163,12 +84,13 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
         </div>
       )}
 
-      {/* Floating Language Switcher for mobile (top-right) */}
-      {isMobile && (
-        <div className="fixed top-4 right-4 z-40">
-          <MobileLanguageSwitcher darkMode={hideBottomNav} />
-        </div>
-      )}
+      {/* ── Top-Right Responsive Language Switcher for all viewports ── */}
+      <div
+        className="fixed top-4 right-4 sm:top-5 sm:right-6 z-40"
+        data-testid="layout-language-switcher"
+      >
+        <LanguageSwitcher darkMode={hideBottomNav} />
+      </div>
       
       {/* Main content */}
       <main className={hideBottomNav ? '' : 'pb-nav-safe'}>
