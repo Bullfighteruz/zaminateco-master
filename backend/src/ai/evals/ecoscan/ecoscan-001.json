@@ -1,13 +1,14 @@
 {
   "caseId": "ECOSCAN-VISION-001",
-  "description": "Regression Case #1: 2 transparent bottles, multiple bottle caps, flexible snack packaging, and 1 black ring-shaped rubber tube.",
+  "description": "Regression Case #1: 2-3 transparent plastic bottles (2 clearly visible + 1 partially occluded bottle-like object), multiple bottle caps, flexible snack packaging, and 1 black ring-shaped rubber tube.",
   "fixtureImage": "fixtures/ecoscan-001.jpg",
   "expectedObjects": [
     {
       "family": "bottle",
       "material": "PET / Rigid Plastic",
       "minQuantity": 2,
-      "maxQuantity": 2
+      "maxQuantity": 3,
+      "notes": "2 clearly visible transparent bottles + 1 partially occluded bottle-like object (plausible total 2–3)"
     },
     {
       "family": "cap",

@@ -130,6 +130,24 @@ describe('ScanGuard Semantic Consistency & Weight Sanity Guard (Phase 18 Test Ma
       // 5. Suggested product pathway rather than guaranteed factory production
       expect(result.suggestedProduct).toContain('Возможное направление');
     });
+
+    it('should handle plausible 3-bottle count (2 visible + 1 partially occluded) within the same plausible mass range', () => {
+      const input3Bottles: Partial<ScanResult> = {
+        items: [
+          { name: 'Пластиковые бутылки (включая частично перекрытую)', quantity: 3, wasteType: 'Plastic', status: 'Accepted', instructions: 'Сполоснуть' },
+          { name: 'Крышки от бутылок', quantity: 10, wasteType: 'Plastic', status: 'Accepted', instructions: 'Собрать вместе' },
+          { name: 'Мягкая упаковка', quantity: 4, wasteType: 'Mixed', status: 'Needs sorting', instructions: 'Проверить маркировку' },
+          { name: 'Резиновая камера / трубчатый элемент', quantity: 1, wasteType: 'Rubber', status: 'Accepted', instructions: 'Очистить от пыли' },
+        ],
+        totalEstimatedWeightKg: '0.4 – 1.2 кг',
+        confidence: 82,
+      };
+
+      const result = ScanGuard.sanitize(input3Bottles, 'ru');
+      expect(result.items[0].quantity).toBe(3);
+      expect(result.estimatedEcoCoins).toBe(0);
+      expect(result.confidence).toBeLessThanOrEqual(85);
+    });
   });
 
   describe('Case L, M, N: Multilingual Terminology', () => {
