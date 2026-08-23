@@ -197,7 +197,7 @@ export class OpenAIProvider implements AiProvider {
       const mimeType = dto.mimeType || 'image/jpeg';
       const dataUrl = `data:${mimeType};base64,${cleanBase64}`;
 
-      // Modern OpenAI Responses API with multimodal image input and strict JSON Schema
+      // Modern OpenAI Responses API with multimodal image input, reasoning effort, and strict JSON Schema
       const response = await openai.responses.create({
         model: model as any,
         instructions: `${SCAN_SYSTEM_PROMPT}\n\nCRITICAL LANGUAGE MANDATE: You MUST write the "name", "instructions", "moatImpact", and "suggestedProduct" values strictly in ${targetLang}.`,
@@ -225,6 +225,7 @@ export class OpenAIProvider implements AiProvider {
             strict: true,
           },
         },
+        reasoning: { effort: 'low' },
         max_output_tokens: 1500,
       });
 
@@ -348,14 +349,14 @@ export class OpenAIProvider implements AiProvider {
         ? (['web_search_call.action.sources'] as any)
         : undefined;
 
-      // Modern OpenAI Responses API
+      // Modern OpenAI Responses API with GPT-5.6 reasoning effort (no unsupported sampling parameters)
       const response = await openai.responses.create({
         model: model as any,
         instructions: systemInstruction,
         input: inputMessages,
         ...(tools ? { tools } : {}),
         ...(include ? { include } : {}),
-        temperature: 0.3,
+        reasoning: { effort: 'low' },
         max_output_tokens: 1000,
       });
 
@@ -423,7 +424,7 @@ export class OpenAIProvider implements AiProvider {
         model: model as any,
         instructions: PLANNER_SYSTEM_INSTRUCTION,
         input: prompt,
-        temperature: 0.2,
+        reasoning: { effort: 'low' },
         max_output_tokens: 1000,
       });
 

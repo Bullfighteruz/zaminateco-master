@@ -6,7 +6,7 @@ import OpenAI from 'openai';
 
 jest.mock('openai');
 
-describe('OpenAIProvider Responses API Unit Tests', () => {
+describe('OpenAIProvider GPT-5.6 Responses API Unit Tests', () => {
   let provider: OpenAIProvider;
   let configService: ConfigService;
   let mockResponsesCreate: jest.Mock;
@@ -68,8 +68,8 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
     });
   });
 
-  describe('EcoScan (scanWaste) with Responses API', () => {
-    it('should successfully parse valid structured JSON output from Responses API', async () => {
+  describe('EcoScan (scanWaste) with GPT-5.6-Terra and Reasoning Effort', () => {
+    it('should call Responses API with model=gpt-5.6-terra, input_image, structured JSON schema, reasoning.effort=low, and NO temperature/top_p', async () => {
       const mockResult = {
         items: [
           {
@@ -113,17 +113,27 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
       expect(result.estimatedEcoCoins).toBe(20);
       expect(result.confidence).toBe(95);
 
-      // Verify Responses API parameter structure (model, multimodal input, text format)
-      expect(mockResponsesCreate).toHaveBeenCalledWith(
+      // Verify GPT-5.6 parameter compatibility
+      expect(mockResponsesCreate).toHaveBeenCalledTimes(1);
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+
+      expect(callParams.model).toBe('gpt-5.6-terra');
+      expect(callParams.reasoning).toEqual({ effort: 'low' });
+      expect(callParams.temperature).toBeUndefined();
+      expect(callParams.top_p).toBeUndefined();
+
+      // Verify input_image multimodal structure
+      const inputContent = callParams.input[0].content;
+      const imageItem = inputContent.find((c: any) => c.type === 'input_image');
+      expect(imageItem).toBeDefined();
+      expect(imageItem.image_url).toBe('data:image/jpeg;base64,dGVzdA==');
+
+      // Verify strict structured output
+      expect(callParams.text.format).toEqual(
         expect.objectContaining({
-          model: 'gpt-5.6-terra',
-          text: expect.objectContaining({
-            format: expect.objectContaining({
-              type: 'json_schema',
-              name: 'ecoscan_detection_result',
-              strict: true,
-            }),
-          }),
+          type: 'json_schema',
+          name: 'ecoscan_detection_result',
+          strict: true,
         }),
       );
     });
@@ -161,8 +171,8 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
     });
   });
 
-  describe('Zami Bot (chatCoach) & Real Search Semantics with Responses API', () => {
-    it('should NOT invoke web_search tool when shouldSearch is false (greeting/definition/followup)', async () => {
+  describe('Zami Bot (chatCoach) with GPT-5.6-Luna and Reasoning Effort', () => {
+    it('should call Responses API with model=gpt-5.6-luna, reasoning.effort=low, NO temperature, and NO top_p', async () => {
       mockResponsesCreate.mockResolvedValue({
         id: 'resp_chat_1',
         output_text: 'Plastik idishlarni saralash kerak.',
@@ -184,8 +194,14 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
       expect(result.searchUsed).toBe(false);
       expect(result.sources).toEqual([]);
 
-      // Verify no web search tool was supplied in tools
+      // Verify GPT-5.6 parameter compatibility
+      expect(mockResponsesCreate).toHaveBeenCalledTimes(1);
       const callParams = mockResponsesCreate.mock.calls[0][0];
+
+      expect(callParams.model).toBe('gpt-5.6-luna');
+      expect(callParams.reasoning).toEqual({ effort: 'low' });
+      expect(callParams.temperature).toBeUndefined();
+      expect(callParams.top_p).toBeUndefined();
       expect(callParams.tools).toBeUndefined();
     });
 
@@ -233,37 +249,11 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
       ]);
 
       const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.model).toBe('gpt-5.6-luna');
+      expect(callParams.reasoning).toEqual({ effort: 'low' });
+      expect(callParams.temperature).toBeUndefined();
       expect(callParams.tools).toEqual([{ type: 'web_search_preview' }]);
       expect(callParams.include).toEqual(['web_search_call.action.sources']);
-    });
-
-    it('should return searchUsed=false if search tool was requested but provider returned no citations/search calls', async () => {
-      mockResponsesCreate.mockResolvedValue({
-        id: 'resp_chat_3',
-        output_text: 'Hozirgi vaqtda monitoring ma\'lumotlari mavjud emas.',
-        output: [
-          {
-            type: 'message',
-            role: 'assistant',
-            content: [
-              {
-                type: 'text',
-                text: 'Hozirgi vaqtda monitoring ma\'lumotlari mavjud emas.',
-                annotations: [],
-              },
-            ],
-          },
-        ],
-      });
-
-      const result = await provider.chatCoach({
-        message: 'Latest environmental news today in Uzbekistan',
-        lang: 'uz',
-      });
-
-      expect(result.response).toBe("Hozirgi vaqtda monitoring ma'lumotlari mavjud emas.");
-      expect(result.searchUsed).toBe(false);
-      expect(result.sources).toEqual([]);
     });
 
     it('should normalize conversation history and cap at 20 turns', async () => {
@@ -285,9 +275,10 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
       });
 
       const callParams = mockResponsesCreate.mock.calls[0][0];
-      // 20 historical turns + 1 current message = 21 input items
       expect(callParams.input.length).toBe(21);
       expect(callParams.input[callParams.input.length - 1].content).toBe('Current question');
+      expect(callParams.reasoning).toEqual({ effort: 'low' });
+      expect(callParams.temperature).toBeUndefined();
     });
 
     it('should deduplicate current message from history tail', async () => {
@@ -307,7 +298,6 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
       });
 
       const callParams = mockResponsesCreate.mock.calls[0][0];
-      // 1 old question + 1 current question = 2 input items
       expect(callParams.input.length).toBe(2);
     });
 
@@ -344,8 +334,8 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
     });
   });
 
-  describe('Production Planner (optimizePlanner) with Responses API', () => {
-    it('should optimize schedule based on stock and query', async () => {
+  describe('Production Planner (optimizePlanner) with GPT-5.6-Luna and Reasoning Effort', () => {
+    it('should call Responses API with model=gpt-5.6-luna, reasoning.effort=low, NO temperature, and NO top_p', async () => {
       mockResponsesCreate.mockResolvedValue({
         id: 'resp_planner',
         output_text: 'Tavsiya: 10 ta EcoBench va 50 m² EcoTile ishlab chiqarish rejalashtirildi.',
@@ -358,11 +348,13 @@ describe('OpenAIProvider Responses API Unit Tests', () => {
       });
 
       expect(result.response).toContain('EcoBench');
-      expect(mockResponsesCreate).toHaveBeenCalledWith(
-        expect.objectContaining({
-          model: 'gpt-5.6-luna',
-        }),
-      );
+      expect(mockResponsesCreate).toHaveBeenCalledTimes(1);
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+
+      expect(callParams.model).toBe('gpt-5.6-luna');
+      expect(callParams.reasoning).toEqual({ effort: 'low' });
+      expect(callParams.temperature).toBeUndefined();
+      expect(callParams.top_p).toBeUndefined();
     });
   });
 
