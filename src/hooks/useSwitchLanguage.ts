@@ -8,6 +8,7 @@ import {
   isSupportedLanguage,
   type SupportedLanguage,
 } from '@/lib/i18nRouting';
+import { captureScrollSnapshot } from '@/lib/scrollRestoration';
 
 export interface UseSwitchLanguageReturn {
   currentLang: SupportedLanguage;
@@ -58,7 +59,10 @@ export function useSwitchLanguage(): UseSwitchLanguageReturn {
         i18n.changeLanguage(cleanLang);
       }
 
-      // 4. Authoritative navigation to the localized URL route
+      // 4. Capture semantic scroll snapshot before navigating to target localized route
+      captureScrollSnapshot(location.pathname);
+
+      // 5. Authoritative navigation to the localized URL route
       navigate(newPath, { replace: options?.replace ?? true });
     },
     [location.pathname, location.search, location.hash, i18n, navigate]
