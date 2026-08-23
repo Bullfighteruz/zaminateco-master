@@ -568,7 +568,7 @@ export default function EcoMap() {
                     </div>
                   </motion.div>
                 );
-              })}
+              }))}
             </CardContent>
           </Card>
         </motion.div>
