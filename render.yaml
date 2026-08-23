@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: zaminat-backend
+    runtime: node
+    plan: starter
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: API_PREFIX
+        value: api/v1
+      - key: CORS_ORIGIN
+        value: https://zaminat.uz,https://www.zaminat.uz
+      - key: AI_PROVIDER
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_CHAT_MODEL
+        value: gpt-5.6-luna
+      - key: OPENAI_SCAN_MODEL
+        value: gpt-5.6-terra
+      - key: OPENAI_PLANNER_MODEL
+        value: gpt-5.6-luna

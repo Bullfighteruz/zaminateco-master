@@ -1,238 +1,178 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
-import { AiService, AI_CHAT_MODEL } from './ai.service';
-import { HttpException } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { validate } from 'class-validator';
+import { AiService } from './ai.service';
+import { AiProviderFactory } from './providers/ai-provider.factory';
+import { GoogleGeminiProvider } from './providers/gemini.provider';
+import { OpenAIProvider } from './providers/openai.provider';
 import { ScanDto } from './dto/scan.dto';
+import { ChatDto } from './dto/chat.dto';
+import { PlannerDto } from './dto/planner.dto';
 
-jest.mock('@google/genai', () => {
-  return {
-    GoogleGenAI: jest.fn().mockImplementation(() => {
-      return {
-        models: {
-          generateContent: jest.fn().mockImplementation(async (params: any) => {
-            const paramStr = JSON.stringify(params);
-            
-            if (paramStr.includes('PROVIDER_ERROR_TEST')) {
-              throw new Error('Google Generative AI API Error');
-            }
-
-            if (paramStr.includes('MALFORMED_JSON_TEST')) {
-              return { text: 'This is not valid JSON' };
-            }
-
-            if (params.model === AI_CHAT_MODEL) {
-              if (paramStr.includes('NO_METADATA_TEST')) {
-                return {
-                  text: 'Response with candidate but no groundingMetadata.',
-                  candidates: [{ groundingMetadata: undefined }],
-                };
-              }
-              if (paramStr.includes('NO_CHUNKS_TEST')) {
-                return {
-                  text: 'Response with metadata but undefined groundingChunks.',
-                  candidates: [{ groundingMetadata: { webSearchQueries: ['test query'] } }],
-                };
-              }
-              if (paramStr.includes('NO_QUERIES_TEST')) {
-                return {
-                  text: 'Response with metadata but undefined webSearchQueries.',
-                  candidates: [{ groundingMetadata: { groundingChunks: [{ web: { uri: 'https://example.com', title: 'Example' } }] } }],
-                };
-              }
-              if (paramStr.includes('EMPTY_CHUNKS_TEST')) {
-                return {
-                  text: 'Response with empty groundingChunks.',
-                  candidates: [{ groundingMetadata: { groundingChunks: [] } }],
-                };
-              }
-              const isGroundingTest = paramStr.includes('GROUNDING_TEST');
-              return {
-                text: 'Sorting plastic bottles reduces landfill waste.',
-                candidates: [
-                  {
-                    groundingMetadata: isGroundingTest ? {
-                      webSearchQueries: ['air pollution Tashkent today'],
-                      groundingChunks: [
-                        { web: { title: 'Air Quality Tashkent', uri: 'https://iqair.com/uzbekistan/tashkent' } }
-                      ]
-                    } : undefined
-                  }
-                ]
-              };
-            }
-
-            if (paramStr.includes('Current Stock:')) {
-              return { text: 'Production schedule optimized: 5 Benches, 20 EcoTiles.' };
-            }
-
-            return {
-              text: JSON.stringify({
-                items: [{ name: 'PET Plastic Bottle', quantity: 2, wasteType: 'Plastic', status: 'Accepted', instructions: 'Rinse' }],
-                totalEstimatedWeightKg: '0.2 - 0.5 kg',
-                estimatedEcoCoins: 10,
-                moatImpact: 'Saves 0.8 kg CO2',
-                suggestedProduct: 'EcoTile',
-                confidence: 95,
-              }),
-            };
-          }),
-        },
-      };
-    }),
-  };
-});
-
-describe('AiService & ScanDto Payload Unit Tests', () => {
+describe('AiService & Provider Selection Unit Tests', () => {
   let service: AiService;
+  let factory: AiProviderFactory;
+  let mockGeminiProvider: Partial<GoogleGeminiProvider>;
+  let mockOpenAIProvider: Partial<OpenAIProvider>;
+  let configService: ConfigService;
 
   beforeEach(async () => {
+    mockGeminiProvider = {
+      providerName: 'gemini',
+      scanWaste: jest.fn().mockResolvedValue({
+        items: [{ name: 'Gemini Bottle', quantity: 1, wasteType: 'Plastic', status: 'Accepted', instructions: 'Rinse' }],
+        totalEstimatedWeightKg: '0.1 kg',
+        estimatedEcoCoins: 10,
+        moatImpact: 'Gemini Impact',
+        suggestedProduct: 'EcoTile',
+        confidence: 90,
+      }),
+      chatCoach: jest.fn().mockResolvedValue({
+        response: 'Gemini response',
+        searchUsed: false,
+        sources: [],
+      }),
+      optimizePlanner: jest.fn().mockResolvedValue({
+        response: 'Gemini planner response',
+      }),
+    };
+
+    mockOpenAIProvider = {
+      providerName: 'openai',
+      scanWaste: jest.fn().mockResolvedValue({
+        items: [{ name: 'OpenAI Bottle', quantity: 1, wasteType: 'Plastic', status: 'Accepted', instructions: 'Rinse' }],
+        totalEstimatedWeightKg: '0.1 kg',
+        estimatedEcoCoins: 10,
+        moatImpact: 'OpenAI Impact',
+        suggestedProduct: 'EcoTile',
+        confidence: 95,
+      }),
+      chatCoach: jest.fn().mockResolvedValue({
+        response: 'OpenAI response',
+        searchUsed: false,
+        sources: [],
+      }),
+      optimizePlanner: jest.fn().mockResolvedValue({
+        response: 'OpenAI planner response',
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AiService,
+        AiProviderFactory,
+        {
+          provide: GoogleGeminiProvider,
+          useValue: mockGeminiProvider,
+        },
+        {
+          provide: OpenAIProvider,
+          useValue: mockOpenAIProvider,
+        },
         {
           provide: ConfigService,
           useValue: {
-            get: jest.fn().mockReturnValue('test-dummy-api-key'),
+            get: jest.fn((key: string) => {
+              if (key === 'AI_PROVIDER') return 'openai';
+              return undefined;
+            }),
           },
         },
       ],
     }).compile();
 
     service = module.get<AiService>(AiService);
+    factory = module.get<AiProviderFactory>(AiProviderFactory);
+    configService = module.get<ConfigService>(ConfigService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+  describe('Provider Selection & Fail-Closed Behavior', () => {
+    it('should select OpenAIProvider when AI_PROVIDER=openai', async () => {
+      const provider = factory.getProvider();
+      expect(provider.providerName).toBe('openai');
 
-  it('should process chatCoach successfully and return searchUsed and sources properties', async () => {
-    const result = await service.chatCoach({ message: 'How to sort plastic bottles?', lang: 'en' });
-    expect(result).toHaveProperty('response');
-    expect(result.response).toContain('Sorting plastic bottles');
-    expect(result).toHaveProperty('searchUsed', false);
-    expect(result).toHaveProperty('sources', []);
-  });
-
-  it('should extract grounding metadata when search is used in chatCoach', async () => {
-    const result = await service.chatCoach({ message: 'GROUNDING_TEST air pollution Tashkent today', lang: 'ru' });
-    expect(result.searchUsed).toBe(true);
-    expect(result.sources).toEqual([
-      { title: 'Air Quality Tashkent', url: 'https://iqair.com/uzbekistan/tashkent' }
-    ]);
-  });
-
-  it('should succeed when Gemini candidate has NO groundingMetadata', async () => {
-    const result = await service.chatCoach({ message: 'NO_METADATA_TEST query', lang: 'en' });
-    expect(result.response).toContain('no groundingMetadata');
-    expect(result.searchUsed).toBe(false);
-    expect(result.sources).toEqual([]);
-  });
-
-  it('should succeed when groundingMetadata exists but groundingChunks is undefined', async () => {
-    const result = await service.chatCoach({ message: 'NO_CHUNKS_TEST query', lang: 'en' });
-    expect(result.response).toContain('undefined groundingChunks');
-    expect(result.searchUsed).toBe(true);
-    expect(result.sources).toEqual([]);
-  });
-
-  it('should succeed when groundingMetadata exists but webSearchQueries is undefined', async () => {
-    const result = await service.chatCoach({ message: 'NO_QUERIES_TEST query', lang: 'en' });
-    expect(result.response).toContain('undefined webSearchQueries');
-    expect(result.searchUsed).toBe(true);
-    expect(result.sources).toEqual([{ title: 'Example', url: 'https://example.com' }]);
-  });
-
-  it('should succeed when groundingChunks is empty array', async () => {
-    const result = await service.chatCoach({ message: 'EMPTY_CHUNKS_TEST query', lang: 'en' });
-    expect(result.response).toContain('empty groundingChunks');
-    expect(result.searchUsed).toBe(false);
-    expect(result.sources).toEqual([]);
-  });
-
-  it('should respond concisely to simple greeting hey without exception', async () => {
-    const result = await service.chatCoach({ message: 'hey', lang: 'en' });
-    expect(result).toHaveProperty('response');
-    expect(result.searchUsed).toBe(false);
-  });
-
-  it('should respond to stable query Что такое PET? without exception', async () => {
-    const result = await service.chatCoach({ message: 'Что такое PET?', lang: 'ru' });
-    expect(result).toHaveProperty('response');
-    expect(result.searchUsed).toBe(false);
-  });
-
-  it('should handle history entries with undefined parts without exception', async () => {
-    const result = await service.chatCoach({
-      message: 'Hello after bad history',
-      lang: 'en',
-      history: [{ role: 'user' } as any, { role: 'model', parts: undefined } as any]
+      const result = await service.chatCoach({ message: 'Hello', lang: 'en' });
+      expect(result.response).toBe('OpenAI response');
+      expect(mockOpenAIProvider.chatCoach).toHaveBeenCalled();
+      expect(mockGeminiProvider.chatCoach).not.toHaveBeenCalled();
     });
-    expect(result).toHaveProperty('response');
+
+    it('should select GoogleGeminiProvider when AI_PROVIDER=gemini', async () => {
+      jest.spyOn(configService, 'get').mockImplementation((key: string) => {
+        if (key === 'AI_PROVIDER') return 'gemini';
+        return undefined;
+      });
+
+      const provider = factory.getProvider();
+      expect(provider.providerName).toBe('gemini');
+
+      const result = await service.chatCoach({ message: 'Hello', lang: 'en' });
+      expect(result.response).toBe('Gemini response');
+      expect(mockGeminiProvider.chatCoach).toHaveBeenCalled();
+    });
+
+    it('should fail-closed with 503 AI_PROVIDER_UNAVAILABLE when AI_PROVIDER is missing or unsupported', async () => {
+      jest.spyOn(configService, 'get').mockImplementation((key: string) => {
+        if (key === 'AI_PROVIDER') return 'unsupported-provider';
+        return undefined;
+      });
+      delete process.env.AI_PROVIDER;
+
+      expect(() => factory.getProvider()).toThrow(
+        new HttpException('AI_PROVIDER_UNAVAILABLE', HttpStatus.SERVICE_UNAVAILABLE),
+      );
+
+      await expect(service.chatCoach({ message: 'Hello', lang: 'en' })).rejects.toThrow(
+        new HttpException('AI_PROVIDER_UNAVAILABLE', HttpStatus.SERVICE_UNAVAILABLE),
+      );
+    });
   });
 
-  it('should process private telemetry data boundary request cleanly', async () => {
-    const result = await service.chatCoach({ message: 'what is the current latency of ZAMINAT Kids production backend?', lang: 'en' });
-    expect(result).toHaveProperty('response');
-    expect(result).toHaveProperty('searchUsed');
+  describe('Delegation & Contract Integrity', () => {
+    it('should delegate scanWaste to active provider', async () => {
+      const result = await service.scanWaste({ imageBase64: 'dGVzdA==', lang: 'uz' });
+      expect(result.items[0].name).toBe('OpenAI Bottle');
+      expect(mockOpenAIProvider.scanWaste).toHaveBeenCalled();
+    });
+
+    it('should delegate optimizePlanner to active provider', async () => {
+      const result = await service.optimizePlanner({
+        query: 'Plan',
+        currentStock: { plastic: 100, rubber: 50, paper: 10 },
+      });
+      expect(result.response).toBe('OpenAI planner response');
+      expect(mockOpenAIProvider.optimizePlanner).toHaveBeenCalled();
+    });
   });
 
-  it('should process user challenge prompt cleanly', async () => {
-    const result = await service.chatCoach({ message: 'where you get that info? you are liar', lang: 'en' });
-    expect(result).toHaveProperty('response');
-  });
+  describe('DTO Validation Layer', () => {
+    it('should accept a ~381 KB EcoScan payload', async () => {
+      const largeBase64 = 'A'.repeat(381 * 1024);
+      const dto = new ScanDto();
+      dto.imageBase64 = largeBase64;
+      dto.lang = 'en';
 
-  it('should process scanWaste successfully', async () => {
-    const result = await service.scanWaste({ imageBase64: 'data:image/jpeg;base64,dummy', lang: 'en' });
-    expect(result).toHaveProperty('items');
-    expect(result.items.length).toBe(1);
-    expect(result.items[0].name).toBe('PET Plastic Bottle');
-  });
+      const errors = await validate(dto);
+      expect(errors.length).toBe(0);
+    });
 
-  it('should accept a ~381 KB EcoScan payload', async () => {
-    const largeBase64 = 'A'.repeat(381 * 1024);
-    const dto = new ScanDto();
-    dto.imageBase64 = largeBase64;
-    dto.lang = 'en';
+    it('should reject an oversized Base64 string (>2.5M chars / ~2.38MB) at DTO validation layer', async () => {
+      const oversizedBase64 = 'A'.repeat(2500001);
+      const dto = new ScanDto();
+      dto.imageBase64 = oversizedBase64;
 
-    const errors = await validate(dto);
-    expect(errors.length).toBe(0);
+      const errors = await validate(dto);
+      expect(errors.length).toBeGreaterThan(0);
+      expect(errors[0].constraints).toHaveProperty('maxLength');
+    });
 
-    const result = await service.scanWaste(dto);
-    expect(result).toHaveProperty('items');
-  });
+    it('should fail validation on empty ScanDto payload', async () => {
+      const dto = new ScanDto();
+      dto.imageBase64 = '';
 
-  it('should reject an oversized Base64 string (>2.5M chars / ~2.38MB) at DTO validation layer', async () => {
-    const oversizedBase64 = 'A'.repeat(2500001);
-    const dto = new ScanDto();
-    dto.imageBase64 = oversizedBase64;
-
-    const errors = await validate(dto);
-    expect(errors.length).toBeGreaterThan(0);
-    expect(errors[0].constraints).toHaveProperty('maxLength');
-  });
-
-  it('should fail validation on empty/invalid ScanDto payload', async () => {
-    const dto = new ScanDto();
-    dto.imageBase64 = '';
-
-    const errors = await validate(dto);
-    expect(errors.length).toBeGreaterThan(0);
-  });
-
-  it('should process optimizePlanner successfully without changing behavior', async () => {
-    const result = await service.optimizePlanner({ currentStock: { plastic: 100, rubber: 50, paper: 20 }, query: 'Optimize schedule' });
-    expect(result).toHaveProperty('response');
-    expect(result.response).toContain('Production schedule optimized');
-  });
-
-  it('should handle malformed model response gracefully with HTTP 422', async () => {
-    await expect(service.scanWaste({ imageBase64: 'MALFORMED_JSON_TEST', lang: 'en' }))
-      .rejects.toThrow(HttpException);
-  });
-
-  it('should handle provider errors with normalized HTTP 502', async () => {
-    await expect(service.scanWaste({ imageBase64: 'PROVIDER_ERROR_TEST', lang: 'en' }))
-      .rejects.toThrow(HttpException);
+      const errors = await validate(dto);
+      expect(errors.length).toBeGreaterThan(0);
+    });
   });
 });

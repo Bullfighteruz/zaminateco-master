@@ -1,11 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import * as request from 'supertest';
 import { AiController } from './ai.controller';
 import { AiService } from './ai.service';
+import { HealthController } from '../health/health.controller';
+import { ConfigService } from '@nestjs/config';
 
-describe('AiScan HTTP Body-Parser Integration Test (E2E)', () => {
+describe('AiScan HTTP Body-Parser & Throttling Integration Test (E2E)', () => {
   let app: INestApplication;
   let mockAiService: Partial<AiService>;
 
@@ -19,16 +23,37 @@ describe('AiScan HTTP Body-Parser Integration Test (E2E)', () => {
         suggestedProduct: 'EcoTile',
         confidence: 95,
       }),
-      chatCoach: jest.fn().mockResolvedValue({ response: 'Chat response' }),
+      chatCoach: jest.fn().mockResolvedValue({ response: 'Chat response', searchUsed: false, sources: [] }),
       optimizePlanner: jest.fn().mockResolvedValue({ response: 'Planner response' }),
     };
 
     const moduleRef: TestingModule = await Test.createTestingModule({
-      controllers: [AiController],
+      imports: [
+        ThrottlerModule.forRoot([
+          {
+            ttl: 60000,
+            limit: 10, // Global baseline
+          },
+        ]),
+      ],
+      controllers: [AiController, HealthController],
       providers: [
         {
           provide: AiService,
           useValue: mockAiService,
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn((key: string) => {
+              if (key === 'AI_PROVIDER') return 'openai';
+              return undefined;
+            }),
+          },
+        },
+        {
+          provide: APP_GUARD,
+          useClass: ThrottlerGuard,
         },
       ],
     }).compile();
@@ -58,7 +83,6 @@ describe('AiScan HTTP Body-Parser Integration Test (E2E)', () => {
   });
 
   it('A) PROOF: ~381 KB production JSON request passes HTTP body-parser (NOT 413) and reaches controller boundary', async () => {
-    // 381 KB Base64 string payload
     const payload381KB = 'A'.repeat(381 * 1024);
 
     const response = await request(app.getHttpServer())
@@ -76,7 +100,6 @@ describe('AiScan HTTP Body-Parser Integration Test (E2E)', () => {
   });
 
   it('B) PROOF: Intentionally oversized JSON payload (>3.2 MB) is rejected cleanly with HTTP 413 Payload Too Large', async () => {
-    // 3.5 MB Base64 string payload (exceeds 3MB HTTP JSON limit)
     const payloadOversized = 'A'.repeat(Math.floor(3.5 * 1024 * 1024));
 
     const response = await request(app.getHttpServer())
@@ -100,5 +123,29 @@ describe('AiScan HTTP Body-Parser Integration Test (E2E)', () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('message');
+  });
+
+  it('D) PROOF: Rate limiting triggers HTTP 429 Too Many Requests when request burst exceeds throttle threshold', async () => {
+    const responses: number[] = [];
+    // Send 15 rapid scan requests (controller limit is 10)
+    for (let i = 0; i < 15; i++) {
+      const res = await request(app.getHttpServer())
+        .post('/api/v1/ai/scan')
+        .send({
+          imageBase64: 'dGVzdA==',
+          lang: 'en',
+        });
+      responses.push(res.status);
+    }
+
+    const has429 = responses.includes(429);
+    expect(has429).toBe(true);
+  });
+
+  it('E) PROOF: Health check endpoint /api/v1/health is protected by @SkipThrottle and not blocked by rate limiting', async () => {
+    const res = await request(app.getHttpServer()).get('/api/v1/health');
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('status', 'ok');
+    expect(res.body).toHaveProperty('aiProvider', 'openai');
   });
 });

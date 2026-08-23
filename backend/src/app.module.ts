@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UploadModule } from './upload/upload.module';
 import { LocalizationModule } from './localization/localization.module';
 import { AiModule } from './ai/ai.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AiModule } from './ai/ai.module';
     UploadModule,
     LocalizationModule,
     AiModule,
+    HealthModule,
   ],
   providers: [
     {
