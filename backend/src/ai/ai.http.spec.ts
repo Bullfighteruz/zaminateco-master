@@ -148,4 +148,51 @@ describe('AiScan HTTP Body-Parser & Throttling Integration Test (E2E)', () => {
     expect(res.body).toHaveProperty('status', 'ok');
     expect(res.body).toHaveProperty('aiProvider', 'openai');
   });
+
+  it('F) PROOF: Multi-turn history with role=model and parts array survives ValidationPipe and reaches service boundary', async () => {
+    const multiTurnPayload = {
+      message: 'А зачем это нужно детям?',
+      history: [
+        {
+          role: 'user',
+          parts: [{ text: 'Что такое EcoScan в экосистеме ZAMINAT.eco?' }],
+        },
+        {
+          role: 'model',
+          parts: [
+            {
+              text: 'EcoScan — это функция ZAMINAT.eco для распознавания типа вторичных материалов по фотографии.',
+            },
+          ],
+        },
+      ],
+      lang: 'ru',
+    };
+
+    const res = await request(app.getHttpServer())
+      .post('/api/v1/ai/chat')
+      .send(multiTurnPayload);
+
+    expect(res.status).toBe(200);
+    expect(mockAiService.chatCoach).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: 'А зачем это нужно детям?',
+        history: expect.arrayContaining([
+          expect.objectContaining({
+            role: 'user',
+            parts: [{ text: 'Что такое EcoScan в экосистеме ZAMINAT.eco?' }],
+          }),
+          expect.objectContaining({
+            role: 'model',
+            parts: [
+              {
+                text: 'EcoScan — это функция ZAMINAT.eco для распознавания типа вторичных материалов по фотографии.',
+              },
+            ],
+          }),
+        ]),
+        lang: 'ru',
+      }),
+    );
+  });
 });

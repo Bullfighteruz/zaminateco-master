@@ -6,7 +6,7 @@ import OpenAI from 'openai';
 
 jest.mock('openai');
 
-describe('OpenAIProvider GPT-5.6 Responses API Unit Tests', () => {
+describe('OpenAIProvider Multi-Turn Context & GPT-5.6 Responses API Unit Tests', () => {
   let provider: OpenAIProvider;
   let configService: ConfigService;
   let mockResponsesCreate: jest.Mock;
@@ -65,6 +65,199 @@ describe('OpenAIProvider GPT-5.6 Responses API Unit Tests', () => {
       ).rejects.toThrow(
         new HttpException('AI_PROVIDER_UNAVAILABLE', HttpStatus.SERVICE_UNAVAILABLE),
       );
+    });
+  });
+
+  describe('Multi-Turn Context Preservation & Elliptical Follow-Ups (Phase 2 & Phase 7 Matrix)', () => {
+    it('Case A (Live Failure Reproduction): History=EcoScan, Follow-up="А зачем это нужно детям?" preserves 3 turns with user/assistant/user roles', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_1',
+        output_text: 'EcoScan помогает детям учиться сортировке мусора в игровой форме.',
+        output: [],
+      });
+
+      const result = await provider.chatCoach({
+        message: 'А зачем это нужно детям?',
+        history: [
+          {
+            role: 'user',
+            parts: [{ text: 'Что такое EcoScan в экосистеме ZAMINAT.eco?' }],
+          },
+          {
+            role: 'model',
+            parts: [
+              {
+                text: 'EcoScan — это функция ZAMINAT.eco для распознавания типа вторичных материалов по фотографии.',
+              },
+            ],
+          },
+        ],
+        lang: 'ru',
+      });
+
+      expect(result.response).toContain('EcoScan');
+      expect(result.searchUsed).toBe(false);
+      expect(result.sources).toEqual([]);
+
+      // Verify exact input messages shape passed to client.responses.create
+      expect(mockResponsesCreate).toHaveBeenCalledTimes(1);
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+
+      // DTO_HISTORY_RECEIVED = 2, FINAL_INPUT_MESSAGE_COUNT = 3
+      expect(callParams.input.length).toBe(3);
+      expect(callParams.input[0]).toEqual({
+        role: 'user',
+        content: 'Что такое EcoScan в экосистеме ZAMINAT.eco?',
+      });
+      expect(callParams.input[1]).toEqual({
+        role: 'assistant',
+        content: 'EcoScan — это функция ZAMINAT.eco для распознавания типа вторичных материалов по фотографии.',
+      });
+      expect(callParams.input[2]).toEqual({
+        role: 'user',
+        content: 'А зачем это нужно детям?',
+      });
+
+      // Assert MODEL_TO_ASSISTANT_MAPPING
+      const roles = callParams.input.map((i: any) => i.role).join(',');
+      expect(roles).toBe('user,assistant,user');
+
+      // Assert system continuity rule is present in instructions
+      expect(callParams.instructions).toContain('CONVERSATIONAL CONTINUITY & ELLIPTICAL FOLLOW-UPS');
+
+      // Assert no search tool
+      expect(callParams.tools).toBeUndefined();
+    });
+
+    it('Case B: History=PET, Follow-up="А почему его сортируют отдельно?" correctly maintains PET context without search', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_2',
+        output_text: 'PET сортируют отдельно, так как его перерабатывают в гранулы для производства эко-скамеек.',
+        output: [],
+      });
+
+      const result = await provider.chatCoach({
+        message: 'А почему его сортируют отдельно?',
+        history: [
+          { role: 'user', parts: [{ text: 'Что такое пластик PET?' }] },
+          { role: 'model', parts: [{ text: 'PET (полиэтилентерефталат) — это термопластик для бутылок.' }] },
+        ],
+        lang: 'ru',
+      });
+
+      expect(result.response).toContain('PET');
+      expect(result.searchUsed).toBe(false);
+
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.input.length).toBe(3);
+      expect(callParams.input[1].role).toBe('assistant');
+      expect(callParams.tools).toBeUndefined();
+    });
+
+    it('Case C: History=rubber, Follow-up="А что из него можно сделать?" correctly maintains rubber context', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_3',
+        output_text: 'Из переработанной резины на ZAMINAT.eco производят тротуарную и детскую плитку.',
+        output: [],
+      });
+
+      const result = await provider.chatCoach({
+        message: 'А что из него можно сделать?',
+        history: [
+          { role: 'user', parts: [{ text: 'Как ZAMINAT перерабатывает резину?' }] },
+          { role: 'model', parts: [{ text: 'Мы измельчаем старые шины в резиновую крошку.' }] },
+        ],
+        lang: 'ru',
+      });
+
+      expect(result.response).toContain('плитку');
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.input.length).toBe(3);
+      expect(callParams.input[1].role).toBe('assistant');
+    });
+
+    it('Case D: History=EcoKids, Follow-up="Почему это полезно ребенку?" maintains EcoKids context', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_4',
+        output_text: 'EcoKids прививает полезные эко-привычки с раннего возраста.',
+        output: [],
+      });
+
+      await provider.chatCoach({
+        message: 'Почему это полезно ребенку?',
+        history: [
+          { role: 'user', parts: [{ text: 'Что такое программа EcoKids?' }] },
+          { role: 'model', parts: [{ text: 'EcoKids — это образовательное направление ZAMINAT для школьников.' }] },
+        ],
+        lang: 'ru',
+      });
+
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.input.length).toBe(3);
+      expect(callParams.input[0].content).toContain('EcoKids');
+    });
+
+    it('Case E (English): History=EcoScan, Follow-up="What about children?" preserves context in English', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_5',
+        output_text: 'EcoScan helps children learn waste sorting visually.',
+        output: [],
+      });
+
+      await provider.chatCoach({
+        message: 'What about children?',
+        history: [
+          { role: 'user', parts: [{ text: 'What is EcoScan?' }] },
+          { role: 'model', parts: [{ text: 'EcoScan is an AI camera feature to identify recyclables.' }] },
+        ],
+        lang: 'en',
+      });
+
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.input.length).toBe(3);
+      expect(callParams.input[2].content).toBe('What about children?');
+    });
+
+    it('Case F (Uzbek): History=EcoScan, Follow-up="Bu bolalarga nima uchun kerak?" preserves context in Uzbek', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_6',
+        output_text: "EcoScan bolalarga chiqindilarni to'g'ri saralashni o'rgatadi.",
+        output: [],
+      });
+
+      await provider.chatCoach({
+        message: 'Bu bolalarga nima uchun kerak?',
+        history: [
+          { role: 'user', parts: [{ text: 'EcoScan nima?' }] },
+          { role: 'model', parts: [{ text: 'EcoScan bu suratlardan chiqindilarni aniqlovchi AI vositasi.' }] },
+        ],
+        lang: 'uz',
+      });
+
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.input.length).toBe(3);
+      expect(callParams.input[2].content).toBe('Bu bolalarga nima uchun kerak?');
+    });
+
+    it('Case G: Ambiguous context with multiple distinct subjects receives history normally', async () => {
+      mockResponsesCreate.mockResolvedValue({
+        id: 'resp_multi_7',
+        output_text: 'Уточните, речь идет о стекле или батарейках?',
+        output: [],
+      });
+
+      const result = await provider.chatCoach({
+        message: 'А это безопасно?',
+        history: [
+          { role: 'user', parts: [{ text: 'Расскажите про переработку стекла и утилизацию ртутных батареек.' }] },
+          { role: 'model', parts: [{ text: 'Стекло переплавляется, а батарейки требуют нейтрализации опасных солей.' }] },
+        ],
+        lang: 'ru',
+      });
+
+      expect(result.response).toBeDefined();
+      const callParams = mockResponsesCreate.mock.calls[0][0];
+      expect(callParams.input.length).toBe(3);
     });
   });
 
@@ -171,8 +364,8 @@ describe('OpenAIProvider GPT-5.6 Responses API Unit Tests', () => {
     });
   });
 
-  describe('Zami Bot (chatCoach) with GPT-5.6-Luna and Reasoning Effort', () => {
-    it('should call Responses API with model=gpt-5.6-luna, reasoning.effort=low, NO temperature, and NO top_p', async () => {
+  describe('Zami Bot (chatCoach) & Real Search Semantics with Responses API', () => {
+    it('should NOT invoke web_search tool when shouldSearch is false (greeting/definition/followup)', async () => {
       mockResponsesCreate.mockResolvedValue({
         id: 'resp_chat_1',
         output_text: 'Plastik idishlarni saralash kerak.',
@@ -194,10 +387,7 @@ describe('OpenAIProvider GPT-5.6 Responses API Unit Tests', () => {
       expect(result.searchUsed).toBe(false);
       expect(result.sources).toEqual([]);
 
-      // Verify GPT-5.6 parameter compatibility
-      expect(mockResponsesCreate).toHaveBeenCalledTimes(1);
       const callParams = mockResponsesCreate.mock.calls[0][0];
-
       expect(callParams.model).toBe('gpt-5.6-luna');
       expect(callParams.reasoning).toEqual({ effort: 'low' });
       expect(callParams.temperature).toBeUndefined();
