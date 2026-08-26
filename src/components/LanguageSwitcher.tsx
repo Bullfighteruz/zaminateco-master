@@ -140,10 +140,9 @@ export default function LanguageSwitcher({ darkMode = false, compact = false, cl
           avoidCollisions={true}
           className={cn(
             "w-[210px] p-2",
-            "bg-white/98 backdrop-blur-xl",
-            "border-2 border-gray-200/60",
-            "shadow-2xl",
-            "rounded-xl",
+            darkMode
+              ? "bg-gray-950/95 backdrop-blur-2xl border border-white/15 shadow-2xl text-white rounded-xl"
+              : "bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl text-gray-900 rounded-xl",
             "overflow-hidden",
             "z-50"
           )}
@@ -179,8 +178,12 @@ export default function LanguageSwitcher({ darkMode = false, compact = false, cl
                       "relative overflow-hidden",
                       "group/item",
                       isSelected
-                        ? "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-900 font-bold shadow-sm border border-emerald-200/60"
-                        : "hover:bg-gradient-to-r hover:from-emerald-50/60 hover:to-teal-50/60 hover:text-emerald-800"
+                        ? darkMode
+                          ? "bg-emerald-500/20 text-emerald-300 font-bold shadow-sm border border-emerald-500/30"
+                          : "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-900 font-bold shadow-sm border border-emerald-200/60"
+                        : darkMode
+                          ? "text-white/80 hover:bg-white/10 hover:text-white"
+                          : "hover:bg-gradient-to-r hover:from-emerald-50/60 hover:to-teal-50/60 hover:text-emerald-800"
                     )}
                   >
                     <div className="relative z-10 flex items-center gap-3 w-full">
@@ -199,7 +202,9 @@ export default function LanguageSwitcher({ darkMode = false, compact = false, cl
                             "border transition-all duration-200",
                             isSelected
                               ? "border-emerald-500 shadow-emerald-200/50"
-                              : "border-gray-200 group-hover/item:border-emerald-300"
+                              : darkMode
+                                ? "border-white/20 group-hover/item:border-white/40"
+                                : "border-gray-200 group-hover/item:border-emerald-300"
                           )}
                         />
                       </motion.div>
@@ -209,12 +214,25 @@ export default function LanguageSwitcher({ darkMode = false, compact = false, cl
                         <span className={cn(
                           "text-xs sm:text-sm font-semibold truncate transition-colors",
                           isSelected
-                            ? "text-emerald-950 font-bold"
-                            : "text-gray-700 group-hover/item:text-emerald-700"
+                            ? darkMode
+                              ? "text-emerald-300 font-bold"
+                              : "text-emerald-950 font-bold"
+                            : darkMode
+                              ? "text-white/90 group-hover/item:text-white"
+                              : "text-gray-700 group-hover/item:text-emerald-700"
                         )}>
                           {language.name}
                         </span>
-                        <span className="text-[10px] text-gray-500 font-medium">
+                        <span className={cn(
+                          "text-[10px] font-medium transition-colors",
+                          isSelected
+                            ? darkMode
+                              ? "text-emerald-400/80"
+                              : "text-emerald-700/80"
+                            : darkMode
+                              ? "text-white/40 group-hover/item:text-white/60"
+                              : "text-gray-500"
+                        )}>
                           {language.country} • {language.code.toUpperCase()}
                         </span>
                       </div>

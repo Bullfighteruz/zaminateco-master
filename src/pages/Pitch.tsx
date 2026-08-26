@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, Target, Globe, TrendingUp, Sparkles, Recycle,
   ChevronRight, CheckCircle2, Building2, Landmark, Package, Heart,
@@ -260,28 +260,48 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
 
   return (
     <>
-      {/* Fixed Language Switcher (only visible when NOT scrolled) */}
-      {!isScrolled && (
-        <div className={cn(
-          "fixed z-50 transition-opacity duration-300",
-          isMobile ? "top-3 right-3" : "top-4 right-4"
-        )}>
-          <LanguageSwitcher darkMode={true} compact={true} />
-        </div>
-      )}
+      {/* ── Fixed Top-Right Floating Action Pill (Visible when NOT scrolled) ── */}
+      <AnimatePresence>
+        {!isScrolled && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className={cn(
+              "fixed z-50 flex items-center gap-2",
+              isMobile ? "top-3 right-3" : "top-4 right-4 sm:top-5 sm:right-6"
+            )}
+          >
+            {/* EcoApp MVP Button (Desktop & Tablet) */}
+            {!isMobile && (
+              <button
+                onClick={() => navigate('/')}
+                className="bg-emerald-600/90 hover:bg-emerald-500 text-white px-3 h-8 rounded-lg text-[11px] font-bold transition-all shadow-lg hover:shadow-emerald-500/20 backdrop-blur-md border border-emerald-400/30 flex items-center gap-1.5 whitespace-nowrap hover:scale-105 active:scale-95"
+              >
+                <Smartphone className="h-3.5 w-3.5" />
+                EcoApp MVP
+              </button>
+            )}
 
-      {/* Sticky Top Nav */}
+            {/* Dedicated Dark Mode Language Switcher */}
+            <LanguageSwitcher darkMode={true} compact={true} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Sticky Top Navigation Bar (Visible when Scrolled) ── */}
       <motion.nav
         initial={{ y: -80 }}
         animate={{ y: isScrolled ? 0 : -80 }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         className="fixed top-0 left-0 right-0 z-50"
       >
-        <div className="bg-gray-950/85 backdrop-blur-xl border-b border-white/5 shadow-xl">
+        <div className="bg-gray-950/90 backdrop-blur-xl border-b border-white/10 shadow-2xl">
           <div className={cn("max-w-7xl mx-auto flex items-center justify-between", isNavCompact ? "px-3 py-2" : "px-5 py-2.5")}>
             {/* Logo */}
             <button onClick={scrollToTop} className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
-              <img src="/logo.webp" alt="ZAMINAT.eco" className="h-7 w-7 rounded-lg" />
+              <img src="/logo.webp" alt="ZAMINAT.eco" className="h-7 w-7 rounded-lg shadow-sm" />
               <span className={cn("font-bold text-white/90 tracking-tight", isNavCompact ? "text-sm" : "text-base")}>ZAMINAT.eco</span>
             </button>
 
@@ -300,7 +320,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                           "px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 whitespace-nowrap",
                           isActive
                             ? "bg-emerald-500/20 text-emerald-400"
-                            : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                            : "text-white/60 hover:text-white hover:bg-white/5"
                         )}
                       >
                         {displayLabel}
@@ -334,6 +354,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all flex-shrink-0"
+                  aria-label="Toggle navigation menu"
                 >
                   {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                 </button>
@@ -361,7 +382,7 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                         "px-3 py-2 rounded-lg text-xs font-semibold text-left transition-all",
                         isActive
                           ? "bg-emerald-500/20 text-emerald-400"
-                          : "text-white/50 hover:text-white/80 hover:bg-white/5"
+                          : "text-white/60 hover:text-white hover:bg-white/5"
                       )}
                     >
                       {displayLabel}
@@ -370,16 +391,15 @@ function PitchNavBar({ isMobile, t }: { isMobile: boolean; t: any }) {
                 })}
               </div>
 
-              {/* Mobile/Compact EcoApp MVP Button */}
-              <div className="px-3 pb-3 pt-1 border-t border-white/5">
+              <div className="p-3 border-t border-white/5 flex items-center justify-between gap-2">
                 <button
                   onClick={() => {
-                    navigate('/');
                     setMobileMenuOpen(false);
+                    navigate('/');
                   }}
-                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg text-xs font-bold transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95"
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-md"
                 >
-                  <Smartphone className="h-3.5 w-3.5" />
+                  <Smartphone className="h-4 w-4" />
                   EcoApp MVP
                 </button>
               </div>
@@ -522,7 +542,7 @@ export default function Pitch() {
     { title: t('pitch.solution.pillars.physical.title'), subtitle: t('pitch.solution.pillars.physical.subtitle'), desc: t('pitch.solution.pillars.physical.desc'), icon: Package, color: 'emerald' },
     { title: t('pitch.solution.pillars.digital.title'), subtitle: t('pitch.solution.pillars.digital.subtitle'), desc: t('pitch.solution.pillars.digital.desc'), icon: Smartphone, color: 'teal' },
     { title: t('pitch.solution.pillars.education.title'), subtitle: t('pitch.solution.pillars.education.subtitle'), desc: t('pitch.solution.pillars.education.desc'), icon: Heart, color: 'green' },
-  ], [t]);
+  ], [t, i18n.language]);
 
   const translateProduct = (p: { name: string; image: string; material: string; price: string; status: string; rawName: string }) => {
     const productKeys: Record<string, string> = {
@@ -563,32 +583,32 @@ export default function Pitch() {
     { name: t('pitch.business.channels.corporate.name'), desc: t('pitch.business.channels.corporate.desc'), icon: Briefcase },
     { name: t('pitch.business.channels.social.name'), desc: t('pitch.business.channels.social.desc'), icon: Heart },
     { name: t('pitch.business.channels.franchise.name'), desc: t('pitch.business.channels.franchise.desc'), icon: Globe },
-  ], [t]);
+  ], [t, i18n.language]);
 
   const marketDetails = useMemo(() => [
     { label: t('pitch.business.market.tam.label'), value: t('pitch.business.market.tam.value'), desc: t('pitch.business.market.tam.desc') },
     { label: t('pitch.business.market.sam.label'), value: t('pitch.business.market.sam.value'), desc: t('pitch.business.market.sam.desc') },
     { label: t('pitch.business.market.launchSom.label'), value: t('pitch.business.market.launchSom.value'), desc: t('pitch.business.market.launchSom.desc') },
     { label: t('pitch.business.market.pilotSom.label'), value: t('pitch.business.market.pilotSom.value'), desc: t('pitch.business.market.pilotSom.desc') },
-  ], [t]);
+  ], [t, i18n.language]);
 
   const businessMetrics = useMemo(() => [
     { label: t('pitch.business.metrics.grossMargin'), value: '45%+' },
     { label: t('pitch.business.metrics.breakeven'), value: '2028' },
     { label: t('pitch.business.metrics.roi'), value: '124–152%' },
-  ], [t]);
+  ], [t, i18n.language]);
 
   const roadmap = useMemo(() => [
     { year: '2026', title: t('pitch.roadmap.y2026.title'), items: getArray('pitch.roadmap.y2026.items', ['First pilot production line', 'Target: 10 pilot customers', 'EcoApp MVP launch', 'Target: 3 EcoKids pilot schools']) },
     { year: '2027', title: t('pitch.roadmap.y2027.title'), items: getArray('pitch.roadmap.y2027.items', ['Target: 500 t/year production', 'Tashkent pilot city contracts', 'Target: 5,000 EcoApp users', 'Target: 10 schools enrolled']) },
     { year: '2028', title: t('pitch.roadmap.y2028.title'), items: getArray('pitch.roadmap.y2028.items', ['Target: 2,000 t/year capacity', 'Target: break-even achieved', 'Regional expansion pilot', 'National partnerships']) },
     { year: '2029', title: t('pitch.roadmap.y2029.title'), items: getArray('pitch.roadmap.y2029.items', ['Multi-city operations', 'Central Asia market entry', 'Platform licensing', 'Target net profit scenario: $183K/year']) },
-  ], [t]);
+  ], [t, i18n.language]);
 
   const tractionStage = useMemo(() => ({
     title: t('pitch.traction.stage.title'),
     desc: t('pitch.traction.stage.desc'),
-  }), [t]);
+  }), [t, i18n.language]);
 
   const tractionPillars = useMemo(() => [
     {
@@ -663,7 +683,7 @@ export default function Pitch() {
         "Use of funds updated for equipment, facility adaptation, raw materials, testing, digital platform and demo projects"
       ])
     }
-  ], [t]);
+  ], [t, i18n.language]);
 
   const nextMilestone = useMemo(() => ({
     title: t('pitch.traction.nextMilestone.title'),
@@ -677,7 +697,7 @@ export default function Pitch() {
       "Produce first demo objects",
       "Start first B2B/B2G sales conversations"
     ])
-  }), [t]);
+  }), [t, i18n.language]);
 
   const team = useMemo(() => [
     { 
@@ -704,7 +724,7 @@ export default function Pitch() {
       focus: t('team.members.islombek.description', { ns: 'team' }), 
       photo: jahongirPhoto 
     },
-  ], [t]);
+  ], [t, i18n.language]);
 
   const solutionTitleParts = t('pitch.solution.title').split('. ');
   const catalogTitleParts = t('pitch.catalog.title').split('. ');
@@ -731,7 +751,7 @@ export default function Pitch() {
   );
 
   return (
-    <Layout title={t('pitch.title')} hideBottomNav>
+    <Layout title={t('pitch.title')} hideBottomNav hideLanguageSwitcher>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/10">
 
         {/* ═══════ PITCH NAVIGATION BAR ═══════ */}
