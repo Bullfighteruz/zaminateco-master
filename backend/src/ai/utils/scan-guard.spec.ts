@@ -192,4 +192,120 @@ describe('ScanGuard Semantic Consistency & Weight Sanity Guard (Phase 18 Test Ma
       expect(result.confidence).toBe(82);
     });
   });
+
+  describe('Environmental Impact Claim Sanitization (Bidirectional Metrics & Live Regression)', () => {
+    const defaultItem = [{ name: 'Бутылка ПЭТ', quantity: 1, wasteType: 'Plastic', status: 'Accepted' as const, instructions: 'Сполоснуть' }];
+
+    it('MANDATORY LIVE REGRESSION: should sanitize live Russian reversed-order CO₂ claim', () => {
+      const liveInput: Partial<ScanResult> = {
+        items: defaultItem,
+        moatImpact: 'Предотвращает загрязнение почвы пластиком и сокращает выбросы CO₂ на 0.1 кг.',
+      };
+
+      const result = ScanGuard.sanitize(liveInput, 'ru');
+
+      expect(result.moatImpact).not.toContain('0.1');
+      expect(result.moatImpact).not.toContain('CO₂');
+      expect(result.moatImpact).toBe(
+        'Передача распознанных материалов в подходящие потоки сбора может помочь вернуть часть ресурсов в хозяйственный цикл и уменьшить объём материалов, направляемых на захоронение.',
+      );
+    });
+
+    it('Order A: should sanitize Metric -> Term order ("Saves 0.5 kg CO2")', () => {
+      const input: Partial<ScanResult> = {
+        items: defaultItem,
+        moatImpact: 'Saves 0.5 kg CO2',
+      };
+      const result = ScanGuard.sanitize(input, 'en');
+      expect(result.moatImpact).not.toContain('0.5');
+      expect(result.moatImpact).toContain('economic cycle');
+    });
+
+    it('Order B: should sanitize Term -> Metric order ("CO2 reduced by 0.5 kg")', () => {
+      const input: Partial<ScanResult> = {
+        items: defaultItem,
+        moatImpact: 'CO2 reduced by 0.5 kg',
+      };
+      const result = ScanGuard.sanitize(input, 'en');
+      expect(result.moatImpact).not.toContain('0.5');
+      expect(result.moatImpact).toContain('economic cycle');
+    });
+
+    it('should sanitize decimal comma Russian expressions ("сокращает выбросы CO₂ на 0,1 кг", "примерно 1,2 кг CO₂")', () => {
+      const input1 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'сокращает выбросы CO₂ на 0,1 кг' }, 'ru');
+      expect(input1.moatImpact).not.toContain('0,1');
+      expect(input1.moatImpact).toContain('хозяйственный цикл');
+
+      const input2 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'примерно 1,2 кг CO₂' }, 'ru');
+      expect(input2.moatImpact).not.toContain('1,2');
+      expect(input2.moatImpact).toContain('хозяйственный цикл');
+    });
+
+    it('should sanitize percentage emission and diversion claims ("carbon footprint reduced 12%", "landfill diversion: 25%")', () => {
+      const input1 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'carbon footprint reduced 12%' }, 'en');
+      expect(input1.moatImpact).not.toContain('12%');
+      expect(input1.moatImpact).toContain('economic cycle');
+
+      const input2 = ScanGuard.sanitize({ items: defaultItem, moatImpact: '12% reduction in emissions' }, 'en');
+      expect(input2.moatImpact).not.toContain('12%');
+      expect(input2.moatImpact).toContain('economic cycle');
+
+      const input3 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'landfill diversion: 25%' }, 'en');
+      expect(input3.moatImpact).not.toContain('25%');
+      expect(input3.moatImpact).toContain('economic cycle');
+    });
+
+    it('should sanitize approximate prefixes and metric variants ("CO₂ ≈ 0,8 кг", "снижение выбросов на 250 г", "avoids approximately 2 kg CO2e")', () => {
+      const input1 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'CO₂ ≈ 0,8 кг' }, 'ru');
+      expect(input1.moatImpact).not.toContain('0,8');
+      expect(input1.moatImpact).toContain('хозяйственный цикл');
+
+      const input2 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'снижение выбросов на 250 г' }, 'ru');
+      expect(input2.moatImpact).not.toContain('250');
+      expect(input2.moatImpact).toContain('хозяйственный цикл');
+
+      const input3 = ScanGuard.sanitize({ items: defaultItem, moatImpact: 'avoids approximately 2 kg CO2e' }, 'en');
+      expect(input3.moatImpact).not.toContain('2');
+      expect(input3.moatImpact).toContain('economic cycle');
+    });
+
+    it('should PRESERVE qualitative safe educational impact text without modification', () => {
+      const safeRussian = 'Передача пластика в подходящий поток сбора помогает возвращать материалы в хозяйственный цикл.';
+      const resultRu = ScanGuard.sanitize({ items: defaultItem, moatImpact: safeRussian }, 'ru');
+      expect(resultRu.moatImpact).toBe(safeRussian);
+
+      const safeEnglish = 'Proper collection and sorting of secondary raw materials helps support regional circular economy initiatives.';
+      const resultEn = ScanGuard.sanitize({ items: defaultItem, moatImpact: safeEnglish }, 'en');
+      expect(resultEn.moatImpact).toBe(safeEnglish);
+
+      const safeUzbek = 'Materiallarni to‘g‘ri saralash va qayta ishlashga topshirish tabiiy resurslarni tejashga xizmat qiladi.';
+      const resultUz = ScanGuard.sanitize({ items: defaultItem, moatImpact: safeUzbek }, 'uz');
+      expect(resultUz.moatImpact).toBe(safeUzbek);
+    });
+
+    it('PERMANENT FALSE-POSITIVE REGRESSION SUITE: should NOT sanitize non-impact numbers, years, counts, resin codes, material masses, or unrelated lexical matches', () => {
+      const falsePositiveCases = [
+        { label: 'A. Resin code without impact metric', text: 'PET 01 bottle identified.' },
+        { label: 'B. Historical year without impact metric', text: 'This material was introduced in 2024.' },
+        { label: 'C. CO2 climate educational statement without metric', text: 'CO2 is an important greenhouse gas discussed in climate education.' },
+        { label: 'D. CO2 campaign with calendar year', text: 'CO2 awareness campaign launched in 2024.' },
+        { label: 'E. Object count instruction', text: 'Separate 2 bottle caps before collection.' },
+        { label: 'F. Location / Point identifier', text: 'Use collection point number 12.' },
+        { label: 'G. Qualitative environmental impact statement', text: 'Recycling can help reduce environmental impact.' },
+        { label: 'H. Action word with packaging weight without climate term', text: 'Reduce package weight by 5 kg.' },
+        { label: 'I. Raw production material mass', text: 'Production batch uses 25 kg of PET.' },
+        { label: 'J. CO2 module version number', text: 'CO2 education module version 2.' },
+        { label: 'K. Carbonated beverage metric sample', text: 'Carbonated beverage sample weighs 5 kg.' },
+        { label: 'L. Metric preceding carbonated beverage', text: '5 kg of carbonated beverage was identified.' },
+        { label: 'M. Diversionary traffic route percentage', text: 'Diversionary route moved 25% of traffic.' },
+        { label: 'N. Emissionless prototype mass', text: 'Emissionless engine prototype weighs 25 kg.' },
+        { label: 'O. Carbonation test material mass', text: 'Carbonation test used 2 kg of material.' },
+      ];
+
+      for (const { label, text } of falsePositiveCases) {
+        const result = ScanGuard.sanitize({ items: defaultItem, moatImpact: text }, 'en');
+        expect(result.moatImpact).toBe(text);
+      }
+    });
+  });
 });

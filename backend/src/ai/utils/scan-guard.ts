@@ -152,11 +152,11 @@ export class ScanGuard {
 
   /**
    * Ensures impact description is qualitative, conservative, and educational.
+   * Strips all quantitative environmental, carbon, emission, and diversion metrics.
    */
   private static sanitizeImpact(rawImpact: any, lang: string): string {
     const raw = typeof rawImpact === 'string' ? rawImpact.trim() : '';
-    // If exact fabricated metric claim exists (e.g. "Saves 0.5 kg CO2"), replace with conservative educational wording
-    if (raw && !raw.match(/\b\d+(?:\.\d+)?\s*(?:kg|кг|тонн|%)\s*(?:co2|выброс|сокращ|saves)/i)) {
+    if (raw && !ScanGuard.isQuantitativeImpactClaim(raw)) {
       return raw;
     }
 
@@ -166,6 +166,44 @@ export class ScanGuard {
       return "Directing identified materials to appropriate collection streams helps return resources into the economic cycle and reduce landfill burden.";
     }
     return "Передача распознанных материалов в подходящие потоки сбора может помочь вернуть часть ресурсов в хозяйственный цикл и уменьшить объём материалов, направляемых на захоронение.";
+  }
+
+  /**
+   * Deterministically detects quantitative environmental / sustainability / carbon claims
+   * across bidirectional linguistic word orderings (Metric -> Term or Term -> Metric).
+   * Requires BOTH a genuine environmental term (with strict lexical boundaries)
+   * AND a quantitative metric with a unit.
+   */
+  private static isQuantitativeImpactClaim(text: string): boolean {
+    if (!text || typeof text !== 'string') {
+      return false;
+    }
+
+    const normalized = text.toLowerCase();
+
+    // 1. Environmental / Climate / Emissions keywords with strict lexical boundaries
+    // English terms use \b boundaries to prevent false matches inside unrelated words (e.g. "carbonated", "emissionless", "diversionary").
+    // Cyrillic terms use Unicode lookarounds to support legitimate Russian inflections (e.g. "выбросы", "выбросов", "углеродный след").
+    const englishEnv = '\\b(?:co2e|co2|carbon(?:\\s+footprint)?|emissions?|landfill(?:\\s+diversion)?|diversion)\\b|co₂e|co₂';
+    const russianEnv = '(?<![а-яА-Яa-zA-Z])(?:углерод(?:н[а-я]+)?(?:\\s+след[а-я]*)?|выброс[а-я]*|эмисси[а-я]*|полигон[а-я]*|захоронен[а-я]*)(?![а-яА-Яa-zA-Z])';
+    const envKeywords = `(?:${englishEnv}|${russianEnv})`;
+
+    // 2. Quantitative metrics strictly WITH unit or %
+    // Latin units use \b boundaries; Cyrillic units use boundary lookarounds.
+    const latinUnits = '\\b(?:kg|g|t|tons?|tonnes?|percent(?:age)?)\\b|%';
+    const cyrillicUnits = '(?<![а-яА-Яa-zA-Z])(?:кг|г|т|тонн[а-я]*|процент[а-я]*)(?![а-яА-Яa-zA-Z0-9])';
+    const units = `(?:${latinUnits}|${cyrillicUnits})`;
+    const metricWithUnit = `(?:(?:≈|~|about|around|approximately|примерно|около|taxminan|на|by|to)\\s+)*\\d+(?:[.,]\\d+)?\\s*${units}`;
+
+    // Pattern A: Metric with unit followed within ~40 chars by Environmental Term
+    // Examples: "0.5 kg CO2", "12% reduction in emissions", "25% landfill diversion", "0.5 kg CO2 saved"
+    const metricFirstRegex = new RegExp(`${metricWithUnit}[\\s\\S]{0,40}${envKeywords}`, 'i');
+
+    // Pattern B: Environmental Term followed within ~40 chars by Metric with unit
+    // Examples: "сокращает выбросы CO₂ на 0.1 кг", "CO2 reduced by 0.5 kg", "CO₂ ≈ 0,8 кг", "carbon footprint reduced 12%"
+    const keywordFirstRegex = new RegExp(`${envKeywords}[\\s\\S]{0,40}${metricWithUnit}`, 'i');
+
+    return metricFirstRegex.test(normalized) || keywordFirstRegex.test(normalized);
   }
 
   /**
