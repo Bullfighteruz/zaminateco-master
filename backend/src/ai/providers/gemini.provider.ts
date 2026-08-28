@@ -6,6 +6,7 @@ import { ScanDto } from '../dto/scan.dto';
 import { ChatDto } from '../dto/chat.dto';
 import { PlannerDto } from '../dto/planner.dto';
 import { SearchRouter } from '../utils/search-router';
+import { GroundingProcessor } from '../utils/grounding-processor';
 
 export const GEMINI_CHAT_MODEL = 'gemini-3.5-flash-lite';
 export const GEMINI_SCAN_MODEL = 'gemini-3.6-flash';
@@ -37,7 +38,7 @@ Return ONLY valid JSON (no markdown, no code fences) with this exact structure:
 
 Ensure the items array captures everything. If nothing recyclable or waste-related is detected, return an empty array for items.`;
 
-const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, natural, and concise eco-assistant for the ZAMINAT.eco platform in Uzbekistan.
+const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, natural, and adaptive eco-assistant for the ZAMINAT.eco platform in Uzbekistan.
 
 ==================================================
 1. RESPONSE LANGUAGE POLICY (CRITICAL)
@@ -53,7 +54,7 @@ const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, 
 6. NEVER switch languages midway through the answer.
 
 ==================================================
-2. DIRECT ANSWER FIRST, CURRENT DATA MANDATE & COMPRESSION
+2. DIRECT ANSWER FIRST & ADAPTIVE DEPTH
 ==================================================
 1. ALWAYS answer the user's exact question immediately in the first sentence.
 2. CURRENT DATA MANDATE: For queries containing current/time concepts ("сегодня", "сейчас", "текущий", "today", "now", "current", "latest", "bugun", "hozir"):
@@ -68,12 +69,11 @@ const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, 
 6. DO NOT use filler phrases ("Great question!", "I'm happy to help!", "As an AI...", "Would you like me to...").
 7. DO NOT repeat or rephrase the user's question before answering.
 8. DO NOT prefix your response with "Zami Bot:", "zami bot:", "Bot:", or any name label. Reply directly with the response content.
-9. RESPONSE COMPRESSION POLICY:
-   - Default simple factual/current answer: STRICT MAXIMUM 2–4 short sentences.
-   - Sentence 1: Direct answer / current result value.
-   - Sentence 2: Short interpretation/category if needed.
-   - Sentence 3: Simple term explanation ONLY if required to understand the answer (e.g. "AQI — индекс качества воздуха.").
-   - Extended response: ONLY expand into detailed reports/analysis if user explicitly requests "detailed", "full analysis", "подробно", etc.
+9. ADAPTIVE RESPONSE DEPTH:
+   - MODE A (Simple definition / factual query): 2–4 concise sentences.
+   - MODE B (Live/current factual metric like AQI or Weather): Direct answer first sentence + short interpretation + necessary plain-language clarification.
+   - MODE C (Explanations / Processes): Provide clear, structured paragraphs explaining the mechanism without unrequested fluff.
+   - MODE D (Research / Comparison / Explicit "подробно"): Provide a thorough, well-structured, multi-source grounded answer with clear headings and bullet points.
 
 ==================================================
 3. ADAPTIVE PLAIN-LANGUAGE EXPLANATION LAYER
@@ -93,7 +93,7 @@ const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, 
 ==================================================
 4. SEARCH GROUNDING & REAL-TIME DATA HONESTY
 ==================================================
-1. Search tool is enabled for grounding when needed. Use it for time-sensitive, current, or external factual queries (e.g. "сегодня", "сейчас", "current AQI", "today's pollution in Tashkent", "latest news", "weather now", post-cutoff facts, laws).
+1. Google Search tool is enabled for grounding when needed. Use it for time-sensitive, current, research, or external factual queries (e.g. "сегодня", "сейчас", "current AQI", "today's pollution in Tashkent", "latest news", "weather now", post-cutoff facts, laws, research studies).
 2. Do NOT force search for simple, stable concept definitions (e.g. "What is PET?", "How to recycle plastic?").
 3. REAL-TIME DATA HONESTY:
    - NEVER fabricate or guess real-time figures (AQI, PM2.5, PM10, temperature, collection point live status).
@@ -104,7 +104,7 @@ const COACH_SYSTEM_INSTRUCTION = `You are Zami Bot — an intelligent, factual, 
 ==================================================
 1. User profile details (school, district, EcoCoins, level) should ONLY be mentioned if directly relevant to the user query (e.g. "How many EcoCoins do I have?").
 2. DO NOT force ZAMINAT marketing into general environmental answers.
-3. FOLLOW-UPS: Resolve references like "Что это значит?" or "Почему?" from immediate conversation context and answer directly.
+3. FOLLOW-UPS: Resolve references like "Что это значит?", "Почему?", "А завтра?", "А в Самарканде?" from immediate conversation context and answer directly.
 
 ==================================================
 6. PRIVATE DATA BOUNDARY & FACTUALITY
@@ -238,7 +238,7 @@ export class GoogleGeminiProvider implements AiProvider {
       }
 
       const currentMsgText = (dto.message || '').trim();
-      const searchEvaluation = SearchRouter.evaluate(currentMsgText);
+      const searchEvaluation = SearchRouter.evaluate(currentMsgText, dto.history, dto.userInfo);
 
       let safeHistory = Array.isArray(dto.history)
         ? dto.history
@@ -276,7 +276,7 @@ export class GoogleGeminiProvider implements AiProvider {
         { role: 'user', parts: [{ text: currentMsgText.slice(0, 2000) }] },
       ];
 
-      // Conservative Search Grounding: Only enable search tool if router indicates search is needed
+      // Google Search Grounding Tool
       const tools = searchEvaluation.shouldSearch ? [{ googleSearch: {} }] : undefined;
 
       const response = await ai.models.generateContent({
@@ -291,27 +291,13 @@ export class GoogleGeminiProvider implements AiProvider {
       const candidates = Array.isArray(response.candidates) ? response.candidates : [];
       const candidate = candidates[0];
       const grounding = candidate?.groundingMetadata;
-      const webQueries = Array.isArray(grounding?.webSearchQueries) ? grounding.webSearchQueries : [];
-      const chunks = Array.isArray(grounding?.groundingChunks) ? grounding.groundingChunks : [];
 
-      const searchUsed = searchEvaluation.shouldSearch && (webQueries.length > 0 || chunks.some(c => Boolean(c?.web?.uri)));
-
-      const sources: Array<{ title: string; url: string }> = [];
-      const seenUrls = new Set<string>();
-
-      if (searchUsed) {
-        for (const chunk of chunks) {
-          const uri = chunk?.web?.uri;
-          if (uri && !seenUrls.has(uri)) {
-            seenUrls.add(uri);
-            sources.push({
-              title: chunk?.web?.title || uri,
-              url: uri,
-            });
-            if (sources.length >= 3) break;
-          }
-        }
-      }
+      // Extract verified sources using GroundingProcessor
+      const { searchUsed, sources } = GroundingProcessor.processGeminiGrounding(
+        grounding,
+        searchEvaluation.shouldSearch,
+        4,
+      );
 
       let responseText = (response.text || '').trim();
       responseText = responseText.replace(/^(?:zami\s*bot|zami_bot|zamibot|bot)\s*[:\-]\s*/i, '').trim();

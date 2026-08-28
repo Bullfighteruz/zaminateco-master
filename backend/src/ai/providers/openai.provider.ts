@@ -7,6 +7,7 @@ import { ChatDto } from '../dto/chat.dto';
 import { PlannerDto } from '../dto/planner.dto';
 import { SearchRouter } from '../utils/search-router';
 import { ScanGuard } from '../utils/scan-guard';
+import { GroundingProcessor } from '../utils/grounding-processor';
 
 // Default GPT-5.6 Generation Models with fallback configuration
 export const OPENAI_DEFAULT_CHAT_MODEL = 'gpt-5.6-luna';
@@ -331,7 +332,7 @@ export class OpenAIProvider implements AiProvider {
       }
 
       const currentMsgText = (dto.message || '').trim();
-      const searchEvaluation = SearchRouter.evaluate(currentMsgText);
+      const searchEvaluation = SearchRouter.evaluate(currentMsgText, dto.history, dto.userInfo);
 
       // Normalize conversation history
       let safeHistory: Array<{ role: 'user' | 'assistant'; content: string }> = [];
@@ -400,44 +401,17 @@ export class OpenAIProvider implements AiProvider {
       let responseText = rawResponse.trim();
       responseText = responseText.replace(/^(?:zami\s*bot|zami_bot|zamibot|bot)\s*[:\-]\s*/i, '').trim();
 
-      // Extract real search annotations and check if provider executed search
-      let searchUsed = false;
-      const sources: ChatSource[] = [];
-      const seenUrls = new Set<string>();
-
-      if (searchEvaluation.shouldSearch && Array.isArray(response.output)) {
-        for (const item of response.output) {
-          // Check for web search tool call in output items
-          if (item.type === ('web_search_call' as any) || item.type === ('web_search' as any)) {
-            searchUsed = true;
-          }
-
-          // Check for URL citations in message text annotations
-          if (item.type === 'message' && Array.isArray((item as any).content)) {
-            for (const contentPiece of (item as any).content) {
-              if (contentPiece.type === 'text' && Array.isArray(contentPiece.annotations)) {
-                for (const annotation of contentPiece.annotations) {
-                  if (annotation.type === 'url_citation' && annotation.url) {
-                    searchUsed = true;
-                    if (!seenUrls.has(annotation.url)) {
-                      seenUrls.add(annotation.url);
-                      sources.push({
-                        title: annotation.title || annotation.url,
-                        url: annotation.url,
-                      });
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      // Extract real search annotations using GroundingProcessor
+      const { searchUsed, sources } = GroundingProcessor.processOpenAIGrounding(
+        response.output as any[],
+        searchEvaluation.shouldSearch,
+        4,
+      );
 
       return {
         response: responseText,
-        searchUsed: searchEvaluation.shouldSearch && (searchUsed || sources.length > 0),
-        sources: sources.slice(0, 3),
+        searchUsed,
+        sources,
       };
     } catch (err: any) {
       if (err instanceof HttpException) {
