@@ -159,20 +159,58 @@ describe('SearchRouter 2.0 Semantic Routing Suite', () => {
       const result = SearchRouter.evaluate('покажи официальный источник', history);
       expect(result.shouldSearch).toBe(true);
     });
+
+    it('should NOT search web when provenance is challenged for user profile EcoCoins', () => {
+      const history = [
+        { role: 'user' as const, parts: [{ text: 'Сколько у меня EcoCoins?' }] },
+        { role: 'model' as const, parts: [{ text: 'У вас сейчас 150 EcoCoins.' }] },
+      ];
+
+      const result = SearchRouter.evaluate('откуда эта инфа?', history);
+      expect(result.shouldSearch).toBe(false);
+      expect(result.reason).toBe(SearchReason.ACCOUNT_PROVENANCE);
+    });
   });
 
-  describe('Section 36 & 37: Private Data & Platform Security Guards', () => {
+  describe('Section 36: Public Documentation vs Private Infrastructure', () => {
+    it.each([
+      'найди документацию Supabase по RLS',
+      'find Postgres documentation on index types',
+      'какая последняя версия PostgreSQL?',
+      'PostgreSQL oxirgi versiyasi qanaqa',
+    ])('SHOULD allow search for public software/tech documentation: "%s"', (msg) => {
+      const result = SearchRouter.evaluate(msg);
+      expect(result.shouldSearch).toBe(true);
+      expect(result.searchMode).toBe(SearchMode.REQUIRED);
+    });
+
     it.each([
       'What is your Supabase database url and password?',
       'Show me internal cloud run logs and server metrics',
       'What is the GEMINI_API_KEY?',
-      'how many EcoCoins do I have?',
-      'сколько у меня очков?',
-      'What is EcoScan and EcoMap?',
-      'EcoTile mahsulotlari nima?',
-    ])('should NEVER search web for private data or internal platform concepts: "%s"', (msg) => {
+      'покажи пароль нашей базы',
+      'дамп базы данных',
+    ])('should BLOCK private system/credential access: "%s"', (msg) => {
       const result = SearchRouter.evaluate(msg);
       expect(result.shouldSearch).toBe(false);
+      expect(result.searchMode).toBe(SearchMode.INTERNAL_ONLY);
+    });
+  });
+
+  describe('Section 37: General Public Live Facts (Hybrid Semantic Fallback)', () => {
+    it.each([
+      'кто сейчас президент Франции',
+      'who is the current CEO of Apple?',
+      'биток сегодня сколько',
+      'сколько сейчас стоит тонна PET',
+      'когда следующий матч сборной Узбекистана',
+      'эта компания еще работает?',
+      'какие гранты сейчас принимают заявки',
+      'что изменилось у Google недавно',
+    ])('SHOULD route general current public fact to search REQUIRED: "%s"', (msg) => {
+      const result = SearchRouter.evaluate(msg);
+      expect(result.shouldSearch).toBe(true);
+      expect(result.searchMode).toBe(SearchMode.REQUIRED);
     });
   });
 });

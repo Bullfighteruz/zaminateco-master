@@ -3,11 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { GoogleGeminiProvider, GEMINI_CHAT_MODEL } from './gemini.provider';
 
+let lastGenerateContentCall: any = null;
+
 jest.mock('@google/genai', () => {
   return {
     GoogleGenAI: jest.fn().mockImplementation(() => ({
       models: {
         generateContent: jest.fn().mockImplementation(async (params: any) => {
+          lastGenerateContentCall = params;
           const paramStr = JSON.stringify(params);
 
           if (paramStr.includes('PROVIDER_ERROR_TEST')) {
@@ -34,6 +37,15 @@ jest.mock('@google/genai', () => {
                 ],
               };
             }
+
+            // Simulating a model response for a query where search is REQUIRED but grounding returned nothing
+            if (paramStr.includes('UNGROUNDED_REQUIRED_TEST')) {
+              return {
+                text: 'Hallucinated AQI value is 185 PM2.5 in Tashkent.',
+                candidates: [{ groundingMetadata: undefined }],
+              };
+            }
+
             return {
               text: 'Sorting plastic bottles reduces landfill waste.',
               candidates: [{ groundingMetadata: undefined }],
@@ -65,6 +77,7 @@ describe('GoogleGeminiProvider Unit Tests', () => {
   let configService: ConfigService;
 
   beforeEach(async () => {
+    lastGenerateContentCall = null;
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GoogleGeminiProvider,
@@ -116,6 +129,36 @@ describe('GoogleGeminiProvider Unit Tests', () => {
     expect(result.sources).toEqual([
       { title: 'Air Quality Tashkent', url: 'https://iqair.com/uzbekistan/tashkent' },
     ]);
+  });
+
+  it('P0 Search Query Builder Integration: should pass search intent hint and active search query to Gemini request', async () => {
+    await provider.chatCoach({
+      message: 'биток севодня скока GROUNDING_TEST',
+      lang: 'ru',
+    });
+
+    expect(lastGenerateContentCall).toBeDefined();
+    const systemInstruction = lastGenerateContentCall.config.systemInstruction;
+    const contents = lastGenerateContentCall.contents;
+
+    // Verify systemInstruction contains ACTIVE SEARCH QUERY
+    expect(systemInstruction).toContain('ACTIVE SEARCH QUERY:');
+    // Verify contents contains [Search Intent: ...]
+    const lastUserTurn = contents[contents.length - 1].parts[0].text;
+    expect(lastUserTurn).toContain('[Search Intent:');
+  });
+
+  it('P0 Fail-Closed Enforcement: should block hallucinations and return localized fallback when REQUIRED search has no grounding', async () => {
+    const result = await provider.chatCoach({
+      message: 'какой сейчас AQI в Ташкенте UNGROUNDED_REQUIRED_TEST',
+      lang: 'ru',
+    });
+
+    // Must NOT return hallucinated response "Hallucinated AQI value is 185..."
+    expect(result.response).not.toContain('Hallucinated');
+    expect(result.response).toContain('Не удалось получить подтверждённые актуальные данные прямо сейчас');
+    expect(result.searchUsed).toBe(false);
+    expect(result.sources).toEqual([]);
   });
 
   it('should optimize planner successfully', async () => {

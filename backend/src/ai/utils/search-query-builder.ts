@@ -29,20 +29,32 @@ export class SearchQueryBuilder {
       return `${targetCity} weather current today`;
     }
 
-    // 3. Source Challenge (User challenges source of prior response)
+    // 3. Public Software / Technical Documentation
+    if (interpreted.isPublicDocQuery) {
+      const cleaned = this.stripSearchCommands(interpreted.normalized);
+      return `${cleaned} official documentation guide`;
+    }
+
+    // 4. Source Challenge (User challenges source of prior response)
     if (interpreted.isSourceChallenge && historyContext) {
       const cleanHistory = historyContext.replace(/^(?:user|model|assistant|system):\s*/gi, '').slice(0, 150);
       return `${cleanHistory} official source facts verification`;
     }
 
-    // 4. News / Regulation / Law
+    // 5. News / Regulation / Law
     if (interpreted.isNewsOrRegulationQuery) {
       const rawCleaned = this.stripSearchCommands(interpreted.normalized);
       const geography = loc || (interpreted.normalized.includes('узб') || interpreted.normalized.includes('uzb') ? 'Uzbekistan' : 'Uzbekistan');
       return `${geography} ${rawCleaned} official legislation news`;
     }
 
-    // 5. Research & Technology
+    // 6. Current Real-Time Public Facts (leaders, market prices, company status, sports)
+    if (interpreted.isCurrentFactQuery) {
+      const stripped = this.stripSearchCommands(interpreted.normalized);
+      return `${stripped} current official information`;
+    }
+
+    // 7. Research & Technology
     if (interpreted.isResearchQuery || interpreted.isExplicitSearch) {
       const coreTopic = this.stripSearchCommands(interpreted.normalized);
       if (coreTopic.length > 3) {
@@ -52,7 +64,7 @@ export class SearchQueryBuilder {
 
     // Default fallback: clean message stripped of conversational command prefixes
     const stripped = this.stripSearchCommands(interpreted.normalized);
-    return stripped.length > 0 ? stripped : interpreted.raw.slice(0, 150);
+    return (stripped.length > 0 ? stripped : interpreted.raw).slice(0, 180);
   }
 
   /**

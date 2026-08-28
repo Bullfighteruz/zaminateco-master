@@ -369,12 +369,16 @@ export class OpenAIProvider implements AiProvider {
         safeHistory = safeHistory.slice(-20);
       }
 
+      const userTurnContent = searchEvaluation.shouldSearch && searchEvaluation.searchQuery && searchEvaluation.searchQuery.toLowerCase() !== currentMsgText.toLowerCase()
+        ? `${currentMsgText}\n\n[Search Intent: ${searchEvaluation.searchQuery}]`
+        : currentMsgText;
+
       const inputMessages = [
         ...safeHistory.map(h => ({
           role: h.role,
           content: h.content,
         })),
-        { role: 'user' as const, content: currentMsgText.slice(0, 2000) },
+        { role: 'user' as const, content: userTurnContent.slice(0, 2000) },
       ];
 
       // Real Search Semantics: Only supply web_search_preview tool when search is needed
@@ -407,6 +411,17 @@ export class OpenAIProvider implements AiProvider {
         searchEvaluation.shouldSearch,
         4,
       );
+
+      // P0 FAIL-CLOSED ENFORCEMENT: If search was REQUIRED but no verified grounding occurred,
+      // fail closed and return deterministic localized fallback instead of model-hallucinated figures.
+      if (searchEvaluation.searchMode === 'REQUIRED' && !searchUsed) {
+        const fallbackText = GroundingProcessor.getUnavailableDataFallback(dto.lang || 'ru');
+        return {
+          response: fallbackText,
+          searchUsed: false,
+          sources: [],
+        };
+      }
 
       return {
         response: responseText,

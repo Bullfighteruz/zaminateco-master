@@ -238,7 +238,12 @@ export class GoogleGeminiProvider implements AiProvider {
       }
 
       const currentMsgText = (dto.message || '').trim();
-      const searchEvaluation = SearchRouter.evaluate(currentMsgText, dto.history, dto.userInfo);
+      const searchEvaluation = await SearchRouter.evaluateSemantic(currentMsgText, dto.history, dto.userInfo, apiKey);
+
+      // Inject search hint into system instruction when search is enabled
+      if (searchEvaluation.shouldSearch && searchEvaluation.searchQuery) {
+        systemInstruction += `\n\nACTIVE SEARCH QUERY: When executing googleSearch for this turn, search for: "${searchEvaluation.searchQuery}"`;
+      }
 
       let safeHistory = Array.isArray(dto.history)
         ? dto.history
@@ -271,9 +276,14 @@ export class GoogleGeminiProvider implements AiProvider {
         safeHistory = safeHistory.slice(1);
       }
 
+      // Pass user turn with clean search intent hint when search is enabled
+      const userTurnText = searchEvaluation.shouldSearch && searchEvaluation.searchQuery && searchEvaluation.searchQuery.toLowerCase() !== currentMsgText.toLowerCase()
+        ? `${currentMsgText}\n\n[Search Intent: ${searchEvaluation.searchQuery}]`
+        : currentMsgText;
+
       const contents = [
         ...safeHistory,
-        { role: 'user', parts: [{ text: currentMsgText.slice(0, 2000) }] },
+        { role: 'user', parts: [{ text: userTurnText.slice(0, 2000) }] },
       ];
 
       // Google Search Grounding Tool
@@ -298,6 +308,17 @@ export class GoogleGeminiProvider implements AiProvider {
         searchEvaluation.shouldSearch,
         4,
       );
+
+      // P0 FAIL-CLOSED ENFORCEMENT: If search was REQUIRED but no verified grounding occurred,
+      // fail closed and return deterministic localized fallback instead of model-hallucinated figures.
+      if (searchEvaluation.searchMode === 'REQUIRED' && !searchUsed) {
+        const fallbackText = GroundingProcessor.getUnavailableDataFallback(dto.lang || 'ru');
+        return {
+          response: fallbackText,
+          searchUsed: false,
+          sources: [],
+        };
+      }
 
       let responseText = (response.text || '').trim();
       responseText = responseText.replace(/^(?:zami\s*bot|zami_bot|zamibot|bot)\s*[:\-]\s*/i, '').trim();
