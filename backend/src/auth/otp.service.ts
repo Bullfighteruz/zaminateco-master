@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import * as twilio from 'twilio';
 
 @Injectable()
 export class OtpService {
-  private twilioClient: twilio.Twilio;
+  private twilioClient?: twilio.Twilio;
 
   constructor(
     private prisma: PrismaService,
@@ -20,11 +20,17 @@ export class OtpService {
   }
 
   async sendOtp(phone: string): Promise<void> {
+    const isDevelopment = this.configService.get<string>('NODE_ENV') === 'development';
+
+    if (!this.twilioClient && !isDevelopment) {
+      throw new ServiceUnavailableException('PHONE_OTP_PROVIDER_UNAVAILABLE');
+    }
+
     // Generate 6-digit OTP
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    // Store OTP in database
+    // Store OTP only when there is a delivery path (or explicit development mode).
     await this.prisma.otp.create({
       data: {
         phone,
@@ -33,9 +39,12 @@ export class OtpService {
       },
     });
 
-    // Send SMS via Twilio (if configured)
     if (this.twilioClient) {
       const twilioPhone = this.configService.get<string>('TWILIO_PHONE_NUMBER');
+      if (!twilioPhone) {
+        throw new ServiceUnavailableException('PHONE_OTP_SENDER_UNAVAILABLE');
+      }
+
       try {
         await this.twilioClient.messages.create({
           body: `Your Zaminat.eco verification code is: ${code}. Valid for 10 minutes.`,
@@ -43,14 +52,13 @@ export class OtpService {
           to: phone,
         });
       } catch (error) {
-        console.error('Failed to send SMS:', error);
-        // In development, log the OTP
-        if (this.configService.get<string>('NODE_ENV') === 'development') {
+        console.error('Failed to send SMS OTP');
+        if (isDevelopment) {
           console.log(`OTP for ${phone}: ${code}`);
         }
+        throw new ServiceUnavailableException('PHONE_OTP_DELIVERY_FAILED');
       }
-    } else {
-      // Development mode: log OTP
+    } else if (isDevelopment) {
       console.log(`OTP for ${phone}: ${code}`);
     }
   }
@@ -74,7 +82,6 @@ export class OtpService {
       return false;
     }
 
-    // Mark as verified
     await this.prisma.otp.update({
       where: { id: otp.id },
       data: { verified: true },
@@ -83,4 +90,3 @@ export class OtpService {
     return true;
   }
 }
-
