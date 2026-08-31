@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, MaxLength, IsArray, IsObject, ValidateNested, IsIn } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, MaxLength, IsArray, IsObject, ValidateNested, IsIn, IsInt, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ChatPartDto {
@@ -23,6 +23,38 @@ export class ChatHistoryItemDto {
   content?: string;
 }
 
+export class UserProfileDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(60)
+  displayName?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  coins?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  points?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  level?: number;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(60)
+  location?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  school?: string;
+}
+
 export class ChatDto {
   @IsString()
   @IsNotEmpty()
@@ -42,5 +74,7 @@ export class ChatDto {
 
   @IsOptional()
   @IsObject()
-  userInfo?: Record<string, any>;
+  @ValidateNested()
+  @Type(() => UserProfileDto)
+  userInfo?: UserProfileDto;
 }

@@ -5,6 +5,7 @@ import { PlannerDto } from './dto/planner.dto';
 import { AiProviderFactory } from './providers/ai-provider.factory';
 import { ScanResult, ChatResult, PlannerResult } from './interfaces/ai-provider.interface';
 import { GEMINI_CHAT_MODEL, GEMINI_SCAN_MODEL, GEMINI_PLANNER_MODEL } from './providers/gemini.provider';
+import { ScanGuard } from './utils/scan-guard';
 
 export const AI_CHAT_MODEL = GEMINI_CHAT_MODEL;
 export const AI_SCAN_MODEL = GEMINI_SCAN_MODEL;
@@ -18,7 +19,8 @@ export class AiService {
 
   async scanWaste(dto: ScanDto): Promise<ScanResult> {
     const provider = this.providerFactory.getProvider();
-    return provider.scanWaste(dto);
+    const rawResult = await provider.scanWaste(dto);
+    return ScanGuard.sanitize(rawResult, dto.lang || 'en');
   }
 
   async chatCoach(dto: ChatDto): Promise<ChatResult> {

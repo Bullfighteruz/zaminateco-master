@@ -130,10 +130,54 @@ describe('AiService & Provider Selection Unit Tests', () => {
   });
 
   describe('Delegation & Contract Integrity', () => {
-    it('should delegate scanWaste to active provider', async () => {
-      const result = await service.scanWaste({ imageBase64: 'dGVzdA==', lang: 'uz' });
+    it('should delegate scanWaste to active OpenAI provider and enforce ScanGuard governance (Test A)', async () => {
+      const dto: ScanDto = { imageBase64: 'dGVzdA==', lang: 'uz' };
+      const result = await service.scanWaste(dto);
+
+      expect(mockOpenAIProvider.scanWaste).toHaveBeenCalledWith(dto);
       expect(result.items[0].name).toBe('OpenAI Bottle');
-      expect(mockOpenAIProvider.scanWaste).toHaveBeenCalled();
+      expect(result.estimatedEcoCoins).toBe(0); // Server-owned governance zeroes AI-generated coins
+      expect(result).toHaveProperty('items');
+      expect(result).toHaveProperty('totalEstimatedWeightKg');
+      expect(result).toHaveProperty('estimatedEcoCoins', 0);
+      expect(result).toHaveProperty('moatImpact');
+      expect(result).toHaveProperty('suggestedProduct');
+      expect(result).toHaveProperty('confidence');
+    });
+
+    it('should delegate scanWaste to active Gemini provider and enforce ScanGuard governance (Test B)', async () => {
+      jest.spyOn(configService, 'get').mockImplementation((key: string) => {
+        if (key === 'AI_PROVIDER') return 'gemini';
+        return undefined;
+      });
+
+      const dto: ScanDto = { imageBase64: 'dGVzdA==', lang: 'en' };
+      const result = await service.scanWaste(dto);
+
+      expect(mockGeminiProvider.scanWaste).toHaveBeenCalledWith(dto);
+      expect(result.items[0].name).toBe('Gemini Bottle');
+      expect(result.estimatedEcoCoins).toBe(0); // Proves governance is provider-independent
+    });
+
+    it('should actively transform and sanitize anomalous weight, confidence, impact, and product claims (Test C)', async () => {
+      (mockOpenAIProvider.scanWaste as jest.Mock).mockResolvedValueOnce({
+        items: [
+          { name: 'Резиновая камера', quantity: 1, wasteType: 'Rubber', status: 'Accepted', instructions: 'Clean' },
+        ],
+        totalEstimatedWeightKg: '75.0 kg', // Unreasonable weight for single rubber tube
+        estimatedEcoCoins: 50, // Non-zero raw eco coins
+        moatImpact: 'Saves 12.5 kg CO2', // Fabricated metric claim
+        suggestedProduct: 'will turn this tire into magic tiles',
+        confidence: 99, // Overconfident score on ambiguous tube item
+      });
+
+      const result = await service.scanWaste({ imageBase64: 'dGVzdA==', lang: 'ru' });
+
+      expect(result.estimatedEcoCoins).toBe(0);
+      expect(result.totalEstimatedWeightKg).toContain('визуальная оценка'); // Bounded weight correction
+      expect(result.confidence).toBe(82); // Calibrated confidence for ambiguous rubber tube
+      expect(result.moatImpact).toContain('Передача распознанных материалов'); // Sanitized educational impact
+      expect(result.suggestedProduct).toContain('Возможное направление'); // Sanitized product pathway
     });
 
     it('should delegate optimizePlanner to active provider', async () => {

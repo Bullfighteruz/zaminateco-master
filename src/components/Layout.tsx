@@ -22,9 +22,10 @@ interface LayoutProps {
   children: React.ReactNode;
   title?: string;
   hideBottomNav?: boolean;
+  hideLanguageSwitcher?: boolean;
 }
 
-const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutProps) {
+const Layout = memo(function Layout({ children, title, hideBottomNav, hideLanguageSwitcher = false }: LayoutProps) {
   const location = useLocation();
   const { t } = useTranslation('common');
   const isMobile = useIsMobile();
@@ -85,12 +86,14 @@ const Layout = memo(function Layout({ children, title, hideBottomNav }: LayoutPr
       )}
 
       {/* ── Top-Right Responsive Language Switcher for all viewports ── */}
-      <div
-        className="fixed top-4 right-4 sm:top-5 sm:right-6 z-40"
-        data-testid="layout-language-switcher"
-      >
-        <LanguageSwitcher darkMode={hideBottomNav} />
-      </div>
+      {!hideLanguageSwitcher && (
+        <div
+          className="fixed top-4 right-4 sm:top-5 sm:right-6 z-40"
+          data-testid="layout-language-switcher"
+        >
+          <LanguageSwitcher darkMode={hideBottomNav} />
+        </div>
+      )}
       
       {/* Main content */}
       <main className={hideBottomNav ? '' : 'pb-nav-safe'}>
