@@ -126,7 +126,7 @@ describe('SearchRouter 2.0 Semantic Routing Suite', () => {
     });
   });
 
-  describe('Section 35: Contextual Multi-Turn Follow-Ups', () => {
+  describe('Section 35: Contextual Multi-Turn Follow-Ups & Provenance Disambiguation', () => {
     it('should preserve Tashkent + air quality context for follow-up "а завтра?"', () => {
       const history = [
         { role: 'user' as const, parts: [{ text: 'Какой сегодня AQI в Ташкенте?' }] },
@@ -160,14 +160,55 @@ describe('SearchRouter 2.0 Semantic Routing Suite', () => {
       expect(result.shouldSearch).toBe(true);
     });
 
-    it('should NOT search web when provenance is challenged for user profile EcoCoins', () => {
+    // Mandatory Regression A: "Сколько у меня EcoCoins?" -> answer -> "откуда эта информация?" => INTERNAL_ONLY
+    it('Mandatory Regression A: "Сколько у меня EcoCoins?" -> "откуда эта информация?" => INTERNAL_ONLY', () => {
       const history = [
         { role: 'user' as const, parts: [{ text: 'Сколько у меня EcoCoins?' }] },
-        { role: 'model' as const, parts: [{ text: 'У вас сейчас 150 EcoCoins.' }] },
+        { role: 'model' as const, parts: [{ text: 'У вас на балансе 250 EcoCoins.' }] },
       ];
 
-      const result = SearchRouter.evaluate('откуда эта инфа?', history);
+      const result = SearchRouter.evaluate('откуда эта информация?', history);
       expect(result.shouldSearch).toBe(false);
+      expect(result.searchMode).toBe(SearchMode.INTERNAL_ONLY);
+      expect(result.reason).toBe(SearchReason.ACCOUNT_PROVENANCE);
+    });
+
+    // Mandatory Regression B: "какой сегодня уровень воздуха в ташкенте" -> answer -> "откуда эта информация?" => REQUIRED
+    it('Mandatory Regression B: "какой сегодня уровень воздуха в ташкенте" -> "откуда эта информация?" => REQUIRED', () => {
+      const history = [
+        { role: 'user' as const, parts: [{ text: 'какой сегодня уровень воздуха в ташкенте' }] },
+        { role: 'model' as const, parts: [{ text: 'Сегодня AQI в Ташкенте 142.' }] },
+      ];
+
+      const result = SearchRouter.evaluate('откуда эта информация?', history);
+      expect(result.shouldSearch).toBe(true);
+      expect(result.searchMode).toBe(SearchMode.REQUIRED);
+      expect(result.reason).toBe(SearchReason.SOURCE_CHALLENGE);
+    });
+
+    // Mandatory Regression C: "какой уровень загрязнения сейчас?" -> answer -> "дай источник" => REQUIRED
+    it('Mandatory Regression C: "какой уровень загрязнения сейчас?" -> "дай источник" => REQUIRED', () => {
+      const history = [
+        { role: 'user' as const, parts: [{ text: 'какой уровень загрязнения сейчас?' }] },
+        { role: 'model' as const, parts: [{ text: 'Уровень загрязнения воздуха умеренный, PM2.5 = 35 мкг/м³.' }] },
+      ];
+
+      const result = SearchRouter.evaluate('дай источник', history);
+      expect(result.shouldSearch).toBe(true);
+      expect(result.searchMode).toBe(SearchMode.REQUIRED);
+      expect(result.reason).toBe(SearchReason.SOURCE_CHALLENGE);
+    });
+
+    // Mandatory Regression D: "Какой у меня уровень?" -> profile answer -> "откуда?" => INTERNAL_ONLY
+    it('Mandatory Regression D: "Какой у меня уровень?" -> "откуда?" => INTERNAL_ONLY', () => {
+      const history = [
+        { role: 'user' as const, parts: [{ text: 'Какой у меня уровень?' }] },
+        { role: 'model' as const, parts: [{ text: 'Ваш текущий уровень — Эко-Мастер (уровень 3).' }] },
+      ];
+
+      const result = SearchRouter.evaluate('откуда?', history);
+      expect(result.shouldSearch).toBe(false);
+      expect(result.searchMode).toBe(SearchMode.INTERNAL_ONLY);
       expect(result.reason).toBe(SearchReason.ACCOUNT_PROVENANCE);
     });
   });

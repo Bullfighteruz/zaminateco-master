@@ -116,8 +116,8 @@ export class SearchRouter {
 
     // 5. Source Challenge with Provenance Awareness ("откуда эта информация?", "где пруфы", "where did you get that?")
     if (interpreted.isSourceChallenge) {
-      // Check provenance in historyContext
-      const provenance = this.resolveSourceProvenance(historyContext);
+      // Check provenance strictly by analyzing the immediately relevant previous user query
+      const provenance = this.resolveSourceProvenance(history);
       if (provenance === 'account') {
         return {
           shouldSearch: false,
@@ -322,30 +322,46 @@ export class SearchRouter {
     };
   }
 
-  private static resolveSourceProvenance(historyContext?: string): 'account' | 'platform' | 'external' {
-    if (!historyContext) return 'external';
-    const lower = historyContext.toLowerCase();
+  /**
+   * Resolves source provenance by inspecting the immediately relevant previous user request.
+   */
+  private static resolveSourceProvenance(history?: ChatHistoryItemDto[]): 'account' | 'platform' | 'external' {
+    if (!Array.isArray(history) || history.length === 0) {
+      return 'external';
+    }
 
-    if (
-      lower.includes('ecocoin') ||
-      lower.includes('экокоин') ||
-      lower.includes('tangalar') ||
-      lower.includes('балл') ||
-      lower.includes('ball') ||
-      lower.includes('очк') ||
-      lower.includes('level') ||
-      lower.includes('уровень') ||
-      lower.includes('daraja') ||
-      lower.includes('darajam') ||
-      lower.includes('profile') ||
-      lower.includes('профиль') ||
-      lower.includes('profil')
-    ) {
+    // Find the most recent user turn prior to this challenge turn
+    let previousUserText = '';
+    for (let i = history.length - 1; i >= 0; i--) {
+      const turn = history[i];
+      if (turn && turn.role === 'user') {
+        let txt = '';
+        if (Array.isArray(turn.parts)) {
+          txt = turn.parts.map(p => p?.text || '').join(' ').trim();
+        } else if (typeof (turn as any).content === 'string') {
+          txt = (turn as any).content.trim();
+        }
+        if (txt) {
+          previousUserText = txt;
+          break;
+        }
+      }
+    }
+
+    if (!previousUserText) {
+      return 'external';
+    }
+
+    // Interpret previous user turn using UserMessageInterpreter
+    const previousInterpreted = UserMessageInterpreter.interpret(previousUserText);
+
+    if (previousInterpreted.isProfileQuery) {
       return 'account';
     }
-    if (lower.includes('ecoscan') || lower.includes('ecomap') || lower.includes('ecovote') || lower.includes('ecotile')) {
+    if (previousInterpreted.isPlatformConcept) {
       return 'platform';
     }
+
     return 'external';
   }
 

@@ -35,9 +35,11 @@ export enum SearchReason {
 }
 
 export enum SourceAuthorityTier {
-  TIER_A_OFFICIAL = 'TIER_A_OFFICIAL',
-  TIER_B_NEWS = 'TIER_B_NEWS',
-  TIER_C_GENERAL = 'TIER_C_GENERAL',
+  OFFICIAL_PRIMARY = 'OFFICIAL_PRIMARY',
+  ACADEMIC_PRIMARY_OR_PUBLISHER = 'ACADEMIC_PRIMARY_OR_PUBLISHER',
+  SPECIALIST_DATA_PROVIDER = 'SPECIALIST_DATA_PROVIDER',
+  ESTABLISHED_NEWS = 'ESTABLISHED_NEWS',
+  GENERAL_WEB = 'GENERAL_WEB',
 }
 
 export interface RankedSource {
@@ -46,6 +48,14 @@ export interface RankedSource {
   tier?: SourceAuthorityTier;
   domain?: string;
   score?: number;
+}
+
+export interface GroundingExtractionResult {
+  searchExecuted: boolean;
+  groundingVerified: boolean;
+  searchUsed: boolean;
+  sources: Array<{ title: string; url: string }>;
+  rankedSources?: RankedSource[];
 }
 
 export interface InterpretedMessage {

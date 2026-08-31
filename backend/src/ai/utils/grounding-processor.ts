@@ -1,62 +1,64 @@
-import { RankedSource, SourceAuthorityTier } from './search-types';
-
-export interface GroundingExtractionResult {
-  searchUsed: boolean;
-  sources: Array<{ title: string; url: string }>;
-  rankedSources?: RankedSource[];
-}
+import { GroundingExtractionResult, RankedSource, SourceAuthorityTier } from './search-types';
 
 export class GroundingProcessor {
   /**
-   * Official authority domains (Tier A)
+   * Official government, international institutions & primary product documentation (Tier 1 - Official Primary)
    */
-  private static readonly TIER_A_PATTERNS = [
-    // Governments & legislation
+  private static readonly OFFICIAL_PRIMARY_PATTERNS = [
+    // Governments & legislation (Official Primary)
     /\.gov(?:\.[a-z]{2})?$/i,
     /lex\.uz$/i,
-    /norma\.uz$/i,
     /stat\.uz$/i,
     /gov\.uz$/i,
     /president\.uz$/i,
     /mineconomy\.uz$/i,
 
-    // International bodies & monitoring
+    // International intergovernmental bodies
     /who\.int$/i,
     /un\.org$/i,
     /unep\.org$/i,
     /worldbank\.org$/i,
-    /iqair\.com$/i,
-    /airnow\.gov$/i,
-    /meteo\.uz$/i,
-    /weather\.com$/i,
-    /accuweather\.com$/i,
+    /unece\.org$/i,
 
-    // Academic & Research
+    // Primary Developer & Official Software Docs
+    /supabase\.com$/i,
+    /postgresql\.org$/i,
+    /nodejs\.org$/i,
+    /apple\.com$/i,
+    /google\.com$/i,
+    /openai\.com$/i,
+    /microsoft\.com$/i,
+  ];
+
+  /**
+   * Academic journals & primary scientific publishers
+   */
+  private static readonly ACADEMIC_PRIMARY_PATTERNS = [
     /\.edu(?:\.[a-z]{2})?$/i,
     /\.ac\.[a-z]{2}$/i,
     /sciencedirect\.com$/i,
     /nature\.com$/i,
     /springer\.com$/i,
     /arxiv\.org$/i,
-    /researchgate\.net$/i,
     /nih\.gov$/i,
     /ncbi\.nlm\.nih\.gov$/i,
-
-    // Official Tech & Product Docs
-    /supabase\.com$/i,
-    /postgresql\.org$/i,
-    /github\.com$/i,
-    /apple\.com$/i,
-    /google\.com$/i,
-    /openai\.com$/i,
-    /microsoft\.com$/i,
-    /nodejs\.org$/i,
   ];
 
   /**
-   * Established news & professional media (Tier B)
+   * Specialist real-time monitoring providers
    */
-  private static readonly TIER_B_PATTERNS = [
+  private static readonly SPECIALIST_DATA_PATTERNS = [
+    /iqair\.com$/i,
+    /airnow\.gov$/i,
+    /meteo\.uz$/i,
+    /weather\.com$/i,
+    /accuweather\.com$/i,
+  ];
+
+  /**
+   * Established professional journalism & media
+   */
+  private static readonly ESTABLISHED_NEWS_PATTERNS = [
     /reuters\.com$/i,
     /bbc\.com$/i,
     /bloomberg\.com$/i,
@@ -79,16 +81,18 @@ export class GroundingProcessor {
     maxSources = 4,
   ): GroundingExtractionResult {
     if (!routerIndicatesSearch || !groundingMetadata) {
-      return { searchUsed: false, sources: [] };
+      return { searchExecuted: false, groundingVerified: false, searchUsed: false, sources: [] };
     }
 
     const webQueries = Array.isArray(groundingMetadata?.webSearchQueries)
-      ? groundingMetadata.webSearchQueries
+      ? groundingMetadata.webSearchQueries.filter((q: any) => typeof q === 'string' && q.trim().length > 0)
       : [];
 
     const chunks = Array.isArray(groundingMetadata?.groundingChunks)
       ? groundingMetadata.groundingChunks
       : [];
+
+    const searchExecuted = webQueries.length > 0 || chunks.length > 0;
 
     const extracted: RankedSource[] = [];
     const seenCanonicalUrls = new Set<string>();
@@ -107,7 +111,7 @@ export class GroundingProcessor {
       const rawTitle = typeof chunk?.web?.title === 'string' ? chunk.web.title : '';
       const sanitizedTitle = this.sanitizeTitle(rawTitle, validUrl);
       const tier = this.classifySourceTier(validUrl);
-      const score = tier === SourceAuthorityTier.TIER_A_OFFICIAL ? 3 : tier === SourceAuthorityTier.TIER_B_NEWS ? 2 : 1;
+      const score = this.getTierScore(tier);
 
       extracted.push({
         title: sanitizedTitle,
@@ -118,14 +122,17 @@ export class GroundingProcessor {
       });
     }
 
-    // Sort by authority score descending (Tier A > Tier B > Tier C)
+    // Sort by authority score descending (Official Primary > Academic > Specialist > News > General)
     extracted.sort((a, b) => (b.score || 0) - (a.score || 0));
 
-    const searchUsed = (webQueries.length > 0 || extracted.length > 0) && routerIndicatesSearch;
     const finalRanked = extracted.slice(0, maxSources);
     const finalSources = finalRanked.map(s => ({ title: s.title, url: s.url }));
+    const groundingVerified = finalSources.length > 0;
+    const searchUsed = routerIndicatesSearch && groundingVerified;
 
     return {
+      searchExecuted,
+      groundingVerified,
       searchUsed,
       sources: finalSources,
       rankedSources: finalRanked,
@@ -141,7 +148,7 @@ export class GroundingProcessor {
     maxSources = 4,
   ): GroundingExtractionResult {
     if (!routerIndicatesSearch || !Array.isArray(outputItems)) {
-      return { searchUsed: false, sources: [] };
+      return { searchExecuted: false, groundingVerified: false, searchUsed: false, sources: [] };
     }
 
     let searchToolExecuted = false;
@@ -170,7 +177,7 @@ export class GroundingProcessor {
 
                 const sanitizedTitle = this.sanitizeTitle(annotation.title, validUrl);
                 const tier = this.classifySourceTier(validUrl);
-                const score = tier === SourceAuthorityTier.TIER_A_OFFICIAL ? 3 : tier === SourceAuthorityTier.TIER_B_NEWS ? 2 : 1;
+                const score = this.getTierScore(tier);
 
                 extracted.push({
                   title: sanitizedTitle,
@@ -189,10 +196,13 @@ export class GroundingProcessor {
     extracted.sort((a, b) => (b.score || 0) - (a.score || 0));
 
     const finalRanked = extracted.slice(0, maxSources);
-    const searchUsed = routerIndicatesSearch && (searchToolExecuted || finalRanked.length > 0);
     const finalSources = finalRanked.map(s => ({ title: s.title, url: s.url }));
+    const groundingVerified = finalSources.length > 0;
+    const searchUsed = routerIndicatesSearch && groundingVerified;
 
     return {
+      searchExecuted: searchToolExecuted || finalSources.length > 0,
+      groundingVerified,
       searchUsed,
       sources: finalSources,
       rankedSources: finalRanked,
@@ -217,21 +227,60 @@ export class GroundingProcessor {
 
   private static classifySourceTier(url: string): SourceAuthorityTier {
     const domain = this.extractDomain(url).toLowerCase();
-    if (!domain) return SourceAuthorityTier.TIER_C_GENERAL;
+    if (!domain) return SourceAuthorityTier.GENERAL_WEB;
 
-    for (const pattern of this.TIER_A_PATTERNS) {
+    // Explicit exclusions from Official Primary
+    if (domain === 'norma.uz' || domain.endsWith('.norma.uz')) {
+      return SourceAuthorityTier.GENERAL_WEB;
+    }
+    if (domain === 'researchgate.net' || domain.endsWith('.researchgate.net')) {
+      return SourceAuthorityTier.GENERAL_WEB;
+    }
+    if (domain === 'github.com') {
+      return SourceAuthorityTier.GENERAL_WEB;
+    }
+
+    for (const pattern of this.OFFICIAL_PRIMARY_PATTERNS) {
       if (pattern.test(domain)) {
-        return SourceAuthorityTier.TIER_A_OFFICIAL;
+        return SourceAuthorityTier.OFFICIAL_PRIMARY;
       }
     }
 
-    for (const pattern of this.TIER_B_PATTERNS) {
+    for (const pattern of this.ACADEMIC_PRIMARY_PATTERNS) {
       if (pattern.test(domain)) {
-        return SourceAuthorityTier.TIER_B_NEWS;
+        return SourceAuthorityTier.ACADEMIC_PRIMARY_OR_PUBLISHER;
       }
     }
 
-    return SourceAuthorityTier.TIER_C_GENERAL;
+    for (const pattern of this.SPECIALIST_DATA_PATTERNS) {
+      if (pattern.test(domain)) {
+        return SourceAuthorityTier.SPECIALIST_DATA_PROVIDER;
+      }
+    }
+
+    for (const pattern of this.ESTABLISHED_NEWS_PATTERNS) {
+      if (pattern.test(domain)) {
+        return SourceAuthorityTier.ESTABLISHED_NEWS;
+      }
+    }
+
+    return SourceAuthorityTier.GENERAL_WEB;
+  }
+
+  private static getTierScore(tier: SourceAuthorityTier): number {
+    switch (tier) {
+      case SourceAuthorityTier.OFFICIAL_PRIMARY:
+        return 5;
+      case SourceAuthorityTier.ACADEMIC_PRIMARY_OR_PUBLISHER:
+        return 4;
+      case SourceAuthorityTier.SPECIALIST_DATA_PROVIDER:
+        return 3;
+      case SourceAuthorityTier.ESTABLISHED_NEWS:
+        return 2;
+      case SourceAuthorityTier.GENERAL_WEB:
+      default:
+        return 1;
+    }
   }
 
   private static extractDomain(urlStr: string): string {
@@ -276,7 +325,7 @@ export class GroundingProcessor {
         return fallbackUrl;
       }
     }
-    const cleaned = rawTitle.replace(/[\r\n\t]+/g, ' ').trim();
+    const cleaned = rawTitle.replace(/[\r\n\t\x00-\x1F\x7F]+/g, ' ').trim();
     if (cleaned.length > 120) {
       return cleaned.slice(0, 117) + '...';
     }

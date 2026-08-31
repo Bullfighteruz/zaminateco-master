@@ -246,7 +246,7 @@ export class UserMessageInterpreter {
   private static checkProfileQuery(text: string): boolean {
     const profileKeywords = [
       'ecocoin', 'eco-coin', 'ecocoins', 'tangalarim', 'ballarim', 'ochko', 'ochkolarim',
-      'my level', 'мой уровень', 'mening darajam', 'my coins', 'сколько у меня', 'nechta tangam',
+      'my level', 'мой уровень', 'какой у меня уровень', 'mening darajam', 'my coins', 'сколько у меня', 'nechta tangam',
       'my profile', 'мой профиль', 'profilim', 'user info', 'мои экокоины', 'мои баллы',
     ];
     return profileKeywords.some(kw => text.includes(kw));
@@ -272,6 +272,7 @@ export class UserMessageInterpreter {
       'qayerdan olding', 'manbasi nima', 'manbani ko\'rsat', 'manbalarni ko\'rsat', 'manbasini ko\'rsat',
       'manbasini', 'manbasi', 'manbalar', 'manba', 'rostmi bu',
       'найди источник', 'найди источники', 'найд источник',
+      'откуда', 'qayerdan', 'where from',
     ];
     return challengePatterns.some(p => text.includes(p));
   }
