@@ -23,12 +23,18 @@ function requireSecret(configService: ConfigService, name: string): string {
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: requireSecret(configService, 'JWT_SECRET'),
-        signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d'),
-        },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const accessSecret = requireSecret(configService, 'JWT_SECRET');
+        // Validate refresh-token signing configuration during startup as well.
+        requireSecret(configService, 'JWT_REFRESH_SECRET');
+
+        return {
+          secret: accessSecret,
+          signOptions: {
+            expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d'),
+          },
+        };
+      },
       inject: [ConfigService],
     }),
   ],
