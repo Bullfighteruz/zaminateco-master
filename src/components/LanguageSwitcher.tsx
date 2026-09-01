@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useSwitchLanguage } from '@/hooks/useSwitchLanguage';
 import { type SupportedLanguage } from '@/lib/i18nRouting';
@@ -15,20 +15,8 @@ import { type SupportedLanguage } from '@/lib/i18nRouting';
 const languages: Array<{ code: SupportedLanguage; flag: string; name: string; country: string }> = [
   { code: 'en', flag: '/images/en_flag.webp', name: 'English', country: 'US' },
   { code: 'uz', flag: '/images/uz_flag.webp', name: "O'zbekcha", country: 'UZ' },
-  { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский', country: 'RU' }
+  { code: 'ru', flag: '/images/ru_flag.webp', name: 'Русский', country: 'RU' },
 ];
-
-const flagVariants = {
-  initial: { scale: 1, rotate: 0 },
-  hover: { scale: 1.1, rotate: 5 },
-  tap: { scale: 0.95 }
-};
-
-const menuItemVariants = {
-  initial: { opacity: 0, x: -10 },
-  animate: { opacity: 1, x: 0 },
-  exit: { opacity: 0, x: -10 }
-};
 
 export interface LanguageSwitcherProps {
   darkMode?: boolean;
@@ -36,11 +24,16 @@ export interface LanguageSwitcherProps {
   className?: string;
 }
 
-export default function LanguageSwitcher({ darkMode = false, compact = false, className = '' }: LanguageSwitcherProps) {
+export default function LanguageSwitcher({
+  darkMode = false,
+  compact = false,
+  className = '',
+}: LanguageSwitcherProps) {
   const { currentLang, switchLanguage } = useSwitchLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
-  const currentLanguage = languages.find(lang => lang.code === currentLang) || languages[0];
+  const currentLanguage = languages.find((language) => language.code === currentLang) || languages[0];
+  const isPitchStyle = darkMode && compact;
 
   const handleLanguageChange = (languageCode: SupportedLanguage) => {
     switchLanguage(languageCode);
@@ -48,214 +41,210 @@ export default function LanguageSwitcher({ darkMode = false, compact = false, cl
   };
 
   return (
-    <div className={cn("relative z-50 notranslate", className)} translate="no">
+    <div className={cn('relative z-50 notranslate', className)} translate="no">
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
-        <DropdownMenuTrigger asChild>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
+        <motion.div
+          whileHover={isPitchStyle ? { y: -1 } : { scale: 1.025 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: 'spring', stiffness: 420, damping: 28 }}
+        >
+          <DropdownMenuTrigger asChild>
             <Button
+              type="button"
               variant="outline"
               size="sm"
-              aria-label={`Select language. Current: ${currentLanguage.name}`}
+              aria-label={`Select language. Current language: ${currentLanguage.name}`}
               className={cn(
-                "flex items-center gap-2 select-none",
-                darkMode ? "bg-black/70 backdrop-blur-md" : "bg-white/95 backdrop-blur-md",
-                darkMode ? "border border-white/15" : "border border-gray-200/60",
-                darkMode ? "hover:border-white/30 hover:bg-black/85" : "hover:border-emerald-400/60 hover:bg-white",
-                "transition-all duration-300",
-                "shadow-md hover:shadow-lg",
-                darkMode ? "text-white/90 hover:text-white" : "text-gray-800 hover:text-gray-900",
-                "font-bold",
-                compact ? "px-2.5 h-8 text-[11px] rounded-lg" : "px-3 py-2 text-xs sm:text-sm rounded-xl",
-                "relative overflow-hidden",
-                "group"
+                'group relative inline-flex select-none items-center justify-center overflow-hidden whitespace-nowrap transition-all duration-200',
+                isPitchStyle
+                  ? [
+                      'h-9 min-w-[88px] rounded-full px-3',
+                      'border border-white/[0.14] bg-slate-950/80 text-white',
+                      'shadow-[0_8px_24px_rgba(0,0,0,0.24),inset_0_1px_0_rgba(255,255,255,0.06)]',
+                      'backdrop-blur-xl supports-[backdrop-filter]:bg-slate-950/70',
+                      'hover:border-white/20 hover:bg-slate-900/90 hover:text-white',
+                      'focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+                    ]
+                  : [
+                      darkMode ? 'bg-black/70 backdrop-blur-md' : 'bg-white/95 backdrop-blur-md',
+                      darkMode ? 'border border-white/15' : 'border border-gray-200/60',
+                      darkMode ? 'hover:border-white/30 hover:bg-black/85' : 'hover:border-emerald-400/60 hover:bg-white',
+                      'shadow-md hover:shadow-lg',
+                      darkMode ? 'text-white/90 hover:text-white' : 'text-gray-800 hover:text-gray-900',
+                      'font-bold',
+                      compact ? 'h-8 rounded-lg px-2.5 text-[11px]' : 'rounded-xl px-3 py-2 text-xs sm:text-sm',
+                    ]
               )}
             >
-              {/* Animated background gradient */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-emerald-50/0 via-teal-50/0 to-green-50/0 pointer-events-none"
-                animate={{
-                  background: isOpen
-                    ? "linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(20, 184, 166, 0.12) 100%)"
-                    : "linear-gradient(90deg, rgba(16, 185, 129, 0) 0%, rgba(20, 184, 166, 0) 100%)"
-                }}
-                transition={{ duration: 0.3 }}
-              />
+              <span className={cn('relative z-10 flex items-center', isPitchStyle ? 'gap-2' : compact ? 'gap-1.5' : 'gap-2')}>
+                <span
+                  className={cn(
+                    'relative flex-shrink-0 overflow-hidden bg-white/5',
+                    isPitchStyle
+                      ? 'h-[14px] w-5 rounded-[4px] ring-1 ring-white/20'
+                      : compact
+                        ? 'h-3.5 w-5 rounded-sm border border-gray-200/50 shadow-sm'
+                        : 'h-4 w-6 rounded-sm border border-gray-200/50 shadow-sm sm:h-5 sm:w-7'
+                  )}
+                >
+                  <img
+                    src={currentLanguage.flag}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-full w-full object-cover"
+                  />
+                </span>
 
-              <div className={cn("relative z-10 flex items-center", compact ? "gap-1.5" : "gap-2")}>
-                {/* Flag icon with smooth transitions */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentLanguage.code}
-                    initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="flex-shrink-0"
-                  >
-                    <motion.img
-                      src={currentLanguage.flag}
-                      alt=""
-                      className={cn("object-cover rounded-sm shadow-sm border border-gray-200/50", compact ? "h-3.5 w-5" : "h-4 w-6 sm:h-5 sm:w-7")}
-                      variants={flagVariants}
-                      whileHover="hover"
-                      whileTap="tap"
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    />
-                  </motion.div>
-                </AnimatePresence>
+                <span
+                  className={cn(
+                    'font-semibold uppercase leading-none',
+                    isPitchStyle
+                      ? 'text-[11px] tracking-[0.12em] text-white'
+                      : compact
+                        ? 'text-[11px] tracking-wide'
+                        : 'text-xs tracking-wide sm:text-sm',
+                    !isPitchStyle && (darkMode ? 'text-white/90' : 'text-gray-900')
+                  )}
+                >
+                  {currentLanguage.code}
+                </span>
 
-                {/* Language code */}
                 <motion.span
-                  key={`code-${currentLanguage.code}`}
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className={cn("font-bold tracking-wide", compact ? "text-[11px]" : "text-xs sm:text-sm", darkMode ? "text-white/90" : "text-gray-900")}
-                >
-                  {currentLanguage.code.toUpperCase()}
-                </motion.span>
-
-                {/* Chevron with rotation */}
-                <motion.div
+                  className="flex items-center justify-center"
                   animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
                 >
-                  <ChevronDown className={cn("transition-colors", compact ? "h-3 w-3" : "h-3.5 w-3.5", darkMode ? "text-white/50 group-hover:text-white/80" : "text-gray-500 group-hover:text-emerald-600")} />
-                </motion.div>
-              </div>
+                  <ChevronDown
+                    className={cn(
+                      isPitchStyle ? 'h-3.5 w-3.5 text-white/55 group-hover:text-white/80' : compact ? 'h-3 w-3' : 'h-3.5 w-3.5',
+                      !isPitchStyle && (darkMode ? 'text-white/50 group-hover:text-white/80' : 'text-gray-500 group-hover:text-emerald-600')
+                    )}
+                    strokeWidth={2}
+                  />
+                </motion.span>
+              </span>
             </Button>
-          </motion.div>
-        </DropdownMenuTrigger>
+          </DropdownMenuTrigger>
+        </motion.div>
 
         <DropdownMenuContent
           align="end"
           side="bottom"
-          sideOffset={8}
-          alignOffset={0}
-          collisionPadding={20}
-          avoidCollisions={true}
+          sideOffset={isPitchStyle ? 10 : 8}
+          collisionPadding={16}
+          avoidCollisions
           className={cn(
-            "w-[210px] p-2",
-            darkMode
-              ? "bg-gray-950/95 backdrop-blur-2xl border border-white/15 shadow-2xl text-white rounded-xl"
-              : "bg-white/98 backdrop-blur-xl border-2 border-gray-200/60 shadow-2xl text-gray-900 rounded-xl",
-            "overflow-hidden",
-            "z-50"
+            'z-50 overflow-hidden',
+            isPitchStyle
+              ? [
+                  'w-[190px] rounded-2xl p-1.5',
+                  'border border-white/10 bg-slate-950/95 text-white',
+                  'shadow-[0_20px_60px_rgba(0,0,0,0.38)] backdrop-blur-2xl',
+                ]
+              : [
+                  'w-[210px] rounded-xl p-2',
+                  darkMode
+                    ? 'border border-white/15 bg-gray-950/95 text-white shadow-2xl backdrop-blur-2xl'
+                    : 'border-2 border-gray-200/60 bg-white/98 text-gray-900 shadow-2xl backdrop-blur-xl',
+                ]
           )}
           style={{
-            maxWidth: 'min(210px, calc(100vw - 2rem))',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            maxWidth: isPitchStyle ? 'min(190px, calc(100vw - 1.5rem))' : 'min(210px, calc(100vw - 2rem))',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
           }}
         >
-          <AnimatePresence>
-            {languages.map((language, index) => {
-              const isSelected = currentLanguage.code === language.code;
+          {languages.map((language) => {
+            const isSelected = currentLanguage.code === language.code;
 
-              return (
-                <motion.div
-                  key={language.code}
-                  variants={menuItemVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={{
-                    delay: index * 0.04,
-                    duration: 0.2,
-                    ease: "easeOut"
-                  }}
+            return (
+              <DropdownMenuItem
+                key={language.code}
+                onSelect={() => handleLanguageChange(language.code)}
+                className={cn(
+                  'group/item flex cursor-pointer items-center outline-none transition-colors duration-150',
+                  isPitchStyle
+                    ? [
+                        'min-h-11 gap-2.5 rounded-xl px-2.5 py-2',
+                        isSelected
+                          ? 'bg-white/[0.09] text-white'
+                          : 'text-white/72 hover:bg-white/[0.06] hover:text-white focus:bg-white/[0.06] focus:text-white',
+                      ]
+                    : [
+                        'gap-3 rounded-lg p-2.5 sm:p-3',
+                        isSelected
+                          ? darkMode
+                            ? 'border border-emerald-500/30 bg-emerald-500/20 font-bold text-emerald-300'
+                            : 'border border-emerald-200/60 bg-gradient-to-r from-emerald-50 to-teal-50 font-bold text-emerald-900'
+                          : darkMode
+                            ? 'text-white/80 hover:bg-white/10 hover:text-white focus:bg-white/10'
+                            : 'hover:bg-emerald-50/70 hover:text-emerald-800 focus:bg-emerald-50/70',
+                      ]
+                )}
+              >
+                <span
+                  className={cn(
+                    'relative flex-shrink-0 overflow-hidden',
+                    isPitchStyle
+                      ? 'h-4 w-6 rounded-[5px] ring-1 ring-white/15'
+                      : 'h-5 w-7 rounded-md border border-gray-200 shadow-sm sm:h-6 sm:w-8'
+                  )}
                 >
-                  <DropdownMenuItem
-                    onClick={() => handleLanguageChange(language.code)}
-                    className={cn(
-                      "flex items-center gap-3",
-                      "cursor-pointer p-2.5 sm:p-3 rounded-lg",
-                      "transition-all duration-200",
-                      "relative overflow-hidden",
-                      "group/item",
-                      isSelected
-                        ? darkMode
-                          ? "bg-emerald-500/20 text-emerald-300 font-bold shadow-sm border border-emerald-500/30"
-                          : "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-900 font-bold shadow-sm border border-emerald-200/60"
-                        : darkMode
-                          ? "text-white/80 hover:bg-white/10 hover:text-white"
-                          : "hover:bg-gradient-to-r hover:from-emerald-50/60 hover:to-teal-50/60 hover:text-emerald-800"
-                    )}
-                  >
-                    <div className="relative z-10 flex items-center gap-3 w-full">
-                      {/* Flag icon with hover animation */}
-                      <motion.div
-                        whileHover={{ scale: 1.15, rotate: 5 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        className="flex-shrink-0"
-                      >
-                        <img
-                          src={language.flag}
-                          alt=""
-                          className={cn(
-                            "h-5 w-7 sm:h-6 sm:w-8 object-cover rounded-md shadow-sm",
-                            "border transition-all duration-200",
-                            isSelected
-                              ? "border-emerald-500 shadow-emerald-200/50"
-                              : darkMode
-                                ? "border-white/20 group-hover/item:border-white/40"
-                                : "border-gray-200 group-hover/item:border-emerald-300"
-                          )}
-                        />
-                      </motion.div>
+                  <img
+                    src={language.flag}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-full w-full object-cover"
+                  />
+                </span>
 
-                      {/* Language details */}
-                      <div className="flex flex-col flex-1 min-w-0">
-                        <span className={cn(
-                          "text-xs sm:text-sm font-semibold truncate transition-colors",
-                          isSelected
-                            ? darkMode
-                              ? "text-emerald-300 font-bold"
-                              : "text-emerald-950 font-bold"
-                            : darkMode
-                              ? "text-white/90 group-hover/item:text-white"
-                              : "text-gray-700 group-hover/item:text-emerald-700"
-                        )}>
-                          {language.name}
-                        </span>
-                        <span className={cn(
-                          "text-[10px] font-medium transition-colors",
-                          isSelected
-                            ? darkMode
-                              ? "text-emerald-400/80"
-                              : "text-emerald-700/80"
-                            : darkMode
-                              ? "text-white/40 group-hover/item:text-white/60"
-                              : "text-gray-500"
-                        )}>
-                          {language.country} • {language.code.toUpperCase()}
-                        </span>
-                      </div>
-
-                      {/* Checkmark icon for selected language */}
-                      {isSelected && (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                          className="flex-shrink-0"
-                        >
-                          <div className="h-5 w-5 rounded-full bg-emerald-600 flex items-center justify-center shadow-sm">
-                            <Check className="h-3 w-3 text-white stroke-[3]" />
-                          </div>
-                        </motion.div>
+                <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
+                  <span className="truncate">
+                    <span
+                      className={cn(
+                        'block leading-tight',
+                        isPitchStyle ? 'text-[12px] font-semibold' : 'text-xs font-semibold sm:text-sm',
+                        isSelected && isPitchStyle ? 'text-white' : ''
                       )}
-                    </div>
-                  </DropdownMenuItem>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+                    >
+                      {language.name}
+                    </span>
+                    {!isPitchStyle && (
+                      <span
+                        className={cn(
+                          'mt-0.5 block text-[10px] font-medium',
+                          darkMode ? 'text-white/40' : 'text-gray-500'
+                        )}
+                      >
+                        {language.country} · {language.code.toUpperCase()}
+                      </span>
+                    )}
+                  </span>
+
+                  <span className="flex items-center gap-2">
+                    {isPitchStyle && (
+                      <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-white/38">
+                        {language.code}
+                      </span>
+                    )}
+
+                    {isSelected && (
+                      <span
+                        className={cn(
+                          'flex flex-shrink-0 items-center justify-center rounded-full',
+                          isPitchStyle
+                            ? 'h-5 w-5 bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-300/20'
+                            : 'h-5 w-5 bg-emerald-600 text-white shadow-sm'
+                        )}
+                      >
+                        <Check className="h-3 w-3" strokeWidth={3} />
+                      </span>
+                    )}
+                  </span>
+                </span>
+              </DropdownMenuItem>
+            );
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
