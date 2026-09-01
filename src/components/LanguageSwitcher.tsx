@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,7 +11,7 @@ import {
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useSwitchLanguage } from '@/hooks/useSwitchLanguage';
-import { type SupportedLanguage } from '@/lib/i18nRouting';
+import { stripLanguagePrefix, type SupportedLanguage } from '@/lib/i18nRouting';
 
 const languages: Array<{ code: SupportedLanguage; flag: string; name: string; country: string }> = [
   { code: 'en', flag: '/images/en_flag.webp', name: 'English', country: 'US' },
@@ -29,11 +30,19 @@ export default function LanguageSwitcher({
   compact = false,
   className = '',
 }: LanguageSwitcherProps) {
+  const location = useLocation();
   const { currentLang, switchLanguage } = useSwitchLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
   const currentLanguage = languages.find((language) => language.code === currentLang) || languages[0];
+  const isPitchRoute = stripLanguagePrefix(location.pathname) === '/pitch';
   const isPitchStyle = darkMode && compact;
+
+  // Pitch owns its language control inside PitchNavBar. Suppress Layout's global
+  // non-compact instance on this route so two controls can never overlap.
+  if (isPitchRoute && !compact) {
+    return null;
+  }
 
   const handleLanguageChange = (languageCode: SupportedLanguage) => {
     switchLanguage(languageCode);
