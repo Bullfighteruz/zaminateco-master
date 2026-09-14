@@ -626,7 +626,7 @@ export default function Shop() {
   useSEO({
     title: t('title', { ns: 'shop', defaultValue: 'Shop' }),
     description: t('subtitle', { ns: 'shop' }),
-    image: '/og-image.jpeg',
+    image: '/images/og-shop.jpeg',
     type: 'website',
     keywords: 'eco products, recycled tiles, eco-friendly furniture, sustainable products, Uzbekistan',
   });

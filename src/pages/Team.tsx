@@ -297,6 +297,7 @@ export default function Team() {
   useSEO({
     title: t('team.title', { defaultValue: 'Our Team' }),
     description: t('team.subtitle', { defaultValue: 'Passionate professionals dedicated to building a sustainable circular future for Uzbekistan.' }),
+    image: '/images/og-team.jpeg',
   });
   useHreflang();
 

@@ -16,6 +16,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { contactHelpers } from '@/utils/mailto';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
 import AIWorkflowDiagram from '@/components/ai/AIWorkflowDiagram';
 import AIEcosystemTabs from '@/components/ai/AIEcosystemTabs';
@@ -432,6 +434,16 @@ export default function Pitch() {
   const isMobile = useIsMobile();
   const { t, i18n } = useTranslation(['translation', 'shop', 'team']);
   const navigate = useNavigate();
+
+  useSEO({
+    title: t('pitch.meta.title', { defaultValue: 'Executive Pitch Deck | ZAMINAT.eco' }),
+    description: t('pitch.meta.description', {
+      defaultValue: 'ZAMINAT.eco investor pitch deck: AI-powered circular economy, polymer upcycling, and sustainable urban infrastructure in Central Asia.'
+    }),
+    image: '/images/og-pitch.jpeg'
+  });
+  useHreflang();
+
   const phoneZoneRef = useRef<HTMLDivElement>(null);
   const slideStartRef = useRef<HTMLDivElement>(null);
   const slideEndRef = useRef<HTMLDivElement>(null);

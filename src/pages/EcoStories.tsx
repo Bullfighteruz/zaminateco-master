@@ -523,8 +523,9 @@ export default function EcoStories() {
 
   // SEO Management
   useSEO({
-    title: t('title', { ns: 'stories', defaultValue: 'EcoHub Stories' }) + ' | ZAMINAT.eco',
+    title: t('title', { ns: 'stories', defaultValue: 'EcoHub Stories' }),
     description: t('subtitle', { ns: 'stories', defaultValue: 'Explore educational programs, recycling news, and inspiring community updates in Uzbekistan.' }),
+    image: '/images/og-stories.jpeg',
     keywords: 'ecohub, zaminat stories, recycling cartoon, green movement tashkent, plastic recycling community',
   });
 

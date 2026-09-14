@@ -56,6 +56,7 @@ export default function About() {
   useSEO({
     title: t('aboutZaminat', { defaultValue: 'About Us' }),
     description: t('aboutHeroSubtitle', { defaultValue: 'Transforming waste into valuable resources through AI, community action, and sustainable circular infrastructure.' }),
+    image: '/images/og-about.jpeg',
   });
   useHreflang();
 

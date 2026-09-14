@@ -82,11 +82,16 @@ export function useSEO({
     updateMetaTag('name', 'robots', noindex ? 'noindex, nofollow' : 'index, follow');
 
     // Update Open Graph tags
+    const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
     updateMetaTag('property', 'og:title', fullTitle);
     updateMetaTag('property', 'og:description', description);
     updateMetaTag('property', 'og:type', type);
     updateMetaTag('property', 'og:url', canonicalUrl);
-    updateMetaTag('property', 'og:image', image.startsWith('http') ? image : `${baseUrl}${image}`);
+    updateMetaTag('property', 'og:image', fullImageUrl);
+    updateMetaTag('property', 'og:image:secure_url', fullImageUrl);
+    updateMetaTag('property', 'og:image:type', image.endsWith('.png') ? 'image/png' : 'image/jpeg');
+    updateMetaTag('property', 'og:image:width', '1200');
+    updateMetaTag('property', 'og:image:height', '630');
     updateMetaTag('property', 'og:image:alt', title);
     updateMetaTag('property', 'og:site_name', 'ZAMINAT.eco');
     updateMetaTag('property', 'og:locale', ogLocale);
@@ -95,7 +100,7 @@ export function useSEO({
     updateMetaTag('name', 'twitter:card', 'summary_large_image');
     updateMetaTag('name', 'twitter:title', fullTitle);
     updateMetaTag('name', 'twitter:description', description);
-    updateMetaTag('name', 'twitter:image', image.startsWith('http') ? image : `${baseUrl}${image}`);
+    updateMetaTag('name', 'twitter:image', fullImageUrl);
     updateMetaTag('name', 'twitter:image:alt', title);
 
     // Update canonical URL

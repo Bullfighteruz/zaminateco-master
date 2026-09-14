@@ -93,7 +93,11 @@ export default function Founder() {
     setMeta('property', 'og:description', pageDescription);
     setMeta('property', 'og:type', 'profile');
     setMeta('property', 'og:url', canonicalUrl);
-    setMeta('property', 'og:image', `${baseUrl}/images/sukhrobjon-rikhsiboev-founder-zaminat.avif`);
+    setMeta('property', 'og:image', `${baseUrl}/images/og-founder.jpeg`);
+    setMeta('property', 'og:image:secure_url', `${baseUrl}/images/og-founder.jpeg`);
+    setMeta('property', 'og:image:type', 'image/jpeg');
+    setMeta('property', 'og:image:width', '1200');
+    setMeta('property', 'og:image:height', '630');
     setMeta('property', 'og:image:alt', 'Sukhrobjon Rikhsiboev, Founder and CEO of ZAMINAT.eco');
     setMeta('property', 'og:site_name', 'ZAMINAT.eco');
     setMeta('property', 'og:locale', activeLang === 'ru' ? 'ru_RU' : activeLang === 'uz' ? 'uz_UZ' : 'en_US');
@@ -101,7 +105,8 @@ export default function Founder() {
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', pageTitle);
     setMeta('name', 'twitter:description', pageDescription);
-    setMeta('name', 'twitter:image', `${baseUrl}/images/sukhrobjon-rikhsiboev-founder-zaminat.avif`);
+    setMeta('name', 'twitter:image', `${baseUrl}/images/og-founder.jpeg`);
+    setMeta('name', 'twitter:image:alt', 'Sukhrobjon Rikhsiboev, Founder and CEO of ZAMINAT.eco');
 
     // Canonical link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -133,7 +138,7 @@ export default function Founder() {
           "description": pageDescription,
           "isPartOf": {
             "@type": "WebSite",
-            "@id": "https://zaminat.uz/#website",
+            "@id": organizationEntityId.replace('/#organization', '/#website'),
             "url": "https://zaminat.uz",
             "name": "ZAMINAT.eco"
           },
@@ -156,7 +161,7 @@ export default function Founder() {
             "Сухробжон Риксибоев"
           ],
           "description": "Founder & CEO of ZAMINAT.eco, an early-stage ClimateTech and circular economy startup based in Tashkent, Uzbekistan.",
-          "image": "https://zaminat.uz/images/sukhrobjon-rikhsiboev-founder-zaminat.avif",
+          "image": "https://zaminat.uz/images/sukhrobjon-rikhsiboev-founder-zaminat.jpeg",
           "jobTitle": "Founder & Chief Executive Officer",
           "url": canonicalUrl,
           "worksFor": {

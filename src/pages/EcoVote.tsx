@@ -412,6 +412,7 @@ function EcoVote() {
   useSEO({
     title: t('voteTitle', { defaultValue: 'EcoVote — Community Action' }),
     description: t('voteSubtitle', { defaultValue: 'Vote for environmental initiatives and allocate community resources for impactful ecological projects.' }),
+    image: '/images/og-vote.jpeg',
   });
   useHreflang();
 

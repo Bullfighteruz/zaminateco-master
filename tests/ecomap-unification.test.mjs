@@ -197,7 +197,7 @@ describe('ZAMINAT.eco — CTO Data Integrity, Factual Network States & Locale Au
   });
 
   it('10. Initial Map filter state defaults to all on mount', () => {
-    const actionsSource = fs.readFileSync(path.join(rootDir, 'src/pages/EcoActions.tsx'), 'utf-8');
+    const actionsSource = fs.readFileSync(path.join(rootDir, 'src/pages/EcoActions.tsx'), 'utf-8').replace(/\r\n/g, '\n');
 
     assert.ok(actionsSource.includes("const [mapCategoryFilter, setMapCategoryFilter] = useState<'all' | 'verified' | 'network' | 'actions'>(initialLayer);"), 'Map filter initialized with initialLayer');
     assert.ok(actionsSource.includes("const initialLayer = (layerParam === 'verified' || layerParam === 'network' || layerParam === 'actions' || layerParam === 'all')\n    ? layerParam\n    : 'all';"), 'initialLayer defaults to all');

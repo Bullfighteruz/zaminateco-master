@@ -68,6 +68,7 @@ function escapeHtml(str) {
 const PAGE_DATA = {
   home: {
     subpath: '',
+    ogImage: '/og-image.jpeg',
     data: {
       en: {
         title: 'ZAMINAT.eco — Smart Ecology. Visible Impact. | AI ClimateTech Ecosystem',
@@ -91,6 +92,7 @@ const PAGE_DATA = {
   },
   about: {
     subpath: '/about',
+    ogImage: '/images/og-about.jpeg',
     data: {
       en: {
         title: 'About Us | ZAMINAT.eco',
@@ -114,6 +116,7 @@ const PAGE_DATA = {
   },
   team: {
     subpath: '/team',
+    ogImage: '/images/og-team.jpeg',
     data: {
       en: {
         title: 'Our Team | ZAMINAT.eco',
@@ -137,6 +140,7 @@ const PAGE_DATA = {
   },
   shop: {
     subpath: '/shop',
+    ogImage: '/images/og-shop.jpeg',
     data: {
       en: {
         title: 'Recycled Eco-Products Catalog | ZAMINAT.eco',
@@ -160,6 +164,7 @@ const PAGE_DATA = {
   },
   actions: {
     subpath: '/actions',
+    ogImage: '/images/og-actions.jpeg',
     data: {
       en: {
         title: 'EcoActions & Collection Network Map | ZAMINAT.eco',
@@ -183,6 +188,7 @@ const PAGE_DATA = {
   },
   vote: {
     subpath: '/vote',
+    ogImage: '/images/og-vote.jpeg',
     data: {
       en: {
         title: 'EcoVote — Community Environmental Voting | ZAMINAT.eco',
@@ -206,6 +212,7 @@ const PAGE_DATA = {
   },
   stories: {
     subpath: '/stories',
+    ogImage: '/images/og-stories.jpeg',
     data: {
       en: {
         title: 'EcoStories & Knowledge Hub | ZAMINAT.eco',
@@ -229,6 +236,7 @@ const PAGE_DATA = {
   },
   partners: {
     subpath: '/partners',
+    ogImage: '/images/og-partners.jpeg',
     data: {
       en: {
         title: 'Partners & Corporate Collaboration | ZAMINAT.eco',
@@ -252,6 +260,7 @@ const PAGE_DATA = {
   },
   contacts: {
     subpath: '/contacts',
+    ogImage: '/images/og-contacts.jpeg',
     data: {
       en: {
         title: 'Contact Us | ZAMINAT.eco',
@@ -270,6 +279,78 @@ const PAGE_DATA = {
         description: "Toshkentdagi ZAMINAT jamoasi bilan bog'laning. To'g'ridan-to'g'ri elektron pochta, telefon va ijtimoiy tarmoqlar.",
         h1: "ZAMINAT.eco bilan bog'lanish",
         intro: "Savollar, hamkorlik va mahsulot buyurtmalari uchun Toshkentdagi jamoamiz bilan bog'laning."
+      }
+    }
+  },
+  pitch: {
+    subpath: '/pitch',
+    ogImage: '/images/og-pitch.jpeg',
+    data: {
+      en: {
+        title: 'Executive Pitch Deck | ZAMINAT.eco',
+        description: 'ZAMINAT.eco investor pitch deck: AI-powered circular economy, polymer upcycling, and sustainable urban infrastructure in Central Asia.',
+        h1: 'ZAMINAT.eco Investor Pitch Deck',
+        intro: 'Scaling AI-powered circular economy and polymer upcycling infrastructure across Uzbekistan and Central Asia.'
+      },
+      ru: {
+        title: 'Инвестиционный питч-дек | ZAMINAT.eco',
+        description: 'Презентация для инвесторов ZAMINAT.eco: циркулярная экономика на базе ИИ, переработка полимеров и эко-инфраструктура в Центральной Азии.',
+        h1: 'Инвестиционный питч-дек ZAMINAT.eco',
+        intro: 'Масштабирование циклической экономики и глубокой переработки полимеров на базе ИИ в Центральной Азии.'
+      },
+      uz: {
+        title: 'Investitsiya taqdimoti (Pitch Deck) | ZAMINAT.eco',
+        description: "ZAMINAT.eco investorlar taqdimoti: sun'iy intellekt asosidagi aylanma iqtisodiyot, polimerlarni qayta ishlash va barqaror shahar infratuzilmasi.",
+        h1: 'ZAMINAT.eco investitsiya taqdimoti',
+        intro: "O'zbekistonda sun'iy intellektga asoslangan aylanma iqtisodiyot va polimerlarni qayta ishlash infratuzilmasini rivojlantirish."
+      }
+    }
+  },
+  coach: {
+    subpath: '/coach',
+    ogImage: '/images/og-coach.jpeg',
+    data: {
+      en: {
+        title: 'Zami AI EcoCoach — Environmental Intelligence | ZAMINAT.eco',
+        description: 'Chat with Zami, your AI ecological coach for real-time recycling guidance, sustainable habits, and air quality insights in Uzbekistan.',
+        h1: 'Zami AI EcoCoach',
+        intro: 'Conversational ClimateTech intelligence for sustainable living, air quality updates, and waste reduction in Uzbekistan.'
+      },
+      ru: {
+        title: 'Zami AI ЭкоКоуч — Экологический ИИ-помощник | ZAMINAT.eco',
+        description: 'Общайтесь с Zami — вашим умным эко-помощником для сортировки отходов, экологических привычек и мониторинга воздуха в Узбекистане.',
+        h1: 'Zami AI ЭкоКоуч',
+        intro: 'Интеллектуальный помощник по экологии, циклической переработке и качеству воздуха в Узбекистане.'
+      },
+      uz: {
+        title: "Zami AI EkoMurabbiy — Ekologik sun'iy intellekt | ZAMINAT.eco",
+        description: "Zami bilan suhbatlashing: O'zbekistonda chiqindilarni saralash, barqaror odatlar va havo sifati bo'yicha aqlli AI yordamchi.",
+        h1: 'Zami AI EkoMurabbiy',
+        intro: "O'zbekistonda chiqindilarni to'g'ri saralash, barqaror hayot tarzi va havo sifati bo'yicha aqlli maslahatchi."
+      }
+    }
+  },
+  scanner: {
+    subpath: '/scanner',
+    ogImage: '/images/og-scanner.jpeg',
+    data: {
+      en: {
+        title: 'AI EcoScan — Waste & Polymer Classifier | ZAMINAT.eco',
+        description: 'Identify recyclable materials, plastic types, and nearest drop-off points with instant AI computer vision.',
+        h1: 'AI EcoScan Computer Vision',
+        intro: 'Instant neural network classification for recyclable polymers, paper, metals, and packaging materials.'
+      },
+      ru: {
+        title: 'AI ЭкоСкан — Классификатор полимеров и вторсырья | ZAMINAT.eco',
+        description: 'Мгновенное распознавание видов пластика, вторсырья и ближайших пунктов сбора с помощью компьютерного зрения ИИ.',
+        h1: 'AI ЭкоСкан Компьютерное зрение',
+        intro: 'Нейросетевая классификация полимеров, макулатуры, металлов и упаковочных материалов.'
+      },
+      uz: {
+        title: "AI EkoSkan — Chiqindi va polimerlarni aniqlovchi AI | ZAMINAT.eco",
+        description: "Sun'iy intellekt kompyuter ko'rishi orqali plastik turlari, ikkilamchi xomashyo va eng yaqin qabul qilish punktlarini aniqlang.",
+        h1: "AI EkoSkan kompyuter ko'rishi",
+        intro: "Polimerlar, qog'oz, metall va qadoqlash materiallarini neyron tarmoq orqali bir lahzada aniqlash."
       }
     }
   }
@@ -315,13 +396,23 @@ function prerenderAllPages() {
       }
 
       // Replace OpenGraph & Twitter tags
+      const pageOgImage = page.ogImage ? `${BASE_URL}${page.ogImage}` : `${BASE_URL}/og-image.jpeg`;
       html = html.replace(/<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${escapeHtml(p.title)}" />`);
       html = html.replace(/<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${escapeHtml(p.description)}" />`);
       html = html.replace(/<meta\s+property=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
       html = html.replace(/<meta\s+property=["']og:locale["'][^>]*>/i, `<meta property="og:locale" content="${ogLocale}" />`);
+      html = html.replace(/<meta\s+property=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${pageOgImage}" />`);
+      html = html.replace(/<meta\s+property=["']og:image:secure_url["'][^>]*>/i, `<meta property="og:image:secure_url" content="${pageOgImage}" />`);
+      html = html.replace(/<meta\s+property=["']og:image:type["'][^>]*>/i, `<meta property="og:image:type" content="${pageOgImage.endsWith('.png') ? 'image/png' : 'image/jpeg'}" />`);
+      html = html.replace(/<meta\s+property=["']og:image:width["'][^>]*>/i, `<meta property="og:image:width" content="1200" />`);
+      html = html.replace(/<meta\s+property=["']og:image:height["'][^>]*>/i, `<meta property="og:image:height" content="630" />`);
+      html = html.replace(/<meta\s+property=["']og:image:alt["'][^>]*>/i, `<meta property="og:image:alt" content="${escapeHtml(p.title)}" />`);
 
+      html = html.replace(/<meta\s+name=["']twitter:card["'][^>]*>/i, `<meta name="twitter:card" content="summary_large_image" />`);
       html = html.replace(/<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${escapeHtml(p.title)}" />`);
       html = html.replace(/<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${escapeHtml(p.description)}" />`);
+      html = html.replace(/<meta\s+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${pageOgImage}" />`);
+      html = html.replace(/<meta\s+name=["']twitter:image:alt["'][^>]*>/i, `<meta name="twitter:image:alt" content="${escapeHtml(p.title)}" />`);
 
       // Add reciprocal hreflang links
       const hreflangTags = LANGUAGES.map(l => `  <link rel="alternate" hreflang="${l}" href="${BASE_URL}/${l}${page.subpath}" />`).join('\n') +
@@ -401,7 +492,7 @@ function prerenderAllPages() {
             "Сухробжон Риксибоев"
           ],
           "description": f.meta.description,
-          "image": `${BASE_URL}/images/sukhrobjon-rikhsiboev-founder-zaminat.avif`,
+          "image": `${BASE_URL}/images/sukhrobjon-rikhsiboev-founder-zaminat.jpeg`,
           "jobTitle": "Founder & Chief Executive Officer",
           "url": canonicalUrl,
           "worksFor": {
@@ -447,13 +538,23 @@ function prerenderAllPages() {
       html = html.replace('</head>', `  <link rel="canonical" href="${canonicalUrl}" />\n</head>`);
     }
 
+    const founderOgImage = `${BASE_URL}/images/og-founder.jpeg`;
     html = html.replace(/<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${escapeHtml(f.meta.title)}" />`);
     html = html.replace(/<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${escapeHtml(f.meta.description)}" />`);
     html = html.replace(/<meta\s+property=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
     html = html.replace(/<meta\s+property=["']og:locale["'][^>]*>/i, `<meta property="og:locale" content="${ogLocale}" />`);
+    html = html.replace(/<meta\s+property=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${founderOgImage}" />`);
+    html = html.replace(/<meta\s+property=["']og:image:secure_url["'][^>]*>/i, `<meta property="og:image:secure_url" content="${founderOgImage}" />`);
+    html = html.replace(/<meta\s+property=["']og:image:type["'][^>]*>/i, `<meta property="og:image:type" content="image/jpeg" />`);
+    html = html.replace(/<meta\s+property=["']og:image:width["'][^>]*>/i, `<meta property="og:image:width" content="1200" />`);
+    html = html.replace(/<meta\s+property=["']og:image:height["'][^>]*>/i, `<meta property="og:image:height" content="630" />`);
+    html = html.replace(/<meta\s+property=["']og:image:alt["'][^>]*>/i, `<meta property="og:image:alt" content="${escapeHtml(f.meta.title)}" />`);
 
+    html = html.replace(/<meta\s+name=["']twitter:card["'][^>]*>/i, `<meta name="twitter:card" content="summary_large_image" />`);
     html = html.replace(/<meta\s+name=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${escapeHtml(f.meta.title)}" />`);
     html = html.replace(/<meta\s+name=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${escapeHtml(f.meta.description)}" />`);
+    html = html.replace(/<meta\s+name=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${founderOgImage}" />`);
+    html = html.replace(/<meta\s+name=["']twitter:image:alt["'][^>]*>/i, `<meta name="twitter:image:alt" content="${escapeHtml(f.meta.title)}" />`);
 
     const hreflangTags = LANGUAGES.map(l => `  <link rel="alternate" hreflang="${l}" href="${BASE_URL}/${l}/founder/sukhrobjon-rikhsiboev" />`).join('\n') +
       `\n  <link rel="alternate" hreflang="x-default" href="${BASE_URL}/${DEFAULT_LANG}/founder/sukhrobjon-rikhsiboev" />\n`;
