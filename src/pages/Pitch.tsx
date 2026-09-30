@@ -22,9 +22,7 @@ import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
 import AIWorkflowDiagram from '@/components/ai/AIWorkflowDiagram';
 import AIEcosystemTabs from '@/components/ai/AIEcosystemTabs';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
-import azamatPhoto from '../../svg/Azamat Elchibekov.avif';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.avif';
-import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.avif';
 
 /* ────────────────────────────── Data ────────────────────────────── */
 
@@ -719,22 +717,10 @@ export default function Pitch() {
       photo: sukhrobjonPhoto 
     },
     { 
-      name: t('team.members.azamat.name', { ns: 'team' }), 
-      role: t('team.members.azamat.position', { ns: 'team' }), 
-      focus: t('team.members.azamat.description', { ns: 'team' }), 
-      photo: azamatPhoto 
-    },
-    { 
       name: t('team.members.khondamir.name', { ns: 'team' }), 
       role: t('team.members.khondamir.position', { ns: 'team' }), 
       focus: t('team.members.khondamir.description', { ns: 'team' }), 
       photo: khondamirPhoto 
-    },
-    { 
-      name: t('team.members.islombek.name', { ns: 'team' }), 
-      role: t('team.members.islombek.position', { ns: 'team' }), 
-      focus: t('team.members.islombek.description', { ns: 'team' }), 
-      photo: jahongirPhoto 
     },
   ], [t, i18n.language]);
 
@@ -861,7 +847,7 @@ export default function Pitch() {
               </h2>
             </motion.div>
 
-            <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4")}>
+            <div className={cn("grid gap-6 max-w-3xl mx-auto", isMobile ? "grid-cols-1" : "sm:grid-cols-2")}>
               {team.map((member, i) => (
                 <motion.div key={i} variants={fadeUp}>
                   <Card className="h-full text-center border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">

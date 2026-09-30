@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Settings, Calculator, Code, Users, Mail, Phone, Star, Award, ExternalLink, Linkedin, Compass } from 'lucide-react';
+import { Crown, Code, Users, Mail, Phone, Star, Award, ExternalLink, Linkedin, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '@/components/Layout';
@@ -12,8 +12,6 @@ import { cn } from '@/lib/utils';
 import '../styles/mobile-responsive.css';
 import { contactHelpers } from '@/utils/mailto';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
-import azamatPhoto from '../../svg/Azamat Elchibekov.avif';
-import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.avif';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.avif';
 
 import { useSEO } from '@/hooks/useSEO';
@@ -303,15 +301,13 @@ export default function Team() {
 
   // Get team members from translations with proper structure
   const getTeamMembers = (): TeamMember[] => {
-    const members = ['sukhrobjon', 'azamat', 'khondamir', 'islombek'];
-    const icons = [Crown, Settings, Calculator, Code];
-    const colors = ['emerald', 'teal', 'emerald', 'teal'];
-    const emojis = ['👨‍💼', '👨‍⚙️', '👨‍💻', '👨‍💻'];
+    const members = ['sukhrobjon', 'khondamir'];
+    const icons = [Crown, Code];
+    const colors = ['emerald', 'teal'];
+    const emojis = ['👨‍💼', '👨‍💻'];
     const photosByMember: Record<string, string> = {
       sukhrobjon: sukhrobjonPhoto,
-      azamat: azamatPhoto,
       khondamir: khondamirPhoto,
-      islombek: jahongirPhoto,
     };
 
     return members.map((memberKey, index) => {
@@ -375,7 +371,7 @@ export default function Team() {
               )}>
                 <div className={cn("text-center glass-card glass-card-hover rounded-lg shadow-sm border border-white/40", isMobile ? "p-2" : "p-4")}>
                   <div className={cn("font-bold text-emerald-600", isMobile ? "text-base" : "text-2xl")}>
-                    {t('team.stats.members.value', '4')}
+                    {t('team.stats.members.value', '2')}
                   </div>
                   <div className={cn("text-gray-600", isMobile ? "text-[10px]" : "text-sm")}>
                     {t('team.stats.members.label', 'Team Members')}
@@ -411,7 +407,7 @@ export default function Team() {
             {/* Team members grid */}
             <motion.div variants={itemVariants}>
               <div className={cn(
-                "grid grid-cols-1",
+                "grid grid-cols-1 max-w-4xl mx-auto",
                 isMobile ? "gap-3" : "md:grid-cols-2 gap-8"
               )}>
                 {teamMembers.map((member) => (

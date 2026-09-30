@@ -4,7 +4,7 @@
     "subtitle": "The passionate individuals behind ZAMINAT.eco, working together to create a sustainable future for Uzbekistan through innovation and community engagement.",
     "stats": {
       "members": {
-        "value": "4",
+        "value": "2",
         "label": "Team Members"
       },
       "founded": {
@@ -41,23 +41,6 @@
           "Building community engagement ecosystem"
         ]
       },
-      "azamat": {
-        "name": "Azamat Elchibekov",
-        "position": "Project Team — Operations & Partnerships Support",
-        "role": "Operations & Communications",
-        "description": "Assists with operational tasks, preparation, communications, partnerships, and organizational support.",
-        "skills": [
-          "Operations Support",
-          "Event Coordination",
-          "Partnership Communications",
-          "Organizational Support"
-        ],
-        "achievements": [
-          "Coordinating community cleanup events",
-          "Supporting operational setup and logistics",
-          "Assisting with partner communications and outreach"
-        ]
-      },
       "khondamir": {
         "name": "Khondamir Alibekov",
         "position": "Project Team — Digital Platform & Website Demo Support",
@@ -73,23 +56,6 @@
           "Building ZAMINAT.eco website demo & visual assets",
           "Developing early web prototype and interactive elements",
           "Assisting in technical presentations for pitch day"
-        ]
-      },
-      "islombek": {
-        "name": "Jahongir Normatov",
-        "position": "Project Management Advisor",
-        "role": "Project Management & Strategy Advisor",
-        "description": "Seasoned project manager and strategic advisor specializing in organizational growth, global expansion strategies, and cross-functional leadership.",
-        "skills": [
-          "Project Management",
-          "Global Expansion",
-          "Strategic Operations",
-          "Cross-Functional Leadership"
-        ],
-        "achievements": [
-          "Advising ZAMINAT.eco on project execution and strategic development",
-          "Implementing global expansion strategies for complex initiatives",
-          "Facilitating cross-functional leadership and operational alignment"
         ]
       }
     },
