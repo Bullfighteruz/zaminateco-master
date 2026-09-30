@@ -4,7 +4,7 @@
     "subtitle": "ZAMINAT.eco ortidagi ishtiyoqli shaxslar, innovatsiya va jamiyat ishtirokchiligi orqali O'zbekiston uchun barqaror kelajak yaratish uchun birgalikda ishlaydilar.",
     "stats": {
       "members": {
-        "value": "4",
+        "value": "2",
         "label": "Jamoa a'zolari"
       },
       "founded": {
@@ -41,23 +41,6 @@
           "Jamiyat ishtirokchiligi ekotizimini quradi"
         ]
       },
-      "azamat": {
-        "name": "Azamat Elchibekov",
-        "position": "Loyiha jamoasi — Operatsiyalar va hamkorlikni qo'llab-quvvatlash",
-        "role": "Operatsiyalar va kommunikatsiyalar",
-        "description": "Operatsion vazifalar, tayyorgarlik, aloqalar, hamkorlik va tashkiliy masalalarda yordam beradi.",
-        "skills": [
-          "Operatsion yordam",
-          "Tadbirlarni muvofiqlashtirish",
-          "Hamkorlik aloqalari",
-          "Tashkiliy yordam"
-        ],
-        "achievements": [
-          "Jamiyatni tozalash tadbirlarini muvofiqlashtirish",
-          "Operatsion tuzilma va logistikani qo'llab-quvvatlash",
-          "Hamkorlar bilan aloqalar va targ'ibot ishlarida yordam berish"
-        ]
-      },
       "khondamir": {
         "name": "Xondamir Alibekov",
         "position": "Loyiha jamoasi — Raqamli platforma va veb-sayt demo-versiyasini qo'llab-quvvatlash",
@@ -73,23 +56,6 @@
           "ZAMINAT.eco veb-sayti demosi va vizual resurslarini yaratish",
           "Ilk veb-prototip va interaktiv elementlarni ishlab chiqish",
           "Taqdimot kuni uchun texnik taqdimotlarda ko'maklashish"
-        ]
-      },
-      "islombek": {
-        "name": "Jahongir Normatov",
-        "position": "Loyiha boshqaruvi bo'yicha maslahatchi",
-        "role": "Loyihalarni boshqarish va strategik maslahatchi",
-        "description": "Tashkiliy o'sish, global kengayish strategiyalari va ko'p tarmoqli yetakchilikka ixtisoslashgan tajribali loyiha menejeri va strategik maslahatchi.",
-        "skills": [
-          "Loyihalarni boshqarish",
-          "Global kengayish",
-          "Strategik operatsiyalar",
-          "Ko'p tarmoqli yetakchilik"
-        ],
-        "achievements": [
-          "ZAMINAT.eco loyihasini amalga oshirish va strategik rivojlantirish bo'yicha maslahat berish",
-          "Murakkab tashabbuslar uchun global kengayish strategiyalarini joriy etish",
-          "Ko'p tarmoqli yetakchilik va operatsion muvofiqlikni ta'minlash"
         ]
       }
     },

@@ -328,6 +328,7 @@ export default function EcoActions() {
   useSEO({
     title: t('actionsTitle', { defaultValue: 'EcoActions & Collection Map' }),
     description: t('actionsSubtitle', { defaultValue: 'Discover secondary-material collection points, join ecological events, and make a tangible environmental impact.' }),
+    image: '/images/og-actions.jpeg',
   });
   useHreflang();
 

@@ -22,6 +22,8 @@ import { loadUserProgress, saveUserProgress } from '@/lib/userProgress';
 import Layout from '@/components/Layout';
 import { Link } from 'react-router-dom';
 import PrefetchLink from '@/components/PrefetchLink';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 
 type ScanState = 'camera' | 'preview' | 'scanning' | 'result' | 'error';
 
@@ -48,6 +50,16 @@ const WASTE_COLORS: Record<string, { bg: string; text: string; border: string }>
 export default function Scanner() {
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
+
+  useSEO({
+    title: t('scanner.meta.title', { defaultValue: 'AI EcoScan — Waste & Polymer Classifier' }),
+    description: t('scanner.meta.description', {
+      defaultValue: 'Identify recyclable materials, plastic types, and nearest drop-off points with instant AI computer vision.'
+    }),
+    image: '/images/og-scanner.jpeg'
+  });
+  useHreflang();
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

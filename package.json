@@ -4,9 +4,10 @@
   "packageManager": "pnpm@8.10.0",
   "scripts": {
     "dev": "vite",
-    "build": "npm run generate:images && npm run generate:sitemap && vite build && npm run generate:prerender",
+    "build": "npm run generate:og && npm run generate:images && npm run generate:sitemap && vite build && npm run generate:prerender",
     "lint": "eslint --quiet ./src",
     "preview": "vite preview",
+    "generate:og": "node scripts/generate-og-cards.js",
     "generate:images": "node scripts/generate-product-images.js",
     "optimize:video": "node scripts/optimize-video.js",
     "generate:sitemap": "node scripts/generate-sitemap.js",

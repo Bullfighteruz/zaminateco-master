@@ -16,13 +16,13 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { contactHelpers } from '@/utils/mailto';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
 import AIWorkflowDiagram from '@/components/ai/AIWorkflowDiagram';
 import AIEcosystemTabs from '@/components/ai/AIEcosystemTabs';
 import sukhrobjonPhoto from '../../svg/Sukhrobjon Rikhsiboev.avif';
-import azamatPhoto from '../../svg/Azamat Elchibekov.avif';
 import khondamirPhoto from '../../svg/Khondamir Alibekov.avif';
-import jahongirPhoto from '../../svg/JAHONGIR NORMATOV.avif';
 
 /* ────────────────────────────── Data ────────────────────────────── */
 
@@ -432,6 +432,16 @@ export default function Pitch() {
   const isMobile = useIsMobile();
   const { t, i18n } = useTranslation(['translation', 'shop', 'team']);
   const navigate = useNavigate();
+
+  useSEO({
+    title: t('pitch.meta.title', { defaultValue: 'Executive Pitch Deck | ZAMINAT.eco' }),
+    description: t('pitch.meta.description', {
+      defaultValue: 'ZAMINAT.eco investor pitch deck: AI-powered circular economy, polymer upcycling, and sustainable urban infrastructure in Central Asia.'
+    }),
+    image: '/images/og-pitch.jpeg'
+  });
+  useHreflang();
+
   const phoneZoneRef = useRef<HTMLDivElement>(null);
   const slideStartRef = useRef<HTMLDivElement>(null);
   const slideEndRef = useRef<HTMLDivElement>(null);
@@ -707,22 +717,10 @@ export default function Pitch() {
       photo: sukhrobjonPhoto 
     },
     { 
-      name: t('team.members.azamat.name', { ns: 'team' }), 
-      role: t('team.members.azamat.position', { ns: 'team' }), 
-      focus: t('team.members.azamat.description', { ns: 'team' }), 
-      photo: azamatPhoto 
-    },
-    { 
       name: t('team.members.khondamir.name', { ns: 'team' }), 
       role: t('team.members.khondamir.position', { ns: 'team' }), 
       focus: t('team.members.khondamir.description', { ns: 'team' }), 
       photo: khondamirPhoto 
-    },
-    { 
-      name: t('team.members.islombek.name', { ns: 'team' }), 
-      role: t('team.members.islombek.position', { ns: 'team' }), 
-      focus: t('team.members.islombek.description', { ns: 'team' }), 
-      photo: jahongirPhoto 
     },
   ], [t, i18n.language]);
 
@@ -849,7 +847,7 @@ export default function Pitch() {
               </h2>
             </motion.div>
 
-            <div className={cn("grid gap-4", isMobile ? "grid-cols-1" : "sm:grid-cols-2 lg:grid-cols-4")}>
+            <div className={cn("grid gap-6 max-w-3xl mx-auto", isMobile ? "grid-cols-1" : "sm:grid-cols-2")}>
               {team.map((member, i) => (
                 <motion.div key={i} variants={fadeUp}>
                   <Card className="h-full text-center border-gray-200/60 shadow-sm hover:shadow-md transition-shadow">

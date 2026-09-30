@@ -260,6 +260,7 @@ export default function Contacts() {
   useSEO({
     title: t('contacts', { defaultValue: 'Contact Us' }),
     description: t('contactHeroSubtitle', { defaultValue: 'Get in touch with the ZAMINAT team in Tashkent, Uzbekistan.' }),
+    image: '/images/og-contacts.jpeg',
   });
   useHreflang();
 

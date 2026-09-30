@@ -187,6 +187,7 @@ const Partners = () => {
   useSEO({
     title: t('partnersTitle', { defaultValue: 'Partners & Collaboration' }),
     description: t('partnersSubtitle', { defaultValue: 'Collaborate with ZAMINAT.eco to build sustainable industrial supply chains and circular economy partnerships.' }),
+    image: '/images/og-partners.jpeg',
   });
   useHreflang();
 

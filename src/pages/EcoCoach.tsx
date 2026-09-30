@@ -12,6 +12,8 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import { useZamiConversation, Message } from '@/contexts/ZamiConversationContext';
+import { useSEO } from '@/hooks/useSEO';
+import { useHreflang } from '@/hooks/useHreflang';
 
 const BOT_AVATAR = '/images/ai-screens/Zami-bot-avatar.avif';
 
@@ -173,6 +175,15 @@ export default function EcoCoach() {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const { messages, isTyping, sendMessage, clearConversation } = useZamiConversation();
+
+  useSEO({
+    title: t('coach.meta.title', { defaultValue: 'Zami AI EcoCoach — Environmental Intelligence' }),
+    description: t('coach.meta.description', {
+      defaultValue: 'Chat with Zami, your AI ecological coach for real-time recycling guidance, sustainable habits, and air quality insights in Uzbekistan.'
+    }),
+    image: '/images/og-coach.jpeg'
+  });
+  useHreflang();
   
   const [userProgress, setUserProgress] = useState(() => loadUserProgress());
   const [inputText, setInputText] = useState('');
