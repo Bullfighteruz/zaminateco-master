@@ -17,6 +17,7 @@ import AddToCartAnimation from '../components/AddToCartAnimation';
 import { useAddToCartAnimation } from '../hooks/useAddToCartAnimation';
 import { contactHelpers } from '@/utils/mailto';
 import { productNameToSlug } from '@/utils/slug';
+import { getLocalizedPath } from '@/lib/i18nRouting';
 
 // Sample product data with translation keys
 // IMPORTANT: englishName is used for icon matching to ensure consistency across languages
@@ -332,7 +333,7 @@ export default function SocialMissionShop() {
                   className="glass-card glass-card-hover border border-white/40 cursor-pointer"
                   onClick={() => {
                     const slug = product.englishName ? productNameToSlug(product.englishName) : String(product.id);
-                    navigate(`/product/${slug}`);
+                    navigate(getLocalizedPath(`/product/${slug}`, i18n.language));
                   }}
                   role="button"
                   tabIndex={0}
@@ -341,7 +342,7 @@ export default function SocialMissionShop() {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
                       const slug = product.englishName ? productNameToSlug(product.englishName) : String(product.id);
-                      navigate(`/product/${slug}`);
+                      navigate(getLocalizedPath(`/product/${slug}`, i18n.language));
                     }
                   }}
                 >

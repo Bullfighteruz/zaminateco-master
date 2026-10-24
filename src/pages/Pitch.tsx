@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useSEO } from '@/hooks/useSEO';
 import { useHreflang } from '@/hooks/useHreflang';
+import { getLocalizedPath } from '@/lib/i18nRouting';
 import FloatingPhoneShowcase from '@/components/pitch/FloatingPhoneShowcase';
 import AIWorkflowDiagram from '@/components/ai/AIWorkflowDiagram';
 import AIEcosystemTabs from '@/components/ai/AIEcosystemTabs';
@@ -733,7 +734,7 @@ export default function Pitch() {
   const renderProductCard = (p: ReturnType<typeof translateProduct>, i: number) => (
     <motion.div key={i} variants={fadeUp}>
       <Card 
-        onClick={() => navigate(`/product/${getProductSlug(p.rawName)}`)}
+        onClick={() => navigate(getLocalizedPath(`/product/${getProductSlug(p.rawName)}`, i18n.language))}
         className="h-full overflow-hidden border-gray-200/60 shadow-sm hover:shadow-md transition-all group cursor-pointer hover:border-emerald-300 bg-white"
       >
         <div className="aspect-[4/3] overflow-hidden bg-gray-100">

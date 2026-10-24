@@ -3,11 +3,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
 import { ZamiConversationProvider } from "./contexts/ZamiConversationContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 import RouterErrorBoundary from "./components/RouterErrorBoundary";
+
+const ProductLegacyRedirect = () => {
+  const { id } = useParams<{ id: string }>();
+  return <Navigate to={`/en/product/${id || ''}`} replace />;
+};
 import ScrollToTop from "./components/ScrollToTop";
 import LanguageRouteWrapper from "./components/LanguageRouteWrapper";
 import FloatingCoachWidget from "./components/ai/FloatingCoachWidget";
@@ -101,7 +106,7 @@ const App = () => (
                     <Route path="/partners" element={<Navigate to="/en/partners" replace />} />
                     <Route path="/team" element={<Navigate to="/en/team" replace />} />
                     <Route path="/contacts" element={<Navigate to="/en/contacts" replace />} />
-                    <Route path="/product/:id" element={<Navigate to="/en/product/:id" replace />} />
+                    <Route path="/product/:id" element={<ProductLegacyRedirect />} />
                     <Route path="/pitch" element={<Navigate to="/en/pitch" replace />} />
                     <Route path="/pitch-live" element={<Navigate to="/en/pitch-live" replace />} />
                     <Route path="/scanner" element={<Navigate to="/en/scanner" replace />} />

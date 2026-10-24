@@ -28,6 +28,7 @@ import { useHreflang } from '../hooks/useHreflang';
 import CartSidebar from '../components/CartSidebar';
 import FloatingCartIcon from '../components/FloatingCartIcon';
 import { contactHelpers } from '@/utils/mailto';
+import { getLocalizedPath } from '@/lib/i18nRouting';
 
 const BRAND_GREEN = '#009E60';
 const BRAND_GOLD = '#E8C468';
@@ -1000,7 +1001,7 @@ export default function ProductDetail() {
             <p className="text-gray-600">{t('productDetails.common.productNotFoundDescription', { defaultValue: "The product you're looking for doesn't exist.", ns: 'shop' })}</p>
             <Button onClick={() => {
               // Navigate back to shop - scroll position will be restored by Shop component
-              navigate('/shop');
+              navigate(getLocalizedPath('/shop', i18n.language));
             }}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               {t('backToShop', { defaultValue: 'Back to Shop', ns: 'shop' })}
@@ -1394,7 +1395,7 @@ export default function ProductDetail() {
               )}
               onClick={() => {
                 // Navigate back to shop - scroll position will be restored by Shop component
-                navigate('/shop');
+                navigate(getLocalizedPath('/shop', i18n.language));
               }}
               aria-label={t('ariaLabels.backToShop', { ns: 'shop', defaultValue: 'Back to shop' })}
             >
@@ -2450,7 +2451,7 @@ export default function ProductDetail() {
                         productName={relatedName}
                         productPrice={relatedPrice}
                         images={relatedProductImages}
-                        onNavigate={() => navigate(`/product/${productNameToSlug(relatedProduct.englishName)}`)}
+                        onNavigate={() => navigate(getLocalizedPath(`/product/${productNameToSlug(relatedProduct.englishName)}`, i18n.language))}
                         isMobile={isMobile}
                       />
                     );

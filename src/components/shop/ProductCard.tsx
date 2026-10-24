@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { productNameToSlug } from '@/utils/slug';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+import { getLocalizedPath } from '@/lib/i18nRouting';
 // Using native img for better control over spacing
 
 export interface ProductCardProps {
@@ -51,7 +52,7 @@ function ProductCard({
   index = 0
 }: ProductCardProps) {
   const navigate = useNavigate();
-  const { t } = useTranslation('shop');
+  const { t, i18n } = useTranslation('shop');
   const isMobile = useIsMobile();
 
   const handleCardClick = useCallback(() => {
@@ -61,9 +62,9 @@ function ProductCard({
     
     // Use slug for clean URLs
     const slug = englishName ? productNameToSlug(englishName) : String(id);
-    navigate(`/product/${slug}`);
+    navigate(getLocalizedPath(`/product/${slug}`, i18n.language));
     onViewDetails?.({ id, name, englishName, description, image, price, pricingUnit, recycledPercent, category, isCallForPrice });
-  }, [navigate, englishName, id, onViewDetails, id, name, englishName, description, image, price, pricingUnit, recycledPercent, category, isCallForPrice]);
+  }, [navigate, englishName, id, onViewDetails, name, description, image, price, pricingUnit, recycledPercent, category, isCallForPrice, i18n.language]);
 
   const handleAddToCartClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
