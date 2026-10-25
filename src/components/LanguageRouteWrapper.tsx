@@ -2,7 +2,8 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { isSupportedLanguage, normalizeLanguage, type SupportedLanguage } from '@/lib/i18nRouting';
-import NotFound from '@/pages/NotFound';
+
+const NotFound = React.lazy(() => import('@/pages/NotFound'));
 
 export default function LanguageRouteWrapper() {
   const { lang } = useParams<{ lang?: string }>();
@@ -33,7 +34,11 @@ export default function LanguageRouteWrapper() {
   }, [lang, isValidLanguage]);
 
   if (!isValidLanguage) {
-    return <NotFound />;
+    return (
+      <React.Suspense fallback={null}>
+        <NotFound />
+      </React.Suspense>
+    );
   }
 
   return <Outlet />;

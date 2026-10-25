@@ -1,9 +1,9 @@
+import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { Bell, Leaf, Award, Users, ArrowRight, Settings, Coins, Star, Trophy, Crown, MapPin, School, ExternalLink, UserCheck, Phone, Mail, Sparkles, Recycle, TreePine, Target, TrendingUp, CheckCircle2, Vote, Calendar, ShoppingBag, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AICoreSection from '@/components/ai/AICoreSection';
 import PrefetchLink from '@/components/PrefetchLink';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import Layout from '@/components/Layout';
 import EcoCounter from '@/components/EcoCounter';
 import GameLevel from '@/components/GameLevel';
@@ -26,7 +26,6 @@ import { useTranslation } from 'react-i18next';
 import { loadUserProgress, PROFILE_BACKGROUNDS, UserProgress, calculateLevelProgress as calcLevelProgress } from '@/lib/userProgress';
 import { getAvatarImage } from '@/lib/avatarImages';
 import { EnhancedAvatar } from '@/components/ui/enhanced-avatar';
-import { useEffect, useMemo, lazy, Suspense } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SplineRobot } from '@/components/SplineRobot';
 import { cn } from '@/lib/utils';

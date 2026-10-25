@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTranslation as useI18nTranslation } from 'react-i18next';
 import PrefetchLink from './PrefetchLink';
-import InstallPrompt from './InstallPrompt';
 import { stripLanguagePrefix, replaceLanguageInPath, normalizeLanguage, type SupportedLanguage } from '@/lib/i18nRouting';
 
 interface LayoutProps {

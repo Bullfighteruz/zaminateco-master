@@ -15,8 +15,9 @@ const ProductLegacyRedirect = () => {
 };
 import ScrollToTop from "./components/ScrollToTop";
 import LanguageRouteWrapper from "./components/LanguageRouteWrapper";
-import FloatingCoachWidget from "./components/ai/FloatingCoachWidget";
 import { SuspenseFallback } from "./components/ui/loading-skeleton";
+const FloatingCoachWidget = lazy(() => import("./components/ai/FloatingCoachWidget"));
+const WelcomeModal = lazy(() => import("./components/WelcomeModal"));
 
 // Lazy load pages for optimal bundle splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -62,7 +63,10 @@ const App = () => (
             <BrowserRouter>
               <RouterErrorBoundary>
                 <ScrollToTop />
-                <FloatingCoachWidget />
+                <Suspense fallback={null}>
+                  <FloatingCoachWidget />
+                  <WelcomeModal />
+                </Suspense>
                 <Suspense fallback={<SuspenseFallback />}>
                   <Routes>
                     {/* Multilingual Parent Route: /:lang */}

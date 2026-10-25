@@ -119,20 +119,35 @@ export default function FloatingAIPhone({ activeIndex: propActiveIndex, setActiv
     };
   }, [isLightboxOpen]);
 
-  // Preload all images eagerly on mount (same pattern as pitch page)
+  // Load active image first, and queue remaining screens after initial render
   useEffect(() => {
-    AI_SCREENS.forEach((screen, i) => {
+    const loadScreen = (index: number) => {
+      if (imagesLoaded[index]) return;
       const img = new Image();
-      img.src = screen.src;
+      img.src = AI_SCREENS[index].src;
       img.onload = () => {
         setImagesLoaded(prev => {
+          if (prev[index]) return prev;
           const next = [...prev];
-          next[i] = true;
+          next[index] = true;
           return next;
         });
       };
-    });
-  }, []);
+    };
+
+    loadScreen(activeIndex);
+
+    // Defer remaining 5 screens so they don't contest critical hero network bandwidth
+    const timeoutId = setTimeout(() => {
+      AI_SCREENS.forEach((_, i) => {
+        if (i !== activeIndex) {
+          loadScreen(i);
+        }
+      });
+    }, 2500);
+
+    return () => clearTimeout(timeoutId);
+  }, [activeIndex]);
 
   // Auto-rotation cycle if propActiveIndex is not provided
   useEffect(() => {
